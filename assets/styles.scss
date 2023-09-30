@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  color: theme("colors.slate.900");
+  font-family: var("--open-sans-font");
+}
+
+.font-heading {
+  font-family: var("--montserrat-font");
+}
+
+.font-sans {
+  font-family: var("--open-sans-font");
+}
+
+strong {
+  font-weight: bolder;
+}
+
+.prose a {
+  color: theme("colors.blue.400");
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.dark {
+  color: theme("colors.slate.300");
+  blockquote,
+  small {
+    color: theme("colors.slate.200");
+  }
+}
+
+/* Hide Number Input Spinners */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+[data-state="open"] > .caret-down {
+  transform: rotate(-180deg);
+}
+
+.shadow-bdk {
+  @apply border border-bdk-blue shadow-[2rem_2rem_rgba(30,41,59,1)] dark:shadow-[2rem_2rem_rgba(79,151,209,1)];
+}
