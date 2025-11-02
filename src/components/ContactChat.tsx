@@ -5,7 +5,11 @@ import {
   ConversationContent,
   ConversationScrollButton,
 } from "@/components/ai-elements/conversation";
-import { Message, MessageAvatar, MessageContent } from "@/components/ai-elements/message";
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+} from "@/components/ai-elements/message";
 import {
   PromptInput,
   PromptInputBody,
@@ -45,10 +49,10 @@ const initialMessages: MessageType[] = [
 ];
 
 const suggestions = [
-  "Tell me about your cloud services",
-  "How can you help with cybersecurity?",
-  "What managed IT services do you offer?",
+  "How can I get a quote for IT services?",
   "I need help with network infrastructure",
+  "What managed IT services do you offer?",
+  "Tell me about your cloud services",
 ];
 
 const mockResponses = [
