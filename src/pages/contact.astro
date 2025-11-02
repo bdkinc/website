@@ -9,9 +9,9 @@ import { Phone, Mail, Clock, MapPin } from "lucide-react";
 const { servicesData, recentPosts } = await getNavigationData();
 ---
 
-<Layout title="Contact Us - BDK Inc">
+<Layout title="Contact Us | BDK Inc - Get in Touch">
   <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main class="relative min-h-screen -mt-16 pt-16">
+  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
     {/* Gradient background */}
     <div class="absolute inset-0 gradient-mesh"></div>
 
@@ -55,6 +55,9 @@ const { servicesData, recentPosts } = await getNavigationData();
               </span>
             </h2>
             <ContactChat client:only="react" />
+            <p class="text-center text-sm text-muted-foreground mt-4">
+              We respond within one business day. Your information is kept confidential.
+            </p>
           </div>
 
           {/* Contact Information - Horizontal Layout */}

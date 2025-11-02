@@ -6,12 +6,14 @@ import { fileURLToPath } from "url";
 import react from "@astrojs/react";
 import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
+import sitemap from "@astrojs/sitemap";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), mdx()],
+  site: "https://www.bdkinc.com",
+  integrations: [react(), mdx(), sitemap()],
 
   vite: {
     plugins: [tailwindcss()],

@@ -4,9 +4,22 @@ import '../styles/global.css'
 interface Props {
   title: string
   description?: string
+  canonical?: string
+  ogTitle?: string
+  ogDescription?: string
+  ogImage?: string
+  twitterCard?: string
 }
 
-const { title, description = "IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions." } = Astro.props
+const { 
+  title, 
+  description = "IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.",
+  canonical = Astro.url.pathname,
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = "/og-image.jpg",
+  twitterCard = "summary_large_image"
+} = Astro.props
 ---
 
 <!doctype html>
@@ -20,6 +33,23 @@ const { title, description = "IT Made Simple - Your trusted technology partner f
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <meta name="generator" content={Astro.generator} />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href={`https://www.bdkinc.com${canonical}`} />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:image" content={`https://www.bdkinc.com${ogImage}`} />
+    <meta property="og:url" content={`https://www.bdkinc.com${canonical}`} />
+    <meta property="og:type" content="website" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content={twitterCard} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={`https://www.bdkinc.com${ogImage}`} />
+    
     <title>{title}</title>
     <script is:inline>
       // Prevent flash of unstyled content
@@ -30,6 +60,10 @@ const { title, description = "IT Made Simple - Your trusted technology partner f
     </script>
   </head>
   <body>
+    <!-- Skip to main content link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground">
+      Skip to main content
+    </a>
     <slot />
   </body>
 </html>

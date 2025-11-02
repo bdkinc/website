@@ -27,10 +27,21 @@ export default function Services({ services }: ServicesProps) {
   const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
     // Filter out null refs
     const cards = cardsRef.current.filter((card) => card !== null);
 
     if (cards.length === 0) return;
+
+    if (prefersReducedMotion) {
+      // Skip animations, set final state immediately
+      cards.forEach((card) => {
+        (card as HTMLElement).style.opacity = '1';
+        (card as HTMLElement).style.transform = 'translateY(0)';
+      });
+      return;
+    }
 
     // Set initial state (invisible and below viewport)
     gsap.set(cards, {

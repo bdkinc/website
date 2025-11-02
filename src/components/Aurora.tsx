@@ -128,6 +128,14 @@ export default function Aurora(props: AuroraProps) {
     const ctn = ctnDom.current;
     if (!ctn) return;
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // If reduced motion is preferred, don't render animations at all
+    if (prefersReducedMotion) {
+      isVisibleRef.current = false;
+      return;
+    }
+
     // Intersection Observer for visibility detection
     const observer = new IntersectionObserver(
       (entries) => {

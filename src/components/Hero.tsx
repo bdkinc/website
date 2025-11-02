@@ -38,6 +38,29 @@ export default function Hero() {
   const iconsRef = useRef<SVGSVGElement[]>([]);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (prefersReducedMotion) {
+      // Skip animations, set final state immediately
+      if (badgeRef.current) badgeRef.current.style.opacity = '1';
+      if (headingRef.current) headingRef.current.style.opacity = '1';
+      if (subheadingRef.current) subheadingRef.current.style.opacity = '1';
+      if (ctasRef.current) {
+        Array.from(ctasRef.current.children).forEach((child) => {
+          (child as HTMLElement).style.opacity = '1';
+        });
+      }
+      if (statsRef.current) {
+        Array.from(statsRef.current.children).forEach((child) => {
+          (child as HTMLElement).style.opacity = '1';
+        });
+      }
+      iconsRef.current.forEach((icon) => {
+        if (icon) icon.style.opacity = '0.2';
+      });
+      return;
+    }
+
     const ctx = gsap.context(() => {
       // Animate main content elements with stagger
       const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -281,9 +304,7 @@ export default function Hero() {
             ref={subheadingRef}
             className="max-w-2xl mx-auto text-xl md:text-2xl opacity-0"
           >
-            Transform your business with comprehensive managed IT services,
-            cloud solutions, artificial intelligence, and enterprise-grade
-            cybersecurity.
+            Transform your business with comprehensive managed IT services, cloud solutions, artificial intelligence, and enterprise-grade cybersecurity.
           </p>
 
           {/* CTAs */}

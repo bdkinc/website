@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /*.pdf$
+
+Sitemap: https://www.bdkinc.com/sitemap-index.xml

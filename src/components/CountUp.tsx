@@ -59,9 +59,22 @@ export default function CountUp({
   }, [from, to, direction]);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
     if (isInView && startWhen) {
       if (typeof onStart === 'function') {
         onStart();
+      }
+
+      if (prefersReducedMotion) {
+        // Set final value immediately without animation
+        if (ref.current) {
+          ref.current.textContent = String(direction === 'down' ? from : to);
+        }
+        if (typeof onEnd === 'function') {
+          onEnd();
+        }
+        return;
       }
 
       const timeoutId = setTimeout(() => {

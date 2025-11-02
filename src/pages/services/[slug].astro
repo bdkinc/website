@@ -22,9 +22,9 @@ const IconComponent =
   (LucideIcons as any)[service.data.icon] || LucideIcons.Box;
 ---
 
-<Layout title={`${service.data.title} - BDK Inc`}>
+<Layout title={`${service.data.title} - BDK Inc`} description={service.data.description}>
   <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main class="relative min-h-screen -mt-16 pt-16">
+  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
     {/* Gradient background */}
     <div class="absolute inset-0 gradient-mesh"></div>
 

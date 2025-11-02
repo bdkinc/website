@@ -11,9 +11,36 @@ import { Logo } from "@/components/Logo";
 const { servicesData, recentPosts } = await getNavigationData();
 ---
 
-<Layout title="BDK Inc - IT Made Simple">
+<Layout title="Managed IT Services & Cloud Hosting | BDK Inc">
+  <!-- JSON-LD Organization Schema -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "BDK Inc",
+      "url": "https://www.bdkinc.com",
+      "logo": "https://www.bdkinc.com/logo.svg",
+      "description": "IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.",
+      "sameAs": [],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "(800) 309-0004",
+        "contactType": "Customer Support",
+        "email": "info@bdkinc.com"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "29515 Canvasback Drive",
+        "addressLocality": "Easton",
+        "addressRegion": "MD",
+        "postalCode": "21601",
+        "addressCountry": "US"
+      }
+    }
+  </script>
+  
   <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main>
+  <main id="main-content">
     <Hero client:visible />
     <Services client:visible services={servicesData} />
     <WhyChooseUs client:visible />

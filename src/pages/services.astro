@@ -13,9 +13,9 @@ const allServices = await getCollection("services");
 const services = allServices.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Layout title="Our Services - BDK Inc">
+<Layout title="IT Services | Managed Services, Cloud Hosting, Cybersecurity | BDK Inc">
   <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main class="relative min-h-screen -mt-16 pt-16">
+  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
     {/* Gradient background */}
     <div class="absolute inset-0 gradient-mesh"></div>
 
