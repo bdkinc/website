@@ -5,62 +5,341 @@ icon: "BarChart3"
 order: 6
 ---
 
-## Transform Data into Decisions
+import {
+  BarChart3,
+  TrendingUp,
+  Clock,
+  Target,
+  Zap,
+  CheckCircle2,
+  Database,
+  Smartphone,
+  PieChart,
+  LineChart,
+  DollarSign,
+  Users,
+} from "lucide-react";
 
-Turn your data into actionable insights with custom reporting and real-time analytics. Make data-driven decisions with confidence using our automated reporting solutions that deliver the information you need, when you need it.
+<div className="max-w-4xl mx-auto not-prose">
+  <h2 className="text-3xl font-bold mb-6 text-foreground text-center">
+    Transform Data into Decisions
+  </h2>
+  <div className="text-lg text-muted-foreground leading-relaxed mb-10 text-center">
+    Turn your data into actionable insights with custom reporting and real-time analytics. Make
+    data-driven decisions with confidence using our automated reporting solutions that deliver the
+    information you need, when you need it.
+  </div>
+</div>
 
 ### Stop Drowning in Data
 
-**Replace Manual Reporting**
-Stop spending hours creating reports in spreadsheets. Our automated analytics solutions pull data from your systems and generate reports automatically—daily, weekly, or in real-time. Get back valuable time while improving accuracy.
+<div className="grid md:grid-cols-3 gap-8 not-prose mb-20">
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+    <div className="mb-6">
+      <Clock className="w-16 h-16 text-primary" />
+    </div>
+    <h4 className="text-2xl font-bold mb-4 text-primary">Replace Manual Reporting</h4>
+    <div className="text-muted-foreground leading-relaxed">
+      Stop spending hours creating reports in spreadsheets. Our automated analytics solutions pull
+      data from your systems and generate reports automatically—daily, weekly, or in real-time.
+    </div>
+  </div>
 
-**Real-Time Visibility**
-Don't make decisions based on yesterday's data. Our analytics platforms provide real-time visibility into your operations, giving you up-to-the-minute information on sales, inventory, production, and more.
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+    <div className="mb-6">
+      <Zap className="w-16 h-16 text-primary" />
+    </div>
+    <h4 className="text-2xl font-bold mb-4 text-primary">Real-Time Visibility</h4>
+    <div className="text-muted-foreground leading-relaxed">
+      Don't make decisions based on yesterday's data. Our analytics platforms provide real-time
+      visibility into your operations with up-to-the-minute information.
+    </div>
+  </div>
 
-**Custom Dashboards**
-Every business is unique. We create custom dashboards tailored to your specific needs, displaying the KPIs and metrics that matter most to your operation. See your entire business at a glance.
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+    <div className="mb-6">
+      <Target className="w-16 h-16 text-primary" />
+    </div>
+    <h4 className="text-2xl font-bold mb-4 text-primary">Custom Dashboards</h4>
+    <div className="text-muted-foreground leading-relaxed">
+      We create custom dashboards tailored to your specific needs, displaying the KPIs and metrics
+      that matter most to your operation. See your entire business at a glance.
+    </div>
+  </div>
+</div>
 
 ### Our Analytics Services
 
-**Custom Reporting Solutions**
-We design and build reporting systems that match your business processes. From simple daily summaries to complex multi-dimensional analysis, we create reports that provide the insights you need.
+<div className="mb-20 glass p-10 rounded-2xl border border-border not-prose">
+  <div className="text-xl text-muted-foreground text-center mb-10">
+    Comprehensive analytics solutions designed for your business
+  </div>
 
-**Automated Data Collection**
-Our solutions automatically gather data from multiple sources—ERP systems, databases, spreadsheets, and more. No manual data entry, no consolidation headaches, just accurate, timely information.
+  <div className="grid md:grid-cols-2 gap-6">
+    <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Custom Reporting Solutions</h5>
+        <div className="text-muted-foreground text-sm">We design and build reporting systems that match your business processes. From simple daily summaries to complex multi-dimensional analysis.</div>
+      </div>
+    </div>
 
-**Data Visualization**
-Numbers tell a story, but visualizations make it clear. We create intuitive charts, graphs, and dashboards that make complex data easy to understand and act upon.
+    <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Automated Data Collection</h5>
+        <div className="text-muted-foreground text-sm">Our solutions automatically gather data from multiple sources—ERP systems, databases, spreadsheets. No manual data entry required.</div>
+      </div>
+    </div>
 
-### Key Benefits
+    <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Data Visualization</h5>
+        <div className="text-muted-foreground text-sm">Numbers tell a story, but visualizations make it clear. We create intuitive charts, graphs, and dashboards that make complex data easy to understand.</div>
+      </div>
+    </div>
 
-- **Save Time**: Eliminate hours of manual report creation
-- **Improve Accuracy**: Automated data collection reduces errors
-- **Better Decisions**: Access to real-time information supports informed choices
-- **Identify Trends**: Spot patterns and opportunities in your data
-- **Increase Accountability**: Clear metrics help track performance
-- **Mobile Access**: View reports and dashboards from anywhere
-- **Integration**: Connect data from multiple systems into unified reports
+    <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Mobile Access</h5>
+        <div className="text-muted-foreground text-sm">View reports and dashboards from anywhere. Our solutions are designed for desktop, tablet, and mobile access.</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 ### What You Can Measure
 
-Our analytics solutions help you track:
-- **Sales Performance**: Revenue, margins, customer trends
-- **Operations**: Production efficiency, inventory levels, cycle times
-- **Financial**: Cash flow, expenses, profitability by product or customer
-- **Customer Metrics**: Retention, satisfaction, lifetime value
-- **Supply Chain**: Vendor performance, delivery times, costs
+<div className="mb-20 not-prose">
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="p-6 rounded-xl bg-background/50 border border-border">
+      <div className="mb-4">
+        <DollarSign className="w-10 h-10 text-primary" />
+      </div>
+      <h4 className="text-xl font-bold mb-3 text-foreground">Sales Performance</h4>
+      <ul className="space-y-2 text-muted-foreground text-sm">
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Revenue and margins</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Customer trends</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Product performance</span>
+        </li>
+      </ul>
+    </div>
+
+    <div className="p-6 rounded-xl bg-background/50 border border-border">
+      <div className="mb-4">
+        <TrendingUp className="w-10 h-10 text-primary" />
+      </div>
+      <h4 className="text-xl font-bold mb-3 text-foreground">Operations</h4>
+      <ul className="space-y-2 text-muted-foreground text-sm">
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Production efficiency</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Inventory levels</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Cycle times</span>
+        </li>
+      </ul>
+    </div>
+
+    <div className="p-6 rounded-xl bg-background/50 border border-border">
+      <div className="mb-4">
+        <PieChart className="w-10 h-10 text-primary" />
+      </div>
+      <h4 className="text-xl font-bold mb-3 text-foreground">Financial</h4>
+      <ul className="space-y-2 text-muted-foreground text-sm">
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Cash flow analysis</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Expense tracking</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Profitability by segment</span>
+        </li>
+      </ul>
+    </div>
+
+    <div className="p-6 rounded-xl bg-background/50 border border-border">
+      <div className="mb-4">
+        <Users className="w-10 h-10 text-primary" />
+      </div>
+      <h4 className="text-xl font-bold mb-3 text-foreground">Customer Metrics</h4>
+      <ul className="space-y-2 text-muted-foreground text-sm">
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Retention rates</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Satisfaction scores</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Lifetime value</span>
+        </li>
+      </ul>
+    </div>
+
+    <div className="p-6 rounded-xl bg-background/50 border border-border">
+      <div className="mb-4">
+        <LineChart className="w-10 h-10 text-primary" />
+      </div>
+      <h4 className="text-xl font-bold mb-3 text-foreground">Supply Chain</h4>
+      <ul className="space-y-2 text-muted-foreground text-sm">
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Vendor performance</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Delivery times</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Cost analysis</span>
+        </li>
+      </ul>
+    </div>
+
+    <div className="p-6 rounded-xl bg-background/50 border border-border">
+      <div className="mb-4">
+        <BarChart3 className="w-10 h-10 text-primary" />
+      </div>
+      <h4 className="text-xl font-bold mb-3 text-foreground">Custom KPIs</h4>
+      <ul className="space-y-2 text-muted-foreground text-sm">
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Industry-specific metrics</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Department performance</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-primary mt-1">•</span>
+          <span>Strategic objectives</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+### Key Benefits
+
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mb-20">
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <Clock className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Save Time</h4>
+    <div className="text-muted-foreground">Eliminate hours of manual report creation</div>
+  </div>
+
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <CheckCircle2 className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Improve Accuracy</h4>
+    <div className="text-muted-foreground">Automated data collection reduces errors</div>
+  </div>
+
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <Target className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Better Decisions</h4>
+    <div className="text-muted-foreground">Access to real-time information supports informed choices</div>
+  </div>
+
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <TrendingUp className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Identify Trends</h4>
+    <div className="text-muted-foreground">Spot patterns and opportunities in your data</div>
+  </div>
+
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <Users className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Increase Accountability</h4>
+    <div className="text-muted-foreground">Clear metrics help track performance</div>
+  </div>
+
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <Database className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Integration</h4>
+    <div className="text-muted-foreground">Connect data from multiple systems into unified reports</div>
+  </div>
+</div>
 
 ### Our Process
 
-1. **Understand Your Needs**: We start by learning about your business and the decisions you need to make
-2. **Identify Data Sources**: We locate the data you need across your systems
-3. **Design Reports**: We create custom reports and dashboards tailored to your requirements
-4. **Automate Collection**: We set up automated data gathering and processing
-5. **Deploy & Train**: We implement the solution and train your team to use it
-6. **Optimize**: We continuously refine reports based on your feedback
+<div className="mb-20 p-10 rounded-2xl border border-border bg-linear-to-br from-primary/10 to-secondary/10 not-prose">
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">1</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Understand Your Needs</h5>
+      <div className="text-muted-foreground text-sm">We start by learning about your business and the decisions you need to make</div>
+    </div>
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">2</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Identify Data Sources</h5>
+      <div className="text-muted-foreground text-sm">We locate the data you need across your systems</div>
+    </div>
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">3</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Design Reports</h5>
+      <div className="text-muted-foreground text-sm">We create custom reports and dashboards tailored to your requirements</div>
+    </div>
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">4</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Automate Collection</h5>
+      <div className="text-muted-foreground text-sm">We set up automated data gathering and processing</div>
+    </div>
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">5</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Deploy & Train</h5>
+      <div className="text-muted-foreground text-sm">We implement the solution and train your team to use it</div>
+    </div>
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">6</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Optimize</h5>
+      <div className="text-muted-foreground text-sm">We continuously refine reports based on your feedback</div>
+    </div>
+  </div>
+</div>
 
 ### Why Choose BDK for Analytics?
 
-We combine technical expertise with business understanding. Our team doesn't just build reports—we help you identify the metrics that matter and design analytics that drive better decisions. We work with your existing systems and data, creating solutions that integrate seamlessly into your operations.
-
-Transform your data from a burden into a competitive advantage.
+<div className="glass p-10 rounded-2xl border border-border text-center not-prose">
+  <div className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
+    We combine technical expertise with business understanding. Our team doesn't just build reports—we
+    help you identify the metrics that matter and design analytics that drive better decisions. We work
+    with your existing systems and data, creating solutions that integrate seamlessly into your operations.
+  </div>
+  <div className="text-xl font-semibold text-primary">
+    Transform your data from a burden into a competitive advantage.
+  </div>
+</div>

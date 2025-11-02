@@ -5,74 +5,295 @@ icon: "Bot"
 order: 9
 ---
 
-## Transform Your Business with AI
+import {
+  Bot,
+  Brain,
+  Sparkles,
+  Shield,
+  TrendingUp,
+  Zap,
+  Lock,
+  Users,
+  FileText,
+  Code,
+  BarChart3,
+  Target,
+} from "lucide-react";
 
-We design, build, and securely deploy production-ready AI solutions tailored to your business needs. From generative AI assistants to predictive analytics, our AI services help you automate processes, gain deeper insights, and deliver exceptional customer experiences.
+<div className="max-w-4xl mx-auto not-prose">
+  <h2 className="text-3xl font-bold mb-6 text-foreground text-center">
+    Transform Your Business with AI
+  </h2>
+  <div className="text-lg text-muted-foreground leading-relaxed mb-10 text-center">
+    We design, build, and securely deploy production-ready AI solutions tailored to your business needs.
+    From generative AI assistants to predictive analytics, our AI services help you automate processes,
+    gain deeper insights, and deliver exceptional customer experiences.
+  </div>
+</div>
 
-## Our AI Services
+### Our AI Services
+
+<div className="grid md:grid-cols-3 gap-8 not-prose mb-20">
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+    <div className="mb-6">
+      <Sparkles className="w-16 h-16 text-primary" />
+    </div>
+    <h4 className="text-2xl font-bold mb-4 text-primary">Generative AI</h4>
+    <div className="text-muted-foreground leading-relaxed">
+      Leverage large language models to automate content creation, enhance customer interactions,
+      and streamline workflows with intelligent assistants.
+    </div>
+  </div>
+
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+    <div className="mb-6">
+      <TrendingUp className="w-16 h-16 text-primary" />
+    </div>
+    <h4 className="text-2xl font-bold mb-4 text-primary">Predictive Analytics</h4>
+    <div className="text-muted-foreground leading-relaxed">
+      Make data-driven decisions with AI models that forecast trends, identify patterns, and
+      optimize operations for better business outcomes.
+    </div>
+  </div>
+
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+    <div className="mb-6">
+      <Zap className="w-16 h-16 text-primary" />
+    </div>
+    <h4 className="text-2xl font-bold mb-4 text-primary">AI Integration</h4>
+    <div className="text-muted-foreground leading-relaxed">
+      Seamlessly integrate AI capabilities into your existing systems and workflows for automated
+      decision-making and real-time processing.
+    </div>
+  </div>
+</div>
 
 ### Generative AI Solutions
 
-Leverage the power of large language models (LLMs) to automate content creation, enhance customer interactions, and streamline workflows.
+<div className="mb-20 glass p-10 rounded-2xl border border-border not-prose">
+  <div className="text-xl text-muted-foreground text-center mb-10">
+    Leverage the power of large language models to transform your operations
+  </div>
 
-- **Custom AI Assistants**: Build intelligent chatbots and virtual assistants that understand your business context
-- **Document Processing**: Automate document analysis, summarization, and information extraction
-- **Content Generation**: Create marketing copy, technical documentation, and personalized communications at scale
-- **Code Assistance**: Accelerate development with AI-powered code generation and review tools
+  <div className="grid md:grid-cols-2 gap-6">
+    <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Custom AI Assistants</h5>
+        <div className="text-muted-foreground text-sm">Build intelligent chatbots and virtual assistants that understand your business context and deliver personalized experiences</div>
+      </div>
+    </div>
+
+    <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Document Processing</h5>
+        <div className="text-muted-foreground text-sm">Automate document analysis, summarization, and information extraction to save time and improve accuracy</div>
+      </div>
+    </div>
+
+    <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Content Generation</h5>
+        <div className="text-muted-foreground text-sm">Create marketing copy, technical documentation, and personalized communications at scale</div>
+      </div>
+    </div>
+
+    <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Code Assistance</h5>
+        <div className="text-muted-foreground text-sm">Accelerate development with AI-powered code generation and review tools</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 ### Predictive Analytics & Machine Learning
 
-Make data-driven decisions with AI models that forecast trends, identify patterns, and optimize operations.
+<div className="mb-20 not-prose">
+  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+      <BarChart3 className="w-12 h-12 text-primary mb-4" />
+      <h5 className="font-bold text-lg mb-2 text-foreground">Demand Forecasting</h5>
+      <div className="text-muted-foreground text-sm">Predict customer demand to optimize inventory and resource allocation</div>
+    </div>
 
-- **Demand Forecasting**: Predict customer demand to optimize inventory and resource allocation
-- **Customer Churn Prediction**: Identify at-risk customers before they leave
-- **Anomaly Detection**: Automatically detect unusual patterns in operations, security, or quality
-- **Recommendation Systems**: Personalize customer experiences with intelligent product and content recommendations
+    <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+      <Users className="w-12 h-12 text-primary mb-4" />
+      <h5 className="font-bold text-lg mb-2 text-foreground">Churn Prediction</h5>
+      <div className="text-muted-foreground text-sm">Identify at-risk customers before they leave</div>
+    </div>
 
-### AI Integration & Automation
+    <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+      <Target className="w-12 h-12 text-primary mb-4" />
+      <h5 className="font-bold text-lg mb-2 text-foreground">Anomaly Detection</h5>
+      <div className="text-muted-foreground text-sm">Automatically detect unusual patterns in operations, security, or quality</div>
+    </div>
 
-Seamlessly integrate AI capabilities into your existing systems and workflows.
+    <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+      <Sparkles className="w-12 h-12 text-primary mb-4" />
+      <h5 className="font-bold text-lg mb-2 text-foreground">Recommendation Systems</h5>
+      <div className="text-muted-foreground text-sm">Personalize customer experiences with intelligent recommendations</div>
+    </div>
+  </div>
+</div>
 
-- **API Integration**: Connect AI services to your applications via secure APIs
-- **Workflow Automation**: Use AI to automate repetitive tasks and decision-making processes
-- **Legacy System Enhancement**: Add AI capabilities to existing applications without complete rewrites
-- **Real-time Processing**: Deploy AI models that operate on streaming data for immediate insights
+### Why Choose BDK for AI?
 
-## Why Choose BDK for AI?
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mb-20">
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <Shield className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Security First</h4>
+    <div className="text-muted-foreground">Enterprise-grade security controls, data encryption, and compliance with industry standards</div>
+  </div>
 
-**Security First**: We implement enterprise-grade security controls, including data encryption, access controls, and compliance with industry standards. Your sensitive data never leaves your control.
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <Zap className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Production-Ready</h4>
+    <div className="text-muted-foreground">Built for reliability and scale with proper monitoring, error handling, and performance optimization</div>
+  </div>
 
-**Production-Ready**: Our AI solutions are built for reliability and scale, with proper monitoring, error handling, and performance optimization from day one.
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <Target className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Business-Focused</h4>
+    <div className="text-muted-foreground">We start with your business objectives and design AI solutions that deliver measurable ROI</div>
+  </div>
 
-**Business-Focused**: We start with your business objectives and design AI solutions that deliver measurable ROI, not just impressive technology.
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <FileText className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Transparent & Explainable</h4>
+    <div className="text-muted-foreground">AI solutions that are interpretable and explainable for informed decision-making</div>
+  </div>
 
-**Transparent & Explainable**: We prioritize AI solutions that are interpretable and explainable, ensuring you understand how decisions are made.
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <Users className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Ongoing Support</h4>
+    <div className="text-muted-foreground">Continuous monitoring and refinement to ensure your AI systems adapt as your business evolves</div>
+  </div>
 
-**Ongoing Support**: AI requires continuous monitoring and refinement. We provide ongoing support to ensure your AI systems adapt as your business evolves.
+  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div className="mb-4">
+      <Lock className="w-10 h-10 text-primary" />
+    </div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Responsible AI</h4>
+    <div className="text-muted-foreground">Committed to ethical AI with privacy protection, bias mitigation, and human oversight</div>
+  </div>
+</div>
 
-## Industries We Serve
+### Industries We Serve
 
-- **Manufacturing**: Predictive maintenance, quality control, supply chain optimization
-- **Healthcare**: Clinical decision support, patient risk assessment, administrative automation
-- **Financial Services**: Fraud detection, credit risk modeling, algorithmic trading
-- **Retail & E-commerce**: Personalization, inventory optimization, customer service automation
-- **Professional Services**: Document intelligence, client communication, knowledge management
+<div className="mb-20 glass p-10 rounded-2xl border border-border not-prose">
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Manufacturing</h5>
+      <div className="text-muted-foreground text-sm">Predictive maintenance, quality control, supply chain optimization</div>
+    </div>
+    <div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Healthcare</h5>
+      <div className="text-muted-foreground text-sm">Clinical decision support, patient risk assessment, administrative automation</div>
+    </div>
+    <div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Financial Services</h5>
+      <div className="text-muted-foreground text-sm">Fraud detection, credit risk modeling, algorithmic trading</div>
+    </div>
+    <div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Retail & E-commerce</h5>
+      <div className="text-muted-foreground text-sm">Personalization, inventory optimization, customer service automation</div>
+    </div>
+    <div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Professional Services</h5>
+      <div className="text-muted-foreground text-sm">Document intelligence, client communication, knowledge management</div>
+    </div>
+    <div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Any Business</h5>
+      <div className="text-muted-foreground text-sm">Custom AI solutions tailored to your unique requirements</div>
+    </div>
+  </div>
+</div>
 
-## Our AI Development Process
+### Our AI Development Process
 
-1. **Discovery & Assessment**: Understand your business challenges and identify high-impact AI opportunities
-2. **Data Evaluation**: Assess data quality, availability, and compliance requirements
-3. **Proof of Concept**: Rapidly prototype solutions to validate feasibility and business value
-4. **Development & Training**: Build and train custom AI models with your data
-5. **Integration & Deployment**: Securely deploy AI into your production environment
-6. **Monitoring & Optimization**: Continuously monitor performance and refine models for better results
+<div className="mb-20 p-10 rounded-2xl border border-border bg-linear-to-br from-primary/10 to-secondary/10 not-prose">
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">1</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Discovery & Assessment</h5>
+      <div className="text-muted-foreground text-sm">Understand your business challenges and identify high-impact AI opportunities</div>
+    </div>
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">2</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Data Evaluation</h5>
+      <div className="text-muted-foreground text-sm">Assess data quality, availability, and compliance requirements</div>
+    </div>
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">3</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Proof of Concept</h5>
+      <div className="text-muted-foreground text-sm">Rapidly prototype solutions to validate feasibility and business value</div>
+    </div>
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">4</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Development & Training</h5>
+      <div className="text-muted-foreground text-sm">Build and train custom AI models with your data</div>
+    </div>
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">5</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Integration & Deployment</h5>
+      <div className="text-muted-foreground text-sm">Securely deploy AI into your production environment</div>
+    </div>
+    <div className="text-center">
+      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">6</div>
+      <h5 className="font-bold text-lg mb-2 text-foreground">Monitoring & Optimization</h5>
+      <div className="text-muted-foreground text-sm">Continuously monitor performance and refine models for better results</div>
+    </div>
+  </div>
+</div>
 
-## Responsible AI Practices
+### Responsible AI Practices
 
-We are committed to ethical AI development:
-
-- **Privacy Protection**: Implement privacy-preserving techniques and comply with data regulations
-- **Bias Mitigation**: Actively test for and reduce algorithmic bias
-- **Human Oversight**: Design systems with appropriate human-in-the-loop controls
-- **Transparency**: Document model behavior and provide clear explanations
-- **Safety & Security**: Build robust safeguards against misuse and adversarial attacks
+<div className="glass p-10 rounded-2xl border border-border not-prose">
+  <div className="text-lg text-muted-foreground text-center mb-8">
+    We are committed to ethical AI development that protects your business and customers
+  </div>
+  <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+    <div className="flex items-start gap-3">
+      <Shield className="w-6 h-6 text-primary shrink-0 mt-1" />
+      <div>
+        <h5 className="font-bold text-foreground mb-1">Privacy Protection</h5>
+        <div className="text-muted-foreground text-sm">Implement privacy-preserving techniques and comply with data regulations</div>
+      </div>
+    </div>
+    <div className="flex items-start gap-3">
+      <Target className="w-6 h-6 text-primary shrink-0 mt-1" />
+      <div>
+        <h5 className="font-bold text-foreground mb-1">Bias Mitigation</h5>
+        <div className="text-muted-foreground text-sm">Actively test for and reduce algorithmic bias</div>
+      </div>
+    </div>
+    <div className="flex items-start gap-3">
+      <Users className="w-6 h-6 text-primary shrink-0 mt-1" />
+      <div>
+        <h5 className="font-bold text-foreground mb-1">Human Oversight</h5>
+        <div className="text-muted-foreground text-sm">Design systems with appropriate human-in-the-loop controls</div>
+      </div>
+    </div>
+    <div className="flex items-start gap-3">
+      <Lock className="w-6 h-6 text-primary shrink-0 mt-1" />
+      <div>
+        <h5 className="font-bold text-foreground mb-1">Safety & Security</h5>
+        <div className="text-muted-foreground text-sm">Build robust safeguards against misuse and adversarial attacks</div>
+      </div>
+    </div>
+  </div>
+</div>
