@@ -121,10 +121,23 @@ export default function Aurora(props: AuroraProps) {
   propsRef.current = props;
 
   const ctnDom = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef<boolean>(true);
+  const lastFrameTimeRef = useRef<number>(0);
 
   useEffect(() => {
     const ctn = ctnDom.current;
     if (!ctn) return;
+
+    // Intersection Observer for visibility detection
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisibleRef.current = entry.isIntersecting;
+        });
+      },
+      { threshold: 0 }
+    );
+    observer.observe(ctn);
 
     const renderer = new Renderer({
       alpha: true,
@@ -176,8 +189,24 @@ export default function Aurora(props: AuroraProps) {
     ctn.appendChild(gl.canvas);
 
     let animateId = 0;
+    const targetFPS = 30; // Throttle to 30 FPS for better performance
+    const frameInterval = 1000 / targetFPS;
+
     const update = (t: number) => {
       animateId = requestAnimationFrame(update);
+
+      // Skip rendering if not visible
+      if (!isVisibleRef.current) {
+        return;
+      }
+
+      // Throttle rendering to target FPS
+      const elapsed = t - lastFrameTimeRef.current;
+      if (elapsed < frameInterval) {
+        return;
+      }
+      lastFrameTimeRef.current = t - (elapsed % frameInterval);
+
       const { time = t * 0.01, speed = 1.0 } = propsRef.current;
       if (program) {
         program.uniforms.uTime.value = time * speed * 0.1;
@@ -196,11 +225,21 @@ export default function Aurora(props: AuroraProps) {
     resize();
 
     return () => {
+      // Clean up observer
+      observer.disconnect();
+
+      // Cancel animation frame
       cancelAnimationFrame(animateId);
+
+      // Remove event listeners
       window.removeEventListener('resize', resize);
+
+      // Remove canvas from DOM
       if (ctn && gl.canvas.parentNode === ctn) {
         ctn.removeChild(gl.canvas);
       }
+
+      // Properly dispose WebGL context
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [amplitude]);

@@ -14,7 +14,7 @@ const { servicesData, recentPosts } = await getNavigationData();
 <Layout title="BDK Inc - IT Made Simple">
   <Navigation client:load services={servicesData} blogPosts={recentPosts} />
   <main>
-    <Hero client:load />
+    <Hero client:visible />
     <Services client:visible services={servicesData} />
     <WhyChooseUs client:visible />
 

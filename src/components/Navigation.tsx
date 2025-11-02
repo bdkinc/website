@@ -119,6 +119,19 @@ export default function Navigation({
                           </li>
                         );
                       })}
+                      {/* View All Link */}
+                      <li className="mt-2 pt-2 border-t border-input col-span-3">
+                        <NavigationMenuLink asChild>
+                          <a
+                            href="/services"
+                            className={cn(
+                              "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary font-medium text-sm"
+                            )}
+                          >
+                            View All Services →
+                          </a>
+                        </NavigationMenuLink>
+                      </li>
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>

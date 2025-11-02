@@ -7,19 +7,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 const features = [
   {
-    icon: <Zap className="w-8 h-8" />,
+    icon: <Zap className="w-8 h-8 text-primary" />,
     title: "Fast Response",
     description:
       "Quick turnaround times with dedicated support staff available 24/7.",
   },
   {
-    icon: <ShieldCheck className="w-8 h-8" />,
+    icon: <ShieldCheck className="w-8 h-8 text-primary" />,
     title: "Proven Expertise",
     description:
       "Over 25 years of experience delivering reliable IT solutions.",
   },
   {
-    icon: <Users className="w-8 h-8" />,
+    icon: <Users className="w-8 h-8 text-primary" />,
     title: "Personalized Service",
     description: "Dedicated team that understands your unique business needs.",
   },
