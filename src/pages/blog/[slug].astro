@@ -1,0 +1,212 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navigation from "../../components/Navigation";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import { Calendar, User, Tag, ArrowLeft } from "lucide-react";
+import { getNavigationData } from "@/lib/navigation-data";
+
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("blog", ({ data }) => !data.draft);
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"blog">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const { servicesData, recentPosts } = await getNavigationData();
+
+// Format date helper
+function formatDate(date: Date): string {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+---
+
+<Layout title={`${entry.data.title} - BDK Inc Blog`}>
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main>
+    <!-- Blog Post Header -->
+    <section class="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <div class="absolute inset-0 gradient-mesh opacity-30"></div>
+      <div class="max-w-4xl mx-auto relative z-10">
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-2 text-primary hover:text-primary/80 mb-8 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Blog
+        </a>
+
+        <h1
+          class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground"
+        >
+          {entry.data.title}
+        </h1>
+
+        <div
+          class="flex flex-wrap items-center gap-6 text-muted-foreground mb-6"
+        >
+          <div class="flex items-center gap-2">
+            <Calendar className="w-5 h-5" />
+            <time datetime={entry.data.pubDate.toISOString()}>
+              {formatDate(entry.data.pubDate)}
+            </time>
+          </div>
+          <div class="flex items-center gap-2">
+            <User className="w-5 h-5" />
+            <span>{entry.data.author}</span>
+          </div>
+        </div>
+
+        {
+          entry.data.tags && entry.data.tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mb-8">
+              {entry.data.tags.map((tag) => (
+                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                  <Tag className="w-3 h-3" />
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )
+        }
+
+        <p class="text-xl text-muted-foreground">
+          {entry.data.description}
+        </p>
+      </div>
+    </section>
+
+    <!-- Blog Post Content -->
+    <article class="py-12 px-4 sm:px-6 lg:px-8">
+      <div
+        class="max-w-4xl mx-auto prose prose-lg prose-invert prose-headings:text-foreground prose-headings:font-display prose-p:text-muted-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground prose-code:text-primary prose-pre:bg-card prose-pre:border prose-pre:border-input prose-li:text-muted-foreground"
+      >
+        <Content />
+      </div>
+    </article>
+
+    <!-- Related CTA Section -->
+    <section class="py-24 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto text-center glass rounded-2xl p-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+          Ready to Implement These Solutions?
+        </h2>
+        <p class="text-xl text-muted-foreground mb-8">
+          Our team can help you apply these best practices to your business
+          infrastructure.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="/contact"
+            class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+          >
+            Contact Us
+          </a>
+          <a
+            href="/blog"
+            class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-card text-foreground border border-input hover:bg-accent transition-colors"
+          >
+            Read More Articles
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-input py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto text-center">
+      <div
+        class="text-2xl font-bold bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent mb-4"
+      >
+        BDK Inc
+      </div>
+      <p class="text-muted-foreground mb-4">
+        IT Made Simple - Your trusted technology partner since 1999
+      </p>
+      <p class="text-sm text-muted-foreground/70">
+        &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
+      </p>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  /* Custom prose styles for dark theme */
+  article :global(h2) {
+    margin-top: 2em;
+    margin-bottom: 1em;
+  }
+
+  article :global(h3) {
+    margin-top: 1.6em;
+    margin-bottom: 0.8em;
+  }
+
+  article :global(p) {
+    margin-bottom: 1.25em;
+    line-height: 1.75;
+  }
+
+  article :global(ul),
+  article :global(ol) {
+    margin-bottom: 1.25em;
+    padding-left: 1.5em;
+  }
+
+  article :global(li) {
+    margin-bottom: 0.5em;
+  }
+
+  article :global(blockquote) {
+    border-left: 4px solid var(--color-primary);
+    padding-left: 1em;
+    margin: 1.5em 0;
+    font-style: italic;
+  }
+
+  article :global(code) {
+    background: var(--color-card);
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+  }
+
+  article :global(pre) {
+    margin: 1.5em 0;
+    padding: 1em;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+  }
+
+  article :global(pre code) {
+    background: transparent;
+    padding: 0;
+  }
+
+  article :global(img) {
+    border-radius: 0.5rem;
+    margin: 2em 0;
+  }
+
+  article :global(a) {
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  article :global(a:hover) {
+    text-decoration: underline;
+  }
+</style>

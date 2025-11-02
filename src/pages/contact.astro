@@ -1,0 +1,141 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navigation from "../components/Navigation";
+import ContactChat from "../components/ContactChat";
+import { getNavigationData } from "@/lib/navigation-data";
+import { Logo } from "@/components/Logo";
+import { MessageSquare, Phone, Mail, Clock } from "lucide-react";
+
+const { servicesData, recentPosts } = await getNavigationData();
+---
+
+<Layout title="Contact Us - BDK Inc">
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main class="relative min-h-screen -mt-16 pt-16">
+    {/* Gradient background */}
+    <div class="absolute inset-0 gradient-mesh"></div>
+
+    {/* Circuit board pattern overlay */}
+    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+
+    {/* Content */}
+    <div class="relative z-10">
+      {/* Header Section */}
+      <section class="py-24 px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-7xl mx-auto space-y-8">
+          <h1 class="text-5xl md:text-6xl font-bold tracking-tight">
+            <span class="text-foreground">Let's </span>
+            <span
+              class="bg-linear-to-br from-brand-primary to-brand-secondary bg-clip-text text-transparent"
+            >
+              Connect
+            </span>
+          </h1>
+
+          <p class="max-w-2xl mx-auto text-xl md:text-2xl text-muted-foreground">
+            Ready to transform your IT infrastructure? Our team is here to help
+            24/7.
+          </p>
+        </div>
+      </section>
+
+      {/* Contact Form and Info Section */}
+      <section class="pb-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid lg:grid-cols-3 gap-8">
+            {/* AI Chat Interface - Takes 2 columns */}
+            <div class="lg:col-span-2">
+              <h2 class="text-2xl font-bold mb-4">
+                <span class="text-foreground">Send us a </span>
+                <span
+                  class="bg-linear-to-br from-brand-primary to-brand-secondary bg-clip-text text-transparent"
+                >
+                  Message
+                </span>
+              </h2>
+              <ContactChat client:only="react" />
+            </div>
+
+            {/* Contact Information - Takes 1 column */}
+            <div class="space-y-6">
+              <div class="glass rounded-xl p-6">
+                <h3 class="text-lg font-bold text-foreground mb-4">
+                  Contact Info
+                </h3>
+                <div class="space-y-4 text-sm">
+                  <div class="flex items-start gap-3">
+                    <Phone
+                      className="w-5 h-5 text-brand-primary shrink-0 mt-0.5"
+                    />
+                    <div>
+                      <p class="text-muted-foreground mb-1">Phone</p>
+                      <a
+                        href="tel:8003090004"
+                        class="text-brand-primary hover:underline font-medium"
+                      >
+                        (800) 309-0004
+                      </a>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <Mail
+                      className="w-5 h-5 text-brand-primary shrink-0 mt-0.5"
+                    />
+                    <div>
+                      <p class="text-muted-foreground mb-1">Email</p>
+                      <a
+                        href="mailto:info@bdkinc.com"
+                        class="text-brand-primary hover:underline font-medium"
+                      >
+                        info@bdkinc.com
+                      </a>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <MessageSquare
+                      className="w-5 h-5 text-brand-primary shrink-0 mt-0.5"
+                    />
+                    <div>
+                      <p class="text-muted-foreground mb-1">Address</p>
+                      <p class="text-foreground">
+                        29515 Canvasback Drive<br />
+                        Easton, MD 21601
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <Clock
+                      className="w-5 h-5 text-brand-primary shrink-0 mt-0.5"
+                    />
+                    <div>
+                      <p class="text-muted-foreground mb-1">Hours</p>
+                      <p class="text-foreground flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        24/7 Support
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  {/* Footer */}
+  <footer class="border-t border-input py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto text-center flex flex-col items-center">
+      <div>
+        <Logo />
+      </div>
+      <p class="text-muted-foreground mb-4">
+        Your trusted technology partner since 1999
+      </p>
+      <p class="text-sm text-muted-foreground/70">
+        &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
+      </p>
+    </div>
+  </footer>
+</Layout>

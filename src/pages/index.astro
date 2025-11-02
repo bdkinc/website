@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navigation from "../components/Navigation";
+import Hero from "../components/Hero";
+import Services from "../components/Services";
+import WhyChooseUs from "../components/WhyChooseUs";
+import CTASection from "../components/CTASection";
+import { getNavigationData } from "@/lib/navigation-data";
+import { Logo } from "@/components/Logo";
+
+const { servicesData, recentPosts } = await getNavigationData();
+---
+
+<Layout title="BDK Inc - IT Made Simple">
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main>
+    <Hero client:load />
+    <Services client:visible services={servicesData} />
+    <WhyChooseUs client:visible />
+
+    <CTASection client:visible />
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-input py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto text-center flex flex-col items-center">
+      <div>
+        <Logo />
+      </div>
+      <p class="text-muted-foreground mb-4">
+        Your trusted technology partner since 1999
+      </p>
+      <p class="text-sm text-muted-foreground/70">
+        &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
+      </p>
+    </div>
+  </footer>
+</Layout>

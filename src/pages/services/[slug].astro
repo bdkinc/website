@@ -1,0 +1,153 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Navigation from "../../components/Navigation";
+import { getNavigationData } from "@/lib/navigation-data";
+import * as LucideIcons from "lucide-react";
+
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content } = await service.render();
+const { servicesData, recentPosts } = await getNavigationData();
+
+// Get the icon component dynamically
+const IconComponent =
+  (LucideIcons as any)[service.data.icon] || LucideIcons.Box;
+---
+
+<Layout title={`${service.data.title} - BDK Inc`}>
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main class="pt-24">
+    <section class="py-24 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-5xl mx-auto">
+        <!-- Hero Section -->
+        <div class="text-center mb-16">
+          <div
+            class="inline-flex items-center justify-center p-4 rounded-2xl bg-linear-to-brr from-primary/10 to-secondary/10 mb-6"
+          >
+            <IconComponent className="w-12 h-12 text-primary" />
+          </div>
+          <h1 class="text-5xl md:text-6xl font-bold mb-6">
+            <span
+              class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent"
+            >
+              {service.data.title}
+            </span>
+          </h1>
+          <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+            {service.data.description}
+          </p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="space-y-12">
+          <!-- Content from markdown -->
+          <div
+            class="prose prose-invert prose-lg max-w-none glass rounded-xl p-8"
+          >
+            <Content />
+          </div>
+
+          <!-- CTA -->
+          <div class="text-center glass rounded-2xl p-12">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+              Ready to Get Started?
+            </h2>
+            <p class="text-xl text-muted-foreground mb-8">
+              Let's discuss how {service.data.title.toLowerCase()} can transform
+              your business.
+            </p>
+            <a
+              href="/contact"
+              class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+            >
+              Contact Us Today
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  /* Prose styles for markdown content */
+  :global(.prose) {
+    color: hsl(var(--color-foreground));
+  }
+
+  :global(.prose h1),
+  :global(.prose h2),
+  :global(.prose h3),
+  :global(.prose h4) {
+    color: hsl(var(--color-foreground));
+    font-weight: 700;
+    margin-top: 2em;
+    margin-bottom: 1em;
+  }
+
+  :global(.prose h2) {
+    font-size: 1.875rem;
+    border-bottom: 2px solid hsl(var(--color-primary));
+    padding-bottom: 0.5rem;
+  }
+
+  :global(.prose h3) {
+    font-size: 1.5rem;
+  }
+
+  :global(.prose p) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    color: hsl(var(--color-muted-foreground));
+  }
+
+  :global(.prose ul),
+  :global(.prose ol) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    padding-left: 1.5em;
+  }
+
+  :global(.prose li) {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    color: hsl(var(--color-muted-foreground));
+  }
+
+  :global(.prose strong) {
+    color: hsl(var(--color-foreground));
+    font-weight: 600;
+  }
+
+  :global(.prose a) {
+    color: hsl(var(--color-primary));
+    text-decoration: underline;
+  }
+
+  :global(.prose a:hover) {
+    color: hsl(var(--color-secondary));
+  }
+
+  :global(.prose code) {
+    color: hsl(var(--color-primary));
+    background-color: hsl(var(--color-background) / 0.5);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+  }
+
+  :global(.prose blockquote) {
+    border-left: 4px solid hsl(var(--color-primary));
+    padding-left: 1em;
+    font-style: italic;
+    color: hsl(var(--color-muted-foreground));
+  }
+</style>

@@ -1,0 +1,534 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navigation from "../components/Navigation";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../components/ui/card";
+import { getNavigationData } from "@/lib/navigation-data";
+
+const { servicesData, recentPosts } = await getNavigationData();
+---
+
+<Layout title="Our Services - BDK Inc">
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main class="relative min-h-screen -mt-16 pt-16">
+    {/* Gradient background */}
+    <div class="absolute inset-0 gradient-mesh"></div>
+
+    {/* Circuit board pattern overlay */}
+    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+
+    {/* Content */}
+    <div class="relative z-10">
+      <section class="py-24 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h1 class="text-5xl md:text-6xl font-bold mb-4">
+            <span class="text-foreground">Our </span>
+            <span
+              class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent"
+            >
+              Services
+            </span>
+          </h1>
+          <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Comprehensive IT solutions designed to help your business thrive
+          </p>
+        </div>
+
+        <div class="space-y-12">
+          <!-- Managed IT Services -->
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">
+              Managed IT Services (MSP)
+            </h2>
+            <p class="text-muted-foreground mb-6">
+              Our managed IT services provide comprehensive support for all your
+              technology needs. With unlimited help desk support and both
+              on-site and remote assistance, we ensure your systems run smoothly
+              24/7.
+            </p>
+            <ul class="space-y-2 text-muted-foreground">
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                24/7 Help Desk Support
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Proactive System Monitoring
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                On-Site and Remote Support
+              </li>
+            </ul>
+          </div>
+
+          <!-- Cloud Hosting -->
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">
+              Cloud Hosting
+            </h2>
+            <p class="text-muted-foreground mb-6">
+              Secure data migration and hosting solutions built for scalability
+              and performance. Our public and private hosting options give you
+              the flexibility to choose what works best for your business.
+            </p>
+            <ul class="space-y-2 text-muted-foreground">
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Public & Private Cloud Solutions
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Seamless Data Migration
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Scalable Infrastructure
+              </li>
+            </ul>
+          </div>
+
+          <!-- IBM i Power Systems -->
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">
+              IBM i Power Servers Support
+            </h2>
+            <p class="text-muted-foreground mb-6">
+              With over 40 years of expertise supporting one of the most secure
+              operating systems, we provide comprehensive IBM i Power Systems
+              support and maintenance.
+            </p>
+            <ul class="space-y-2 text-muted-foreground">
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                40+ Years of IBM i Expertise
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                IBM Partner Plus Silver Partner
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Enterprise-Grade Security
+              </li>
+            </ul>
+          </div>
+
+          <!-- Hosted ERP -->
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">Hosted ERP</h2>
+            <p class="text-muted-foreground mb-6">
+              Enterprise resource planning solutions tailored for manufacturing,
+              distribution, and finance. We specialize in hosting and supporting
+              your critical ERP systems.
+            </p>
+            <ul class="space-y-2 text-muted-foreground">
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Manufacturing & Distribution Focus
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Fully Hosted & Managed
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Finance Integration
+              </li>
+            </ul>
+          </div>
+
+          <!-- EDI Solutions -->
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">
+              Electronic Data Interchange (EDI)
+            </h2>
+            <p class="text-muted-foreground mb-6">
+              Seamless retail integration through Electronic Data Interchange.
+              We help you connect with trading partners and streamline your
+              supply chain operations.
+            </p>
+            <ul class="space-y-2 text-muted-foreground">
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Retail Integration Solutions
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Supply Chain Optimization
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Trading Partner Connectivity
+              </li>
+            </ul>
+          </div>
+
+          <!-- Business Analytics -->
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">
+              Business Analytics
+            </h2>
+            <p class="text-muted-foreground mb-6">
+              Turn your data into actionable insights with custom reporting and
+              real-time analytics. Make data-driven decisions with confidence.
+            </p>
+            <ul class="space-y-2 text-muted-foreground">
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Custom Reporting Solutions
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Real-Time Data Insights
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Automated Reporting
+              </li>
+            </ul>
+          </div>
+
+          <!-- Managed Cybersecurity -->
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">
+              Managed Cybersecurity
+            </h2>
+            <p class="text-muted-foreground mb-6">
+              Protect your business with comprehensive cybersecurity solutions,
+              disaster recovery planning, and business continuity services.
+            </p>
+            <ul class="space-y-2 text-muted-foreground">
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Disaster Recovery Planning
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Business Continuity Planning
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Patches & Updates Management
+              </li>
+            </ul>
+          </div>
+
+          <!-- Web & Communications -->
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">
+              Marketing & Web Design
+            </h2>
+            <p class="text-muted-foreground mb-6">
+              Professional web design and unified communications solutions to
+              help your business connect with customers and collaborate
+              effectively.
+            </p>
+            <ul class="space-y-2 text-muted-foreground">
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Professional Web Design
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Unified Communications
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-6 h-6 text-primary mr-2 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"></path>
+                </svg>
+                Marketing Solutions
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="mt-16 text-center glass rounded-2xl p-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+            Ready to Get Started?
+          </h2>
+          <p class="text-xl text-muted-foreground mb-8">
+            Contact us today to discuss how our services can help your business
+            grow.
+          </p>
+          <a
+            href="/contact"
+            class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+          >
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </section>
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,118 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navigation from "../components/Navigation";
+import { getNavigationData } from "@/lib/navigation-data";
+
+const { servicesData, recentPosts } = await getNavigationData();
+---
+
+<Layout title="About Us - BDK Inc">
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main class="relative min-h-screen -mt-16 pt-16">
+    {/* Gradient background */}
+    <div class="absolute inset-0 gradient-mesh"></div>
+
+    {/* Circuit board pattern overlay */}
+    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+
+    {/* Content */}
+    <div class="relative z-10">
+      <section class="py-24 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h1 class="text-5xl md:text-6xl font-bold mb-4">
+            <span class="text-foreground">About </span>
+            <span
+              class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent"
+            >
+              BDK Inc
+            </span>
+          </h1>
+        </div>
+
+        <div class="space-y-8 text-muted-foreground text-lg">
+          <p>
+            Since 1999, BDK Inc has been at the forefront of delivering
+            innovative IT solutions to businesses of all sizes. Based in Easton,
+            Maryland, we've built our reputation on providing reliable, expert
+            technology services with a personal touch.
+          </p>
+
+          <p>
+            We are an IT services provider for businesses of all sizes. From MSP
+            to Cloud Hosting, ERP, and more, we help transform your business
+            with comprehensive managed IT services, cloud solutions, and
+            enterprise-grade cybersecurity.
+          </p>
+
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">Our Mission</h2>
+            <p>
+              To make IT simple and accessible for every business, enabling them
+              to focus on what they do best while we handle their technology
+              needs with expertise and care.
+            </p>
+          </div>
+
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">
+              IBM Partnership
+            </h2>
+            <p>
+              As an IBM Partner Plus Silver Partner, we bring over 40 years of
+              expertise in IBM i Power Systems support. Our deep knowledge of
+              one of the most secure operating systems ensures your business
+              runs smoothly and securely.
+            </p>
+          </div>
+
+          <div class="glass rounded-xl p-8">
+            <h2 class="text-3xl font-bold text-foreground mb-4">
+              Why Choose Us
+            </h2>
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <span class="text-primary font-bold mr-3">•</span>
+                <div>
+                  <strong class="text-foreground"
+                    >25+ Years of Excellence:</strong
+                  >
+                  Over a quarter century delivering reliable IT solutions with proven
+                  results.
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-primary font-bold mr-3">•</span>
+                <div>
+                  <strong class="text-foreground">24/7 Support:</strong>
+                  Unlimited help desk support with on and off-site service whenever
+                  you need us.
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-primary font-bold mr-3">•</span>
+                <div>
+                  <strong class="text-foreground">Strategic Partnership:</strong
+                  >
+                  We work as your dedicated technology partner to achieve your business
+                  objectives.
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span class="text-primary font-bold mr-3">•</span>
+                <div>
+                  <strong class="text-foreground"
+                    >Comprehensive Services:</strong
+                  >
+                  From cloud hosting to cybersecurity, ERP to EDI, we cover all your
+                  IT needs.
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    </div>
+  </main>
+</Layout>
