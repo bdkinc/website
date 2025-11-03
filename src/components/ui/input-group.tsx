@@ -64,7 +64,7 @@ function InputGroupAddon({
 }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
   return (
     <div
-      role="group"
+      role="button"
       data-slot="input-group-addon"
       data-align={align}
       className={cn(inputGroupAddonVariants({ align }), className)}
@@ -74,6 +74,15 @@ function InputGroupAddon({
         }
         e.currentTarget.parentElement?.querySelector("input")?.focus()
       }}
+      onKeyDown={(e) => {
+        if ((e.target as HTMLElement).closest("button")) {
+          return
+        }
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.currentTarget.parentElement?.querySelector("input")?.focus()
+        }
+      }}
+      tabIndex={0}
       {...props}
     />
   )

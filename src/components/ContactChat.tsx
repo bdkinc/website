@@ -21,7 +21,7 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Response } from "@/components/ai-elements/response";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
-import { Card, CardContent } from "@/components/ui/card";
+
 import { nanoid } from "nanoid";
 import { useCallback, useState } from "react";
 

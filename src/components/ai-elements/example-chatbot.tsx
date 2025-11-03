@@ -312,7 +312,7 @@ const Example = () => {
     "submitted" | "streaming" | "ready" | "error"
   >("ready");
   const [messages, setMessages] = useState<MessageType[]>(initialMessages);
-  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(
+  const [_streamingMessageId, setStreamingMessageId] = useState<string | null>(
     null
   );
 
