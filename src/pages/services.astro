@@ -3,8 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import Navigation from "../components/Navigation";
 import { getNavigationData } from "@/lib/navigation-data";
 import { getCollection } from "astro:content";
-import * as LucideIcons from "lucide-react";
+import { Box } from "lucide-react";
 import { cardVariants } from "@/lib/card-variants";
+import { iconMap } from "@/lib/icons";
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -44,8 +45,7 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
             {
               services.map((service, index) => {
                 // Get the icon component dynamically
-                const IconComponent =
-                  (LucideIcons as any)[service.data.icon] || LucideIcons.Box;
+                const IconComponent = iconMap[service.data.icon] || Box;
                 // Calculate stagger delay: 80ms between cards
                 const delayMs = 150 + index * 80;
 

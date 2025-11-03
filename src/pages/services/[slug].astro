@@ -3,7 +3,8 @@ import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import Navigation from "../../components/Navigation";
 import { getNavigationData } from "@/lib/navigation-data";
-import * as LucideIcons from "lucide-react";
+import { Box } from "lucide-react";
+import { iconMap } from "@/lib/icons";
 
 export async function getStaticPaths() {
   const services = await getCollection("services");
@@ -18,8 +19,7 @@ const { Content } = await service.render();
 const { servicesData, recentPosts } = await getNavigationData();
 
 // Get the icon component dynamically
-const IconComponent =
-  (LucideIcons as any)[service.data.icon] || LucideIcons.Box;
+const IconComponent = iconMap[service.data.icon] || Box;
 ---
 
 <Layout title={`${service.data.title} - BDK Inc`} description={service.data.description}>

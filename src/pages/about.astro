@@ -4,7 +4,7 @@ import Navigation from "../components/Navigation";
 import CTASection from "../components/CTASection";
 import { getNavigationData } from "@/lib/navigation-data";
 import { Logo } from "@/components/Logo";
-import * as LucideIcons from "lucide-react";
+import { Rocket, Eye, Target, Lightbulb, Shield, Users, Award, Clock, Box } from "lucide-react";
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -130,7 +130,7 @@ const milestones = [
                 <div
                   class="inline-flex items-center justify-center p-4 rounded-lg bg-primary/10"
                 >
-                  <LucideIcons.Rocket className="icon-lg text-primary" />
+                  <Rocket className="icon-lg text-primary" />
                 </div>
               </div>
               <h2 class="text-3xl font-bold mb-4 text-foreground text-center">
@@ -154,7 +154,7 @@ const milestones = [
                 <div
                   class="inline-flex items-center justify-center p-4 rounded-lg bg-secondary/10"
                 >
-                  <LucideIcons.Eye className="icon-lg text-secondary" />
+                  <Eye className="icon-lg text-secondary" />
                 </div>
               </div>
               <h2 class="text-3xl font-bold mb-4 text-foreground text-center">
@@ -194,8 +194,9 @@ const milestones = [
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {
               values.map((value, index) => {
+                const iconMap = { Target, Lightbulb, Shield, Users, Award, Clock, Box };
                 const IconComponent =
-                  (LucideIcons as any)[value.icon] || LucideIcons.Box;
+                  iconMap[value.icon as keyof typeof iconMap] || Box;
                 return (
                   <div
                     class={`glass rounded-xl p-6 hover:scale-105 hover:shadow-[--shadow-glow-sm] transition-all duration-300 flex flex-col items-center justify-center text-center h-full fill-mode-both animate-in fade-in zoom-in duration-600 delay-${200 + index * 100}`}
