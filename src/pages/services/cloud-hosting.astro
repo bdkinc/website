@@ -1,0 +1,272 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Navigation from "../../components/Navigation";
+import { getNavigationData } from "@/lib/navigation-data";
+import { iconMap } from "@/lib/icons";
+import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import {
+  Shield,
+  DollarSign,
+  RefreshCw,
+  Users,
+  Lock,
+  Zap,
+  Cloud,
+  ArrowLeftRight,
+} from "lucide-react";
+
+const service = await getEntry('services', 'cloud-hosting');
+if (!service) {
+  return new Response(null, { status: 404 });
+}
+const { servicesData, recentPosts } = await getNavigationData();
+const IconComponent = iconMap[service.data.icon];
+---
+
+<Layout title={`${service.data.title} - BDK Inc`} description={service.data.description}>
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
+    <div class="absolute inset-0 gradient-mesh"></div>
+    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+
+    <div class="relative z-10">
+      <section class="py-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <div class="inline-flex items-center justify-center p-4 rounded-2xl bg-linear-to-brr from-primary/10 to-secondary/10 mb-6 animate-in fade-in zoom-in duration-500 delay-100 fill-mode-both">
+              <IconComponent className="w-12 h-12 text-primary" />
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+              <span class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent">
+                {service.data.title}
+              </span>
+            </h1>
+            <p class="text-xl text-muted-foreground max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-3 duration-500 delay-400 fill-mode-both">
+              {service.data.description}
+            </p>
+          </div>
+
+          <div class="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600 fill-mode-both">
+            <div class="max-w-7xl mx-auto">
+<div class="service-content-wrapper">
+
+<div class="max-w-4xl mx-auto not-prose">
+  <h2 class="text-3xl font-bold mb-6 text-foreground text-center">
+    Any Cloud Configuration. Any Provider. Anywhere.
+  </h2>
+  <div class="text-lg text-muted-foreground leading-relaxed mb-10 text-center">
+    At BDK, we specialize in designing and implementing cloud hosting solutions
+    tailored to your business needs. Whether you're looking to migrate existing
+    workloads or build new applications in the cloud, our team of experts will
+    guide you through every step of the process. We offer flexible deployment
+    options across private, public, and hybrid cloud environments, ensuring you
+    get the right solution for your unique requirements.
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Cloud Deployment Options</h3>
+
+<ServiceCardGrid>
+    <ServiceCard>
+        <div class="mb-6">
+            <Lock className="w-16 h-16 text-primary" />
+        </div>
+        <h4 class="text-2xl font-bold mb-4 text-primary">Private Cloud</h4>
+        <div class="text-muted-foreground leading-relaxed">
+            Dedicated infrastructure with complete control. Perfect for regulated industries and sensitive workloads.
+        </div>
+    </ServiceCard>
+
+    <ServiceCard>
+        <div class="mb-6">
+            <ArrowLeftRight className="w-16 h-16 text-primary" />
+        </div>
+        <h4 class="text-2xl font-bold mb-4 text-primary">Hybrid Cloud</h4>
+        <div class="text-muted-foreground leading-relaxed">
+            Seamlessly integrate private and public resources. Move workloads
+            dynamically based on your needs.
+        </div>
+    </ServiceCard>
+
+    <ServiceCard>
+        <div class="mb-6">
+            <Cloud className="w-16 h-16 text-primary" />
+        </div>
+        <h4 class="text-2xl font-bold mb-4 text-primary">Public Cloud</h4>
+        <div class="text-muted-foreground leading-relaxed">
+            Scalable solutions on AWS, Azure, Google Cloud, or IBM Cloud optimized for
+            cost and performance.
+        </div>
+    </ServiceCard>
+</ServiceCardGrid>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground mt-12">Multi-Provider Expertise</h3>
+
+<div class="mb-20 not-prose">
+  <p class="text-xl text-muted-foreground text-center mb-10">
+    We're cloud-agnostic experts who work with:
+  </p>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">BDK Datacenter Locations</h5>
+        <div class="text-muted-foreground text-sm">Our own secure, reliable infrastructure</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">IBM Cloud</h5>
+        <div class="text-muted-foreground text-sm">Enterprise-grade cloud with deep Power Systems integration</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">AWS</h5>
+        <div class="text-muted-foreground text-sm">Industry-leading scalability and service breadth</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Microsoft Azure</h5>
+        <div class="text-muted-foreground text-sm">Seamless Microsoft ecosystem integration</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Google Cloud Platform</h5>
+        <div class="text-muted-foreground text-sm">Advanced data analytics and AI capabilities</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Other Providers</h5>
+        <div class="text-muted-foreground text-sm">We adapt to your preferred platform</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Seamless Migration & Management</h3>
+
+<div class="mb-20 p-10 rounded-2xl border border-border bg-linear-to-br from-primary/10 to-secondary/10 not-prose">
+  <div class="text-lg text-muted-foreground text-center max-w-4xl mx-auto leading-relaxed">
+    Moving to the cloud or reconfiguring your existing environment doesn't have
+    to be disruptive. Our experienced team handles the entire process—planning,
+    migration, optimization, and ongoing management. We ensure your data and
+    applications transfer smoothly with minimal downtime while maintaining
+    business continuity.
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Key Benefits</h3>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mb-20">
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <Shield className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Enhanced Reliability</h4>
+    <div class="text-muted-foreground">Redundancy capabilities prevent downtime and protect your critical business data</div>
+  </ServiceCard>
+
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <DollarSign className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Cost Efficiency</h4>
+    <div class="text-muted-foreground">
+      Reduce capital expenses by moving from physical infrastructure to flexible
+      cloud solutions
+    </div>
+  </ServiceCard>
+
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <RefreshCw className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">
+      Business Continuity
+    </h4>
+    <div class="text-muted-foreground">
+      Built-in disaster recovery and backup solutions keep your business running
+    </div>
+  </ServiceCard>
+
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <Users className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Expert Support</h4>
+    <div class="text-muted-foreground">
+      60+ years of combined experience in cloud infrastructure and migration
+    </div>
+  </ServiceCard>
+
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <Lock className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Security</h4>
+    <div class="text-muted-foreground">
+      Enterprise-grade security controls protect your data in the cloud
+    </div>
+  </ServiceCard>
+
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <Zap className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Flexibility</h4>
+    <div class="text-muted-foreground">Choose from public, private, or hybrid cloud configurations</div>
+  </ServiceCard>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Why Choose BDK for Cloud Hosting?</h3>
+
+<div class="text-center">
+  <div class="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
+    We bring decades of experience to every cloud project. Our team understands
+    the complexities of cloud migration and the importance of maintaining
+    business operations throughout the transition. We don't just move your
+    data—we optimize your entire cloud environment for performance, security,
+    and cost-effectiveness.
+  </div>
+  <div class="text-xl font-semibold text-primary">
+    From initial planning to ongoing management, we're your partner in cloud
+    success.
+  </div>
+</div>
+
+</div>
+
+            </div>
+
+            <div class="text-center glass rounded-2xl p-12 animate-in fade-in zoom-in duration-500 delay-800 fill-mode-both">
+              <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">Ready to Get Started?</h2>
+              <p class="text-xl text-muted-foreground mb-8">
+                Let's discuss how {service.data.title.toLowerCase()} can transform your business.
+              </p>
+              <a href="/contact" class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm">
+                Contact Us Today
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>

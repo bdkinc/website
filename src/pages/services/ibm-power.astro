@@ -1,0 +1,260 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Navigation from "../../components/Navigation";
+import { getNavigationData } from "@/lib/navigation-data";
+import { iconMap } from "@/lib/icons";
+import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import {
+  Server,
+  Cloud,
+  ShieldCheck,
+  TrendingUp,
+  Users,
+  Award,
+  Wrench,
+  RefreshCw,
+} from "lucide-react";
+
+const service = await getEntry('services', 'ibm-power');
+if (!service) {
+  return new Response(null, { status: 404 });
+}
+const { servicesData, recentPosts } = await getNavigationData();
+const IconComponent = iconMap[service.data.icon];
+---
+
+<Layout title={`${service.data.title} - BDK Inc`} description={service.data.description}>
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
+    <div class="absolute inset-0 gradient-mesh"></div>
+    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+
+    <div class="relative z-10">
+      <section class="py-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <div class="inline-flex items-center justify-center p-4 rounded-2xl bg-linear-to-brr from-primary/10 to-secondary/10 mb-6 animate-in fade-in zoom-in duration-500 delay-100 fill-mode-both">
+              <IconComponent className="w-12 h-12 text-primary" />
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+              <span class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent">
+                {service.data.title}
+              </span>
+            </h1>
+            <p class="text-xl text-muted-foreground max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-3 duration-500 delay-400 fill-mode-both">
+              {service.data.description}
+            </p>
+          </div>
+
+          <div class="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600 fill-mode-both">
+            <div class="max-w-7xl mx-auto">
+<div class="service-content-wrapper">
+
+<div class="max-w-4xl mx-auto not-prose">
+  <h2 class="text-3xl font-bold mb-6 text-foreground text-center">
+    IBM Power Systems Hardware Support
+  </h2>
+  <div class="text-lg text-muted-foreground leading-relaxed mb-10 text-center">
+    BDK Inc delivers end-to-end support for IBM Power hardware. As an <strong class="text-primary">IBM Partner Plus Silver Partner</strong>, we manage, optimize, and protect mission-critical IBM Power systems running IBM i (IBMi), AIX, VIOS, and enterprise Linux (Red Hat, Ubuntu)—on-premises or in hybrid cloud.
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">What We Manage on IBM Power</h3>
+
+<ServiceCardGrid className="lg:grid-cols-2">
+  <ServiceCard>
+    <div class="mb-6">
+      <Wrench className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">Hardware Lifecycle</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      Installation, configuration, microcode planning, and maintenance for Power Systems racks, frames, and peripherals.
+    </div>
+  </ServiceCard>
+
+  <ServiceCard>
+    <div class="mb-6">
+      <Server className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">PowerVM, LPARs & VIOS</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      Partitioning, virtual I/O, networking, and storage mapping—built for high availability and performance.
+    </div>
+  </ServiceCard>
+
+  <ServiceCard>
+    <div class="mb-6">
+      <RefreshCw className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">OS Administration</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      PTFs and patching for IBM i (IBMi), AIX, Red Hat, and Ubuntu; security hardening, user and access controls, backup and recovery.
+    </div>
+  </ServiceCard>
+
+  <ServiceCard>
+    <div class="mb-6">
+      <TrendingUp className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">Performance & Capacity</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      Monitoring, tuning, and capacity planning to reduce risk, control cost, and meet SLAs for mixed-OS estates.
+    </div>
+  </ServiceCard>
+
+  <ServiceCard>
+    <div class="mb-6">
+      <ShieldCheck className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">Resilience & DR</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      HA/DR architectures for IBM i, AIX, and Linux on Power; backup strategy, testing, and incident response.
+    </div>
+  </ServiceCard>
+
+  <ServiceCard>
+    <div class="mb-6">
+      <Cloud className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">Hybrid & Cloud Integration</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      Connect Power workloads with cloud services, shared storage, and enterprise tooling without compromising security.
+    </div>
+  </ServiceCard>
+</ServiceCardGrid>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground mt-12">Why IBM Power for the Enterprise?</h3>
+
+<div class="mb-20 not-prose">
+  <p class="text-xl text-muted-foreground text-center mb-10">
+    IBM Power delivers the reliability, security, and scalability enterprises require for core business systems across IBM i, AIX, and Linux.
+  </p>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Defense-Grade Security</h5>
+        <div class="text-muted-foreground text-sm">Power architecture and OS controls reduce attack surface while enabling compliant operations across regulated industries.</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Rock-Solid Uptime</h5>
+        <div class="text-muted-foreground text-sm">Proven availability for mission-critical ERP, EDI, and analytics workloads with built-in redundancy options.</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Multi-OS Flexibility</h5>
+        <div class="text-muted-foreground text-sm">Run IBM i (IBMi), AIX, and enterprise Linux (Red Hat, Ubuntu) side-by-side, optimized on a single platform.</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Future-Ready</h5>
+        <div class="text-muted-foreground text-sm">Modern capabilities and backward compatibility keep core systems stable while you innovate.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Why BDK Inc for IBM Power Support</h3>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mb-20">
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <Users className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">40+ Years on Power</h4>
+    <div class="text-muted-foreground">Decades of hands-on experience with IBM i (IBMi), AIX, VIOS, and Linux on Power.</div>
+  </div>
+
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <Award className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">IBM Silver Partner</h4>
+    <div class="text-muted-foreground">Certified expertise backed by IBM resources and support channels.</div>
+  </div>
+
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <ShieldCheck className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Enterprise-Grade Security</h4>
+    <div class="text-muted-foreground">Hardening, identity, and compliance across IBM i, AIX, and Linux on Power.</div>
+  </div>
+
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <TrendingUp className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">SLA-Driven Operations</h4>
+    <div class="text-muted-foreground">24×7 monitoring, incident response, and capacity planning aligned to your SLAs.</div>
+  </div>
+
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <Server className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Single Partner, Multi-OS</h4>
+    <div class="text-muted-foreground">One MSP for IBM i, AIX, VIOS, Red Hat, and Ubuntu—simplifying operations and reducing cost.</div>
+  </div>
+
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <RefreshCw className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Cost & Risk Optimization</h4>
+    <div class="text-muted-foreground">Right-sizing, firmware cadence, and DR testing to minimize downtime and spend.</div>
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Our Approach</h3>
+
+<div class="mb-20 p-10 rounded-2xl border border-border bg-linear-to-br from-primary/10 to-secondary/10 not-prose">
+  <div class="text-lg text-muted-foreground text-center max-w-4xl mx-auto leading-relaxed">
+    Your IBM Power environment is the backbone of the business. We combine disciplined operations with modernization where it matters—delivering predictable uptime, controlled costs, and a clear roadmap across IBM i (IBMi), AIX, VIOS, Red Hat, and Ubuntu.
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Ready to Stabilize and Modernize Your IBM Power Estate?</h3>
+
+<div class="text-center">
+  <div class="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
+    Partner with a team that runs IBM i (IBMi), AIX, VIOS, Red Hat, and Ubuntu on Power every day.
+    Backed by 40+ years of experience and IBM Silver Partner credentials, we keep critical systems
+    online while guiding your next steps.
+  </div>
+  <div class="text-xl font-semibold text-primary">
+    Talk to an IBM Power specialist about your hardware and OS roadmap.
+  </div>
+</div>
+
+</div>
+
+            </div>
+
+            <div class="text-center glass rounded-2xl p-12 animate-in fade-in zoom-in duration-500 delay-800 fill-mode-both">
+              <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">Ready to Get Started?</h2>
+              <p class="text-xl text-muted-foreground mb-8">
+                Let's discuss how {service.data.title.toLowerCase()} can transform your business.
+              </p>
+              <a href="/contact" class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm">
+                Contact Us Today
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>

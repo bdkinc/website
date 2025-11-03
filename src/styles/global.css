@@ -420,6 +420,13 @@ p, li {
   color: hsl(var(--color-muted-foreground));
 }
 
+/* Service content wrapper for MDX pages */
+.service-content-wrapper {
+  /* Container for all service page content */
+  display: block;
+  width: 100%;
+}
+
 /* Text styling */
 .prose :where(strong):not(:where([class~="not-prose"] *)) {
   color: hsl(var(--color-foreground));

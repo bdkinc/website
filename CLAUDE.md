@@ -76,6 +76,24 @@ import { cn } from '@/lib/utils'
 <div className={cn("base-classes", conditionalClass && "conditional-classes")} />
 ```
 
+### React Components in Astro Files
+
+When using React components (like lucide-react icons) **inside Astro files**, always use `className` instead of `class`, even though `.astro` files allow `class` for HTML elements:
+
+```typescript
+// CORRECT: React components use className
+import { Code2, Shield, Lock } from 'lucide-react'
+
+<Code2 className="w-16 h-16 text-primary" />
+<Shield className="w-8 h-8 text-primary" />
+<Lock className="w-5 h-5 text-primary mt-1 shrink-0" />
+
+// WRONG: Do not use class with React components
+<Code2 class="w-16 h-16 text-primary" />  // ❌ Won't work properly
+```
+
+This is because React expects the `className` prop regardless of the file format. Using `class` in Astro files will not properly apply styles to React components.
+
 ## Key Dependencies
 
 - **react-bits** - Animation library (installed but not yet used extensively)
@@ -94,3 +112,58 @@ All pages follow this pattern:
 2. Import `Navigation` component
 3. Use `client:load` for Navigation (needs immediate interactivity)
 4. Use `client:visible` for below-the-fold React components (lazy hydration)
+
+## Services Management
+
+Services are maintained in **two locations** that must stay synchronized:
+
+### 1. Content Collection (`src/content/services/`)
+
+Each service has a JSON data file (e.g., `src/content/services/application-development.json`):
+```json
+{
+  "title": "Custom Application Development",
+  "description": "Enterprise-grade custom applications built for your business",
+  "icon": "Code2",
+  "order": 1
+}
+```
+
+- **Required fields**: `title`, `description`, `icon`, `order`
+- `icon` must be a valid lucide-react icon name
+- `order` controls the display sequence in navigation and service listings
+
+### 2. Page Files (`src/pages/services/`)
+
+Each service has a dedicated Astro page (e.g., `src/pages/services/application-development.astro`):
+- Fetches service data via `getEntry('services', 'service-slug')`
+- Returns 404 if service entry doesn't exist (required for type safety)
+- Contains full service content, features, and marketing copy
+
+### Adding a New Service
+
+When adding a new service, **always do both**:
+
+1. Create `src/content/services/[slug].json` with required fields
+2. Create `src/pages/services/[slug].astro` page file
+3. Ensure the slug matches exactly in both locations
+4. Run `npm run build` to verify both files are recognized
+5. Update navigation if the service should appear in menus
+
+### Updating an Existing Service
+
+- **Data changes** (title, description, icon, order): Update `src/content/services/[slug].json`
+- **Content/layout changes** (features, sections, copy): Update `src/pages/services/[slug].astro`
+- Both files can be edited independently, but always verify with `npm run build` after changes
+
+### Type Safety
+
+Service pages include a null check on the `getEntry()` result:
+```typescript
+const service = await getEntry('services', 'service-slug');
+if (!service) {
+  return new Response(null, { status: 404 });
+}
+```
+
+This ensures TypeScript recognizes `service.data` as defined and prevents runtime errors.

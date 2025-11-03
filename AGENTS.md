@@ -100,7 +100,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 ```
 
-### 5. Icon Usage
+### 5. Icon Usage & React Components in Astro Files
 
 **Use lucide-react for all icons:**
 
@@ -110,6 +110,30 @@ import { Server, Shield, Cloud, ArrowRight } from 'lucide-react'
 // Icons automatically inherit color and size from parent
 <ArrowRight className="w-4 h-4 text-[--color-primary]" />
 ```
+
+**Critical: Always use `className` for React components in Astro files, even though `.astro` files allow `class` for HTML elements:**
+
+```astro
+---
+// In .astro files, React components (icons, UI components, etc.) require className
+import { Code2, Shield, Lock } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+---
+
+<!-- ✅ CORRECT: React components use className -->
+<Code2 className="w-16 h-16 text-primary" />
+<Shield className="w-8 h-8 text-primary" />
+<Button className="mt-4">Click me</Button>
+
+<!-- ❌ WRONG: Do not use class with React components -->
+<Code2 class="w-16 h-16 text-primary" />
+<Shield class="w-8 h-8 text-primary" />
+
+<!-- ✅ CORRECT: Regular HTML elements can use class in .astro files -->
+<div class="flex items-center gap-4">Content</div>
+```
+
+**Remember:** React expects the `className` prop regardless of whether the component is rendered in a `.tsx` or `.astro` file. Using `class` with React components in Astro files will not apply styles correctly.
 
 ### 6. Animation Patterns
 

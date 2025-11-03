@@ -1,12 +1,12 @@
 import { getCollection } from "astro:content";
 
 export async function getNavigationData() {
-  // Get services data
+  // Get services data (now from JSON files)
   const servicesEntries = await getCollection("services");
   const servicesData = servicesEntries
-    .sort((a, b) => a.data.order - b.data.order)
-    .map((entry) => ({
-      slug: entry.slug,
+    .sort((a: any, b: any) => a.data.order - b.data.order)
+    .map((entry: any) => ({
+      slug: entry.id,
       title: entry.data.title,
       description: entry.data.description,
       icon: entry.data.icon,

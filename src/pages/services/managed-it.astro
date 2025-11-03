@@ -1,0 +1,264 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Navigation from "../../components/Navigation";
+import { getNavigationData } from "@/lib/navigation-data";
+import { iconMap } from "@/lib/icons";
+import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import {
+  Server,
+  HeadphonesIcon,
+  Activity,
+  MapPin,
+  TrendingUp,
+  Clock,
+  Users,
+  Shield,
+  Zap,
+} from 'lucide-react';
+
+const service = await getEntry('services', 'managed-it');
+if (!service) {
+  return new Response(null, { status: 404 });
+}
+const { servicesData, recentPosts } = await getNavigationData();
+const IconComponent = iconMap[service.data.icon];
+---
+
+<Layout title={`${service.data.title} - BDK Inc`} description={service.data.description}>
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
+    <div class="absolute inset-0 gradient-mesh"></div>
+    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+
+    <div class="relative z-10">
+      <section class="py-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <!-- Hero Section -->
+          <div class="text-center mb-16">
+            <div class="inline-flex items-center justify-center p-4 rounded-2xl bg-linear-to-brr from-primary/10 to-secondary/10 mb-6 animate-in fade-in zoom-in duration-500 delay-100 fill-mode-both">
+              <IconComponent className="w-12 h-12 text-primary" />
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+              <span class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent">
+                {service.data.title}
+              </span>
+            </h1>
+            <p class="text-xl text-muted-foreground max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-3 duration-500 delay-400 fill-mode-both">
+              {service.data.description}
+            </p>
+          </div>
+
+          <!-- Main Content -->
+          <div class="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600 fill-mode-both">
+            <div class="max-w-7xl mx-auto">
+
+<div class="service-content-wrapper">
+
+<div class="max-w-4xl mx-auto not-prose">
+  <h2 class="text-3xl font-bold mb-6 text-foreground text-center">
+    Comprehensive IT Management for Your Business
+  </h2>
+  <div class="text-lg text-muted-foreground leading-relaxed mb-10 text-center">
+    Our managed IT services provide comprehensive support for all your
+    technology needs. With unlimited help desk support and both on-site and
+    remote assistance, we ensure your systems run smoothly 24/7. Let our
+    experienced technicians handle your IT infrastructure while you focus on
+    growing your business.
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Core Services</h3>
+
+<ServiceCardGrid>
+  <ServiceCard>
+    <div class="mb-6">
+      <HeadphonesIcon className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">Unlimited Help Desk</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      Get immediate assistance whenever you need it. Our dedicated support team is ready to
+      resolve your IT issues quickly and efficiently, minimizing downtime.
+    </div>
+  </ServiceCard>
+
+  <ServiceCard>
+    <div class="mb-6">
+      <Activity className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">Proactive Monitoring</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      We don't wait for problems to occur. Our advanced monitoring tools track
+      your systems 24/7, identifying and resolving potential issues before they
+      impact your operations.
+    </div>
+  </ServiceCard>
+
+  <ServiceCard>
+    <div class="mb-6">
+      <MapPin className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">Flexible Support</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      Whether you need hands-on assistance or quick remote troubleshooting, our technicians
+      are equipped to help with flexible support options that fit your business needs.
+    </div>
+  </ServiceCard>
+</ServiceCardGrid>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground mt-12">Why Choose Managed IT Services?</h3>
+
+<div class="mb-20 not-prose">
+  <p class="text-xl text-muted-foreground text-center mb-10">
+    Transform your technology from a cost center into a strategic advantage
+  </p>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Reduce IT Costs</h5>
+        <div class="text-muted-foreground text-sm">Outsource your IT infrastructure and eliminate the expense of maintaining an in-house IT department</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Improve Efficiency</h5>
+        <div class="text-muted-foreground text-sm">Let our experts handle technology so you can focus on core business operations</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Minimize Downtime</h5>
+        <div class="text-muted-foreground text-sm">Proactive monitoring and rapid response keep your systems running smoothly</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Scalable Solutions</h5>
+        <div class="text-muted-foreground text-sm">Our services grow with your business, adapting to your changing needs</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Key Benefits</h3>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mb-20">
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <Clock className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">24/7 Availability</h4>
+    <div class="text-muted-foreground">Round-the-clock monitoring and support ensures your business never stops</div>
+  </ServiceCard>
+
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <Users className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Expert Support</h4>
+    <div class="text-muted-foreground">
+      Access to experienced technicians with diverse technical expertise
+    </div>
+  </ServiceCard>
+
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <Shield className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Security First</h4>
+    <div class="text-muted-foreground">
+      Proactive security measures protect your data and systems
+    </div>
+  </ServiceCard>
+
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <TrendingUp className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Business Growth</h4>
+    <div class="text-muted-foreground">
+      Technology that scales with your business objectives
+    </div>
+  </ServiceCard>
+
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <Zap className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Rapid Response</h4>
+    <div class="text-muted-foreground">
+      Quick issue resolution minimizes disruption to your operations
+    </div>
+  </ServiceCard>
+
+  <ServiceCard className="p-6 bg-background/50 border-border border-2">
+    <div class="mb-4">
+      <Server className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Infrastructure Management</h4>
+    <div class="text-muted-foreground">Complete oversight of your IT infrastructure and assets</div>
+  </ServiceCard>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Our Approach</h3>
+
+<div class="mb-20 p-10 rounded-2xl border border-border bg-linear-to-br from-primary/10 to-secondary/10 not-prose">
+  <div class="text-lg text-muted-foreground text-center max-w-4xl mx-auto leading-relaxed">
+    We take a comprehensive approach to IT management, covering everything from
+    day-to-day support to strategic planning. Our team becomes an extension of
+    your business, understanding your unique challenges and delivering
+    customized solutions that drive results. Whether you're a small business
+    looking for reliable IT support or a growing company needing scalable
+    infrastructure management, we have the expertise and resources to keep your
+    technology running at peak performance.
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Why Choose BDK for Managed IT?</h3>
+
+<div class="text-center">
+  <div class="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
+    With decades of experience in IT management and support, we understand what
+    it takes to keep businesses running smoothly. Our proactive approach means
+    we're solving problems before they affect your operations. We combine
+    technical expertise with excellent customer service to deliver IT support
+    that truly makes a difference.
+  </div>
+  <div class="text-xl font-semibold text-primary">
+    Focus on your business. Let us handle your technology.
+  </div>
+</div>
+
+</div>
+
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center glass rounded-2xl p-12 animate-in fade-in zoom-in duration-500 delay-800 fill-mode-both">
+              <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                Ready to Get Started?
+              </h2>
+              <p class="text-xl text-muted-foreground mb-8">
+                Let's discuss how {service.data.title.toLowerCase()} can transform your business.
+              </p>
+              <a
+                href="/contact"
+                class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+              >
+                Contact Us Today
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>

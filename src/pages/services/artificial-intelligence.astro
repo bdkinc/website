@@ -1,0 +1,282 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Navigation from "../../components/Navigation";
+import { getNavigationData } from "@/lib/navigation-data";
+import { iconMap } from "@/lib/icons";
+import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import {
+  Sparkles,
+  Shield,
+  TrendingUp,
+  Zap,
+  Lock,
+  Users,
+  FileText,
+  BarChart3,
+  Target,
+} from "lucide-react";
+
+const service = await getEntry('services', 'artificial-intelligence');
+if (!service) {
+  return new Response(null, { status: 404 });
+}
+const { servicesData, recentPosts } = await getNavigationData();
+const IconComponent = iconMap[service.data.icon];
+---
+
+<Layout title={`${service.data.title} - BDK Inc`} description={service.data.description}>
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
+    <div class="absolute inset-0 gradient-mesh"></div>
+    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+
+    <div class="relative z-10">
+      <section class="py-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <div class="inline-flex items-center justify-center p-4 rounded-2xl bg-linear-to-brr from-primary/10 to-secondary/10 mb-6 animate-in fade-in zoom-in duration-500 delay-100 fill-mode-both">
+              <IconComponent className="w-12 h-12 text-primary" />
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+              <span class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent">
+                {service.data.title}
+              </span>
+            </h1>
+            <p class="text-xl text-muted-foreground max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-3 duration-500 delay-400 fill-mode-both">
+              {service.data.description}
+            </p>
+          </div>
+
+          <div class="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600 fill-mode-both">
+            <div class="max-w-7xl mx-auto">
+<div class="service-content-wrapper">
+
+<div class="max-w-4xl mx-auto not-prose">
+  <h2 class="text-3xl font-bold mb-6 text-foreground text-center">
+    Transform Your Business with AI
+  </h2>
+  <div class="text-lg text-muted-foreground leading-relaxed mb-10 text-center">
+    We design, build, and securely deploy production-ready AI solutions tailored to your business needs.
+    From generative AI assistants to predictive analytics, our AI services help you automate processes,
+    gain deeper insights, and deliver exceptional customer experiences.
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Our AI Services</h3>
+
+<ServiceCardGrid>
+  <ServiceCard>
+    <div class="mb-6">
+      <Sparkles className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">Generative AI</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      Leverage large language models to automate content creation, enhance customer interactions,
+      and streamline workflows with intelligent assistants.
+    </div>
+  </ServiceCard>
+
+  <ServiceCard>
+    <div class="mb-6">
+      <TrendingUp className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">Predictive Analytics</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      Make data-driven decisions with AI models that forecast trends, identify patterns, and
+      optimize operations for better business outcomes.
+    </div>
+  </ServiceCard>
+
+  <ServiceCard>
+    <div class="mb-6">
+      <Zap className="w-16 h-16 text-primary" />
+    </div>
+    <h4 class="text-2xl font-bold mb-4 text-primary">AI Integration</h4>
+    <div class="text-muted-foreground leading-relaxed">
+      Seamlessly integrate AI capabilities into your existing systems and workflows for automated
+      decision-making and real-time processing.
+    </div>
+  </ServiceCard>
+</ServiceCardGrid>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground mt-12">Generative AI Solutions</h3>
+
+<div class="mb-20 not-prose">
+  <p class="text-xl text-muted-foreground text-center mb-10">
+    Leverage the power of large language models to transform your operations
+  </p>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Custom AI Assistants</h5>
+        <div class="text-muted-foreground text-sm">Build intelligent chatbots and virtual assistants that understand your business context and deliver personalized experiences</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Document Processing</h5>
+        <div class="text-muted-foreground text-sm">Automate document analysis, summarization, and information extraction to save time and improve accuracy</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Content Generation</h5>
+        <div class="text-muted-foreground text-sm">Create marketing copy, technical documentation, and personalized communications at scale</div>
+      </div>
+    </div>
+
+    <div class="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
+      <div class="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
+      <div>
+        <h5 class="font-bold text-lg mb-1 text-foreground">Code Assistance</h5>
+        <div class="text-muted-foreground text-sm">Accelerate development with AI-powered code generation and review tools</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Predictive Analytics & Machine Learning</h3>
+
+<div class="mb-20 not-prose">
+  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+      <BarChart3 className="w-12 h-12 text-primary mb-4" />
+      <h5 class="font-bold text-lg mb-2 text-foreground">Demand Forecasting</h5>
+      <div class="text-muted-foreground text-sm">Predict customer demand to optimize inventory and resource allocation</div>
+    </div>
+
+    <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+      <Users className="w-12 h-12 text-primary mb-4" />
+      <h5 class="font-bold text-lg mb-2 text-foreground">Churn Prediction</h5>
+      <div class="text-muted-foreground text-sm">Identify at-risk customers before they leave</div>
+    </div>
+
+    <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+      <Target className="w-12 h-12 text-primary mb-4" />
+      <h5 class="font-bold text-lg mb-2 text-foreground">Anomaly Detection</h5>
+      <div class="text-muted-foreground text-sm">Automatically detect unusual patterns in operations, security, or quality</div>
+    </div>
+
+    <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+      <Sparkles className="w-12 h-12 text-primary mb-4" />
+      <h5 class="font-bold text-lg mb-2 text-foreground">Recommendation Systems</h5>
+      <div class="text-muted-foreground text-sm">Personalize customer experiences with intelligent recommendations</div>
+    </div>
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Why Choose BDK for AI?</h3>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mb-20">
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <Shield className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Security First</h4>
+    <div class="text-muted-foreground">Enterprise-grade security controls, data encryption, and compliance with industry standards</div>
+  </div>
+
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <Zap className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Production-Ready</h4>
+    <div class="text-muted-foreground">Built for reliability and scale with proper monitoring, error handling, and performance optimization</div>
+  </div>
+
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <Target className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Business-Focused</h4>
+    <div class="text-muted-foreground">We start with your business objectives and design AI solutions that deliver measurable ROI</div>
+  </div>
+
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <FileText className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Transparent & Explainable</h4>
+    <div class="text-muted-foreground">AI solutions that are interpretable and explainable for informed decision-making</div>
+  </div>
+
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <Users className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Ongoing Support</h4>
+    <div class="text-muted-foreground">Continuous monitoring and refinement to ensure your AI systems adapt as your business evolves</div>
+  </div>
+
+  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+    <div class="mb-4">
+      <Lock className="w-10 h-10 text-primary" />
+    </div>
+    <h4 class="text-xl font-bold mb-2 text-foreground">Responsible AI</h4>
+    <div class="text-muted-foreground">Committed to ethical AI with privacy protection, bias mitigation, and human oversight</div>
+  </div>
+</div>
+
+<h3 class="text-2xl font-bold mb-6 text-foreground">Our AI Development Process</h3>
+
+<div class="mb-20 p-10 rounded-2xl border border-border bg-linear-to-br from-primary/10 to-secondary/10 not-prose">
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="text-center">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">1</div>
+      <h5 class="font-bold text-lg mb-2 text-foreground">Discovery & Assessment</h5>
+      <div class="text-muted-foreground text-sm">Understand your business challenges and identify high-impact AI opportunities</div>
+    </div>
+    <div class="text-center">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">2</div>
+      <h5 class="font-bold text-lg mb-2 text-foreground">Data Evaluation</h5>
+      <div class="text-muted-foreground text-sm">Assess data quality, availability, and compliance requirements</div>
+    </div>
+    <div class="text-center">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">3</div>
+      <h5 class="font-bold text-lg mb-2 text-foreground">Proof of Concept</h5>
+      <div class="text-muted-foreground text-sm">Rapidly prototype solutions to validate feasibility and business value</div>
+    </div>
+    <div class="text-center">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">4</div>
+      <h5 class="font-bold text-lg mb-2 text-foreground">Development & Training</h5>
+      <div class="text-muted-foreground text-sm">Build and train custom AI models with your data</div>
+    </div>
+    <div class="text-center">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">5</div>
+      <h5 class="font-bold text-lg mb-2 text-foreground">Integration & Deployment</h5>
+      <div class="text-muted-foreground text-sm">Securely deploy AI into your production environment</div>
+    </div>
+    <div class="text-center">
+      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">6</div>
+      <h5 class="font-bold text-lg mb-2 text-foreground">Monitoring & Optimization</h5>
+      <div class="text-muted-foreground text-sm">Continuously monitor performance and refine models for better results</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+            </div>
+
+            <div class="text-center glass rounded-2xl p-12 animate-in fade-in zoom-in duration-500 delay-800 fill-mode-both">
+              <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">Ready to Get Started?</h2>
+              <p class="text-xl text-muted-foreground mb-8">
+                Let's discuss how {service.data.title.toLowerCase()} can transform your business.
+              </p>
+              <a href="/contact" class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm">
+                Contact Us Today
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>
