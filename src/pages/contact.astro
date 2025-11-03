@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Navigation from "../components/Navigation";
 import ContactChat from "../components/ContactChat";
+import { Card } from "@/components/ui/card";
 import { getNavigationData } from "@/lib/navigation-data";
 import { Logo } from "@/components/Logo";
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
@@ -61,8 +62,10 @@ const { servicesData, recentPosts } = await getNavigationData();
           </div>
 
           {/* Contact Information - Horizontal Layout */}
-          <div
-            class="glass rounded-xl p-8 fill-mode-both animate-in fade-in slide-in-from-right-4 duration-600 delay-400"
+          <Card
+            className="fill-mode-both animate-in fade-in slide-in-from-right-4 duration-600 delay-400"
+            size="lg"
+            interactive={false}
           >
             <h3 class="text-xl font-bold text-foreground mb-6 text-center">
               Other Ways to Reach Us
@@ -142,7 +145,7 @@ const { servicesData, recentPosts } = await getNavigationData();
                 </p>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
       </section>
     </div>

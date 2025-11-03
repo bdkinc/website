@@ -18,6 +18,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
+import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 
 <div className="max-w-4xl mx-auto not-prose">
   <h2 className="text-3xl font-bold mb-6 text-foreground text-center">
@@ -34,8 +35,8 @@ import {
 
 ### What We Manage on IBM Power
 
-<div className="grid md:grid-cols-3 gap-8 not-prose mb-20">
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+<ServiceCardGrid className="lg:grid-cols-2">
+  <ServiceCard>
     <div className="mb-6">
       <Wrench className="icon-xl text-primary" />
     </div>
@@ -43,9 +44,9 @@ import {
     <div className="text-muted-foreground leading-relaxed">
       Installation, configuration, microcode planning, and maintenance for Power Systems racks, frames, and peripherals.
     </div>
-  </div>
+  </ServiceCard>
 
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+  <ServiceCard>
     <div className="mb-6">
       <Server className="icon-xl text-primary" />
     </div>
@@ -53,9 +54,9 @@ import {
     <div className="text-muted-foreground leading-relaxed">
       Partitioning, virtual I/O, networking, and storage mapping—built for high availability and performance.
     </div>
-  </div>
+  </ServiceCard>
 
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+  <ServiceCard>
     <div className="mb-6">
       <RefreshCw className="icon-xl text-primary" />
     </div>
@@ -63,9 +64,9 @@ import {
     <div className="text-muted-foreground leading-relaxed">
       PTFs and patching for IBM i (IBMi), AIX, Red Hat, and Ubuntu; security hardening, user and access controls, backup and recovery.
     </div>
-  </div>
+  </ServiceCard>
 
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+  <ServiceCard>
     <div className="mb-6">
       <TrendingUp className="icon-xl text-primary" />
     </div>
@@ -73,9 +74,9 @@ import {
     <div className="text-muted-foreground leading-relaxed">
       Monitoring, tuning, and capacity planning to reduce risk, control cost, and meet SLAs for mixed‑OS estates.
     </div>
-  </div>
+  </ServiceCard>
 
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+  <ServiceCard>
     <div className="mb-6">
       <ShieldCheck className="icon-xl text-primary" />
     </div>
@@ -83,9 +84,9 @@ import {
     <div className="text-muted-foreground leading-relaxed">
       HA/DR architectures for IBM i, AIX, and Linux on Power; backup strategy, testing, and incident response.
     </div>
-  </div>
+  </ServiceCard>
 
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+  <ServiceCard>
     <div className="mb-6">
       <Cloud className="icon-xl text-primary" />
     </div>
@@ -93,8 +94,8 @@ import {
     <div className="text-muted-foreground leading-relaxed">
       Connect Power workloads with cloud services, shared storage, and enterprise tooling without compromising security.
     </div>
-  </div>
-</div>
+  </ServiceCard>
+</ServiceCardGrid>
 
 ### Why IBM Power for the Enterprise?
 

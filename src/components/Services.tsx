@@ -36,6 +36,13 @@ export default function Services({ services }: ServicesProps) {
   });
 
   useEffect(() => {
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    
+    if (prefersReducedMotion) {
+      return;
+    }
+
     const listeners = [];
 
     iconRefs.current.forEach((icon) => {
@@ -100,7 +107,7 @@ export default function Services({ services }: ServicesProps) {
                 key={service.slug}
                 href={`/services/${service.slug}`}
                 className={cn(
-                  "block group",
+                  "block group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                   "opacity-0 translate-y-6 transition-[opacity,transform] duration-600 ease-out",
                   gridInView && "opacity-100 translate-y-0"
                 )}
@@ -108,10 +115,8 @@ export default function Services({ services }: ServicesProps) {
                   transitionDelay: gridInView ? `${delayMs}ms` : '0ms'
                 }}
               >
-                <Card className={cn(
-                  "h-full cursor-pointer transition-all duration-300 flex flex-col justify-center",
-                  "border-border hover:border-primary/50",
-                  "hover:scale-105 hover:shadow-[--shadow-glow-sm]"
+                <Card interactive={true} className={cn(
+                  "h-full cursor-pointer transition-all duration-300 flex flex-col justify-center"
                 )}>
                   <CardHeader className="text-center flex flex-col items-center justify-center flex-1">
                     <div

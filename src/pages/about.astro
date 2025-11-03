@@ -1,82 +1,93 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Navigation from "../components/Navigation";
-import CTASection from "../components/CTASection";
-import { getNavigationData } from "@/lib/navigation-data";
-import { Logo } from "@/components/Logo";
-import { Rocket, Eye, Target, Lightbulb, Shield, Users, Award, Clock, Box } from "lucide-react";
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation';
+import CTASection from '../components/CTASection';
+import { Card } from '@/components/ui/card';
+import { getNavigationData } from '@/lib/navigation-data';
+import { Logo } from '@/components/Logo';
+import {
+  Rocket,
+  Eye,
+  Target,
+  Lightbulb,
+  Shield,
+  Users,
+  Award,
+  Clock,
+  Box,
+} from 'lucide-react';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
 // Company values data
 const values = [
   {
-    icon: "Target",
-    title: "Client-Focused",
+    icon: 'Target',
+    title: 'Client-Focused',
     description:
-      "Your success is our success. We tailor solutions to meet your unique business needs.",
+      'Your success is our success. We tailor solutions to meet your unique business needs.',
   },
   {
-    icon: "Lightbulb",
-    title: "Innovation",
+    icon: 'Lightbulb',
+    title: 'Innovation',
     description:
-      "We stay ahead of technology trends to bring you cutting-edge solutions.",
+      'We stay ahead of technology trends to bring you cutting-edge solutions.',
   },
   {
-    icon: "Shield",
-    title: "Reliability",
+    icon: 'Shield',
+    title: 'Reliability',
     description:
-      "25+ years of proven track record delivering consistent, dependable IT services.",
+      '25+ years of proven track record delivering consistent, dependable IT services.',
   },
   {
-    icon: "Users",
-    title: "Partnership",
+    icon: 'Users',
+    title: 'Partnership',
     description:
       "We're not just vendors—we're your long-term technology partners.",
   },
   {
-    icon: "Award",
-    title: "Excellence",
+    icon: 'Award',
+    title: 'Excellence',
     description:
-      "We maintain the highest standards in service delivery and customer satisfaction.",
+      'We maintain the highest standards in service delivery and customer satisfaction.',
   },
   {
-    icon: "Clock",
-    title: "24/7 Support",
+    icon: 'Clock',
+    title: '24/7 Support',
     description:
-      "Round-the-clock availability because your business never stops.",
+      'Round-the-clock availability because your business never stops.',
   },
 ];
 
 // Milestones data
 const milestones = [
   {
-    year: "1999",
-    title: "Founded",
+    year: '1999',
+    title: 'Founded',
     description:
-      "BDK Inc was established with a vision to simplify IT for businesses.",
+      'BDK Inc was established with a vision to simplify IT for businesses.',
   },
   {
-    year: "2005",
-    title: "Cloud Services",
-    description: "Expanded into cloud hosting and virtualization services.",
+    year: '2005',
+    title: 'Cloud Services',
+    description: 'Expanded into cloud hosting and virtualization services.',
   },
   {
-    year: "2012",
-    title: "Cybersecurity",
+    year: '2012',
+    title: 'Cybersecurity',
     description:
-      "Launched comprehensive cybersecurity and compliance services.",
+      'Launched comprehensive cybersecurity and compliance services.',
   },
   {
-    year: "2020",
-    title: "AI Integration",
+    year: '2020',
+    title: 'AI Integration',
     description:
-      "Pioneered AI and machine learning solutions for business automation.",
+      'Pioneered AI and machine learning solutions for business automation.',
   },
   {
-    year: "2024",
-    title: "500+ Clients",
-    description: "Serving over 500 businesses with comprehensive IT solutions.",
+    year: '2024',
+    title: '500+ Clients',
+    description: 'Serving over 500 businesses with comprehensive IT solutions.',
   },
 ];
 ---
@@ -86,29 +97,29 @@ const milestones = [
   description="Learn about BDK Inc's 25+ year journey of delivering exceptional managed IT services, cloud hosting, and cybersecurity solutions to businesses."
 >
   <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
+  <main id="main-content" class="relative -mt-16 min-h-screen pt-16">
     {/* Gradient background */}
-    <div class="absolute inset-0 gradient-mesh"></div>
+    <div class="gradient-mesh absolute inset-0"></div>
 
     {/* Circuit board pattern overlay */}
-    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+    <div class="circuit-overlay absolute inset-0 opacity-40"></div>
 
     {/* Content */}
     <div class="relative z-10">
       {/* Hero Section */}
-      <section class="py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto text-center pt-8 md:pt-12 lg:pt-16">
+      <section class="px-4 py-24 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-4xl pt-8 text-center md:pt-12 lg:pt-16">
           <h1
-            class="text-5xl md:text-6xl font-bold mb-6 fill-mode-both animate-in fade-in slide-in-from-bottom-8 duration-700"
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold duration-700 md:text-6xl"
           >
             <span class="text-foreground">IT Made Simple Since </span>
             <span
-              class="bg-linear-to-br to-secondary from-primary text-transparent bg-clip-text"
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
               >1999</span
             >
           </h1>
           <p
-            class="text-xl md:text-2xl text-muted-foreground leading-relaxed fill-mode-both animate-in fade-in slide-in-from-bottom-6 duration-700 delay-200"
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
           >
             For over 25 years, BDK Inc has been the trusted technology partner
             for businesses seeking reliable, innovative IT solutions. We
@@ -119,100 +130,114 @@ const milestones = [
       </section>
 
       {/* Mission & Vision Section */}
-      <section class="py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-          <div class="grid md:grid-cols-2 gap-12">
-            {/* Mission */}
-            <div
-              class="glass rounded-2xl p-8 md:p-10 hover:scale-105 transition-transform flex flex-col items-center justify-center text-center h-full fill-mode-both animate-in fade-in slide-in-from-left-8 duration-700 delay-300"
+      <section class="px-4 py-24 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <div class="grid gap-12 md:grid-cols-2">
+            {/* Mission - using Card component */}
+            <Card
+              className="fill-mode-both animate-in fade-in slide-in-from-left-8 flex h-full flex-col items-center justify-center text-center delay-300 duration-700"
+              size="lg"
+              interactive={false}
             >
               <div class="mb-6">
                 <div
-                  class="inline-flex items-center justify-center p-4 rounded-lg bg-primary/10"
+                  class="bg-primary/10 inline-flex items-center justify-center rounded-lg p-4"
                 >
                   <Rocket className="icon-lg text-primary" />
                 </div>
               </div>
-              <h2 class="text-3xl font-bold mb-4 text-foreground text-center">
+              <h2 class="text-foreground mb-4 text-center text-3xl font-bold">
                 Our Mission
               </h2>
               <p
-                class="text-lg text-muted-foreground leading-relaxed text-center max-w-lg mx-auto"
+                class="text-muted-foreground mx-auto max-w-lg text-center text-lg leading-relaxed"
               >
                 To empower businesses through innovative technology solutions
                 that simplify IT infrastructure, enhance security, and drive
                 operational efficiency. We're committed to being more than just
                 a service provider—we're your strategic technology partner.
               </p>
-            </div>
+            </Card>
 
-            {/* Vision */}
-            <div
-              class="glass rounded-2xl p-8 md:p-10 hover:scale-105 transition-transform flex flex-col items-center justify-center text-center h-full fill-mode-both animate-in fade-in slide-in-from-right-8 duration-700 delay-400"
+            {/* Vision - using Card component */}
+            <Card
+              className="fill-mode-both animate-in fade-in slide-in-from-right-8 flex h-full flex-col items-center justify-center text-center delay-400 duration-700"
+              size="lg"
+              interactive={false}
             >
               <div class="mb-6">
                 <div
-                  class="inline-flex items-center justify-center p-4 rounded-lg bg-secondary/10"
+                  class="bg-secondary/10 inline-flex items-center justify-center rounded-lg p-4"
                 >
                   <Eye className="icon-lg text-secondary" />
                 </div>
               </div>
-              <h2 class="text-3xl font-bold mb-4 text-foreground text-center">
+              <h2 class="text-foreground mb-4 text-center text-3xl font-bold">
                 Our Vision
               </h2>
               <p
-                class="text-lg text-muted-foreground leading-relaxed text-center max-w-lg mx-auto"
+                class="text-muted-foreground mx-auto max-w-lg text-center text-lg leading-relaxed"
               >
                 To be the most trusted IT partner for businesses seeking to
                 leverage technology for competitive advantage. We envision a
                 future where businesses of all sizes can access enterprise-grade
                 IT solutions with simplicity and confidence.
               </p>
-            </div>
+            </Card>
           </div>
         </div>
       </section>
 
       {/* Values Section */}
-      <section class="py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-          <div class="text-center mb-16">
+      <section class="px-4 py-24 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <div class="mb-16 text-center">
             <h2
-              class="text-4xl md:text-5xl font-bold mb-4 fill-mode-both animate-in fade-in slide-in-from-bottom-8 duration-600"
+              class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
             >
               <span class="text-foreground">Our </span>
               <span class="text-primary">Values</span>
             </h2>
             <p
-              class="text-xl text-muted-foreground max-w-2xl mx-auto fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-600 delay-100"
+              class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
             >
               The principles that guide everything we do
             </p>
           </div>
 
           {/* Values Grid */}
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {
               values.map((value, index) => {
-                const iconMap = { Target, Lightbulb, Shield, Users, Award, Clock, Box };
+                const iconMap = {
+                  Target,
+                  Lightbulb,
+                  Shield,
+                  Users,
+                  Award,
+                  Clock,
+                  Box,
+                };
                 const IconComponent =
                   iconMap[value.icon as keyof typeof iconMap] || Box;
                 return (
-                  <div
-                    class={`glass rounded-xl p-6 hover:scale-105 hover:shadow-[--shadow-glow-sm] transition-all duration-300 flex flex-col items-center justify-center text-center h-full fill-mode-both animate-in fade-in zoom-in duration-600 delay-${200 + index * 100}`}
+                  <Card
+                    className={`fill-mode-both animate-in fade-in zoom-in flex h-full flex-col items-center justify-center text-center duration-600 delay-${200 + index * 100}`}
+                    size="default"
+                    interactive={false}
                   >
                     <div class="mb-4">
-                      <div class="inline-flex items-center justify-center p-3 rounded-lg bg-primary/10">
+                      <div class="bg-primary/10 inline-flex items-center justify-center rounded-lg p-3">
                         <IconComponent className="icon-md text-primary" />
                       </div>
                     </div>
-                    <h3 class="text-xl font-bold text-foreground mb-3 text-center">
+                    <h3 class="text-foreground mb-3 text-center text-xl font-bold">
                       {value.title}
                     </h3>
                     <p class="text-muted-foreground text-center">
                       {value.description}
                     </p>
-                  </div>
+                  </Card>
                 );
               })
             }
@@ -221,17 +246,17 @@ const milestones = [
       </section>
 
       {/* Journey/Timeline Section */}
-      <section class="py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-5xl mx-auto">
-          <div class="text-center mb-16">
+      <section class="px-4 py-24 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-5xl">
+          <div class="mb-16 text-center">
             <h2
-              class="text-4xl md:text-5xl font-bold mb-4 fill-mode-both animate-in fade-in slide-in-from-bottom-8 duration-600"
+              class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
             >
               <span class="text-foreground">Our </span>
               <span class="text-primary">Journey</span>
             </h2>
             <p
-              class="text-xl text-muted-foreground max-w-2xl mx-auto fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-600 delay-100"
+              class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
             >
               A legacy of innovation and excellence
             </p>
@@ -241,7 +266,7 @@ const milestones = [
           <div class="relative">
             {/* Vertical line */}
             <div
-              class="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-primary"
+              class="from-primary via-secondary to-primary absolute top-0 bottom-0 left-8 w-0.5 bg-gradient-to-b md:left-1/2"
             >
             </div>
 
@@ -251,33 +276,35 @@ const milestones = [
                   const isEven = index % 2 === 0;
                   return (
                     <div
-                      class={`relative ${isEven ? "md:text-right" : "md:text-left"}`}
+                      class={`relative ${isEven ? 'md:text-right' : 'md:text-left'}`}
                     >
                       <div
-                        class={`md:grid md:grid-cols-2 md:gap-8 ${isEven ? "" : "md:flex-row-reverse"}`}
+                        class={`md:grid md:grid-cols-2 md:gap-8 ${isEven ? '' : 'md:flex-row-reverse'}`}
                       >
                         <div
                           class={
-                            isEven ? "md:pr-12" : "md:col-start-2 md:pl-12"
+                            isEven ? 'md:pr-12' : 'md:col-start-2 md:pl-12'
                           }
                         >
-                          <div
-                            class={`glass rounded-xl p-6 ml-16 md:ml-0 hover:scale-105 transition-transform duration-300 fill-mode-both animate-in ${index % 2 === 0 ? "slide-in-from-left-8" : "slide-in-from-right-8"} fade-in duration-700 delay-${200 + index * 100}`}
+                          <Card
+                            className={`fill-mode-both animate-in ml-16 md:ml-0 ${index % 2 === 0 ? 'slide-in-from-left-8' : 'slide-in-from-right-8'} fade-in duration-700 delay-${200 + index * 100}`}
+                            size="default"
+                            interactive={false}
                           >
-                            <div class="text-3xl font-bold text-primary mb-2">
+                            <div class="text-primary mb-2 text-3xl font-bold">
                               {milestone.year}
                             </div>
-                            <h3 class="text-xl font-bold text-foreground mb-2">
+                            <h3 class="text-foreground mb-2 text-xl font-bold">
                               {milestone.title}
                             </h3>
                             <p class="text-muted-foreground">
                               {milestone.description}
                             </p>
-                          </div>
+                          </Card>
                         </div>
                       </div>
                       {/* Timeline dot */}
-                      <div class="absolute left-8 md:left-1/2 top-6 w-4 h-4 -ml-2 rounded-full bg-primary ring-4 ring-background shadow-[--shadow-glow-sm]" />
+                      <div class="bg-primary ring-background absolute top-6 left-8 -ml-2 h-4 w-4 rounded-full shadow-[--shadow-glow-sm] ring-4 md:left-1/2" />
                     </div>
                   );
                 })
@@ -289,12 +316,12 @@ const milestones = [
 
       {/* Why Choose Us Section */}
       <section
-        class="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-primary/5 to-transparent"
+        class="via-primary/5 bg-gradient-to-b from-transparent to-transparent px-4 py-24 sm:px-6 lg:px-8"
       >
-        <div class="max-w-4xl mx-auto">
-          <div class="text-center mb-12">
+        <div class="mx-auto max-w-4xl">
+          <div class="mb-12 text-center">
             <h2
-              class="text-4xl md:text-5xl font-bold mb-4 fill-mode-both animate-in fade-in slide-in-from-bottom-8 duration-600"
+              class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
             >
               <span class="text-foreground">Why Choose </span>
               <span class="text-primary">BDK Inc</span>
@@ -302,10 +329,12 @@ const milestones = [
             </h2>
           </div>
 
-          <div
-            class="glass rounded-2xl p-8 md:p-12 fill-mode-both animate-in fade-in zoom-in duration-700 delay-200"
+          <Card
+            className="fill-mode-both animate-in fade-in zoom-in delay-200 duration-700"
+            size="lg"
+            interactive={false}
           >
-            <div class="space-y-6 text-lg text-muted-foreground">
+            <div class="text-muted-foreground space-y-6 text-lg">
               <p class="leading-relaxed">
                 <strong class="text-foreground">Experience That Matters:</strong
                 > With over 25 years in the industry, we've seen technology evolve
@@ -339,7 +368,7 @@ const milestones = [
                 cloud solutions that give you a competitive edge.
               </p>
             </div>
-          </div>
+          </Card>
         </div>
       </section>
 
@@ -355,10 +384,10 @@ const milestones = [
   </main>
 
   {/* Footer */}
-  <footer class="py-12 px-4 sm:px-6 lg:px-8 relative">
-    <div class="absolute inset-0 gradient-mesh opacity-50"></div>
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div class="gradient-mesh absolute inset-0 opacity-50"></div>
     <div
-      class="max-w-7xl mx-auto text-center flex flex-col items-center relative z-10"
+      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
     >
       <div>
         <Logo />
@@ -366,7 +395,7 @@ const milestones = [
       <p class="text-muted-foreground mb-4">
         Your trusted technology partner since 1999
       </p>
-      <p class="text-sm text-muted-foreground/70">
+      <p class="text-muted-foreground/70 text-sm">
         &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
       </p>
     </div>

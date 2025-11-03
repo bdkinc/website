@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Navigation from "../components/Navigation";
 import { getCollection } from "astro:content";
 import { Calendar, User, Tag } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { getNavigationData } from "@/lib/navigation-data";
 
 const { servicesData, recentPosts } = await getNavigationData();
@@ -75,7 +76,7 @@ function formatDate(date: Date): string {
                     class="block group fill-mode-both animate-in fade-in slide-in-from-bottom-6 duration-600"
                     style={{ animationDelay: `${delayMs}ms` }}
                   >
-                    <div class="glass rounded-2xl p-6 border border-border hover:border-primary/50 hover:scale-105 hover:shadow-[--shadow-glow-sm] transition-all duration-300 h-full flex flex-col">
+                    <Card size="default" interactive={true} className="h-full flex flex-col">
                       <div class="mb-4">
                         <div class="flex items-center gap-4 text-sm text-muted-foreground mb-4">
                           <div class="flex items-center gap-1">
@@ -131,7 +132,7 @@ function formatDate(date: Date): string {
                           </svg>
                         </div>
                       </div>
-                    </div>
+                    </Card>
                   </a>
                 );
               })
@@ -152,22 +153,22 @@ function formatDate(date: Date): string {
 
       <!-- CTA Section -->
       <section class="py-24 px-4 sm:px-6 lg:px-8">
-        <div
-          class="max-w-4xl mx-auto text-center glass rounded-2xl p-12 fill-mode-both animate-in fade-in zoom-in duration-700 delay-700"
-        >
-          <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-            Stay Updated with IT Insights
-          </h2>
-          <p class="text-xl text-muted-foreground mb-8">
-            Want to discuss how these insights can help your business? Let's
-            talk.
-          </p>
-          <a
-            href="/contact"
-            class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm hover:shadow-[--shadow-glow-sm] duration-300"
-          >
-            Get in Touch
-          </a>
+        <div class="max-w-4xl mx-auto text-center fill-mode-both animate-in fade-in zoom-in duration-700 delay-700">
+          <Card size="xl" interactive={false}>
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+              Stay Updated with IT Insights
+            </h2>
+            <p class="text-xl text-muted-foreground mb-8">
+              Want to discuss how these insights can help your business? Let's
+              talk.
+            </p>
+            <a
+              href="/contact"
+              class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm hover:shadow-[--shadow-glow-sm] duration-300"
+            >
+              Get in Touch
+            </a>
+          </Card>
         </div>
       </section>
     </div>

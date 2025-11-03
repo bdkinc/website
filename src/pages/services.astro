@@ -1,47 +1,51 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Navigation from "../components/Navigation";
-import { getNavigationData } from "@/lib/navigation-data";
-import { getCollection } from "astro:content";
-import { Box } from "lucide-react";
-import { cardVariants } from "@/lib/card-variants";
-import { iconMap } from "@/lib/icons";
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation';
+import { getNavigationData } from '@/lib/navigation-data';
+import { getCollection } from 'astro:content';
+import { Box } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { iconMap } from '@/lib/icons';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
 // Get all services from the content collection
-const allServices = await getCollection("services");
+const allServices = await getCollection('services');
 // Sort by order field
 const services = allServices.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Layout title="IT Services | Managed Services, Cloud Hosting, Cybersecurity | BDK Inc">
+<Layout
+  title="IT Services | Managed Services, Cloud Hosting, Cybersecurity | BDK Inc"
+>
   <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
+  <main id="main-content" class="relative -mt-16 min-h-screen pt-16">
     {/* Gradient background */}
-    <div class="absolute inset-0 gradient-mesh"></div>
+    <div class="gradient-mesh absolute inset-0"></div>
 
     {/* Circuit board pattern overlay */}
-    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+    <div class="circuit-overlay absolute inset-0 opacity-40"></div>
 
     {/* Content */}
     <div class="relative z-10">
-      <section class="py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-          <div class="text-center mb-16">
-            <h1 class="text-5xl md:text-6xl font-bold mb-4 fill-mode-both animate-in fade-in slide-in-from-top-6 duration-700">
+      <section class="px-4 py-24 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <div class="mb-16 text-center">
+            <h1
+              class="fill-mode-both animate-in fade-in slide-in-from-top-6 mb-4 text-5xl font-bold duration-700 md:text-6xl"
+            >
               <span class="text-foreground">Our </span>
-              <span class="text-primary">
-                Services
-              </span>
+              <span class="text-primary"> Services </span>
             </h1>
-            <p class="text-xl text-muted-foreground max-w-2xl mx-auto fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-600 delay-200">
+            <p
+              class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-200 duration-600"
+            >
               Comprehensive IT solutions designed to help your business thrive
             </p>
           </div>
 
           {/* 3x3 Grid Layout */}
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {
               services.map((service, index) => {
                 // Get the icon component dynamically
@@ -52,45 +56,47 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
                 return (
                   <a
                     href={`/services/${service.slug}`}
-                    class={`group ${cardVariants({ variant: "glass", size: "lg", hover: "both" })} fill-mode-both animate-in fade-in slide-in-from-bottom-6 duration-600`}
+                    class={`group block fill-mode-both animate-in fade-in slide-in-from-bottom-6 duration-600`}
                     style={{ animationDelay: `${delayMs}ms` }}
                   >
-                    <div class="flex flex-col items-center text-center h-full p-8">
-                      {/* Icon - with scale-pop animation on interaction */}
-                      <div class="mb-6 service-icon-wrapper">
-                        <div class="inline-flex items-center justify-center p-3 rounded-lg bg-primary/5 group-hover:scale-115 group-hover:rotate-5 transition-transform duration-300">
-                          <IconComponent className="icon-lg text-primary" />
+                    <Card size="lg" interactive={true} className="h-full cursor-pointer flex flex-col justify-center">
+                      <div class="flex h-full flex-col items-center text-center">
+                        {/* Icon - with scale-pop animation on interaction */}
+                        <div class="service-icon-wrapper mb-6">
+                          <div class="bg-primary/5 inline-flex items-center justify-center rounded-lg p-3 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-5">
+                            <IconComponent className="icon-lg text-primary" />
+                          </div>
+                        </div>
+
+                        {/* Title */}
+                        <h2 class="text-foreground group-hover:text-primary mb-3 text-2xl font-bold transition-colors duration-300">
+                          {service.data.title}
+                        </h2>
+
+                        {/* Description */}
+                        <p class="text-muted-foreground mb-6 grow">
+                          {service.data.description}
+                        </p>
+
+                        {/* Learn More Link */}
+                        <div class="text-primary flex items-center font-medium transition-all duration-300 group-hover:gap-2">
+                          <span>Learn More</span>
+                          <svg
+                            class="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
                         </div>
                       </div>
-
-                      {/* Title */}
-                      <h2 class="text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
-                        {service.data.title}
-                      </h2>
-
-                      {/* Description */}
-                      <p class="text-muted-foreground mb-6 grow">
-                        {service.data.description}
-                      </p>
-
-                      {/* Learn More Link */}
-                      <div class="flex items-center text-primary font-medium group-hover:gap-2 transition-all duration-300">
-                        <span>Learn More</span>
-                        <svg
-                          class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </div>
-                    </div>
+                    </Card>
                   </a>
                 );
               })
@@ -98,21 +104,25 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
           </div>
 
           {/* CTA Section */}
-          <div class="mt-16 text-center glass rounded-2xl p-12 fill-mode-both animate-in fade-in zoom-in duration-700 delay-700">
-            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+          <Card
+            className="fill-mode-both animate-in fade-in zoom-in mt-16 text-center delay-700 duration-700"
+            size="xl"
+            interactive={false}
+          >
+            <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
               Ready to Get Started?
             </h2>
-            <p class="text-xl text-muted-foreground mb-8">
+            <p class="text-muted-foreground mb-8 text-xl">
               Contact us today to discuss how our services can help your
               business grow.
             </p>
             <a
               href="/contact"
-              class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm hover:shadow-[--shadow-glow-sm] duration-300"
+              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
             >
               Contact Us
             </a>
-          </div>
+          </Card>
         </div>
       </section>
     </div>

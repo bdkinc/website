@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { cn } from '@/lib/utils'
+import { Card } from '@/components/ui/card'
 import { useIntersectionObserver } from '@/lib/hooks/useIntersectionObserver'
 
 interface CTASectionProps {
@@ -65,10 +66,14 @@ export default function CTASection({
       <div 
         ref={sectionRef as any}
         className={cn(
-          "max-w-4xl mx-auto text-center glass rounded-2xl p-12",
+          "max-w-4xl mx-auto text-center",
           "opacity-0 scale-95 transition-[opacity,transform] duration-500 ease-out",
           sectionInView && "opacity-100 scale-100"
         )}
+      >
+      <Card 
+        size="xl"
+        className="opacity-100"
       >
         <h2 
           className={cn(
@@ -103,6 +108,7 @@ export default function CTASection({
         >
           {buttonText}
         </a>
+        </Card>
       </div>
     </section>
   )

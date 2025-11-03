@@ -19,6 +19,7 @@ import {
   DollarSign,
   Users,
 } from "lucide-react";
+import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 
 <div className="max-w-4xl mx-auto not-prose">
   <h2 className="text-3xl font-bold mb-6 text-foreground text-center">
@@ -33,8 +34,8 @@ import {
 
 ### Stop Drowning in Data
 
-<div className="grid md:grid-cols-3 gap-8 not-prose mb-20">
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+<ServiceCardGrid>
+  <ServiceCard>
     <div className="mb-6">
       <Clock className="w-16 h-16 text-primary" />
     </div>
@@ -43,9 +44,9 @@ import {
       Stop spending hours creating reports in spreadsheets. Our automated analytics solutions pull
       data from your systems and generate reports automatically—daily, weekly, or in real-time.
     </div>
-  </div>
+  </ServiceCard>
 
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+  <ServiceCard>
     <div className="mb-6">
       <Zap className="w-16 h-16 text-primary" />
     </div>
@@ -54,9 +55,9 @@ import {
       Don't make decisions based on yesterday's data. Our analytics platforms provide real-time
       visibility into your operations with up-to-the-minute information.
     </div>
-  </div>
+  </ServiceCard>
 
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+  <ServiceCard>
     <div className="mb-6">
       <Target className="w-16 h-16 text-primary" />
     </div>
@@ -65,8 +66,8 @@ import {
       We create custom dashboards tailored to your specific needs, displaying the KPIs and metrics
       that matter most to your operation. See your entire business at a glance.
     </div>
-  </div>
-</div>
+  </ServiceCard>
+</ServiceCardGrid>
 
 ### Our Analytics Services
 

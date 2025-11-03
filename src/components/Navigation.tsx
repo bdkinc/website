@@ -251,7 +251,7 @@ export default function Navigation({
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden border-t bg-background">
+        <div className="md:hidden border-t glass">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {/* Home */}
             <a
