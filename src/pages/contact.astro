@@ -6,6 +6,7 @@ import { getNavigationData } from "@/lib/navigation-data";
 import { Logo } from "@/components/Logo";
 import { Phone, Mail, Clock, MapPin } from "lucide-react";
 
+
 const { servicesData, recentPosts } = await getNavigationData();
 ---
 
@@ -23,7 +24,9 @@ const { servicesData, recentPosts } = await getNavigationData();
       {/* Header Section */}
       <section class="py-24 text-center">
         <div class="max-w-7xl mx-auto space-y-8">
-          <h1 class="text-5xl md:text-6xl font-bold tracking-tight">
+          <h1
+            class="text-5xl md:text-6xl font-bold tracking-tight fill-mode-both animate-in fade-in slide-in-from-top-6 duration-700"
+          >
             <span class="text-foreground">Let's </span>
             <span
               class="bg-linear-to-br from-brand-primary to-brand-secondary bg-clip-text text-transparent"
@@ -33,7 +36,7 @@ const { servicesData, recentPosts } = await getNavigationData();
           </h1>
 
           <p
-            class="max-w-2xl mx-auto text-xl md:text-2xl text-muted-foreground dark:text-cyan-100"
+            class="max-w-2xl mx-auto text-xl md:text-2xl text-muted-foreground dark:text-cyan-100 fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-600 delay-200"
           >
             Ready to transform your IT infrastructure? Our team is here to help
             24/7.
@@ -45,7 +48,7 @@ const { servicesData, recentPosts } = await getNavigationData();
       <section class="pb-16 px-4 sm:px-6 lg:px-8">
         <div class="max-w-5xl mx-auto space-y-8">
           {/* AI Chat Interface - Centered */}
-          <div>
+          <div class="fill-mode-both animate-in fade-in slide-in-from-left-4 duration-600 delay-300">
             <h2 class="text-2xl font-bold mb-6 text-center">
               <span class="text-foreground">Send us a </span>
               <span
@@ -55,13 +58,12 @@ const { servicesData, recentPosts } = await getNavigationData();
               </span>
             </h2>
             <ContactChat client:only="react" />
-            <p class="text-center text-sm text-muted-foreground mt-4">
-              We respond within one business day. Your information is kept confidential.
-            </p>
           </div>
 
           {/* Contact Information - Horizontal Layout */}
-          <div class="glass rounded-xl p-8">
+          <div
+            class="glass rounded-xl p-8 fill-mode-both animate-in fade-in slide-in-from-right-4 duration-600 delay-400"
+          >
             <h3 class="text-xl font-bold text-foreground mb-6 text-center">
               Other Ways to Reach Us
             </h3>
@@ -69,9 +71,11 @@ const { servicesData, recentPosts } = await getNavigationData();
               class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
             >
               {/* Phone */}
-              <div class="flex flex-col items-center text-center group">
+              <div
+                class="flex flex-col items-center text-center group fill-mode-both animate-in fade-in zoom-in duration-600 delay-500"
+              >
                 <div
-                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 transition-colors"
+                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 group-hover:scale-110 transition-all duration-300"
                 >
                   <Phone className="w-6 h-6 text-brand-primary" />
                 </div>
@@ -85,9 +89,11 @@ const { servicesData, recentPosts } = await getNavigationData();
               </div>
 
               {/* Email */}
-              <div class="flex flex-col items-center text-center group">
+              <div
+                class="flex flex-col items-center text-center group fill-mode-both animate-in fade-in zoom-in duration-600 delay-600"
+              >
                 <div
-                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 transition-colors"
+                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 group-hover:scale-110 transition-all duration-300"
                 >
                   <Mail className="w-6 h-6 text-brand-primary" />
                 </div>
@@ -101,9 +107,11 @@ const { servicesData, recentPosts } = await getNavigationData();
               </div>
 
               {/* Location */}
-              <div class="flex flex-col items-center text-center group">
+              <div
+                class="flex flex-col items-center text-center group fill-mode-both animate-in fade-in zoom-in duration-600 delay-700"
+              >
                 <div
-                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 transition-colors"
+                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 group-hover:scale-110 transition-all duration-300"
                 >
                   <MapPin className="w-6 h-6 text-brand-primary" />
                 </div>
@@ -119,9 +127,11 @@ const { servicesData, recentPosts } = await getNavigationData();
               </div>
 
               {/* Hours */}
-              <div class="flex flex-col items-center text-center group">
+              <div
+                class="flex flex-col items-center text-center group fill-mode-both animate-in fade-in zoom-in duration-600 delay-800"
+              >
                 <div
-                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 transition-colors"
+                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 group-hover:scale-110 transition-all duration-300"
                 >
                   <Clock className="w-6 h-6 text-brand-primary" />
                 </div>
@@ -139,7 +149,9 @@ const { servicesData, recentPosts } = await getNavigationData();
   </main>
 
   {/* Footer */}
-  <footer class="border-t border-input py-12 px-4 sm:px-6 lg:px-8">
+  <footer
+    class="border-t border-input py-12 px-4 sm:px-6 lg:px-8 fill-mode-both animate-in fade-in duration-600 delay-900"
+  >
     <div class="max-w-7xl mx-auto text-center flex flex-col items-center">
       <div>
         <Logo />

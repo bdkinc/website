@@ -38,31 +38,31 @@ const IconComponent =
           <!-- Hero Section -->
           <div class="text-center mb-16">
             <div
-              class="inline-flex items-center justify-center p-4 rounded-2xl bg-linear-to-brr from-primary/10 to-secondary/10 mb-6"
+              class="inline-flex items-center justify-center p-4 rounded-2xl bg-linear-to-brr from-primary/10 to-secondary/10 mb-6 animate-in fade-in zoom-in duration-500 delay-100 fill-mode-both"
             >
               <IconComponent className="w-12 h-12 text-primary" />
             </div>
-            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
               <span
                 class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent"
               >
                 {service.data.title}
               </span>
             </h1>
-            <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p class="text-xl text-muted-foreground max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-3 duration-500 delay-400 fill-mode-both">
               {service.data.description}
             </p>
           </div>
 
           <!-- Main Content -->
-          <div class="space-y-12">
+          <div class="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600 fill-mode-both">
             <!-- Content from markdown -->
-            <div class="prose prose-invert prose-lg max-w-5xl mx-auto">
+            <div class="prose prose-invert prose-lg max-w-7xl mx-auto">
               <Content />
             </div>
 
             <!-- CTA -->
-            <div class="text-center glass rounded-2xl p-12">
+            <div class="text-center glass rounded-2xl p-12 animate-in fade-in zoom-in duration-500 delay-800 fill-mode-both">
               <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">
                 Ready to Get Started?
               </h2>
@@ -83,4 +83,5 @@ const IconComponent =
     </div>
   </main>
 </Layout>
+
 

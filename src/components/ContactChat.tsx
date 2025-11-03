@@ -21,6 +21,7 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Response } from "@/components/ai-elements/response";
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
+import { Card, CardContent } from "@/components/ui/card";
 import { nanoid } from "nanoid";
 import { useCallback, useState } from "react";
 
@@ -156,50 +157,54 @@ export default function ContactChat() {
   };
 
   return (
-    <div className="relative flex h-[500px] flex-col overflow-hidden glass rounded-xl">
-      <Conversation>
-        <ConversationContent>
-          {messages.map((message) => (
-            <Message from={message.from} key={message.key}>
-              <div>
-                <MessageContent>
-                  <Response>{message.version.content}</Response>
-                </MessageContent>
-              </div>
-              <MessageAvatar name={message.name} src={message.avatar} />
-            </Message>
-          ))}
-        </ConversationContent>
-        <ConversationScrollButton />
-      </Conversation>
-      <div className="grid shrink-0 gap-4 p-4 border-t border-input">
-        {messages.length === 1 && (
-          <Suggestions>
-            {suggestions.map((suggestion) => (
-              <Suggestion
-                key={suggestion}
-                onClick={() => handleSuggestionClick(suggestion)}
-                suggestion={suggestion}
-              />
-            ))}
-          </Suggestions>
-        )}
-        <PromptInput onSubmit={handleSubmit}>
-          <PromptInputBody>
-            <PromptInputTextarea
-              onChange={(event) => setText(event.target.value)}
-              value={text}
-              placeholder="Type your message..."
-            />
-          </PromptInputBody>
-          <PromptInputFooter>
-            <PromptInputTools />
-            <PromptInputSubmit
-              disabled={!text.trim() || status === "streaming"}
-              status={status}
-            />
-          </PromptInputFooter>
-        </PromptInput>
+    <div className="bg-background rounded-xl p-4 border border-input shadow-sm">
+      <div>
+        <div className="relative flex h-[500px] flex-col overflow-hidden">
+          <Conversation>
+            <ConversationContent>
+              {messages.map((message) => (
+                <Message from={message.from} key={message.key}>
+                  <div>
+                    <MessageContent>
+                      <Response>{message.version.content}</Response>
+                    </MessageContent>
+                  </div>
+                  <MessageAvatar name={message.name} src={message.avatar} />
+                </Message>
+              ))}
+            </ConversationContent>
+            <ConversationScrollButton />
+          </Conversation>
+          <div className="grid shrink-0 gap-4 p-4 border-t border-input">
+            {messages.length === 1 && (
+              <Suggestions>
+                {suggestions.map((suggestion) => (
+                  <Suggestion
+                    key={suggestion}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    suggestion={suggestion}
+                  />
+                ))}
+              </Suggestions>
+            )}
+            <PromptInput onSubmit={handleSubmit}>
+              <PromptInputBody>
+                <PromptInputTextarea
+                  onChange={(event) => setText(event.target.value)}
+                  value={text}
+                  placeholder="Type your message..."
+                />
+              </PromptInputBody>
+              <PromptInputFooter>
+                <PromptInputTools />
+                <PromptInputSubmit
+                  disabled={!text.trim() || status === "streaming"}
+                  status={status}
+                />
+              </PromptInputFooter>
+            </PromptInput>
+          </div>
+        </div>
       </div>
     </div>
   );

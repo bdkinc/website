@@ -1,5 +1,5 @@
 ---
-title: "IBM i Power Servers Support"
+title: "IBM Power Servers Support"
 description: "Maximize reliability and performance with specialized IBM Power System support backed by decades of expertise"
 icon: "Database"
 order: 3
@@ -15,208 +15,250 @@ import {
   Award,
   Wrench,
   RefreshCw,
-  Zap,
-  Lock,
   Sparkles,
+  Zap,
 } from "lucide-react";
 
 <div className="max-w-4xl mx-auto not-prose">
   <h2 className="text-3xl font-bold mb-6 text-foreground text-center">
-    Trusted IBM i Power Systems Expertise
+    IBM Power Systems Hardware Support
   </h2>
   <div className="text-lg text-muted-foreground leading-relaxed mb-10 text-center">
-    With over 40 years of expertise supporting one of the most secure operating systems in the market,
-    we provide comprehensive IBM i Power Systems support and maintenance. As an <strong className="text-primary">IBM Partner Plus Silver Partner</strong>,
-    we bring certified expertise and proven solutions to your IBM i environment.
+    BDK Inc delivers end‑to‑end support for IBM Power hardware. As an
+    <strong className="text-primary">IBM Partner Plus Silver Partner</strong>, we manage, optimize, and
+    protect mission‑critical IBM Power systems running IBM i (IBMi), AIX, VIOS, and
+    enterprise Linux (Red Hat, Ubuntu)—on‑premises or in hybrid cloud.
   </div>
 </div>
 
-### Our IBM i Services
+
+### What We Manage on IBM Power
 
 <div className="grid md:grid-cols-3 gap-8 not-prose mb-20">
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
     <div className="mb-6">
-      <Wrench className="w-16 h-16 text-primary" />
+      <Wrench className="icon-xl text-primary" />
     </div>
-    <h4 className="text-2xl font-bold mb-4 text-primary">System Support</h4>
+    <h4 className="text-2xl font-bold mb-4 text-primary">Hardware Lifecycle</h4>
     <div className="text-muted-foreground leading-relaxed">
-      Keep your IBM i systems running at peak performance with our expert support. From routine
-      maintenance to complex troubleshooting, ensuring mission-critical applications stay online.
+      Installation, configuration, microcode planning, and maintenance for Power Systems racks, frames, and peripherals.
     </div>
   </div>
 
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
     <div className="mb-6">
-      <Sparkles className="w-16 h-16 text-primary" />
+      <Server className="icon-xl text-primary" />
     </div>
-    <h4 className="text-2xl font-bold mb-4 text-primary">Modernization</h4>
+    <h4 className="text-2xl font-bold mb-4 text-primary">PowerVM, LPARs & VIOS</h4>
     <div className="text-muted-foreground leading-relaxed">
-      Don't let legacy systems hold you back. We help modernize your IBM i environment, whether
-      you're updating applications, migrating to new hardware, or moving to the cloud.
+      Partitioning, virtual I/O, networking, and storage mapping—built for high availability and performance.
     </div>
   </div>
 
-  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
     <div className="mb-6">
-      <Cloud className="w-16 h-16 text-primary" />
+      <RefreshCw className="icon-xl text-primary" />
     </div>
-    <h4 className="text-2xl font-bold mb-4 text-primary">Cloud Migration</h4>
+    <h4 className="text-2xl font-bold mb-4 text-primary">OS Administration</h4>
     <div className="text-muted-foreground leading-relaxed">
-      Take advantage of cloud benefits while preserving your IBM i investment. We specialize in
-      migrating IBM i workloads combining security and reliability with cloud flexibility.
+      PTFs and patching for IBM i (IBMi), AIX, Red Hat, and Ubuntu; security hardening, user and access controls, backup and recovery.
+    </div>
+  </div>
+
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+    <div className="mb-6">
+      <TrendingUp className="icon-xl text-primary" />
+    </div>
+    <h4 className="text-2xl font-bold mb-4 text-primary">Performance & Capacity</h4>
+    <div className="text-muted-foreground leading-relaxed">
+      Monitoring, tuning, and capacity planning to reduce risk, control cost, and meet SLAs for mixed‑OS estates.
+    </div>
+  </div>
+
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+    <div className="mb-6">
+      <ShieldCheck className="icon-xl text-primary" />
+    </div>
+    <h4 className="text-2xl font-bold mb-4 text-primary">Resilience & DR</h4>
+    <div className="text-muted-foreground leading-relaxed">
+      HA/DR architectures for IBM i, AIX, and Linux on Power; backup strategy, testing, and incident response.
+    </div>
+  </div>
+
+  <div className="p-8 rounded-xl glass border-2 border-primary hover:shadow-[--shadow-glow-sm] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center">
+    <div className="mb-6">
+      <Cloud className="icon-xl text-primary" />
+    </div>
+    <h4 className="text-2xl font-bold mb-4 text-primary">Hybrid & Cloud Integration</h4>
+    <div className="text-muted-foreground leading-relaxed">
+      Connect Power workloads with cloud services, shared storage, and enterprise tooling without compromising security.
     </div>
   </div>
 </div>
 
-### Why IBM i?
+### Why IBM Power for the Enterprise?
 
 <div className="mb-20 glass p-10 rounded-2xl border border-border not-prose">
   <div className="text-xl text-muted-foreground text-center mb-10">
-    IBM i (formerly AS/400, iSeries) is renowned as one of the most secure and reliable operating systems available
+    IBM Power delivers the reliability, security, and scalability enterprises require for core business systems across IBM i, AIX, and Linux.
   </div>
 
   <div className="grid md:grid-cols-2 gap-6">
     <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
       <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
       <div>
-        <h5 className="font-bold text-lg mb-1 text-foreground">Unmatched Security</h5>
-        <div className="text-muted-foreground text-sm">Built-in security architecture makes IBM i one of the most secure platforms for business-critical applications</div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Defense‑Grade Security</h5>
+        <div className="text-muted-foreground text-sm">Power architecture and OS controls reduce attack surface while enabling compliant operations across regulated industries.</div>
       </div>
     </div>
 
     <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
       <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
       <div>
-        <h5 className="font-bold text-lg mb-1 text-foreground">Rock-Solid Reliability</h5>
-        <div className="text-muted-foreground text-sm">Legendary uptime and stability that businesses worldwide depend on for mission-critical operations</div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Rock‑Solid Uptime</h5>
+        <div className="text-muted-foreground text-sm">Proven availability for mission‑critical ERP, EDI, and analytics workloads with built‑in redundancy options.</div>
       </div>
     </div>
 
     <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
       <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
       <div>
-        <h5 className="font-bold text-lg mb-1 text-foreground">Industry Standard</h5>
-        <div className="text-muted-foreground text-sm">Trusted by businesses in finance, manufacturing, distribution, and healthcare for decades</div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Multi‑OS Flexibility</h5>
+        <div className="text-muted-foreground text-sm">Run IBM i (IBMi), AIX, and enterprise Linux (Red Hat, Ubuntu) side‑by‑side, optimized on a single platform.</div>
       </div>
     </div>
 
     <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50 border border-border hover:border-primary transition-colors">
       <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
       <div>
-        <h5 className="font-bold text-lg mb-1 text-foreground">Future-Ready</h5>
-        <div className="text-muted-foreground text-sm">Continuously evolving with modern capabilities while maintaining backward compatibility</div>
+        <h5 className="font-bold text-lg mb-1 text-foreground">Future‑Ready</h5>
+        <div className="text-muted-foreground text-sm">Modern capabilities and backward compatibility keep core systems stable while you innovate.</div>
       </div>
     </div>
+
   </div>
 </div>
 
-### Key Benefits
+### Why BDK Inc for IBM Power Support
 
 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mb-20">
   <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
     <div className="mb-4">
-      <Users className="w-10 h-10 text-primary" />
+      <Users className="icon-lg text-primary" />
     </div>
-    <h4 className="text-xl font-bold mb-2 text-foreground">40+ Years Experience</h4>
-    <div className="text-muted-foreground">Deep expertise in IBM i systems and applications spanning four decades</div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">40+ Years on Power</h4>
+    <div className="text-muted-foreground">Decades of hands‑on experience with IBM i (IBMi), AIX, VIOS, and Linux on Power.</div>
   </div>
+
+{" "}
+
+<div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+  <div className="mb-4">
+    <Award className="icon-lg text-primary" />
+  </div>
+  <h4 className="text-xl font-bold mb-2 text-foreground">IBM Silver Partner</h4>
+  <div className="text-muted-foreground">Certified expertise backed by IBM resources and support channels.</div>
+</div>
+
+{" "}
+
+<div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+  <div className="mb-4">
+    <ShieldCheck className="icon-lg text-primary" />
+  </div>
+  <h4 className="text-xl font-bold mb-2 text-foreground">
+    Enterprise‑Grade Security
+  </h4>
+  <div className="text-muted-foreground">Hardening, identity, and compliance across IBM i, AIX, and Linux on Power.</div>
+</div>
+
+{" "}
+
+<div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+  <div className="mb-4">
+    <TrendingUp className="icon-lg text-primary" />
+  </div>
+  <h4 className="text-xl font-bold mb-2 text-foreground">
+    SLA‑Driven Operations
+  </h4>
+  <div className="text-muted-foreground">24×7 monitoring, incident response, and capacity planning aligned to your SLAs.</div>
+</div>
+
+{" "}
+
+<div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
+  <div className="mb-4">
+    <Server className="icon-lg text-primary" />
+  </div>
+  <h4 className="text-xl font-bold mb-2 text-foreground">
+    Single Partner, Multi‑OS
+  </h4>
+  <div className="text-muted-foreground">One MSP for IBM i, AIX, VIOS, Red Hat, and Ubuntu—simplifying operations and reducing cost.</div>
+</div>
 
   <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
     <div className="mb-4">
-      <Award className="w-10 h-10 text-primary" />
+      <RefreshCw className="icon-lg text-primary" />
     </div>
-    <h4 className="text-xl font-bold mb-2 text-foreground">IBM Silver Partner</h4>
-    <div className="text-muted-foreground">Certified IBM Partner Plus Silver Partner demonstrates our commitment and expertise</div>
-  </div>
-
-  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div className="mb-4">
-      <ShieldCheck className="w-10 h-10 text-primary" />
-    </div>
-    <h4 className="text-xl font-bold mb-2 text-foreground">Enterprise Security</h4>
-    <div className="text-muted-foreground">Leverage the inherent security of IBM i with our security best practices</div>
-  </div>
-
-  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div className="mb-4">
-      <TrendingUp className="w-10 h-10 text-primary" />
-    </div>
-    <h4 className="text-xl font-bold mb-2 text-foreground">Proven Track Record</h4>
-    <div className="text-muted-foreground">Decades of successful implementations and migrations</div>
-  </div>
-
-  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div className="mb-4">
-      <Server className="w-10 h-10 text-primary" />
-    </div>
-    <h4 className="text-xl font-bold mb-2 text-foreground">Comprehensive Support</h4>
-    <div className="text-muted-foreground">From daily operations to strategic planning and long-term roadmaps</div>
-  </div>
-
-  <div className="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div className="mb-4">
-      <RefreshCw className="w-10 h-10 text-primary" />
-    </div>
-    <h4 className="text-xl font-bold mb-2 text-foreground">Modernization Expertise</h4>
-    <div className="text-muted-foreground">Update legacy systems while preserving business value and investment</div>
+    <h4 className="text-xl font-bold mb-2 text-foreground">Cost & Risk Optimization</h4>
+    <div className="text-muted-foreground">Right‑sizing, firmware cadence, and DR testing to minimize downtime and spend.</div>
   </div>
 </div>
 
-### Our Specialized Expertise
+### Deep Technical Expertise
 
 <div className="mb-20 not-prose">
   <div className="grid md:grid-cols-2 gap-6">
     <div className="p-8 rounded-xl bg-background/50 border border-border">
       <div className="mb-4">
-        <Database className="w-12 h-12 text-primary" />
+        <Database className="icon-xl text-primary" />
       </div>
-      <h4 className="text-2xl font-bold mb-4 text-foreground">Legacy Systems Knowledge</h4>
+      <h4 className="text-2xl font-bold mb-4 text-foreground">IBM Power Architecture</h4>
       <div className="text-muted-foreground leading-relaxed mb-4">
-        Our team has worked with IBM i through all its iterations—from AS/400 to iSeries to modern
-        Power Systems. We understand the architecture, applications, and unique requirements that
-        make IBM i the backbone of so many businesses.
+        From AS/400 and iSeries to modern Power Systems, our engineers understand frame topology,
+        processor and memory configurations, shared storage, and I/O paths critical to uptime.
       </div>
       <ul className="space-y-2 text-muted-foreground text-sm">
         <li className="flex items-start gap-2">
           <span className="text-primary mt-1">•</span>
-          <span>AS/400, iSeries, and IBM i expertise</span>
+          <span>PowerVM design, LPAR layout, and VIOS best practices</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="text-primary mt-1">•</span>
-          <span>RPG, COBOL, and modern language support</span>
+          <span>Microcode, firmware, and OS upgrade planning</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="text-primary mt-1">•</span>
-          <span>Database management and optimization</span>
+          <span>Storage and networking virtualization on Power</span>
         </li>
       </ul>
     </div>
 
     <div className="p-8 rounded-xl bg-background/50 border border-border">
       <div className="mb-4">
-        <Zap className="w-12 h-12 text-primary" />
+        <Zap className="icon-xl text-primary" />
       </div>
-      <h4 className="text-2xl font-bold mb-4 text-foreground">Modern Integration</h4>
+      <h4 className="text-2xl font-bold mb-4 text-foreground">Enterprise Integration</h4>
       <div className="text-muted-foreground leading-relaxed mb-4">
-        We help bridge the gap between your reliable IBM i systems and modern technologies. Our
-        expertise enables seamless integration with web services, mobile applications, cloud
-        platforms, and contemporary business tools.
+        We connect Power workloads to the rest of your ecosystem—identity, monitoring, SIEM, backup,
+        and cloud services—without sacrificing control or performance.
       </div>
       <ul className="space-y-2 text-muted-foreground text-sm">
         <li className="flex items-start gap-2">
           <span className="text-primary mt-1">•</span>
-          <span>API development and web services</span>
+          <span>Hybrid architectures and secure connectivity</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="text-primary mt-1">•</span>
-          <span>Cloud integration and hybrid architectures</span>
+          <span>Observability, backup, and DR orchestration</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="text-primary mt-1">•</span>
-          <span>Modern UI development for legacy applications</span>
+          <span>Automation for patching and compliance</span>
         </li>
       </ul>
     </div>
+
   </div>
 </div>
 
@@ -224,23 +266,21 @@ import {
 
 <div className="mb-20 p-10 rounded-2xl border border-border bg-linear-to-br from-primary/10 to-secondary/10 not-prose">
   <div className="text-lg text-muted-foreground text-center max-w-4xl mx-auto leading-relaxed">
-    We understand that IBM i systems are often the backbone of your business operations. Our approach
-    balances the need for modern capabilities with the reliability and security that IBM i provides.
-    Whether you're looking to optimize existing systems, plan a migration, or explore cloud options,
-    we provide the expertise and support you need to maximize the value of your Power Systems investment.
+    Your IBM Power environment is the backbone of the business. We combine disciplined
+    operations with modernization where it matters—delivering predictable uptime, controlled
+    costs, and a clear roadmap across IBM i (IBMi), AIX, VIOS, Red Hat, and Ubuntu.
   </div>
 </div>
 
-### Why Choose BDK for IBM i?
+### Ready to Stabilize and Modernize Your IBM Power Estate?
 
 <div className="glass p-10 rounded-2xl border border-border text-center not-prose">
   <div className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
-    With over four decades of IBM i experience and our IBM Partner Plus Silver Partner status, we're
-    uniquely positioned to support your Power Systems environment. We've seen it all—from legacy
-    AS/400 systems to cutting-edge cloud migrations. Our certified specialists understand both the
-    technical intricacies and business importance of your IBM i infrastructure.
+    Partner with a team that runs IBM i (IBMi), AIX, VIOS, Red Hat, and Ubuntu on Power every day.
+    Backed by 40+ years of experience and IBM Silver Partner credentials, we keep critical systems
+    online while guiding your next steps.
   </div>
   <div className="text-xl font-semibold text-primary">
-    Let our certified IBM i specialists help you maximize the value of your Power Systems investment.
+    Talk to an IBM Power specialist about your hardware and OS roadmap.
   </div>
 </div>

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { cn } from "@/lib/utils";
 import {
   Card,
   CardHeader,
@@ -8,11 +7,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { iconMap } from "@/lib/icons";
-
-// Register GSAP plugin
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { useIntersectionObserver } from "@/lib/hooks/useIntersectionObserver";
 
 interface ServicesProps {
   services: Array<{
@@ -24,48 +19,47 @@ interface ServicesProps {
 }
 
 export default function Services({ services }: ServicesProps) {
-  const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
+  const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
+  
+  // Viewport detection for section header
+  const { ref: headerRef, isIntersecting: headerInView } = useIntersectionObserver({
+    threshold: 0.2,
+    rootMargin: '0px',
+    triggerOnce: true
+  });
+
+  // Viewport detection for grid container
+  const { ref: gridRef, isIntersecting: gridInView } = useIntersectionObserver({
+    threshold: 0.1,
+    rootMargin: '50px',
+    triggerOnce: true
+  });
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    // Filter out null refs
-    const cards = cardsRef.current.filter((card) => card !== null);
+    const listeners = [];
 
-    if (cards.length === 0) return;
+    iconRefs.current.forEach((icon) => {
+      if (!icon) return;
 
-    if (prefersReducedMotion) {
-      // Skip animations, set final state immediately
-      cards.forEach((card) => {
-        (card as HTMLElement).style.opacity = '1';
-        (card as HTMLElement).style.transform = 'translateY(0)';
-      });
-      return;
-    }
+      const handleMouseEnter = () => {
+        icon.style.transform = "scale(1.15) rotate(5deg)";
+      };
 
-    // Set initial state (invisible and below viewport)
-    gsap.set(cards, {
-      opacity: 0,
-      y: 50,
+      const handleMouseLeave = () => {
+        icon.style.transform = "scale(1) rotate(0deg)";
+      };
+
+      icon.addEventListener("mouseenter", handleMouseEnter);
+      icon.addEventListener("mouseleave", handleMouseLeave);
+
+      listeners.push({ icon, handleMouseEnter, handleMouseLeave });
     });
 
-    // Animate cards in with stagger effect
-    gsap.to(cards, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "power3.out",
-      stagger: 0.15,
-      scrollTrigger: {
-        trigger: cards[0],
-        start: "top 80%",
-        toggleActions: "play none none none",
-      },
-    });
-
-    // Cleanup
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      listeners.forEach(({ icon, handleMouseEnter, handleMouseLeave }) => {
+        icon.removeEventListener("mouseenter", handleMouseEnter);
+        icon.removeEventListener("mouseleave", handleMouseLeave);
+      });
     };
   }, []);
 
@@ -73,7 +67,14 @@ export default function Services({ services }: ServicesProps) {
     <section className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div 
+          ref={headerRef as any}
+          className={cn(
+            "text-center mb-16",
+            "opacity-0 translate-y-8 transition-[opacity,transform] duration-700 ease-out",
+            headerInView && "opacity-100 translate-y-0"
+          )}
+        >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             <span className="text-foreground">Our </span>
             <span className="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent">
@@ -86,27 +87,52 @@ export default function Services({ services }: ServicesProps) {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+        <div 
+          ref={gridRef as any}
+          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6"
+        >
           {services.map((service, index) => {
             const Icon = iconMap[service.icon];
+            // Stagger: 100ms between cards
+            const delayMs = index * 100;
             return (
               <a
                 key={service.slug}
-                ref={(el) => {
-                  cardsRef.current[index] = el;
-                }}
                 href={`/services/${service.slug}`}
-                className="block group"
+                className={cn(
+                  "block group",
+                  "opacity-0 translate-y-6 transition-[opacity,transform] duration-600 ease-out",
+                  gridInView && "opacity-100 translate-y-0"
+                )}
+                style={{ 
+                  transitionDelay: gridInView ? `${delayMs}ms` : '0ms'
+                }}
               >
-                <Card className="h-full cursor-pointer hover:border-primary/50 transition-all duration-300 hover:shadow-[--shadow-glow-sm]">
-                  <CardHeader className="text-center">
-                    <div className="mb-6 p-4 rounded-xl bg-linear-to-brr from-primary/10 to-secondary/10 w-fit mx-auto group-hover:scale-110 transition-transform">
+                <Card className={cn(
+                  "h-full cursor-pointer transition-all duration-300 flex flex-col justify-center",
+                  "border-border hover:border-primary/50",
+                  "hover:scale-105 hover:shadow-[--shadow-glow-sm]"
+                )}>
+                  <CardHeader className="text-center flex flex-col items-center justify-center flex-1">
+                    <div
+                      ref={(el) => {
+                        iconRefs.current[index] = el;
+                      }}
+                      className={cn(
+                        "mb-6 p-4 rounded-xl bg-linear-to-brr from-primary/10 to-secondary/10 w-fit mx-auto",
+                        "flex items-center justify-center",
+                        "transition-transform duration-300"
+                      )}
+                    >
                       {Icon && <Icon className="w-8 h-8 text-primary" />}
                     </div>
-                    <CardTitle className="text-lg mb-2 group-hover:text-primary transition-colors">
+                    <CardTitle className={cn(
+                      "text-lg mb-2 text-center",
+                      "transition-colors duration-300 group-hover:text-primary"
+                    )}>
                       {service.title}
                     </CardTitle>
-                    <CardDescription className="text-sm">
+                    <CardDescription className="text-sm text-center">
                       {service.description}
                     </CardDescription>
                   </CardHeader>

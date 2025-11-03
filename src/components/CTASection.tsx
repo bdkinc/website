@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { cn } from '@/lib/utils'
+import { useIntersectionObserver } from '@/lib/hooks/useIntersectionObserver'
 
 interface CTASectionProps {
   title?: string
@@ -17,94 +16,90 @@ export default function CTASection({
   buttonText = "Get in Touch",
   buttonHref = "/contact"
 }: CTASectionProps) {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const descriptionRef = useRef<HTMLParagraphElement>(null)
   const buttonRef = useRef<HTMLAnchorElement>(null)
+  
+  // Viewport detection for CTA section
+  const { ref: sectionRef, isIntersecting: sectionInView } = useIntersectionObserver({
+    threshold: 0.2,
+    rootMargin: '0px',
+    triggerOnce: true
+  })
 
   useEffect(() => {
-    if (!sectionRef.current || !containerRef.current) return
+    if (!buttonRef.current) return
 
-    const ctx = gsap.context(() => {
-      // Animate the glass container
-      gsap.from(containerRef.current, {
-        scale: 0.95,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 80%',
-          end: 'top 50%',
-          toggleActions: 'play none none reverse'
-        }
+    // Skip hover animation if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return
+
+    const button = buttonRef.current
+
+    // Button hover effect enhancement with GSAP
+    const handleMouseEnter = () => {
+      gsap.to(button, {
+        scale: 1.05,
+        duration: 0.3,
+        ease: 'power2.out'
       })
+    }
 
-      // Stagger animation for content
-      gsap.from([titleRef.current, descriptionRef.current, buttonRef.current], {
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.15,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse'
-        }
+    const handleMouseLeave = () => {
+      gsap.to(button, {
+        scale: 1,
+        duration: 0.3,
+        ease: 'power2.out'
       })
+    }
 
-      // Button hover effect enhancement
-      if (buttonRef.current) {
-        const button = buttonRef.current
+    button.addEventListener('mouseenter', handleMouseEnter)
+    button.addEventListener('mouseleave', handleMouseLeave)
 
-        button.addEventListener('mouseenter', () => {
-          gsap.to(button, {
-            scale: 1.05,
-            duration: 0.3,
-            ease: 'power2.out'
-          })
-        })
-
-        button.addEventListener('mouseleave', () => {
-          gsap.to(button, {
-            scale: 1,
-            duration: 0.3,
-            ease: 'power2.out'
-          })
-        })
-      }
-    }, sectionRef)
-
-    return () => ctx.revert()
+    return () => {
+      button.removeEventListener('mouseenter', handleMouseEnter)
+      button.removeEventListener('mouseleave', handleMouseLeave)
+    }
   }, [])
 
   return (
-    <section
-      ref={sectionRef}
-      className="py-24 px-4 sm:px-6 lg:px-8"
-    >
-      <div
-        ref={containerRef}
-        className="max-w-4xl mx-auto text-center glass rounded-2xl p-12"
+    <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <div 
+        ref={sectionRef as any}
+        className={cn(
+          "max-w-4xl mx-auto text-center glass rounded-2xl p-12",
+          "opacity-0 scale-95 transition-[opacity,transform] duration-500 ease-out",
+          sectionInView && "opacity-100 scale-100"
+        )}
       >
-        <h2
-          ref={titleRef}
-          className="text-3xl md:text-4xl font-bold mb-4 text-foreground"
+        <h2 
+          className={cn(
+            "text-3xl md:text-4xl font-bold mb-4 text-foreground",
+            "opacity-0 translate-y-4 transition-[opacity,transform] duration-600 ease-out",
+            sectionInView && "opacity-100 translate-y-0"
+          )}
+          style={{ transitionDelay: sectionInView ? '150ms' : '0ms' }}
         >
           {title}
         </h2>
-        <p
-          ref={descriptionRef}
-          className="text-xl text-muted-foreground mb-8"
+        <p 
+          className={cn(
+            "text-xl text-muted-foreground mb-8",
+            "opacity-0 translate-y-4 transition-[opacity,transform] duration-600 ease-out",
+            sectionInView && "opacity-100 translate-y-0"
+          )}
+          style={{ transitionDelay: sectionInView ? '300ms' : '0ms' }}
         >
           {description}
         </p>
         <a
           ref={buttonRef}
           href={buttonHref}
-          className="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+          className={cn(
+            "inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium",
+            "bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm",
+            "opacity-0 translate-y-2 transition-[opacity,transform] duration-400 ease-out",
+            sectionInView && "opacity-100 translate-y-0"
+          )}
+          style={{ transitionDelay: sectionInView ? '450ms' : '0ms' }}
         >
           {buttonText}
         </a>

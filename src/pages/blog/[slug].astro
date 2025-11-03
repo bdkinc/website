@@ -5,6 +5,7 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { Calendar, User, Tag, ArrowLeft } from "lucide-react";
 import { getNavigationData } from "@/lib/navigation-data";
+import { Logo } from "@/components/Logo";
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection("blog", ({ data }) => !data.draft);
@@ -35,27 +36,27 @@ function formatDate(date: Date): string {
 
 <Layout title={`${entry.data.title} - BDK Inc Blog`}>
   <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main>
+  <main id="main-content">
     <!-- Blog Post Header -->
     <section class="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div class="absolute inset-0 gradient-mesh opacity-30"></div>
       <div class="max-w-4xl mx-auto relative z-10">
         <a
           href="/blog"
-          class="inline-flex items-center gap-2 text-primary hover:text-primary/80 mb-8 transition-colors"
+          class="inline-flex items-center gap-2 text-primary hover:text-primary/80 mb-8 transition-colors animate-in fade-in slide-in-from-bottom-3 duration-500 delay-100 fill-mode-both"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Blog
         </a>
 
         <h1
-          class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground"
+          class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both"
         >
           {entry.data.title}
         </h1>
 
         <div
-          class="flex flex-wrap items-center gap-6 text-muted-foreground mb-6"
+          class="flex flex-wrap items-center gap-6 text-muted-foreground mb-6 animate-in fade-in slide-in-from-bottom-3 duration-500 delay-300 fill-mode-both"
         >
           <div class="flex items-center gap-2">
             <Calendar className="w-5 h-5" />
@@ -71,9 +72,9 @@ function formatDate(date: Date): string {
 
         {
           entry.data.tags && entry.data.tags.length > 0 && (
-            <div class="flex flex-wrap gap-2 mb-8">
+            <div class="flex flex-wrap gap-2 mb-8 animate-in fade-in slide-in-from-bottom-2 duration-500 delay-500 fill-mode-both">
               {entry.data.tags.map((tag) => (
-                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                <span class="inline-flex items-center gap-1 px-3 py-1 text-primary/70 text-sm">
                   <Tag className="w-3 h-3" />
                   {tag}
                 </span>
@@ -82,7 +83,7 @@ function formatDate(date: Date): string {
           )
         }
 
-        <p class="text-xl text-muted-foreground">
+        <p class="text-xl text-muted-foreground animate-in fade-in slide-in-from-bottom-2 duration-500 delay-700 fill-mode-both">
           {entry.data.description}
         </p>
       </div>
@@ -91,9 +92,11 @@ function formatDate(date: Date): string {
     <!-- Blog Post Content -->
     <article class="py-12 px-4 sm:px-6 lg:px-8">
       <div
-        class="max-w-4xl mx-auto prose prose-lg prose-invert prose-headings:text-foreground prose-headings:font-display prose-p:text-muted-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground prose-code:text-primary prose-pre:bg-card prose-pre:border prose-pre:border-input prose-li:text-muted-foreground"
+        class="max-w-5xl mx-auto glass rounded-2xl p-8 md:p-12 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both"
       >
-        <Content />
+        <div class="prose prose-lg prose-invert prose-headings:text-foreground prose-headings:font-display prose-p:text-muted-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-strong:text-foreground prose-code:text-primary prose-pre:bg-card prose-pre:border prose-pre:border-input prose-li:text-muted-foreground max-w-none">
+          <Content />
+        </div>
       </div>
     </article>
 
@@ -126,15 +129,13 @@ function formatDate(date: Date): string {
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-input py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto text-center">
-      <div
-        class="text-2xl font-bold bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent mb-4"
-      >
-        BDK Inc
+  <footer class="py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto text-center flex flex-col items-center">
+      <div>
+        <Logo />
       </div>
       <p class="text-muted-foreground mb-4">
-        IT Made Simple - Your trusted technology partner since 1999
+        Your trusted technology partner since 1999
       </p>
       <p class="text-sm text-muted-foreground/70">
         &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
@@ -144,69 +145,182 @@ function formatDate(date: Date): string {
 </Layout>
 
 <style>
-  /* Custom prose styles for dark theme */
+  /* H2: Large headings with cyan color and subtle glow */
   article :global(h2) {
-    margin-top: 2em;
-    margin-bottom: 1em;
+    font-size: 2.5rem;
+    text-align: left;
+    color: var(--color-primary);
+    text-shadow: 0 0 8px oklch(0.70 0.18 210 / 0.15);
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
   }
 
+  article :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  /* H3: Left-aligned with gradient accent bar on left */
   article :global(h3) {
-    margin-top: 1.6em;
-    margin-bottom: 0.8em;
+    font-size: 1.875rem;
+    color: var(--color-primary);
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    position: relative;
+    font-weight: 700;
+    line-height: 1.2;
   }
 
+  /* Gradient accent bar on left of h3 */
+  article :global(h3::before) {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--color-primary), var(--color-secondary));
+  }
+
+  /* Paragraphs: 18px with proper spacing */
   article :global(p) {
-    margin-bottom: 1.25em;
+    font-size: 1.125rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     line-height: 1.75;
+    color: var(--color-muted-foreground);
   }
 
-  article :global(ul),
+  /* First paragraph after h2 or h3: lead text 20px */
+  article :global(h2 + p),
+  article :global(h3 + p) {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  article :global(p:first-child) {
+    margin-top: 0;
+  }
+
+  /* Lists with custom cyan bullet points */
+  article :global(ul) {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+    list-style: none;
+  }
+
   article :global(ol) {
-    margin-bottom: 1.25em;
-    padding-left: 1.5em;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  /* Custom bullet points with cyan glow */
+  article :global(ul li::before) {
+    content: '●';
+    color: var(--color-primary);
+    text-shadow: 0 0 10px var(--color-primary);
+    margin-right: 0.75rem;
+    margin-left: -1.5rem;
+    font-weight: bold;
   }
 
   article :global(li) {
-    margin-bottom: 0.5em;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-muted-foreground);
+    line-height: 1.6;
   }
 
-  article :global(blockquote) {
-    border-left: 4px solid var(--color-primary);
-    padding-left: 1em;
-    margin: 1.5em 0;
-    font-style: italic;
-  }
-
-  article :global(code) {
-    background: var(--color-card);
-    padding: 0.2em 0.4em;
-    border-radius: 0.25rem;
-    font-size: 0.875em;
-  }
-
+  /* Code blocks: glass effect with gradient top border */
   article :global(pre) {
-    margin: 1.5em 0;
-    padding: 1em;
-    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
     overflow-x: auto;
+    background: oklch(0.205 0 0 / 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid oklch(0.269 0 0 / 0.5);
+    position: relative;
+  }
+
+  /* Gradient top border on code block */
+  article :global(pre::before) {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    border-radius: 0.75rem 0.75rem 0 0;
   }
 
   article :global(pre code) {
     background: transparent;
     padding: 0;
+    color: var(--color-muted-foreground);
+    font-size: 0.875rem;
   }
 
-  article :global(img) {
+  /* Inline code */
+  article :global(code:not(pre code)) {
+    background: var(--color-card);
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    color: var(--color-primary);
+  }
+
+  /* Blockquotes: cyan left border with glass background */
+  article :global(blockquote) {
+    border-left: 4px solid var(--color-primary);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    background: oklch(0.205 0 0 / 0.25);
+    backdrop-filter: blur(8px);
+    padding: 1rem 1.5rem;
     border-radius: 0.5rem;
-    margin: 2em 0;
+    color: var(--color-muted-foreground);
   }
 
+  /* Images */
+  article :global(img) {
+    border-radius: 0.75rem;
+    margin: 2rem 0;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Links with cyan color and underline on hover */
   article :global(a) {
+    color: var(--color-primary);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: all 0.2s ease;
+    font-weight: 500;
   }
 
   article :global(a:hover) {
+    color: var(--color-secondary);
     text-decoration: underline;
+  }
+
+  /* Strong text */
+  article :global(strong) {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+
+  /* Horizontal rule */
+  article :global(hr) {
+    margin: 2rem 0;
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, var(--color-primary), transparent);
   }
 </style>
