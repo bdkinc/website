@@ -55,11 +55,15 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
 
                 return (
                   <a
-                    href={`/services/${service.slug}`}
-                    class={`group block fill-mode-both animate-in fade-in slide-in-from-bottom-6 duration-600`}
+                    href={`/services/${service.id}`}
+                    class={`group fill-mode-both animate-in fade-in slide-in-from-bottom-6 block duration-600`}
                     style={{ animationDelay: `${delayMs}ms` }}
                   >
-                    <Card size="lg" interactive={true} className="h-full cursor-pointer flex flex-col justify-center">
+                    <Card
+                      size="lg"
+                      interactive={true}
+                      className="h-full cursor-pointer flex flex-col justify-center"
+                    >
                       <div class="flex h-full flex-col items-center text-center">
                         {/* Icon - with scale-pop animation on interaction */}
                         <div class="service-icon-wrapper mb-6">

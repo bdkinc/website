@@ -91,25 +91,29 @@ export default function Navigation({
                     Services
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="bg-background">
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px] ">
-                      {services.map((service) => {
+                    <ul className="grid w-[600px] gap-3 p-4 md:w-[700px] md:grid-cols-3 lg:w-[800px] ">
+                      {services.map((service, index) => {
                         const Icon = iconMap[service.icon];
                         return (
-                          <li key={service.slug}>
+                          <li 
+                            key={service.slug}
+                            className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+                            style={{ animationDelay: `${index * 50}ms` }}
+                          >
                             <NavigationMenuLink asChild>
                               <a
                                 href={`/services/${service.slug}`}
                                 className={cn(
-                                  "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                  "block select-none space-y-2 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-center"
                                 )}
                               >
-                                <div className="flex items-center gap-2 mb-1">
-                                  {Icon && (
-                                    <Icon className="h-4 w-4 text-primary" />
-                                  )}
-                                  <div className="text-sm font-medium leading-none">
-                                    {service.title}
+                                {Icon && (
+                                  <div className="flex justify-center mb-2">
+                                    <Icon className="h-8 w-8 text-primary" />
                                   </div>
+                                )}
+                                <div className="text-sm font-medium leading-none">
+                                  {service.title}
                                 </div>
                                 <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
                                   {service.description}
@@ -120,12 +124,15 @@ export default function Navigation({
                         );
                       })}
                       {/* View All Link */}
-                      <li className="mt-2 pt-2 border-t border-input col-span-3">
+                      <li 
+                        className="mt-2 pt-2 border-t border-input col-span-3 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+                        style={{ animationDelay: `${services.length * 50}ms` }}
+                      >
                         <NavigationMenuLink asChild>
                           <a
                             href="/services"
                             className={cn(
-                              "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary font-medium text-sm"
+                              "block select-none rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary font-medium text-sm"
                             )}
                           >
                             View All Services →
@@ -150,18 +157,22 @@ export default function Navigation({
                       {/* Recent Posts */}
                       {blogPosts.length > 0 ? (
                         <>
-                          <li className="mb-2">
+                          <li className="mb-2 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both">
                             <div className="px-3 py-2 text-sm font-semibold text-foreground">
                               Recent Posts
                             </div>
                           </li>
-                          {blogPosts.slice(0, 3).map((post) => (
-                            <li key={post.slug}>
+                          {blogPosts.slice(0, 3).map((post, index) => (
+                            <li 
+                              key={post.slug}
+                              className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+                              style={{ animationDelay: `${(index + 1) * 50}ms` }}
+                            >
                               <NavigationMenuLink asChild>
                                 <a
                                   href={`/blog/${post.slug}`}
                                   className={cn(
-                                    "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                    "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                                   )}
                                 >
                                   <div className="text-sm font-medium leading-snug">
@@ -175,12 +186,15 @@ export default function Navigation({
                             </li>
                           ))}
                           {/* View All Link */}
-                          <li className="mt-2 pt-2 border-t border-input">
+                          <li 
+                            className="mt-2 pt-2 border-t border-input animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+                            style={{ animationDelay: `${(blogPosts.slice(0, 3).length + 1) * 50}ms` }}
+                          >
                             <NavigationMenuLink asChild>
                               <a
                                 href="/blog"
                                 className={cn(
-                                  "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary font-medium text-sm"
+                                  "block select-none rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary font-medium text-sm"
                                 )}
                               >
                                 View All Posts →
@@ -189,12 +203,12 @@ export default function Navigation({
                           </li>
                         </>
                       ) : (
-                        <li>
+                        <li className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both">
                           <NavigationMenuLink asChild>
                             <a
                               href="/blog"
                               className={cn(
-                                "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                "block select-none rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                               )}
                             >
                               <div className="text-sm font-medium">
