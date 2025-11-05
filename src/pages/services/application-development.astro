@@ -1,9 +1,9 @@
 ---
-import { getEntry } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
-import Navigation from "../../components/Navigation";
-import { getNavigationData } from "@/lib/navigation-data";
-import { iconMap } from "@/lib/icons";
+import { getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navigation from '../../components/Navigation';
+import { getNavigationData } from '@/lib/navigation-data';
+import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import {
   Code2,
@@ -38,233 +38,393 @@ const { servicesData, recentPosts } = await getNavigationData();
 const IconComponent = iconMap[service.data.icon];
 ---
 
-<Layout title={`${service.data.title} - BDK Inc`} description={service.data.description}>
+<Layout
+  title={`${service.data.title} - BDK Inc`}
+  description={service.data.description}
+>
   <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
-    <div class="absolute inset-0 gradient-mesh"></div>
-    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+  <main id="main-content" class="relative -mt-16 min-h-screen pt-16">
+    <div class="gradient-mesh absolute inset-0"></div>
+    <div class="circuit-overlay absolute inset-0 opacity-40"></div>
 
     <div class="relative z-10">
-      <section class="py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-          <div class="text-center mb-16">
-            <div class="inline-flex items-center justify-center p-4 rounded-2xl bg-linear-to-brr from-primary/10 to-secondary/10 mb-6 animate-in fade-in zoom-in duration-500 delay-100 fill-mode-both">
-              <IconComponent className="w-12 h-12 text-primary" />
+      <section class="px-4 py-24 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <div class="mb-16 text-center">
+            <div
+              class="bg-linear-to-brr from-primary/10 to-secondary/10 animate-in fade-in zoom-in fill-mode-both mb-6 inline-flex items-center justify-center rounded-2xl p-4 delay-100 duration-500"
+            >
+              <IconComponent className="text-primary h-12 w-12" />
             </div>
-            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
-              <span class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent">
+            <h1
+              class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both mb-6 text-5xl font-bold delay-200 duration-700 md:text-6xl"
+            >
+              <span
+                class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >
                 {service.data.title}
               </span>
             </h1>
-            <p class="text-xl text-muted-foreground max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-3 duration-500 delay-400 fill-mode-both">
+            <p
+              class="text-muted-foreground animate-in fade-in slide-in-from-bottom-3 fill-mode-both mx-auto max-w-3xl text-xl delay-400 duration-500"
+            >
               {service.data.description}
             </p>
           </div>
 
-          <div class="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600 fill-mode-both">
-            <div class="max-w-7xl mx-auto">
-<div class="service-content-wrapper">
+          <div
+            class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
+          >
+            <div class="mx-auto max-w-7xl">
+              <div class="service-content-wrapper">
+                <div class="not-prose mx-auto max-w-4xl">
+                  <h2
+                    class="text-foreground mb-6 text-center text-3xl font-bold"
+                  >
+                    Custom Applications That Drive Business Success
+                  </h2>
+                  <div
+                    class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
+                  >
+                    Enterprise-grade custom application development solutions
+                    designed to solve your unique business challenges. We build
+                    scalable, secure applications tailored to your specific
+                    workflows, processes, and objectives.
+                  </div>
+                </div>
 
-<div class="max-w-4xl mx-auto not-prose">
-  <h2 class="text-3xl font-bold mb-6 text-foreground text-center">
-    Custom Applications That Drive Business Success
-  </h2>
-  <div class="text-lg text-muted-foreground leading-relaxed mb-10 text-center">
-    Enterprise-grade custom application development solutions designed to solve your unique business challenges. We build scalable, secure applications tailored to your specific workflows, processes, and objectives.
-  </div>
-</div>
+                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+                  Solutions Built for Your Business
+                </h3>
 
-<h3 class="text-2xl font-bold mb-6 text-foreground text-center">Solutions Built for Your Business</h3>
+                <ServiceCardGrid>
+                  <ServiceCard>
+                    <div class="mb-6">
+                      <Code2 className="text-primary h-16 w-16" />
+                    </div>
+                    <h4 class="text-primary mb-4 text-2xl font-bold">
+                      Custom Business Applications
+                    </h4>
+                    <div class="text-muted-foreground leading-relaxed">
+                      Off-the-shelf software forces you to adapt your processes
+                      to someone else's vision. Our custom applications are
+                      built around how your business actually works—automating
+                      workflows, integrating systems, and solving problems
+                      specific to your industry and operations.
+                    </div>
+                  </ServiceCard>
 
-<ServiceCardGrid>
-  <ServiceCard>
-    <div class="mb-6">
-      <Code2 className="w-16 h-16 text-primary" />
-    </div>
-    <h4 class="text-2xl font-bold mb-4 text-primary">Custom Business Applications</h4>
-    <div class="text-muted-foreground leading-relaxed">
-      Off-the-shelf software forces you to adapt your processes to someone else's vision. Our custom applications are built around how your business actually works—automating workflows, integrating systems, and solving problems specific to your industry and operations.
-    </div>
-  </ServiceCard>
+                  <ServiceCard>
+                    <div class="mb-6">
+                      <Network className="text-primary h-16 w-16" />
+                    </div>
+                    <h4 class="text-primary mb-4 text-2xl font-bold">
+                      Enterprise Integration
+                    </h4>
+                    <div class="text-muted-foreground leading-relaxed">
+                      Connect your existing systems into a unified ecosystem. We
+                      build integration solutions that bridge gaps between
+                      legacy systems, cloud services, databases, and third-party
+                      APIs—creating seamless data flow across your organization.
+                    </div>
+                  </ServiceCard>
 
-  <ServiceCard>
-    <div class="mb-6">
-      <Network className="w-16 h-16 text-primary" />
-    </div>
-    <h4 class="text-2xl font-bold mb-4 text-primary">Enterprise Integration</h4>
-    <div class="text-muted-foreground leading-relaxed">
-      Connect your existing systems into a unified ecosystem. We build integration solutions that bridge gaps between legacy systems, cloud services, databases, and third-party APIs—creating seamless data flow across your organization.
-    </div>
-  </ServiceCard>
+                  <ServiceCard>
+                    <div class="mb-6">
+                      <RefreshCw className="text-primary h-16 w-16" />
+                    </div>
+                    <h4 class="text-primary mb-4 text-2xl font-bold">
+                      Application Modernization
+                    </h4>
+                    <div class="text-muted-foreground leading-relaxed">
+                      Transform outdated legacy applications into modern,
+                      cloud-ready solutions. We help you preserve valuable
+                      business logic while updating technology stacks, improving
+                      performance, and adding new capabilities.
+                    </div>
+                  </ServiceCard>
+                </ServiceCardGrid>
 
-  <ServiceCard>
-    <div class="mb-6">
-      <RefreshCw className="w-16 h-16 text-primary" />
-    </div>
-    <h4 class="text-2xl font-bold mb-4 text-primary">Application Modernization</h4>
-    <div class="text-muted-foreground leading-relaxed">
-      Transform outdated legacy applications into modern, cloud-ready solutions. We help you preserve valuable business logic while updating technology stacks, improving performance, and adding new capabilities.
-    </div>
-  </ServiceCard>
-</ServiceCardGrid>
+                <h3
+                  class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+                >
+                  Key Benefits
+                </h3>
 
-<h3 class="text-2xl font-bold mb-6 text-foreground mt-12 text-center">Key Benefits</h3>
+                <div class="bg-background border-border rounded-2xl">
+                  <div
+                    class="gradient-mesh not-prose mb-20 grid gap-6 border p-10 md:grid-cols-2 lg:grid-cols-3"
+                  >
+                    <div class="flex flex-col items-center p-6 text-center">
+                      <div class="mb-4">
+                        <Target className="text-primary h-10 w-10" />
+                      </div>
+                      <h4 class="text-foreground mb-2 text-xl font-bold">
+                        Tailored Solutions
+                      </h4>
+                      <div class="text-muted-foreground">
+                        Applications designed specifically for your business
+                        processes
+                      </div>
+                    </div>
 
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mb-20">
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <Target className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Tailored Solutions</h4>
-    <div class="text-muted-foreground">Applications designed specifically for your business processes</div>
-  </div>
+                    <div class="flex flex-col items-center p-6 text-center">
+                      <div class="mb-4">
+                        <Trophy className="text-primary h-10 w-10" />
+                      </div>
+                      <h4 class="text-foreground mb-2 text-xl font-bold">
+                        Competitive Advantage
+                      </h4>
+                      <div class="text-muted-foreground">
+                        Custom features that differentiate you from competitors
+                      </div>
+                    </div>
 
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <Trophy className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Competitive Advantage</h4>
-    <div class="text-muted-foreground">Custom features that differentiate you from competitors</div>
-  </div>
+                    <div class="flex flex-col items-center p-6 text-center">
+                      <div class="mb-4">
+                        <TrendingUp className="text-primary h-10 w-10" />
+                      </div>
+                      <h4 class="text-foreground mb-2 text-xl font-bold">
+                        Increased Efficiency
+                      </h4>
+                      <div class="text-muted-foreground">
+                        Automation reduces manual work and human error
+                      </div>
+                    </div>
 
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <TrendingUp className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Increased Efficiency</h4>
-    <div class="text-muted-foreground">Automation reduces manual work and human error</div>
-  </div>
+                    <div class="flex flex-col items-center p-6 text-center">
+                      <div class="mb-4">
+                        <Link className="text-primary h-10 w-10" />
+                      </div>
+                      <h4 class="text-foreground mb-2 text-xl font-bold">
+                        Better Integration
+                      </h4>
+                      <div class="text-muted-foreground">
+                        Seamless connectivity between all your business systems
+                      </div>
+                    </div>
 
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <Link className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Better Integration</h4>
-    <div class="text-muted-foreground">Seamless connectivity between all your business systems</div>
-  </div>
+                    <div class="flex flex-col items-center p-6 text-center">
+                      <div class="mb-4">
+                        <Maximize className="text-primary h-10 w-10" />
+                      </div>
+                      <h4 class="text-foreground mb-2 text-xl font-bold">
+                        Scalability
+                      </h4>
+                      <div class="text-muted-foreground">
+                        Applications that grow with your business needs
+                      </div>
+                    </div>
 
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <Maximize className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Scalability</h4>
-    <div class="text-muted-foreground">Applications that grow with your business needs</div>
-  </div>
+                    <div class="flex flex-col items-center p-6 text-center">
+                      <div class="mb-4">
+                        <ShieldCheck className="text-primary h-10 w-10" />
+                      </div>
+                      <h4 class="text-foreground mb-2 text-xl font-bold">
+                        Data Ownership
+                      </h4>
+                      <div class="text-muted-foreground">
+                        Full control over your applications and data
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <ShieldCheck className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Data Ownership</h4>
-    <div class="text-muted-foreground">Full control over your applications and data</div>
-  </div>
-</div>
+                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+                  Technology Stack
+                </h3>
 
-<h3 class="text-2xl font-bold mb-6 text-foreground text-center">Technology Stack</h3>
+                <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+                  <div class="glass border-border rounded-2xl border p-8">
+                    <div class="mb-6 flex items-center gap-3">
+                      <Terminal className="text-primary h-8 w-8" />
+                      <h4 class="text-foreground text-2xl font-bold">
+                        Technology Expertise
+                      </h4>
+                    </div>
+                    <div class="text-muted-foreground space-y-3">
+                      <div class="flex items-start gap-2">
+                        <Database
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                        />
+                        <span
+                          ><strong class="text-foreground">.NET & C#:</strong> Enterprise
+                          applications and services</span
+                        >
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <Code2 className="text-primary mt-1 h-5 w-5 shrink-0" />
+                        <span
+                          ><strong class="text-foreground"
+                            >JavaScript/TypeScript:</strong
+                          > React, Node.js, modern web frameworks</span
+                        >
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <Search
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                        />
+                        <span
+                          ><strong class="text-foreground">Python:</strong> Data
+                          processing, automation, machine learning</span
+                        >
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <LayoutIcon
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                        />
+                        <span
+                          ><strong class="text-foreground">SQL & NoSQL:</strong>
+                          Database design and optimization</span
+                        >
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <Cloud className="text-primary mt-1 h-5 w-5 shrink-0" />
+                        <span
+                          ><strong class="text-foreground"
+                            >Cloud Platforms:</strong
+                          > AWS, Azure, Google Cloud</span
+                        >
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <GitBranch
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                        />
+                        <span
+                          ><strong class="text-foreground">DevOps:</strong> CI/CD,
+                          containerization, infrastructure as code</span
+                        >
+                      </div>
+                    </div>
+                  </div>
 
-<div class="grid md:grid-cols-2 gap-8 not-prose mb-20">
-  <div class="p-8 rounded-2xl glass border border-border">
-    <div class="flex items-center gap-3 mb-6">
-      <Terminal className="w-8 h-8 text-primary" />
-      <h4 class="text-2xl font-bold text-foreground">Technology Expertise</h4>
-    </div>
-    <div class="space-y-3 text-muted-foreground">
-      <div class="flex items-start gap-2">
-        <Database className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">.NET & C#:</strong> Enterprise applications and services</span>
-      </div>
-      <div class="flex items-start gap-2">
-        <Code2 className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">JavaScript/TypeScript:</strong> React, Node.js, modern web frameworks</span>
-      </div>
-      <div class="flex items-start gap-2">
-        <Search className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">Python:</strong> Data processing, automation, machine learning</span>
-      </div>
-      <div class="flex items-start gap-2">
-        <LayoutIcon className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">SQL & NoSQL:</strong> Database design and optimization</span>
-      </div>
-      <div class="flex items-start gap-2">
-        <Cloud className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">Cloud Platforms:</strong> AWS, Azure, Google Cloud</span>
-      </div>
-      <div class="flex items-start gap-2">
-        <GitBranch className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">DevOps:</strong> CI/CD, containerization, infrastructure as code</span>
-      </div>
-    </div>
-  </div>
+                  <div class="glass border-border rounded-2xl border p-8">
+                    <div class="mb-6 flex items-center gap-3">
+                      <Shield className="text-primary h-8 w-8" />
+                      <h4 class="text-foreground text-2xl font-bold">
+                        Application Security
+                      </h4>
+                    </div>
+                    <div class="text-muted-foreground space-y-3">
+                      <div class="flex items-start gap-2">
+                        <Lock className="text-primary mt-1 h-5 w-5 shrink-0" />
+                        <span
+                          ><strong class="text-foreground"
+                            >Secure Coding:</strong
+                          > Practices and code reviews</span
+                        >
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <KeyRound
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                        />
+                        <span
+                          ><strong class="text-foreground"
+                            >Authentication:</strong
+                          > Authorization frameworks</span
+                        >
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <Eye className="text-primary mt-1 h-5 w-5 shrink-0" />
+                        <span
+                          ><strong class="text-foreground">Encryption:</strong> Data
+                          at rest and in transit</span
+                        >
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <Bell className="text-primary mt-1 h-5 w-5 shrink-0" />
+                        <span
+                          ><strong class="text-foreground"
+                            >Security Testing:</strong
+                          > Vulnerability scanning</span
+                        >
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <Award className="text-primary mt-1 h-5 w-5 shrink-0" />
+                        <span
+                          ><strong class="text-foreground">Compliance:</strong> HIPAA,
+                          PCI-DSS, SOC 2 standards</span
+                        >
+                      </div>
+                      <div class="flex items-start gap-2">
+                        <Rocket
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                        />
+                        <span
+                          ><strong class="text-foreground">Monitoring:</strong> Security
+                          monitoring and response</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-  <div class="p-8 rounded-2xl glass border border-border">
-    <div class="flex items-center gap-3 mb-6">
-      <Shield className="w-8 h-8 text-primary" />
-      <h4 class="text-2xl font-bold text-foreground">Application Security</h4>
-    </div>
-    <div class="space-y-3 text-muted-foreground">
-      <div class="flex items-start gap-2">
-        <Lock className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">Secure Coding:</strong> Practices and code reviews</span>
-      </div>
-      <div class="flex items-start gap-2">
-        <KeyRound className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">Authentication:</strong> Authorization frameworks</span>
-      </div>
-      <div class="flex items-start gap-2">
-        <Eye className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">Encryption:</strong> Data at rest and in transit</span>
-      </div>
-      <div class="flex items-start gap-2">
-        <Bell className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">Security Testing:</strong> Vulnerability scanning</span>
-      </div>
-      <div class="flex items-start gap-2">
-        <Award className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">Compliance:</strong> HIPAA, PCI-DSS, SOC 2 standards</span>
-      </div>
-      <div class="flex items-start gap-2">
-        <Rocket className="w-5 h-5 text-primary mt-1 shrink-0" />
-        <span><strong class="text-foreground">Monitoring:</strong> Security monitoring and response</span>
-      </div>
-    </div>
-  </div>
-</div>
+                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+                  Why Choose BDK for Custom Development?
+                </h3>
 
-<h3 class="text-2xl font-bold mb-6 text-foreground text-center">Why Choose BDK for Custom Development?</h3>
-
-<div class="text-center">
-  <div class="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
-    We bring decades of experience building mission-critical business applications. Our team understands both technology and business—we speak your language and translate business requirements into elegant technical solutions.
-  </div>
-  <div class="grid md:grid-cols-3 gap-6 mt-8">
-    <div>
-      <h5 class="font-bold text-primary text-lg mb-2">Enterprise Experience</h5>
-      <div class="text-sm text-muted-foreground">Built applications for IBM Power systems, integrated with complex ERP platforms, and developed solutions that handle millions of transactions</div>
-    </div>
-    <div>
-      <h5 class="font-bold text-primary text-lg mb-2">Full-Stack Capability</h5>
-      <div class="text-sm text-muted-foreground">From database design to user interfaces, APIs to DevOps, we handle every aspect of application development</div>
-    </div>
-    <div>
-      <h5 class="font-bold text-primary text-lg mb-2">Long-Term Partnership</h5>
-      <div class="text-sm text-muted-foreground">We build relationships, not just software. Many of our clients have been with us for years as we continue to evolve their applications</div>
-    </div>
-  </div>
-  <div class="text-xl font-semibold text-primary mt-8">
-    Let us help you build the custom applications your business needs to compete and grow.
-  </div>
-</div>
-
-</div>
-
+                <div class="text-center">
+                  <div
+                    class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
+                  >
+                    We bring decades of experience building mission-critical
+                    business applications. Our team understands both technology
+                    and business—we speak your language and translate business
+                    requirements into elegant technical solutions.
+                  </div>
+                  <div class="mt-8 grid gap-6 md:grid-cols-3">
+                    <div>
+                      <h5 class="text-primary mb-2 text-lg font-bold">
+                        Enterprise Experience
+                      </h5>
+                      <div class="text-muted-foreground text-sm">
+                        Built applications for IBM Power systems, integrated
+                        with complex ERP platforms, and developed solutions that
+                        handle millions of transactions
+                      </div>
+                    </div>
+                    <div>
+                      <h5 class="text-primary mb-2 text-lg font-bold">
+                        Full-Stack Capability
+                      </h5>
+                      <div class="text-muted-foreground text-sm">
+                        From database design to user interfaces, APIs to DevOps,
+                        we handle every aspect of application development
+                      </div>
+                    </div>
+                    <div>
+                      <h5 class="text-primary mb-2 text-lg font-bold">
+                        Long-Term Partnership
+                      </h5>
+                      <div class="text-muted-foreground text-sm">
+                        We build relationships, not just software. Many of our
+                        clients have been with us for years as we continue to
+                        evolve their applications
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-primary mt-8 text-xl font-semibold">
+                    Let us help you build the custom applications your business
+                    needs to compete and grow.
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="text-center glass rounded-2xl p-12 animate-in fade-in zoom-in duration-500 delay-800 fill-mode-both">
-              <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">Ready to Get Started?</h2>
-              <p class="text-xl text-muted-foreground mb-8">
-                Let's discuss how {service.data.title.toLowerCase()} can transform your business.
+            <div
+              class="glass animate-in fade-in zoom-in fill-mode-both rounded-2xl p-12 text-center delay-800 duration-500"
+            >
+              <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+                Ready to Get Started?
+              </h2>
+              <p class="text-muted-foreground mb-8 text-xl">
+                Let's discuss how {service.data.title.toLowerCase()} can transform
+                your business.
               </p>
-              <a href="/contact" class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm">
+              <a
+                href="/contact"
+                class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+              >
                 Contact Us Today
               </a>
             </div>

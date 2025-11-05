@@ -1,9 +1,9 @@
 ---
-import { getEntry } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
-import Navigation from "../../components/Navigation";
-import { getNavigationData } from "@/lib/navigation-data";
-import { iconMap } from "@/lib/icons";
+import { getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navigation from '../../components/Navigation';
+import { getNavigationData } from '@/lib/navigation-data';
+import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import {
   TrendingUp,
@@ -13,7 +13,7 @@ import {
   CheckCircle2,
   Database,
   Users,
-} from "lucide-react";
+} from 'lucide-react';
 
 const service = await getEntry('services', 'business-analytics');
 if (!service) {
@@ -23,193 +23,336 @@ const { servicesData, recentPosts } = await getNavigationData();
 const IconComponent = iconMap[service.data.icon];
 ---
 
-<Layout title={`${service.data.title} - BDK Inc`} description={service.data.description}>
+<Layout
+  title={`${service.data.title} - BDK Inc`}
+  description={service.data.description}
+>
   <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
-    <div class="absolute inset-0 gradient-mesh"></div>
-    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
+  <main id="main-content" class="relative -mt-16 min-h-screen pt-16">
+    <div class="gradient-mesh absolute inset-0"></div>
+    <div class="circuit-overlay absolute inset-0 opacity-40"></div>
 
     <div class="relative z-10">
-      <section class="py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-          <div class="text-center mb-16">
-            <div class="inline-flex items-center justify-center p-4 rounded-2xl bg-linear-to-brr from-primary/10 to-secondary/10 mb-6 animate-in fade-in zoom-in duration-500 delay-100 fill-mode-both">
-              <IconComponent className="w-12 h-12 text-primary" />
+      <section class="px-4 py-24 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <div class="mb-16 text-center">
+            <div
+              class="bg-linear-to-brr from-primary/10 to-secondary/10 animate-in fade-in zoom-in fill-mode-both mb-6 inline-flex items-center justify-center rounded-2xl p-4 delay-100 duration-500"
+            >
+              <IconComponent className="text-primary h-12 w-12" />
             </div>
-            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
-              <span class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent">
+            <h1
+              class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both mb-6 text-5xl font-bold delay-200 duration-700 md:text-6xl"
+            >
+              <span
+                class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >
                 {service.data.title}
               </span>
             </h1>
-            <p class="text-xl text-muted-foreground max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-3 duration-500 delay-400 fill-mode-both">
+            <p
+              class="text-muted-foreground animate-in fade-in slide-in-from-bottom-3 fill-mode-both mx-auto max-w-3xl text-xl delay-400 duration-500"
+            >
               {service.data.description}
             </p>
           </div>
 
-          <div class="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600 fill-mode-both">
-            <div class="max-w-7xl mx-auto">
-<div class="service-content-wrapper">
+          <div
+            class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
+          >
+            <div class="mx-auto max-w-7xl">
+              <div class="service-content-wrapper">
+                <div class="not-prose mx-auto max-w-4xl">
+                  <h2
+                    class="text-foreground mb-6 text-center text-3xl font-bold"
+                  >
+                    Transform Data into Decisions
+                  </h2>
+                  <div
+                    class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
+                  >
+                    Turn your data into actionable insights with custom
+                    reporting and real-time analytics. Make data-driven
+                    decisions with confidence using our automated reporting
+                    solutions that deliver the information you need, when you
+                    need it.
+                  </div>
+                </div>
 
-<div class="max-w-4xl mx-auto not-prose">
-  <h2 class="text-3xl font-bold mb-6 text-foreground text-center">
-    Transform Data into Decisions
-  </h2>
-  <div class="text-lg text-muted-foreground leading-relaxed mb-10 text-center">
-    Turn your data into actionable insights with custom reporting and real-time analytics. Make
-    data-driven decisions with confidence using our automated reporting solutions that deliver the
-    information you need, when you need it.
-  </div>
-</div>
+                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+                  Stop Drowning in Data
+                </h3>
 
-<h3 class="text-2xl font-bold mb-6 text-foreground text-center">Stop Drowning in Data</h3>
+                <ServiceCardGrid>
+                  <ServiceCard>
+                    <div class="mb-6">
+                      <Clock className="text-primary h-16 w-16" />
+                    </div>
+                    <h4 class="text-primary mb-4 text-2xl font-bold">
+                      Replace Manual Reporting
+                    </h4>
+                    <div class="text-muted-foreground leading-relaxed">
+                      Stop spending hours creating reports in spreadsheets. Our
+                      automated analytics solutions pull data from your systems
+                      and generate reports automatically—daily, weekly, or in
+                      real-time.
+                    </div>
+                  </ServiceCard>
 
-<ServiceCardGrid>
-  <ServiceCard>
-    <div class="mb-6">
-      <Clock className="w-16 h-16 text-primary" />
-    </div>
-    <h4 class="text-2xl font-bold mb-4 text-primary">Replace Manual Reporting</h4>
-    <div class="text-muted-foreground leading-relaxed">
-      Stop spending hours creating reports in spreadsheets. Our automated analytics solutions pull
-      data from your systems and generate reports automatically—daily, weekly, or in real-time.
-    </div>
-  </ServiceCard>
+                  <ServiceCard>
+                    <div class="mb-6">
+                      <Zap className="text-primary h-16 w-16" />
+                    </div>
+                    <h4 class="text-primary mb-4 text-2xl font-bold">
+                      Real-Time Visibility
+                    </h4>
+                    <div class="text-muted-foreground leading-relaxed">
+                      Don't make decisions based on yesterday's data. Our
+                      analytics platforms provide real-time visibility into your
+                      operations with up-to-the-minute information.
+                    </div>
+                  </ServiceCard>
 
-  <ServiceCard>
-    <div class="mb-6">
-      <Zap className="w-16 h-16 text-primary" />
-    </div>
-    <h4 class="text-2xl font-bold mb-4 text-primary">Real-Time Visibility</h4>
-    <div class="text-muted-foreground leading-relaxed">
-      Don't make decisions based on yesterday's data. Our analytics platforms provide real-time
-      visibility into your operations with up-to-the-minute information.
-    </div>
-  </ServiceCard>
+                  <ServiceCard>
+                    <div class="mb-6">
+                      <Target className="text-primary h-16 w-16" />
+                    </div>
+                    <h4 class="text-primary mb-4 text-2xl font-bold">
+                      Custom Dashboards
+                    </h4>
+                    <div class="text-muted-foreground leading-relaxed">
+                      We create custom dashboards tailored to your specific
+                      needs, displaying the KPIs and metrics that matter most to
+                      your operation. See your entire business at a glance.
+                    </div>
+                  </ServiceCard>
+                </ServiceCardGrid>
 
-  <ServiceCard>
-    <div class="mb-6">
-      <Target className="w-16 h-16 text-primary" />
-    </div>
-    <h4 class="text-2xl font-bold mb-4 text-primary">Custom Dashboards</h4>
-    <div class="text-muted-foreground leading-relaxed">
-      We create custom dashboards tailored to your specific needs, displaying the KPIs and metrics
-      that matter most to your operation. See your entire business at a glance.
-    </div>
-  </ServiceCard>
-</ServiceCardGrid>
+                <h3
+                  class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+                >
+                  Key Benefits
+                </h3>
 
-<h3 class="text-2xl font-bold mb-6 text-foreground mt-12 text-center">Key Benefits</h3>
+                <div
+                  class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+                >
+                  <div
+                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+                  >
+                    <div class="mb-4">
+                      <Clock className="text-primary h-10 w-10" />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Save Time
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Eliminate hours of manual report creation
+                    </div>
+                  </div>
 
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 not-prose mb-20">
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <Clock className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Save Time</h4>
-    <div class="text-muted-foreground">Eliminate hours of manual report creation</div>
-  </div>
+                  <div
+                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+                  >
+                    <div class="mb-4">
+                      <CheckCircle2 className="text-primary h-10 w-10" />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Improve Accuracy
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Automated data collection reduces errors
+                    </div>
+                  </div>
 
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <CheckCircle2 className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Improve Accuracy</h4>
-    <div class="text-muted-foreground">Automated data collection reduces errors</div>
-  </div>
+                  <div
+                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+                  >
+                    <div class="mb-4">
+                      <Target className="text-primary h-10 w-10" />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Better Decisions
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Access to real-time information supports informed choices
+                    </div>
+                  </div>
 
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <Target className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Better Decisions</h4>
-    <div class="text-muted-foreground">Access to real-time information supports informed choices</div>
-  </div>
+                  <div
+                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+                  >
+                    <div class="mb-4">
+                      <TrendingUp className="text-primary h-10 w-10" />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Identify Trends
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Spot patterns and opportunities in your data
+                    </div>
+                  </div>
 
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <TrendingUp className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Identify Trends</h4>
-    <div class="text-muted-foreground">Spot patterns and opportunities in your data</div>
-  </div>
+                  <div
+                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+                  >
+                    <div class="mb-4">
+                      <Users className="text-primary h-10 w-10" />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Increase Accountability
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Clear metrics help track performance
+                    </div>
+                  </div>
 
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <Users className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Increase Accountability</h4>
-    <div class="text-muted-foreground">Clear metrics help track performance</div>
-  </div>
+                  <div
+                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+                  >
+                    <div class="mb-4">
+                      <Database className="text-primary h-10 w-10" />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Integration
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Connect data from multiple systems into unified reports
+                    </div>
+                  </div>
+                </div>
 
-  <div class="p-6 rounded-xl bg-background/50 border border-border flex flex-col items-center text-center">
-    <div class="mb-4">
-      <Database className="w-10 h-10 text-primary" />
-    </div>
-    <h4 class="text-xl font-bold mb-2 text-foreground">Integration</h4>
-    <div class="text-muted-foreground">Connect data from multiple systems into unified reports</div>
-  </div>
-</div>
+                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+                  Our Process
+                </h3>
 
-<h3 class="text-2xl font-bold mb-6 text-foreground text-center">Our Process</h3>
+                <div class="bg-background border-border">
+                  <div
+                    class="gradient-mesh not-prose mb-20 rounded-2xl border p-10"
+                  >
+                    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                      <div class="text-center">
+                        <div
+                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                        >
+                          1
+                        </div>
+                        <h5 class="text-foreground mb-2 text-lg font-bold">
+                          Understand Your Needs
+                        </h5>
+                        <div class="text-muted-foreground text-sm">
+                          We start by learning about your business and the
+                          decisions you need to make
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <div
+                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                        >
+                          2
+                        </div>
+                        <h5 class="text-foreground mb-2 text-lg font-bold">
+                          Identify Data Sources
+                        </h5>
+                        <div class="text-muted-foreground text-sm">
+                          We locate the data you need across your systems
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <div
+                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                        >
+                          3
+                        </div>
+                        <h5 class="text-foreground mb-2 text-lg font-bold">
+                          Design Reports
+                        </h5>
+                        <div class="text-muted-foreground text-sm">
+                          We create custom reports and dashboards tailored to
+                          your requirements
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <div
+                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                        >
+                          4
+                        </div>
+                        <h5 class="text-foreground mb-2 text-lg font-bold">
+                          Automate Collection
+                        </h5>
+                        <div class="text-muted-foreground text-sm">
+                          We set up automated data gathering and processing
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <div
+                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                        >
+                          5
+                        </div>
+                        <h5 class="text-foreground mb-2 text-lg font-bold">
+                          Deploy & Train
+                        </h5>
+                        <div class="text-muted-foreground text-sm">
+                          We implement the solution and train your team to use
+                          it
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <div
+                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                        >
+                          6
+                        </div>
+                        <h5 class="text-foreground mb-2 text-lg font-bold">
+                          Optimize
+                        </h5>
+                        <div class="text-muted-foreground text-sm">
+                          We continuously refine reports based on your feedback
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-<div class="mb-20 p-10 rounded-2xl border border-border bg-linear-to-br from-primary/10 to-secondary/10 not-prose">
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-    <div class="text-center">
-      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">1</div>
-      <h5 class="font-bold text-lg mb-2 text-foreground">Understand Your Needs</h5>
-      <div class="text-muted-foreground text-sm">We start by learning about your business and the decisions you need to make</div>
-    </div>
-    <div class="text-center">
-      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">2</div>
-      <h5 class="font-bold text-lg mb-2 text-foreground">Identify Data Sources</h5>
-      <div class="text-muted-foreground text-sm">We locate the data you need across your systems</div>
-    </div>
-    <div class="text-center">
-      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">3</div>
-      <h5 class="font-bold text-lg mb-2 text-foreground">Design Reports</h5>
-      <div class="text-muted-foreground text-sm">We create custom reports and dashboards tailored to your requirements</div>
-    </div>
-    <div class="text-center">
-      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">4</div>
-      <h5 class="font-bold text-lg mb-2 text-foreground">Automate Collection</h5>
-      <div class="text-muted-foreground text-sm">We set up automated data gathering and processing</div>
-    </div>
-    <div class="text-center">
-      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">5</div>
-      <h5 class="font-bold text-lg mb-2 text-foreground">Deploy & Train</h5>
-      <div class="text-muted-foreground text-sm">We implement the solution and train your team to use it</div>
-    </div>
-    <div class="text-center">
-      <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/20 text-primary font-bold text-xl mb-4">6</div>
-      <h5 class="font-bold text-lg mb-2 text-foreground">Optimize</h5>
-      <div class="text-muted-foreground text-sm">We continuously refine reports based on your feedback</div>
-    </div>
-  </div>
-</div>
+                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+                  Why Choose BDK for Analytics?
+                </h3>
 
-<h3 class="text-2xl font-bold mb-6 text-foreground text-center">Why Choose BDK for Analytics?</h3>
-
-<div class="text-center">
-  <div class="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-6">
-    We combine technical expertise with business understanding. Our team doesn't just build reports—we
-    help you identify the metrics that matter and design analytics that drive better decisions. We work
-    with your existing systems and data, creating solutions that integrate seamlessly into your operations.
-  </div>
-  <div class="text-xl font-semibold text-primary">
-    Transform your data from a burden into a competitive advantage.
-  </div>
-</div>
-
-</div>
-
+                <div class="text-center">
+                  <div
+                    class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
+                  >
+                    We combine technical expertise with business understanding.
+                    Our team doesn't just build reports—we help you identify the
+                    metrics that matter and design analytics that drive better
+                    decisions. We work with your existing systems and data,
+                    creating solutions that integrate seamlessly into your
+                    operations.
+                  </div>
+                  <div class="text-primary text-xl font-semibold">
+                    Transform your data from a burden into a competitive
+                    advantage.
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="text-center glass rounded-2xl p-12 animate-in fade-in zoom-in duration-500 delay-800 fill-mode-both">
-              <h2 class="text-3xl md:text-4xl font-bold mb-4 text-foreground">Ready to Get Started?</h2>
-              <p class="text-xl text-muted-foreground mb-8">
-                Let's discuss how {service.data.title.toLowerCase()} can transform your business.
+            <div
+              class="glass animate-in fade-in zoom-in fill-mode-both rounded-2xl p-12 text-center delay-800 duration-500"
+            >
+              <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+                Ready to Get Started?
+              </h2>
+              <p class="text-muted-foreground mb-8 text-xl">
+                Let's discuss how {service.data.title.toLowerCase()} can transform
+                your business.
               </p>
-              <a href="/contact" class="inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm">
+              <a
+                href="/contact"
+                class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+              >
                 Contact Us Today
               </a>
             </div>

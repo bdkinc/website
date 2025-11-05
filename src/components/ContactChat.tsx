@@ -19,7 +19,7 @@ import {
   PromptInputTextarea,
   PromptInputTools,
 } from "@/components/ai-elements/prompt-input";
-import { Response } from "@/components/ai-elements/response";
+
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 
 import { nanoid } from "nanoid";
@@ -34,6 +34,7 @@ type MessageType = {
   };
   avatar: string;
   name: string;
+  isStreaming?: boolean;
 };
 
 const initialMessages: MessageType[] = [
@@ -96,6 +97,12 @@ export default function ContactChat() {
         );
       }
 
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.version.id === messageId ? { ...msg, isStreaming: false } : msg
+        )
+      );
+
       setStatus("ready");
     },
     []
@@ -130,6 +137,7 @@ export default function ContactChat() {
           },
           avatar: "/favicon.svg",
           name: "BDK Inc",
+          isStreaming: true,
         };
 
         setMessages((prev) => [...prev, assistantMessage]);
@@ -164,9 +172,13 @@ export default function ContactChat() {
             <ConversationContent>
               {messages.map((message) => (
                 <Message from={message.from} key={message.key}>
-                  <div>
-                    <MessageContent>
-                      <Response>{message.version.content}</Response>
+                  <div className="max-w-[80%]">
+                    <MessageContent
+                      className="relative transition-all duration-200 ease-out max-w-none"
+                    >
+                      <div className="whitespace-pre-wrap">
+                        {message.version.content}
+                      </div>
                     </MessageContent>
                   </div>
                   <MessageAvatar name={message.name} src={message.avatar} />
@@ -176,17 +188,15 @@ export default function ContactChat() {
             <ConversationScrollButton />
           </Conversation>
           <div className="grid shrink-0 gap-4 p-4 border-t border-input">
-            {messages.length === 1 && (
-              <Suggestions>
-                {suggestions.map((suggestion) => (
-                  <Suggestion
-                    key={suggestion}
-                    onClick={() => handleSuggestionClick(suggestion)}
-                    suggestion={suggestion}
-                  />
-                ))}
-              </Suggestions>
-            )}
+            <Suggestions>
+              {suggestions.map((suggestion) => (
+                <Suggestion
+                  key={suggestion}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  suggestion={suggestion}
+                />
+              ))}
+            </Suggestions>
             <PromptInput onSubmit={handleSubmit}>
               <PromptInputBody>
                 <PromptInputTextarea
