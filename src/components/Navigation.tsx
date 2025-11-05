@@ -246,6 +246,60 @@ export default function Navigation({
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
+                {/* Locations Dropdown */}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger
+                    className={cn(
+                      "bg-transparent! hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl hover:text-primary focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent! transition-all"
+                    )}
+                  >
+                    Locations
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="bg-background">
+                    <ul className="w-[400px] p-4">
+                      <li className="mb-2 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both">
+                        <div className="px-3 py-2 text-sm font-semibold text-foreground">
+                          Eastern Shore Regions
+                        </div>
+                      </li>
+                      <li className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: "50ms" }}>
+                        <NavigationMenuLink asChild>
+                          <a
+                            href="/locations/maryland-eastern-shore"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-snug">
+                              Maryland Eastern Shore
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              Cambridge, Easton, Salisbury, Ocean City
+                            </p>
+                          </a>
+                        </NavigationMenuLink>
+                      </li>
+                      <li className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both" style={{ animationDelay: "100ms" }}>
+                        <NavigationMenuLink asChild>
+                          <a
+                            href="/locations/delaware-eastern-shore"
+                            className={cn(
+                              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            )}
+                          >
+                            <div className="text-sm font-medium leading-snug">
+                              Delaware Eastern Shore
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              Dover, Rehoboth Beach, Lewes, Georgetown
+                            </p>
+                          </a>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
                 {/* Contact */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
