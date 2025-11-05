@@ -32,6 +32,7 @@ import CountUp from "./CountUp";
 export default function Hero() {
   const iconsRef = useRef<SVGSVGElement[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
+  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
     // Check if user prefers reduced motion
@@ -40,6 +41,7 @@ export default function Hero() {
 
     // Animate floating icons with GSAP for continuous animation
     const icons = iconsRef.current.filter((icon) => icon !== null);
+    const buttons = buttonsRef.current.filter((button) => button !== null);
 
     const ctx = gsap.context(() => {
       icons.forEach((icon) => {
@@ -62,15 +64,66 @@ export default function Hero() {
           }
         );
 
-        // Add continuous floating animation
+        // Add continuous floating animation with enhanced motion
         gsap.to(icon, {
-          y: gsap.utils.random(-15, 15),
-          duration: gsap.utils.random(3, 5),
+          y: gsap.utils.random(-25, 25),
+          x: gsap.utils.random(-10, 10),
+          rotation: gsap.utils.random(-10, 10),
+          duration: gsap.utils.random(4, 6),
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut",
           delay: gsap.utils.random(0, 2),
         });
+
+        // Add subtle glow effect
+        gsap.to(icon, {
+          opacity: gsap.utils.random(0.15, 0.35),
+          duration: gsap.utils.random(2, 3),
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: gsap.utils.random(0, 1),
+        });
+      });
+
+      // Add hover animations to buttons
+      buttons.forEach((button) => {
+        // Find the arrow icon inside the button
+        const arrow = button.querySelector('[class*="h-4"]');
+        
+        if (arrow) {
+          // Set initial state - arrow closer to text
+          gsap.set(arrow, { x: -2 });
+          
+          // Hover enter animation - move arrow further from text
+          const handleMouseEnter = () => {
+            gsap.to(arrow, {
+              x: 3,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          };
+
+          // Hover leave animation - return arrow closer to text
+          const handleMouseLeave = () => {
+            gsap.to(arrow, {
+              x: -2,
+              duration: 0.3,
+              ease: "power2.out",
+            });
+          };
+
+          // Add event listeners
+          button.addEventListener("mouseenter", handleMouseEnter);
+          button.addEventListener("mouseleave", handleMouseLeave);
+
+          // Clean up function
+          return () => {
+            button.removeEventListener("mouseenter", handleMouseEnter);
+            button.removeEventListener("mouseleave", handleMouseLeave);
+          };
+        }
       });
     }, contentRef);
 
@@ -82,14 +135,20 @@ export default function Hero() {
       iconsRef.current.push(el);
     }
   };
+
+  const addButtonRef = (el: HTMLButtonElement | null) => {
+    if (el && !buttonsRef.current.includes(el)) {
+      buttonsRef.current.push(el);
+    }
+  };
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden -mt-16 pt-16">
       {/* Aurora background - extends to top */}
       <div className="absolute inset-0 -top-16 opacity-30 dark:opacity-60">
         <Aurora
           colorStops={["#00d4ff", "#7c3aed", "#00d4ff"]}
-          amplitude={1.5}
-          blend={0.4}
+          amplitude={1.8}
+          blend={0.5}
           speed={0.8}
         />
       </div>
@@ -229,15 +288,15 @@ export default function Hero() {
         <div className="space-y-8">
           {/* Badge - fade in + slide from top */}
           <div className="inline-flex items-center px-4 py-2 rounded-full glass border border-input animate-in fade-in slide-in-from-top-4 duration-500 fill-mode-both">
-            <span className="text-sm text-brand-primary font-medium">
-              {new Date().getFullYear() - 2000}+ Years of IT Excellence
+            <span className="text-sm ">
+              {new Date().getFullYear() - 2000}+ Years of <span className="text-orange-500 dark:text-orange-300 font-medium">IT Excellence</span>
             </span>
           </div>
 
           {/* Main heading - fade in + slide from bottom with stagger */}
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight animate-in fill-mode-both fade-in slide-in-from-bottom-8 duration-700 delay-100">
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight animate-in fill-mode-both fade-in slide-in-from-bottom-8 duration-700 delay-100">
             <span>IT Made</span>{" "}
-            <span className="bg-linear-to-br from-brand-primary to-brand-secondary bg-clip-text text-transparent">
+            <span className="text-brand-primary">
               Simple
             </span>
           </h1>
@@ -254,26 +313,24 @@ export default function Hero() {
             <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
               <Button
                 size="lg"
-                className="group bg-brand-primary hover:bg-brand-primary/90 text-white shadow-lg"
-                asChild
+                className="shadow-lg"
+                ref={addButtonRef}
+                onClick={() => window.location.href = '/contact'}
               >
-                <a href="/contact">
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </a>
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
             <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-500 delay-400">
               <Button
                 size="lg"
                 variant="outline"
-                className="border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white shadow-lg"
-                asChild
+                className="shadow-lg"
+                ref={addButtonRef}
+                onClick={() => window.location.href = '/services'}
               >
-                <a href="/services">
-                  Explore Services
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </a>
+                Explore Services
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>

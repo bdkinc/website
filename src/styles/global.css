@@ -175,6 +175,10 @@
   );
 }
 
+
+
+
+
 .gradient-mesh {
   background:
     radial-gradient(
@@ -330,6 +334,8 @@ li {
   animation: float 6s ease-in-out infinite;
 }
 
+
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -449,7 +455,7 @@ li {
 /* Service element morphs - longer duration for elegant, organic transitions */
 ::view-transition-group(*):not(::view-transition-group(root)) {
   animation-duration: 0.75s; /* Increased from 0.5s for smoother, more noticeable morphing */
-  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* easeOutQuad - smooth deceleration */
+  animation-timing-function: ease-out; /* easeOutQuad - smooth deceleration */
 }
 
 

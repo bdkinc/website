@@ -38,39 +38,14 @@ export default function Services({ services }: ServicesProps) {
   });
 
   useEffect(() => {
-    // Check if user prefers reduced motion
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    const listeners = [];
-
+    // Apply view-transition names to icons, titles, and descriptions
     iconRefs.current.forEach((icon, index) => {
-      if (!icon) return;
-
-      // Apply view-transition-name
       const slug = services[index]?.slug;
-      if (slug) {
+      if (icon && slug) {
         icon.style.setProperty('view-transition-name', `service-icon-${slug}`);
       }
-
-      const handleMouseEnter = () => {
-        icon.style.transform = "scale(1.15) rotate(5deg)";
-      };
-
-      const handleMouseLeave = () => {
-        icon.style.transform = "scale(1) rotate(0deg)";
-      };
-
-      icon.addEventListener("mouseenter", handleMouseEnter);
-      icon.addEventListener("mouseleave", handleMouseLeave);
-
-      listeners.push({ icon, handleMouseEnter, handleMouseLeave });
     });
 
-    // Apply view-transition names to titles and descriptions
     titleRefs.current.forEach((title, index) => {
       const slug = services[index]?.slug;
       if (title && slug) {
@@ -84,13 +59,6 @@ export default function Services({ services }: ServicesProps) {
         description.style.setProperty('view-transition-name', `service-description-${slug}`);
       }
     });
-
-    return () => {
-      listeners.forEach(({ icon, handleMouseEnter, handleMouseLeave }) => {
-        icon.removeEventListener("mouseenter", handleMouseEnter);
-        icon.removeEventListener("mouseleave", handleMouseLeave);
-      });
-    };
   }, [services]);
 
   return (
@@ -130,7 +98,7 @@ export default function Services({ services }: ServicesProps) {
                 key={service.slug}
                 href={`/services/${service.slug}`}
                 className={cn(
-                  "block group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                  "block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                   "opacity-0 translate-y-6 transition-[opacity,transform] duration-600 ease-out",
                   gridInView && "opacity-100 translate-y-0"
                 )}
@@ -138,8 +106,8 @@ export default function Services({ services }: ServicesProps) {
                   transitionDelay: gridInView ? `${delayMs}ms` : '0ms'
                 }}
               >
-                <Card interactive={true} className={cn(
-                  "h-full cursor-pointer transition-all duration-300 flex flex-col justify-center"
+                <Card className={cn(
+                  "h-full flex flex-col justify-center"
                 )}>
                   <CardHeader className="text-center flex flex-col items-center justify-center flex-1">
                     <div
@@ -147,9 +115,8 @@ export default function Services({ services }: ServicesProps) {
                         iconRefs.current[index] = el;
                       }}
                       className={cn(
-                        "mb-6 p-4 rounded-xl bg-linear-to-brr from-primary/10 to-secondary/10 w-fit mx-auto",
-                        "flex items-center justify-center",
-                        "transition-transform duration-300"
+                        "mb-6 p-4 rounded-xl bg-linear-to-br from-primary/10 to-accent/10 to-secondary/10 w-fit mx-auto",
+                        "flex items-center justify-center"
                       )}
                     >
                       {Icon && <Icon className="w-8 h-8 text-primary" />}
@@ -158,10 +125,7 @@ export default function Services({ services }: ServicesProps) {
                       ref={(el) => {
                         titleRefs.current[index] = el;
                       }}
-                      className={cn(
-                        "text-lg mb-2 text-center",
-                        "transition-colors duration-300 group-hover:text-primary"
-                      )}
+                      className="text-lg mb-2 text-center"
                     >
                       {service.title}
                     </CardTitle>

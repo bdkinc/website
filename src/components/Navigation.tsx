@@ -291,7 +291,7 @@ export default function Navigation({
             {/* Home */}
             <a
               href="/"
-              className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors"
+              className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors duration-300"
             >
               Home
             </a>
@@ -299,7 +299,7 @@ export default function Navigation({
             {/* About */}
             <a
               href="/about"
-              className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors"
+              className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors duration-300"
             >
               About
             </a>
@@ -315,7 +315,7 @@ export default function Navigation({
                   <a
                     key={service.slug}
                     href={`/services/${service.slug}`}
-                    className="flex items-start gap-2 px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors"
+                    className="flex items-start gap-2 px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors duration-300"
                   >
                     {Icon && (
                       <div
@@ -323,7 +323,7 @@ export default function Navigation({
                           style: { ['view-transition-name']: `service-icon-${service.slug}` } as any
                         })}
                       >
-                        <Icon className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                        <Icon className="h-4 w-4 text-accent mt-0.5 shrink-0 transition-colors duration-300" />
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
@@ -390,7 +390,7 @@ export default function Navigation({
             {/* Contact */}
             <a
               href="/contact"
-              className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors"
+              className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors duration-300"
             >
               Contact
             </a>

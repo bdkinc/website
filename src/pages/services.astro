@@ -47,11 +47,9 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
           {/* 3x3 Grid Layout */}
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {
-              services.map((service, index) => {
+              services.map((service) => {
                 // Get the icon component dynamically
                 const IconComponent = iconMap[service.data.icon] || Box;
-                // Calculate stagger delay: 80ms between cards
-                const delayMs = 150 + index * 80;
 
                 return (
                   <a
