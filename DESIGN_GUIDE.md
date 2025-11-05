@@ -322,25 +322,698 @@ useEffect(() => {
 - `hover:scale-105` - Subtle scale effect on hover
 - `hover:shadow-[--shadow-glow-sm]` - Glowing shadow on hover
 
-## Layout Patterns
+## View Transitions API
 
-### Section Structure
-```tsx
-<section className="relative py-16 md:py-24 overflow-hidden">
-  {/* Background effects (aurora, gradient-mesh, circuit-overlay) */}
+### Overview
+The BDK Inc website uses the HTML View Transitions API to create smooth, morphing transitions between pages. This creates a native app-like experience where elements seamlessly transform from one page to another.
+
+**Implemented Transitions:**
+- **Services**: Icon, title, and description morph from services index/navigation → service detail pages
+- **Blog**: Title and description morph from blog index → blog detail pages
+- **Duration**: 0.75s with easeOutQuad easing for smooth, natural motion
+
+### Architecture Setup
+
+#### 1. Enable ClientRouter
+In `src/layouts/Layout.astro`, the ClientRouter component enables view transitions:
+
+```astro
+---
+import { ClientRouter } from 'astro:transitions';
+---
+
+<html>
+  <head>
+    <!-- Meta tags -->
+  </head>
+  <body>
+    <ClientRouter />
+    <slot />
+    
+    <script is:inline>
+      // Preserve theme on page transitions
+      document.addEventListener('astro:after-swap', () => {
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+          document.documentElement.classList.toggle('dark', theme === 'dark');
+        }
+      });
+    </script>
+  </body>
+</html>
+```
+
+**Key Points:**
+- `<ClientRouter />` must be placed in Layout.astro before `<slot />`
+- Use `astro:after-swap` event for post-transition logic (e.g., theme persistence)
+- All pages inherit transition capability automatically
+
+#### 2. Configure CSS Timing
+In `src/styles/global.css`, view transition timing is defined:
+
+```css
+/* View Transitions Configuration */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom element transitions (icons, titles, descriptions) */
+::view-transition-group(*):not(::view-transition-group(root)) {
+  animation-duration: 0.75s;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* easeOutQuad */
+}
+
+/* Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-group(*) {
+    animation-duration: 0.01s !important;
+  }
+}
+```
+
+**Timing Strategy:**
+- **Root transitions** (full page fade): 0.3s for quick page changes
+- **Element morphs**: 0.75s for smooth, visible transformations
+- **Easing**: easeOutQuad creates natural deceleration
+- **Accessibility**: Reduced motion support built-in
+
+### Implementation Patterns
+
+#### Astro Elements (Recommended)
+For static Astro templates, use `transition:name` and `transition:animate`:
+
+```astro
+<!-- Services grid card -->
+<a href={`/services/${service.slug}`}>
+  <Card>
+    <div transition:name={`service-icon-${service.slug}`} transition:animate="initial">
+      <Icon className="icon-lg text-primary" />
+    </div>
+    
+    <h2 transition:name={`service-title-${service.slug}`} transition:animate="initial">
+      {service.title}
+    </h2>
+    
+    <p transition:name={`service-description-${service.slug}`} transition:animate="initial">
+      {service.description}
+    </p>
+  </Card>
+</a>
+
+<!-- Service detail page -->
+<section>
+  <div transition:name={`service-icon-${service.slug}`} transition:animate="initial">
+    <Icon className="h-12 w-12 text-primary" />
+  </div>
   
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {/* Section content */}
+  <h1 transition:name={`service-title-${service.slug}`} transition:animate="initial">
+    {service.title}
+  </h1>
+  
+  <p transition:name={`service-description-${service.slug}`} transition:animate="initial">
+    {service.description}
+  </p>
+</section>
+```
+
+**Key Attributes:**
+- `transition:name={unique-id}` - Pairs elements between pages (must be unique per page)
+- `transition:animate="initial"` - Uses browser's built-in morph animation
+
+#### React Elements (Special Syntax)
+For React components, use bracket notation for the CSS property:
+
+```tsx
+// Navigation.tsx
+<div 
+  {...(showTransitions && {
+    style: { ['view-transition-name']: `service-icon-${service.slug}` } as any
+  })}
+>
+  <Icon className="h-8 w-8 text-primary" />
+</div>
+
+<h3
+  {...(showTransitions && {
+    style: { ['view-transition-name']: `service-title-${service.slug}` } as any
+  })}
+>
+  {service.title}
+</h3>
+```
+
+**Why Bracket Notation?**
+- React doesn't recognize `viewTransitionName` as a standard CSS property
+- Using `['view-transition-name']` directly sets the CSS property name
+- Cast to `as any` to bypass TypeScript type checking
+
+### Transition Naming Conventions
+
+Use descriptive, unique names following this pattern:
+```
+{type}-{element}-{identifier}
+```
+
+**Examples:**
+- `service-icon-managed-it`
+- `service-title-cybersecurity`
+- `service-description-cloud-hosting`
+- `blog-title-network-infrastructure-upgrade-guide`
+- `blog-description-getting-started-with-cloud-security`
+
+**Critical Rules:**
+1. **Must be unique per page** - No duplicate transition names on the same page
+2. **Must match exactly** - Source and destination must use identical names
+3. **Use slug/identifier** - Ensures uniqueness across dynamic content
+
+### Preventing Duplicate Transition Names
+
+When the same element appears multiple times (e.g., Navigation dropdown showing all services), use conditional logic:
+
+```tsx
+// Navigation.tsx
+const isServicesPage = currentPath.startsWith('/services');
+const showTransitions = !isServicesPage;
+
+// Only apply transitions when NOT on services pages
+<div 
+  {...(showTransitions && {
+    style: { ['view-transition-name']: `service-icon-${service.slug}` } as any
+  })}
+>
+  <Icon className="h-8 w-8 text-primary" />
+</div>
+```
+
+**Rationale:**
+- Navigation dropdown includes ALL services (including current page)
+- If on `/services/managed-it`, don't add transition name to "Managed IT" in dropdown
+- Prevents duplicate `service-icon-managed-it` names on same page
+- Only show transitions when navigating FROM non-services pages
+
+### Removing Conflicting Animations
+
+**CRITICAL:** View Transitions API takes snapshots of elements before/after navigation. CSS animations that run immediately on page load (like `animate-in`) break forward transitions.
+
+#### ❌ Broken (Animation Conflicts)
+```astro
+<!-- Destination page - BREAKS forward transitions -->
+<h1 
+  class="animate-in fade-in slide-in-from-bottom-4 duration-700"
+  transition:name="service-title-managed-it"
+>
+  Managed IT Services
+</h1>
+```
+
+**Why it breaks:**
+- Browser captures "before" snapshot on source page
+- Navigation begins
+- Destination page loads with `animate-in` classes
+- Element immediately animates with CSS, destroying "after" snapshot
+- View Transitions API can't morph between snapshots
+
+#### ✅ Fixed (Clean Elements)
+```astro
+<!-- Destination page - Works perfectly -->
+<h1 
+  class="text-foreground text-5xl font-bold"
+  transition:name="service-title-managed-it"
+  transition:animate="initial"
+>
+  Managed IT Services
+</h1>
+```
+
+**What to remove from morphing elements:**
+- `animate-in`
+- `fade-in`
+- `slide-in-from-*`
+- `zoom-in`
+- `duration-*`
+- `delay-*`
+- `fill-mode-both`
+
+**What to keep:**
+- Static styling classes (`text-foreground`, `text-5xl`, `mb-6`, etc.)
+- Interactive classes (`hover:`, `group-hover:`, `transition-colors`, etc.)
+
+### DOM Structure Requirements
+
+Transition names must be on the **same structural level** on both pages.
+
+#### ❌ Structure Mismatch
+```astro
+<!-- Source: transition:name on outer wrapper -->
+<a href="/service">
+  <div transition:name="service-icon-managed-it">
+    <div class="bg-primary/10 p-3 rounded-lg">
+      <Icon className="icon-lg" />
+    </div>
+  </div>
+</a>
+
+<!-- Destination: transition:name on inner styled div -->
+<section>
+  <div>
+    <div class="bg-primary/10 p-3 rounded-lg" transition:name="service-icon-managed-it">
+      <Icon className="h-12 w-12" />
+    </div>
   </div>
 </section>
 ```
 
-### Page Layout
-All pages follow this structure:
+#### ✅ Structure Match
+```astro
+<!-- Source: transition:name on styled wrapper -->
+<a href="/service">
+  <div>
+    <div class="bg-primary/10 p-3 rounded-lg" transition:name="service-icon-managed-it">
+      <Icon className="icon-lg" />
+    </div>
+  </div>
+</a>
+
+<!-- Destination: transition:name on styled wrapper (same level) -->
+<section>
+  <div>
+    <div class="bg-primary/10 p-3 rounded-lg" transition:name="service-icon-managed-it">
+      <Icon className="h-12 w-12" />
+    </div>
+  </div>
+</section>
+```
+
+### Implementation Examples
+
+#### Services Transitions
+```astro
+<!-- services.astro -->
+{services.map(service => (
+  <a href={`/services/${service.slug}`}>
+    <Card>
+      <!-- Icon wrapper -->
+      <div transition:name={`service-icon-${service.slug}`} transition:animate="initial">
+        <div class="bg-primary/5 p-3 rounded-lg">
+          <ServiceIcon className="icon-lg text-primary" />
+        </div>
+      </div>
+      
+      <!-- Title -->
+      <h2 
+        class="text-2xl font-bold"
+        transition:name={`service-title-${service.slug}`}
+        transition:animate="initial"
+      >
+        {service.title}
+      </h2>
+      
+      <!-- Description -->
+      <p 
+        class="text-muted-foreground"
+        transition:name={`service-description-${service.slug}`}
+        transition:animate="initial"
+      >
+        {service.description}
+      </p>
+    </Card>
+  </a>
+))}
+
+<!-- services/[slug].astro -->
+<section>
+  <!-- Icon (matches structure) -->
+  <div transition:name={`service-icon-${service.slug}`} transition:animate="initial">
+    <div class="bg-primary/5 p-3 rounded-lg">
+      <ServiceIcon className="h-12 w-12 text-primary" />
+    </div>
+  </div>
+  
+  <!-- Title (no animate-in classes) -->
+  <h1 
+    class="text-5xl font-bold"
+    transition:name={`service-title-${service.slug}`}
+    transition:animate="initial"
+  >
+    {service.title}
+  </h1>
+  
+  <!-- Description (no animate-in classes) -->
+  <p 
+    class="text-xl"
+    transition:name={`service-description-${service.slug}`}
+    transition:animate="initial"
+  >
+    {service.description}
+  </p>
+</section>
+```
+
+#### Blog Transitions
+```astro
+<!-- blog.astro -->
+{posts.map(post => (
+  <a href={`/blog/${post.slug}`}>
+    <Card>
+      <h2 
+        class="text-2xl font-semibold"
+        transition:name={`blog-title-${post.slug}`}
+        transition:animate="initial"
+      >
+        {post.data.title}
+      </h2>
+      
+      <p 
+        class="text-sm text-muted-foreground"
+        transition:name={`blog-description-${post.slug}`}
+        transition:animate="initial"
+      >
+        {post.data.description}
+      </p>
+    </Card>
+  </a>
+))}
+
+<!-- blog/[slug].astro -->
+<section>
+  <h1 
+    class="text-4xl font-bold md:text-5xl lg:text-6xl"
+    transition:name={`blog-title-${entry.slug}`}
+    transition:animate="initial"
+  >
+    {entry.data.title}
+  </h1>
+  
+  <p 
+    class="text-xl text-muted-foreground"
+    transition:name={`blog-description-${entry.slug}`}
+    transition:animate="initial"
+  >
+    {entry.data.description}
+  </p>
+</section>
+```
+
+### Navigation Dropdown Transitions
+
+```tsx
+// Navigation.tsx
+interface NavigationProps {
+  services: Array<Service>;
+  currentPath?: string;
+}
+
+export default function Navigation({ services, currentPath = "" }: NavigationProps) {
+  const isServicesPage = currentPath.startsWith('/services');
+  const showTransitions = !isServicesPage;
+  
+  return (
+    <nav>
+      {/* Desktop dropdown */}
+      <div>
+        {services.map(service => (
+          <a href={`/services/${service.slug}`} key={service.slug}>
+            {/* Icon */}
+            <div
+              {...(showTransitions && {
+                style: { ['view-transition-name']: `service-icon-${service.slug}` } as any
+              })}
+            >
+              <ServiceIcon className="h-8 w-8 text-primary" />
+            </div>
+            
+            {/* Title */}
+            <div
+              {...(showTransitions && {
+                style: { ['view-transition-name']: `service-title-${service.slug}` } as any
+              })}
+            >
+              {service.title}
+            </div>
+            
+            {/* Description */}
+            <p
+              {...(showTransitions && {
+                style: { ['view-transition-name']: `service-description-${service.slug}` } as any
+              })}
+            >
+              {service.description}
+            </p>
+          </a>
+        ))}
+      </div>
+    </nav>
+  );
+}
+```
+
+**Pass currentPath from all pages:**
+```astro
+<Navigation 
+  client:load 
+  services={servicesData} 
+  blogPosts={recentPosts}
+  currentPath={Astro.url.pathname}
+/>
+```
+
+### Common Pitfalls & Solutions
+
+#### Problem 1: Transitions only work backward
+**Symptom:** Transitions work when going back, but not forward
+
+**Cause:** Animation classes on destination elements interfere with View Transitions API
+
+**Solution:** Remove all `animate-in`, `fade-in`, `slide-in-*`, etc. from morphing elements on destination pages
+
+#### Problem 2: Elements don't morph, just fade
+**Symptom:** No morphing effect, just default cross-fade
+
+**Cause:** Transition names don't match exactly, or duplicate names on same page
+
+**Solution:** 
+- Verify exact name matching between source and destination
+- Check for duplicates with browser DevTools
+- Use conditional logic to prevent duplicates (e.g., Navigation)
+
+#### Problem 3: React inline styles not working
+**Symptom:** `viewTransitionName` in React doesn't apply
+
+**Cause:** React doesn't recognize `viewTransitionName` as a CSS property
+
+**Solution:** Use bracket notation `['view-transition-name']` instead:
+```tsx
+// ❌ Doesn't work
+style={{ viewTransitionName: 'value' }}
+
+// ✅ Works
+style={{ ['view-transition-name']: 'value' } as any}
+```
+
+#### Problem 4: Awkward morphs
+**Symptom:** Elements morph but look strange or janky
+
+**Cause:** Structure mismatch between source and destination
+
+**Solution:** 
+- Place `transition:name` on the same structural level
+- Match wrapper elements (styled divs, containers, etc.)
+- Consider whether elements are similar enough to morph
+
+### Testing Checklist
+
+Before committing view transitions:
+- [ ] Build succeeds without errors (`npm run build`)
+- [ ] Transitions work **bidirectionally** (forward and backward)
+- [ ] No duplicate transition names on any page
+- [ ] Removed all conflicting `animate-in` classes from morphing elements
+- [ ] Timing feels smooth (0.75s is good, adjust if needed)
+- [ ] Reduced motion is respected (test with browser DevTools)
+- [ ] Test with keyboard navigation (transitions should work)
+- [ ] Test on different page combinations (index → detail, navigation → detail)
+
+### When NOT to Use View Transitions
+
+**Skip transitions when:**
+1. **Structure is too different** - Elements don't have similar positions/sizes
+2. **No matching elements** - Source and destination have completely different content
+3. **Performance concerns** - Very large images or complex layouts
+4. **Accessibility issues** - Motion might cause disorientation
+
+**Better with default fade:**
+- Navigation blog items (structure too different from detail page)
+- Footer links
+- Utility pages (404, contact form)
+- External links
+
+### Accessibility Considerations
+
+View transitions respect `prefers-reduced-motion` automatically via global CSS:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-group(*) {
+    animation-duration: 0.01s !important;
+  }
+}
+```
+
+**Best Practices:**
+- Keep transitions subtle and purposeful
+- Don't rely on transitions to convey critical information
+- Test with reduced motion enabled
+- Provide alternative visual cues (focus states, active states)
+
+### Performance Notes
+
+View transitions are highly performant because:
+- Browser handles animation natively (GPU accelerated)
+- No JavaScript overhead for morphing
+- Snapshots are optimized by the browser
+- Works with browser's navigation cache
+
+**Optimize for best results:**
+- Keep morphing elements simple (avoid deeply nested structures)
+- Use `transition:animate="initial"` for browser's optimized morph
+- Don't morph very large images or complex SVGs
+- Limit number of simultaneous morphs (3-5 elements max per page)
+
+## Layout Patterns
+
+### Page Structure Pattern
+All pages follow a consistent visual hierarchy with circuit board overlay on hero sections only:
+
+#### 1. Hero Section (with Circuit Overlay)
+```astro
+<section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+  <!-- Background layers -->
+  <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+  <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+  
+  <!-- Hero content -->
+  <div class="relative z-10 mx-auto max-w-4xl text-center">
+    <h1 class="text-5xl font-bold md:text-6xl">
+      {/* Page title */}
+    </h1>
+    <p class="text-muted-foreground text-xl md:text-2xl">
+      {/* Hero description */}
+    </p>
+  </div>
+  
+  <!-- Gradient break at bottom -->
+  <div class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"></div>
+</section>
+```
+
+**Hero Section Rules:**
+- Circuit overlay and gradient-mesh are **ONLY** applied to hero sections
+- Hero section contains title and primary description only
+- Must end with 2px horizontal gradient break bar
+- Use `relative overflow-hidden` on section for proper positioning
+- Background layers positioned with `absolute inset-0`
+- Content wrapped in `relative z-10` to appear above backgrounds
+
+#### 2. Content Sections (Clean Zone)
+```astro
+<section class="px-4 py-24 sm:px-6 lg:px-8">
+  <!-- NO circuit overlay, NO gradient-mesh -->
+  <!-- Clean background (inherits from body) -->
+  <div class="mx-auto max-w-7xl">
+    {/* Content here */}
+  </div>
+</section>
+```
+
+**Content Section Rules:**
+- NO circuit overlay or gradient-mesh on section level
+- Each section is self-contained with its own padding (`py-24` standard)
+- Use different backgrounds for visual variety:
+  - Transparent/default background (most sections)
+  - Subtle gradients: `bg-gradient-to-b from-transparent via-primary/5 to-transparent`
+  - Card containers with `.glass` effect for featured content
+- Maintain consistent max-width containers (`max-w-7xl`, `max-w-5xl`, etc.)
+
+#### 3. Visual Separation Techniques
+- **Gradient break bar**: 2px horizontal gradient after hero section
+- **Alternating backgrounds**: Transparent → subtle gradient → transparent pattern
+- **Card grouping**: Use Card components with `.glass` effect for content blocks
+- **Spacing**: Consistent `py-24` (96px) between sections, `py-12` (48px) for tighter spacing
+
+### Complete Page Structure Example
+```astro
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation';
+---
+
+<Layout title="Page Title">
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <main id="main-content">
+    
+    {/* Hero Section with Circuit Overlay */}
+    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="relative z-10 mx-auto max-w-4xl text-center">
+        <h1>Page Title</h1>
+        <p>Description</p>
+      </div>
+      <div class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"></div>
+    </section>
+
+    {/* Clean Content Section 1 */}
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        {/* Content */}
+      </div>
+    </section>
+
+    {/* Content Section 2 with Subtle Gradient */}
+    <section class="via-primary/5 bg-gradient-to-b from-transparent to-transparent px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        {/* Content */}
+      </div>
+    </section>
+
+    {/* CTA Section */}
+    <CTASection client:visible />
+  </main>
+
+  {/* Footer */}
+  <footer class="px-4 py-12 sm:px-6 lg:px-8">
+    {/* Footer content */}
+  </footer>
+</Layout>
+```
+
+### Page Layout Checklist
+All pages must follow this structure:
 1. **Import Layout** from layouts with SEO meta tags
 2. **Import Navigation** component with `client:load`
-3. **Use client:visible** for below-the-fold React components
-4. **Footer** with consistent company information
+3. **Hero section** with circuit overlay + gradient break
+4. **Content sections** with clean backgrounds (NO circuit overlay)
+5. **Use client:visible** for below-the-fold React components
+6. **Footer** with consistent company information
+
+### Anti-Patterns (DO NOT DO)
+❌ Circuit overlay on entire page wrapper
+❌ Gradient-mesh on main element covering all sections
+❌ Nested relative/absolute wrappers causing z-index issues
+❌ Missing gradient break after hero section
+❌ Inconsistent section padding
+
+### Design Rationale
+This pattern creates:
+- **Visual hierarchy**: Tech aesthetic on hero, clean reading experience in content
+- **User engagement**: Circuit overlay grabs attention, then content takes focus
+- **Performance**: Reduced complexity in CSS rendering
+- **Consistency**: Matches Home and blog detail pages throughout the site
 
 ## Responsive Design
 
@@ -494,17 +1167,42 @@ if (!prefersReducedMotion) {
 
 Before submitting any UI changes, ensure:
 
+### Page Structure
+- [ ] Hero section has circuit overlay + gradient-mesh backgrounds
+- [ ] Gradient break bar (2px horizontal) at bottom of hero section
+- [ ] Content sections have NO circuit overlay (clean backgrounds)
+- [ ] Each section is self-contained with proper padding (`py-24` or `py-12`)
+- [ ] Sections use varied backgrounds for visual separation
+
+### Design System
 - [ ] Colors use semantic names or CSS variables, not hard-coded values
 - [ ] Typography follows the established scale
 - [ ] Spacing uses consistent utilities (no inline padding overrides)
+- [ ] Component uses `cn()` utility for class merging
+- [ ] Cards use the Card component with appropriate size/interactive props
+
+### Interactivity & Accessibility
 - [ ] Responsive behavior tested on mobile and desktop
 - [ ] Hover states and transitions are included
 - [ ] Focus states are visible and match hover effects
-- [ ] Component uses `cn()` utility for class merging
 - [ ] Reduced motion is respected for CSS and JS animations
 - [ ] ARIA labels and semantic HTML are correct
-- [ ] Performance impact is minimal (no inline styles, efficient animations)
 - [ ] Interactive elements have proper click/keyboard affordances
 - [ ] Static elements use `interactive={false}` to avoid confusion
+
+### Performance
+- [ ] Performance impact is minimal (no inline styles, efficient animations)
+- [ ] Animations include `fill-mode-both` with `animate-in` classes
+- [ ] Images are optimized and use appropriate formats
+
+### View Transitions (if applicable)
+- [ ] Transition names are unique per page (no duplicates)
+- [ ] Transition names match exactly between source and destination
+- [ ] Removed all `animate-in` classes from morphing elements on destination pages
+- [ ] DOM structure matches on same level for transition:name placement
+- [ ] React elements use bracket notation `['view-transition-name']` for inline styles
+- [ ] Conditional logic prevents duplicate names (e.g., Navigation)
+- [ ] Transitions work bidirectionally (forward and backward)
+- [ ] Elements are appropriate for morphing (similar positions/sizes)
 
 This design guide serves as the single source of truth for all visual and interactive elements across the BDK Inc website. All droids should consult this guide to ensure consistency and quality throughout the project.

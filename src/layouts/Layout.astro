@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string
@@ -51,12 +52,26 @@ const {
     <meta name="twitter:image" content={`https://www.bdkinc.com${ogImage}`} />
     
     <title>{title}</title>
+    
+    <!-- View Transitions -->
+    <ClientRouter />
+    
     <script is:inline>
-      // Prevent flash of unstyled content
-      const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
+      // Apply theme function - used on initial load and after swaps
+      function applyTheme() {
+        const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
       }
+      
+      // Apply theme immediately on initial page load
+      applyTheme();
+      
+      // Apply theme after each page transition to prevent flash
+      document.addEventListener('astro:after-swap', applyTheme);
     </script>
   </head>
   <body>

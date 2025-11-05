@@ -27,13 +27,19 @@ interface NavigationProps {
     description: string;
     pubDate: Date;
   }>;
+  currentPath?: string;
 }
 
 export default function Navigation({
   services,
   blogPosts = [],
+  currentPath = "",
 }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Determine if we should show transitions
+  const isServicesPage = currentPath.startsWith('/services');
+  const showTransitions = !isServicesPage;
 
   // Format date helper
   const formatDate = (date: Date): string => {
@@ -108,14 +114,29 @@ export default function Navigation({
                                 )}
                               >
                                 {Icon && (
-                                  <div className="flex justify-center mb-2">
+                                  <div 
+                                    className="flex justify-center mb-2"
+                                    {...(showTransitions && {
+                                      style: { ['view-transition-name']: `service-icon-${service.slug}` } as any
+                                    })}
+                                  >
                                     <Icon className="h-8 w-8 text-primary" />
                                   </div>
                                 )}
-                                <div className="text-sm font-medium leading-none">
+                                <div 
+                                  className="text-sm font-medium leading-none"
+                                  {...(showTransitions && {
+                                    style: { ['view-transition-name']: `service-title-${service.slug}` } as any
+                                  })}
+                                >
                                   {service.title}
                                 </div>
-                                <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
+                                <p 
+                                  className="line-clamp-2 text-xs leading-snug text-muted-foreground"
+                                  {...(showTransitions && {
+                                    style: { ['view-transition-name']: `service-description-${service.slug}` } as any
+                                  })}
+                                >
                                   {service.description}
                                 </p>
                               </a>
@@ -297,11 +318,29 @@ export default function Navigation({
                     className="flex items-start gap-2 px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors"
                   >
                     {Icon && (
-                      <Icon className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                      <div
+                        {...(showTransitions && {
+                          style: { ['view-transition-name']: `service-icon-${service.slug}` } as any
+                        })}
+                      >
+                        <Icon className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                      </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium">{service.title}</div>
-                      <div className="text-xs text-muted-foreground line-clamp-1">
+                      <div 
+                        className="text-sm font-medium"
+                        {...(showTransitions && {
+                          style: { ['view-transition-name']: `service-title-${service.slug}` } as any
+                        })}
+                      >
+                        {service.title}
+                      </div>
+                      <div 
+                        className="text-xs text-muted-foreground line-clamp-1"
+                        {...(showTransitions && {
+                          style: { ['view-transition-name']: `service-description-${service.slug}` } as any
+                        })}
+                      >
                         {service.description}
                       </div>
                     </div>

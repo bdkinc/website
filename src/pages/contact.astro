@@ -1,90 +1,90 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Navigation from "../components/Navigation";
-import ContactChat from "../components/ContactChat";
-import { Card } from "@/components/ui/card";
-import { getNavigationData } from "@/lib/navigation-data";
-import { Logo } from "@/components/Logo";
-import { Phone, Mail, Clock, MapPin } from "lucide-react";
-
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation';
+import ContactChat from '../components/ContactChat';
+import { Card } from '@/components/ui/card';
+import { getNavigationData } from '@/lib/navigation-data';
+import { Logo } from '@/components/Logo';
+import { Phone, Mail, Clock, MapPin } from 'lucide-react';
 
 const { servicesData, recentPosts } = await getNavigationData();
 ---
 
 <Layout title="Contact Us | BDK Inc - Get in Touch">
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main id="main-content" class="relative min-h-screen -mt-16 pt-16">
-    {/* Gradient background */}
-    <div class="absolute inset-0 gradient-mesh"></div>
-
-    {/* Circuit board pattern overlay */}
-    <div class="absolute inset-0 opacity-40 circuit-overlay"></div>
-
-    {/* Content */}
-    <div class="relative z-10">
-      {/* Header Section */}
-      <section class="py-24 text-center">
-        <div class="max-w-7xl mx-auto space-y-8">
-          <h1
-            class="text-5xl md:text-6xl font-bold tracking-tight fill-mode-both animate-in fade-in slide-in-from-top-6 duration-700"
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+  <main id="main-content">
+    {/* Header Section */}
+    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="relative z-10 mx-auto max-w-7xl text-center">
+        <h1
+          class="fill-mode-both animate-in fade-in slide-in-from-top-6 text-5xl font-bold tracking-tight duration-700 md:text-6xl"
+        >
+          <span class="text-foreground">Let's </span>
+          <span
+            class="from-brand-primary to-brand-secondary bg-linear-to-br bg-clip-text text-transparent"
           >
-            <span class="text-foreground">Let's </span>
+            Connect
+          </span>
+        </h1>
+
+        <p
+          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-200 duration-600 md:text-2xl"
+        >
+          Ready to transform your IT infrastructure? Our team is here to help
+          24/7.
+        </p>
+      </div>
+      <div
+        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+      >
+      </div>
+    </section>
+
+    {/* Contact Form and Info Section */}
+    <section class="px-4 py-16 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl space-y-8">
+        {/* AI Chat Interface - Centered */}
+        <div
+          class="fill-mode-both animate-in fade-in slide-in-from-left-4 delay-300 duration-600"
+        >
+          <h2 class="mb-6 text-center text-2xl font-bold">
+            <span class="text-foreground">Send us a </span>
             <span
-              class="bg-linear-to-br from-brand-primary to-brand-secondary bg-clip-text text-transparent"
+              class="from-brand-primary to-brand-secondary bg-linear-to-br bg-clip-text text-transparent"
             >
-              Connect
+              Message
             </span>
-          </h1>
-
-          <p
-            class="max-w-2xl mx-auto text-xl md:text-2xl text-muted-foreground dark:text-cyan-100 fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-600 delay-200"
-          >
-            Ready to transform your IT infrastructure? Our team is here to help
-            24/7.
-          </p>
+          </h2>
+          <ContactChat client:only="react" />
         </div>
-      </section>
 
-      {/* Contact Form and Info Section */}
-      <section class="pb-16 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-5xl mx-auto space-y-8">
-          {/* AI Chat Interface - Centered */}
-          <div class="fill-mode-both animate-in fade-in slide-in-from-left-4 duration-600 delay-300">
-            <h2 class="text-2xl font-bold mb-6 text-center">
-              <span class="text-foreground">Send us a </span>
-              <span
-                class="bg-linear-to-br from-brand-primary to-brand-secondary bg-clip-text text-transparent"
-              >
-                Message
-              </span>
-            </h2>
-            <ContactChat client:only="react" />
-          </div>
-
-          {/* Contact Information - Horizontal Layout */}
-          <Card
-            className="fill-mode-both animate-in fade-in slide-in-from-right-4 duration-600 delay-400"
-            size="lg"
-            interactive={false}
-          >
-            <h3 class="text-xl font-bold text-foreground mb-10 text-center">
+        {/* Contact Information - Horizontal Layout */}
+        <div
+          class="fill-mode-both animate-in fade-in slide-in-from-right-4 gradient-mesh rounded-lg delay-400 duration-600"
+        >
+          <Card size="lg" interactive={false}>
+            <h3 class="text-foreground mb-10 text-center text-xl font-bold">
               Other Ways to Reach Us
             </h3>
             <div
-              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+              class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4"
             >
               {/* Phone */}
               <a
                 href="tel:8003090004"
-                class="flex flex-col items-center text-center group fill-mode-both animate-in fade-in zoom-in duration-600 delay-500"
+                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-500 duration-600"
               >
                 <div
-                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 group-hover:scale-110 transition-all duration-300"
+                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
                 >
-                  <Phone className="w-6 h-6 text-brand-primary" />
+                  <Phone className="text-brand-primary h-6 w-6" />
                 </div>
-                <p class="text-sm text-muted-foreground mb-2">Phone</p>
-                <span class="text-brand-primary hover:underline font-medium text-sm">
+                <p class="text-muted-foreground mb-2 text-sm">Phone</p>
+                <span
+                  class="text-brand-primary text-sm font-medium hover:underline"
+                >
                   (800) 309-0004
                 </span>
               </a>
@@ -92,15 +92,17 @@ const { servicesData, recentPosts } = await getNavigationData();
               {/* Email */}
               <a
                 href="mailto:info@bdkinc.com"
-                class="flex flex-col items-center text-center group fill-mode-both animate-in fade-in zoom-in duration-600 delay-600"
+                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-600 duration-600"
               >
                 <div
-                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 group-hover:scale-110 transition-all duration-300"
+                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
                 >
-                  <Mail className="w-6 h-6 text-brand-primary" />
+                  <Mail className="text-brand-primary h-6 w-6" />
                 </div>
-                <p class="text-sm text-muted-foreground mb-2">Email</p>
-                <span class="text-brand-primary hover:underline font-medium text-sm break-all">
+                <p class="text-muted-foreground mb-2 text-sm">Email</p>
+                <span
+                  class="text-brand-primary text-sm font-medium break-all hover:underline"
+                >
                   info@bdkinc.com
                 </span>
               </a>
@@ -110,55 +112,56 @@ const { servicesData, recentPosts } = await getNavigationData();
                 href="https://www.google.com/maps/search/?api=1&query=29515+Canvasback+Drive+Easton+MD+21601"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex flex-col items-center text-center group fill-mode-both animate-in fade-in zoom-in duration-600 delay-700"
+                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-700 duration-600"
               >
                 <div
-                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 group-hover:scale-110 transition-all duration-300"
+                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
                 >
-                  <MapPin className="w-6 h-6 text-brand-primary" />
+                  <MapPin className="text-brand-primary h-6 w-6" />
                 </div>
-                <p class="text-sm text-muted-foreground mb-2">Location</p>
-                <span class="text-brand-primary hover:underline font-medium text-sm">
+                <p class="text-muted-foreground mb-2 text-sm">Location</p>
+                <span
+                  class="text-brand-primary text-sm font-medium hover:underline"
+                >
                   Get Directions
                 </span>
               </a>
 
               {/* Hours */}
               <div
-                class="flex flex-col items-center text-center group fill-mode-both animate-in fade-in zoom-in duration-600 delay-800"
+                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-800 duration-600"
               >
                 <div
-                  class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center mb-3 group-hover:bg-brand-primary/20 group-hover:scale-110 transition-all duration-300"
+                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
                 >
-                  <Clock className="w-6 h-6 text-brand-primary" />
+                  <Clock className="text-brand-primary h-6 w-6" />
                 </div>
-                <p class="text-sm text-muted-foreground mb-2">Hours</p>
+                <p class="text-muted-foreground mb-2 text-sm">Hours</p>
                 <p class="text-foreground flex items-center gap-2 text-sm">
-                  <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                  <span class="h-2 w-2 rounded-full bg-green-500"></span>
                   24/7 Support
                 </p>
               </div>
             </div>
           </Card>
         </div>
-      </section>
-    </div>
-  </main>
-
-  {/* Footer */}
-  <footer
-    class="border-t border-input py-12 px-4 sm:px-6 lg:px-8 fill-mode-both animate-in fade-in duration-600 delay-900"
-  >
-    <div class="max-w-7xl mx-auto text-center flex flex-col items-center">
-      <div>
-        <Logo />
       </div>
-      <p class="text-muted-foreground mb-4">
-        Your trusted technology partner since 1999
-      </p>
-      <p class="text-sm text-muted-foreground/70">
-        &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
-      </p>
-    </div>
-  </footer>
+    </section>
+    {/* Footer */}
+    <footer
+      class="border-input fill-mode-both animate-in fade-in border-t px-4 py-12 delay-900 duration-600 sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto flex max-w-7xl flex-col items-center text-center">
+        <div>
+          <Logo />
+        </div>
+        <p class="text-muted-foreground mb-4">
+          Your trusted technology partner since 1999
+        </p>
+        <p class="text-muted-foreground/70 text-sm">
+          &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </main>
 </Layout>

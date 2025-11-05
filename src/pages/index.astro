@@ -39,7 +39,7 @@ const { servicesData, recentPosts } = await getNavigationData();
     }
   </script>
   
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
   <main id="main-content">
     <Hero client:visible />
     <Services client:visible services={servicesData} />

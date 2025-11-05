@@ -46,60 +46,60 @@
   --radius: 0.625rem;
 
   /* Shadcn theme variables - Light mode (Neutral base) */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.371 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.52 0.18 210);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.55 0.22 280);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --background: oklch(1 0 0);                 /* Pure white */
+  --foreground: oklch(0.25 0 0);             /* Near black text */
+  --card: oklch(0.98 0 0);                    /* Very light gray cards */
+  --card-foreground: oklch(0.15 0 0);        /* Dark text on cards */
+  --popover: oklch(1 0 0);                    /* White popover */
+  --popover-foreground: oklch(0.15 0 0);     /* Dark popover text */
+  --primary: oklch(0.65 0.18 210);           /* Cyan blue - UPDATED for better contrast */
+  --primary-foreground: oklch(1 0 0);        /* White text on primary */
+  --secondary: oklch(0.65 0.22 280);         /* Purple - UPDATED for consistency */
+  --secondary-foreground: oklch(1 0 0);      /* White text on secondary */
+  --muted: oklch(0.92 0 0);                   /* Light gray muted */
+  --muted-foreground: oklch(0.45 0 0);       /* Medium gray text */
+  --accent: oklch(0.95 0 0);                  /* Very light accent bg */
+  --accent-foreground: oklch(0.20 0 0);      /* Dark accent text */
+  --destructive: oklch(0.55 0.22 25);        /* Red destructive */
+  --destructive-foreground: oklch(1 0 0);    /* White on destructive */
+  --border: oklch(0.88 0 0);                  /* Light border */
+  --input: oklch(0.88 0 0);                   /* Light input border */
+  --ring: oklch(0.65 0.18 210);              /* Primary ring color */
 
-  /* Custom accent colors for branding (using oklch) */
-  --brand-primary: oklch(0.52 0.18 210);
-  --brand-secondary: oklch(0.55 0.22 280);
+  /* Brand colors - updated for consistency */
+  --brand-primary: oklch(0.65 0.18 210);     /* Cyan blue */
+  --brand-secondary: oklch(0.65 0.22 280);   /* Purple */
 
   /* Shadows */
-  --shadow-glow: 0 0 20px oklch(0.52 0.18 210 / 0.3);
-  --shadow-glow-sm: 0 0 10px oklch(0.52 0.18 210 / 0.2);
+  --shadow-glow: 0 0 20px oklch(0.65 0.18 210 / 0.3);
+  --shadow-glow-sm: 0 0 10px oklch(0.65 0.18 210 / 0.2);
 }
 
 .dark {
   /* Shadcn theme variables - Dark mode (Neutral base) */
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.87 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.7 0.18 210);
-  --primary-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.7 0.22 280);
-  --secondary-foreground: oklch(0.145 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.556 0 0);
+  --background: oklch(0 0 0);                 /* Pure black - CLIENT REQUIREMENT */
+  --foreground: oklch(0.98 0 0);             /* Near white text */
+  --card: oklch(0.12 0 0);                    /* Very dark gray cards */
+  --card-foreground: oklch(0.98 0 0);        /* Light text on cards */
+  --popover: oklch(0.12 0 0);                 /* Dark popover */
+  --popover-foreground: oklch(0.98 0 0);     /* Light popover text */
+  --primary: oklch(0.70 0.18 210);           /* Brighter cyan for dark mode */
+  --primary-foreground: oklch(0.05 0 0);     /* Near black on primary */
+  --secondary: oklch(0.70 0.22 280);         /* Brighter purple for dark mode */
+  --secondary-foreground: oklch(0.05 0 0);   /* Near black on secondary */
+  --muted: oklch(0.25 0 0);                   /* Dark gray muted */
+  --muted-foreground: oklch(0.60 0 0);       /* Light gray text */
+  --accent: oklch(0.18 0 0);                  /* Dark accent bg */
+  --accent-foreground: oklch(0.95 0 0);      /* Light accent text */
+  --destructive: oklch(0.60 0.22 25);        /* Brighter red for dark */
+  --destructive-foreground: oklch(0.98 0 0); /* Light on destructive */
+  --border: oklch(0.20 0 0);                  /* Dark border */
+  --input: oklch(0.20 0 0);                   /* Dark input border */
+  --ring: oklch(0.70 0.18 210);              /* Bright primary ring */
 
   /* Shadows for dark mode */
-  --shadow-glow: 0 0 20px oklch(0.7 0.18 210 / 0.3);
-  --shadow-glow-sm: 0 0 10px oklch(0.7 0.18 210 / 0.2);
+  --shadow-glow: 0 0 20px oklch(0.70 0.18 210 / 0.4);
+  --shadow-glow-sm: 0 0 10px oklch(0.70 0.18 210 / 0.3);
 }
 
 @layer base {
@@ -170,8 +170,8 @@
 .gradient-primary {
   background: linear-gradient(
     135deg,
-    var(--brand-primary) 0%,
-    var(--brand-secondary) 100%
+    oklch(0.65 0.18 210) 0%,
+    oklch(0.65 0.22 280) 100%
   );
 }
 
@@ -179,24 +179,35 @@
   background:
     radial-gradient(
       at 40% 20%,
-      oklch(0.55 0.18 210 / 0.1) 0px,
+      oklch(0.65 0.18 210 / 0.08) 0px,
       transparent 50%
     ),
-    radial-gradient(at 80% 0%, oklch(0.55 0.22 280 / 0.1) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, oklch(0.55 0.18 210 / 0.05) 0px, transparent 50%);
+    radial-gradient(at 80% 0%, oklch(0.65 0.22 280 / 0.08) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, oklch(0.65 0.18 210 / 0.04) 0px, transparent 50%);
 }
 
-/* Glass morphism effect */
+/* Glass morphism effect - updated opacity for better cohesion */
 .glass {
-  background: oklch(1 0 0 / 0.6);
+  background: oklch(1 0 0 / 0.7);          /* 70% white for better readability */
   backdrop-filter: blur(12px);
   /* border: 1px solid oklch(0.922 0 0 / 0.5); */
 }
 
 .dark .glass {
-  background: oklch(0.205 0 0 / 0.6);
+  background: oklch(0.12 0 0 / 0.7);       /* 70% very dark gray */
   backdrop-filter: blur(12px);
   /* border: 1px solid oklch(0.269 0 0); */
+}
+
+/* Navigation glass - lighter transparency */
+.glass-nav {
+  background: oklch(1 0 0 / 0.5);          /* 50% white for nav */
+  backdrop-filter: blur(12px);
+}
+
+.dark .glass-nav {
+  background: oklch(0.12 0 0 / 0.5);       /* 50% very dark gray for nav */
+  backdrop-filter: blur(12px);
 }
 
 /* Circuit board overlay */
@@ -413,3 +424,32 @@ li {
   display: block;
   width: 100%;
 }
+
+/* ====================================
+   View Transitions
+   ==================================== */
+
+/* Respect reduced motion preferences - disable animations */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Default page transition - smooth fade for root */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* easeOutQuad - smoother */
+}
+
+/* Service element morphs - longer duration for elegant, organic transitions */
+::view-transition-group(*):not(::view-transition-group(root)) {
+  animation-duration: 0.75s; /* Increased from 0.5s for smoother, more noticeable morphing */
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* easeOutQuad - smooth deceleration */
+}
+
+

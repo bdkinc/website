@@ -1,127 +1,145 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Navigation from "../components/Navigation";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { getNavigationData } from "@/lib/navigation-data";
-import { AlertCircle, Home, ArrowLeft } from "lucide-react";
-import { Logo } from "@/components/Logo";
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { getNavigationData } from '@/lib/navigation-data';
+import { AlertCircle, Home, ArrowLeft } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 
 const { servicesData, recentPosts } = await getNavigationData();
 ---
 
 <Layout title="404 - Page Not Found | BDK Inc">
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+
   <main id="main-content">
     <!-- 404 Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden py-16 px-4 sm:px-6 lg:px-8">
+    <section
+      class="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16 sm:px-6 lg:px-8"
+    >
       <!-- Background Effects -->
-      <div class="absolute inset-0 gradient-mesh opacity-50"></div>
-      <div class="absolute inset-0 circuit-overlay opacity-30"></div>
-      
+      <div class="gradient-mesh absolute inset-0 opacity-50"></div>
+      <div class="circuit-overlay absolute inset-0 opacity-30"></div>
+
       <!-- Floating decorative elements -->
-      <div class="absolute top-20 left-10 w-20 h-20 bg-brand-primary/10 rounded-full blur-xl animate-float"></div>
-      <div class="absolute bottom-20 right-10 w-32 h-32 bg-brand-secondary/10 rounded-full blur-xl animate-float" style="animation-delay: 2s;"></div>
-      
+      <div
+        class="bg-brand-primary/10 animate-float absolute top-20 left-10 h-20 w-20 rounded-full blur-xl"
+      >
+      </div>
+      <div
+        class="bg-brand-secondary/10 animate-float absolute right-10 bottom-20 h-32 w-32 rounded-full blur-xl"
+        style="animation-delay: 2s;"
+      >
+      </div>
+
       <!-- Content -->
-      <div class="relative z-10 max-w-4xl mx-auto text-center">
+      <div class="relative z-10 mx-auto max-w-4xl text-center">
         <!-- Error Icon with animation -->
-        <div class="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both">
+        <div
+          class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both mb-8 duration-500"
+        >
           <div class="inline-flex items-center justify-center">
             <AlertCircle className="icon-xl text-brand-primary animate-float" />
           </div>
         </div>
-        
+
         <!-- 404 Number -->
-        <h1 
-          class="text-7xl md:text-9xl font-bold text-foreground mb-4 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+        <h1
+          class="text-foreground animate-in fade-in slide-in-from-bottom-4 fill-mode-both mb-4 text-7xl font-bold duration-500 md:text-9xl"
           style="animation-delay: 100ms;"
         >
           404
         </h1>
-        
+
         <!-- Error Message -->
-        <h2 
-          class="text-3xl md:text-5xl font-bold text-foreground mb-6 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+        <h2
+          class="text-foreground animate-in fade-in slide-in-from-bottom-4 fill-mode-both mb-6 text-3xl font-bold duration-500 md:text-5xl"
           style="animation-delay: 200ms;"
         >
           Page Not Found
         </h2>
-        
+
         <!-- Description Card -->
-        <div 
-          class="mb-12 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+        <div
+          class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both mb-12 duration-500"
           style="animation-delay: 300ms;"
         >
-          <Card size="lg" interactive={false} className="max-w-2xl mx-auto">
-            <p class="text-lg text-muted-foreground mb-6">
-              The page you're looking for seems to have wandered off into the digital void. 
-              It might have been moved, deleted, or perhaps it never existed.
+          <Card size="lg" interactive={false} className="mx-auto max-w-2xl">
+            <p class="text-muted-foreground mb-6 text-lg">
+              The page you're looking for seems to have wandered off into the
+              digital void. It might have been moved, deleted, or perhaps it
+              never existed.
             </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+
+            <div
+              class="flex flex-col items-center justify-center gap-4 sm:flex-row"
+            >
               <!-- Go Home Button -->
               <a href="/">
-                <Button 
-                  className="bg-brand-primary hover:bg-brand-primary/90 text-primary-foreground gap-2 group w-full sm:w-auto"
+                <Button
+                  className="bg-brand-primary hover:bg-brand-primary/90 text-primary-foreground group w-full gap-2 sm:w-auto"
                   aria-label="Return to homepage"
                 >
-                  <Home className="icon-sm transition-transform duration-300 group-hover:scale-110" />
+                  <Home
+                    className="icon-sm transition-transform duration-300 group-hover:scale-110"
+                  />
                   <span>Go Home</span>
                 </Button>
               </a>
-              
+
               <!-- Go Back Button -->
-              <Button 
-                variant="outline" 
-                className="border-brand-primary text-brand-primary hover:bg-brand-primary/10 gap-2 group w-full sm:w-auto"
-                onClick="history.back()"
+              <Button
+                variant="outline"
+                className="border-brand-primary text-brand-primary hover:bg-brand-primary/10 group w-full gap-2 sm:w-auto"
+                onClick={() => history.back()}
                 aria-label="Go back to previous page"
               >
-                <ArrowLeft className="icon-sm transition-transform duration-300 group-hover:-translate-x-1" />
+                <ArrowLeft
+                  className="icon-sm transition-transform duration-300 group-hover:-translate-x-1"
+                />
                 <span>Go Back</span>
               </Button>
             </div>
           </Card>
         </div>
-        
+
         <!-- Helpful Links -->
-        <div 
-          class="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+        <div
+          class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500"
           style="animation-delay: 400ms;"
         >
           <p class="text-muted-foreground mb-4">
             Looking for something specific? Try these popular pages:
           </p>
-          <div class="flex flex-wrap gap-3 justify-center">
-            <a 
-              href="/services" 
-              class="text-brand-primary hover:text-brand-primary/80 underline underline-offset-4 transition-colors duration-300"
+          <div class="flex flex-wrap justify-center gap-3">
+            <a
+              href="/services"
+              class="text-brand-primary hover:text-brand-primary/80 transition-colors duration-300"
               aria-label="View our services"
             >
               Services
             </a>
             <span class="text-muted-foreground/50">•</span>
-            <a 
-              href="/about" 
-              class="text-brand-primary hover:text-brand-primary/80 underline underline-offset-4 transition-colors duration-300"
+            <a
+              href="/about"
+              class="text-brand-primary hover:text-brand-primary/80 transition-colors duration-300"
               aria-label="Learn about BDK Inc"
             >
               About Us
             </a>
             <span class="text-muted-foreground/50">•</span>
-            <a 
-              href="/blog" 
-              class="text-brand-primary hover:text-brand-primary/80 underline underline-offset-4 transition-colors duration-300"
+            <a
+              href="/blog"
+              class="text-brand-primary hover:text-brand-primary/80 transition-colors duration-300"
               aria-label="Read our blog"
             >
               Blog
             </a>
             <span class="text-muted-foreground/50">•</span>
-            <a 
-              href="/contact" 
-              class="text-brand-primary hover:text-brand-primary/80 underline underline-offset-4 transition-colors duration-300"
+            <a
+              href="/contact"
+              class="text-brand-primary hover:text-brand-primary/80 transition-colors duration-300"
               aria-label="Contact us"
             >
               Contact
@@ -133,15 +151,15 @@ const { servicesData, recentPosts } = await getNavigationData();
   </main>
 
   <!-- Footer -->
-  <footer class="py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto text-center flex flex-col items-center">
+  <footer class="px-4 py-12 sm:px-6 lg:px-8">
+    <div class="mx-auto flex max-w-7xl flex-col items-center text-center">
       <div>
         <Logo />
       </div>
       <p class="text-muted-foreground mb-4">
         Your trusted technology partner since 1999
       </p>
-      <p class="text-sm text-muted-foreground/70">
+      <p class="text-muted-foreground/70 text-sm">
         &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
       </p>
     </div>

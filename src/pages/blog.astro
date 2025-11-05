@@ -25,35 +25,28 @@ function formatDate(date: Date): string {
 ---
 
 <Layout title="Blog - BDK Inc">
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main class="relative -mt-16 min-h-screen pt-16">
-    {/* Gradient background */}
-    <div class="gradient-mesh absolute inset-0"></div>
-
-    {/* Circuit board pattern overlay */}
-    <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-
-    {/* Content */}
-    <div class="relative z-10">
-      <!-- Hero Section -->
-      <section class="px-4 pt-32 pb-12 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-7xl">
-          <div class="text-center">
-            <h1
-              class="fill-mode-both animate-in fade-in slide-in-from-top-6 mb-6 text-5xl font-bold duration-700 md:text-7xl"
-            >
-              <span class="text-foreground">Our </span>
-              <span class="text-primary"> Blog </span>
-            </h1>
-            <p
-              class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-5xl text-xl delay-200 duration-600 md:text-2xl"
-            >
-              Insights, tips, and best practices for modern IT infrastructure
-              and management
-            </p>
-          </div>
-        </div>
-      </section>
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="relative z-10 mx-auto max-w-7xl text-center">
+        <h1
+          class="fill-mode-both animate-in fade-in slide-in-from-top-6 mb-6 text-5xl font-bold duration-700 md:text-7xl"
+        >
+          <span class="text-foreground">Our </span>
+          <span class="text-primary"> Blog </span>
+        </h1>
+        <p
+          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-5xl text-xl delay-200 duration-600 md:text-2xl"
+        >
+          Insights, tips, and best practices for modern IT infrastructure
+          and management
+        </p>
+      </div>
+      <div class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"></div>
+    </section>
 
       <!-- Blog Posts Grid -->
       <section class="px-4 py-24 sm:px-6 lg:px-8">
@@ -90,10 +83,10 @@ function formatDate(date: Date): string {
                             <span>{post.data.author}</span>
                           </div>
                         </div>
-                        <h2 class="group-hover:text-primary mb-3 text-2xl leading-none font-semibold tracking-tight transition-colors duration-300">
+                        <h2 transition:name={`blog-title-${post.slug}`} transition:animate="initial" class="group-hover:text-primary mb-3 text-2xl leading-none font-semibold tracking-tight transition-colors duration-300">
                           {post.data.title}
                         </h2>
-                        <p class="text-muted-foreground text-sm">
+                        <p transition:name={`blog-description-${post.slug}`} transition:animate="initial" class="text-muted-foreground text-sm">
                           {post.data.description}
                         </p>
                       </div>
@@ -151,29 +144,28 @@ function formatDate(date: Date): string {
         </div>
       </section>
 
-      <!-- CTA Section -->
-      <section class="px-4 py-24 sm:px-6 lg:px-8">
-        <div
-          class="fill-mode-both animate-in fade-in zoom-in mx-auto max-w-4xl text-center delay-700 duration-700"
-        >
-          <Card size="xl" interactive={false}>
-            <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-              Stay Updated with IT Insights
-            </h2>
-            <p class="text-muted-foreground mb-8 text-xl">
-              Want to discuss how these insights can help your business? Let's
-              talk.
-            </p>
-            <a
-              href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
-            >
-              Get in Touch
-            </a>
-          </Card>
-        </div>
-      </section>
-    </div>
+    <!-- CTA Section -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div
+        class="fill-mode-both animate-in fade-in zoom-in mx-auto max-w-4xl text-center delay-700 duration-700"
+      >
+        <Card size="xl" interactive={false}>
+          <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+            Stay Updated with IT Insights
+          </h2>
+          <p class="text-muted-foreground mb-8 text-xl">
+            Want to discuss how these insights can help your business? Let's
+            talk.
+          </p>
+          <a
+            href="/contact"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
+          >
+            Get in Touch
+          </a>
+        </Card>
+      </div>
+    </section>
   </main>
 
   <!-- Footer -->

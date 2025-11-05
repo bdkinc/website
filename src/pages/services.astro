@@ -18,31 +18,31 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
 <Layout
   title="IT Services | Managed Services, Cloud Hosting, Cybersecurity | BDK Inc"
 >
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main id="main-content" class="relative -mt-16 min-h-screen pt-16">
-    {/* Gradient background */}
-    <div class="gradient-mesh absolute inset-0"></div>
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="relative z-10 mx-auto max-w-7xl text-center">
+        <h1
+          class="fill-mode-both animate-in fade-in slide-in-from-top-6 mb-4 text-5xl font-bold duration-700 md:text-6xl"
+        >
+          <span class="text-foreground">Our </span>
+          <span class="text-primary"> Services </span>
+        </h1>
+        <p
+          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-200 duration-600"
+        >
+          Comprehensive IT solutions designed to help your business thrive
+        </p>
+      </div>
+      <div class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"></div>
+    </section>
 
-    {/* Circuit board pattern overlay */}
-    <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-
-    {/* Content */}
-    <div class="relative z-10">
-      <section class="px-4 py-24 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-7xl">
-          <div class="mb-16 text-center">
-            <h1
-              class="fill-mode-both animate-in fade-in slide-in-from-top-6 mb-4 text-5xl font-bold duration-700 md:text-6xl"
-            >
-              <span class="text-foreground">Our </span>
-              <span class="text-primary"> Services </span>
-            </h1>
-            <p
-              class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-200 duration-600"
-            >
-              Comprehensive IT solutions designed to help your business thrive
-            </p>
-          </div>
+    <!-- Services Grid Section -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
 
           {/* 3x3 Grid Layout */}
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -56,8 +56,7 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
                 return (
                   <a
                     href={`/services/${service.id}`}
-                    class={`group fill-mode-both animate-in fade-in slide-in-from-bottom-6 block duration-600`}
-                    style={{ animationDelay: `${delayMs}ms` }}
+                    class="group block"
                   >
                     <Card
                       size="lg"
@@ -67,18 +66,30 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
                       <div class="flex h-full flex-col items-center text-center">
                         {/* Icon - with scale-pop animation on interaction */}
                         <div class="service-icon-wrapper mb-6">
-                          <div class="bg-primary/5 inline-flex items-center justify-center rounded-lg p-3 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-5">
+                          <div 
+                            class="bg-primary/5 inline-flex items-center justify-center rounded-lg p-3 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-5"
+                            transition:name={`service-icon-${service.id}`}
+                            transition:animate="initial"
+                          >
                             <IconComponent className="icon-lg text-primary" />
                           </div>
                         </div>
 
                         {/* Title */}
-                        <h2 class="text-foreground group-hover:text-primary mb-3 text-2xl font-bold transition-colors duration-300">
+                        <h2 
+                          class="text-foreground group-hover:text-primary mb-3 text-2xl font-bold transition-colors duration-300"
+                          transition:name={`service-title-${service.id}`}
+                          transition:animate="initial"
+                        >
                           {service.data.title}
                         </h2>
 
                         {/* Description */}
-                        <p class="text-muted-foreground mb-6 grow">
+                        <p 
+                          class="text-muted-foreground mb-6 grow"
+                          transition:name={`service-description-${service.id}`}
+                          transition:animate="initial"
+                        >
                           {service.data.description}
                         </p>
 
@@ -106,29 +117,32 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
               })
             }
           </div>
+      </div>
+    </section>
 
-          {/* CTA Section */}
-          <Card
-            className="fill-mode-both animate-in fade-in zoom-in mt-16 text-center delay-700 duration-700"
-            size="xl"
-            interactive={false}
+    {/* CTA Section */}
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-4xl">
+        <Card
+          className="fill-mode-both animate-in fade-in zoom-in text-center delay-700 duration-700"
+          size="xl"
+          interactive={false}
+        >
+          <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+            Ready to Get Started?
+          </h2>
+          <p class="text-muted-foreground mb-8 text-xl">
+            Contact us today to discuss how our services can help your
+            business grow.
+          </p>
+          <a
+            href="/contact"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
           >
-            <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-              Ready to Get Started?
-            </h2>
-            <p class="text-muted-foreground mb-8 text-xl">
-              Contact us today to discuss how our services can help your
-              business grow.
-            </p>
-            <a
-              href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
-            >
-              Contact Us
-            </a>
-          </Card>
-        </div>
-      </section>
-    </div>
+            Contact Us
+          </a>
+        </Card>
+      </div>
+    </section>
   </main>
 </Layout>

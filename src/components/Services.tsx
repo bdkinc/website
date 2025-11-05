@@ -20,6 +20,8 @@ interface ServicesProps {
 
 export default function Services({ services }: ServicesProps) {
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
+  const descriptionRefs = useRef<(HTMLParagraphElement | null)[]>([]);
   
   // Viewport detection for section header
   const { ref: headerRef, isIntersecting: headerInView } = useIntersectionObserver({
@@ -45,8 +47,14 @@ export default function Services({ services }: ServicesProps) {
 
     const listeners = [];
 
-    iconRefs.current.forEach((icon) => {
+    iconRefs.current.forEach((icon, index) => {
       if (!icon) return;
+
+      // Apply view-transition-name
+      const slug = services[index]?.slug;
+      if (slug) {
+        icon.style.setProperty('view-transition-name', `service-icon-${slug}`);
+      }
 
       const handleMouseEnter = () => {
         icon.style.transform = "scale(1.15) rotate(5deg)";
@@ -62,13 +70,28 @@ export default function Services({ services }: ServicesProps) {
       listeners.push({ icon, handleMouseEnter, handleMouseLeave });
     });
 
+    // Apply view-transition names to titles and descriptions
+    titleRefs.current.forEach((title, index) => {
+      const slug = services[index]?.slug;
+      if (title && slug) {
+        title.style.setProperty('view-transition-name', `service-title-${slug}`);
+      }
+    });
+
+    descriptionRefs.current.forEach((description, index) => {
+      const slug = services[index]?.slug;
+      if (description && slug) {
+        description.style.setProperty('view-transition-name', `service-description-${slug}`);
+      }
+    });
+
     return () => {
       listeners.forEach(({ icon, handleMouseEnter, handleMouseLeave }) => {
         icon.removeEventListener("mouseenter", handleMouseEnter);
         icon.removeEventListener("mouseleave", handleMouseLeave);
       });
     };
-  }, []);
+  }, [services]);
 
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8">
@@ -131,13 +154,23 @@ export default function Services({ services }: ServicesProps) {
                     >
                       {Icon && <Icon className="w-8 h-8 text-primary" />}
                     </div>
-                    <CardTitle className={cn(
-                      "text-lg mb-2 text-center",
-                      "transition-colors duration-300 group-hover:text-primary"
-                    )}>
+                    <CardTitle 
+                      ref={(el) => {
+                        titleRefs.current[index] = el;
+                      }}
+                      className={cn(
+                        "text-lg mb-2 text-center",
+                        "transition-colors duration-300 group-hover:text-primary"
+                      )}
+                    >
                       {service.title}
                     </CardTitle>
-                    <CardDescription className="text-sm text-center">
+                    <CardDescription 
+                      ref={(el) => {
+                        descriptionRefs.current[index] = el;
+                      }}
+                      className="text-sm text-center"
+                    >
                       {service.description}
                     </CardDescription>
                   </CardHeader>

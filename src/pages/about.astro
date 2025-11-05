@@ -96,39 +96,31 @@ const milestones = [
   title="About Us | IT Excellence Since 1999 | BDK Inc"
   description="Learn about BDK Inc's 25+ year journey of delivering exceptional managed IT services, cloud hosting, and cybersecurity solutions to businesses."
 >
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} />
-  <main id="main-content" class="relative -mt-16 min-h-screen pt-16">
-    {/* Gradient background */}
-    <div class="gradient-mesh absolute inset-0"></div>
-
-    {/* Circuit board pattern overlay */}
-    <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-
-    {/* Content */}
-    <div class="relative z-10">
-      {/* Hero Section */}
-      <section class="px-4 py-24 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-4xl pt-8 text-center md:pt-12 lg:pt-16">
-          <h1
-            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold duration-700 md:text-6xl"
+  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+  <main id="main-content">
+    {/* Hero Section */}
+    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="relative z-10 mx-auto max-w-4xl text-center">
+        <h1
+          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold duration-700 md:text-6xl"
+        >
+          <span class="text-foreground">IT Made Simple Since </span>
+          <span
+            class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+            >1999</span
           >
-            <span class="text-foreground">IT Made Simple Since </span>
-            <span
-              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
-              >1999</span
-            >
-          </h1>
-          <p
-            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
-          >
-            For over 25 years, BDK Inc has been the trusted technology partner
-            for businesses seeking reliable, innovative IT solutions. We
-            transform complex technology challenges into simple, effective
-            solutions that drive business growth.
-          </p>
-        </div>
-      </section>
-
+        </h1>
+        <p
+          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
+        >
+          For over 25 years, BDK Inc has been the trusted technology partner for
+          businesses seeking reliable, innovative IT solutions. We transform
+          complex technology challenges into simple, effective solutions that
+          drive business growth.
+        </p>
+      </div>
       {/* Mission & Vision Section */}
       <section class="px-4 py-24 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-7xl">
@@ -187,200 +179,201 @@ const milestones = [
           </div>
         </div>
       </section>
+      <div
+        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+      >
+      </div>
+    </section>
 
-      {/* Values Section */}
-      <section class="px-4 py-24 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-7xl">
-          <div class="mb-16 text-center">
-            <h2
-              class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
-            >
-              <span class="text-foreground">Our </span>
-              <span class="text-primary">Values</span>
-            </h2>
-            <p
-              class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
-            >
-              The principles that guide everything we do
-            </p>
+    {/* Values Section */}
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Our </span>
+            <span class="text-primary">Values</span>
+          </h2>
+          <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
+          >
+            The principles that guide everything we do
+          </p>
+        </div>
+
+        {/* Values Grid */}
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            values.map((value, index) => {
+              const iconMap = {
+                Target,
+                Lightbulb,
+                Shield,
+                Users,
+                Award,
+                Clock,
+                Box,
+              };
+              const IconComponent =
+                iconMap[value.icon as keyof typeof iconMap] || Box;
+              return (
+                <Card
+                  className={`fill-mode-both animate-in fade-in zoom-in flex h-full flex-col items-center justify-center text-center duration-600 delay-${200 + index * 100}`}
+                  size="lg"
+                  interactive={false}
+                >
+                  <div class="mb-6">
+                    <div class="bg-primary/10 inline-flex items-center justify-center rounded-lg p-3">
+                      <IconComponent className="icon-md text-primary" />
+                    </div>
+                  </div>
+                  <h3 class="text-foreground mb-3 text-center text-xl font-bold">
+                    {value.title}
+                  </h3>
+                  <p class="text-muted-foreground text-center">
+                    {value.description}
+                  </p>
+                </Card>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+
+    {/* Journey/Timeline Section */}
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Our </span>
+            <span class="text-primary">Journey</span>
+          </h2>
+          <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
+          >
+            A legacy of innovation and excellence
+          </p>
+        </div>
+
+        {/* Timeline */}
+        <div class="relative">
+          {/* Vertical line */}
+          <div
+            class="from-primary via-secondary to-primary absolute top-0 bottom-0 left-8 w-0.5 bg-gradient-to-b md:left-1/2"
+          >
           </div>
 
-          {/* Values Grid */}
-          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="space-y-12">
             {
-              values.map((value, index) => {
-                const iconMap = {
-                  Target,
-                  Lightbulb,
-                  Shield,
-                  Users,
-                  Award,
-                  Clock,
-                  Box,
-                };
-                const IconComponent =
-                  iconMap[value.icon as keyof typeof iconMap] || Box;
+              milestones.map((milestone, index) => {
+                const isEven = index % 2 === 0;
                 return (
-                  <Card
-                    className={`fill-mode-both animate-in fade-in zoom-in flex h-full flex-col items-center justify-center text-center duration-600 delay-${200 + index * 100}`}
-                    size="lg"
-                    interactive={false}
+                  <div
+                    class={`relative ${isEven ? 'md:text-right' : 'md:text-left'}`}
                   >
-                    <div class="mb-6">
-                      <div class="bg-primary/10 inline-flex items-center justify-center rounded-lg p-3">
-                        <IconComponent className="icon-md text-primary" />
+                    <div
+                      class={`md:grid md:grid-cols-2 md:gap-8 ${isEven ? '' : 'md:flex-row-reverse'}`}
+                    >
+                      <div
+                        class={isEven ? 'md:pr-12' : 'md:col-start-2 md:pl-12'}
+                      >
+                        <Card
+                          className={`fill-mode-both animate-in ml-16 md:ml-0 ${index % 2 === 0 ? 'slide-in-from-left-8' : 'slide-in-from-right-8'} fade-in duration-700 delay-${200 + index * 100}`}
+                          size="lg"
+                          interactive={false}
+                        >
+                          <div class="text-primary mb-2 text-3xl font-bold">
+                            {milestone.year}
+                          </div>
+                          <h3 class="text-foreground mb-2 text-xl font-bold">
+                            {milestone.title}
+                          </h3>
+                          <p class="text-muted-foreground">
+                            {milestone.description}
+                          </p>
+                        </Card>
                       </div>
                     </div>
-                    <h3 class="text-foreground mb-3 text-center text-xl font-bold">
-                      {value.title}
-                    </h3>
-                    <p class="text-muted-foreground text-center">
-                      {value.description}
-                    </p>
-                  </Card>
+                    {/* Timeline dot */}
+                    <div class="bg-primary ring-background absolute top-6 left-8 -ml-2 h-4 w-4 rounded-full shadow-[--shadow-glow-sm] ring-4 md:left-1/2" />
+                  </div>
                 );
               })
             }
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* Journey/Timeline Section */}
-      <section class="px-4 py-24 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-5xl">
-          <div class="mb-16 text-center">
-            <h2
-              class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
-            >
-              <span class="text-foreground">Our </span>
-              <span class="text-primary">Journey</span>
-            </h2>
-            <p
-              class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
-            >
-              A legacy of innovation and excellence
+    {/* Why Choose Us Section */}
+    <section
+      class="via-primary/5 bg-gradient-to-b from-transparent to-transparent px-4 py-24 sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto max-w-4xl">
+        <div class="mb-12 text-center">
+          <h2
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Why Choose </span>
+            <span class="text-primary">BDK Inc</span>
+            <span class="text-foreground">?</span>
+          </h2>
+        </div>
+
+        <Card
+          className="fill-mode-both animate-in fade-in zoom-in delay-200 duration-700"
+          size="xl"
+          interactive={false}
+        >
+          <div class="text-muted-foreground space-y-6 text-lg">
+            <p class="leading-relaxed">
+              <strong class="text-foreground">Experience That Matters:</strong> With
+              over 25 years in the industry, we've seen technology evolve and have
+              helped hundreds of businesses navigate digital transformation. Our
+              experience means we can anticipate challenges and provide proactive
+              solutions.
+            </p>
+            <p class="leading-relaxed">
+              <strong class="text-foreground">Comprehensive Solutions:</strong> From
+              managed IT services and cloud hosting to cybersecurity and AI integration,
+              we offer end-to-end technology solutions. You get the convenience of
+              a single partner who understands your complete IT ecosystem.
+            </p>
+            <p class="leading-relaxed">
+              <strong class="text-foreground">Personalized Approach:</strong> We
+              don't believe in one-size-fits-all solutions. Every business is unique,
+              and we take the time to understand your specific needs, challenges,
+              and goals before recommending solutions.
+            </p>
+            <p class="leading-relaxed">
+              <strong class="text-foreground">Proven Track Record:</strong> Our 500+
+              satisfied clients across various industries speak to our ability to
+              deliver results. We've built our reputation on reliability, innovation,
+              and exceptional customer service.
+            </p>
+            <p class="leading-relaxed">
+              <strong class="text-foreground">Future-Ready Technology:</strong> We
+              don't just maintain your current infrastructure—we help you prepare
+              for the future with AI, machine learning, and next-generation cloud
+              solutions that give you a competitive edge.
             </p>
           </div>
+        </Card>
+      </div>
+    </section>
 
-          {/* Timeline */}
-          <div class="relative">
-            {/* Vertical line */}
-            <div
-              class="from-primary via-secondary to-primary absolute top-0 bottom-0 left-8 w-0.5 bg-gradient-to-b md:left-1/2"
-            >
-            </div>
-
-            <div class="space-y-12">
-              {
-                milestones.map((milestone, index) => {
-                  const isEven = index % 2 === 0;
-                  return (
-                    <div
-                      class={`relative ${isEven ? 'md:text-right' : 'md:text-left'}`}
-                    >
-                      <div
-                        class={`md:grid md:grid-cols-2 md:gap-8 ${isEven ? '' : 'md:flex-row-reverse'}`}
-                      >
-                        <div
-                          class={
-                            isEven ? 'md:pr-12' : 'md:col-start-2 md:pl-12'
-                          }
-                        >
-                          <Card
-                            className={`fill-mode-both animate-in ml-16 md:ml-0 ${index % 2 === 0 ? 'slide-in-from-left-8' : 'slide-in-from-right-8'} fade-in duration-700 delay-${200 + index * 100}`}
-                            size="lg"
-                            interactive={false}
-                          >
-                            <div class="text-primary mb-2 text-3xl font-bold">
-                              {milestone.year}
-                            </div>
-                            <h3 class="text-foreground mb-2 text-xl font-bold">
-                              {milestone.title}
-                            </h3>
-                            <p class="text-muted-foreground">
-                              {milestone.description}
-                            </p>
-                          </Card>
-                        </div>
-                      </div>
-                      {/* Timeline dot */}
-                      <div class="bg-primary ring-background absolute top-6 left-8 -ml-2 h-4 w-4 rounded-full shadow-[--shadow-glow-sm] ring-4 md:left-1/2" />
-                    </div>
-                  );
-                })
-              }
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us Section */}
-      <section
-        class="via-primary/5 bg-gradient-to-b from-transparent to-transparent px-4 py-24 sm:px-6 lg:px-8"
-      >
-        <div class="mx-auto max-w-4xl">
-          <div class="mb-12 text-center">
-            <h2
-              class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
-            >
-              <span class="text-foreground">Why Choose </span>
-              <span class="text-primary">BDK Inc</span>
-              <span class="text-foreground">?</span>
-            </h2>
-          </div>
-
-          <Card
-            className="fill-mode-both animate-in fade-in zoom-in delay-200 duration-700"
-            size="xl"
-            interactive={false}
-          >
-            <div class="text-muted-foreground space-y-6 text-lg">
-              <p class="leading-relaxed">
-                <strong class="text-foreground">Experience That Matters:</strong
-                > With over 25 years in the industry, we've seen technology evolve
-                and have helped hundreds of businesses navigate digital transformation.
-                Our experience means we can anticipate challenges and provide proactive
-                solutions.
-              </p>
-              <p class="leading-relaxed">
-                <strong class="text-foreground">Comprehensive Solutions:</strong
-                > From managed IT services and cloud hosting to cybersecurity and
-                AI integration, we offer end-to-end technology solutions. You get
-                the convenience of a single partner who understands your complete
-                IT ecosystem.
-              </p>
-              <p class="leading-relaxed">
-                <strong class="text-foreground">Personalized Approach:</strong> We
-                don't believe in one-size-fits-all solutions. Every business is unique,
-                and we take the time to understand your specific needs, challenges,
-                and goals before recommending solutions.
-              </p>
-              <p class="leading-relaxed">
-                <strong class="text-foreground">Proven Track Record:</strong> Our
-                500+ satisfied clients across various industries speak to our ability
-                to deliver results. We've built our reputation on reliability, innovation,
-                and exceptional customer service.
-              </p>
-              <p class="leading-relaxed">
-                <strong class="text-foreground">Future-Ready Technology:</strong
-                > We don't just maintain your current infrastructure—we help you
-                prepare for the future with AI, machine learning, and next-generation
-                cloud solutions that give you a competitive edge.
-              </p>
-            </div>
-          </Card>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <CTASection
-        client:visible
-        title="Ready to Partner with BDK Inc?"
-        description="Let's discuss how our 25+ years of experience can help transform your IT infrastructure and drive business growth."
-        buttonText="Start the Conversation"
-        buttonHref="/contact"
-      />
-    </div>
+    {/* CTA Section */}
+    <CTASection
+      client:visible
+      title="Ready to Partner with BDK Inc?"
+      description="Let's discuss how our 25+ years of experience can help transform your IT infrastructure and drive business growth."
+      buttonText="Start the Conversation"
+      buttonHref="/contact"
+    />
   </main>
 
   {/* Footer */}
