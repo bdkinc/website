@@ -100,7 +100,7 @@ export default function CTASection({
           href={buttonHref}
           className={cn(
             "inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium",
-            "bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm",
+            "bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm cursor-pointer",
             "opacity-0 translate-y-2 transition-[opacity,transform] duration-400 ease-out",
             sectionInView && "opacity-100 translate-y-0"
           )}
