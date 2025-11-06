@@ -4,7 +4,6 @@ import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { getCollection } from 'astro:content';
 import { iconMap } from '@/lib/icons';
-import { easternShoreLocations } from '@/lib/locations';
 import {
   MapPin,
   Users,
@@ -20,26 +19,27 @@ import { Card } from '@/components/ui/card';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
-// Get all services for the location pages
+// Get all services and locations for the location pages
 const services = await getCollection('services');
+const locations = await getCollection('locations');
 const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
 
 // Maryland Eastern Shore locations only
-const marylandLocations = easternShoreLocations.filter(loc => loc.state === 'Maryland');
+const marylandLocations = locations.filter(loc => loc.data.state === 'Maryland');
 const marylandServicesPages = [];
 
 // Generate service + location combinations for Maryland
 for (const service of sortedServices) {
   for (const location of marylandLocations) {
-    const locationSlug = location.name.toLowerCase()
+    const locationSlug = location.data.name.toLowerCase()
       .replace(/\s+/g, '-')
       .replace(/,/g, '');
     
     marylandServicesPages.push({
       serviceSlug: service.id,
       serviceName: service.data.title,
-      locationName: location.name,
-      locationState: location.state,
+      locationName: location.data.name,
+      locationState: location.data.state,
       url: `/services/${service.id}/${locationSlug}`,
       icon: service.data.icon
     });
@@ -69,7 +69,7 @@ for (const service of sortedServices) {
         <p class="text-muted-foreground mx-auto max-w-3xl text-xl">
           Trusted managed IT services provider serving businesses across Maryland's Eastern Shore. From Cambridge to Ocean City, we deliver proactive technology support and strategic IT solutions.
         </p>
-        <div class="mt-8 flex flex-col items-center gap-4 sm:flex-row">
+        <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
             href="/contact"
             class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
@@ -78,14 +78,15 @@ for (const service of sortedServices) {
             Get Started Today
           </a>
           <a
-            href="tel:410-555-0123"
+            href="tel:800-309-0004"
             class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
           >
             <Phone className="h-4 w-4" />
-            (410) 555-0123
+            (800) 309-0004
           </a>
         </div>
       </div>
+      <div class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"></div>
     </section>
 
     <!-- Featured Cities -->
@@ -94,15 +95,15 @@ for (const service of sortedServices) {
         <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
           Serving Maryland Eastern Shore Cities
         </h2>
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {
-            marylandLocations.slice(0, 8).map((location, index) => (
+            marylandLocations.slice(0, 6).map((location, index) => (
               <Card key={index} className="text-center p-6">
                 <MapPin className="text-primary mx-auto mb-3 h-6 w-6" />
-                <h3 class="text-foreground font-semibold">{location.name}</h3>
-                <p class="text-muted-foreground text-sm">{location.counties?.join(" County")}</p>
+                <h3 class="text-foreground font-semibold">{location.data.name}</h3>
+                <p class="text-muted-foreground text-sm">{location.data.counties?.join(" County")}</p>
                 <a
-                  href={`/services/managed-it/${location.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  href={`/services/managed-it/${location.data.name.toLowerCase().replace(/\s+/g, '-')}`}
                   class="text-primary hover:text-primary/80 mt-3 text-sm font-medium"
                 >
                   View IT Services →
@@ -198,10 +199,10 @@ for (const service of sortedServices) {
                       {
                         marylandLocations.slice(0, 4).map((location) => (
                           <a
-                            href={`/services/${service.id}/${location.name.toLowerCase().replace(/\s+/g, '-')}`}
+                            href={`/services/${service.id}/${location.data.name.toLowerCase().replace(/\s+/g, '-')}`}
                             class="text-muted-foreground hover:text-primary flex items-center justify-between px-3 py-2 text-sm rounded hover:bg-muted/50"
                           >
-                            <span>{location.name}, {location.state}</span>
+                            <span>{location.data.name}, {location.data.state}</span>
                             <span class="text-primary">→</span>
                           </a>
                         ))
@@ -227,12 +228,12 @@ for (const service of sortedServices) {
             marylandLocations.map((location, index) => (
               <a
                 key={index}
-                href={`/services/managed-it/${location.name.toLowerCase().replace(/\s+/g, '-')}`}
+                href={`/services/managed-it/${location.data.name.toLowerCase().replace(/\s+/g, '-')}`}
                 class="text-center p-3 rounded hover:bg-muted/50 transition-colors"
               >
                 <MapPin className="text-primary mx-auto mb-2 h-4 w-4" />
-                <div class="text-foreground text-sm font-medium">{location.name}</div>
-                <div class="text-muted-foreground text-xs">{location.state}</div>
+                <div class="text-foreground text-sm font-medium">{location.data.name}</div>
+                <div class="text-muted-foreground text-xs">{location.data.state}</div>
               </a>
             ))
           }
@@ -250,7 +251,7 @@ for (const service of sortedServices) {
           <p class="text-muted-foreground mb-8 text-xl">
             Discover how BDK Inc can transform your technology infrastructure with local Eastern Shore expertise.
           </p>
-          <div class="flex flex-col items-center gap-4 sm:flex-row">
+          <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href="/contact"
               class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
@@ -259,11 +260,11 @@ for (const service of sortedServices) {
               Schedule Consultation
             </a>
             <a
-              href="tel:410-555-0123"
+              href="tel:800-309-0004"
               class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
             >
               <Phone className="h-4 w-4" />
-              Call (410) 555-0123
+              Call (800) 309-0004
             </a>
           </div>
         </Card>

@@ -1,10 +1,10 @@
 ---
-import { getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 import Layout from '../../../layouts/Layout.astro';
 import Navigation from '../../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { getLocationBySlug, easternShoreLocations } from '@/lib/locations';
+import { getLocationBySlug } from '@/lib/locations';
 import {
   Server,
   MapPin,
@@ -21,22 +21,22 @@ import {
 import { Card } from '@/components/ui/card';
 
 export async function getStaticPaths() {
+  // Get main services, PSEO services, and locations from collections
+  const mainServices = await getCollection('services');
+  const pseoServices = await getCollection('pseoServices');
+  const locations = await getCollection('locations');
   const paths = [];
 
+  // Generate service slugs from both collections
+  const serviceSlugs = [
+    ...mainServices.map(service => service.id),
+    ...pseoServices.map(service => service.id)
+  ];
+
   // Generate paths for each service + location combination
-  for (const serviceSlug of [
-    'managed-it', 
-    'cloud-hosting', 
-    'cybersecurity',
-    'application-development',
-    'artificial-intelligence',
-    'business-analytics',
-    'edi-solutions',
-    'hosted-erp',
-    'ibm-power'
-  ]) {
-    for (const location of easternShoreLocations) {
-      const locationSlug = location.name.toLowerCase()
+  for (const serviceSlug of serviceSlugs) {
+    for (const location of locations) {
+      const locationSlug = location.data.name.toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/,/g, '');
       
@@ -47,7 +47,7 @@ export async function getStaticPaths() {
         },
         props: { 
           serviceSlug, 
-          location 
+          location: location.data
         }
       });
     }
@@ -58,8 +58,8 @@ export async function getStaticPaths() {
 
 const { serviceSlug, location } = Astro.props;
 
-// Get service data
-const service = await getEntry('services', serviceSlug);
+// Get service data from both collections
+const service = await getEntry('services', serviceSlug) || await getEntry('pseoServices', serviceSlug);
 if (!service) {
   return new Response(null, { status: 404 });
 }
@@ -93,8 +93,9 @@ const locationFeatures = [
   }
 ];
 
-const nearbyLocations = easternShoreLocations
-  .filter(loc => loc.name !== location.name && loc.state === location.state)
+const locations = await getCollection('locations');
+const nearbyLocations = locations
+  .filter(loc => loc.data.name !== location.name && loc.data.state === location.state)
   .slice(0, 3);
 
 const pageDescription = `${service.data.title} in ${location.name}, ${location.state}. Local MSP services with 24/7 support, proactive monitoring, and customizable solutions for ${location.region} businesses.`;
@@ -258,10 +259,10 @@ const pageDescription = `${service.data.title} in ${location.name}, ${location.s
               nearbyLocations.map((nearbyLoc, index) => (
                 <Card key={index} className="text-center p-6">
                   <MapPin className="text-primary mx-auto mb-3 h-6 w-6" />
-                  <h3 class="text-foreground font-semibold">{nearbyLoc.name}</h3>
-                  <p class="text-muted-foreground text-sm">{nearbyLoc.state}</p>
+                  <h3 class="text-foreground font-semibold">{nearbyLoc.data.name}</h3>
+                  <p class="text-muted-foreground text-sm">{nearbyLoc.data.state}</p>
                   <a
-                    href={`/services/${serviceSlug}/${nearbyLoc.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    href={`/services/${serviceSlug}/${nearbyLoc.data.name.toLowerCase().replace(/\s+/g, '-')}`}
                     class="text-primary hover:text-primary/80 mt-3 text-sm font-medium"
                   >
                     View Services →

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Zap, ShieldCheck, Users } from "lucide-react";
-import { useIntersectionObserver } from "@/lib/hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "@/components/hooks/useIntersectionObserver";
 
 const features = [
   {

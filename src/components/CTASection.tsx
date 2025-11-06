@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { cn } from '@/lib/utils'
 import { Card } from '@/components/ui/card'
-import { useIntersectionObserver } from '@/lib/hooks/useIntersectionObserver'
+import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver'
 
 interface CTASectionProps {
   title?: string

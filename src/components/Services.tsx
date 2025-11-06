@@ -7,7 +7,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { iconMap } from "@/lib/icons";
-import { useIntersectionObserver } from "@/lib/hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "@/components/hooks/useIntersectionObserver";
 
 interface ServicesProps {
   services: Array<{

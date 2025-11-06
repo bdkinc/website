@@ -8,6 +8,9 @@ import {
   Radio,
   Globe,
   Bot,
+  Monitor,
+  Terminal,
+  Apple,
   type LucideIcon,
 } from "lucide-react";
 
@@ -25,4 +28,7 @@ export const iconMap: Record<string, LucideIcon> = {
   Shield,
   Globe,
   Bot,
+  Monitor,
+  Terminal,
+  Apple,
 };
