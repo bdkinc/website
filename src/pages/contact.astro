@@ -11,7 +11,12 @@ const { servicesData, recentPosts } = await getNavigationData();
 ---
 
 <Layout title="Contact Us | BDK Inc - Get in Touch">
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+  <Navigation
+    client:load
+    services={servicesData}
+    blogPosts={recentPosts}
+    currentPath={Astro.url.pathname}
+  />
   <main id="main-content">
     {/* Header Section */}
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">

@@ -294,9 +294,9 @@ export default function Hero() {
           </div>
 
           {/* Main heading - fade in + slide from bottom with stagger */}
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight animate-in fill-mode-both fade-in slide-in-from-bottom-8 duration-700 delay-100">
+          <h1 className="text-6xl md:text-8xl lg:text-10xl font-bold tracking-tight animate-in fill-mode-both fade-in slide-in-from-bottom-8 duration-700 delay-100 text-shadow">
             <span>IT Made</span>{" "}
-            <span className="text-brand-primary">
+            <span className="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent">
               Simple
             </span>
           </h1>
