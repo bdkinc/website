@@ -21,13 +21,22 @@ if (!service) {
 }
 const { servicesData, recentPosts } = await getNavigationData();
 const IconComponent = iconMap[service.data.icon];
+const title = service.data.title;
+const titleWords = title.split(' ');
+const lastTitleWord = titleWords.pop();
+const titleFirst = titleWords.join(' ');
 ---
 
 <Layout
   title={`${service.data.title} - BDK Inc`}
   description={service.data.description}
 >
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+  <Navigation
+    client:load
+    services={servicesData}
+    blogPosts={recentPosts}
+    currentPath={Astro.url.pathname}
+  />
   <main id="main-content">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
@@ -35,7 +44,7 @@ const IconComponent = iconMap[service.data.icon];
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl text-center">
         <div
-          class="bg-linear-to-brr from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl p-4 delay-100 duration-500"
+          class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
           transition:name={`service-icon-${service.id}`}
         >
           <IconComponent className="text-primary h-12 w-12" />
@@ -45,11 +54,13 @@ const IconComponent = iconMap[service.data.icon];
           transition:name={`service-title-${service.id}`}
           transition:animate="initial"
         >
+          <span class="text-foreground"
+            >{titleFirst ? `${titleFirst} ` : ''}</span
+          >
           <span
             class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+            >{lastTitleWord}</span
           >
-            {service.data.title}
-          </span>
         </h1>
         <p
           transition:name={`service-description-${service.id}`}
@@ -59,7 +70,10 @@ const IconComponent = iconMap[service.data.icon];
           {service.data.description}
         </p>
       </div>
-      <div class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"></div>
+      <div
+        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+      >
+      </div>
     </section>
 
     <!-- Content Section -->
@@ -67,305 +81,297 @@ const IconComponent = iconMap[service.data.icon];
       <div
         class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
       >
-            <div class="mx-auto max-w-7xl">
-              <div class="service-content-wrapper">
-                <div class="not-prose mx-auto max-w-4xl">
-                  <h2
-                    class="text-foreground mb-6 text-center text-3xl font-bold"
-                  >
-                    Transform Data into Decisions
-                  </h2>
-                  <div
-                    class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-                  >
-                    Turn your data into actionable insights with custom
-                    reporting and real-time analytics. Make data-driven
-                    decisions with confidence using our automated reporting
-                    solutions that deliver the information you need, when you
-                    need it.
-                  </div>
+        <div class="mx-auto max-w-7xl">
+          <div class="service-content-wrapper">
+            <div class="not-prose mx-auto max-w-4xl">
+              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
+                Transform Data into Decisions
+              </h2>
+              <div
+                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
+              >
+                Turn your data into actionable insights with custom reporting
+                and real-time analytics. Make data-driven decisions with
+                confidence using our automated reporting solutions that deliver
+                the information you need, when you need it.
+              </div>
+            </div>
+
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              Stop Drowning in Data
+            </h3>
+
+            <ServiceCardGrid>
+              <ServiceCard>
+                <div class="mb-6">
+                  <Clock className="text-primary h-16 w-16" />
                 </div>
-
-                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-                  Stop Drowning in Data
-                </h3>
-
-                <ServiceCardGrid>
-                  <ServiceCard>
-                    <div class="mb-6">
-                      <Clock className="text-primary h-16 w-16" />
-                    </div>
-                    <h4 class="text-primary mb-4 text-2xl font-bold">
-                      Replace Manual Reporting
-                    </h4>
-                    <div class="text-muted-foreground leading-relaxed">
-                      Stop spending hours creating reports in spreadsheets. Our
-                      automated analytics solutions pull data from your systems
-                      and generate reports automatically—daily, weekly, or in
-                      real-time.
-                    </div>
-                  </ServiceCard>
-
-                  <ServiceCard>
-                    <div class="mb-6">
-                      <Zap className="text-primary h-16 w-16" />
-                    </div>
-                    <h4 class="text-primary mb-4 text-2xl font-bold">
-                      Real-Time Visibility
-                    </h4>
-                    <div class="text-muted-foreground leading-relaxed">
-                      Don't make decisions based on yesterday's data. Our
-                      analytics platforms provide real-time visibility into your
-                      operations with up-to-the-minute information.
-                    </div>
-                  </ServiceCard>
-
-                  <ServiceCard>
-                    <div class="mb-6">
-                      <Target className="text-primary h-16 w-16" />
-                    </div>
-                    <h4 class="text-primary mb-4 text-2xl font-bold">
-                      Custom Dashboards
-                    </h4>
-                    <div class="text-muted-foreground leading-relaxed">
-                      We create custom dashboards tailored to your specific
-                      needs, displaying the KPIs and metrics that matter most to
-                      your operation. See your entire business at a glance.
-                    </div>
-                  </ServiceCard>
-                </ServiceCardGrid>
-
-                <h3
-                  class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
-                >
-                  Key Benefits
-                </h3>
-
-                <div
-                  class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-                >
-                  <div
-                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-                  >
-                    <div class="mb-4">
-                      <Clock className="text-primary h-10 w-10" />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Save Time
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Eliminate hours of manual report creation
-                    </div>
-                  </div>
-
-                  <div
-                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-                  >
-                    <div class="mb-4">
-                      <CheckCircle2 className="text-primary h-10 w-10" />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Improve Accuracy
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Automated data collection reduces errors
-                    </div>
-                  </div>
-
-                  <div
-                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-                  >
-                    <div class="mb-4">
-                      <Target className="text-primary h-10 w-10" />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Better Decisions
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Access to real-time information supports informed choices
-                    </div>
-                  </div>
-
-                  <div
-                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-                  >
-                    <div class="mb-4">
-                      <TrendingUp className="text-primary h-10 w-10" />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Identify Trends
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Spot patterns and opportunities in your data
-                    </div>
-                  </div>
-
-                  <div
-                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-                  >
-                    <div class="mb-4">
-                      <Users className="text-primary h-10 w-10" />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Increase Accountability
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Clear metrics help track performance
-                    </div>
-                  </div>
-
-                  <div
-                    class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-                  >
-                    <div class="mb-4">
-                      <Database className="text-primary h-10 w-10" />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Integration
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Connect data from multiple systems into unified reports
-                    </div>
-                  </div>
+                <h4 class="text-primary mb-4 text-2xl font-bold">
+                  Replace Manual Reporting
+                </h4>
+                <div class="text-muted-foreground leading-relaxed">
+                  Stop spending hours creating reports in spreadsheets. Our
+                  automated analytics solutions pull data from your systems and
+                  generate reports automatically—daily, weekly, or in real-time.
                 </div>
+              </ServiceCard>
 
-                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-                  Our Process
-                </h3>
+              <ServiceCard>
+                <div class="mb-6">
+                  <Zap className="text-primary h-16 w-16" />
+                </div>
+                <h4 class="text-primary mb-4 text-2xl font-bold">
+                  Real-Time Visibility
+                </h4>
+                <div class="text-muted-foreground leading-relaxed">
+                  Don't make decisions based on yesterday's data. Our analytics
+                  platforms provide real-time visibility into your operations
+                  with up-to-the-minute information.
+                </div>
+              </ServiceCard>
 
-                <div class="bg-background border-border">
-                  <div
-                    class="gradient-mesh not-prose mb-20 rounded-2xl border p-10"
-                  >
-                    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                      <div class="text-center">
-                        <div
-                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                        >
-                          1
-                        </div>
-                        <h5 class="text-foreground mb-2 text-lg font-bold">
-                          Understand Your Needs
-                        </h5>
-                        <div class="text-muted-foreground text-sm">
-                          We start by learning about your business and the
-                          decisions you need to make
-                        </div>
-                      </div>
-                      <div class="text-center">
-                        <div
-                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                        >
-                          2
-                        </div>
-                        <h5 class="text-foreground mb-2 text-lg font-bold">
-                          Identify Data Sources
-                        </h5>
-                        <div class="text-muted-foreground text-sm">
-                          We locate the data you need across your systems
-                        </div>
-                      </div>
-                      <div class="text-center">
-                        <div
-                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                        >
-                          3
-                        </div>
-                        <h5 class="text-foreground mb-2 text-lg font-bold">
-                          Design Reports
-                        </h5>
-                        <div class="text-muted-foreground text-sm">
-                          We create custom reports and dashboards tailored to
-                          your requirements
-                        </div>
-                      </div>
-                      <div class="text-center">
-                        <div
-                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                        >
-                          4
-                        </div>
-                        <h5 class="text-foreground mb-2 text-lg font-bold">
-                          Automate Collection
-                        </h5>
-                        <div class="text-muted-foreground text-sm">
-                          We set up automated data gathering and processing
-                        </div>
-                      </div>
-                      <div class="text-center">
-                        <div
-                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                        >
-                          5
-                        </div>
-                        <h5 class="text-foreground mb-2 text-lg font-bold">
-                          Deploy & Train
-                        </h5>
-                        <div class="text-muted-foreground text-sm">
-                          We implement the solution and train your team to use
-                          it
-                        </div>
-                      </div>
-                      <div class="text-center">
-                        <div
-                          class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                        >
-                          6
-                        </div>
-                        <h5 class="text-foreground mb-2 text-lg font-bold">
-                          Optimize
-                        </h5>
-                        <div class="text-muted-foreground text-sm">
-                          We continuously refine reports based on your feedback
-                        </div>
-                      </div>
+              <ServiceCard>
+                <div class="mb-6">
+                  <Target className="text-primary h-16 w-16" />
+                </div>
+                <h4 class="text-primary mb-4 text-2xl font-bold">
+                  Custom Dashboards
+                </h4>
+                <div class="text-muted-foreground leading-relaxed">
+                  We create custom dashboards tailored to your specific needs,
+                  displaying the KPIs and metrics that matter most to your
+                  operation. See your entire business at a glance.
+                </div>
+              </ServiceCard>
+            </ServiceCardGrid>
+
+            <h3
+              class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+            >
+              Key Benefits
+            </h3>
+
+            <div
+              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            >
+              <div
+                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <Clock className="text-primary h-10 w-10" />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Save Time
+                </h4>
+                <div class="text-muted-foreground">
+                  Eliminate hours of manual report creation
+                </div>
+              </div>
+
+              <div
+                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <CheckCircle2 className="text-primary h-10 w-10" />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Improve Accuracy
+                </h4>
+                <div class="text-muted-foreground">
+                  Automated data collection reduces errors
+                </div>
+              </div>
+
+              <div
+                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <Target className="text-primary h-10 w-10" />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Better Decisions
+                </h4>
+                <div class="text-muted-foreground">
+                  Access to real-time information supports informed choices
+                </div>
+              </div>
+
+              <div
+                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <TrendingUp className="text-primary h-10 w-10" />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Identify Trends
+                </h4>
+                <div class="text-muted-foreground">
+                  Spot patterns and opportunities in your data
+                </div>
+              </div>
+
+              <div
+                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <Users className="text-primary h-10 w-10" />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Increase Accountability
+                </h4>
+                <div class="text-muted-foreground">
+                  Clear metrics help track performance
+                </div>
+              </div>
+
+              <div
+                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <Database className="text-primary h-10 w-10" />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Integration
+                </h4>
+                <div class="text-muted-foreground">
+                  Connect data from multiple systems into unified reports
+                </div>
+              </div>
+            </div>
+
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              Our Process
+            </h3>
+
+            <div class="bg-background border-border">
+              <div
+                class="gradient-mesh not-prose mb-20 rounded-2xl border p-10"
+              >
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      1
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Understand Your Needs
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      We start by learning about your business and the decisions
+                      you need to make
                     </div>
                   </div>
-                </div>
-
-                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-                  Why Choose BDK for Analytics?
-                </h3>
-
-                <div class="text-center">
-                  <div
-                    class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
-                  >
-                    We combine technical expertise with business understanding.
-                    Our team doesn't just build reports—we help you identify the
-                    metrics that matter and design analytics that drive better
-                    decisions. We work with your existing systems and data,
-                    creating solutions that integrate seamlessly into your
-                    operations.
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      2
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Identify Data Sources
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      We locate the data you need across your systems
+                    </div>
                   </div>
-                  <div class="text-primary text-xl font-semibold">
-                    Transform your data from a burden into a competitive
-                    advantage.
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      3
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Design Reports
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      We create custom reports and dashboards tailored to your
+                      requirements
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      4
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Automate Collection
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      We set up automated data gathering and processing
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      5
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Deploy & Train
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      We implement the solution and train your team to use it
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      6
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Optimize
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      We continuously refine reports based on your feedback
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="mx-auto max-w-4xl">
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              Why Choose BDK for Analytics?
+            </h3>
+
+            <div class="text-center">
               <div
-                class="glass rounded-2xl p-12 text-center delay-800 duration-500"
+                class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
               >
-                <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-                  Ready to Get Started?
-                </h2>
-                <p class="text-muted-foreground mb-8 text-xl">
-                  Let's discuss how {service.data.title.toLowerCase()} can transform
-                  your business.
-                </p>
-                <a
-                  href="/contact"
-                  class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors cursor-pointer"
-                >
-                  Contact Us Today
-                </a>
+                We combine technical expertise with business understanding. Our
+                team doesn't just build reports—we help you identify the metrics
+                that matter and design analytics that drive better decisions. We
+                work with your existing systems and data, creating solutions
+                that integrate seamlessly into your operations.
+              </div>
+              <div class="text-primary text-xl font-semibold">
+                Transform your data from a burden into a competitive advantage.
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="mx-auto max-w-4xl">
+          <div
+            class="glass rounded-2xl p-12 text-center delay-800 duration-500"
+          >
+            <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+              Ready to Get Started?
+            </h2>
+            <p class="text-muted-foreground mb-8 text-xl">
+              Let's discuss how {service.data.title.toLowerCase()} can transform
+              your business.
+            </p>
+            <a
+              href="/contact"
+              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+            >
+              Contact Us Today
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   </main>

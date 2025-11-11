@@ -22,6 +22,10 @@ if (!service) {
 }
 const { servicesData, recentPosts } = await getNavigationData();
 const IconComponent = iconMap[service.data.icon];
+const title = service.data.title;
+const titleWords = title.split(' ');
+const lastTitleWord = titleWords.pop();
+const titleFirst = titleWords.join(' ');
 ---
 
 <Layout
@@ -41,7 +45,7 @@ const IconComponent = iconMap[service.data.icon];
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl text-center">
         <div
-          class="bg-linear-to-brr from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl p-4"
+          class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4"
           transition:name={`service-icon-${service.id}`}
           transition:animate="initial"
         >
@@ -52,11 +56,13 @@ const IconComponent = iconMap[service.data.icon];
           transition:name={`service-title-${service.id}`}
           transition:animate="initial"
         >
+          <span class="text-foreground"
+            >{titleFirst ? `${titleFirst} ` : ''}</span
+          >
           <span
             class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+            >{lastTitleWord}</span
           >
-            {service.data.title}
-          </span>
         </h1>
         <p
           transition:name={`service-description-${service.id}`}
@@ -411,7 +417,7 @@ const IconComponent = iconMap[service.data.icon];
             </p>
             <a
               href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors cursor-pointer"
+              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
             >
               Contact Us Today
             </a>

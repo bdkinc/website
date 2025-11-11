@@ -43,7 +43,7 @@ const pseoServicesCollection = defineCollection({
     description: z.string(),
     icon: z.string(),
     order: z.number(),
-    category: z.enum(["hardware", "os", "cloud", "specialized"]),
+    category: z.enum(["hardware", "os", "cloud", "specialized", "software", "security", "communication", "support", "infrastructure"]),
   }),
 });
 

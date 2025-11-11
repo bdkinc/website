@@ -247,7 +247,7 @@ export default function Navigation({
                 </NavigationMenuItem>
 
                 {/* Locations Dropdown */}
-                <NavigationMenuItem>
+                {/* <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={cn(
                       "bg-transparent! hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl hover:text-primary focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent! transition-all"
@@ -298,7 +298,7 @@ export default function Navigation({
                       </li>
                     </ul>
                   </NavigationMenuContent>
-                </NavigationMenuItem>
+                </NavigationMenuItem> */}
 
                 {/* Contact */}
                 <NavigationMenuItem>
