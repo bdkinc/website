@@ -132,6 +132,7 @@ export default function Hero() {
 
   const addIconRef = (el: SVGSVGElement | null) => {
     if (el && !iconsRef.current.includes(el)) {
+      el.setAttribute("aria-hidden", "true");
       iconsRef.current.push(el);
     }
   };
@@ -318,7 +319,7 @@ export default function Hero() {
                 onClick={() => window.location.href = '/contact'}
               >
                 Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
             </div>
             <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-500 delay-400">
@@ -330,7 +331,7 @@ export default function Hero() {
                 onClick={() => window.location.href = '/services'}
               >
                 Explore Services
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
             </div>
           </div>

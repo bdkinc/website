@@ -9,18 +9,30 @@ interface Props {
   ogTitle?: string
   ogDescription?: string
   ogImage?: string
+  ogImageAlt?: string
   twitterCard?: string
+  robots?: string | null
 }
 
-const { 
-  title, 
+const {
+  title,
   description = "IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.",
   canonical = Astro.url.pathname,
   ogTitle = title,
   ogDescription = description,
   ogImage = "/og-image.jpg",
-  twitterCard = "summary_large_image"
+  ogImageAlt,
+  twitterCard = "summary_large_image",
+  robots = "index,follow"
 } = Astro.props
+
+const siteOrigin = Astro.site?.origin ?? "https://www.bdkinc.com"
+const canonicalUrl = canonical.startsWith("http")
+  ? canonical
+  : new URL(canonical, siteOrigin).toString()
+const ogImageUrl = ogImage.startsWith("http")
+  ? ogImage
+  : new URL(ogImage, siteOrigin).toString()
 ---
 
 <!doctype html>
@@ -28,7 +40,8 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {robots && <meta name="robots" content={robots} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,20 +49,22 @@ const {
     <meta name="generator" content={Astro.generator} />
     
     <!-- Canonical URL -->
-    <link rel="canonical" href={`https://www.bdkinc.com${canonical}`} />
+    <link rel="canonical" href={canonicalUrl} />
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
-    <meta property="og:image" content={`https://www.bdkinc.com${ogImage}`} />
-    <meta property="og:url" content={`https://www.bdkinc.com${canonical}`} />
+    <meta property="og:image" content={ogImageUrl} />
+    {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content="website" />
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content={twitterCard} />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />
-    <meta name="twitter:image" content={`https://www.bdkinc.com${ogImage}`} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    {ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
     
     <title>{title}</title>
     

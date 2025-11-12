@@ -1,5 +1,5 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -26,12 +26,36 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.data.title,
+  description:
+    'Cloud hosting, migration, and hybrid infrastructure management from BDK Inc with security-first architecture and 24/7 support.',
+  provider: {
+    '@type': 'Organization',
+    name: 'BDK Inc',
+    url: 'https://www.bdkinc.com',
+  },
+  serviceType: 'Cloud Hosting & Migration',
+  areaServed: ['Maryland', 'Delaware', 'Mid-Atlantic'],
+};
+
+const relatedTags = ['cloud', 'security', 'infrastructure'];
+const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .filter((post) => post.data.tags?.some((tag) => relatedTags.includes(tag)))
+  .slice(0, 3);
 ---
 
 <Layout
-  title={`${service.data.title} - BDK Inc`}
-  description={service.data.description}
+  title={`${service.data.title} & Migration Experts | BDK Inc`}
+  description="Secure cloud hosting, migration, and hybrid infrastructure management for regulated and growth-oriented organizations across the Mid-Atlantic."
+  ogDescription="BDK Inc designs and manages cloud hosting environments with compliance-grade security, predictable costs, and 24/7 support across private, public, and hybrid clouds."
 >
+  <script type="application/ld+json">
+    {JSON.stringify(serviceSchema)}
+  </script>
   <Navigation
     client:load
     services={servicesData}
@@ -48,7 +72,7 @@ const titleFirst = titleWords.join(' ');
           class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
           transition:name={`service-icon-${service.id}`}
         >
-          <IconComponent className="text-primary h-12 w-12" />
+          <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
         </div>
         <h1
           class="mb-6 text-5xl font-bold md:text-6xl"
@@ -109,9 +133,9 @@ const titleFirst = titleWords.join(' ');
             <ServiceCardGrid>
               <ServiceCard>
                 <div class="mb-6">
-                  <Lock className="text-primary h-16 w-16" />
+                  <Lock className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
-                <h4 class="text-primary mb-4 text-2xl font-bold">
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Private Cloud
                 </h4>
                 <div class="text-muted-foreground leading-relaxed">
@@ -122,9 +146,9 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <ArrowLeftRight className="text-primary h-16 w-16" />
+                  <ArrowLeftRight className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
-                <h4 class="text-primary mb-4 text-2xl font-bold">
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Hybrid Cloud
                 </h4>
                 <div class="text-muted-foreground leading-relaxed">
@@ -135,9 +159,9 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <Cloud className="text-primary h-16 w-16" />
+                  <Cloud className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
-                <h4 class="text-primary mb-4 text-2xl font-bold">
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Public Cloud
                 </h4>
                 <div class="text-muted-foreground leading-relaxed">
@@ -280,8 +304,8 @@ const titleFirst = titleWords.join(' ');
               <ServiceCard
                 className="bg-background/50 border-border border-2 p-6"
               >
-                <div class="mb-4">
-                  <Shield className="text-primary h-10 w-10" />
+                  <div class="mb-4">
+                    <Shield className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Enhanced Reliability
@@ -295,8 +319,8 @@ const titleFirst = titleWords.join(' ');
               <ServiceCard
                 className="bg-background/50 border-border border-2 p-6"
               >
-                <div class="mb-4">
-                  <DollarSign className="text-primary h-10 w-10" />
+                  <div class="mb-4">
+                    <DollarSign className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Cost Efficiency
@@ -310,8 +334,8 @@ const titleFirst = titleWords.join(' ');
               <ServiceCard
                 className="bg-background/50 border-border border-2 p-6"
               >
-                <div class="mb-4">
-                  <RefreshCw className="text-primary h-10 w-10" />
+                  <div class="mb-4">
+                    <RefreshCw className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Business Continuity
@@ -325,8 +349,8 @@ const titleFirst = titleWords.join(' ');
               <ServiceCard
                 className="bg-background/50 border-border border-2 p-6"
               >
-                <div class="mb-4">
-                  <Users className="text-primary h-10 w-10" />
+                  <div class="mb-4">
+                    <Users className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Expert Support
@@ -340,8 +364,8 @@ const titleFirst = titleWords.join(' ');
               <ServiceCard
                 className="bg-background/50 border-border border-2 p-6"
               >
-                <div class="mb-4">
-                  <Lock className="text-primary h-10 w-10" />
+                  <div class="mb-4">
+                    <Lock className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">Security</h4>
                 <div class="text-muted-foreground">
@@ -353,8 +377,8 @@ const titleFirst = titleWords.join(' ');
               <ServiceCard
                 className="bg-background/50 border-border border-2 p-6"
               >
-                <div class="mb-4">
-                  <Zap className="text-primary h-10 w-10" />
+                  <div class="mb-4">
+                    <Zap className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Flexibility
@@ -387,6 +411,32 @@ const titleFirst = titleWords.join(' ');
             </div>
           </div>
         </div>
+
+        {relatedPosts.length > 0 && (
+          <section class="mx-auto max-w-5xl">
+            <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
+              Related Resources
+            </h2>
+            <div class="grid gap-6 md:grid-cols-3">
+              {relatedPosts.map((post) => (
+                <a
+                  href={`/blog/${post.slug}`}
+                  class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
+                >
+                  <h3 class="text-foreground mb-2 text-lg font-semibold">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-muted-foreground text-sm">
+                    {post.data.description}
+                  </p>
+                  <span class="text-primary mt-4 text-sm font-medium">
+                    Read Article →
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
 
         <div class="mx-auto max-w-4xl">
           <div

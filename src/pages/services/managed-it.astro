@@ -1,5 +1,5 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -27,12 +27,39 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.data.title,
+  description:
+    'Managed IT services covering the Mid-Atlantic region with 24/7 support, proactive monitoring, and strategic technology planning from BDK Inc.',
+  areaServed: ['Maryland', 'Delaware', 'Mid-Atlantic'],
+  provider: {
+    '@type': 'Organization',
+    name: 'BDK Inc',
+    url: 'https://www.bdkinc.com',
+  },
+  serviceType: 'Managed IT Services',
+  offers: {
+    '@type': 'Offer',
+    availability: 'https://schema.org/InStock',
+  },
+};
+
+const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .filter((post) => post.data.tags?.includes('managed-services'))
+  .slice(0, 3);
 ---
 
 <Layout
-  title={`${service.data.title} - BDK Inc`}
-  description={service.data.description}
+  title={`${service.data.title} for Maryland & Delaware SMBs | BDK Inc`}
+  description="Comprehensive managed IT services for small and midsize businesses across Maryland and Delaware, including 24/7 help desk support, proactive monitoring, on-site/remote assistance, and strategic IT planning."
+  ogDescription="Managed IT services in Maryland & Delaware delivering 24/7 support, proactive monitoring, cybersecurity, and strategic technology planning for growth-focused organizations."
 >
+  <script type="application/ld+json">
+    {JSON.stringify(serviceSchema)}
+  </script>
   <Navigation
     client:load
     services={servicesData}
@@ -49,7 +76,7 @@ const titleFirst = titleWords.join(' ');
           class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
           transition:name={`service-icon-${service.id}`}
         >
-          <IconComponent className="text-primary h-12 w-12" />
+          <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
         </div>
         <h1
           class="mb-6 text-5xl font-bold md:text-6xl"
@@ -107,9 +134,9 @@ const titleFirst = titleWords.join(' ');
             <ServiceCardGrid>
               <ServiceCard>
                 <div class="mb-6">
-                  <HeadphonesIcon className="text-primary h-16 w-16" />
+                <HeadphonesIcon className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
-                <h4 class="text-primary mb-4 text-2xl font-bold">
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Unlimited Help Desk
                 </h4>
                 <div class="text-muted-foreground leading-relaxed">
@@ -121,9 +148,9 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <Activity className="text-primary h-16 w-16" />
+                <Activity className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
-                <h4 class="text-primary mb-4 text-2xl font-bold">
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Proactive Monitoring
                 </h4>
                 <div class="text-muted-foreground leading-relaxed">
@@ -135,9 +162,9 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <MapPin className="text-primary h-16 w-16" />
+                <MapPin className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
-                <h4 class="text-primary mb-4 text-2xl font-bold">
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Flexible Support
                 </h4>
                 <div class="text-muted-foreground leading-relaxed">
@@ -236,7 +263,7 @@ const titleFirst = titleWords.join(' ');
             >
               <ServiceCard>
                 <div class="mb-4">
-                  <Clock className="text-primary h-10 w-10" />
+                  <Clock className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   24/7 Availability
@@ -249,7 +276,7 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-4">
-                  <Users className="text-primary h-10 w-10" />
+                  <Users className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Expert Support
@@ -262,7 +289,7 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-4">
-                  <Shield className="text-primary h-10 w-10" />
+                  <Shield className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Security First
@@ -274,7 +301,7 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-4">
-                  <TrendingUp className="text-primary h-10 w-10" />
+                  <TrendingUp className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Business Growth
@@ -286,7 +313,7 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-4">
-                  <Zap className="text-primary h-10 w-10" />
+                  <Zap className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Rapid Response
@@ -298,7 +325,7 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-4">
-                  <Server className="text-primary h-10 w-10" />
+                  <Server className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Infrastructure Management
@@ -373,6 +400,34 @@ const titleFirst = titleWords.join(' ');
           </div>
         </div>
       </div>
+
+      {relatedPosts.length > 0 && (
+        <section class="px-4 pb-24 sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-5xl">
+            <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
+              Related Resources
+            </h2>
+            <div class="grid gap-6 md:grid-cols-3">
+              {relatedPosts.map((post) => (
+                <a
+                  href={`/blog/${post.slug}`}
+                  class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
+                >
+                  <h3 class="text-foreground mb-2 text-lg font-semibold">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-muted-foreground text-sm">
+                    {post.data.description}
+                  </p>
+                  <span class="text-primary mt-4 text-sm font-medium">
+                    Read Article →
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </section>
   </main>
 </Layout>

@@ -27,28 +27,44 @@ export async function getStaticPaths() {
   const locations = await getCollection('locations');
   const paths = [];
 
-  // Generate service slugs from both collections
-  const serviceSlugs = [
-    ...mainServices.map(service => service.id),
-    ...pseoServices.map(service => service.id)
-  ];
-
-  // Generate paths for each service + location combination
-  for (const serviceSlug of serviceSlugs) {
+  for (const svc of mainServices) {
     for (const location of locations) {
-      const locationSlug = location.data.name.toLowerCase()
+      const locationSlug = location.data.name
+        .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/,/g, '');
-      
+
       paths.push({
-        params: { 
-          service: serviceSlug, 
-          location: locationSlug 
+        params: {
+          service: svc.id,
+          location: locationSlug,
         },
-        props: { 
-          serviceSlug, 
-          location: location.data
-        }
+        props: {
+          serviceSlug: svc.id,
+          locationSlug,
+          collectionKey: 'services' as const,
+        },
+      });
+    }
+  }
+
+  for (const svc of pseoServices) {
+    for (const location of locations) {
+      const locationSlug = location.data.name
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/,/g, '');
+
+      paths.push({
+        params: {
+          service: svc.id,
+          location: locationSlug,
+        },
+        props: {
+          serviceSlug: svc.id,
+          locationSlug,
+          collectionKey: 'pseoServices' as const,
+        },
       });
     }
   }
@@ -56,10 +72,15 @@ export async function getStaticPaths() {
   return paths;
 }
 
-const { serviceSlug, location } = Astro.props;
+const { serviceSlug, locationSlug, collectionKey } = Astro.props;
 
-// Get service data from both collections
-const service = await getEntry('services', serviceSlug) || await getEntry('pseoServices', serviceSlug);
+const locationData = getLocationBySlug(locationSlug);
+if (!locationData) {
+  return new Response(null, { status: 404 });
+}
+
+// Get service data from the correct collection to avoid warnings
+const service = await getEntry(collectionKey, serviceSlug);
 if (!service) {
   return new Response(null, { status: 404 });
 }
@@ -68,13 +89,13 @@ const { servicesData, recentPosts } = await getNavigationData();
 const IconComponent = iconMap[service.data.icon];
 
 // Location-specific content
-const locationIntro = `As a leading Managed Service Provider serving ${location.name}, ${location.state}, BDK Inc delivers comprehensive ${service.data.title.toLowerCase()} solutions tailored to local businesses. Our team understands the unique technology challenges faced by companies in the ${location.region} region.`;
+const locationIntro = `As a leading Managed Service Provider serving ${locationData.name}, ${locationData.state}, BDK Inc delivers comprehensive ${service.data.title.toLowerCase()} solutions tailored to local businesses. Our team understands the unique technology challenges faced by companies in the ${locationData.region} region.`;
 
 const locationFeatures = [
   {
     icon: MapPin,
     title: "Local Expertise",
-    description: `Deep understanding of ${location.name}'s business landscape and regulatory environment`
+    description: `Deep understanding of ${locationData.name}'s business landscape and regulatory environment`
   },
   {
     icon: Clock,
@@ -95,14 +116,14 @@ const locationFeatures = [
 
 const locations = await getCollection('locations');
 const nearbyLocations = locations
-  .filter(loc => loc.data.name !== location.name && loc.data.state === location.state)
+  .filter(loc => loc.data.name !== locationData.name && loc.data.state === locationData.state)
   .slice(0, 3);
 
-const pageDescription = `${service.data.title} in ${location.name}, ${location.state}. Local MSP services with 24/7 support, proactive monitoring, and customizable solutions for ${location.region} businesses.`;
+const pageDescription = `${service.data.title} in ${locationData.name}, ${locationData.state}. Local MSP services with 24/7 support, proactive monitoring, and customizable solutions for ${locationData.region} businesses.`;
 
 ---
 <Layout
-  title={`${service.data.title} in ${location.name}, ${location.state} | BDK Inc`}
+  title={`${service.data.title} in ${locationData.name}, ${locationData.state} | BDK Inc`}
   description={pageDescription}
 >
   <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
@@ -114,7 +135,7 @@ const pageDescription = `${service.data.title} in ${location.name}, ${location.s
       <div class="relative z-10 mx-auto max-w-7xl text-center">
         <div class="mb-6 inline-flex items-center justify-center gap-2 text-lg">
           <MapPin className="text-primary h-5 w-5" />
-          <span class="text-muted-foreground">${location.name}, ${location.state}</span>
+          <span class="text-muted-foreground">${locationData.name}, ${locationData.state}</span>
         </div>
         <div
           class="bg-linear-tobr from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl p-4"
@@ -124,7 +145,7 @@ const pageDescription = `${service.data.title} in ${location.name}, ${location.s
         <h1 class="mb-6 text-5xl font-bold md:text-6xl">
           <span class="text-foreground">${service.data.title}</span>
           <br />
-          <span class="text-primary">${location.name}</span>
+          <span class="text-primary">${locationData.name}</span>
         </h1>
         <p class="text-muted-foreground mx-auto max-w-3xl text-xl">
           {locationIntro}
@@ -152,7 +173,7 @@ const pageDescription = `${service.data.title} in ${location.name}, ${location.s
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
-          Local ${location.name} Advantage
+          Local ${locationData.name} Advantage
         </h2>
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {
@@ -177,7 +198,7 @@ const pageDescription = `${service.data.title} in ${location.name}, ${location.s
     <section class="bg-muted/50 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
-          Why ${location.name} Businesses Choose Us
+          Why ${locationData.name} Businesses Choose Us
         </h2>
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <div>
@@ -200,7 +221,7 @@ const pageDescription = `${service.data.title} in ${location.name}, ${location.s
               <div class="flex items-start gap-3">
                 <CheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Tailored solutions for ${location.state} business requirements
+                  Tailored solutions for ${locationData.state} business requirements
                 </p>
               </div>
               <div class="flex items-start gap-3">
@@ -220,7 +241,7 @@ const pageDescription = `${service.data.title} in ${location.name}, ${location.s
               <div class="flex items-start gap-3">
                 <MapPin className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Serving ${location.counties?.join(" and ") || "Eastern Shore"} counties
+                  Serving ${locationData.counties?.join(" and ") || "Eastern Shore"} counties
                 </p>
               </div>
               <div class="flex items-start gap-3">
@@ -238,7 +259,7 @@ const pageDescription = `${service.data.title} in ${location.name}, ${location.s
               <div class="flex items-start gap-3">
                 <TrendingUp className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Proven track record with ${location.region} businesses
+                  Proven track record with ${locationData.region} businesses
                 </p>
               </div>
             </div>
@@ -252,7 +273,7 @@ const pageDescription = `${service.data.title} in ${location.name}, ${location.s
       <section class="px-4 py-16 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-7xl">
           <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
-            Also Serving Nearby ${location.state} Communities
+            Also Serving Nearby ${locationData.state} Communities
           </h2>
           <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {
@@ -280,7 +301,7 @@ const pageDescription = `${service.data.title} in ${location.name}, ${location.s
       <div class="mx-auto max-w-4xl">
         <Card className="text-center" size="xl" interactive={false}>
           <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-            Ready to Transform Your IT in {location.name}?
+            Ready to Transform Your IT in {locationData.name}?
           </h2>
           <p class="text-muted-foreground mb-8 text-xl">
             Contact us today for a free consultation and see how our local expertise can benefit your business.
