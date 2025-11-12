@@ -1,10 +1,11 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import {
   TrendingUp,
   Clock,
@@ -25,6 +26,38 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
+
+const metrics = [
+  { value: '300+', label: 'DASHBOARDS BUILT', icon: TrendingUp },
+  { value: '80%', label: 'REPORT TIME SAVED', icon: Clock },
+  { value: '200+', label: 'DATA SOURCES LINKED', icon: Database },
+  { value: '99.9%', label: 'DATA ACCURACY', icon: Target },
+];
+
+const detailColumns = [
+  {
+    title: 'Data Integration',
+    icon: Database,
+    items: [
+      'Unified pipelines combine ERP, CRM, finance, and operational data',
+      'Automated validation keeps analytics accurate and audit-ready',
+      'Scheduled refreshes deliver the latest numbers to every dashboard',
+    ],
+  },
+  {
+    title: 'Reporting Capabilities',
+    icon: TrendingUp,
+    items: [
+      'Role-based dashboards deliver tailored KPIs for each team',
+      'Scenario modeling highlights opportunities and risks in minutes',
+      'Automated alerts flag anomalies before they impact performance',
+    ],
+  },
+];
+
+const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .filter((post) => post.data.tags?.some((tag) => ['business', 'productivity', 'analytics'].includes(tag)))
+  .slice(0, 3);
 ---
 
 <Layout
@@ -47,7 +80,7 @@ const titleFirst = titleWords.join(' ');
           class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
           transition:name={`service-icon-${service.id}`}
         >
-          <IconComponent className="text-primary h-12 w-12" />
+          <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
         </div>
         <h1
           class="mb-6 text-5xl font-bold md:text-6xl"
@@ -104,7 +137,7 @@ const titleFirst = titleWords.join(' ');
             <ServiceCardGrid>
               <ServiceCard>
                 <div class="mb-6">
-                  <Clock className="text-primary h-16 w-16" />
+                  <Clock className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Replace Manual Reporting
@@ -118,7 +151,7 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <Zap className="text-primary h-16 w-16" />
+                  <Zap className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Real-Time Visibility
@@ -132,7 +165,7 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <Target className="text-primary h-16 w-16" />
+                  <Target className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Custom Dashboards
@@ -151,106 +184,116 @@ const titleFirst = titleWords.join(' ');
               Key Benefits
             </h3>
 
-            <div
-              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-              >
-                <div class="mb-4">
-                  <Clock className="text-primary h-10 w-10" />
+            <div class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <Clock className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Save Time
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Eliminate hours of manual report creation
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Save Time
-                </h4>
-                <div class="text-muted-foreground">
-                  Eliminate hours of manual report creation
+
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <CheckCircle2 className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Improve Accuracy
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Automated data collection reduces errors
+                  </div>
+                </div>
+
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <Target className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Better Decisions
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Access to real-time information supports informed choices
+                  </div>
+                </div>
+
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <TrendingUp className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Identify Trends
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Spot patterns and opportunities in your data
+                  </div>
+                </div>
+
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <Users className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Increase Accountability
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Clear metrics help track performance
+                  </div>
+                </div>
+
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <Database className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Integration
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Connect data from multiple systems into unified reports
+                  </div>
                 </div>
               </div>
 
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-              >
-                <div class="mb-4">
-                  <CheckCircle2 className="text-primary h-10 w-10" />
+            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+              {detailColumns.map((column) => (
+                <div class="glass border-border rounded-2xl border p-8">
+                  <div class="mb-6 flex items-center gap-3">
+                    <column.icon className="text-primary h-8 w-8" aria-hidden="true" />
+                    <h4 class="text-foreground text-2xl font-bold">
+                      {column.title}
+                    </h4>
+                  </div>
+                  <div class="text-muted-foreground space-y-3">
+                    {column.items.map((item) => (
+                      <div class="flex items-start gap-2">
+                        <CheckCircle2
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                          aria-hidden="true"
+                        />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Improve Accuracy
-                </h4>
-                <div class="text-muted-foreground">
-                  Automated data collection reduces errors
-                </div>
-              </div>
-
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-              >
-                <div class="mb-4">
-                  <Target className="text-primary h-10 w-10" />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Better Decisions
-                </h4>
-                <div class="text-muted-foreground">
-                  Access to real-time information supports informed choices
-                </div>
-              </div>
-
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-              >
-                <div class="mb-4">
-                  <TrendingUp className="text-primary h-10 w-10" />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Identify Trends
-                </h4>
-                <div class="text-muted-foreground">
-                  Spot patterns and opportunities in your data
-                </div>
-              </div>
-
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-              >
-                <div class="mb-4">
-                  <Users className="text-primary h-10 w-10" />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Increase Accountability
-                </h4>
-                <div class="text-muted-foreground">
-                  Clear metrics help track performance
-                </div>
-              </div>
-
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-              >
-                <div class="mb-4">
-                  <Database className="text-primary h-10 w-10" />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Integration
-                </h4>
-                <div class="text-muted-foreground">
-                  Connect data from multiple systems into unified reports
-                </div>
-              </div>
+              ))}
             </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our Process
-            </h3>
 
             <div class="bg-background border-border">
               <div
                 class="gradient-mesh not-prose mb-20 rounded-2xl border p-10"
               >
+                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+                  Our Process
+                </h3>
                 <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                   <div class="text-center">
                     <div
                       class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                      aria-hidden="true"
                     >
                       1
                     </div>
@@ -265,6 +308,7 @@ const titleFirst = titleWords.join(' ');
                   <div class="text-center">
                     <div
                       class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                      aria-hidden="true"
                     >
                       2
                     </div>
@@ -278,6 +322,7 @@ const titleFirst = titleWords.join(' ');
                   <div class="text-center">
                     <div
                       class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                      aria-hidden="true"
                     >
                       3
                     </div>
@@ -292,6 +337,7 @@ const titleFirst = titleWords.join(' ');
                   <div class="text-center">
                     <div
                       class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                      aria-hidden="true"
                     >
                       4
                     </div>
@@ -305,6 +351,7 @@ const titleFirst = titleWords.join(' ');
                   <div class="text-center">
                     <div
                       class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                      aria-hidden="true"
                     >
                       5
                     </div>
@@ -318,6 +365,7 @@ const titleFirst = titleWords.join(' ');
                   <div class="text-center">
                     <div
                       class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                      aria-hidden="true"
                     >
                       6
                     </div>
@@ -352,6 +400,34 @@ const titleFirst = titleWords.join(' ');
             </div>
           </div>
         </div>
+
+        {relatedPosts.length > 0 && (
+          <section class="mx-auto max-w-5xl">
+            <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
+              Related Resources
+            </h2>
+            <div class="grid gap-6 md:grid-cols-3">
+              {relatedPosts.map((post) => (
+                <a
+                  href={`/blog/${post.slug}`}
+                  class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
+                >
+                  <h3 class="text-foreground mb-2 text-lg font-semibold">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-muted-foreground text-sm">
+                    {post.data.description}
+                  </p>
+                  <span class="text-primary mt-4 text-sm font-medium">
+                    Read Article →
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <ImpactMetricsSection metrics={metrics} />
 
         <div class="mx-auto max-w-4xl">
           <div

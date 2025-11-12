@@ -5,6 +5,7 @@ import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import {
   Shield,
   DollarSign,
@@ -14,6 +15,8 @@ import {
   Zap,
   Cloud,
   ArrowLeftRight,
+  Clock,
+  CheckCircle2,
 } from 'lucide-react';
 
 const service = await getEntry('services', 'cloud-hosting');
@@ -46,6 +49,34 @@ const relatedTags = ['cloud', 'security', 'infrastructure'];
 const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .filter((post) => post.data.tags?.some((tag) => relatedTags.includes(tag)))
   .slice(0, 3);
+
+const metrics = [
+  { value: '99.95%', label: 'UPTIME SLA', icon: Shield },
+  { value: '75+', label: 'CLOUD MIGRATIONS', icon: ArrowLeftRight },
+  { value: '1.5PB', label: 'DATA MANAGED', icon: Cloud },
+  { value: '24/7', label: 'OPERATIONS CENTER', icon: Clock },
+];
+
+const detailColumns = [
+  {
+    title: 'Migration Strategy',
+    icon: ArrowLeftRight,
+    items: [
+      'Assessment workshops align cloud targets with business priorities',
+      'Migration sprints minimize downtime and validate performance',
+      'Cutover playbooks protect data integrity during transitions',
+    ],
+  },
+  {
+    title: 'Managed Operations',
+    icon: RefreshCw,
+    items: [
+      'Proactive monitoring resolves issues before they impact users',
+      'Cost optimization reviews keep monthly spend under control',
+      'Security baselines enforce compliance across every workload',
+    ],
+  },
+];
 ---
 
 <Layout
@@ -273,16 +304,15 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
               </div>
             </div>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Seamless Migration & Management
-            </h3>
-
             <div
               class="border-border not-prose bg-background mb-20 rounded-2xl border"
             >
               <div class="gradient-mesh p-10">
+                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+                  Seamless Migration & Management
+                </h3>
                 <div
-                  class="text-muted-foreground mx-auto max-w-4xl text-center text-lg leading-relaxed"
+                  class="text-foreground mx-auto max-w-4xl text-center text-lg leading-relaxed"
                 >
                   Moving to the cloud or reconfiguring your existing environment
                   doesn't have to be disruptive. Our experienced team handles
@@ -298,95 +328,105 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
               Key Benefits
             </h3>
 
-            <div
-              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
-              <ServiceCard
-                className="bg-background/50 border-border border-2 p-6"
-              >
+            <div class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
                   <div class="mb-4">
                     <Shield className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Enhanced Reliability
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Redundancy capabilities prevent downtime and protect your
+                    critical business data
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Enhanced Reliability
-                </h4>
-                <div class="text-muted-foreground">
-                  Redundancy capabilities prevent downtime and protect your
-                  critical business data
-                </div>
-              </ServiceCard>
 
-              <ServiceCard
-                className="bg-background/50 border-border border-2 p-6"
-              >
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
                   <div class="mb-4">
                     <DollarSign className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Cost Efficiency
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Reduce capital expenses by moving from physical infrastructure
+                    to flexible cloud solutions
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Cost Efficiency
-                </h4>
-                <div class="text-muted-foreground">
-                  Reduce capital expenses by moving from physical infrastructure
-                  to flexible cloud solutions
-                </div>
-              </ServiceCard>
 
-              <ServiceCard
-                className="bg-background/50 border-border border-2 p-6"
-              >
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
                   <div class="mb-4">
                     <RefreshCw className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Business Continuity
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Built-in disaster recovery and backup solutions keep your
+                    business running
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Business Continuity
-                </h4>
-                <div class="text-muted-foreground">
-                  Built-in disaster recovery and backup solutions keep your
-                  business running
-                </div>
-              </ServiceCard>
 
-              <ServiceCard
-                className="bg-background/50 border-border border-2 p-6"
-              >
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
                   <div class="mb-4">
                     <Users className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Expert Support
+                  </h4>
+                  <div class="text-muted-foreground">
+                    60+ years of combined experience in cloud infrastructure and
+                    migration
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Expert Support
-                </h4>
-                <div class="text-muted-foreground">
-                  60+ years of combined experience in cloud infrastructure and
-                  migration
-                </div>
-              </ServiceCard>
 
-              <ServiceCard
-                className="bg-background/50 border-border border-2 p-6"
-              >
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
                   <div class="mb-4">
                     <Lock className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">Security</h4>
+                  <div class="text-muted-foreground">
+                    Enterprise-grade security controls protect your data in the
+                    cloud
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">Security</h4>
-                <div class="text-muted-foreground">
-                  Enterprise-grade security controls protect your data in the
-                  cloud
-                </div>
-              </ServiceCard>
 
-              <ServiceCard
-                className="bg-background/50 border-border border-2 p-6"
-              >
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
                   <div class="mb-4">
                     <Zap className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Flexibility
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Choose from public, private, or hybrid cloud configurations
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Flexibility
-                </h4>
-                <div class="text-muted-foreground">
-                  Choose from public, private, or hybrid cloud configurations
+              </div>
+
+            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+              {detailColumns.map((column) => (
+                <div class="glass border-border rounded-2xl border p-8">
+                  <div class="mb-6 flex items-center gap-3">
+                    <column.icon className="text-primary h-8 w-8" aria-hidden="true" />
+                    <h4 class="text-foreground text-2xl font-bold">
+                      {column.title}
+                    </h4>
+                  </div>
+                  <div class="text-muted-foreground space-y-3">
+                    {column.items.map((item) => (
+                      <div class="flex items-start gap-2">
+                        <CheckCircle2
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                          aria-hidden="true"
+                        />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </ServiceCard>
+              ))}
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
@@ -411,6 +451,8 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
             </div>
           </div>
         </div>
+
+        <ImpactMetricsSection metrics={metrics} />
 
         {relatedPosts.length > 0 && (
           <section class="mx-auto max-w-5xl">
