@@ -5,6 +5,7 @@ import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import {
   Sparkles,
   Shield,
@@ -15,6 +16,7 @@ import {
   FileText,
   BarChart3,
   Target,
+  CheckCircle2,
 } from 'lucide-react';
 
 const service = await getEntry('services', 'artificial-intelligence');
@@ -27,6 +29,34 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
+
+const metrics = [
+  { value: '120+', label: 'AI WORKFLOWS LAUNCHED', icon: Sparkles },
+  { value: '6 WEEKS', label: 'AVERAGE PILOT TIMELINE', icon: Zap },
+  { value: '30%', label: 'MANUAL EFFORT REDUCTION', icon: TrendingUp },
+  { value: '24/7', label: 'MODEL MONITORING', icon: Shield },
+];
+
+const detailColumns = [
+  {
+    title: 'AI Delivery Framework',
+    icon: Target,
+    items: [
+      'Discovery sprints capture use cases, risks, and ROI expectations',
+      'Model prototyping validates datasets and success metrics before scale',
+      'Go-live playbooks cover deployment, retraining, and support',
+    ],
+  },
+  {
+    title: 'Governance & Security',
+    icon: Lock,
+    items: [
+      'Guardrails enforce policy, privacy, and prompt security at every layer',
+      'Human-in-the-loop workflows maintain accountability and transparency',
+      'Monitoring detects drift, bias, and anomalies across production models',
+    ],
+  },
+];
 ---
 
 <Layout
@@ -49,7 +79,7 @@ const titleFirst = titleWords.join(' ');
           class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4"
           transition:name={`service-icon-${service.id}`}
         >
-          <IconComponent className="text-primary h-12 w-12" />
+          <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
         </div>
         <h1
           class="mb-6 text-5xl font-bold md:text-6xl"
@@ -107,12 +137,12 @@ const titleFirst = titleWords.join(' ');
             <ServiceCardGrid>
               <ServiceCard>
                 <div class="mb-6">
-                  <Sparkles className="text-primary h-16 w-16" />
+                <Sparkles className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Generative AI
                 </h4>
-                <div class="text-muted-foreground leading-relaxed">
+                <div class="text-foreground leading-relaxed">
                   Leverage large language models to automate content creation,
                   enhance customer interactions, and streamline workflows with
                   intelligent assistants.
@@ -121,12 +151,12 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <TrendingUp className="text-primary h-16 w-16" />
+                <TrendingUp className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Predictive Analytics
                 </h4>
-                <div class="text-muted-foreground leading-relaxed">
+                <div class="text-foreground leading-relaxed">
                   Make data-driven decisions with AI models that forecast
                   trends, identify patterns, and optimize operations for better
                   business outcomes.
@@ -135,12 +165,12 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <Zap className="text-primary h-16 w-16" />
+                <Zap className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   AI Integration
                 </h4>
-                <div class="text-muted-foreground leading-relaxed">
+                <div class="text-foreground leading-relaxed">
                   Seamlessly integrate AI capabilities into your existing
                   systems and workflows for automated decision-making and
                   real-time processing.
@@ -237,7 +267,7 @@ const titleFirst = titleWords.join(' ');
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <BarChart3 className="text-primary mb-4 h-12 w-12" />
+                  <BarChart3 className="text-primary mb-4 h-12 w-12" aria-hidden="true" />
                   <h5 class="text-foreground mb-2 text-lg font-bold">
                     Demand Forecasting
                   </h5>
@@ -250,7 +280,7 @@ const titleFirst = titleWords.join(' ');
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <Users className="text-primary mb-4 h-12 w-12" />
+                  <Users className="text-primary mb-4 h-12 w-12" aria-hidden="true" />
                   <h5 class="text-foreground mb-2 text-lg font-bold">
                     Churn Prediction
                   </h5>
@@ -262,7 +292,7 @@ const titleFirst = titleWords.join(' ');
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <Target className="text-primary mb-4 h-12 w-12" />
+                  <Target className="text-primary mb-4 h-12 w-12" aria-hidden="true" />
                   <h5 class="text-foreground mb-2 text-lg font-bold">
                     Anomaly Detection
                   </h5>
@@ -275,7 +305,7 @@ const titleFirst = titleWords.join(' ');
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <Sparkles className="text-primary mb-4 h-12 w-12" />
+                  <Sparkles className="text-primary mb-4 h-12 w-12" aria-hidden="true" />
                   <h5 class="text-foreground mb-2 text-lg font-bold">
                     Recommendation Systems
                   </h5>
@@ -286,6 +316,31 @@ const titleFirst = titleWords.join(' ');
                 </div>
               </div>
             </div>
+
+          <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+            How We Implement AI
+          </h3>
+
+          <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+            {detailColumns.map((column) => (
+              <div class="glass border-border rounded-2xl border p-8">
+                <div class="mb-6 flex items-center gap-3">
+                  <column.icon className="text-primary h-8 w-8" aria-hidden="true" />
+                  <h4 class="text-foreground text-2xl font-bold">
+                    {column.title}
+                  </h4>
+                </div>
+                <div class="text-muted-foreground space-y-3">
+                  {column.items.map((item) => (
+                    <div class="flex items-start gap-2">
+                      <CheckCircle2 className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
               Why Choose BDK for AI?
@@ -298,7 +353,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Shield className="text-primary h-10 w-10" />
+                  <Shield className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Security First
@@ -313,7 +368,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Zap className="text-primary h-10 w-10" />
+                  <Zap className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Production-Ready
@@ -328,7 +383,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Target className="text-primary h-10 w-10" />
+                  <Target className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Business-Focused
@@ -343,7 +398,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <FileText className="text-primary h-10 w-10" />
+                  <FileText className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Transparent & Explainable
@@ -358,7 +413,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Users className="text-primary h-10 w-10" />
+                  <Users className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Ongoing Support
@@ -373,7 +428,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Lock className="text-primary h-10 w-10" />
+                  <Lock className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Responsible AI
@@ -479,6 +534,8 @@ const titleFirst = titleWords.join(' ');
             </div>
           </div>
         </div>
+
+        <ImpactMetricsSection metrics={metrics} />
 
         <div class="mx-auto max-w-4xl">
           <div class="glass rounded-2xl p-12 text-center">

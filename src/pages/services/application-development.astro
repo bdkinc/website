@@ -5,6 +5,7 @@ import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import {
   Code2,
   Network,
@@ -57,9 +58,23 @@ const serviceSchema = {
 };
 
 const relatedTags = ['application-development', 'software-development', 'modernization'];
-const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
-  .filter((post) => post.data.tags?.some((tag) => relatedTags.includes(tag)))
+// Narrow the collection item data shape so TypeScript knows about optional fields
+const relatedPosts = (await getCollection('blog'))
+  .filter((post) => {
+    const data = post.data as unknown as { tags?: string[]; draft?: boolean };
+    // exclude drafts
+    if (data.draft) return false;
+    // ensure tags is an array then check for any matching tag
+    return Array.isArray(data.tags) && data.tags.some((tag: string) => relatedTags.includes(tag));
+  })
   .slice(0, 3);
+
+const metrics = [
+  { value: '250+', label: 'APPS DELIVERED', icon: Code2 },
+  { value: '92%', label: 'CLIENT RETENTION', icon: Award },
+  { value: '60+', label: 'SYSTEM INTEGRATIONS', icon: Link },
+  { value: '45', label: 'ANNUAL RELEASES', icon: Rocket },
+];
 ---
 
 <Layout
@@ -67,7 +82,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
   description="Custom application development, modernization, and systems integration that streamline complex workflows for regulated and growth-stage organizations across the Mid-Atlantic."
   ogDescription="Enterprise-grade custom application development and modernization from BDK Inc, aligning critical workflows, integrations, and security requirements for growth-focused teams."
 >
-  <script type="application/ld+json">
+  <script type="application/ld+json" is:inline>
     {JSON.stringify(serviceSchema)}
   </script>
   <Navigation
@@ -154,7 +169,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                     <h4 class="text-foreground mb-4 text-2xl font-bold">
                       Custom Business Applications
                     </h4>
-                    <div class="text-muted-foreground leading-relaxed">
+                    <div class="text-foreground leading-relaxed">
                       Off-the-shelf software forces you to adapt your processes
                       to someone else's vision. Our custom applications are
                       built around how your business actually works—automating
@@ -170,7 +185,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                     <h4 class="text-foreground mb-4 text-2xl font-bold">
                       Enterprise Integration
                     </h4>
-                    <div class="text-muted-foreground leading-relaxed">
+                    <div class="text-foreground leading-relaxed">
                       Connect your existing systems into a unified ecosystem. We
                       build integration solutions that bridge gaps between
                       legacy systems, cloud services, databases, and third-party
@@ -185,7 +200,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                     <h4 class="text-foreground mb-4 text-2xl font-bold">
                       Application Modernization
                     </h4>
-                    <div class="text-muted-foreground leading-relaxed">
+                    <div class="text-foreground leading-relaxed">
                       Transform outdated legacy applications into modern,
                       cloud-ready solutions. We help you preserve valuable
                       business logic while updating technology stacks, improving
@@ -200,84 +215,80 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                   Key Benefits
                 </h3>
 
-                <div class="bg-background border-border rounded-2xl">
-                  <div
-                    class="gradient-mesh not-prose mb-20 grid gap-6 border p-10 md:grid-cols-2 lg:grid-cols-3"
-                  >
-                    <div class="flex flex-col items-center p-6 text-center">
-                      <div class="mb-4">
-                        <Target className="text-primary h-10 w-10" aria-hidden="true" />
-                      </div>
-                      <h4 class="text-foreground mb-2 text-xl font-bold">
-                        Tailored Solutions
-                      </h4>
-                      <div class="text-muted-foreground">
-                        Applications designed specifically for your business
-                        processes
-                      </div>
-                    </div>
-
-                    <div class="flex flex-col items-center p-6 text-center">
-                      <div class="mb-4">
-                        <Trophy className="text-primary h-10 w-10" aria-hidden="true" />
-                      </div>
-                      <h4 class="text-foreground mb-2 text-xl font-bold">
-                        Competitive Advantage
-                      </h4>
-                      <div class="text-muted-foreground">
-                        Custom features that differentiate you from competitors
-                      </div>
-                    </div>
-
-                    <div class="flex flex-col items-center p-6 text-center">
-                      <div class="mb-4">
-                        <TrendingUp className="text-primary h-10 w-10" aria-hidden="true" />
-                      </div>
-                      <h4 class="text-foreground mb-2 text-xl font-bold">
-                        Increased Efficiency
-                      </h4>
-                      <div class="text-muted-foreground">
-                        Automation reduces manual work and human error
-                      </div>
-                    </div>
-
-                    <div class="flex flex-col items-center p-6 text-center">
-                      <div class="mb-4">
-                        <Link className="text-primary h-10 w-10" aria-hidden="true" />
-                      </div>
-                      <h4 class="text-foreground mb-2 text-xl font-bold">
-                        Better Integration
-                      </h4>
-                      <div class="text-muted-foreground">
-                        Seamless connectivity between all your business systems
-                      </div>
-                    </div>
-
-                    <div class="flex flex-col items-center p-6 text-center">
-                      <div class="mb-4">
-                        <Maximize className="text-primary h-10 w-10" aria-hidden="true" />
-                      </div>
-                      <h4 class="text-foreground mb-2 text-xl font-bold">
-                        Scalability
-                      </h4>
-                      <div class="text-muted-foreground">
-                        Applications that grow with your business needs
-                      </div>
-                    </div>
-
-                    <div class="flex flex-col items-center p-6 text-center">
-                      <div class="mb-4">
-                        <ShieldCheck className="text-primary h-10 w-10" aria-hidden="true" />
-                      </div>
-                      <h4 class="text-foreground mb-2 text-xl font-bold">
-                        Data Ownership
-                      </h4>
-                      <div class="text-muted-foreground">
-                        Full control over your applications and data
-                      </div>
-                    </div>
+            <div class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <Target className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Tailored Solutions
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Applications designed specifically for your business
+                    processes
                   </div>
                 </div>
+
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <Trophy className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Competitive Advantage
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Custom features that differentiate you from competitors
+                  </div>
+                </div>
+
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <TrendingUp className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Increased Efficiency
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Automation reduces manual work and human error
+                  </div>
+                </div>
+
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <Link className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Better Integration
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Seamless connectivity between all your business systems
+                  </div>
+                </div>
+
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <Maximize className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Scalability
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Applications that grow with your business needs
+                  </div>
+                </div>
+
+                <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+                  <div class="mb-4">
+                    <ShieldCheck className="text-primary h-10 w-10" aria-hidden="true" />
+                  </div>
+                  <h4 class="text-foreground mb-2 text-xl font-bold">
+                    Data Ownership
+                  </h4>
+                  <div class="text-muted-foreground">
+                    Full control over your applications and data
+                  </div>
+                </div>
+              </div>
 
                 <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
                   Technology Stack
@@ -491,6 +502,8 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                 </div>
               </section>
             )}
+
+            <ImpactMetricsSection metrics={metrics} />
 
             <div class="mx-auto max-w-4xl">
               <div

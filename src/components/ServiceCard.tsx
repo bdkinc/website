@@ -20,6 +20,7 @@ export function ServiceCard({
       size="lg"
       interactive={true}
       className={cn(
+        "relative overflow-hidden",
         animated
           ? "fill-mode-both animate-in fade-in slide-in-from-bottom-6 duration-600 flex flex-col items-center text-center justify-center h-full"
           : "flex flex-col items-center text-center justify-center h-full",
@@ -31,7 +32,17 @@ export function ServiceCard({
           : undefined
       }
     >
-      {children}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,#00d4ff33,transparent_65%)]"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,#7c3aed2b,transparent_60%)]"
+        aria-hidden="true"
+      />
+      <div className="relative z-10 flex w-full flex-col items-center text-foreground">
+        {children}
+      </div>
     </Card>
   );
 }

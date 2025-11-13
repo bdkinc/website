@@ -5,6 +5,7 @@ import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import {
   Shield,
   Lock,
@@ -17,6 +18,7 @@ import {
   RefreshCw,
   ShieldCheck,
   Users,
+  Clock,
 } from 'lucide-react';
 
 const service = await getEntry('services', 'cybersecurity');
@@ -49,6 +51,34 @@ const relatedTags = ['security', 'best-practices'];
 const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .filter((post) => post.data.tags?.some((tag) => relatedTags.includes(tag)))
   .slice(0, 3);
+
+const metrics = [
+  { value: '99.97%', label: 'THREAT PREVENTION', icon: Shield },
+  { value: '15', label: 'MIN RESPONSE', icon: Clock },
+  { value: '500K+', label: 'ALERTS BLOCKED', icon: AlertTriangle },
+  { value: '0', label: 'RANSOMWARE EVENTS', icon: Lock },
+];
+
+const detailColumns = [
+  {
+    title: 'Security Framework',
+    icon: ShieldCheck,
+    items: [
+      'Layered defenses cover network, endpoint, and cloud assets',
+      'Continuous vulnerability scanning hardens your attack surface',
+      'Managed detection and response neutralizes threats in real time',
+    ],
+  },
+  {
+    title: 'Compliance Readiness',
+    icon: FileCheck,
+    items: [
+      'Readiness assessments map controls to HIPAA, PCI DSS, and SOC 2',
+      'Policy documentation and evidence collection streamline audits',
+      'Executive reporting tracks remediation progress and residual risk',
+    ],
+  },
+];
 ---
 
 <Layout
@@ -104,8 +134,6 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
 
 <!-- Content Section -->
 <section class="px-4 py-24 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-7xl"></div>
-
   <div
     class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
   >
@@ -137,7 +165,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
             <h4 class="text-foreground mb-4 text-2xl font-bold">
               Ransomware Protection
             </h4>
-            <div class="text-muted-foreground leading-relaxed">
+            <div class="text-foreground leading-relaxed">
               Multi-layered security approach with advanced threat detection,
               regular backups, and incident response planning to protect against
               ransomware attacks.
@@ -151,7 +179,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
             <h4 class="text-foreground mb-4 text-2xl font-bold">
               Disaster Recovery
             </h4>
-            <div class="text-muted-foreground leading-relaxed">
+            <div class="text-foreground leading-relaxed">
               Comprehensive recovery plans ensure you can restore critical
               operations quickly. We design and test procedures so you're
               prepared for any emergency.
@@ -165,7 +193,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
             <h4 class="text-foreground mb-4 text-2xl font-bold">
               Business Continuity
             </h4>
-            <div class="text-muted-foreground leading-relaxed">
+            <div class="text-foreground leading-relaxed">
               Keep your business running no matter what happens. Our planning
               identifies critical functions and creates strategies to maintain
               operations during disruptions.
@@ -377,77 +405,77 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
         </h3>
 
         <div class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <ServiceCard className="bg-background/50 border-border border-2 p-6">
-          <ServiceCard>
-            <div class="mb-4">
-              <AlertTriangle className="text-primary h-10 w-10" aria-hidden="true" />
-            <h4 class="text-foreground mb-2 text-xl font-bold">Reduce Risk</h4>
-            <div class="text-muted-foreground">
-              Protect against data breaches, ransomware, and other cyber threats
+            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+              <div class="mb-4">
+                <AlertTriangle className="text-primary h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-xl font-bold">Reduce Risk</h4>
+              <div class="text-muted-foreground">
+                Protect against data breaches, ransomware, and other cyber threats
+              </div>
             </div>
-          </ServiceCard>
 
-          <ServiceCard className="bg-background/50 border-border border-2 p-6">
-            <div class="mb-4">
-              <FileCheck className="text-primary h-10 w-10" aria-hidden="true" />
+            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+              <div class="mb-4">
+                <FileCheck className="text-primary h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-xl font-bold">
+                Ensure Compliance
+              </h4>
+              <div class="text-muted-foreground">
+                Meet industry security standards and regulations (HIPAA, PCI DSS,
+                SOC 2)
+              </div>
             </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">
-              Ensure Compliance
-            </h4>
-            <div class="text-muted-foreground">
-              Meet industry security standards and regulations (HIPAA, PCI DSS,
-              SOC 2)
-            </div>
-          </ServiceCard>
 
-          <ServiceCard className="bg-background/50 border-border border-2 p-6">
-            <div class="mb-4">
-              <RefreshCw className="text-primary h-10 w-10" aria-hidden="true" />
+            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+              <div class="mb-4">
+                <RefreshCw className="text-primary h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-xl font-bold">
+                Minimize Downtime
+              </h4>
+              <div class="text-muted-foreground">
+                Quick recovery from incidents keeps your business running
+              </div>
             </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">
-              Minimize Downtime
-            </h4>
-            <div class="text-muted-foreground">
-              Quick recovery from incidents keeps your business running
-            </div>
-          </ServiceCard>
 
-          <ServiceCard className="bg-background/50 border-border border-2 p-6">
-            <div class="mb-4">
-              <Shield className="text-primary h-10 w-10" aria-hidden="true" />
+            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+              <div class="mb-4">
+                <Shield className="text-primary h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-xl font-bold">
+                Protect Reputation
+              </h4>
+              <div class="text-muted-foreground">
+                Prevent data breaches that damage customer trust
+              </div>
             </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">
-              Protect Reputation
-            </h4>
-            <div class="text-muted-foreground">
-              Prevent data breaches that damage customer trust
-            </div>
-          </ServiceCard>
 
-          <ServiceCard className="bg-background/50 border-border border-2 p-6">
-            <div class="mb-4">
-              <Eye className="text-primary h-10 w-10" aria-hidden="true" />
+            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+              <div class="mb-4">
+                <Eye className="text-primary h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-xl font-bold">
+                Peace of Mind
+              </h4>
+              <div class="text-muted-foreground">
+                Know your systems are monitored and protected 24/7
+              </div>
             </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">
-              Peace of Mind
-            </h4>
-            <div class="text-muted-foreground">
-              Know your systems are monitored and protected 24/7
-            </div>
-          </ServiceCard>
 
-          <ServiceCard className="bg-background/50 border-border border-2 p-6">
-            <div class="mb-4">
-              <Users className="text-primary h-10 w-10" aria-hidden="true" />
+            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+              <div class="mb-4">
+                <Users className="text-primary h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-xl font-bold">
+                Expert Guidance
+              </h4>
+              <div class="text-muted-foreground">
+                Access to experienced security professionals
+              </div>
             </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">
-              Expert Guidance
-            </h4>
-            <div class="text-muted-foreground">
-              Access to experienced security professionals
-            </div>
-          </ServiceCard>
-        </div>
+          </div>
 
         <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
           Compliance & Standards
@@ -465,6 +493,34 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
             compliance standards to ensure your security posture meets all
             necessary criteria.
           </div>
+        </div>
+
+        <h3 class="text-foreground mb-12 text-center text-2xl font-bold">
+          Security & Compliance Details
+        </h3>
+
+        <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+          {detailColumns.map((column) => (
+            <div class="glass border-border rounded-2xl border p-8">
+              <div class="mb-6 flex items-center gap-3">
+                <column.icon className="text-primary h-8 w-8" aria-hidden="true" />
+                <h4 class="text-foreground text-2xl font-bold">
+                  {column.title}
+                </h4>
+              </div>
+              <div class="text-muted-foreground space-y-3">
+                {column.items.map((item) => (
+                  <div class="flex items-start gap-2">
+                    <CheckCircle2
+                      className="text-primary mt-1 h-5 w-5 shrink-0"
+                      aria-hidden="true"
+                    />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
 
         <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
@@ -515,6 +571,8 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
         </div>
       </section>
     )}
+
+    <ImpactMetricsSection metrics={metrics} />
 
     <div class="mx-auto max-w-4xl">
       <div class="glass rounded-2xl p-12 text-center">

@@ -5,6 +5,7 @@ import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import {
   Server,
   Cloud,
@@ -14,6 +15,7 @@ import {
   Award,
   Wrench,
   RefreshCw,
+  CheckCircle2,
 } from 'lucide-react';
 
 const service = await getEntry('services', 'ibm-power');
@@ -26,6 +28,34 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
+
+const metrics = [
+  { value: '500+', label: 'LPARS MANAGED', icon: Server },
+  { value: '99.99%', label: 'AVAILABILITY TARGET', icon: ShieldCheck },
+  { value: '24/7', label: 'OPERATIONS COVERAGE', icon: RefreshCw },
+  { value: '30+', label: 'POWER ENGINEERS', icon: Users },
+];
+
+const detailColumns = [
+  {
+    title: 'Power Platform Services',
+    icon: Wrench,
+    items: [
+      'Lifecycle support covering sizing, installation, and firmware strategy',
+      'PowerVM design delivers HA, performance, and efficient resource sharing',
+      'Storage and network architectures tuned for IBM i, AIX, and Linux workloads',
+    ],
+  },
+  {
+    title: 'Operations & Compliance',
+    icon: ShieldCheck,
+    items: [
+      '24/7 monitoring, patching, and backup validation across every partition',
+      'Security hardening satisfies SOX, PCI, HIPAA, and industry mandates',
+      'Runbooks and reporting keep audits, DR tests, and SLAs on schedule',
+    ],
+  },
+];
 ---
 
 <Layout
@@ -49,7 +79,7 @@ const titleFirst = titleWords.join(' ');
           transition:name={`service-icon-${service.id}`}
           transition:animate="initial"
         >
-          <IconComponent className="text-primary h-12 w-12" />
+          <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
         </div>
         <h1
           class="mb-6 text-5xl font-bold md:text-6xl"
@@ -108,12 +138,12 @@ const titleFirst = titleWords.join(' ');
             <ServiceCardGrid className="lg:grid-cols-3">
               <ServiceCard>
                 <div class="mb-6">
-                  <Wrench className="text-primary h-16 w-16" />
+                  <Wrench className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Hardware Lifecycle
                 </h4>
-                <div class="text-muted-foreground leading-relaxed">
+                <div class="text-foreground leading-relaxed">
                   Installation, configuration, microcode planning, and
                   maintenance for Power Systems racks, frames, and peripherals.
                 </div>
@@ -121,12 +151,12 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <Server className="text-primary h-16 w-16" />
+                  <Server className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   PowerVM, LPARs & VIOS
                 </h4>
-                <div class="text-muted-foreground leading-relaxed">
+                <div class="text-foreground leading-relaxed">
                   Partitioning, virtual I/O, networking, and storage
                   mapping—built for high availability and performance.
                 </div>
@@ -134,12 +164,12 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <RefreshCw className="text-primary h-16 w-16" />
+                  <RefreshCw className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   OS Administration
                 </h4>
-                <div class="text-muted-foreground leading-relaxed">
+                <div class="text-foreground leading-relaxed">
                   PTFs and patching for IBM i (IBMi), AIX, Red Hat, and Ubuntu;
                   security hardening, user and access controls, backup and
                   recovery.
@@ -148,12 +178,12 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <TrendingUp className="text-primary h-16 w-16" />
+                  <TrendingUp className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Performance & Capacity
                 </h4>
-                <div class="text-muted-foreground leading-relaxed">
+                <div class="text-foreground leading-relaxed">
                   Monitoring, tuning, and capacity planning to reduce risk,
                   control cost, and meet SLAs for mixed-OS estates.
                 </div>
@@ -161,12 +191,12 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <ShieldCheck className="text-primary h-16 w-16" />
+                  <ShieldCheck className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Resilience & DR
                 </h4>
-                <div class="text-muted-foreground leading-relaxed">
+                <div class="text-foreground leading-relaxed">
                   HA/DR architectures for IBM i, AIX, and Linux on Power; backup
                   strategy, testing, and incident response.
                 </div>
@@ -174,17 +204,42 @@ const titleFirst = titleWords.join(' ');
 
               <ServiceCard>
                 <div class="mb-6">
-                  <Cloud className="text-primary h-16 w-16" />
+                  <Cloud className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Hybrid & Cloud Integration
                 </h4>
-                <div class="text-muted-foreground leading-relaxed">
+                <div class="text-foreground leading-relaxed">
                   Connect Power workloads with cloud services, shared storage,
                   and enterprise tooling without compromising security.
                 </div>
               </ServiceCard>
             </ServiceCardGrid>
+
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              How We Support IBM Power
+            </h3>
+
+            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+              {detailColumns.map((column) => (
+                <div class="glass border-border rounded-2xl border p-8">
+                  <div class="mb-6 flex items-center gap-3">
+                    <column.icon className="text-primary h-8 w-8" aria-hidden="true" />
+                    <h4 class="text-foreground text-2xl font-bold">
+                      {column.title}
+                    </h4>
+                  </div>
+                  <div class="text-muted-foreground space-y-3">
+                    {column.items.map((item) => (
+                      <div class="flex items-start gap-2">
+                        <CheckCircle2 className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
 
             <h3
               class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
@@ -278,7 +333,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Users className="text-primary h-10 w-10" />
+                <Users className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   40+ Years on Power
@@ -293,7 +348,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Award className="text-primary h-10 w-10" />
+                <Award className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   IBM Silver Partner
@@ -308,7 +363,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <ShieldCheck className="text-primary h-10 w-10" />
+                <ShieldCheck className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Enterprise-Grade Security
@@ -323,7 +378,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <TrendingUp className="text-primary h-10 w-10" />
+                <TrendingUp className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   SLA-Driven Operations
@@ -338,7 +393,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Server className="text-primary h-10 w-10" />
+                <Server className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Single Partner, Multi-OS
@@ -353,7 +408,7 @@ const titleFirst = titleWords.join(' ');
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <RefreshCw className="text-primary h-10 w-10" />
+                <RefreshCw className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Cost & Risk Optimization
@@ -403,6 +458,8 @@ const titleFirst = titleWords.join(' ');
             </div>
           </div>
         </div>
+
+        <ImpactMetricsSection metrics={metrics} />
 
         <div class="mx-auto max-w-4xl">
           <div
