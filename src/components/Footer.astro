@@ -2,20 +2,143 @@
 import { Logo } from '@/components/Logo';
 ---
 
-<footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+<footer class="border-border/60 relative border-t px-4 py-10 sm:px-6 lg:px-8">
   <div
-    class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
+    class="gradient-mesh noise-texture pointer-events-none absolute inset-0 opacity-40"
+    aria-hidden="true"
   >
-    <div class="mb-2">
-      <Logo />
+  </div>
+  <div
+    class="text-muted-foreground relative z-10 mx-auto flex max-w-7xl flex-col gap-8 text-[0.95rem] sm:text-sm"
+  >
+    <div
+      class="flex flex-col items-center justify-between gap-6 text-center md:flex-row md:items-start md:text-left"
+    >
+      <div
+        class="flex flex-col items-center gap-3 md:items-start md:self-start"
+      >
+        <div class="mb-4 origin-top-left scale-[1.15] sm:scale-[1.25]">
+          <Logo className="mt-0" />
+        </div>
+        <p
+          class="text-muted-foreground/80 max-w-md text-[0.8rem] sm:text-[0.9rem]"
+        >
+          Proactive, security-first managed IT and cloud services for businesses
+          all sizes.
+        </p>
+      </div>
+
+      <div
+        class="grid w-full max-w-xl grid-cols-2 gap-8 text-[0.8rem] sm:text-[0.9rem] md:grid-cols-3"
+      >
+        <div class="space-y-2">
+          <h3
+            class="text-foreground text-[0.75rem] font-semibold tracking-[0.18em] uppercase sm:text-xs"
+          >
+            Company
+          </h3>
+          <ul class="text-muted-foreground/80 space-y-1.5">
+            <li>
+              <a href="/about" class="hover:text-primary transition-colors"
+                >About</a
+              >
+            </li>
+            <li>
+              <a href="/services" class="hover:text-primary transition-colors"
+                >Services</a
+              >
+            </li>
+            <li>
+              <a href="/blog" class="hover:text-primary transition-colors"
+                >Blog</a
+              >
+            </li>
+            <li>
+              <a href="/contact" class="hover:text-primary transition-colors"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <h3
+            class="text-foreground text-[0.75rem] font-semibold tracking-[0.18em] uppercase sm:text-xs"
+          >
+            Expertise
+          </h3>
+          <ul class="text-muted-foreground/80 space-y-1.5">
+            <li>
+              <a
+                href="/services/cyber-security"
+                class="hover:text-primary transition-colors">Cyber Security</a
+              >
+            </li>
+            <li>
+              <a
+                href="/services/managed-it"
+                class="hover:text-primary transition-colors"
+                >Managed IT Services</a
+              >
+            </li>
+            <li>
+              <a
+                href="/services/cloud-hosting"
+                class="hover:text-primary transition-colors">Cloud Hosting</a
+              >
+            </li>
+            <li>
+              <a
+                href="/services/ibmi-support"
+                class="hover:text-primary transition-colors">IBM Power</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <h3
+            class="text-foreground text-[0.75rem] font-semibold tracking-[0.18em] uppercase sm:text-xs"
+          >
+            Contact
+          </h3>
+          <ul class="text-muted-foreground/80 space-y-1.5">
+            <li>
+              <a
+                href="tel:+18003090004"
+                class="hover:text-primary transition-colors"
+                >+1 (800) 309-0004</a
+              >
+            </li>
+            <li>
+              <a
+                href="mailto:info@bdkinc.com"
+                class="hover:text-primary transition-colors">info@bdkinc.com</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <p class="text-muted-foreground mb-4">
-      Your trusted technology partner since 1999
-    </p>
-    <p class="text-muted-foreground/70 text-sm">
-      &copy; {new Date().getFullYear()}
-      <span class="font-display font-extrabold">BDKinc</span>. All rights
-      reserved.
-    </p>
+
+    <div
+      class="border-border/40 text-muted-foreground/70 flex flex-col items-center justify-between gap-3 border-t pt-4 text-[0.8rem] sm:flex-row sm:text-[0.85rem]"
+    >
+      <p>
+        &copy; {new Date().getFullYear()}
+        <span class="font-display font-semibold">BDKinc</span>. All rights
+        reserved.
+      </p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a href="/privacy" class="hover:text-primary transition-colors"
+          >Privacy</a
+        >
+        <a href="/terms" class="hover:text-primary transition-colors">Terms</a>
+        <span
+          class="bg-border/60 hidden h-3 w-px sm:inline-block"
+          aria-hidden="true"></span>
+        <span>Security-first. Compliance-ready. Human support.</span>
+      </div>
+    </div>
   </div>
 </footer>

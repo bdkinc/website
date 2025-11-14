@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@plugin "@tailwindcss/typography";
+@plugin '@tailwindcss/typography';
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
@@ -46,29 +46,29 @@
   --radius: 0.625rem;
 
   /* Shadcn theme variables - Light mode (Neutral base) */
-  --background: oklch(1 0 0);                 /* Pure white */
-  --foreground: oklch(0.25 0 0);             /* Near black text */
-  --card: oklch(0.98 0 0);                    /* Very light gray cards */
-  --card-foreground: oklch(0.15 0 0);        /* Dark text on cards */
-  --popover: oklch(1 0 0);                    /* White popover */
-  --popover-foreground: oklch(0.15 0 0);     /* Dark popover text */
-  --primary: oklch(0.65 0.18 210);           /* Cyan blue - UPDATED for better contrast */
-  --primary-foreground: oklch(1 0 0);        /* White text on primary */
-  --secondary: oklch(0.65 0.22 280);         /* Purple - UPDATED for consistency */
-  --secondary-foreground: oklch(1 0 0);      /* White text on secondary */
-  --muted: oklch(0.92 0 0);                   /* Light gray muted */
-  --muted-foreground: oklch(0.45 0 0);       /* Medium gray text */
-  --accent: oklch(0.95 0 0);                  /* Very light accent bg */
-  --accent-foreground: oklch(0.20 0 0);      /* Dark accent text */
-  --destructive: oklch(0.55 0.22 25);        /* Red destructive */
-  --destructive-foreground: oklch(1 0 0);    /* White on destructive */
-  --border: oklch(0.88 0 0);                  /* Light border */
-  --input: oklch(0.88 0 0);                   /* Light input border */
-  --ring: oklch(0.65 0.18 210);              /* Primary ring color */
+  --background: oklch(1 0 0); /* Pure white */
+  --foreground: oklch(0.25 0 0); /* Near black text */
+  --card: oklch(0.98 0 0); /* Very light gray cards */
+  --card-foreground: oklch(0.15 0 0); /* Dark text on cards */
+  --popover: oklch(1 0 0); /* White popover */
+  --popover-foreground: oklch(0.15 0 0); /* Dark popover text */
+  --primary: oklch(0.65 0.18 210); /* Cyan blue - UPDATED for better contrast */
+  --primary-foreground: oklch(1 0 0); /* White text on primary */
+  --secondary: oklch(0.65 0.22 280); /* Purple - UPDATED for consistency */
+  --secondary-foreground: oklch(1 0 0); /* White text on secondary */
+  --muted: oklch(0.92 0 0); /* Light gray muted */
+  --muted-foreground: oklch(0.45 0 0); /* Medium gray text */
+  --accent: oklch(0.95 0 0); /* Very light accent bg */
+  --accent-foreground: oklch(0.2 0 0); /* Dark accent text */
+  --destructive: oklch(0.55 0.22 25); /* Red destructive */
+  --destructive-foreground: oklch(1 0 0); /* White on destructive */
+  --border: oklch(0.88 0 0); /* Light border */
+  --input: oklch(0.88 0 0); /* Light input border */
+  --ring: oklch(0.65 0.18 210); /* Primary ring color */
 
   /* Brand colors - updated for consistency */
-  --brand-primary: oklch(0.65 0.18 210);     /* Cyan blue */
-  --brand-secondary: oklch(0.65 0.22 280);   /* Purple */
+  --brand-primary: oklch(0.65 0.18 210); /* Cyan blue */
+  --brand-secondary: oklch(0.65 0.22 280); /* Purple */
 
   /* Shadows */
   --shadow-glow: 0 0 20px oklch(0.65 0.18 210 / 0.3);
@@ -77,29 +77,29 @@
 
 .dark {
   /* Shadcn theme variables - Dark mode (Neutral base) */
-  --background: oklch(0 0 0);                 /* Pure black - CLIENT REQUIREMENT */
-  --foreground: oklch(0.98 0 0);             /* Near white text */
-  --card: oklch(0.12 0 0);                    /* Very dark gray cards */
-  --card-foreground: oklch(0.98 0 0);        /* Light text on cards */
-  --popover: oklch(0.12 0 0);                 /* Dark popover */
-  --popover-foreground: oklch(0.98 0 0);     /* Light popover text */
-  --primary: oklch(0.70 0.18 210);           /* Brighter cyan for dark mode */
-  --primary-foreground: oklch(0.05 0 0);     /* Near black on primary */
-  --secondary: oklch(0.70 0.22 280);         /* Brighter purple for dark mode */
-  --secondary-foreground: oklch(0.05 0 0);   /* Near black on secondary */
-  --muted: oklch(0.25 0 0);                   /* Dark gray muted */
-  --muted-foreground: oklch(0.60 0 0);       /* Light gray text */
-  --accent: oklch(0.18 0 0);                  /* Dark accent bg */
-  --accent-foreground: oklch(0.95 0 0);      /* Light accent text */
-  --destructive: oklch(0.60 0.22 25);        /* Brighter red for dark */
+  --background: oklch(0 0 0); /* Pure black - CLIENT REQUIREMENT */
+  --foreground: oklch(0.98 0 0); /* Near white text */
+  --card: oklch(0.12 0 0); /* Very dark gray cards */
+  --card-foreground: oklch(0.98 0 0); /* Light text on cards */
+  --popover: oklch(0.12 0 0); /* Dark popover */
+  --popover-foreground: oklch(0.98 0 0); /* Light popover text */
+  --primary: oklch(0.7 0.18 210); /* Brighter cyan for dark mode */
+  --primary-foreground: oklch(0.05 0 0); /* Near black on primary */
+  --secondary: oklch(0.7 0.22 280); /* Brighter purple for dark mode */
+  --secondary-foreground: oklch(0.05 0 0); /* Near black on secondary */
+  --muted: oklch(0.25 0 0); /* Dark gray muted */
+  --muted-foreground: oklch(0.869 0.022 252.894); /* Tailwind slate-300 */
+  --accent: oklch(0.18 0 0); /* Dark accent bg */
+  --accent-foreground: oklch(0.95 0 0); /* Light accent text */
+  --destructive: oklch(0.6 0.22 25); /* Brighter red for dark */
   --destructive-foreground: oklch(0.98 0 0); /* Light on destructive */
-  --border: oklch(0.20 0 0);                  /* Dark border */
-  --input: oklch(0.20 0 0);                   /* Dark input border */
-  --ring: oklch(0.70 0.18 210);              /* Bright primary ring */
+  --border: oklch(0.2 0 0); /* Dark border */
+  --input: oklch(0.2 0 0); /* Dark input border */
+  --ring: oklch(0.7 0.18 210); /* Bright primary ring */
 
   /* Shadows for dark mode */
-  --shadow-glow: 0 0 20px oklch(0.70 0.18 210 / 0.4);
-  --shadow-glow-sm: 0 0 10px oklch(0.70 0.18 210 / 0.3);
+  --shadow-glow: 0 0 20px oklch(0.7 0.18 210 / 0.4);
+  --shadow-glow-sm: 0 0 10px oklch(0.7 0.18 210 / 0.3);
 }
 
 @layer base {
@@ -175,10 +175,6 @@
   );
 }
 
-
-
-
-
 .gradient-mesh {
   background:
     radial-gradient(
@@ -186,31 +182,35 @@
       oklch(0.65 0.18 210 / 0.08) 0px,
       transparent 50%
     ),
-    radial-gradient(at 80% 0%, oklch(0.65 0.22 280 / 0.08) 0px, transparent 50%),
+    radial-gradient(
+      at 80% 0%,
+      oklch(0.65 0.22 280 / 0.08) 0px,
+      transparent 50%
+    ),
     radial-gradient(at 0% 50%, oklch(0.65 0.18 210 / 0.04) 0px, transparent 50%);
 }
 
 /* Glass morphism effect - updated opacity for better cohesion */
 .glass {
-  background: oklch(1 0 0 / 0.7);          /* 70% white for better readability */
+  background: oklch(1 0 0 / 0.7); /* 70% white for better readability */
   backdrop-filter: blur(12px);
   /* border: 1px solid oklch(0.922 0 0 / 0.5); */
 }
 
 .dark .glass {
-  background: oklch(0.12 0 0 / 0.7);       /* 70% very dark gray */
+  background: oklch(0.12 0 0 / 0.7); /* 70% very dark gray */
   backdrop-filter: blur(12px);
   /* border: 1px solid oklch(0.269 0 0); */
 }
 
 /* Navigation glass - lighter transparency */
 .glass-nav {
-  background: oklch(1 0 0 / 0.5);          /* 50% white for nav */
+  background: oklch(1 0 0 / 0.5); /* 50% white for nav */
   backdrop-filter: blur(12px);
 }
 
 .dark .glass-nav {
-  background: oklch(0.12 0 0 / 0.5);       /* 50% very dark gray for nav */
+  background: oklch(0.12 0 0 / 0.5); /* 50% very dark gray for nav */
   backdrop-filter: blur(12px);
 }
 
@@ -340,8 +340,8 @@ li {
     to bottom,
     transparent 0px,
     transparent 2px,
-    oklch(0.70 0.18 210 / 0.03) 2px,
-    oklch(0.70 0.18 210 / 0.03) 4px
+    oklch(0.7 0.18 210 / 0.03) 2px,
+    oklch(0.7 0.18 210 / 0.03) 4px
   );
   animation: scanline-scroll 8s linear infinite;
 }
@@ -351,26 +351,33 @@ li {
     to bottom,
     transparent 0px,
     transparent 2px,
-    oklch(0.70 0.18 210 / 0.05) 2px,
-    oklch(0.70 0.18 210 / 0.05) 4px
+    oklch(0.7 0.18 210 / 0.05) 2px,
+    oklch(0.7 0.18 210 / 0.05) 4px
   );
 }
 
 @keyframes scanline-scroll {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 100px; }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100px;
+  }
 }
 
 /* Noise texture overlay */
 .noise-texture {
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
 }
 
 /* Shimmer animation for CTAs */
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .animate-shimmer {
@@ -379,8 +386,12 @@ li {
 
 /* Data stream scroll effect */
 @keyframes scroll-left {
-  from { transform: translateX(100%); }
-  to { transform: translateX(-100%); }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
 
 .animate-scroll-left {
@@ -389,8 +400,13 @@ li {
 
 /* Glow border animation */
 @keyframes glow-pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .animate-glow-pulse {

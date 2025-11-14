@@ -23,7 +23,7 @@ import {
 import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
 
 import { nanoid } from "nanoid";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type MessageType = {
   key: string;
@@ -37,20 +37,9 @@ type MessageType = {
   isStreaming?: boolean;
 };
 
-const initialMessages: MessageType[] = [
-  {
-    key: nanoid(),
-    from: "assistant",
-    version: {
-      id: nanoid(),
-      content: "Hi! How can we help you today?",
-    },
-    avatar: "/favicon.svg",
-    name: "BDKinc",
-  },
-];
+interface ContactChatProps {}
 
-const suggestions = [
+const defaultSuggestions = [
   "How can I get a quote for IT services?",
   "I need help with network infrastructure",
   "What managed IT services do you offer?",
@@ -63,12 +52,110 @@ const mockResponses = [
   "Thank you for your interest! We're here to help. Our team will be in touch shortly, or you can reach us directly at (800) 309-0004.",
 ];
 
-export default function ContactChat() {
+export default function ContactChat({}: ContactChatProps) {
   const [text, setText] = useState<string>("");
   const [status, setStatus] = useState<
     "submitted" | "streaming" | "ready" | "error"
   >("ready");
-  const [messages, setMessages] = useState<MessageType[]>(initialMessages);
+
+  const [suggestedQuestion, setSuggestedQuestion] = useState<string | null>(
+    null
+  );
+  const [suggestions, setSuggestions] = useState<string[]>(defaultSuggestions);
+
+  const [messages, setMessages] = useState<MessageType[]>(() => [
+    {
+      key: nanoid(),
+      from: "assistant",
+      version: {
+        id: nanoid(),
+        content: "Hi! How can we help you today?",
+      },
+      avatar: "/favicon.svg",
+      name: "BDKinc",
+    },
+  ]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    try {
+      // Prefer explicit `from` query parameter if present
+      const params = new URLSearchParams(window.location.search);
+      const from = params.get("from");
+
+      if (from) {
+        // Map known `from` values to tailored suggestion chips
+        if (from === "services") {
+          setSuggestions([
+            "How can I get a quote for your IT services?",
+            ...defaultSuggestions.slice(1),
+          ]);
+          return;
+        }
+
+        if (from === "about") {
+          setSuggestions([
+            "How can BDKinc support our IT strategy long-term?",
+            ...defaultSuggestions.slice(1),
+          ]);
+          return;
+        }
+
+        if (from === "blog") {
+          setSuggestions([
+            "Can you help us apply these IT best practices?",
+            ...defaultSuggestions.slice(1),
+          ]);
+          return;
+        }
+
+        if (from === "blog-post") {
+          setSuggestions([
+            "Can we implement the recommendations from this article?",
+            ...defaultSuggestions.slice(1),
+          ]);
+          return;
+        }
+
+        // Service slugs (e.g. cloud-hosting, managed-it, etc.)
+        const humanReadable = from
+          .split("-")
+          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+          .join(" ");
+
+        const question = `How can I get a quote for ${humanReadable}?`;
+        setSuggestedQuestion(question);
+        setSuggestions([question, ...defaultSuggestions.slice(1)]);
+        return;
+      }
+
+      // Fallback: derive from document.referrer when no `from` param is set
+      if (typeof document === "undefined") return;
+      const referrer = document.referrer;
+      if (!referrer) return;
+
+      const url = new URL(referrer);
+      const path = url.pathname;
+
+      if (path.startsWith("/services/")) {
+        const slug = path.replace("/services/", "").replace(/\/$/, "");
+
+        if (slug) {
+          const humanReadable = slug
+            .split("-")
+            .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+            .join(" ");
+
+          setSuggestedQuestion(
+            `How can I get a quote for ${humanReadable}?`
+          );
+        }
+      }
+    } catch {
+      // Ignore parsing errors
+    }
+  }, []);
 
   const streamResponse = useCallback(
     async (messageId: string, content: string) => {

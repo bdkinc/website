@@ -19,9 +19,7 @@ import {
   ArrowLeftRight,
   Clock,
   CheckCircle2,
-  Mail,
 } from 'lucide-react';
-import { Logo } from '@/components/Logo';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'cloud-hosting');
@@ -47,7 +45,6 @@ const _serviceSchema = {
     url: 'https://www.bdkinc.com',
   },
   serviceType: 'Cloud Hosting & Migration',
-  areaServed: ['Maryland', 'Delaware', 'Mid-Atlantic'],
 };
 
 const relatedTags = ['cloud', 'security', 'infrastructure'];
@@ -539,7 +536,7 @@ const detailColumns = [
           title="Ready to Transform Your IT?"
           description={`Let's discuss how ${service.data.title.toLowerCase()} can help your business thrive with reliable, scalable technology solutions.`}
           buttonText="Get in Touch"
-          buttonHref="/contact"
+          buttonHref="/contact?from=cloud-hosting"
         />
       </div>
     </section>

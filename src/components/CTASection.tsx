@@ -4,7 +4,7 @@ import { gsap } from 'gsap'
 import { cn } from '@/lib/utils'
 import { Card } from '@/components/ui/card'
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver'
-import CTAButton from '@/components/CTAButton'
+import CTAButton from '@/components/CTAButton.tsx'
 
 type CTAIcon = 'mail' | 'phone' | 'sparkles' | 'arrow' | 'home' | 'back' | 'click' | 'search' | 'none'
 
@@ -23,6 +23,11 @@ interface CTASectionProps {
   buttonHref?: string
   icon?: CTAIcon
   primaryAction?: CTAAction
+  /**
+   * When true, skip the intersection observer and show immediately.
+   * Useful for pages where the component is server-rendered without a client directive.
+   */
+  disableObserver?: boolean
 }
 
 export default function CTASection({
@@ -31,7 +36,8 @@ export default function CTASection({
   buttonText = "Get in Touch",
   buttonHref = "/contact",
   icon,
-  primaryAction
+  primaryAction,
+  disableObserver = false
 }: CTASectionProps) {
   const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null)
 
@@ -44,11 +50,13 @@ export default function CTASection({
   }
   
   // Viewport detection for CTA section
-  const { ref: sectionRef, isIntersecting: sectionInView } = useIntersectionObserver({
+  const { ref: sectionRef, isIntersecting } = useIntersectionObserver({
     threshold: 0.2,
     rootMargin: '0px',
     triggerOnce: true
   })
+
+  const sectionInView = disableObserver ? true : isIntersecting
 
   useEffect(() => {
     if (!buttonRef.current) return

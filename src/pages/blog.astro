@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation';
-import CTAButton from '@/components/CTAButton';
+import CTASection from '@/components/CTASection';
 import { getCollection } from 'astro:content';
 import { Calendar, User, Tag } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -166,24 +166,13 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- CTA Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div
-        class="fill-mode-both animate-in fade-in zoom-in mx-auto max-w-4xl text-center delay-700 duration-700"
-      >
-        <Card size="xl" interactive={false}>
-          <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-            Stay Updated with IT Insights
-          </h2>
-          <p class="text-muted-foreground mb-8 text-xl">
-            Want to discuss how these insights can help your business? Let's
-            talk.
-          </p>
-          <CTAButton client:load href="/contact" className="shadow-sm">
-            Get in Touch
-          </CTAButton>
-        </Card>
-      </div>
-    </section>
+    <CTASection
+      client:visible
+      title="Stay Updated with IT Insights"
+      description="Want to discuss how these insights can help your business? Let's talk."
+      buttonText="Get in Touch"
+      buttonHref="/contact?from=blog"
+    />
   </main>
 
   <Footer />

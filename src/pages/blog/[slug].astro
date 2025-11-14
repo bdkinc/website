@@ -1,9 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
+import CTASection from '@/components/CTASection';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { Calendar, User, Tag, ArrowLeft, Mail } from 'lucide-react';
+import { Calendar, User, Tag, ArrowLeft } from 'lucide-react';
 import { getNavigationData } from '@/lib/navigation-data';
 import { Logo } from '@/components/Logo';
 import Footer from '@/components/Footer.astro';
@@ -106,6 +107,35 @@ function formatDate(date: Date): string {
       </div>
     </section>
 
+    <!-- Featured Image Placeholder -->
+    <section class="px-4 py-12 sm:px-6 lg:px-8">
+      <div
+        class="fill-mode-both animate-in fade-in zoom-in mx-auto max-w-4xl delay-400 duration-700"
+      >
+        <div
+          class="glass border-primary/20 overflow-hidden rounded-2xl border shadow-lg"
+        >
+          <div
+            class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-gradient-to-br"
+          >
+            <div class="p-6 text-center">
+              <div
+                class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+              >
+                Featured Image Placeholder
+              </div>
+              <div class="text-muted-foreground/60 text-lg">
+                Article Hero Image
+              </div>
+              <div class="text-muted-foreground/40 mt-2 text-xs">
+                Recommended: 1200x675px
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Blog Post Content -->
     <article class="px-4 py-12 sm:px-6 lg:px-8">
       <div
@@ -118,32 +148,13 @@ function formatDate(date: Date): string {
     </article>
 
     <!-- Related CTA Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="glass mx-auto max-w-4xl rounded-2xl p-12 text-center">
-        <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-          Ready to Implement These Solutions?
-        </h2>
-        <p class="text-muted-foreground mb-8 text-xl">
-          Our team can help you apply these best practices to your business
-          infrastructure.
-        </p>
-        <div class="flex flex-col justify-center gap-4 sm:flex-row">
-          <a
-            href="/contact"
-            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
-          >
-            Contact Us
-            <Mail className="h-4 w-4" aria-hidden="true" />
-          </a>
-          <a
-            href="/blog"
-            class="bg-card text-foreground border-input hover:bg-accent inline-flex items-center justify-center rounded-md border px-8 py-3 text-sm font-medium transition-colors"
-          >
-            Read More Articles
-          </a>
-        </div>
-      </div>
-    </section>
+    <CTASection
+      client:visible
+      title="Ready to Implement These Solutions?"
+      description="Our team can help you apply these best practices to your business infrastructure."
+      buttonText="Contact Us"
+      buttonHref="/contact?from=blog-post"
+    />
   </main>
 
   <Footer />

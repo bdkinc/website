@@ -1,0 +1,294 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation';
+import { Card } from '@/components/ui/card';
+import { getNavigationData } from '@/lib/navigation-data';
+import Footer from '@/components/Footer.astro';
+import { Shield } from 'lucide-react';
+
+const { servicesData, recentPosts } = await getNavigationData();
+
+const LAST_UPDATED = 'November 14, 2025';
+
+const tocItems = [
+  { id: 'information-we-collect', label: 'Information We Collect' },
+  { id: 'how-we-use', label: 'How We Use Your Information' },
+  { id: 'information-sharing', label: 'Information Sharing' },
+  { id: 'data-security', label: 'Data Security' },
+  { id: 'your-rights', label: 'Your Rights' },
+  { id: 'cookies-tracking', label: 'Cookies & Tracking' },
+  { id: 'third-party-links', label: 'Third-Party Links' },
+  { id: 'childrens-privacy', label: "Children's Privacy" },
+  { id: 'changes-to-policy', label: 'Changes to This Policy' },
+  { id: 'contact-us', label: 'Contact Us' },
+];
+---
+
+<Layout
+  title="Privacy Policy | BDKinc"
+  description="Learn how BDKinc protects your privacy and handles your personal information with transparency and care."
+>
+  <Navigation
+    client:load
+    services={servicesData}
+    blogPosts={recentPosts}
+    currentPath={Astro.url.pathname}
+  />
+  <main id="main-content">
+    {/* Hero Section */}
+    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="relative z-10 mx-auto max-w-4xl text-center">
+        <div class="mb-6 inline-flex items-center justify-center rounded-lg bg-primary/10 p-4">
+          <Shield className="w-10 h-10 text-primary" />
+        </div>
+        <h1
+          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold duration-700 md:text-6xl"
+        >
+          <span class="text-foreground">Privacy </span>
+          <span class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+            >Policy</span
+          >
+        </h1>
+        <p
+          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mb-4 text-lg leading-relaxed delay-200 duration-700"
+        >
+          Your privacy is important to us. Learn how we collect, use, and protect your personal information.
+        </p>
+        <p class="text-muted-foreground/70 text-sm">
+          Last updated: {LAST_UPDATED}
+        </p>
+      </div>
+    </section>
+
+    {/* Content Section with Sidebar TOC */}
+    <section class="px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="grid gap-8 lg:grid-cols-4">
+          {/* Sidebar TOC */}
+          <aside class="lg:col-span-1">
+            <div class="sticky top-24">
+              <Card
+                className="fill-mode-both animate-in fade-in slide-in-from-left-8 duration-700"
+                size="lg"
+                interactive={false}
+              >
+                <nav class="space-y-1">
+                  <p class="text-foreground mb-4 text-sm font-semibold uppercase tracking-widest"
+                    >On this page</p
+                  >
+                  <ul class="space-y-2">
+                    {
+                      tocItems.map((item) => (
+                        <li>
+                          <a
+                            href={`#${item.id}`}
+                            class="text-muted-foreground hover:text-primary text-sm transition-colors duration-200 block py-1"
+                          >
+                            {item.label}
+                          </a>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </nav>
+              </Card>
+            </div>
+          </aside>
+
+          {/* Main Content */}
+          <article class="lg:col-span-3 space-y-12">
+            {/* Information We Collect */}
+            <section id="information-we-collect">
+              <h2 class="text-foreground mb-4 text-3xl font-bold">Information We Collect</h2>
+              <p class="text-muted-foreground mb-4 leading-relaxed">
+                We collect information you voluntarily provide to us, such as when you fill out forms, request services, or contact us via email or phone. This includes:
+              </p>
+              <ul class="text-muted-foreground space-y-2 ml-4">
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Contact information (name, email address, phone number, company name)</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Professional details and industry information</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Communication preferences and service inquiries</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Technical information such as IP address, browser type, and pages visited</span>
+                </li>
+              </ul>
+            </section>
+
+            {/* How We Use Your Information */}
+            <section id="how-we-use">
+              <h2 class="text-foreground mb-4 text-3xl font-bold">How We Use Your Information</h2>
+              <p class="text-muted-foreground mb-4 leading-relaxed">
+                We use the information we collect for legitimate business purposes, including:
+              </p>
+              <ul class="text-muted-foreground space-y-2 ml-4">
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Providing and improving our services</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Responding to your inquiries and requests</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Sending marketing communications (with your consent)</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Analyzing usage patterns to enhance user experience</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Maintaining security and preventing fraud</span>
+                </li>
+              </ul>
+            </section>
+
+            {/* Information Sharing */}
+            <section id="information-sharing">
+              <h2 class="text-foreground mb-4 text-3xl font-bold">Information Sharing</h2>
+              <p class="text-muted-foreground mb-4 leading-relaxed">
+                We do not sell, rent, or trade your personal information. We may share information with trusted service providers who assist us in operating our website and conducting our business, such as hosting providers, payment processors, and communication platforms. These service providers are contractually obligated to use your information only as necessary to provide services to us.
+              </p>
+              <p class="text-muted-foreground leading-relaxed">
+                We may also disclose information when required by law or when necessary to protect our rights, privacy, safety, or property.
+              </p>
+            </section>
+
+            {/* Data Security */}
+            <section id="data-security">
+              <h2 class="text-foreground mb-4 text-3xl font-bold">Data Security</h2>
+              <p class="text-muted-foreground mb-4 leading-relaxed">
+                We implement industry-standard security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. This includes SSL encryption, secure servers, and regular security audits.
+              </p>
+              <p class="text-muted-foreground leading-relaxed">
+                However, no method of internet transmission is completely secure. While we strive to protect your information, we cannot guarantee absolute security.
+              </p>
+            </section>
+
+            {/* Your Rights */}
+            <section id="your-rights">
+              <h2 class="text-foreground mb-4 text-3xl font-bold">Your Rights</h2>
+              <p class="text-muted-foreground mb-4 leading-relaxed">
+                Depending on your location, you may have the following rights regarding your personal information:
+              </p>
+              <ul class="text-muted-foreground space-y-2 ml-4">
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Access to your personal information</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Correction of inaccurate data</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Deletion of your information</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Objection to processing of your information</span>
+                </li>
+                <li class="flex gap-3">
+                  <span class="text-primary flex-shrink-0">•</span>
+                  <span>Data portability and withdrawal of consent</span>
+                </li>
+              </ul>
+              <p class="text-muted-foreground mt-4 leading-relaxed">
+                To exercise any of these rights, please contact us using the information provided in the "Contact Us" section below.
+              </p>
+            </section>
+
+            {/* Cookies & Tracking */}
+            <section id="cookies-tracking">
+              <h2 class="text-foreground mb-4 text-3xl font-bold">Cookies & Tracking</h2>
+              <p class="text-muted-foreground mb-4 leading-relaxed">
+                Our website uses cookies and similar tracking technologies to enhance your user experience. Cookies are small files stored on your device that help us remember your preferences and analyze site usage.
+              </p>
+              <p class="text-muted-foreground mb-4 leading-relaxed">
+                You can control cookie settings through your browser preferences. However, disabling cookies may affect your ability to use certain features of our website.
+              </p>
+              <p class="text-muted-foreground leading-relaxed">
+                We use analytics tools to understand how visitors interact with our site, enabling us to improve functionality and user experience.
+              </p>
+            </section>
+
+            {/* Third-Party Links */}
+            <section id="third-party-links">
+              <h2 class="text-foreground mb-4 text-3xl font-bold">Third-Party Links</h2>
+              <p class="text-muted-foreground leading-relaxed">
+                Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of external sites. We encourage you to review the privacy policies of any third-party websites before providing your information.
+              </p>
+            </section>
+
+            {/* Children's Privacy */}
+            <section id="childrens-privacy">
+              <h2 class="text-foreground mb-4 text-3xl font-bold">Children's Privacy</h2>
+              <p class="text-muted-foreground leading-relaxed">
+                Our services are not directed to individuals under the age of 18. We do not knowingly collect personal information from children. If we become aware that a child has provided us with personal information, we will take steps to delete such information and terminate the child's account.
+              </p>
+            </section>
+
+            {/* Changes to This Policy */}
+            <section id="changes-to-policy">
+              <h2 class="text-foreground mb-4 text-3xl font-bold">Changes to This Policy</h2>
+              <p class="text-muted-foreground leading-relaxed">
+                We may update this privacy policy periodically to reflect changes in our practices or legal requirements. We will notify you of significant changes by posting the updated policy on our website and updating the "Last Updated" date. Your continued use of our services after such changes constitutes your acceptance of the updated policy.
+              </p>
+            </section>
+
+            {/* Contact Us */}
+            <section id="contact-us">
+              <h2 class="text-foreground mb-4 text-3xl font-bold">Contact Us</h2>
+              <p class="text-muted-foreground mb-6 leading-relaxed">
+                If you have questions about this privacy policy or how we handle your information, please contact us:
+              </p>
+              <Card
+                className="bg-card/50 border-primary/20"
+                size="lg"
+                interactive={false}
+              >
+                <div class="space-y-3">
+                  <div>
+                    <p class="text-foreground font-semibold">BDKinc</p>
+                  </div>
+                  <div>
+                  <p class="text-muted-foreground text-sm">Email:</p>
+                  <a
+                    href="mailto:info@bdkinc.com"
+                    class="text-primary hover:text-primary/80 transition-colors"
+                  >
+                    info@bdkinc.com
+                  </a>
+                  </div>
+                  <div>
+                    <p class="text-muted-foreground text-sm">Phone:</p>
+                    <a
+                      href="tel:+18003090004"
+                      class="text-primary hover:text-primary/80 transition-colors"
+                    >
+                      +1 (800) 309-0004
+                    </a>
+                  </div>
+                </div>
+              </Card>
+            </section>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
