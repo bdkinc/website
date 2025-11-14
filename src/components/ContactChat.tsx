@@ -138,6 +138,7 @@ export default function ContactChat({}: ContactChatProps) {
       const url = new URL(referrer);
       const path = url.pathname;
 
+      // Service detail pages: /services/:slug
       if (path.startsWith("/services/")) {
         const slug = path.replace("/services/", "").replace(/\/$/, "");
 
@@ -147,10 +148,28 @@ export default function ContactChat({}: ContactChatProps) {
             .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
             .join(" ");
 
-          setSuggestedQuestion(
-            `How can I get a quote for ${humanReadable}?`
-          );
+          const question = `How can I get a quote for ${humanReadable}?`;
+          setSuggestedQuestion(question);
+          setSuggestions([question, ...defaultSuggestions.slice(1)]);
+          return;
         }
+      }
+
+      // Blog listing or post
+      if (path === "/blog") {
+        setSuggestions([
+          "Can you help us apply these IT best practices?",
+          ...defaultSuggestions.slice(1),
+        ]);
+        return;
+      }
+
+      if (path.startsWith("/blog/")) {
+        setSuggestions([
+          "Can we implement the recommendations from this article?",
+          ...defaultSuggestions.slice(1),
+        ]);
+        return;
       }
     } catch {
       // Ignore parsing errors

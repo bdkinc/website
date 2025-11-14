@@ -5,10 +5,10 @@ import { Menu, X } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuContent,
+  NavigationMenuList,
+  NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
@@ -59,6 +59,39 @@ export default function Navigation({
       day: "numeric",
       year: "numeric",
     }).format(new Date(date));
+  };
+
+  const buildContactHref = (): string => {
+    if (typeof window === "undefined") return "/contact";
+
+    const path = window.location.pathname;
+
+    // Home page: generic contact
+    if (path === "/") return "/contact";
+
+    // About page
+    if (path === "/about") return "/contact?from=about";
+
+    // Services index
+    if (path === "/services") return "/contact?from=services";
+
+    // Service detail pages: /services/:slug or /services/:slug/:location
+    if (path.startsWith("/services/")) {
+      const segments = path.split("/").filter(Boolean);
+      // ["services", "slug", ...]
+      if (segments.length >= 2) {
+        const slug = segments[1];
+        return `/contact?from=${encodeURIComponent(slug)}`;
+      }
+    }
+
+    // Blog listing
+    if (path === "/blog") return "/contact?from=blog";
+
+    // Blog posts: /blog/:slug
+    if (path.startsWith("/blog/")) return "/contact?from=blog-post";
+
+    return "/contact";
   };
 
   return (
@@ -147,14 +180,14 @@ export default function Navigation({
                                 >
                                   {service.title}
                                 </div>
-                                <p 
-                                  className="line-clamp-2 text-xs leading-snug text-muted-foreground"
+                                <div
+                                  className="text-sm"
                                   {...(showTransitions && {
                                     style: { ['view-transition-name']: `service-description-${service.slug}` } as any
                                   })}
                                 >
                                   {service.description}
-                                </p>
+                                </div>
                               </a>
                             </NavigationMenuLink>
                           </li>
@@ -319,7 +352,7 @@ export default function Navigation({
                 {/* Contact */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
-                    href="/contact"
+                    href={buildContactHref()}
                     className={cn(
                       navigationMenuTriggerStyle(),
                       "bg-transparent! hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl hover:text-primary focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent! transition-all"
@@ -459,7 +492,7 @@ export default function Navigation({
 
             {/* Contact */}
             <a
-              href="/contact"
+              href={buildContactHref()}
               className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors duration-300"
             >
               Contact
