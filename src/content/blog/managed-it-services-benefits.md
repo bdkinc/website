@@ -2,7 +2,7 @@
 title: '5 Benefits of Managed IT Services for Small Businesses'
 description: 'Discover how managed IT services can help small businesses reduce costs, improve security, and focus on growth.'
 pubDate: 2025-10-20
-author: 'BDK Inc'
+author: 'BDKinc'
 tags: ['managed-services', 'business', 'productivity']
 draft: false
 ---
@@ -51,4 +51,4 @@ The transition to managed services is easier than you might think. Most provider
 - Comprehensive onboarding and training
 - Ongoing support and consultation
 
-Ready to explore how managed IT services can transform your business? Reach out to BDK Inc for a consultation.
+Ready to explore how managed IT services can transform your business? Reach out to <span class="font-display font-extrabold">BDKinc</span> for a consultation.

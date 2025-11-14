@@ -15,6 +15,10 @@ import {
   Award,
   Clock,
   Box,
+  Briefcase,
+  Package,
+  Trophy,
+  Zap,
 } from 'lucide-react';
 
 const { servicesData, recentPosts } = await getNavigationData();
@@ -64,8 +68,7 @@ const milestones = [
   {
     year: '1999',
     title: 'Founded',
-    description:
-      'BDK Inc was established with a vision to simplify IT for businesses.',
+    description: 'was established with a vision to simplify IT for businesses.',
   },
   {
     year: '2005',
@@ -90,13 +93,46 @@ const milestones = [
     description: 'Serving over 500 businesses with comprehensive IT solutions.',
   },
 ];
+
+// Why Choose Us data
+const whyChooseUs = [
+  {
+    icon: 'Briefcase',
+    title: 'Industry Expertise',
+    description:
+      "With 25+ years in the industry, we've navigated every technology evolution and helped hundreds of businesses transform successfully.",
+  },
+  {
+    icon: 'Package',
+    title: 'Complete Solutions',
+    description:
+      'From managed IT and cloud hosting to cybersecurity and AI, we offer comprehensive end-to-end solutions for any business.',
+  },
+  {
+    icon: 'Trophy',
+    title: 'Proven Expertise',
+    description:
+      'Over 500+ satisfied clients across industries trust us to consistently deliver results and build strong lasting partnerships.',
+  },
+  {
+    icon: 'Zap',
+    title: 'Future Leadership',
+    description:
+      'We help you prepare for tomorrow with AI, machine learning, and cloud solutions that deliver competitive advantage today.',
+  },
+];
 ---
 
 <Layout
-  title="About Us | IT Excellence Since 1999 | BDK Inc"
-  description="Learn about BDK Inc's 25+ year journey of delivering exceptional managed IT services, cloud hosting, and cybersecurity solutions to businesses."
+  title="About Us | IT Excellence Since 1999 | BDKinc"
+  description="Learn about BDKinc's 25+ year journey of delivering exceptional managed IT services, cloud hosting, and cybersecurity solutions to businesses."
 >
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+  <Navigation
+    client:load
+    services={servicesData}
+    blogPosts={recentPosts}
+    currentPath={Astro.url.pathname}
+  />
   <main id="main-content">
     {/* Hero Section */}
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
@@ -115,7 +151,7 @@ const milestones = [
         <p
           class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
         >
-          For over 25 years, BDK Inc has been the trusted technology partner for
+          For over 25 years, BDKinc has been the trusted technology partner for
           businesses seeking reliable, innovative IT solutions. We transform
           complex technology challenges into simple, effective solutions that
           drive business growth.
@@ -292,9 +328,18 @@ const milestones = [
                           <h3 class="text-foreground mb-2 text-xl font-bold">
                             {milestone.title}
                           </h3>
-                          <p class="text-muted-foreground">
-                            {milestone.description}
-                          </p>
+                          {index === 0 ? (
+                            <p class="text-muted-foreground">
+                              <span class="font-display font-extrabold">
+                                BDKinc
+                              </span>{' '}
+                              {milestone.description}
+                            </p>
+                          ) : (
+                            <p class="text-muted-foreground">
+                              {milestone.description}
+                            </p>
+                          )}
                         </Card>
                       </div>
                     </div>
@@ -310,66 +355,72 @@ const milestones = [
     </section>
 
     {/* Why Choose Us Section */}
-    <section
-      class="via-primary/5 bg-gradient-to-b from-transparent to-transparent px-4 py-24 sm:px-6 lg:px-8"
-    >
-      <div class="mx-auto max-w-4xl">
-        <div class="mb-12 text-center">
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
           <h2
             class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
           >
             <span class="text-foreground">Why Choose </span>
-            <span class="text-primary">BDK Inc</span>
+            <span class="text-primary font-display font-extrabold">BDKinc</span>
             <span class="text-foreground">?</span>
           </h2>
+          <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
+          >
+            Four core reasons why industry leaders trust us with their
+            technology
+          </p>
         </div>
 
-        <Card
-          className="fill-mode-both animate-in fade-in zoom-in delay-200 duration-700"
-          size="xl"
-          interactive={false}
-        >
-          <div class="text-muted-foreground space-y-6 text-lg">
-            <p class="leading-relaxed">
-              <strong class="text-foreground">Experience That Matters:</strong> With
-              over 25 years in the industry, we've seen technology evolve and have
-              helped hundreds of businesses navigate digital transformation. Our
-              experience means we can anticipate challenges and provide proactive
-              solutions.
-            </p>
-            <p class="leading-relaxed">
-              <strong class="text-foreground">Comprehensive Solutions:</strong> From
-              managed IT services and cloud hosting to cybersecurity and AI integration,
-              we offer end-to-end technology solutions. You get the convenience of
-              a single partner who understands your complete IT ecosystem.
-            </p>
-            <p class="leading-relaxed">
-              <strong class="text-foreground">Personalized Approach:</strong> We
-              don't believe in one-size-fits-all solutions. Every business is unique,
-              and we take the time to understand your specific needs, challenges,
-              and goals before recommending solutions.
-            </p>
-            <p class="leading-relaxed">
-              <strong class="text-foreground">Proven Track Record:</strong> Our 500+
-              satisfied clients across various industries speak to our ability to
-              deliver results. We've built our reputation on reliability, innovation,
-              and exceptional customer service.
-            </p>
-            <p class="leading-relaxed">
-              <strong class="text-foreground">Future-Ready Technology:</strong> We
-              don't just maintain your current infrastructure—we help you prepare
-              for the future with AI, machine learning, and next-generation cloud
-              solutions that give you a competitive edge.
-            </p>
-          </div>
-        </Card>
+        {/* Why Choose Us Grid */}
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {
+            whyChooseUs.map((item, index) => {
+              const iconMap = {
+                Briefcase,
+                Package,
+                Trophy,
+                Zap,
+                Box,
+              };
+              const IconComponent =
+                iconMap[item.icon as keyof typeof iconMap] || Box;
+              const delayClasses = [
+                'delay-200',
+                'delay-300',
+                'delay-400',
+                'delay-500',
+              ];
+              return (
+                <Card
+                  className={`animate-in fade-in zoom-in flex h-full flex-col items-center justify-center text-center duration-600 ${delayClasses[index] || 'delay-200'} group hover:shadow-primary/20 transition-all hover:shadow-lg`}
+                  size="lg"
+                  interactive={false}
+                >
+                  <div class="mb-6">
+                    <div class="from-primary/20 to-secondary/10 group-hover:from-primary/30 group-hover:to-secondary/20 inline-flex items-center justify-center rounded-lg bg-linear-to-br p-3 transition-colors">
+                      <IconComponent className="icon-lg text-primary" />
+                    </div>
+                  </div>
+                  <h3 class="text-foreground mb-3 text-center text-lg font-bold">
+                    {item.title}
+                  </h3>
+                  <p class="text-muted-foreground text-sm leading-relaxed">
+                    {item.description}
+                  </p>
+                </Card>
+              );
+            })
+          }
+        </div>
       </div>
     </section>
 
     {/* CTA Section */}
     <CTASection
       client:visible
-      title="Ready to Partner with BDK Inc?"
+      title="Ready to Partner with BDKinc?"
       description="Let's discuss how our 25+ years of experience can help transform your IT infrastructure and drive business growth."
       buttonText="Start the Conversation"
       buttonHref="/contact"
@@ -388,7 +439,9 @@ const milestones = [
         Your trusted technology partner since 1999
       </p>
       <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
+        &copy; {new Date().getFullYear()}
+        <span class="font-display font-extrabold">BDKinc</span>. All rights
+        reserved.
       </p>
     </div>
   </footer>

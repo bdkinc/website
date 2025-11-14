@@ -17,7 +17,9 @@ import {
   Shield,
   Zap,
   CheckCircle2,
+  Mail,
 } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 
 const service = await getEntry('services', 'managed-it');
 if (!service) {
@@ -30,16 +32,16 @@ const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 
-const serviceSchema = {
+const _serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: service.data.title,
   description:
-    'Managed IT services covering the Mid-Atlantic region with 24/7 support, proactive monitoring, and strategic technology planning from BDK Inc.',
+    'Managed IT services covering the Mid-Atlantic region with 24/7 support, proactive monitoring, and strategic technology planning from BDKinc.',
   areaServed: ['Maryland', 'Delaware', 'Mid-Atlantic'],
   provider: {
     '@type': 'Organization',
-    name: 'BDK Inc',
+    name: 'BDKinc',
     url: 'https://www.bdkinc.com',
   },
   serviceType: 'Managed IT Services',
@@ -83,12 +85,12 @@ const detailColumns = [
 ---
 
 <Layout
-  title={`${service.data.title} for Maryland & Delaware SMBs | BDK Inc`}
+  title={`${service.data.title} for Maryland & Delaware SMBs | BDKinc`}
   description="Comprehensive managed IT services for small and midsize businesses across Maryland and Delaware, including 24/7 help desk support, proactive monitoring, on-site/remote assistance, and strategic IT planning."
   ogDescription="Managed IT services in Maryland & Delaware delivering 24/7 support, proactive monitoring, cybersecurity, and strategic technology planning for growth-focused organizations."
 >
   <script type="application/ld+json">
-    {JSON.stringify(serviceSchema)}
+    {JSON.stringify(_serviceSchema)}
   </script>
   <Navigation
     client:load
@@ -478,13 +480,29 @@ const detailColumns = [
             </p>
             <a
               href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
             >
               Contact Us Today
+              <Mail className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center">
+      <div>
+        <Logo />
+      </div>
+      <p class="text-muted-foreground mb-4">
+        Your trusted technology partner since 1999
+      </p>
+      <p class="text-muted-foreground/70 text-sm">
+        &copy; {new Date().getFullYear()} <span class="font-display font-extrabold">BDKinc</span>. All rights reserved.
+      </p>
+    </div>
+  </footer>
 </Layout>

@@ -13,7 +13,7 @@ export async function getNavigationData() {
     }));
 
   // Get recent blog posts
-  const blogEntries = await getCollection("blog", ({ data }) => !data.draft);
+  const blogEntries = await getCollection("blog");
   const recentPosts = blogEntries
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
     .slice(0, 3)

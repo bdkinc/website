@@ -17,7 +17,9 @@ import {
   ArrowLeftRight,
   Clock,
   CheckCircle2,
+  Mail,
 } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 
 const service = await getEntry('services', 'cloud-hosting');
 if (!service) {
@@ -30,15 +32,15 @@ const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 
-const serviceSchema = {
+const _serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: service.data.title,
   description:
-    'Cloud hosting, migration, and hybrid infrastructure management from BDK Inc with security-first architecture and 24/7 support.',
+    'Cloud hosting, migration, and hybrid infrastructure management from BDKinc with security-first architecture and 24/7 support.',
   provider: {
     '@type': 'Organization',
-    name: 'BDK Inc',
+    name: 'BDKinc',
     url: 'https://www.bdkinc.com',
   },
   serviceType: 'Cloud Hosting & Migration',
@@ -80,12 +82,12 @@ const detailColumns = [
 ---
 
 <Layout
-  title={`${service.data.title} & Migration Experts | BDK Inc`}
+  title={`${service.data.title} & Migration Experts | BDKinc`}
   description="Secure cloud hosting, migration, and hybrid infrastructure management for regulated and growth-oriented organizations across the Mid-Atlantic."
-  ogDescription="BDK Inc designs and manages cloud hosting environments with compliance-grade security, predictable costs, and 24/7 support across private, public, and hybrid clouds."
+  ogDescription="BDKinc designs and manages cloud hosting environments with compliance-grade security, predictable costs, and 24/7 support across private, public, and hybrid clouds."
 >
   <script type="application/ld+json">
-    {JSON.stringify(serviceSchema)}
+    {JSON.stringify(_serviceSchema)}
   </script>
   <Navigation
     client:load
@@ -493,13 +495,29 @@ const detailColumns = [
             </p>
             <a
               href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
             >
               Contact Us Today
+              <Mail className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center">
+      <div>
+        <Logo />
+      </div>
+      <p class="text-muted-foreground mb-4">
+        Your trusted technology partner since 1999
+      </p>
+      <p class="text-muted-foreground/70 text-sm">
+        &copy; {new Date().getFullYear()} <span class="font-display font-extrabold">BDKinc</span>. All rights reserved.
+      </p>
+    </div>
+  </footer>
 </Layout>

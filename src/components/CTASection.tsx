@@ -3,21 +3,24 @@ import { gsap } from 'gsap'
 import { cn } from '@/lib/utils'
 import { Card } from '@/components/ui/card'
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver'
+import CTAButton from '@/components/CTAButton'
 
 interface CTASectionProps {
   title?: string
   description?: string
   buttonText?: string
   buttonHref?: string
+  icon?: 'mail' | 'phone' | 'sparkles' | 'arrow' | 'home' | 'back' | 'click' | 'none'
 }
 
 export default function CTASection({
   title = "Ready to Transform Your IT Infrastructure?",
   description = "Let's discuss how we can help your business grow with reliable IT solutions.",
   buttonText = "Get in Touch",
-  buttonHref = "/contact"
+  buttonHref = "/contact",
+  icon
 }: CTASectionProps) {
-  const buttonRef = useRef<HTMLAnchorElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   
   // Viewport detection for CTA section
   const { ref: sectionRef, isIntersecting: sectionInView } = useIntersectionObserver({
@@ -95,19 +98,25 @@ export default function CTASection({
         >
           {description}
         </p>
-        <a
-          ref={buttonRef}
-          href={buttonHref}
+        <div
           className={cn(
-            "inline-flex items-center justify-center px-8 py-3 rounded-md text-sm font-medium",
-            "bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm cursor-pointer",
             "opacity-0 translate-y-2 transition-[opacity,transform] duration-400 ease-out",
             sectionInView && "opacity-100 translate-y-0"
           )}
           style={{ transitionDelay: sectionInView ? '450ms' : '0ms' }}
         >
-          {buttonText}
-        </a>
+          <CTAButton
+            ref={buttonRef}
+            className="shadow-sm cursor-pointer"
+            icon={icon}
+            onClick={(e) => {
+              e.preventDefault()
+              window.location.href = buttonHref
+            }}
+          >
+            {buttonText}
+          </CTAButton>
+        </div>
         </Card>
       </div>
     </section>

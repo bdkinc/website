@@ -1,6 +1,6 @@
-# BDK Inc Website
+# <span class="font-display font-extrabold">BDKinc</span> Website
 
-A modern, technical-themed website for BDK Inc built with Astro, React, and Tailwind CSS.
+A modern, technical-themed website for <span class="font-display font-extrabold">BDKinc</span> built with Astro, React, and Tailwind CSS.
 
 ## Tech Stack
 

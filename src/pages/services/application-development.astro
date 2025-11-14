@@ -29,6 +29,7 @@ import {
   Eye,
   Award,
   Bell,
+  Mail,
 } from 'lucide-react';
 
 const service = await getEntry('services', 'application-development');
@@ -42,15 +43,15 @@ const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 
-const serviceSchema = {
+const _serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: service.data.title,
   description:
-    'Custom business application development, modernization, and integration services delivered by BDK Inc for growth-focused organizations.',
+    'Custom business application development, modernization, and integration services delivered by BDKinc for growth-focused organizations.',
   provider: {
     '@type': 'Organization',
-    name: 'BDK Inc',
+    name: 'BDKinc',
     url: 'https://www.bdkinc.com',
   },
   serviceType: 'Custom Application Development',
@@ -78,12 +79,12 @@ const metrics = [
 ---
 
 <Layout
-  title={`${service.data.title} for Regulated & Growth Enterprises | BDK Inc`}
+  title={`${service.data.title} for Regulated & Growth Enterprises | BDKinc`}
   description="Custom application development, modernization, and systems integration that streamline complex workflows for regulated and growth-stage organizations across the Mid-Atlantic."
-  ogDescription="Enterprise-grade custom application development and modernization from BDK Inc, aligning critical workflows, integrations, and security requirements for growth-focused teams."
+  ogDescription="Enterprise-grade custom application development and modernization from BDKinc, aligning critical workflows, integrations, and security requirements for growth-focused teams."
 >
   <script type="application/ld+json" is:inline>
-    {JSON.stringify(serviceSchema)}
+    {JSON.stringify(_serviceSchema)}
   </script>
   <Navigation
     client:load
@@ -518,9 +519,10 @@ const metrics = [
                 </p>
                 <a
                   href="/contact"
-                  class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+                  class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
                 >
                   Contact Us Today
+                  <Mail className="h-4 w-4" aria-hidden="true" />
                 </a>
               </div>
             </div>

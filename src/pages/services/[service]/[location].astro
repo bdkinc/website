@@ -6,7 +6,6 @@ import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { getLocationBySlug } from '@/lib/locations';
 import {
-  Server,
   MapPin,
   Phone,
   Mail,
@@ -15,10 +14,9 @@ import {
   CheckCircle,
   Shield,
   TrendingUp,
-  Activity,
-  Star,
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { Logo } from '@/components/Logo';
 
 export async function getStaticPaths() {
   // Get main services, PSEO services, and locations from collections
@@ -89,44 +87,54 @@ const { servicesData, recentPosts } = await getNavigationData();
 const IconComponent = iconMap[service.data.icon];
 
 // Location-specific content
-const locationIntro = `As a leading Managed Service Provider serving ${locationData.name}, ${locationData.state}, BDK Inc delivers comprehensive ${service.data.title.toLowerCase()} solutions tailored to local businesses. Our team understands the unique technology challenges faced by companies in the ${locationData.region} region.`;
+const locationIntro = `As a leading Managed Service Provider serving ${locationData.name}, ${locationData.state}, BDKinc delivers comprehensive ${service.data.title.toLowerCase()} solutions tailored to local businesses. Our team understands the unique technology challenges faced by companies in the ${locationData.region} region.`;
 
 const locationFeatures = [
   {
     icon: MapPin,
-    title: "Local Expertise",
-    description: `Deep understanding of ${locationData.name}'s business landscape and regulatory environment`
+    title: 'Local Expertise',
+    description: `Deep understanding of ${locationData.name}'s business landscape and regulatory environment`,
   },
   {
     icon: Clock,
-    title: "Rapid Response",
-    description: "Average response time under 2 hours for critical issues"
+    title: 'Rapid Response',
+    description: 'Average response time under 2 hours for critical issues',
   },
   {
     icon: Shield,
-    title: "Proactive Monitoring",
-    description: "24/7/365 system monitoring and preventive maintenance"
+    title: 'Proactive Monitoring',
+    description: '24/7/365 system monitoring and preventive maintenance',
   },
   {
     icon: Users,
-    title: "Dedicated Team",
-    description: "Assigned technician who knows your business and infrastructure"
-  }
+    title: 'Dedicated Team',
+    description:
+      'Assigned technician who knows your business and infrastructure',
+  },
 ];
 
 const locations = await getCollection('locations');
 const nearbyLocations = locations
-  .filter(loc => loc.data.name !== locationData.name && loc.data.state === locationData.state)
+  .filter(
+    (loc) =>
+      loc.data.name !== locationData.name &&
+      loc.data.state === locationData.state
+  )
   .slice(0, 3);
 
 const pageDescription = `${service.data.title} in ${locationData.name}, ${locationData.state}. Local MSP services with 24/7 support, proactive monitoring, and customizable solutions for ${locationData.region} businesses.`;
-
 ---
+
 <Layout
-  title={`${service.data.title} in ${locationData.name}, ${locationData.state} | BDK Inc`}
+  title={`${service.data.title} in ${locationData.name}, ${locationData.state} | BDKinc`}
   description={pageDescription}
 >
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+  <Navigation
+    client:load
+    services={servicesData}
+    blogPosts={recentPosts}
+    currentPath={Astro.url.pathname}
+  />
   <main id="main-content">
     <!-- Hero Section with Location -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
@@ -135,7 +143,9 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
       <div class="relative z-10 mx-auto max-w-7xl text-center">
         <div class="mb-6 inline-flex items-center justify-center gap-2 text-lg">
           <MapPin className="text-primary h-5 w-5" />
-          <span class="text-muted-foreground">${locationData.name}, ${locationData.state}</span>
+          <span class="text-muted-foreground"
+            >${locationData.name}, ${locationData.state}</span
+          >
         </div>
         <div
           class="bg-linear-tobr from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl p-4"
@@ -153,10 +163,10 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
         <div class="mt-8 flex flex-col items-center gap-4 sm:flex-row">
           <a
             href="/contact"
-            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm] cursor-pointer"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
           >
-            <Phone className="h-4 w-4" />
             Get Started Today
+            <Phone className="h-4 w-4" />
           </a>
           <a
             href="tel:410-555-0123"
@@ -172,7 +182,9 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
     <!-- Location-Specific Features -->
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
+        <h2
+          class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl"
+        >
           Local ${locationData.name} Advantage
         </h2>
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -184,8 +196,12 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
                   <div class="bg-primary/5 mb-4 inline-flex items-center justify-center rounded-lg p-3">
                     <FeatureIcon className="text-primary h-6 w-6" />
                   </div>
-                  <h3 class="text-foreground mb-2 text-xl font-semibold">{feature.title}</h3>
-                  <p class="text-muted-foreground text-sm">{feature.description}</p>
+                  <h3 class="text-foreground mb-2 text-xl font-semibold">
+                    {feature.title}
+                  </h3>
+                  <p class="text-muted-foreground text-sm">
+                    {feature.description}
+                  </p>
                 </div>
               );
             })
@@ -197,7 +213,9 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
     <!-- Service Benefits -->
     <section class="bg-muted/50 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
+        <h2
+          class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl"
+        >
           Why ${locationData.name} Businesses Choose Us
         </h2>
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -232,7 +250,7 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
               </div>
             </div>
           </div>
-          
+
           <div>
             <h3 class="text-foreground mb-6 text-2xl font-semibold">
               Regional Expertise
@@ -241,7 +259,9 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
               <div class="flex items-start gap-3">
                 <MapPin className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Serving ${locationData.counties?.join(" and ") || "Eastern Shore"} counties
+                  Serving ${
+                    locationData.counties?.join(' and ') || 'Eastern Shore'
+                  } counties
                 </p>
               </div>
               <div class="flex items-start gap-3">
@@ -269,19 +289,23 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
     </section>
 
     <!-- Nearby Locations -->
-    {nearbyLocations.length > 0 && (
-      <section class="px-4 py-16 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-7xl">
-          <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
-            Also Serving Nearby ${locationData.state} Communities
-          </h2>
-          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {
-              nearbyLocations.map((nearbyLoc, index) => (
+    {
+      nearbyLocations.length > 0 && (
+        <section class="px-4 py-16 sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-7xl">
+            <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
+              Also Serving Nearby ${locationData.state} Communities
+            </h2>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {nearbyLocations.map((nearbyLoc, index) => (
                 <Card key={index} className="text-center p-6">
                   <MapPin className="text-primary mx-auto mb-3 h-6 w-6" />
-                  <h3 class="text-foreground font-semibold">{nearbyLoc.data.name}</h3>
-                  <p class="text-muted-foreground text-sm">{nearbyLoc.data.state}</p>
+                  <h3 class="text-foreground font-semibold">
+                    {nearbyLoc.data.name}
+                  </h3>
+                  <p class="text-muted-foreground text-sm">
+                    {nearbyLoc.data.state}
+                  </p>
                   <a
                     href={`/services/${serviceSlug}/${nearbyLoc.data.name.toLowerCase().replace(/\s+/g, '-')}`}
                     class="text-primary hover:text-primary/80 mt-3 text-sm font-medium"
@@ -289,12 +313,12 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
                     View Services →
                   </a>
                 </Card>
-              ))
-            }
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-    )}
+        </section>
+      )
+    }
 
     <!-- CTA Section -->
     <section class="px-4 py-16 sm:px-6 lg:px-8">
@@ -304,15 +328,16 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
             Ready to Transform Your IT in {locationData.name}?
           </h2>
           <p class="text-muted-foreground mb-8 text-xl">
-            Contact us today for a free consultation and see how our local expertise can benefit your business.
+            Contact us today for a free consultation and see how our local
+            expertise can benefit your business.
           </p>
           <div class="flex flex-col items-center gap-4 sm:flex-row">
             <a
               href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm] cursor-pointer"
+              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
             >
-              <Mail className="h-4 w-4" />
               Schedule Consultation
+              <Mail className="h-4 w-4" />
             </a>
             <a
               href="tel:410-555-0123"
@@ -326,4 +351,23 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
       </div>
     </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div
+      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
+    >
+      <div>
+        <Logo />
+      </div>
+      <p class="text-muted-foreground mb-4">
+        Your trusted technology partner since 1999
+      </p>
+      <p class="text-muted-foreground/70 text-sm">
+        &copy; {new Date().getFullYear()}
+        <span class="font-display font-extrabold">BDKinc</span>. All rights
+        reserved.
+      </p>
+    </div>
+  </footer>
 </Layout>

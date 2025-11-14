@@ -14,7 +14,9 @@ import {
   Users,
   ShoppingCart,
   Eye,
+  Mail,
 } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 
 const service = await getEntry('services', 'edi-solutions');
 if (!service) {
@@ -57,7 +59,7 @@ const detailColumns = [
 ---
 
 <Layout
-  title={`${service.data.title} - BDK Inc`}
+  title={`${service.data.title} - BDKinc`}
   description={service.data.description}
 >
   <Navigation
@@ -69,329 +71,400 @@ const detailColumns = [
   <main id="main-content">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
-  <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-  <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-  <div class="relative z-10 mx-auto max-w-7xl text-center">
-    <div
-      class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
-      transition:name={`service-icon-${service.id}`}
-    >
-      <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
-    </div>
-    <h1
-      class="mb-6 text-5xl font-bold md:text-6xl"
-      transition:name={`service-title-${service.id}`}
-      transition:animate="initial"
-    >
-      <span class="text-foreground">{titleFirst ? `${titleFirst} ` : ''}</span>
-      <span
-        class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-        >{lastTitleWord}</span
-      >
-    </h1>
-    <p
-      class="text-muted-foreground mx-auto max-w-3xl text-xl"
-      transition:name={`service-description-${service.id}`}
-      transition:animate="initial"
-    >
-      {service.data.description}
-    </p>
-  </div>
-  <div
-    class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
-  >
-  </div>
-</section>
-
-<!-- Content Section -->
-<section class="px-4 py-24 sm:px-6 lg:px-8">
-  <div
-    class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
-  >
-    <div class="mx-auto max-w-7xl">
-      <div class="service-content-wrapper">
-        <div class="not-prose mx-auto max-w-4xl">
-          <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-            Expand Your Retail Reach with EDI
-          </h2>
-          <div
-            class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-          >
-            Seamless retail integration through Electronic Data Interchange. We
-            help you connect with trading partners and streamline your supply
-            chain operations, enabling you to expand product visibility and
-            sales across multiple retail channels.
-          </div>
-        </div>
-
-        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          Unlock Retail Opportunities
-        </h3>
-
-        <ServiceCardGrid>
-          <ServiceCard>
-            <div class="mb-6">
-            <ShoppingCart className="text-primary h-16 w-16" aria-hidden="true" />
-            </div>
-            <h4 class="text-foreground mb-4 text-2xl font-bold">
-              Connect with Retailers
-            </h4>
-            <div class="text-foreground leading-relaxed">
-              Our EDI solutions integrate with major retail platforms, giving
-              your products visibility in markets you couldn't reach before.
-              From regional chains to national retailers.
-            </div>
-          </ServiceCard>
-
-          <ServiceCard>
-            <div class="mb-6">
-            <Zap className="text-primary h-16 w-16" aria-hidden="true" />
-            </div>
-            <h4 class="text-foreground mb-4 text-2xl font-bold">
-              Automate Order Processing
-            </h4>
-            <div class="text-foreground leading-relaxed">
-              Stop manually processing orders and reduce errors. EDI automates
-              the exchange of business documents—purchase orders, invoices,
-              shipping notices, and more.
-            </div>
-          </ServiceCard>
-
-          <ServiceCard>
-            <div class="mb-6">
-            <Eye className="text-primary h-16 w-16" aria-hidden="true" />
-            </div>
-            <h4 class="text-foreground mb-4 text-2xl font-bold">
-              Real-Time Visibility
-            </h4>
-            <div class="text-foreground leading-relaxed">
-              Track orders, shipments, and inventory levels in real-time. EDI
-              provides the visibility you need to manage your supply chain
-              effectively and respond quickly to customer demands.
-            </div>
-          </ServiceCard>
-        </ServiceCardGrid>
-
-        <h3 class="text-foreground mt-12 mb-6 text-center text-2xl font-bold">
-          Our EDI Services
-        </h3>
-
-        <div class="not-prose mb-20">
-          <p class="text-muted-foreground mb-10 text-center text-xl">
-            Comprehensive EDI solutions to connect your business with the retail
-            ecosystem
-          </p>
-
-          <div class="grid gap-6 md:grid-cols-2">
-            <div
-              class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-            >
-              <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full"></div>
-              <div>
-                <h5 class="text-foreground mb-1 text-lg font-bold">
-                  Retail Integration Solutions
-                </h5>
-                <div class="text-muted-foreground text-sm">
-                  Connect with retail partners through industry-standard EDI
-                  protocols. Whether you're working with one retailer or dozens,
-                  we manage the technical connections.
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-            >
-              <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full"></div>
-              <div>
-                <h5 class="text-foreground mb-1 text-lg font-bold">
-                  Supply Chain Optimization
-                </h5>
-                <div class="text-muted-foreground text-sm">
-                  EDI isn't just about data exchange—it's about optimizing your
-                  entire supply chain. We help streamline processes and improve
-                  accuracy throughout your operation.
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-            >
-              <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full"></div>
-              <div>
-                <h5 class="text-foreground mb-1 text-lg font-bold">
-                  Trading Partner Connectivity
-                </h5>
-                <div class="text-muted-foreground text-sm">
-                  Each trading partner has unique requirements and formats. We
-                  handle the complexity of managing multiple EDI connections
-                  ensuring reliable communication.
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-            >
-              <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full"></div>
-              <div>
-                <h5 class="text-foreground mb-1 text-lg font-bold">
-                  Compliance & Standards
-                </h5>
-                <div class="text-muted-foreground text-sm">
-                  Meet retailer EDI requirements and industry standards with our
-                  proven solutions and expertise in EDI compliance.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          Key Benefits
-        </h3>
-
-        <div class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
-            <div class="mb-4">
-              <TrendingUp className="text-primary h-10 w-10" aria-hidden="true" />
-            </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">
-              Expand Market Reach
-            </h4>
-            <div class="text-muted-foreground">
-              Access new retail channels and grow your customer base
-            </div>
-          </div>
-
-          <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
-            <div class="mb-4">
-              <CheckCircle2 className="text-primary h-10 w-10" aria-hidden="true" />
-            </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">
-              Reduce Errors
-            </h4>
-            <div class="text-muted-foreground">
-              Automated data exchange eliminates manual entry mistakes
-            </div>
-          </div>
-
-          <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
-            <div class="mb-4">
-              <Zap className="text-primary h-10 w-10" aria-hidden="true" />
-            </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">
-              Faster Processing
-            </h4>
-            <div class="text-muted-foreground">
-              Real-time document exchange speeds up order fulfillment
-            </div>
-          </div>
-
-          <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
-            <div class="mb-4">
-              <DollarSign className="text-primary h-10 w-10" aria-hidden="true" />
-            </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">Lower Costs</h4>
-            <div class="text-muted-foreground">
-              Reduce paper, postage, and manual processing expenses
-            </div>
-          </div>
-
-          <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
-            <div class="mb-4">
-              <Users className="text-primary h-10 w-10" aria-hidden="true" />
-            </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">
-              Improve Relationships
-            </h4>
-            <div class="text-muted-foreground">
-              Meet partner requirements and strengthen business relationships
-            </div>
-          </div>
-
-          <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
-            <div class="mb-4">
-              <Eye className="text-primary h-10 w-10" aria-hidden="true" />
-            </div>
-            <h4 class="text-foreground mb-2 text-xl font-bold">
-              Better Visibility
-            </h4>
-            <div class="text-muted-foreground">
-              Real-time tracking and reporting improve decision-making
-            </div>
-          </div>
-        </div>
-
-        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          How We Support Your EDI Program
-        </h3>
-
-        <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-          {detailColumns.map((column) => (
-            <div class="glass border-border rounded-2xl border p-8">
-              <div class="mb-6 flex items-center gap-3">
-                <column.icon className="text-primary h-8 w-8" aria-hidden="true" />
-                <h4 class="text-foreground text-2xl font-bold">
-                  {column.title}
-                </h4>
-              </div>
-              <div class="text-muted-foreground space-y-3">
-                {column.items.map((item) => (
-                  <div class="flex items-start gap-2">
-                    <CheckCircle2 className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          Why Choose BDK for EDI?
-        </h3>
-
-        <div class="text-center">
-          <div
-            class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
-          >
-            With decades of experience connecting businesses with retail
-            partners, we understand both the technical and business aspects of
-            EDI. We don't just set up connections—we help you leverage EDI to
-            grow your business, reach new markets, and strengthen relationships
-            with trading partners. Our team handles the complexity so you can
-            focus on selling.
-          </div>
-          <div class="text-primary text-xl font-semibold">
-            Let us open the door to new retail opportunities through seamless
-            EDI integration.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <ImpactMetricsSection metrics={metrics} />
-
-    <div class="mx-auto max-w-4xl">
-      <div class="glass rounded-2xl p-12 text-center">
-        <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-          Ready to Get Started?
-        </h2>
-        <p class="text-muted-foreground mb-8 text-xl">
-          Let's discuss how {service.data.title.toLowerCase()} can transform your
-          business.
-        </p>
-        <a
-          href="/contact"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="relative z-10 mx-auto max-w-7xl text-center">
+        <div
+          class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
+          transition:name={`service-icon-${service.id}`}
         >
-          Contact Us Today
-        </a>
+          <IconComponent
+            className="text-primary h-12 w-12"
+            aria-hidden="true"
+          />
+        </div>
+        <h1
+          class="mb-6 text-5xl font-bold md:text-6xl"
+          transition:name={`service-title-${service.id}`}
+          transition:animate="initial"
+        >
+          <span class="text-foreground"
+            >{titleFirst ? `${titleFirst} ` : ''}</span
+          >
+          <span
+            class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+            >{lastTitleWord}</span
+          >
+        </h1>
+        <p
+          class="text-muted-foreground mx-auto max-w-3xl text-xl"
+          transition:name={`service-description-${service.id}`}
+          transition:animate="initial"
+        >
+          {service.data.description}
+        </p>
       </div>
-    </div>
-  </div>
-</section>
+      <div
+        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+      >
+      </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div
+        class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
+      >
+        <div class="mx-auto max-w-7xl">
+          <div class="service-content-wrapper">
+            <div class="not-prose mx-auto max-w-4xl">
+              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
+                Expand Your Retail Reach with EDI
+              </h2>
+              <div
+                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
+              >
+                Seamless retail integration through Electronic Data Interchange.
+                We help you connect with trading partners and streamline your
+                supply chain operations, enabling you to expand product
+                visibility and sales across multiple retail channels.
+              </div>
+            </div>
+
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              Unlock Retail Opportunities
+            </h3>
+
+            <ServiceCardGrid>
+              <ServiceCard>
+                <div class="mb-6">
+                  <ShoppingCart
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
+                  Connect with Retailers
+                </h4>
+                <div class="text-foreground leading-relaxed">
+                  Our EDI solutions integrate with major retail platforms,
+                  giving your products visibility in markets you couldn't reach
+                  before. From regional chains to national retailers.
+                </div>
+              </ServiceCard>
+
+              <ServiceCard>
+                <div class="mb-6">
+                  <Zap className="text-primary h-16 w-16" aria-hidden="true" />
+                </div>
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
+                  Automate Order Processing
+                </h4>
+                <div class="text-foreground leading-relaxed">
+                  Stop manually processing orders and reduce errors. EDI
+                  automates the exchange of business documents—purchase orders,
+                  invoices, shipping notices, and more.
+                </div>
+              </ServiceCard>
+
+              <ServiceCard>
+                <div class="mb-6">
+                  <Eye className="text-primary h-16 w-16" aria-hidden="true" />
+                </div>
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
+                  Real-Time Visibility
+                </h4>
+                <div class="text-foreground leading-relaxed">
+                  Track orders, shipments, and inventory levels in real-time.
+                  EDI provides the visibility you need to manage your supply
+                  chain effectively and respond quickly to customer demands.
+                </div>
+              </ServiceCard>
+            </ServiceCardGrid>
+
+            <h3
+              class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+            >
+              Our EDI Services
+            </h3>
+
+            <div class="not-prose mb-20">
+              <p class="text-muted-foreground mb-10 text-center text-xl">
+                Comprehensive EDI solutions to connect your business with the
+                retail ecosystem
+              </p>
+
+              <div class="grid gap-6 md:grid-cols-2">
+                <div
+                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
+                >
+                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
+                  </div>
+                  <div>
+                    <h5 class="text-foreground mb-1 text-lg font-bold">
+                      Retail Integration Solutions
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      Connect with retail partners through industry-standard EDI
+                      protocols. Whether you're working with one retailer or
+                      dozens, we manage the technical connections.
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
+                >
+                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
+                  </div>
+                  <div>
+                    <h5 class="text-foreground mb-1 text-lg font-bold">
+                      Supply Chain Optimization
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      EDI isn't just about data exchange—it's about optimizing
+                      your entire supply chain. We help streamline processes and
+                      improve accuracy throughout your operation.
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
+                >
+                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
+                  </div>
+                  <div>
+                    <h5 class="text-foreground mb-1 text-lg font-bold">
+                      Trading Partner Connectivity
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      Each trading partner has unique requirements and formats.
+                      We handle the complexity of managing multiple EDI
+                      connections ensuring reliable communication.
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
+                >
+                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
+                  </div>
+                  <div>
+                    <h5 class="text-foreground mb-1 text-lg font-bold">
+                      Compliance & Standards
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      Meet retailer EDI requirements and industry standards with
+                      our proven solutions and expertise in EDI compliance.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              Key Benefits
+            </h3>
+
+            <div
+              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            >
+              <div
+                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <TrendingUp
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Expand Market Reach
+                </h4>
+                <div class="text-muted-foreground">
+                  Access new retail channels and grow your customer base
+                </div>
+              </div>
+
+              <div
+                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <CheckCircle2
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Reduce Errors
+                </h4>
+                <div class="text-muted-foreground">
+                  Automated data exchange eliminates manual entry mistakes
+                </div>
+              </div>
+
+              <div
+                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <Zap className="text-primary h-10 w-10" aria-hidden="true" />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Faster Processing
+                </h4>
+                <div class="text-muted-foreground">
+                  Real-time document exchange speeds up order fulfillment
+                </div>
+              </div>
+
+              <div
+                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <DollarSign
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Lower Costs
+                </h4>
+                <div class="text-muted-foreground">
+                  Reduce paper, postage, and manual processing expenses
+                </div>
+              </div>
+
+              <div
+                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <Users
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Improve Relationships
+                </h4>
+                <div class="text-muted-foreground">
+                  Meet partner requirements and strengthen business
+                  relationships
+                </div>
+              </div>
+
+              <div
+                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              >
+                <div class="mb-4">
+                  <Eye className="text-primary h-10 w-10" aria-hidden="true" />
+                </div>
+                <h4 class="text-foreground mb-2 text-xl font-bold">
+                  Better Visibility
+                </h4>
+                <div class="text-muted-foreground">
+                  Real-time tracking and reporting improve decision-making
+                </div>
+              </div>
+            </div>
+
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              How We Support Your EDI Program
+            </h3>
+
+            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+              {
+                detailColumns.map((column) => (
+                  <div class="glass border-border rounded-2xl border p-8">
+                    <div class="mb-6 flex items-center gap-3">
+                      <column.icon
+                        className="text-primary h-8 w-8"
+                        aria-hidden="true"
+                      />
+                      <h4 class="text-foreground text-2xl font-bold">
+                        {column.title}
+                      </h4>
+                    </div>
+                    <div class="text-muted-foreground space-y-3">
+                      {column.items.map((item) => (
+                        <div class="flex items-start gap-2">
+                          <CheckCircle2
+                            className="text-primary mt-1 h-5 w-5 shrink-0"
+                            aria-hidden="true"
+                          />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              Why Choose BDK for EDI?
+            </h3>
+
+            <div class="text-center">
+              <div
+                class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
+              >
+                With decades of experience connecting businesses with retail
+                partners, we understand both the technical and business aspects
+                of EDI. We don't just set up connections—we help you leverage
+                EDI to grow your business, reach new markets, and strengthen
+                relationships with trading partners. Our team handles the
+                complexity so you can focus on selling.
+              </div>
+              <div class="text-primary text-xl font-semibold">
+                Let us open the door to new retail opportunities through
+                seamless EDI integration.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ImpactMetricsSection metrics={metrics} />
+
+        <div class="mx-auto max-w-4xl">
+          <div class="glass rounded-2xl p-12 text-center">
+            <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+              Ready to Get Started?
+            </h2>
+            <p class="text-muted-foreground mb-8 text-xl">
+              Let's discuss how {service.data.title.toLowerCase()} can transform
+              your business.
+            </p>
+            <a
+              href="/contact"
+              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+            >
+              Contact Us Today
+              <Mail className="h-4 w-4" aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div
+      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
+    >
+      <div>
+        <Logo />
+      </div>
+      <p class="text-muted-foreground mb-4">
+        Your trusted technology partner since 1999
+      </p>
+      <p class="text-muted-foreground/70 text-sm">
+        &copy; {new Date().getFullYear()}
+        <span class="font-display font-extrabold">BDKinc</span>. All rights
+        reserved.
+      </p>
+    </div>
+  </footer>
 </Layout>

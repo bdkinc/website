@@ -3,9 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { getCollection } from 'astro:content';
-import { Box } from 'lucide-react';
+import { Box, Mail } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { iconMap } from '@/lib/icons';
+import { Logo } from '@/components/Logo';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -16,9 +17,14 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Layout
-  title="IT Services | Managed Services, Cloud Hosting, Cybersecurity | BDK Inc"
+  title="IT Services | Managed Services, Cloud Hosting, Cybersecurity | BDKinc"
 >
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+  <Navigation
+    client:load
+    services={servicesData}
+    blogPosts={recentPosts}
+    currentPath={Astro.url.pathname}
+  />
   <main id="main-content">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
@@ -37,84 +43,83 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
           Comprehensive IT solutions designed to help your business thrive
         </p>
       </div>
-      <div class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"></div>
+      <div
+        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+      >
+      </div>
     </section>
 
     <!-- Services Grid Section -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
+        {/* 3x3 Grid Layout */}
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            services.map((service) => {
+              // Get the icon component dynamically
+              const IconComponent = iconMap[service.data.icon] || Box;
 
-          {/* 3x3 Grid Layout */}
-          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {
-              services.map((service) => {
-                // Get the icon component dynamically
-                const IconComponent = iconMap[service.data.icon] || Box;
-
-                return (
-                  <a
-                    href={`/services/${service.id}`}
-                    class="group block"
+              return (
+                <a href={`/services/${service.id}`} class="group block">
+                  <Card
+                    size="lg"
+                    interactive={true}
+                    className="h-full cursor-pointer flex flex-col justify-center"
                   >
-                    <Card
-                      size="lg"
-                      interactive={true}
-                      className="h-full cursor-pointer flex flex-col justify-center"
-                    >
-                      <div class="flex h-full flex-col items-center text-center">
-                        {/* Icon - with scale-pop animation on interaction */}
-                        <div class="service-icon-wrapper mb-6">
-                          <div 
-                            class="bg-primary/5 inline-flex items-center justify-center rounded-lg p-3 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-5"
-                            transition:name={`service-icon-${service.id}`}
-                            transition:animate="initial"
-                          >
-                            <IconComponent className="icon-lg text-primary" />
-                          </div>
-                        </div>
-
-                        {/* Title */}
-                        <h2 
-                          class="text-foreground group-hover:text-primary mb-3 text-2xl font-bold transition-colors duration-300"
-                          transition:name={`service-title-${service.id}`}
+                    <div class="flex h-full flex-col items-center text-center">
+                      {/* Icon - with scale-pop animation on interaction */}
+                      <div class="service-icon-wrapper mb-6">
+                        <div
+                          class="bg-primary/5 inline-flex items-center justify-center rounded-lg p-3 transition-transform duration-300 group-hover:scale-115 group-hover:rotate-5"
+                          transition:name={`service-icon-${service.id}`}
                           transition:animate="initial"
                         >
-                          {service.data.title}
-                        </h2>
-
-                        {/* Description */}
-                        <p 
-                          class="text-muted-foreground mb-6 grow"
-                          transition:name={`service-description-${service.id}`}
-                          transition:animate="initial"
-                        >
-                          {service.data.description}
-                        </p>
-
-                        {/* Learn More Link */}
-                        <div class="text-primary flex items-center font-medium transition-all duration-300 group-hover:gap-2">
-                          <span>Learn More</span>
-                          <svg
-                            class="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
+                          <IconComponent className="icon-lg text-primary" />
                         </div>
                       </div>
-                    </Card>
-                  </a>
-                );
-              })
-            }
-          </div>
+
+                      {/* Title */}
+                      <h2
+                        class="text-foreground group-hover:text-primary mb-3 text-2xl font-bold transition-colors duration-300"
+                        transition:name={`service-title-${service.id}`}
+                        transition:animate="initial"
+                      >
+                        {service.data.title}
+                      </h2>
+
+                      {/* Description */}
+                      <p
+                        class="text-muted-foreground mb-6 grow"
+                        transition:name={`service-description-${service.id}`}
+                        transition:animate="initial"
+                      >
+                        {service.data.description}
+                      </p>
+
+                      {/* Learn More Link */}
+                      <div class="text-primary flex items-center font-medium transition-all duration-300 group-hover:gap-2">
+                        <span>Learn More</span>
+                        <svg
+                          class="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </Card>
+                </a>
+              );
+            })
+          }
+        </div>
       </div>
     </section>
 
@@ -130,17 +135,37 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
             Ready to Get Started?
           </h2>
           <p class="text-muted-foreground mb-8 text-xl">
-            Contact us today to discuss how our services can help your
-            business grow.
+            Contact us today to discuss how our services can help your business
+            grow.
           </p>
           <a
             href="/contact"
-            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
           >
             Contact Us
+            <Mail className="h-4 w-4" aria-hidden="true" />
           </a>
         </Card>
       </div>
     </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div
+      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
+    >
+      <div>
+        <Logo />
+      </div>
+      <p class="text-muted-foreground mb-4">
+        Your trusted technology partner since 1999
+      </p>
+      <p class="text-muted-foreground/70 text-sm">
+        &copy; {new Date().getFullYear()}
+        <span class="font-display font-extrabold">BDKinc</span>. All rights
+        reserved.
+      </p>
+    </div>
+  </footer>
 </Layout>

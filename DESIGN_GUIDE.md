@@ -1,10 +1,10 @@
-# BDK Inc Design Guide
+# <span class="font-display font-extrabold">BDKinc</span> Design Guide
 
-This comprehensive design guide ensures visual consistency across all components and pages throughout the BDK Inc website. All droids should reference this guide when creating or modifying UI elements.
+This comprehensive design guide ensures visual consistency across all components and pages throughout the <span class="font-display font-extrabold">BDKinc</span> website. All droids should reference this guide when creating or modifying UI elements.
 
 ## Design Philosophy
 
-The BDK Inc design embodies a **dark technical aesthetic** with circuit board motifs, glowing accents, and glassmorphism effects. The design appeals to tech professionals and MSP/CSP businesses while maintaining readability, accessibility, and modern web standards.
+The <span class="font-display font-extrabold">BDKinc</span> design embodies a **dark technical aesthetic** with circuit board motifs, glowing accents, and glassmorphism effects. The design appeals to tech professionals and MSP/CSP businesses while maintaining readability, accessibility, and modern web standards.
 
 ### Core Design Principles
 - **Technical Sophistication**: Circuit board overlays and tech iconography
@@ -1205,4 +1205,4 @@ Before submitting any UI changes, ensure:
 - [ ] Transitions work bidirectionally (forward and backward)
 - [ ] Elements are appropriate for morphing (similar positions/sizes)
 
-This design guide serves as the single source of truth for all visual and interactive elements across the BDK Inc website. All droids should consult this guide to ensure consistency and quality throughout the project.
+This design guide serves as the single source of truth for all visual and interactive elements across the <span class="font-display font-extrabold">BDKinc</span> website. All droids should consult this guide to ensure consistency and quality throughout the project.

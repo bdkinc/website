@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { Calendar, User, Tag, ArrowLeft } from 'lucide-react';
+import { Calendar, User, Tag, ArrowLeft, Mail } from 'lucide-react';
 import { getNavigationData } from '@/lib/navigation-data';
 import { Logo } from '@/components/Logo';
 
@@ -34,8 +34,13 @@ function formatDate(date: Date): string {
 }
 ---
 
-<Layout title={`${entry.data.title} - BDK Inc Blog`}>
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+<Layout title={`${entry.data.title} - BDKinc Blog`}>
+  <Navigation
+    client:load
+    services={servicesData}
+    blogPosts={recentPosts}
+    currentPath={Astro.url.pathname}
+  />
   <main id="main-content">
     <!-- Blog Post Header -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
@@ -124,9 +129,10 @@ function formatDate(date: Date): string {
         <div class="flex flex-col justify-center gap-4 sm:flex-row">
           <a
             href="/contact"
-            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
           >
             Contact Us
+            <Mail className="h-4 w-4" aria-hidden="true" />
           </a>
           <a
             href="/blog"
@@ -140,8 +146,10 @@ function formatDate(date: Date): string {
   </main>
 
   <!-- Footer -->
-  <footer class="px-4 py-12 sm:px-6 lg:px-8">
-    <div class="mx-auto flex max-w-7xl flex-col items-center text-center">
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div
+      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
+    >
       <div>
         <Logo />
       </div>
@@ -149,7 +157,9 @@ function formatDate(date: Date): string {
         Your trusted technology partner since 1999
       </p>
       <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
+        &copy; {new Date().getFullYear()}
+        <span class="font-display font-extrabold">BDKinc</span>. All rights
+        reserved.
       </p>
     </div>
   </footer>

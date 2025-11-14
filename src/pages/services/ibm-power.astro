@@ -16,7 +16,9 @@ import {
   Wrench,
   RefreshCw,
   CheckCircle2,
+  Mail,
 } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 
 const service = await getEntry('services', 'ibm-power');
 if (!service) {
@@ -59,7 +61,7 @@ const detailColumns = [
 ---
 
 <Layout
-  title={`${service.data.title} - BDK Inc`}
+  title={`${service.data.title} - BDKinc`}
   description={service.data.description}
 >
   <Navigation
@@ -79,7 +81,10 @@ const detailColumns = [
           transition:name={`service-icon-${service.id}`}
           transition:animate="initial"
         >
-          <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
+          <IconComponent
+            className="text-primary h-12 w-12"
+            aria-hidden="true"
+          />
         </div>
         <h1
           class="mb-6 text-5xl font-bold md:text-6xl"
@@ -122,9 +127,8 @@ const detailColumns = [
               <div
                 class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
               >
-                BDK Inc delivers end-to-end support for IBM Power hardware. As
-                an <strong class="text-primary"
-                  >IBM Partner Plus Silver Partner</strong
+                BDKinc delivers end-to-end support for IBM Power hardware. As an <strong
+                  class="text-primary">IBM Partner Plus Silver Partner</strong
                 >, we manage, optimize, and protect mission-critical IBM Power
                 systems running IBM i (IBMi), AIX, VIOS, and enterprise Linux
                 (Red Hat, Ubuntu)—on-premises or in hybrid cloud.
@@ -138,7 +142,10 @@ const detailColumns = [
             <ServiceCardGrid className="lg:grid-cols-3">
               <ServiceCard>
                 <div class="mb-6">
-                  <Wrench className="text-primary h-16 w-16" aria-hidden="true" />
+                  <Wrench
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Hardware Lifecycle
@@ -151,7 +158,10 @@ const detailColumns = [
 
               <ServiceCard>
                 <div class="mb-6">
-                  <Server className="text-primary h-16 w-16" aria-hidden="true" />
+                  <Server
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   PowerVM, LPARs & VIOS
@@ -164,7 +174,10 @@ const detailColumns = [
 
               <ServiceCard>
                 <div class="mb-6">
-                  <RefreshCw className="text-primary h-16 w-16" aria-hidden="true" />
+                  <RefreshCw
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   OS Administration
@@ -178,7 +191,10 @@ const detailColumns = [
 
               <ServiceCard>
                 <div class="mb-6">
-                  <TrendingUp className="text-primary h-16 w-16" aria-hidden="true" />
+                  <TrendingUp
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Performance & Capacity
@@ -191,7 +207,10 @@ const detailColumns = [
 
               <ServiceCard>
                 <div class="mb-6">
-                  <ShieldCheck className="text-primary h-16 w-16" aria-hidden="true" />
+                  <ShieldCheck
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Resilience & DR
@@ -204,7 +223,10 @@ const detailColumns = [
 
               <ServiceCard>
                 <div class="mb-6">
-                  <Cloud className="text-primary h-16 w-16" aria-hidden="true" />
+                  <Cloud
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Hybrid & Cloud Integration
@@ -221,24 +243,32 @@ const detailColumns = [
             </h3>
 
             <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {detailColumns.map((column) => (
-                <div class="glass border-border rounded-2xl border p-8">
-                  <div class="mb-6 flex items-center gap-3">
-                    <column.icon className="text-primary h-8 w-8" aria-hidden="true" />
-                    <h4 class="text-foreground text-2xl font-bold">
-                      {column.title}
-                    </h4>
+              {
+                detailColumns.map((column) => (
+                  <div class="glass border-border rounded-2xl border p-8">
+                    <div class="mb-6 flex items-center gap-3">
+                      <column.icon
+                        className="text-primary h-8 w-8"
+                        aria-hidden="true"
+                      />
+                      <h4 class="text-foreground text-2xl font-bold">
+                        {column.title}
+                      </h4>
+                    </div>
+                    <div class="text-muted-foreground space-y-3">
+                      {column.items.map((item) => (
+                        <div class="flex items-start gap-2">
+                          <CheckCircle2
+                            className="text-primary mt-1 h-5 w-5 shrink-0"
+                            aria-hidden="true"
+                          />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div class="text-muted-foreground space-y-3">
-                    {column.items.map((item) => (
-                      <div class="flex items-start gap-2">
-                        <CheckCircle2 className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+                ))
+              }
             </div>
 
             <h3
@@ -323,7 +353,8 @@ const detailColumns = [
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Why BDK Inc for IBM Power Support
+              Why <span class="font-display font-extrabold">BDKinc</span> for IBM
+              Power Support
             </h3>
 
             <div
@@ -333,7 +364,10 @@ const detailColumns = [
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                <Users className="text-primary h-10 w-10" aria-hidden="true" />
+                  <Users
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   40+ Years on Power
@@ -348,7 +382,10 @@ const detailColumns = [
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                <Award className="text-primary h-10 w-10" aria-hidden="true" />
+                  <Award
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   IBM Silver Partner
@@ -363,7 +400,10 @@ const detailColumns = [
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                <ShieldCheck className="text-primary h-10 w-10" aria-hidden="true" />
+                  <ShieldCheck
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Enterprise-Grade Security
@@ -378,7 +418,10 @@ const detailColumns = [
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                <TrendingUp className="text-primary h-10 w-10" aria-hidden="true" />
+                  <TrendingUp
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   SLA-Driven Operations
@@ -393,7 +436,10 @@ const detailColumns = [
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                <Server className="text-primary h-10 w-10" aria-hidden="true" />
+                  <Server
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Single Partner, Multi-OS
@@ -408,7 +454,10 @@ const detailColumns = [
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                <RefreshCw className="text-primary h-10 w-10" aria-hidden="true" />
+                  <RefreshCw
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Cost & Risk Optimization
@@ -474,13 +523,33 @@ const detailColumns = [
             </p>
             <a
               href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
             >
               Contact Us Today
+              <Mail className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div
+      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
+    >
+      <div>
+        <Logo />
+      </div>
+      <p class="text-muted-foreground mb-4">
+        Your trusted technology partner since 1999
+      </p>
+      <p class="text-muted-foreground/70 text-sm">
+        &copy; {new Date().getFullYear()}
+        <span class="font-display font-extrabold">BDKinc</span>. All rights
+        reserved.
+      </p>
+    </div>
+  </footer>
 </Layout>

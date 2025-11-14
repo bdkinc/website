@@ -1,23 +1,23 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Navigation from "../components/Navigation";
-import Hero from "../components/Hero";
-import Services from "../components/Services";
-import WhyChooseUs from "../components/WhyChooseUs";
-import CTASection from "../components/CTASection";
-import { getNavigationData } from "@/lib/navigation-data";
-import { Logo } from "@/components/Logo";
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation';
+import Hero from '../components/Hero';
+import Services from '../components/Services';
+import WhyChooseUs from '../components/WhyChooseUs';
+import CTASection from '../components/CTASection';
+import { getNavigationData } from '@/lib/navigation-data';
+import { Logo } from '@/components/Logo';
 
 const { servicesData, recentPosts } = await getNavigationData();
 ---
 
-<Layout title="Managed IT Services & Cloud Hosting | BDK Inc">
+<Layout title="Managed IT Services & Cloud Hosting | BDKinc">
   <!-- JSON-LD Organization Schema -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "BDK Inc",
+      "name": "BDKinc",
       "url": "https://www.bdkinc.com",
       "logo": "https://www.bdkinc.com/logo.svg",
       "description": "IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.",
@@ -38,8 +38,13 @@ const { servicesData, recentPosts } = await getNavigationData();
       }
     }
   </script>
-  
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+
+  <Navigation
+    client:load
+    services={servicesData}
+    blogPosts={recentPosts}
+    currentPath={Astro.url.pathname}
+  />
   <main id="main-content">
     <Hero client:visible />
     <Services client:visible services={servicesData} />
@@ -49,16 +54,20 @@ const { servicesData, recentPosts } = await getNavigationData();
   </main>
 
   <!-- Footer -->
-  <footer class="py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto text-center flex flex-col items-center">
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div
+      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
+    >
       <div>
         <Logo />
       </div>
       <p class="text-muted-foreground mb-4">
         Your trusted technology partner since 1999
       </p>
-      <p class="text-sm text-muted-foreground/70">
-        &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
+      <p class="text-muted-foreground/70 text-sm">
+        &copy; {new Date().getFullYear()}
+        <span class="font-display font-extrabold">BDKinc</span>. All rights
+        reserved.
       </p>
     </div>
   </footer>

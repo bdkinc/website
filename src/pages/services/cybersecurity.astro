@@ -19,7 +19,9 @@ import {
   ShieldCheck,
   Users,
   Clock,
+  Mail,
 } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 
 const service = await getEntry('services', 'cybersecurity');
 if (!service) {
@@ -32,15 +34,15 @@ const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 
-const serviceSchema = {
+const _serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: service.data.title,
   description:
-    'Managed cybersecurity services from BDK Inc including ransomware protection, compliance, monitoring, and incident response for Mid-Atlantic businesses.',
+    'Managed cybersecurity services from BDKinc including ransomware protection, compliance, monitoring, and incident response for Mid-Atlantic businesses.',
   provider: {
     '@type': 'Organization',
-    name: 'BDK Inc',
+    name: 'BDKinc',
     url: 'https://www.bdkinc.com',
   },
   serviceType: 'Managed Cybersecurity Services',
@@ -82,12 +84,12 @@ const detailColumns = [
 ---
 
 <Layout
-  title={`${service.data.title} & Compliance Services | BDK Inc`}
+  title={`${service.data.title} & Compliance Services | BDKinc`}
   description="Managed cybersecurity, compliance readiness, and incident response for regulated organizations across Maryland, Delaware, and the Mid-Atlantic."
-  ogDescription="BDK Inc delivers 24/7 managed cybersecurity with ransomware protection, compliance readiness, and rapid incident response tailored to Mid-Atlantic businesses."
+  ogDescription="BDKinc delivers 24/7 managed cybersecurity with ransomware protection, compliance readiness, and rapid incident response tailored to Mid-Atlantic businesses."
 >
   <script type="application/ld+json">
-    {JSON.stringify(serviceSchema)}
+    {JSON.stringify(_serviceSchema)}
   </script>
   <Navigation
     client:load
@@ -585,13 +587,29 @@ const detailColumns = [
         </p>
         <a
           href="/contact"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+          class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
         >
           Contact Us Today
+          <Mail className="h-4 w-4" aria-hidden="true" />
         </a>
       </div>
     </div>
   </div>
 </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center">
+      <div>
+        <Logo />
+      </div>
+      <p class="text-muted-foreground mb-4">
+        Your trusted technology partner since 1999
+      </p>
+      <p class="text-muted-foreground/70 text-sm">
+        &copy; {new Date().getFullYear()} <span class="font-display font-extrabold">BDKinc</span>. All rights reserved.
+      </p>
+    </div>
+  </footer>
 </Layout>

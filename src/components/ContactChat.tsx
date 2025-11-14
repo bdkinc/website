@@ -46,7 +46,7 @@ const initialMessages: MessageType[] = [
       content: "Hi! How can we help you today?",
     },
     avatar: "/favicon.svg",
-    name: "BDK Inc",
+    name: "BDKinc",
   },
 ];
 
@@ -136,7 +136,7 @@ export default function ContactChat() {
             content: "",
           },
           avatar: "/favicon.svg",
-          name: "BDK Inc",
+          name: "BDKinc",
           isStreaming: true,
         };
 

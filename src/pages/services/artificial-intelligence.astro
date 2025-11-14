@@ -17,7 +17,9 @@ import {
   BarChart3,
   Target,
   CheckCircle2,
+  Mail,
 } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 
 const service = await getEntry('services', 'artificial-intelligence');
 if (!service) {
@@ -60,7 +62,7 @@ const detailColumns = [
 ---
 
 <Layout
-  title={`${service.data.title} - BDK Inc`}
+  title={`${service.data.title} - BDKinc`}
   description={service.data.description}
 >
   <Navigation
@@ -79,7 +81,10 @@ const detailColumns = [
           class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4"
           transition:name={`service-icon-${service.id}`}
         >
-          <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
+          <IconComponent
+            className="text-primary h-12 w-12"
+            aria-hidden="true"
+          />
         </div>
         <h1
           class="mb-6 text-5xl font-bold md:text-6xl"
@@ -137,7 +142,10 @@ const detailColumns = [
             <ServiceCardGrid>
               <ServiceCard>
                 <div class="mb-6">
-                <Sparkles className="text-primary h-16 w-16" aria-hidden="true" />
+                  <Sparkles
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Generative AI
@@ -151,7 +159,10 @@ const detailColumns = [
 
               <ServiceCard>
                 <div class="mb-6">
-                <TrendingUp className="text-primary h-16 w-16" aria-hidden="true" />
+                  <TrendingUp
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Predictive Analytics
@@ -165,7 +176,7 @@ const detailColumns = [
 
               <ServiceCard>
                 <div class="mb-6">
-                <Zap className="text-primary h-16 w-16" aria-hidden="true" />
+                  <Zap className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   AI Integration
@@ -267,7 +278,10 @@ const detailColumns = [
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <BarChart3 className="text-primary mb-4 h-12 w-12" aria-hidden="true" />
+                  <BarChart3
+                    className="text-primary mb-4 h-12 w-12"
+                    aria-hidden="true"
+                  />
                   <h5 class="text-foreground mb-2 text-lg font-bold">
                     Demand Forecasting
                   </h5>
@@ -280,7 +294,10 @@ const detailColumns = [
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <Users className="text-primary mb-4 h-12 w-12" aria-hidden="true" />
+                  <Users
+                    className="text-primary mb-4 h-12 w-12"
+                    aria-hidden="true"
+                  />
                   <h5 class="text-foreground mb-2 text-lg font-bold">
                     Churn Prediction
                   </h5>
@@ -292,7 +309,10 @@ const detailColumns = [
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <Target className="text-primary mb-4 h-12 w-12" aria-hidden="true" />
+                  <Target
+                    className="text-primary mb-4 h-12 w-12"
+                    aria-hidden="true"
+                  />
                   <h5 class="text-foreground mb-2 text-lg font-bold">
                     Anomaly Detection
                   </h5>
@@ -305,7 +325,10 @@ const detailColumns = [
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <Sparkles className="text-primary mb-4 h-12 w-12" aria-hidden="true" />
+                  <Sparkles
+                    className="text-primary mb-4 h-12 w-12"
+                    aria-hidden="true"
+                  />
                   <h5 class="text-foreground mb-2 text-lg font-bold">
                     Recommendation Systems
                   </h5>
@@ -317,30 +340,38 @@ const detailColumns = [
               </div>
             </div>
 
-          <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-            How We Implement AI
-          </h3>
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              How We Implement AI
+            </h3>
 
-          <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-            {detailColumns.map((column) => (
-              <div class="glass border-border rounded-2xl border p-8">
-                <div class="mb-6 flex items-center gap-3">
-                  <column.icon className="text-primary h-8 w-8" aria-hidden="true" />
-                  <h4 class="text-foreground text-2xl font-bold">
-                    {column.title}
-                  </h4>
-                </div>
-                <div class="text-muted-foreground space-y-3">
-                  {column.items.map((item) => (
-                    <div class="flex items-start gap-2">
-                      <CheckCircle2 className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
-                      <span>{item}</span>
+            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+              {
+                detailColumns.map((column) => (
+                  <div class="glass border-border rounded-2xl border p-8">
+                    <div class="mb-6 flex items-center gap-3">
+                      <column.icon
+                        className="text-primary h-8 w-8"
+                        aria-hidden="true"
+                      />
+                      <h4 class="text-foreground text-2xl font-bold">
+                        {column.title}
+                      </h4>
                     </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+                    <div class="text-muted-foreground space-y-3">
+                      {column.items.map((item) => (
+                        <div class="flex items-start gap-2">
+                          <CheckCircle2
+                            className="text-primary mt-1 h-5 w-5 shrink-0"
+                            aria-hidden="true"
+                          />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
               Why Choose BDK for AI?
@@ -353,7 +384,10 @@ const detailColumns = [
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Shield className="text-primary h-10 w-10" aria-hidden="true" />
+                  <Shield
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Security First
@@ -383,7 +417,10 @@ const detailColumns = [
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Target className="text-primary h-10 w-10" aria-hidden="true" />
+                  <Target
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Business-Focused
@@ -398,7 +435,10 @@ const detailColumns = [
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <FileText className="text-primary h-10 w-10" aria-hidden="true" />
+                  <FileText
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Transparent & Explainable
@@ -413,7 +453,10 @@ const detailColumns = [
                 class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
               >
                 <div class="mb-4">
-                  <Users className="text-primary h-10 w-10" aria-hidden="true" />
+                  <Users
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Ongoing Support
@@ -548,13 +591,33 @@ const detailColumns = [
             </p>
             <a
               href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
+              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
             >
               Contact Us Today
+              <Mail className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
         </div>
       </div>
     </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div
+      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
+    >
+      <div>
+        <Logo />
+      </div>
+      <p class="text-muted-foreground mb-4">
+        Your trusted technology partner since 1999
+      </p>
+      <p class="text-muted-foreground/70 text-sm">
+        &copy; {new Date().getFullYear()}
+        <span class="font-display font-extrabold">BDKinc</span>. All rights
+        reserved.
+      </p>
+    </div>
+  </footer>
 </Layout>

@@ -10,8 +10,13 @@ import { Logo } from '@/components/Logo';
 const { servicesData, recentPosts } = await getNavigationData();
 ---
 
-<Layout title="404 - Page Not Found | BDK Inc">
-  <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={Astro.url.pathname} />
+<Layout title="404 - Page Not Found | BDKinc">
+  <Navigation
+    client:load
+    services={servicesData}
+    blogPosts={recentPosts}
+    currentPath={Astro.url.pathname}
+  />
 
   <main id="main-content">
     <!-- 404 Hero Section -->
@@ -124,7 +129,7 @@ const { servicesData, recentPosts } = await getNavigationData();
             <a
               href="/about"
               class="text-brand-primary hover:text-brand-primary/80 transition-colors duration-300"
-              aria-label="Learn about BDK Inc"
+              aria-label="Learn about BDKinc"
             >
               About Us
             </a>
@@ -151,8 +156,10 @@ const { servicesData, recentPosts } = await getNavigationData();
   </main>
 
   <!-- Footer -->
-  <footer class="px-4 py-12 sm:px-6 lg:px-8">
-    <div class="mx-auto flex max-w-7xl flex-col items-center text-center">
+  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
+    <div
+      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
+    >
       <div>
         <Logo />
       </div>
@@ -160,7 +167,9 @@ const { servicesData, recentPosts } = await getNavigationData();
         Your trusted technology partner since 1999
       </p>
       <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()} BDK Inc. All rights reserved.
+        &copy; {new Date().getFullYear()}
+        <span class="font-display font-extrabold">BDKinc</span>. All rights
+        reserved.
       </p>
     </div>
   </footer>

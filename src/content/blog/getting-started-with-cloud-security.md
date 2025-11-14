@@ -2,7 +2,7 @@
 title: 'Getting Started with Cloud Security Best Practices'
 description: 'Learn essential cloud security practices to protect your business data and infrastructure in the modern cloud environment.'
 pubDate: 2025-10-15
-author: 'BDK Inc'
+author: 'BDKinc'
 tags: ['cloud', 'security', 'best-practices']
 draft: false
 ---
@@ -39,4 +39,4 @@ Schedule regular security audits to:
 
 Cloud security doesn't have to be overwhelming. By implementing these fundamental practices and partnering with experienced IT professionals, you can build a secure and reliable cloud infrastructure.
 
-Need help securing your cloud environment? Contact BDK Inc for expert guidance and support.
+Need help securing your cloud environment? Contact <span class="font-display font-extrabold">BDKinc</span> for expert guidance and support.

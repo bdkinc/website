@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-BDK Inc website - A modern, technical-themed marketing site built with Astro 5, React 19, and Tailwind CSS 4. The site uses Astro's islands architecture where React components are selectively hydrated for interactivity while most content remains static HTML.
+BDKinc website - A modern, technical-themed marketing site built with Astro 5, React 19, and Tailwind CSS 4. The site uses Astro's islands architecture where React components are selectively hydrated for interactivity while most content remains static HTML.
 
 ## Development Commands
 

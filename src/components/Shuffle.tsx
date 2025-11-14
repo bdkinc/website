@@ -356,7 +356,18 @@ const Shuffle: React.FC<ShuffleProps> = ({
   };
 
   const classes = `${baseTw} ${ready ? 'visible' : 'invisible'} ${className}`.trim();
-  const Tag = (tag || 'p') as keyof JSX.IntrinsicElements;
+  const tagName = tag || 'p';
+  const elementMap: Record<string, keyof React.JSX.IntrinsicElements> = {
+    h1: 'h1',
+    h2: 'h2',
+    h3: 'h3',
+    h4: 'h4',
+    h5: 'h5',
+    h6: 'h6',
+    p: 'p',
+    span: 'span'
+  };
+  const Tag = elementMap[tagName] || 'p';
 
   return React.createElement(Tag, { ref: ref as any, className: classes, style: commonStyle }, text);
 };

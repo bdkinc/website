@@ -2,7 +2,7 @@
 title: 'Is It Time to Upgrade Your Network Infrastructure?'
 description: 'Signs your business network needs an upgrade and how to plan for a seamless transition to modern infrastructure.'
 pubDate: 2025-10-25
-author: 'BDK Inc'
+author: 'BDKinc'
 tags: ['networking', 'infrastructure', 'upgrades']
 draft: false
 ---
@@ -97,4 +97,4 @@ Network upgrades are complex projects. Working with experienced IT professionals
 
 Don't let outdated network infrastructure hold your business back. The right upgrade at the right time can transform your operations and position you for future growth.
 
-Ready to discuss your network infrastructure needs? Contact BDK Inc for a free network assessment.
+Ready to discuss your network infrastructure needs? Contact <span class="font-display font-extrabold">BDKinc</span> for a free network assessment.
