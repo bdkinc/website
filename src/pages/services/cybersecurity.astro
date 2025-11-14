@@ -6,6 +6,8 @@ import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
+import CTASection from '@/components/CTASection';
+import { Card } from '@/components/ui/card';
 import {
   Shield,
   Lock,
@@ -21,7 +23,7 @@ import {
   Clock,
   Mail,
 } from 'lucide-react';
-import { Logo } from '@/components/Logo';
+import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'cybersecurity');
 if (!service) {
@@ -49,35 +51,39 @@ const _serviceSchema = {
   areaServed: ['Maryland', 'Delaware', 'Mid-Atlantic'],
 };
 
-const relatedTags = ['security', 'best-practices'];
-const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
-  .filter((post) => post.data.tags?.some((tag) => relatedTags.includes(tag)))
+const relatedTags = ['cybersecurity', 'security', 'compliance', 'incident-response'];
+const relatedPosts = (await getCollection('blog'))
+  .filter((post) => {
+    const data = post.data as unknown as { tags?: string[]; draft?: boolean };
+    if (data.draft) return false;
+    return Array.isArray(data.tags) && data.tags.some((tag) => relatedTags.includes(tag));
+  })
   .slice(0, 3);
 
 const metrics = [
-  { value: '99.97%', label: 'THREAT PREVENTION', icon: Shield },
-  { value: '15', label: 'MIN RESPONSE', icon: Clock },
-  { value: '500K+', label: 'ALERTS BLOCKED', icon: AlertTriangle },
-  { value: '0', label: 'RANSOMWARE EVENTS', icon: Lock },
+  { value: '24/7', label: 'SECURITY MONITORING', icon: Eye },
+  { value: '15 MIN', label: 'AVERAGE ALERT RESPONSE', icon: Bell },
+  { value: '99.99%', label: 'UPTIME TARGET', icon: ShieldCheck },
+  { value: '120+', label: 'COMPLIANCE AUDITS/YR', icon: FileCheck },
 ];
 
 const detailColumns = [
   {
-    title: 'Security Framework',
-    icon: ShieldCheck,
+    title: 'Managed Detection & Response',
+    icon: Shield,
     items: [
-      'Layered defenses cover network, endpoint, and cloud assets',
-      'Continuous vulnerability scanning hardens your attack surface',
-      'Managed detection and response neutralizes threats in real time',
+      'Real-time monitoring across endpoints, network, and cloud workloads',
+      'Security analysts triage alerts and coordinate remediation 24/7',
+      'Threat intelligence feeds keep defenses tuned to current attacks',
     ],
   },
   {
-    title: 'Compliance Readiness',
+    title: 'Compliance & Risk',
     icon: FileCheck,
     items: [
-      'Readiness assessments map controls to HIPAA, PCI DSS, and SOC 2',
-      'Policy documentation and evidence collection streamline audits',
-      'Executive reporting tracks remediation progress and residual risk',
+      'Mapped controls for HIPAA, PCI, CJIS, NIST, and regional mandates',
+      'Audit-ready reporting with evidence collection and retention',
+      'Executive briefings translate risk posture into action plans',
     ],
   },
 ];
@@ -102,31 +108,46 @@ const detailColumns = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
   <div class="gradient-mesh absolute inset-0 opacity-30"></div>
   <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-  <div class="relative z-10 mx-auto max-w-7xl text-center">
-    <div
-      class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
-      transition:name={`service-icon-${service.id}`}
-    >
-      <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
-    </div>
-    <h1
-      class="mb-6 text-5xl font-bold md:text-6xl"
-      transition:name={`service-title-${service.id}`}
-      transition:animate="initial"
-    >
-      <span class="text-foreground">{titleFirst ? `${titleFirst} ` : ''}</span>
-      <span
-        class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-        >{lastTitleWord}</span
+  <div class="relative z-10 mx-auto max-w-7xl">
+    <div class="text-center">
+      <div
+        class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
+        transition:name={`service-icon-${service.id}`}
       >
-    </h1>
-    <p
-      class="text-muted-foreground mx-auto max-w-3xl text-xl"
-      transition:name={`service-description-${service.id}`}
-      transition:animate="initial"
-    >
-      {service.data.description}
-    </p>
+        <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
+      </div>
+      <h1
+        class="mb-6 text-5xl font-bold md:text-6xl"
+        transition:name={`service-title-${service.id}`}
+        transition:animate="initial"
+      >
+        <span class="text-foreground">{titleFirst ? `${titleFirst} ` : ''}</span>
+        <span
+          class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+          >{lastTitleWord}</span
+        >
+      </h1>
+      <p
+        class="text-muted-foreground mx-auto max-w-3xl text-xl mb-12"
+        transition:name={`service-description-${service.id}`}
+        transition:animate="initial"
+      >
+        {service.data.description}
+      </p>
+    </div>
+
+    {/* Hero Image Placeholder */}
+    <div class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700">
+      <div class="glass mx-auto max-w-5xl overflow-hidden rounded-2xl border border-primary/20 shadow-lg">
+        <div class="bg-linear-to-br from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center">
+          <div class="text-center">
+            <div class="text-muted-foreground/40 mb-2 text-sm font-medium uppercase tracking-wider">Service Hero Image</div>
+            <div class="text-muted-foreground/60 text-lg">Cybersecurity Illustration</div>
+            <div class="text-muted-foreground/40 mt-2 text-xs">Recommended: 1400x800px</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div
     class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
@@ -212,6 +233,19 @@ const detailColumns = [
             Protect every layer of your infrastructure with our managed security
             services
           </p>
+
+          {/* Feature Image Placeholder */}
+          <div class="mb-10">
+            <div class="glass mx-auto max-w-3xl overflow-hidden rounded-xl border border-primary/20">
+              <div class="bg-linear-to-br from-primary/5 via-secondary/5 to-primary/5 flex aspect-21/9 items-center justify-center">
+                <div class="text-center p-4">
+                  <div class="text-muted-foreground/40 mb-1 text-xs font-medium uppercase tracking-wider">Feature Image</div>
+                  <div class="text-muted-foreground/60 text-sm">Benefits Illustration</div>
+                  <div class="text-muted-foreground/40 mt-1 text-[10px]">1200x500px</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div class="grid gap-6 md:grid-cols-2">
             <div
@@ -407,7 +441,7 @@ const detailColumns = [
         </h3>
 
         <div class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+            <Card size="default" interactive={false} className="flex flex-col items-center text-center">
               <div class="mb-4">
                 <AlertTriangle className="text-primary h-10 w-10" aria-hidden="true" />
               </div>
@@ -415,9 +449,9 @@ const detailColumns = [
               <div class="text-muted-foreground">
                 Protect against data breaches, ransomware, and other cyber threats
               </div>
-            </div>
+            </Card>
 
-            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+            <Card size="default" interactive={false} className="flex flex-col items-center text-center">
               <div class="mb-4">
                 <FileCheck className="text-primary h-10 w-10" aria-hidden="true" />
               </div>
@@ -428,9 +462,9 @@ const detailColumns = [
                 Meet industry security standards and regulations (HIPAA, PCI DSS,
                 SOC 2)
               </div>
-            </div>
+            </Card>
 
-            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+            <Card size="default" interactive={false} className="flex flex-col items-center text-center">
               <div class="mb-4">
                 <RefreshCw className="text-primary h-10 w-10" aria-hidden="true" />
               </div>
@@ -440,9 +474,9 @@ const detailColumns = [
               <div class="text-muted-foreground">
                 Quick recovery from incidents keeps your business running
               </div>
-            </div>
+            </Card>
 
-            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+            <Card size="default" interactive={false} className="flex flex-col items-center text-center">
               <div class="mb-4">
                 <Shield className="text-primary h-10 w-10" aria-hidden="true" />
               </div>
@@ -452,9 +486,9 @@ const detailColumns = [
               <div class="text-muted-foreground">
                 Prevent data breaches that damage customer trust
               </div>
-            </div>
+            </Card>
 
-            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+            <Card size="default" interactive={false} className="flex flex-col items-center text-center">
               <div class="mb-4">
                 <Eye className="text-primary h-10 w-10" aria-hidden="true" />
               </div>
@@ -464,9 +498,9 @@ const detailColumns = [
               <div class="text-muted-foreground">
                 Know your systems are monitored and protected 24/7
               </div>
-            </div>
+            </Card>
 
-            <div class="border border-border/60 bg-background/90 rounded-2xl flex flex-col items-center p-6 text-center">
+            <Card size="default" interactive={false} className="flex flex-col items-center text-center">
               <div class="mb-4">
                 <Users className="text-primary h-10 w-10" aria-hidden="true" />
               </div>
@@ -476,8 +510,46 @@ const detailColumns = [
               <div class="text-muted-foreground">
                 Access to experienced security professionals
               </div>
+            </Card>
+          </div>
+
+        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+          Our Approach
+        </h3>
+
+        <div class="not-prose mb-20">
+          <div class="grid gap-8 md:grid-cols-2 items-center">
+            {/* Approach Image Placeholder */}
+            <div class="order-2 md:order-1">
+              <div class="glass overflow-hidden rounded-xl border border-primary/20">
+                <div class="bg-linear-to-br from-primary/5 via-secondary/5 to-primary/5 flex aspect-square items-center justify-center">
+                  <div class="text-center p-4">
+                    <div class="text-muted-foreground/40 mb-1 text-xs font-medium uppercase tracking-wider">Approach Visual</div>
+                    <div class="text-muted-foreground/60 text-sm">Workflow Diagram</div>
+                    <div class="text-muted-foreground/40 mt-1 text-[10px]">800x800px</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Approach Text */}
+            <div class="order-1 md:order-2">
+              <div class="glass border-border rounded-xl border p-8">
+                <div class="text-muted-foreground text-lg leading-relaxed space-y-4">
+                  <p>
+                    Cybersecurity requires constant vigilance and expertise.
+                  </p>
+                  <p>
+                    We stay current with emerging threats, manage your security infrastructure, and respond quickly to incidents.
+                  </p>
+                  <p>
+                    We take a proactive approach—preventing attacks rather than just responding to them.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
         <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
           Compliance & Standards
@@ -576,40 +648,16 @@ const detailColumns = [
 
     <ImpactMetricsSection metrics={metrics} />
 
-    <div class="mx-auto max-w-4xl">
-      <div class="glass rounded-2xl p-12 text-center">
-        <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-          Ready to Get Started?
-        </h2>
-        <p class="text-muted-foreground mb-8 text-xl">
-          Let's discuss how {service.data.title.toLowerCase()} can transform your
-          business.
-        </p>
-        <a
-          href="/contact"
-          class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
-        >
-          Contact Us Today
-          <Mail className="h-4 w-4" aria-hidden="true" />
-        </a>
-      </div>
-    </div>
+    <CTASection
+      client:visible
+      title="Ready to Transform Your IT?"
+      description={`Let's discuss how ${service.data.title.toLowerCase()} can help your business thrive with reliable, scalable technology solutions.`}
+      buttonText="Get in Touch"
+      buttonHref="/contact"
+    />
   </div>
 </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
-    <div class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center">
-      <div>
-        <Logo />
-      </div>
-      <p class="text-muted-foreground mb-4">
-        Your trusted technology partner since 1999
-      </p>
-      <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()} <span class="font-display font-extrabold">BDKinc</span>. All rights reserved.
-      </p>
-    </div>
-  </footer>
+  <Footer />
 </Layout>

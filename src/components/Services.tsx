@@ -22,7 +22,7 @@ export default function Services({ services }: ServicesProps) {
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
   const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
   const descriptionRefs = useRef<(HTMLParagraphElement | null)[]>([]);
-  
+
   // Viewport detection for section header
   const { ref: headerRef, isIntersecting: headerInView } = useIntersectionObserver({
     threshold: 0.2,
@@ -85,7 +85,7 @@ export default function Services({ services }: ServicesProps) {
         </div>
 
         {/* Services Grid */}
-        <div 
+        <div
           ref={gridRef as any}
           className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6"
         >
@@ -102,7 +102,7 @@ export default function Services({ services }: ServicesProps) {
                   "opacity-0 translate-y-6 transition-[opacity,transform] duration-600 ease-out",
                   gridInView && "opacity-100 translate-y-0"
                 )}
-                style={{ 
+                style={{
                   transitionDelay: gridInView ? `${delayMs}ms` : '0ms'
                 }}
               >

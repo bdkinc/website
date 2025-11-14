@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation';
-import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/Logo';
+import Footer from '@/components/Footer.astro';
+import CTAButton from '@/components/CTAButton';
 import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
 import { AlertCircle, Home, ArrowLeft } from 'lucide-react';
-import { Logo } from '@/components/Logo';
 
 const { servicesData, recentPosts } = await getNavigationData();
 ---
@@ -81,30 +82,32 @@ const { servicesData, recentPosts } = await getNavigationData();
               class="flex flex-col items-center justify-center gap-4 sm:flex-row"
             >
               <!-- Go Home Button -->
-              <a href="/">
-                <Button
-                  className="bg-brand-primary hover:bg-brand-primary/90 text-primary-foreground group w-full gap-2 sm:w-auto"
-                  aria-label="Return to homepage"
-                >
-                  <Home
-                    className="icon-sm transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <span>Go Home</span>
-                </Button>
-              </a>
+              <CTAButton
+                href="/"
+                icon="none"
+                className="bg-brand-primary hover:bg-brand-primary/90 text-primary-foreground group w-full gap-2 sm:w-auto"
+                aria-label="Return to homepage"
+              >
+                <Home
+                  className="icon-sm transition-transform duration-300 group-hover:scale-110"
+                />
+                <span>Go Home</span>
+              </CTAButton>
 
               <!-- Go Back Button -->
-              <Button
+              <CTAButton
+                icon="none"
                 variant="outline"
                 className="border-brand-primary text-brand-primary hover:bg-brand-primary/10 group w-full gap-2 sm:w-auto"
-                onClick={() => history.back()}
+                type="button"
+                data-back-button="true"
                 aria-label="Go back to previous page"
               >
                 <ArrowLeft
                   className="icon-sm transition-transform duration-300 group-hover:-translate-x-1"
                 />
                 <span>Go Back</span>
-              </Button>
+              </CTAButton>
             </div>
           </Card>
         </div>
@@ -155,32 +158,15 @@ const { servicesData, recentPosts } = await getNavigationData();
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
-    <div
-      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
-    >
-      <div>
-        <Logo />
-      </div>
-      <p class="text-muted-foreground mb-4">
-        Your trusted technology partner since 1999
-      </p>
-      <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()}
-        <span class="font-display font-extrabold">BDKinc</span>. All rights
-        reserved.
-      </p>
-    </div>
-  </footer>
+  <Footer />
 </Layout>
 
 <script>
   // Handle Go Back button click
-  const backButton = document.querySelector('[onClick="history.back()"]');
+  const backButton = document.querySelector('[data-back-button="true"]');
   if (backButton) {
-    backButton.addEventListener('click', (e) => {
-      e.preventDefault();
+    backButton.addEventListener('click', (event) => {
+      event.preventDefault();
       window.history.back();
     });
   }

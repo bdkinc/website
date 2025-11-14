@@ -121,7 +121,9 @@ export default function WhyChooseUs() {
                   }}
                   className={cn(
                     "w-16 h-16 rounded-full text-foreground flex items-center justify-center",
-                    "transition-transform duration-300"
+                    "transition-all duration-300",
+                    "bg-linear-to-br from-primary/10 to-secondary/10",
+                    "hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] hover:bg-primary/20"
                   )}
                 >
                   {feature.icon}

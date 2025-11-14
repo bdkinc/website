@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import {
   Mail,
   Phone,
@@ -9,28 +10,31 @@ import {
   ArrowLeftCircle,
   MousePointerClick,
   Calendar,
-  Pointer
+  Pointer,
+  Search
 } from 'lucide-react'
 
 type CTAVariant = 'default' | 'outline' | 'ghost' | 'secondary' | 'destructive' | 'link'
 type CTASize = 'default' | 'sm' | 'lg' | 'cta' | 'icon' | 'icon-sm' | 'icon-lg'
 
-interface CTAButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface CTAButtonBaseProps {
   variant?: CTAVariant
   size?: CTASize
-  href?: string
-  icon?: 'mail' | 'phone' | 'sparkles' | 'arrow' | 'home' | 'back' | 'click' | 'calendar' | 'pointer' | 'none'
+  icon?: 'mail' | 'phone' | 'sparkles' | 'arrow' | 'home' | 'back' | 'click' | 'calendar' | 'pointer' | 'search' | 'none'
   children: React.ReactNode
   className?: string
-  asChild?: boolean
 }
+
+type CTAButtonProps =
+  | (CTAButtonBaseProps & React.ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined })
+  | (CTAButtonBaseProps & React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string })
 
 /**
  * CTA Button Component
  * Extends the base Button component with convenient icon support for common CTA actions.
  * Icons are automatically selected based on button text patterns or explicitly specified.
  */
-export const CTAButton = React.forwardRef<HTMLButtonElement, CTAButtonProps>(
+export const CTAButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, CTAButtonProps>(
   (
     {
       children,
@@ -38,12 +42,13 @@ export const CTAButton = React.forwardRef<HTMLButtonElement, CTAButtonProps>(
       size = 'cta',
       icon,
       className,
+      href,
       ...props
     },
     ref
   ) => {
     // Auto-detect icon based on button text if not explicitly provided
-    const getIconFromText = (): 'mail' | 'phone' | 'sparkles' | 'arrow' | 'home' | 'back' | 'click' | 'calendar' | 'pointer' | 'none' => {
+    const getIconFromText = (): 'mail' | 'phone' | 'sparkles' | 'arrow' | 'home' | 'back' | 'click' | 'calendar' | 'pointer' | 'search' | 'none' => {
       if (icon && icon !== 'none') return icon
 
       const text = typeof children === 'string' ? children.toLowerCase() : ''
@@ -81,6 +86,13 @@ export const CTAButton = React.forwardRef<HTMLButtonElement, CTAButtonProps>(
       ) {
         return 'arrow'
       }
+      if (
+        text.includes('search') ||
+        text.includes('find') ||
+        text.includes('discover')
+      ) {
+        return 'search'
+      }
       if (text.includes('home') || text.includes('homepage')) {
         return 'home'
       }
@@ -107,22 +119,44 @@ export const CTAButton = React.forwardRef<HTMLButtonElement, CTAButtonProps>(
       click: <MousePointerClick className="h-4 w-4" aria-hidden="true" />,
       calendar: <Calendar className="h-4 w-4" aria-hidden="true" />,
       pointer: <Pointer className="h-4 w-4" aria-hidden="true" />,
+      search: <Search className="h-4 w-4" aria-hidden="true" />,
       none: null
     }
 
     const buttonIcon = iconComponents[selectedIcon] || null
 
-    return (
-      <Button
-        ref={ref}
-        variant={variant}
-        size={size}
-        className={className}
-        {...props}
-      >
+    const content = (
+      <>
         {children}
         {buttonIcon}
-      </Button>
+      </>
+    )
+
+    if (href) {
+      const { target, rel, ...anchorProps } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>
+
+      return (
+        <a
+          ref={ref as React.Ref<HTMLAnchorElement>}
+          href={href}
+          target={target}
+          rel={rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined)}
+          className={cn(buttonVariants({ variant, size }), className)}
+          {...anchorProps}
+        >
+          {content}
+        </a>
+      )
+    }
+
+    return (
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
+        className={cn(buttonVariants({ variant, size }), className)}
+        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+      >
+        {content}
+      </button>
     )
   }
 )

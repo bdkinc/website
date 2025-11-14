@@ -5,6 +5,7 @@ import CTASection from '../components/CTASection';
 import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
 import { Logo } from '@/components/Logo';
+import Footer from '@/components/Footer.astro';
 import {
   Rocket,
   Eye,
@@ -156,6 +157,33 @@ const whyChooseUs = [
           complex technology challenges into simple, effective solutions that
           drive business growth.
         </p>
+
+        {/* Hero Image Placeholder */}
+        <div
+          class="fill-mode-both animate-in fade-in zoom-in mt-12 delay-400 duration-700"
+        >
+          <div
+            class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border shadow-lg"
+          >
+            <div
+              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
+            >
+              <div class="text-center">
+                <div
+                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                >
+                  Image Placeholder
+                </div>
+                <div class="text-muted-foreground/60 text-lg">
+                  Company Photo / Team Image
+                </div>
+                <div class="text-muted-foreground/40 mt-2 text-xs">
+                  Recommended: 1200x675px
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       {/* Mission & Vision Section */}
       <section class="px-4 py-24 sm:px-6 lg:px-8">
@@ -163,54 +191,105 @@ const whyChooseUs = [
           <div class="grid gap-12 md:grid-cols-2">
             {/* Mission - using Card component */}
             <Card
-              className="fill-mode-both animate-in fade-in slide-in-from-left-8 flex h-full flex-col items-center justify-center text-center delay-300 duration-700"
+              className="fill-mode-both animate-in fade-in slide-in-from-left-8 flex h-full flex-col delay-300 duration-700"
               size="lg"
               interactive={false}
             >
-              <div class="mb-6">
+              {/* Mission Image Placeholder */}
+              <div class="-mx-4 -mt-4 mb-6 sm:-mx-6 sm:-mt-6">
                 <div
-                  class="bg-primary/10 inline-flex items-center justify-center rounded-lg p-4"
+                  class="from-primary/10 via-primary/5 flex aspect-video items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br to-transparent"
                 >
-                  <Rocket className="icon-lg text-primary" />
+                  <div class="p-4 text-center">
+                    <div
+                      class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
+                    >
+                      Image Placeholder
+                    </div>
+                    <div class="text-muted-foreground/60 text-sm">
+                      Mission Image
+                    </div>
+                    <div class="text-muted-foreground/40 mt-1 text-[10px]">
+                      800x450px
+                    </div>
+                  </div>
                 </div>
               </div>
-              <h2 class="text-foreground mb-4 text-center text-3xl font-bold">
-                Our Mission
-              </h2>
-              <p
-                class="text-muted-foreground mx-auto max-w-lg text-center text-lg leading-relaxed"
+
+              <div
+                class="flex flex-col items-center justify-center text-center"
               >
-                To empower businesses through innovative technology solutions
-                that simplify IT infrastructure, enhance security, and drive
-                operational efficiency. We're committed to being more than just
-                a service provider—we're your strategic technology partner.
-              </p>
+                <div class="mb-4">
+                  <div
+                    class="bg-primary/10 inline-flex items-center justify-center rounded-lg p-4"
+                  >
+                    <Rocket className="icon-lg text-primary" />
+                  </div>
+                </div>
+                <h2 class="text-foreground mb-4 text-center text-3xl font-bold">
+                  Our Mission
+                </h2>
+                <p
+                  class="text-muted-foreground mx-auto max-w-lg text-center text-lg leading-relaxed"
+                >
+                  To empower businesses through innovative technology solutions
+                  that simplify IT infrastructure, enhance security, and drive
+                  operational efficiency. We're committed to being more than
+                  just a service provider—we're your strategic technology
+                  partner.
+                </p>
+              </div>
             </Card>
 
             {/* Vision - using Card component */}
             <Card
-              className="fill-mode-both animate-in fade-in slide-in-from-right-8 flex h-full flex-col items-center justify-center text-center delay-400 duration-700"
+              className="fill-mode-both animate-in fade-in slide-in-from-right-8 flex h-full flex-col delay-400 duration-700"
               size="lg"
               interactive={false}
             >
-              <div class="mb-6">
+              {/* Vision Image Placeholder */}
+              <div class="-mx-4 -mt-4 mb-6 sm:-mx-6 sm:-mt-6">
                 <div
-                  class="bg-secondary/10 inline-flex items-center justify-center rounded-lg p-4"
+                  class="from-secondary/10 via-secondary/5 flex aspect-video items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br to-transparent"
                 >
-                  <Eye className="icon-lg text-secondary" />
+                  <div class="p-4 text-center">
+                    <div
+                      class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
+                    >
+                      Image Placeholder
+                    </div>
+                    <div class="text-muted-foreground/60 text-sm">
+                      Vision Image
+                    </div>
+                    <div class="text-muted-foreground/40 mt-1 text-[10px]">
+                      800x450px
+                    </div>
+                  </div>
                 </div>
               </div>
-              <h2 class="text-foreground mb-4 text-center text-3xl font-bold">
-                Our Vision
-              </h2>
-              <p
-                class="text-muted-foreground mx-auto max-w-lg text-center text-lg leading-relaxed"
+
+              <div
+                class="flex flex-col items-center justify-center text-center"
               >
-                To be the most trusted IT partner for businesses seeking to
-                leverage technology for competitive advantage. We envision a
-                future where businesses of all sizes can access enterprise-grade
-                IT solutions with simplicity and confidence.
-              </p>
+                <div class="mb-4">
+                  <div
+                    class="bg-secondary/10 inline-flex items-center justify-center rounded-lg p-4"
+                  >
+                    <Eye className="icon-lg text-secondary" />
+                  </div>
+                </div>
+                <h2 class="text-foreground mb-4 text-center text-3xl font-bold">
+                  Our Vision
+                </h2>
+                <p
+                  class="text-muted-foreground mx-auto max-w-lg text-center text-lg leading-relaxed"
+                >
+                  To be the most trusted IT partner for businesses seeking to
+                  leverage technology for competitive advantage. We envision a
+                  future where businesses of all sizes can access
+                  enterprise-grade IT solutions with simplicity and confidence.
+                </p>
+              </div>
             </Card>
           </div>
         </div>
@@ -278,6 +357,182 @@ const whyChooseUs = [
       </div>
     </section>
 
+    {/* Team Section */}
+    <section
+      class="via-primary/5 bg-linear-to-b from-transparent to-transparent px-4 py-24 sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Meet Our </span>
+            <span class="text-primary">Leadership</span>
+          </h2>
+          <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
+          >
+            The experts driving innovation and excellence
+          </p>
+        </div>
+
+        {/* Team Grid */}
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Team Member 1 */}
+          <Card
+            className="fill-mode-both animate-in fade-in zoom-in flex flex-col delay-200 duration-600"
+            size="lg"
+            interactive={false}
+          >
+            <div class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6">
+              <div
+                class="from-primary/10 to-secondary/10 flex aspect-square items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br"
+              >
+                <div class="p-4 text-center">
+                  <div
+                    class="text-muted-foreground/40 mb-1 text-xs tracking-wider uppercase"
+                  >
+                    Photo
+                  </div>
+                  <div class="text-muted-foreground/60 text-sm">
+                    Team Member
+                  </div>
+                  <div class="text-muted-foreground/40 mt-1 text-[10px]">
+                    400x400px
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <h3 class="text-foreground mb-1 text-lg font-bold">
+                Leadership Name
+              </h3>
+              <p class="text-primary mb-3 text-sm font-medium">
+                Chief Executive Officer
+              </p>
+              <p class="text-muted-foreground text-sm">
+                Brief bio or expertise description
+              </p>
+            </div>
+          </Card>
+
+          {/* Team Member 2 */}
+          <Card
+            className="fill-mode-both animate-in fade-in zoom-in flex flex-col delay-300 duration-600"
+            size="lg"
+            interactive={false}
+          >
+            <div class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6">
+              <div
+                class="from-primary/10 to-secondary/10 flex aspect-square items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br"
+              >
+                <div class="p-4 text-center">
+                  <div
+                    class="text-muted-foreground/40 mb-1 text-xs tracking-wider uppercase"
+                  >
+                    Photo
+                  </div>
+                  <div class="text-muted-foreground/60 text-sm">
+                    Team Member
+                  </div>
+                  <div class="text-muted-foreground/40 mt-1 text-[10px]">
+                    400x400px
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <h3 class="text-foreground mb-1 text-lg font-bold">
+                Leadership Name
+              </h3>
+              <p class="text-primary mb-3 text-sm font-medium">
+                Chief Technology Officer
+              </p>
+              <p class="text-muted-foreground text-sm">
+                Brief bio or expertise description
+              </p>
+            </div>
+          </Card>
+
+          {/* Team Member 3 */}
+          <Card
+            className="fill-mode-both animate-in fade-in zoom-in flex flex-col delay-400 duration-600"
+            size="lg"
+            interactive={false}
+          >
+            <div class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6">
+              <div
+                class="from-primary/10 to-secondary/10 flex aspect-square items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br"
+              >
+                <div class="p-4 text-center">
+                  <div
+                    class="text-muted-foreground/40 mb-1 text-xs tracking-wider uppercase"
+                  >
+                    Photo
+                  </div>
+                  <div class="text-muted-foreground/60 text-sm">
+                    Team Member
+                  </div>
+                  <div class="text-muted-foreground/40 mt-1 text-[10px]">
+                    400x400px
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <h3 class="text-foreground mb-1 text-lg font-bold">
+                Leadership Name
+              </h3>
+              <p class="text-primary mb-3 text-sm font-medium">
+                VP of Operations
+              </p>
+              <p class="text-muted-foreground text-sm">
+                Brief bio or expertise description
+              </p>
+            </div>
+          </Card>
+
+          {/* Team Member 4 */}
+          <Card
+            className="fill-mode-both animate-in fade-in zoom-in flex flex-col delay-500 duration-600"
+            size="lg"
+            interactive={false}
+          >
+            <div class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6">
+              <div
+                class="from-primary/10 to-secondary/10 flex aspect-square items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br"
+              >
+                <div class="p-4 text-center">
+                  <div
+                    class="text-muted-foreground/40 mb-1 text-xs tracking-wider uppercase"
+                  >
+                    Photo
+                  </div>
+                  <div class="text-muted-foreground/60 text-sm">
+                    Team Member
+                  </div>
+                  <div class="text-muted-foreground/40 mt-1 text-[10px]">
+                    400x400px
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <h3 class="text-foreground mb-1 text-lg font-bold">
+                Leadership Name
+              </h3>
+              <p class="text-primary mb-3 text-sm font-medium">
+                Director of Security
+              </p>
+              <p class="text-muted-foreground text-sm">
+                Brief bio or expertise description
+              </p>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </section>
+
     {/* Journey/Timeline Section */}
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
@@ -299,7 +554,7 @@ const whyChooseUs = [
         <div class="relative">
           {/* Vertical line */}
           <div
-            class="from-primary via-secondary to-primary absolute top-0 bottom-0 left-8 w-0.5 bg-gradient-to-b md:left-1/2"
+            class="from-primary via-secondary to-primary absolute top-0 bottom-0 left-8 w-0.5 bg-linear-to-b md:left-1/2"
           >
           </div>
 
@@ -427,22 +682,5 @@ const whyChooseUs = [
     />
   </main>
 
-  {/* Footer */}
-  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
-    <div
-      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
-    >
-      <div>
-        <Logo />
-      </div>
-      <p class="text-muted-foreground mb-4">
-        Your trusted technology partner since 1999
-      </p>
-      <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()}
-        <span class="font-display font-extrabold">BDKinc</span>. All rights
-        reserved.
-      </p>
-    </div>
-  </footer>
+  <Footer />
 </Layout>

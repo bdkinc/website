@@ -6,6 +6,8 @@ import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
+import CTASection from '@/components/CTASection';
+import { Card } from '@/components/ui/card';
 import {
   Server,
   Network,
@@ -23,6 +25,7 @@ import {
   Mail,
 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
+import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'hosted-erp');
 if (!service) {
@@ -79,36 +82,65 @@ const detailColumns = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-      <div class="relative z-10 mx-auto max-w-7xl text-center">
-        <div
-          class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
-          transition:name={`service-icon-${service.id}`}
-        >
-          <IconComponent
-            className="text-primary h-12 w-12"
-            aria-hidden="true"
-          />
-        </div>
-        <h1
-          class="mb-6 text-5xl font-bold md:text-6xl"
-          transition:name={`service-title-${service.id}`}
-          transition:animate="initial"
-        >
-          <span class="text-foreground">
-            {titleFirst ? `${titleFirst} ` : ''}
-          </span>
-          <span
-            class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-            >{lastTitleWord}</span
+      <div class="relative z-10 mx-auto max-w-7xl">
+        <div class="text-center">
+          <div
+            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
+            transition:name={`service-icon-${service.id}`}
           >
-        </h1>
-        <p
-          transition:name={`service-description-${service.id}`}
-          transition:animate="initial"
-          class="text-muted-foreground mx-auto max-w-3xl text-xl"
+            <IconComponent
+              className="text-primary h-12 w-12"
+              aria-hidden="true"
+            />
+          </div>
+          <h1
+            class="mb-6 text-5xl font-bold md:text-6xl"
+            transition:name={`service-title-${service.id}`}
+            transition:animate="initial"
+          >
+            <span class="text-foreground">
+              {titleFirst ? `${titleFirst} ` : ''}
+            </span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >{lastTitleWord}</span
+            >
+          </h1>
+          <p
+            transition:name={`service-description-${service.id}`}
+            transition:animate="initial"
+            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
+          >
+            {service.data.description}
+          </p>
+        </div>
+
+        {/* Hero Image Placeholder */}
+        <div
+          class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
-          {service.data.description}
-        </p>
+          <div
+            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
+          >
+            <div
+              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
+            >
+              <div class="text-center">
+                <div
+                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                >
+                  Service Hero Image
+                </div>
+                <div class="text-muted-foreground/60 text-lg">
+                  Hosted ERP Illustration
+                </div>
+                <div class="text-muted-foreground/40 mt-2 text-xs">
+                  Recommended: 1400x800px
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
@@ -206,6 +238,32 @@ const detailColumns = [
                 We specialize in ERP implementations for key industries
               </p>
 
+              {/* Feature Image Placeholder */}
+              <div class="mb-10">
+                <div
+                  class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border"
+                >
+                  <div
+                    class="from-primary/5 via-secondary/5 to-primary/5 flex items-center justify-center bg-linear-to-br"
+                    style="aspect-ratio: 21/9;"
+                  >
+                    <div class="text-center">
+                      <div
+                        class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                      >
+                        Feature Image
+                      </div>
+                      <div class="text-muted-foreground/60 text-lg">
+                        ERP System Dashboard
+                      </div>
+                      <div class="text-muted-foreground/40 mt-2 text-xs">
+                        Recommended: 1200x500px (21:9)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="grid gap-6 md:grid-cols-3">
                 <div
                   class="bg-background/50 border-border hover:border-primary flex flex-col items-center rounded-lg border p-6 text-center transition-colors"
@@ -261,8 +319,10 @@ const detailColumns = [
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <TrendingUp
@@ -276,10 +336,12 @@ const detailColumns = [
                 <div class="text-muted-foreground">
                   Access up-to-date information across all business functions
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Zap className="text-primary h-10 w-10" aria-hidden="true" />
@@ -290,10 +352,12 @@ const detailColumns = [
                 <div class="text-muted-foreground">
                   Automate processes and eliminate manual data entry
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <CheckCircle2
@@ -307,10 +371,12 @@ const detailColumns = [
                 <div class="text-muted-foreground">
                   Accurate, timely data supports informed business decisions
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Database
@@ -324,10 +390,12 @@ const detailColumns = [
                 <div class="text-muted-foreground">
                   Systems that grow with your business
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <DollarSign
@@ -342,10 +410,12 @@ const detailColumns = [
                   Hosted solutions eliminate expensive infrastructure
                   investments
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Lock className="text-primary h-10 w-10" aria-hidden="true" />
@@ -357,7 +427,7 @@ const detailColumns = [
                   Enterprise-grade security and regular backups protect your
                   business data
                 </div>
-              </div>
+              </Card>
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
@@ -397,99 +467,78 @@ const detailColumns = [
               Our Hosted ERP Services
             </h3>
 
-            <div
-              class="border-border from-primary/10 to-secondary/10 not-prose mb-20 rounded-2xl border bg-linear-to-br p-10"
-            >
-              <div class="grid gap-8 md:grid-cols-2">
-                <div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold">
-                    Implementation & Support
-                  </h4>
-                  <div class="text-foreground leading-relaxed">
-                    From initial setup to ongoing optimization, our team
-                    provides expert guidance. We help you configure the system
-                    to match your business processes and train your team to use
-                    it effectively.
-                  </div>
-                </div>
-                <div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold">
-                    Expert Support
-                  </h4>
-                  <div class="text-foreground leading-relaxed">
-                    Dedicated team with deep ERP and industry knowledge ensures
-                    your system delivers maximum value. We don't just host your
-                    software—we partner with you for success.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Why Choose BDK for Hosted ERP?
-            </h3>
-
-            <div class="text-center">
+            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+              {/* Left: Image Placeholder */}
               <div
-                class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
+                class="glass border-primary/20 overflow-hidden rounded-2xl border"
               >
-                We combine ERP expertise with managed hosting services, giving
-                you a complete solution. Our team understands both the technical
-                aspects of ERP systems and the business processes they support.
-                We don't just host your software—we partner with you to ensure
-                it delivers maximum value to your business.
+                <div
+                  class="from-primary/5 via-secondary/5 to-primary/5 flex h-full min-h-[300px] items-center justify-center bg-linear-to-br"
+                >
+                  <div class="text-center">
+                    <div
+                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                    >
+                      Service Image
+                    </div>
+                    <div class="text-muted-foreground/60 text-lg">
+                      ERP Implementation
+                    </div>
+                    <div class="text-muted-foreground/40 mt-2 text-xs">
+                      Recommended: 600x400px
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="text-primary text-xl font-semibold">
-                Whether you're implementing your first ERP system or migrating
-                from an existing solution, we provide the expertise and
-                infrastructure you need for success.
-              </div>
+
+              {/* Right: Text Card */}
+              <Card
+                size="default"
+                interactive={false}
+                className="flex items-center"
+              >
+                <div class="grid gap-8 md:grid-cols-1">
+                  <div>
+                    <h4 class="text-foreground mb-4 text-2xl font-bold">
+                      Implementation & Support
+                    </h4>
+                    <div class="text-foreground leading-relaxed">
+                      From initial setup to ongoing optimization, our team
+                      provides expert guidance. We help you configure the system
+                      to match your business processes and train your team to
+                      use it effectively.
+                    </div>
+                  </div>
+                  <div>
+                    <h4 class="text-foreground mb-4 text-2xl font-bold">
+                      Expert Support
+                    </h4>
+                    <div class="text-foreground leading-relaxed">
+                      Dedicated team with deep ERP and industry knowledge
+                      ensures your system delivers maximum value. We don't just
+                      host your software—we partner with you for success.
+                    </div>
+                  </div>
+                </div>
+              </Card>
             </div>
           </div>
         </div>
 
         <ImpactMetricsSection metrics={metrics} />
 
-        <div class="mx-auto max-w-4xl">
-          <div
-            class="glass rounded-2xl p-12 text-center delay-800 duration-500"
-          >
-            <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-              Ready to Get Started?
-            </h2>
-            <p class="text-muted-foreground mb-8 text-xl">
-              Let's discuss how {service.data.title.toLowerCase()} can transform
-              your business.
-            </p>
-            <a
-              href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
-            >
-              Contact Us Today
-              <Mail className="h-4 w-4" aria-hidden="true" />
-            </a>
-          </div>
-        </div>
+        <CTASection
+          client:load
+          title="Why Choose BDK for Hosted ERP?"
+          description="We combine ERP expertise with managed hosting services, giving you a complete solution. Our team understands both the technical aspects of ERP systems and the business processes they support. We don't just host your software—we partner with you to ensure it delivers maximum value to your business."
+          primaryAction={{
+            text: 'Start Your ERP Journey',
+            href: '/contact',
+          }}
+        />
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
-    <div
-      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
-    >
-      <div>
-        <Logo />
-      </div>
-      <p class="text-muted-foreground mb-4">
-        Your trusted technology partner since 1999
-      </p>
-      <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()}
-        <span class="font-display font-extrabold">BDKinc</span>. All rights
-        reserved.
-      </p>
-    </div>
-  </footer>
+  <Footer />
 </Layout>

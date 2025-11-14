@@ -6,6 +6,8 @@ import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
+import CTASection from '@/components/CTASection';
+import { Card } from '@/components/ui/card';
 import {
   Sparkles,
   Shield,
@@ -20,6 +22,7 @@ import {
   Mail,
 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
+import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'artificial-intelligence');
 if (!service) {
@@ -76,36 +79,65 @@ const detailColumns = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-      <div class="relative z-10 mx-auto max-w-7xl text-center">
-        <div
-          class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4"
-          transition:name={`service-icon-${service.id}`}
-        >
-          <IconComponent
-            className="text-primary h-12 w-12"
-            aria-hidden="true"
-          />
+      <div class="relative z-10 mx-auto max-w-7xl">
+        <div class="text-center">
+          <div
+            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4"
+            transition:name={`service-icon-${service.id}`}
+          >
+            <IconComponent
+              className="text-primary h-12 w-12"
+              aria-hidden="true"
+            />
+          </div>
+          <h1
+            class="mb-6 text-5xl font-bold md:text-6xl"
+            transition:name={`service-title-${service.id}`}
+            transition:animate="initial"
+          >
+            <span class="text-foreground"
+              >{titleFirst ? `${titleFirst} ` : ''}</span
+            >
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >{lastTitleWord}</span
+            >
+          </h1>
+          <p
+            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
+            transition:name={`service-description-${service.id}`}
+            transition:animate="initial"
+          >
+            {service.data.description}
+          </p>
         </div>
-        <h1
-          class="mb-6 text-5xl font-bold md:text-6xl"
-          transition:name={`service-title-${service.id}`}
-          transition:animate="initial"
+
+        {/* Hero Image Placeholder */}
+        <div
+          class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
-          <span class="text-foreground"
-            >{titleFirst ? `${titleFirst} ` : ''}</span
+          <div
+            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
           >
-          <span
-            class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-            >{lastTitleWord}</span
-          >
-        </h1>
-        <p
-          class="text-muted-foreground mx-auto max-w-3xl text-xl"
-          transition:name={`service-description-${service.id}`}
-          transition:animate="initial"
-        >
-          {service.data.description}
-        </p>
+            <div
+              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
+            >
+              <div class="text-center">
+                <div
+                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                >
+                  Service Hero Image
+                </div>
+                <div class="text-muted-foreground/60 text-lg">
+                  AI Solutions Illustration
+                </div>
+                <div class="text-muted-foreground/40 mt-2 text-xs">
+                  Recommended: 1400x800px
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
@@ -200,6 +232,32 @@ const detailColumns = [
                 Leverage the power of large language models to transform your
                 operations
               </p>
+
+              {/* Feature Image Placeholder */}
+              <div class="mb-10">
+                <div
+                  class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border"
+                >
+                  <div
+                    class="from-primary/5 via-secondary/5 to-primary/5 flex items-center justify-center bg-linear-to-br"
+                    style="aspect-ratio: 21/9;"
+                  >
+                    <div class="text-center">
+                      <div
+                        class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                      >
+                        Feature Image
+                      </div>
+                      <div class="text-muted-foreground/60 text-lg">
+                        Generative AI Capabilities
+                      </div>
+                      <div class="text-muted-foreground/40 mt-2 text-xs">
+                        Recommended: 1200x500px (21:9)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <div class="grid gap-6 md:grid-cols-2">
                 <div
@@ -380,8 +438,10 @@ const detailColumns = [
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Shield
@@ -396,10 +456,12 @@ const detailColumns = [
                   Enterprise-grade security controls, data encryption, and
                   compliance with industry standards
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Zap className="text-primary h-10 w-10" aria-hidden="true" />
@@ -411,10 +473,12 @@ const detailColumns = [
                   Built for reliability and scale with proper monitoring, error
                   handling, and performance optimization
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Target
@@ -429,10 +493,12 @@ const detailColumns = [
                   We start with your business objectives and design AI solutions
                   that deliver measurable ROI
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <FileText
@@ -447,10 +513,12 @@ const detailColumns = [
                   AI solutions that are interpretable and explainable for
                   informed decision-making
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Users
@@ -465,10 +533,12 @@ const detailColumns = [
                   Continuous monitoring and refinement to ensure your AI systems
                   adapt as your business evolves
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Lock className="text-primary h-10 w-10" aria-hidden="true" />
@@ -480,144 +550,146 @@ const detailColumns = [
                   Committed to ethical AI with privacy protection, bias
                   mitigation, and human oversight
                 </div>
-              </div>
+              </Card>
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
               Our AI Development Process
             </h3>
 
-            <div
-              class="border-border from-primary/10 to-secondary/10 not-prose mb-20 rounded-2xl border bg-linear-to-br p-10"
-            >
-              <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <div class="text-center">
-                  <div
-                    class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                  >
-                    1
-                  </div>
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Discovery & Assessment
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Understand your business challenges and identify high-impact
-                    AI opportunities
-                  </div>
-                </div>
-                <div class="text-center">
-                  <div
-                    class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                  >
-                    2
-                  </div>
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Data Evaluation
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Assess data quality, availability, and compliance
-                    requirements
-                  </div>
-                </div>
-                <div class="text-center">
-                  <div
-                    class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                  >
-                    3
-                  </div>
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Proof of Concept
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Rapidly prototype solutions to validate feasibility and
-                    business value
-                  </div>
-                </div>
-                <div class="text-center">
-                  <div
-                    class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                  >
-                    4
-                  </div>
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Development & Training
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Build and train custom AI models with your data
-                  </div>
-                </div>
-                <div class="text-center">
-                  <div
-                    class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                  >
-                    5
-                  </div>
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Integration & Deployment
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Securely deploy AI into your production environment
-                  </div>
-                </div>
-                <div class="text-center">
-                  <div
-                    class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                  >
-                    6
-                  </div>
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Monitoring & Optimization
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Continuously monitor performance and refine models for
-                    better results
+            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+              {/* Left: Image Placeholder */}
+              <div
+                class="glass border-primary/20 overflow-hidden rounded-2xl border"
+              >
+                <div
+                  class="from-primary/5 via-secondary/5 to-primary/5 flex h-full min-h-[300px] items-center justify-center bg-linear-to-br"
+                >
+                  <div class="text-center">
+                    <div
+                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                    >
+                      Process Image
+                    </div>
+                    <div class="text-muted-foreground/60 text-lg">
+                      AI Development Workflow
+                    </div>
+                    <div class="text-muted-foreground/40 mt-2 text-xs">
+                      Recommended: 600x400px
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/* Right: Text Card */}
+              <Card
+                size="default"
+                interactive={false}
+                className="flex items-center"
+              >
+                <div class="grid gap-8 md:grid-cols-1 lg:grid-cols-1">
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      1
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Discovery & Assessment
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      Understand your business challenges and identify
+                      high-impact AI opportunities
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      2
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Data Evaluation
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      Assess data quality, availability, and compliance
+                      requirements
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      3
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Proof of Concept
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      Rapidly prototype solutions to validate feasibility and
+                      business value
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      4
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Development & Training
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      Build and train custom AI models with your data
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      5
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Integration & Deployment
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      Securely deploy AI into your production environment
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <div
+                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
+                    >
+                      6
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold">
+                      Monitoring & Optimization
+                    </h5>
+                    <div class="text-muted-foreground text-sm">
+                      Continuously monitor performance and refine models for
+                      better results
+                    </div>
+                  </div>
+                </div>
+              </Card>
             </div>
           </div>
         </div>
-
-        <ImpactMetricsSection metrics={metrics} />
-
-        <div class="mx-auto max-w-4xl">
-          <div class="glass rounded-2xl p-12 text-center">
-            <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-              Ready to Get Started?
-            </h2>
-            <p class="text-muted-foreground mb-8 text-xl">
-              Let's discuss how {service.data.title.toLowerCase()} can transform
-              your business.
-            </p>
-            <a
-              href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
-            >
-              Contact Us Today
-              <Mail className="h-4 w-4" aria-hidden="true" />
-            </a>
-          </div>
-        </div>
       </div>
+
+      <ImpactMetricsSection metrics={metrics} />
+
+      <CTASection
+        client:load
+        title="Ready to Transform Your Business with AI?"
+        description="Let's discuss how artificial intelligence can transform your business operations, improve decision-making, and unlock new opportunities."
+        primaryAction={{
+          text: 'Discuss Your AI Strategy',
+          href: '/contact',
+        }}
+      />
     </section>
   </main>
-
-  <!-- Footer -->
-  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
-    <div
-      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
-    >
-      <div>
-        <Logo />
-      </div>
-      <p class="text-muted-foreground mb-4">
-        Your trusted technology partner since 1999
-      </p>
-      <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()}
-        <span class="font-display font-extrabold">BDKinc</span>. All rights
-        reserved.
-      </p>
-    </div>
-  </footer>
 </Layout>
+
+<Footer />

@@ -6,6 +6,8 @@ import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
+import CTASection from '@/components/CTASection';
+import { Card } from '@/components/ui/card';
 import {
   TrendingUp,
   Clock,
@@ -17,6 +19,7 @@ import {
   Mail,
 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
+import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'business-analytics');
 if (!service) {
@@ -81,36 +84,65 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-      <div class="relative z-10 mx-auto max-w-7xl text-center">
-        <div
-          class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
-          transition:name={`service-icon-${service.id}`}
-        >
-          <IconComponent
-            className="text-primary h-12 w-12"
-            aria-hidden="true"
-          />
+      <div class="relative z-10 mx-auto max-w-7xl">
+        <div class="text-center">
+          <div
+            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
+            transition:name={`service-icon-${service.id}`}
+          >
+            <IconComponent
+              className="text-primary h-12 w-12"
+              aria-hidden="true"
+            />
+          </div>
+          <h1
+            class="mb-6 text-5xl font-bold md:text-6xl"
+            transition:name={`service-title-${service.id}`}
+            transition:animate="initial"
+          >
+            <span class="text-foreground"
+              >{titleFirst ? `${titleFirst} ` : ''}</span
+            >
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >{lastTitleWord}</span
+            >
+          </h1>
+          <p
+            transition:name={`service-description-${service.id}`}
+            transition:animate="initial"
+            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
+          >
+            {service.data.description}
+          </p>
         </div>
-        <h1
-          class="mb-6 text-5xl font-bold md:text-6xl"
-          transition:name={`service-title-${service.id}`}
-          transition:animate="initial"
+
+        {/* Hero Image Placeholder */}
+        <div
+          class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
-          <span class="text-foreground"
-            >{titleFirst ? `${titleFirst} ` : ''}</span
+          <div
+            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
           >
-          <span
-            class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-            >{lastTitleWord}</span
-          >
-        </h1>
-        <p
-          transition:name={`service-description-${service.id}`}
-          transition:animate="initial"
-          class="text-muted-foreground mx-auto max-w-3xl text-xl"
-        >
-          {service.data.description}
-        </p>
+            <div
+              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
+            >
+              <div class="text-center">
+                <div
+                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                >
+                  Service Hero Image
+                </div>
+                <div class="text-muted-foreground/60 text-lg">
+                  Business Analytics Illustration
+                </div>
+                <div class="text-muted-foreground/40 mt-2 text-xs">
+                  Recommended: 1400x800px
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div
         class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
@@ -199,11 +231,39 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
               Key Benefits
             </h3>
 
+            {/* Feature Image Placeholder */}
+            <div class="not-prose mb-10">
+              <div
+                class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border"
+              >
+                <div
+                  class="from-primary/5 via-secondary/5 to-primary/5 flex items-center justify-center bg-linear-to-br"
+                  style="aspect-ratio: 21/9;"
+                >
+                  <div class="text-center">
+                    <div
+                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                    >
+                      Feature Image
+                    </div>
+                    <div class="text-muted-foreground/60 text-lg">
+                      Analytics Dashboard
+                    </div>
+                    <div class="text-muted-foreground/40 mt-2 text-xs">
+                      Recommended: 1200x500px (21:9)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Clock
@@ -217,10 +277,12 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                 <div class="text-muted-foreground">
                   Eliminate hours of manual report creation
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <CheckCircle2
@@ -234,10 +296,12 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                 <div class="text-muted-foreground">
                   Automated data collection reduces errors
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Target
@@ -251,10 +315,12 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                 <div class="text-muted-foreground">
                   Access to real-time information supports informed choices
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <TrendingUp
@@ -268,10 +334,12 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                 <div class="text-muted-foreground">
                   Spot patterns and opportunities in your data
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Users
@@ -285,10 +353,12 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                 <div class="text-muted-foreground">
                   Clear metrics help track performance
                 </div>
-              </div>
+              </Card>
 
-              <div
-                class="border-border/60 bg-background/90 flex flex-col items-center rounded-2xl border p-6 text-center"
+              <Card
+                size="default"
+                interactive={false}
+                className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
                   <Database
@@ -302,7 +372,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                 <div class="text-muted-foreground">
                   Connect data from multiple systems into unified reports
                 </div>
-              </div>
+              </Card>
             </div>
 
             <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
@@ -334,14 +404,41 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
               }
             </div>
 
-            <div class="bg-background border-border">
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              Our Process
+            </h3>
+
+            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
+              {/* Left: Image Placeholder */}
               <div
-                class="gradient-mesh not-prose mb-20 rounded-2xl border p-10"
+                class="glass border-primary/20 overflow-hidden rounded-2xl border"
               >
-                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-                  Our Process
-                </h3>
-                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <div
+                  class="from-primary/5 via-secondary/5 to-primary/5 flex h-full min-h-[300px] items-center justify-center bg-linear-to-br"
+                >
+                  <div class="text-center">
+                    <div
+                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                    >
+                      Process Image
+                    </div>
+                    <div class="text-muted-foreground/60 text-lg">
+                      Analytics Implementation
+                    </div>
+                    <div class="text-muted-foreground/40 mt-2 text-xs">
+                      Recommended: 600x400px
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Text Card */}
+              <Card
+                size="default"
+                interactive={false}
+                className="flex items-center"
+              >
+                <div class="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
                   <div class="text-center">
                     <div
                       class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
@@ -429,100 +526,25 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                     </div>
                   </div>
                 </div>
-              </div>
+              </Card>
             </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Why Choose BDK for Analytics?
-            </h3>
-
-            <div class="text-center">
-              <div
-                class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
-              >
-                We combine technical expertise with business understanding. Our
-                team doesn't just build reports—we help you identify the metrics
-                that matter and design analytics that drive better decisions. We
-                work with your existing systems and data, creating solutions
-                that integrate seamlessly into your operations.
-              </div>
-              <div class="text-primary text-xl font-semibold">
-                Transform your data from a burden into a competitive advantage.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {
-          relatedPosts.length > 0 && (
-            <section class="mx-auto max-w-5xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Related Resources
-              </h2>
-              <div class="grid gap-6 md:grid-cols-3">
-                {relatedPosts.map((post) => (
-                  <a
-                    href={`/blog/${post.slug}`}
-                    class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
-                  >
-                    <h3 class="text-foreground mb-2 text-lg font-semibold">
-                      {post.data.title}
-                    </h3>
-                    <p class="text-muted-foreground text-sm">
-                      {post.data.description}
-                    </p>
-                    <span class="text-primary mt-4 text-sm font-medium">
-                      Read Article →
-                    </span>
-                  </a>
-                ))}
-              </div>
-            </section>
-          )
-        }
-
-        <ImpactMetricsSection metrics={metrics} />
-
-        <div class="mx-auto max-w-4xl">
-          <div
-            class="glass rounded-2xl p-12 text-center delay-800 duration-500"
-          >
-            <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-              Ready to Get Started?
-            </h2>
-            <p class="text-muted-foreground mb-8 text-xl">
-              Let's discuss how {service.data.title.toLowerCase()} can transform
-              your business.
-            </p>
-            <a
-              href="/contact"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors"
-            >
-              Contact Us Today
-              <Mail className="h-4 w-4" aria-hidden="true" />
-            </a>
           </div>
         </div>
       </div>
+
+      <ImpactMetricsSection metrics={metrics} />
+
+      <CTASection
+        client:load
+        title="Why Choose BDK for Analytics?"
+        description="We combine technical expertise with business understanding. Our team doesn't just build reports—we help you identify the metrics that matter and design analytics that drive better decisions. We work with your existing systems and data, creating solutions that integrate seamlessly into your operations."
+        primaryAction={{
+          text: 'Transform Your Data',
+          href: '/contact',
+        }}
+      />
     </section>
   </main>
-
-  <!-- Footer -->
-  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
-    <div
-      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
-    >
-      <div>
-        <Logo />
-      </div>
-      <p class="text-muted-foreground mb-4">
-        Your trusted technology partner since 1999
-      </p>
-      <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()}
-        <span class="font-display font-extrabold">BDKinc</span>. All rights
-        reserved.
-      </p>
-    </div>
-  </footer>
 </Layout>
+
+<Footer />

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Logo } from '@/components/Logo';
+import Footer from '@/components/Footer.astro';
 
 export async function getStaticPaths() {
   // Get main services, PSEO services, and locations from collections
@@ -192,7 +193,7 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
             locationFeatures.map((feature, index) => {
               const FeatureIcon = feature.icon;
               return (
-                <div key={index} class="text-center">
+                <div class="text-center">
                   <div class="bg-primary/5 mb-4 inline-flex items-center justify-center rounded-lg p-3">
                     <FeatureIcon className="text-primary h-6 w-6" />
                   </div>
@@ -353,21 +354,5 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
   </main>
 
   <!-- Footer -->
-  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
-    <div
-      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
-    >
-      <div>
-        <Logo />
-      </div>
-      <p class="text-muted-foreground mb-4">
-        Your trusted technology partner since 1999
-      </p>
-      <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()}
-        <span class="font-display font-extrabold">BDKinc</span>. All rights
-        reserved.
-      </p>
-    </div>
-  </footer>
+  <Footer />
 </Layout>

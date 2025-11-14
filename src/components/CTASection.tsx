@@ -1,16 +1,28 @@
 import { useEffect, useRef } from 'react'
+import type { HTMLAttributeAnchorTarget } from 'react'
 import { gsap } from 'gsap'
 import { cn } from '@/lib/utils'
 import { Card } from '@/components/ui/card'
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver'
 import CTAButton from '@/components/CTAButton'
 
+type CTAIcon = 'mail' | 'phone' | 'sparkles' | 'arrow' | 'home' | 'back' | 'click' | 'search' | 'none'
+
+interface CTAAction {
+  text: string
+  href: string
+  icon?: CTAIcon
+  target?: HTMLAttributeAnchorTarget
+  rel?: string
+}
+
 interface CTASectionProps {
   title?: string
   description?: string
   buttonText?: string
   buttonHref?: string
-  icon?: 'mail' | 'phone' | 'sparkles' | 'arrow' | 'home' | 'back' | 'click' | 'none'
+  icon?: CTAIcon
+  primaryAction?: CTAAction
 }
 
 export default function CTASection({
@@ -18,9 +30,18 @@ export default function CTASection({
   description = "Let's discuss how we can help your business grow with reliable IT solutions.",
   buttonText = "Get in Touch",
   buttonHref = "/contact",
-  icon
+  icon,
+  primaryAction
 }: CTASectionProps) {
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null)
+
+  const resolvedPrimaryAction: CTAAction = {
+    text: primaryAction?.text ?? buttonText,
+    href: primaryAction?.href ?? buttonHref,
+    icon: primaryAction?.icon ?? icon,
+    target: primaryAction?.target,
+    rel: primaryAction?.rel
+  }
   
   // Viewport detection for CTA section
   const { ref: sectionRef, isIntersecting: sectionInView } = useIntersectionObserver({
@@ -105,17 +126,19 @@ export default function CTASection({
           )}
           style={{ transitionDelay: sectionInView ? '450ms' : '0ms' }}
         >
-          <CTAButton
-            ref={buttonRef}
-            className="shadow-sm cursor-pointer"
-            icon={icon}
-            onClick={(e) => {
-              e.preventDefault()
-              window.location.href = buttonHref
-            }}
-          >
-            {buttonText}
-          </CTAButton>
+          <div className="relative inline-block">
+            <CTAButton
+              ref={buttonRef}
+              className="relative z-10 shadow-lg cursor-pointer"
+              icon={resolvedPrimaryAction.icon}
+              href={resolvedPrimaryAction.href}
+              target={resolvedPrimaryAction.target}
+              rel={resolvedPrimaryAction.rel}
+            >
+              {resolvedPrimaryAction.text}
+            </CTAButton>
+            <div className="absolute inset-0 bg-linear-to-r from-primary via-secondary to-primary bg-size-[200%_100%] group-hover:animate-shimmer opacity-20 rounded-lg -z-10" />
+          </div>
         </div>
         </Card>
       </div>

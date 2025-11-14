@@ -7,6 +7,7 @@ import { Box, Mail } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { iconMap } from '@/lib/icons';
 import { Logo } from '@/components/Logo';
+import Footer from '@/components/Footer.astro';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -150,22 +151,5 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
-    <div
-      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
-    >
-      <div>
-        <Logo />
-      </div>
-      <p class="text-muted-foreground mb-4">
-        Your trusted technology partner since 1999
-      </p>
-      <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()}
-        <span class="font-display font-extrabold">BDKinc</span>. All rights
-        reserved.
-      </p>
-    </div>
-  </footer>
+  <Footer />
 </Layout>

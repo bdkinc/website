@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { Button } from "@/components/ui/button";
+import CTAButton from "@/components/CTAButton";
 import {
-  ArrowRight,
   Server,
   Shield,
   Cloud,
@@ -32,7 +31,7 @@ import CountUp from "./CountUp";
 export default function Hero() {
   const iconsRef = useRef<SVGSVGElement[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
-  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const buttonsRef = useRef<Array<HTMLButtonElement | HTMLAnchorElement>>([]);
 
   useEffect(() => {
     // Check if user prefers reduced motion
@@ -41,7 +40,8 @@ export default function Hero() {
 
     // Animate floating icons with GSAP for continuous animation
     const icons = iconsRef.current.filter((icon) => icon !== null);
-    const buttons = buttonsRef.current.filter((button) => button !== null);
+    const buttons = buttonsRef.current;
+    const buttonCleanup: Array<() => void> = [];
 
     const ctx = gsap.context(() => {
       icons.forEach((icon) => {
@@ -87,47 +87,43 @@ export default function Hero() {
         });
       });
 
-      // Add hover animations to buttons
+      // Add hover animations to buttons (icon scaling only)
       buttons.forEach((button) => {
-        // Find the arrow icon inside the button
-        const arrow = button.querySelector('[class*="h-4"]');
-        
-        if (arrow) {
-          // Set initial state - arrow closer to text
-          gsap.set(arrow, { x: -2 });
-          
-          // Hover enter animation - move arrow further from text
-          const handleMouseEnter = () => {
-            gsap.to(arrow, {
-              x: 3,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-          };
+        const icon = button.querySelector('svg');
+        if (!icon) return;
 
-          // Hover leave animation - return arrow closer to text
-          const handleMouseLeave = () => {
-            gsap.to(arrow, {
-              x: -2,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-          };
+        gsap.set(icon, { transformOrigin: "center", scale: 1 });
 
-          // Add event listeners
-          button.addEventListener("mouseenter", handleMouseEnter);
-          button.addEventListener("mouseleave", handleMouseLeave);
+        const handleMouseEnter = () => {
+          gsap.to(icon, {
+            scale: 1.2,
+            duration: 0.25,
+            ease: "power2.out",
+          });
+        };
 
-          // Clean up function
-          return () => {
-            button.removeEventListener("mouseenter", handleMouseEnter);
-            button.removeEventListener("mouseleave", handleMouseLeave);
-          };
-        }
+        const handleMouseLeave = () => {
+          gsap.to(icon, {
+            scale: 1,
+            duration: 0.25,
+            ease: "power2.out",
+          });
+        };
+
+        button.addEventListener("mouseenter", handleMouseEnter);
+        button.addEventListener("mouseleave", handleMouseLeave);
+
+        buttonCleanup.push(() => {
+          button.removeEventListener("mouseenter", handleMouseEnter);
+          button.removeEventListener("mouseleave", handleMouseLeave);
+        });
       });
     }, contentRef);
 
-    return () => ctx.revert();
+    return () => {
+      buttonCleanup.forEach((cleanup) => cleanup());
+      ctx.revert();
+    };
   }, []);
 
   const addIconRef = (el: SVGSVGElement | null) => {
@@ -137,7 +133,7 @@ export default function Hero() {
     }
   };
 
-  const addButtonRef = (el: HTMLButtonElement | null) => {
+  const addButtonRef = (el: HTMLButtonElement | HTMLAnchorElement | null) => {
     if (el && !buttonsRef.current.includes(el)) {
       buttonsRef.current.push(el);
     }
@@ -312,27 +308,27 @@ export default function Hero() {
           {/* CTAs - fade in + slide from bottom with stagger */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-30">
             <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
-              <Button
+              <CTAButton
                 size="lg"
                 className="shadow-lg"
                 ref={addButtonRef}
-                onClick={() => window.location.href = '/contact'}
+                href="/contact"
+                icon="click"
               >
                 Get Started
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-              </Button>
+              </CTAButton>
             </div>
             <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-500 delay-400">
-              <Button
+              <CTAButton
                 size="lg"
                 variant="outline"
                 className="shadow-lg"
                 ref={addButtonRef}
-                onClick={() => window.location.href = '/services'}
+                href="/services"
+                icon="search"
               >
                 Explore Services
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-              </Button>
+              </CTAButton>
             </div>
           </div>
 
