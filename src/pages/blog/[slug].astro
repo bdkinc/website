@@ -6,7 +6,6 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { Calendar, User, Tag, ArrowLeft } from 'lucide-react';
 import { getNavigationData } from '@/lib/navigation-data';
-import { Logo } from '@/components/Logo';
 import Footer from '@/components/Footer.astro';
 
 export async function getStaticPaths() {
@@ -116,7 +115,7 @@ function formatDate(date: Date): string {
           class="glass border-primary/20 overflow-hidden rounded-2xl border shadow-lg"
         >
           <div
-            class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-gradient-to-br"
+            class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
           >
             <div class="p-6 text-center">
               <div
