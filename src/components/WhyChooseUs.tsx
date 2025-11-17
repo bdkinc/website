@@ -75,7 +75,7 @@ export default function WhyChooseUs() {
 
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 gradient-mesh relative">
-      <div className="absolute top-0 left-0 right-0 h-1 bg-primary" />
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/50 via-secondary/50 to-[--brand-accent]/50" />
 
       <div className="max-w-7xl mx-auto">
         <div 
@@ -143,7 +143,7 @@ export default function WhyChooseUs() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary" />
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/50 via-secondary/50 to-[--brand-accent]/50" />
     </section>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Card,
@@ -18,10 +18,19 @@ interface ServicesProps {
   }>;
 }
 
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
 export default function Services({ services }: ServicesProps) {
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
   const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
   const descriptionRefs = useRef<(HTMLParagraphElement | null)[]>([]);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [mousePositions, setMousePositions] = useState<{ [key: number]: MousePosition }>({});
 
   // Viewport detection for section header
   const { ref: headerRef, isIntersecting: headerInView } = useIntersectionObserver({
@@ -87,29 +96,54 @@ export default function Services({ services }: ServicesProps) {
         {/* Services Grid */}
         <div
           ref={gridRef as any}
-          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 auto-rows-fr"
         >
           {services.map((service, index) => {
             const Icon = iconMap[service.icon];
             // Stagger: 100ms between cards
             const delayMs = index * 100;
+            const isHovered = hoveredCard === index;
+            const mousePos = mousePositions[index] || { x: 50, y: 50 };
+
             return (
               <a
                 key={service.slug}
                 href={`/services/${service.slug}`}
+                ref={(el) => {
+                  cardRefs.current[index] = el;
+                }}
                 className={cn(
-                  "block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                  "block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                   "opacity-0 translate-y-6 transition-[opacity,transform] duration-600 ease-out",
+                  "group h-full",
                   gridInView && "opacity-100 translate-y-0"
                 )}
                 style={{
                   transitionDelay: gridInView ? `${delayMs}ms` : '0ms'
                 }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = ((e.clientX - rect.left) / rect.width) * 100;
+                  const y = ((e.clientY - rect.top) / rect.height) * 100;
+                  setMousePositions(prev => ({ ...prev, [index]: { x, y } }));
+                }}
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
               >
                 <Card className={cn(
-                  "h-full flex flex-col justify-center"
+                  "h-full flex flex-col justify-center relative overflow-hidden",
+                  "backdrop-blur-xl bg-card/60 border-border/50"
                 )}>
-                  <CardHeader className="text-center flex flex-col items-center justify-center flex-1">
+                  {/* Mouse-tracking spotlight */}
+                  <div
+                    className="absolute inset-0 pointer-events-none transition-opacity duration-300 z-10"
+                    style={{
+                      opacity: isHovered ? 1 : 0,
+                      background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.1) 40%, transparent 60%)`,
+                    }}
+                  />
+
+                  <CardHeader className="text-center flex flex-col items-center justify-center flex-1 relative z-20">
                     <div
                       ref={(el) => {
                         iconRefs.current[index] = el;
@@ -121,7 +155,7 @@ export default function Services({ services }: ServicesProps) {
                     >
                       {Icon && <Icon className="w-8 h-8 text-primary" />}
                     </div>
-                    <CardTitle 
+                    <CardTitle
                       ref={(el) => {
                         titleRefs.current[index] = el;
                       }}
@@ -129,7 +163,7 @@ export default function Services({ services }: ServicesProps) {
                     >
                       {service.title}
                     </CardTitle>
-                    <CardDescription 
+                    <CardDescription
                       ref={(el) => {
                         descriptionRefs.current[index] = el;
                       }}

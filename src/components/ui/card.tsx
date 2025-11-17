@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils"
  * Unified Card Variants
  * Supports size variants (sm/default/lg/xl) with consistent padding
  * hover effects (border, scale, shadow) with fill-mode-both for animations
- * and interactive vs static variants for different use cases
+ * interactive vs static variants for different use cases
+ * holographic variant for cutting-edge hi-tech aesthetic
  */
 export const cardVariants = cva(
   "glass rounded-xl border border-border/50 text-card-foreground transition-all duration-300 fill-mode-both",
@@ -23,10 +24,15 @@ export const cardVariants = cva(
         true: "hover:border-primary/50 hover:scale-105 hover:shadow-[--shadow-glow-sm] focus-visible:border-primary/50 focus-visible:scale-105 focus-visible:shadow-[--shadow-glow-sm] focus-visible:outline-none",
         false: "",
       },
+      holographic: {
+        true: "holographic-card",
+        false: "",
+      },
     },
     defaultVariants: {
       size: "default",
       interactive: true,
+      holographic: false,
     },
   }
 );
@@ -38,10 +44,10 @@ interface CardProps
     CardVariants {}
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, size, interactive, ...props }, ref) => (
+  ({ className, size, interactive, holographic, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(cardVariants({ size, interactive }), className)}
+      className={cn(cardVariants({ size, interactive, holographic }), className)}
       {...props}
     />
   )
