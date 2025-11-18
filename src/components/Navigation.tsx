@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ThemeToggle from '@/components/ThemeToggle';
 import { Logo } from '@/components/Logo';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -226,23 +226,12 @@ export default function Navigation({
                         <NavigationMenuLink asChild>
                           <a
                             href="/services"
-                            className="text-primary hover:text-primary/80 group flex items-center justify-center gap-2 rounded-lg p-3 text-base font-semibold tracking-wide no-underline transition-all duration-300 hover:gap-3 outline-none select-none"
+                            className="group text-primary hover:text-primary/80 flex flex-row items-center gap-2 rounded-lg p-3 text-base font-semibold tracking-wide no-underline transition-all duration-300 hover:gap-3 outline-none select-none"
                           >
                             <span>View All Services</span>
-                            
-                            <svg
-                              className="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M13 7l5 5m0 0l-5 5m5-5H6"
-                              />
-                            </svg>
+                            <span>
+                              <ArrowRight className="text-current transition-transform duration-300 group-hover:translate-x-1" />
+                            </span>
                           </a>
                         </NavigationMenuLink>
                       </li>
