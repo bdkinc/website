@@ -6,7 +6,6 @@ import { getCollection } from 'astro:content';
 import { Calendar, User, Tag } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
-import { Logo } from '@/components/Logo';
 import Footer from '@/components/Footer.astro';
 
 const { servicesData, recentPosts } = await getNavigationData();
@@ -40,8 +39,19 @@ function formatDate(date: Date): string {
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl text-center">
+        {/* Badge */}
+        <div
+          class="glass border-primary/20 animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+        >
+          <span class="text-sm">
+            Latest <span class="font-semibold text-[--brand-accent]"
+              >IT Insights</span
+            >
+          </span>
+        </div>
+
         <h1
-          class="fill-mode-both animate-in fade-in slide-in-from-top-6 mb-6 text-5xl font-bold duration-700 md:text-7xl"
+          class="fill-mode-both animate-in fade-in slide-in-from-top-6 mb-6 text-5xl font-bold delay-100 duration-700 md:text-7xl"
         >
           <span class="text-foreground">Our </span>
           <span class="text-primary"> Blog </span>
@@ -54,7 +64,7 @@ function formatDate(date: Date): string {
         </p>
       </div>
       <div
-        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
@@ -171,7 +181,7 @@ function formatDate(date: Date): string {
       title="Stay Updated with IT Insights"
       description="Want to discuss how these insights can help your business? Let's talk."
       buttonText="Get in Touch"
-      buttonHref="/contact?from=blog"
+      buttonHref="/contact"
     />
   </main>
 

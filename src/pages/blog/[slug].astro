@@ -16,6 +16,8 @@ export async function getStaticPaths() {
   }));
 }
 
+export const prerender = true;
+
 interface Props {
   entry: CollectionEntry<'blog'>;
 }
@@ -152,7 +154,7 @@ function formatDate(date: Date): string {
       title="Ready to Implement These Solutions?"
       description="Our team can help you apply these best practices to your business infrastructure."
       buttonText="Contact Us"
-      buttonHref="/contact?from=blog-post"
+      buttonHref="/contact"
     />
   </main>
 

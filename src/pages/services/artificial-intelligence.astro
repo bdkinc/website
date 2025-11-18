@@ -19,9 +19,7 @@ import {
   BarChart3,
   Target,
   CheckCircle2,
-  Mail,
 } from 'lucide-react';
-import { Logo } from '@/components/Logo';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'artificial-intelligence');
@@ -140,7 +138,7 @@ const detailColumns = [
         </div>
       </div>
       <div
-        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
@@ -171,8 +169,8 @@ const detailColumns = [
               Our AI Services
             </h3>
 
-            <ServiceCardGrid>
-              <ServiceCard>
+            <ServiceCardGrid client:visible>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <Sparkles
                     className="text-primary h-16 w-16"
@@ -189,7 +187,7 @@ const detailColumns = [
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <TrendingUp
                     className="text-primary h-16 w-16"
@@ -206,7 +204,7 @@ const detailColumns = [
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <Zap className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
@@ -685,7 +683,7 @@ const detailColumns = [
         description="Let's discuss how artificial intelligence can transform your business operations, improve decision-making, and unlock new opportunities."
         primaryAction={{
           text: 'Discuss Your AI Strategy',
-          href: '/contact?from=artificial-intelligence',
+          href: '/contact',
         }}
       />
     </section>

@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface GeometricGridProps {
-  variant?: "grid" | "isometric" | "hex";
+  variant?: 'grid' | 'isometric' | 'hex';
   className?: string;
 }
 
@@ -10,19 +10,19 @@ interface GeometricGridProps {
  * Displays various geometric background patterns for technical aesthetic
  */
 export default function GeometricGrid({
-  variant = "grid",
-  className = ""
+  variant = 'grid',
+  className = '',
 }: GeometricGridProps) {
   const variantClasses = {
-    grid: "geometric-grid",
-    isometric: "isometric-grid",
-    hex: "hex-pattern"
+    grid: 'geometric-grid',
+    isometric: 'isometric-grid',
+    hex: 'hex-pattern',
   };
 
   return (
     <div
       className={cn(
-        "absolute inset-0 pointer-events-none",
+        'pointer-events-none absolute inset-0',
         variantClasses[variant],
         className
       )}

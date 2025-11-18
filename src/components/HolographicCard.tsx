@@ -1,11 +1,11 @@
-import { useRef, useState, useEffect, type ReactNode } from "react";
-import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { useRef, useState, useEffect, type ReactNode } from 'react';
+import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 interface HolographicCardProps {
   children: ReactNode;
   className?: string;
-  size?: "sm" | "default" | "lg" | "xl";
+  size?: 'sm' | 'default' | 'lg' | 'xl';
   interactive?: boolean;
 }
 
@@ -16,7 +16,7 @@ interface HolographicCardProps {
 export default function HolographicCard({
   children,
   className,
-  size = "lg",
+  size = 'lg',
   interactive = true,
 }: HolographicCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -37,27 +37,27 @@ export default function HolographicCard({
     const handleMouseEnter = () => setIsHovered(true);
     const handleMouseLeave = () => setIsHovered(false);
 
-    card.addEventListener("mousemove", handleMouseMove);
-    card.addEventListener("mouseenter", handleMouseEnter);
-    card.addEventListener("mouseleave", handleMouseLeave);
+    card.addEventListener('mousemove', handleMouseMove);
+    card.addEventListener('mouseenter', handleMouseEnter);
+    card.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      card.removeEventListener("mousemove", handleMouseMove);
-      card.removeEventListener("mouseenter", handleMouseEnter);
-      card.removeEventListener("mouseleave", handleMouseLeave);
+      card.removeEventListener('mousemove', handleMouseMove);
+      card.removeEventListener('mouseenter', handleMouseEnter);
+      card.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 
   return (
-    <div ref={cardRef} className="relative group">
+    <div ref={cardRef} className="group relative">
       <Card
         size={size}
         interactive={interactive}
-        className={cn("relative overflow-hidden backdrop-blur-xl", className)}
+        className={cn('relative overflow-hidden backdrop-blur-xl', className)}
       >
         {/* Mouse-tracking holographic spotlight */}
         <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-200 z-20"
+          className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-200"
           style={{
             opacity: isHovered ? 1 : 0,
             background: `radial-gradient(400px circle at ${mousePosition.x}% ${mousePosition.y}%,
@@ -70,7 +70,7 @@ export default function HolographicCard({
 
         {/* Border glow effect */}
         <div
-          className="absolute inset-0 pointer-events-none transition-all duration-200 rounded-xl"
+          className="pointer-events-none absolute inset-0 rounded-xl transition-all duration-200"
           style={{
             opacity: isHovered ? 1 : 0,
             boxShadow: isHovered

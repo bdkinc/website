@@ -30,6 +30,7 @@ Multi-factor authentication (MFA) is one of the most effective security controls
 ## Regular Security Audits
 
 Schedule regular security audits to:
+
 - Review access permissions
 - Identify unused resources
 - Update security policies

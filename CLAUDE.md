@@ -24,6 +24,7 @@ npm run preview
 ### Astro Islands Architecture
 
 The project uses Astro's partial hydration model:
+
 - **Static by default**: All `.astro` files render to static HTML
 - **Interactive islands**: React components are hydrated using client directives:
   - `client:load` - Hydrates immediately on page load (e.g., Navigation)
@@ -44,8 +45,8 @@ The project uses Astro's partial hydration model:
 `@/` is aliased to `./src/` (configured in [astro.config.mjs](astro.config.mjs) and [tsconfig.json](tsconfig.json)):
 
 ```typescript
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 ```
 
 ## Styling System
@@ -108,6 +109,7 @@ Navigation items are defined in [src/components/Navigation.tsx](src/components/N
 ## Page Structure
 
 All pages follow this pattern:
+
 1. Import `Layout` from layouts
 2. Import `Navigation` component
 3. Use `client:load` for Navigation (needs immediate interactivity)
@@ -120,6 +122,7 @@ Services are maintained in **two locations** that must stay synchronized:
 ### 1. Content Collection (`src/content/services/`)
 
 Each service has a JSON data file (e.g., `src/content/services/application-development.json`):
+
 ```json
 {
   "title": "Custom Application Development",
@@ -136,6 +139,7 @@ Each service has a JSON data file (e.g., `src/content/services/application-devel
 ### 2. Page Files (`src/pages/services/`)
 
 Each service has a dedicated Astro page (e.g., `src/pages/services/application-development.astro`):
+
 - Fetches service data via `getEntry('services', 'service-slug')`
 - Returns 404 if service entry doesn't exist (required for type safety)
 - Contains full service content, features, and marketing copy
@@ -159,6 +163,7 @@ When adding a new service, **always do both**:
 ### Type Safety
 
 Service pages include a null check on the `getEntry()` result:
+
 ```typescript
 const service = await getEntry('services', 'service-slug');
 if (!service) {
@@ -167,3 +172,78 @@ if (!service) {
 ```
 
 This ensures TypeScript recognizes `service.data` as defined and prevents runtime errors.
+
+## Current Design Patterns (Home Page)
+
+The home page (`src/pages/index.astro`) implements a refined hi-tech aesthetic with the following key patterns:
+
+### Interactive Effects
+
+1. **Particle Network (Hero Section)**
+   - Canvas-based particle system with 60 interconnected nodes
+   - Mouse repulsion effect (particles move away from cursor)
+   - Brand-colored particles (cyan, purple, orange)
+   - Always checks `prefers-reduced-motion`
+   - Implementation: `src/components/Hero.tsx`
+
+2. **Mouse-Tracking Spotlight (Service Cards)**
+   - Radial gradient follows cursor across card surface
+   - Glassmorphism with `backdrop-blur-xl` and `bg-card/60`
+   - Dual-color gradient (cyan → purple → transparent)
+   - Implementation: `src/components/Services.tsx`, `src/components/InteractiveServiceCard.tsx`
+
+3. **Pulsing Glow (CTA Buttons)**
+   - Subtle breathing animation on primary CTAs
+   - 24px maximum glow radius (refined for professionalism)
+   - 2-second pulse cycle with `ease-in-out`
+   - CSS class: `.pulse-glow` in `global.css`
+
+4. **Tri-Color Gradient Bars**
+   - 1px horizontal bars using all three brand colors
+   - 50% opacity: `from-primary/50 via-secondary/50 to-[--brand-accent]/50`
+   - Used at bottom of Hero, top/bottom of sections
+
+### Design Philosophy
+
+**Balance Guidelines:**
+
+- **Hero Section**: Maximum visual interest (particles + Aurora + circuit overlay + gradients)
+- **Content Sections**: Clean backgrounds for readability (NO circuit overlay)
+- **Interactive Elements**: Mouse effects on cards only, not entire page
+- **Button CTAs**: Pulsing glow for primary actions only
+- **Section Breaks**: Tri-color gradient bars for visual rhythm
+
+**Effect Intensity Scale:**
+
+1. Hero Background (Highest) - Multiple layered effects
+2. Interactive Cards (Medium) - Mouse-tracking + glassmorphism
+3. CTA Buttons (Medium) - Subtle pulsing glow
+4. Section Breaks (Low) - Gradient bars
+5. Content Areas (Minimal) - Clean, typography-focused
+
+**Anti-Patterns:**
+
+- ❌ Don't apply particle effects to entire page
+- ❌ Don't use circuit overlay outside hero sections
+- ❌ Don't exceed 30px glow radius on buttons
+- ❌ Don't add mouse-tracking to static content
+- ❌ Don't create multiple competing animations in same viewport
+
+### Key Component Files
+
+- **Hero**: `src/components/Hero.tsx` - Particle network, pulsing CTA button
+- **Services**: `src/components/Services.tsx` - Mouse-tracking spotlight cards (homepage)
+- **InteractiveServiceCard**: `src/components/InteractiveServiceCard.tsx` - Reusable card with spotlight
+- **WhyChooseUs**: `src/components/WhyChooseUs.tsx` - Gradient bars
+- **Footer**: `src/components/Footer.astro` - Purple-focused gradient with tri-color bar
+- **CTASection**: `src/components/CTASection.tsx` - Clean background (effects removed per user feedback)
+
+### Performance Considerations
+
+All advanced effects include:
+
+- `prefers-reduced-motion` checks for canvas animations
+- `requestAnimationFrame` for smooth 60fps rendering
+- Proper cleanup (event listeners, canvas elements)
+- `pointer-events-none` on decorative overlays
+- GPU-accelerated CSS animations (`transform`, `opacity`)

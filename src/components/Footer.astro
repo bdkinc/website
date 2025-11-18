@@ -2,9 +2,14 @@
 import { Logo } from '@/components/Logo';
 ---
 
-<footer class="border-border/60 relative border-t px-4 py-10 sm:px-6 lg:px-8 bg-gradient-to-b from-secondary/3 via-background to-background">
+<footer
+  class="border-border/60 from-secondary/3 via-background to-background relative border-t bg-gradient-to-b px-4 py-10 sm:px-6 lg:px-8"
+>
   {/* Tri-color gradient bar at top */}
-  <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/50 via-secondary/50 to-[--brand-accent]/50"></div>
+  <div
+    class="from-primary/50 via-secondary/50 absolute top-0 right-0 left-0 h-1 bg-gradient-to-r to-[--brand-accent]/50"
+  >
+  </div>
 
   {/* Gradient mesh background */}
   <div
@@ -14,7 +19,12 @@ import { Logo } from '@/components/Logo';
   </div>
 
   {/* Radial gradient spotlight - purple focal */}
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" style="background: radial-gradient(circle at top center, rgba(124, 58, 237, 0.08), transparent 50%);"></div>
+  <div
+    class="pointer-events-none absolute inset-0"
+    aria-hidden="true"
+    style="background: radial-gradient(circle at top center, rgba(124, 58, 237, 0.08), transparent 50%);"
+  >
+  </div>
   <div
     class="text-muted-foreground relative z-10 mx-auto flex max-w-7xl flex-col gap-8 text-[0.95rem] sm:text-sm"
   >

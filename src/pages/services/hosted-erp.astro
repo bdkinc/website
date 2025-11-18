@@ -22,9 +22,7 @@ import {
   Calculator,
   FileSpreadsheet,
   HeadphonesIcon,
-  Mail,
 } from 'lucide-react';
-import { Logo } from '@/components/Logo';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'hosted-erp');
@@ -143,7 +141,7 @@ const detailColumns = [
         </div>
       </div>
       <div
-        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
@@ -174,8 +172,8 @@ const detailColumns = [
               Transform Your Operations
             </h3>
 
-            <ServiceCardGrid>
-              <ServiceCard>
+            <ServiceCardGrid client:visible>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <FileSpreadsheet
                     className="text-primary h-16 w-16"
@@ -192,7 +190,7 @@ const detailColumns = [
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <Network
                     className="text-primary h-16 w-16"
@@ -209,7 +207,7 @@ const detailColumns = [
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <Calculator
                     className="text-primary h-16 w-16"
@@ -533,7 +531,8 @@ const detailColumns = [
           description="We combine ERP expertise with managed hosting services, giving you a complete solution. Our team understands both the technical aspects of ERP systems and the business processes they support. We don't just host your software—we partner with you to ensure it delivers maximum value to your business."
           primaryAction={{
             text: 'Start Your ERP Journey',
-            href: '/contact?from=hosted-erp',
+            href: '/contact',
+            icon: 'arrow',
           }}
         />
       </div>

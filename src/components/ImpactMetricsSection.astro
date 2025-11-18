@@ -66,7 +66,11 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
                       </div>
                     )}
                     <div class="metric-value">
-                      <MetricCountUp client:visible value={metric.value} label={metric.label} />
+                      <MetricCountUp
+                        client:visible
+                        value={metric.value}
+                        label={metric.label}
+                      />
                     </div>
                   </div>
                 </div>
@@ -79,7 +83,7 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
   )
 }
 
-<script type="module" is:inline>
+<script>
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 

@@ -1,8 +1,8 @@
-import { useState, useRef } from "react";
-import { cn } from "@/lib/utils";
-import { Card } from "@/components/ui/card";
-import { iconMap } from "@/lib/icons";
-import { Box } from "lucide-react";
+import { useState, useRef } from 'react';
+import { cn } from '@/lib/utils';
+import { Card } from '@/components/ui/card';
+import { iconMap } from '@/lib/icons';
+import { Box } from 'lucide-react';
 
 interface InteractiveServiceCardProps {
   id: string;
@@ -15,7 +15,7 @@ export default function InteractiveServiceCard({
   id,
   title,
   description,
-  icon
+  icon,
 }: InteractiveServiceCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
@@ -27,7 +27,7 @@ export default function InteractiveServiceCard({
     <a
       ref={cardRef}
       href={`/services/${id}`}
-      className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 group h-full"
+      className="focus-visible:ring-primary group block h-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
       onMouseMove={(e) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -37,20 +37,22 @@ export default function InteractiveServiceCard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Card className={cn(
-        "h-full cursor-pointer flex flex-col justify-center relative overflow-hidden",
-        "backdrop-blur-xl bg-card/60 border-border/50"
-      )}>
+      <Card
+        className={cn(
+          'relative flex h-full cursor-pointer flex-col justify-center overflow-hidden',
+          'bg-card/60 border-border/50 backdrop-blur-xl'
+        )}
+      >
         {/* Mouse-tracking spotlight */}
         <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-300 z-10"
+          className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
           style={{
             opacity: isHovered ? 1 : 0,
             background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.1) 40%, transparent 60%)`,
           }}
         />
 
-        <div className="flex h-full flex-col items-center text-center relative z-20 p-8">
+        <div className="relative z-20 flex h-full flex-col items-center p-8 text-center">
           {/* Icon */}
           <div className="service-icon-wrapper mb-6">
             <div

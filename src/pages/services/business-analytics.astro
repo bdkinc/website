@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -16,9 +16,7 @@ import {
   CheckCircle2,
   Database,
   Users,
-  Mail,
 } from 'lucide-react';
-import { Logo } from '@/components/Logo';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'business-analytics');
@@ -59,14 +57,6 @@ const detailColumns = [
     ],
   },
 ];
-
-const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
-  .filter((post) =>
-    post.data.tags?.some((tag) =>
-      ['business', 'productivity', 'analytics'].includes(tag)
-    )
-  )
-  .slice(0, 3);
 ---
 
 <Layout
@@ -145,7 +135,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
         </div>
       </div>
       <div
-        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
@@ -175,8 +165,8 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
               Stop Drowning in Data
             </h3>
 
-            <ServiceCardGrid>
-              <ServiceCard>
+            <ServiceCardGrid client:visible>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <Clock
                     className="text-primary h-16 w-16"
@@ -193,7 +183,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <Zap className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
@@ -207,7 +197,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <Target
                     className="text-primary h-16 w-16"
@@ -540,7 +530,7 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
         description="We combine technical expertise with business understanding. Our team doesn't just build reports—we help you identify the metrics that matter and design analytics that drive better decisions. We work with your existing systems and data, creating solutions that integrate seamlessly into your operations."
         primaryAction={{
           text: 'Transform Your Data',
-          href: '/contact?from=business-analytics',
+          href: '/contact',
         }}
         icon="sparkles"
       />

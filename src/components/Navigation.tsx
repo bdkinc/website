@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import ThemeToggle from "@/components/ThemeToggle";
-import { Logo } from "@/components/Logo";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect } from 'react';
+import ThemeToggle from '@/components/ThemeToggle';
+import { Logo } from '@/components/Logo';
+import { Menu, X } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -10,9 +10,9 @@ import {
   NavigationMenuList,
   NavigationMenuLink,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
-import { iconMap } from "@/lib/icons";
+} from '@/components/ui/navigation-menu';
+import { cn } from '@/lib/utils';
+import { iconMap } from '@/lib/icons';
 
 interface NavigationProps {
   services: Array<{
@@ -30,10 +30,99 @@ interface NavigationProps {
   currentPath?: string;
 }
 
+// Service Dropdown Item with mouse-tracking spotlight
+function ServiceDropdownItem({
+  service,
+  icon: Icon,
+  index,
+  showTransitions,
+}: {
+  service: { slug: string; title: string; description: string };
+  icon: any;
+  index: number;
+  showTransitions: boolean;
+}) {
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <li
+      className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500"
+      style={{ animationDelay: `${index * 50}ms` }}
+    >
+      <NavigationMenuLink asChild>
+        <a
+          href={`/services/${service.slug}`}
+          className="group relative block overflow-hidden rounded-lg border border-border/30 bg-card/40 p-5 backdrop-blur-sm no-underline transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 outline-none select-none"
+          onMouseMove={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            setMousePosition({ x, y });
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* Mouse-tracking spotlight effect */}
+          <div
+            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
+            style={{
+              opacity: isHovered ? 1 : 0,
+              background: `radial-gradient(400px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.12), rgba(124, 58, 237, 0.08) 40%, transparent 60%)`,
+            }}
+          />
+
+          <div className="relative z-10 flex flex-col items-center space-y-3 text-center">
+            {/* Icon */}
+            {Icon && (
+              <div
+                className="flex justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
+                {...(showTransitions && {
+                  style: {
+                    viewTransitionName: `service-icon-${service.slug}`,
+                  } as any,
+                })}
+              >
+                <div className="bg-primary/10 rounded-lg p-2.5">
+                  <Icon className="text-primary h-10 w-10" />
+                </div>
+              </div>
+            )}
+
+            {/* Title */}
+            <div
+              className="text-foreground group-hover:text-primary text-base font-bold leading-tight transition-colors duration-300"
+              {...(showTransitions && {
+                style: {
+                  viewTransitionName: `service-title-${service.slug}`,
+                } as any,
+              })}
+            >
+              {service.title}
+            </div>
+
+            {/* Description */}
+            <p
+              className="text-muted-foreground text-xs leading-relaxed"
+              {...(showTransitions && {
+                style: {
+                  viewTransitionName: `service-description-${service.slug}`,
+                } as any,
+              })}
+            >
+              {service.description}
+            </p>
+          </div>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+}
+
 export default function Navigation({
   services,
   blogPosts = [],
-  currentPath = "",
+  currentPath = '',
 }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -54,60 +143,30 @@ export default function Navigation({
 
   // Format date helper
   const formatDate = (date: Date): string => {
-    return new Intl.DateTimeFormat("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
     }).format(new Date(date));
   };
 
-  const buildContactHref = (): string => {
-    if (typeof window === "undefined") return "/contact";
-
-    const path = window.location.pathname;
-
-    // Home page: generic contact
-    if (path === "/") return "/contact";
-
-    // About page
-    if (path === "/about") return "/contact?from=about";
-
-    // Services index
-    if (path === "/services") return "/contact?from=services";
-
-    // Service detail pages: /services/:slug or /services/:slug/:location
-    if (path.startsWith("/services/")) {
-      const segments = path.split("/").filter(Boolean);
-      // ["services", "slug", ...]
-      if (segments.length >= 2) {
-        const slug = segments[1];
-        return `/contact?from=${encodeURIComponent(slug)}`;
-      }
-    }
-
-    // Blog listing
-    if (path === "/blog") return "/contact?from=blog";
-
-    // Blog posts: /blog/:slug
-    if (path.startsWith("/blog/")) return "/contact?from=blog-post";
-
-    return "/contact";
-  };
 
   return (
-    <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      scrolled
-        ? "glass shadow-lg backdrop-blur-xl border-b border-primary/10"
-        : "bg-transparent backdrop-blur-sm shadow-sm"
-    )}>
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center h-16 relative">
+    <nav
+      className={cn(
+        'fixed top-0 right-0 left-0 z-50 transition-all duration-300',
+        scrolled
+          ? 'glass border-primary/10 border-b shadow-lg backdrop-blur-xl'
+          : 'bg-transparent shadow-sm backdrop-blur-sm'
+      )}
+    >
+      <div className="mx-auto max-w-7xl">
+        <div className="relative flex h-16 items-center justify-between">
           {/* Logo */}
           <Logo />
 
           {/* Desktop Navigation - Centered on window */}
-          <div className="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
+          <div className="absolute left-1/2 hidden -translate-x-1/2 items-center justify-center md:flex">
             <NavigationMenu>
               <NavigationMenuList>
                 {/* Home */}
@@ -116,7 +175,7 @@ export default function Navigation({
                     href="/"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent! hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl hover:text-primary focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent! transition-all"
+                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
                     )}
                   >
                     Home
@@ -129,7 +188,7 @@ export default function Navigation({
                     href="/about"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent! hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl hover:text-primary focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent! transition-all"
+                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
                     )}
                   >
                     About
@@ -140,72 +199,49 @@ export default function Navigation({
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={cn(
-                      "bg-transparent! hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl hover:text-primary focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent! transition-all"
+                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
                     )}
                   >
                     Services
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="bg-background">
-                    <ul className="grid w-[600px] gap-3 p-4 md:w-[700px] md:grid-cols-3 lg:w-[800px] ">
+                  <NavigationMenuContent className="bg-background/95 backdrop-blur-xl border border-border/50">
+                    <ul className="grid w-[680px] gap-4 p-6 md:w-[780px] md:grid-cols-3 lg:w-[900px]">
                       {services.map((service, index) => {
                         const Icon = iconMap[service.icon];
                         return (
-                          <li 
+                          <ServiceDropdownItem
                             key={service.slug}
-                            className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
-                            style={{ animationDelay: `${index * 50}ms` }}
-                          >
-                            <NavigationMenuLink asChild>
-                              <a
-                                href={`/services/${service.slug}`}
-                                className={cn(
-                                  "block select-none space-y-2 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-center"
-                                )}
-                              >
-                                {Icon && (
-                                  <div 
-                                    className="flex justify-center mb-2"
-                                    {...(showTransitions && {
-                                      style: { ['view-transition-name']: `service-icon-${service.slug}` } as any
-                                    })}
-                                  >
-                                    <Icon className="h-8 w-8 text-primary" />
-                                  </div>
-                                )}
-                                <div 
-                                  className="text-sm font-medium leading-none"
-                                  {...(showTransitions && {
-                                    style: { ['view-transition-name']: `service-title-${service.slug}` } as any
-                                  })}
-                                >
-                                  {service.title}
-                                </div>
-                                <div
-                                  className="text-sm"
-                                  {...(showTransitions && {
-                                    style: { ['view-transition-name']: `service-description-${service.slug}` } as any
-                                  })}
-                                >
-                                  {service.description}
-                                </div>
-                              </a>
-                            </NavigationMenuLink>
-                          </li>
+                            service={service}
+                            icon={Icon}
+                            index={index}
+                            showTransitions={showTransitions}
+                          />
                         );
                       })}
                       {/* View All Link */}
-                      <li 
-                        className="mt-2 pt-2 border-t border-input col-span-3 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+                      <li
+                        className="border-border/30 animate-in fade-in slide-in-from-bottom-4 fill-mode-both col-span-3 mt-2 border-t pt-4 duration-500"
                         style={{ animationDelay: `${services.length * 50}ms` }}
                       >
                         <NavigationMenuLink asChild>
                           <a
                             href="/services"
-                            className={cn(
-                              "block select-none rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary font-medium text-sm"
-                            )}
+                            className="text-primary hover:text-primary/80 group flex items-center justify-center gap-2 rounded-lg p-3 text-base font-semibold tracking-wide no-underline transition-all duration-300 hover:gap-3 outline-none select-none"
                           >
-                            View All Services →
+                            <span>View All Services</span>
+                            <svg
+                              className="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M13 7l5 5m0 0l-5 5m5-5H6"
+                              />
+                            </svg>
                           </a>
                         </NavigationMenuLink>
                       </li>
@@ -217,7 +253,7 @@ export default function Navigation({
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     className={cn(
-                      "bg-transparent! hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl hover:text-primary focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent! transition-all"
+                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
                     )}
                   >
                     Blog
@@ -227,28 +263,30 @@ export default function Navigation({
                       {/* Recent Posts */}
                       {blogPosts.length > 0 ? (
                         <>
-                          <li className="mb-2 animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both">
-                            <div className="px-3 py-2 text-sm font-semibold text-foreground">
+                          <li className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both mb-2 duration-500">
+                            <div className="text-foreground px-3 py-2 text-sm font-semibold">
                               Recent Posts
                             </div>
                           </li>
                           {blogPosts.slice(0, 3).map((post, index) => (
-                            <li 
+                            <li
                               key={post.slug}
-                              className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
-                              style={{ animationDelay: `${(index + 1) * 50}ms` }}
+                              className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500"
+                              style={{
+                                animationDelay: `${(index + 1) * 50}ms`,
+                              }}
                             >
                               <NavigationMenuLink asChild>
                                 <a
                                   href={`/blog/${post.slug}`}
                                   className={cn(
-                                    "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                    'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block space-y-1 rounded-md p-3 leading-none no-underline transition-all duration-300 outline-none select-none'
                                   )}
                                 >
-                                  <div className="text-sm font-medium leading-snug">
+                                  <div className="text-sm leading-snug font-medium">
                                     {post.title}
                                   </div>
-                                  <p className="text-xs text-muted-foreground">
+                                  <p className="text-muted-foreground text-xs">
                                     {formatDate(post.pubDate)}
                                   </p>
                                 </a>
@@ -256,15 +294,17 @@ export default function Navigation({
                             </li>
                           ))}
                           {/* View All Link */}
-                          <li 
-                            className="mt-2 pt-2 border-t border-input animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
-                            style={{ animationDelay: `${(blogPosts.slice(0, 3).length + 1) * 50}ms` }}
+                          <li
+                            className="border-input animate-in fade-in slide-in-from-bottom-4 fill-mode-both mt-2 border-t pt-2 duration-500"
+                            style={{
+                              animationDelay: `${(blogPosts.slice(0, 3).length + 1) * 50}ms`,
+                            }}
                           >
                             <NavigationMenuLink asChild>
                               <a
                                 href="/blog"
                                 className={cn(
-                                  "block select-none rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary font-medium text-sm"
+                                  'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary block rounded-md p-3 text-sm leading-none font-medium no-underline transition-all duration-300 outline-none select-none'
                                 )}
                               >
                                 View All Posts →
@@ -273,18 +313,18 @@ export default function Navigation({
                           </li>
                         </>
                       ) : (
-                        <li className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both">
+                        <li className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500">
                           <NavigationMenuLink asChild>
                             <a
                               href="/blog"
                               className={cn(
-                                "block select-none rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block rounded-md p-3 leading-none no-underline transition-all duration-300 outline-none select-none'
                               )}
                             >
                               <div className="text-sm font-medium">
                                 Visit Blog
                               </div>
-                              <p className="text-xs text-muted-foreground mt-1">
+                              <p className="text-muted-foreground mt-1 text-xs">
                                 Check out our latest insights
                               </p>
                             </a>
@@ -352,10 +392,10 @@ export default function Navigation({
                 {/* Contact */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
-                    href={buildContactHref()}
+                    href="/contact"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "bg-transparent! hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl hover:text-primary focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent! transition-all"
+                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
                     )}
                   >
                     Contact
@@ -366,21 +406,21 @@ export default function Navigation({
           </div>
 
           {/* Theme Toggle - Desktop */}
-          <div className="hidden md:flex items-center z-10">
+          <div className="z-10 hidden items-center md:flex">
             <ThemeToggle />
           </div>
 
           {/* Mobile menu button and theme toggle */}
-          <div className="md:hidden flex items-center space-x-2">
+          <div className="flex items-center space-x-2 md:hidden">
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-md hover:bg-accent"
+              className="hover:bg-accent rounded-md p-2"
             >
               {isOpen ? (
-                <X className="h-6 w-6 text-foreground" />
+                <X className="text-foreground h-6 w-6" />
               ) : (
-                <Menu className="h-6 w-6 text-foreground" />
+                <Menu className="text-foreground h-6 w-6" />
               )}
             </button>
           </div>
@@ -389,12 +429,12 @@ export default function Navigation({
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden border-t glass">
-          <div className="px-2 pt-2 pb-3 space-y-1">
+        <div className="glass border-t md:hidden">
+          <div className="space-y-1 px-2 pt-2 pb-3">
             {/* Home */}
             <a
               href="/"
-              className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors duration-300"
+              className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors duration-300"
             >
               Home
             </a>
@@ -402,14 +442,14 @@ export default function Navigation({
             {/* About */}
             <a
               href="/about"
-              className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors duration-300"
+              className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors duration-300"
             >
               About
             </a>
 
             {/* Mobile Services Section */}
             <div className="pt-2">
-              <div className="px-3 py-2 text-sm font-medium text-foreground">
+              <div className="text-foreground px-3 py-2 text-sm font-medium">
                 Services
               </div>
               {services.map((service) => {
@@ -418,30 +458,36 @@ export default function Navigation({
                   <a
                     key={service.slug}
                     href={`/services/${service.slug}`}
-                    className="flex items-start gap-2 px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors duration-300"
+                    className="text-muted-foreground hover:text-primary hover:bg-accent flex items-start gap-2 rounded-md px-3 py-2 transition-colors duration-300"
                   >
                     {Icon && (
                       <div
                         {...(showTransitions && {
-                          style: { ['view-transition-name']: `service-icon-${service.slug}` } as any
+                          style: {
+                            viewTransitionName: `service-icon-${service.slug}`,
+                          } as any,
                         })}
                       >
-                        <Icon className="h-4 w-4 text-accent mt-0.5 shrink-0 transition-colors duration-300" />
+                        <Icon className="text-accent mt-0.5 h-4 w-4 shrink-0 transition-colors duration-300" />
                       </div>
                     )}
-                    <div className="flex-1 min-w-0">
-                      <div 
+                    <div className="min-w-0 flex-1">
+                      <div
                         className="text-sm font-medium"
                         {...(showTransitions && {
-                          style: { ['view-transition-name']: `service-title-${service.slug}` } as any
+                          style: {
+                            viewTransitionName: `service-title-${service.slug}`,
+                          } as any,
                         })}
                       >
                         {service.title}
                       </div>
-                      <div 
-                        className="text-xs text-muted-foreground line-clamp-1"
+                      <div
+                        className="text-muted-foreground line-clamp-1 text-xs"
                         {...(showTransitions && {
-                          style: { ['view-transition-name']: `service-description-${service.slug}` } as any
+                          style: {
+                            viewTransitionName: `service-description-${service.slug}`,
+                          } as any,
                         })}
                       >
                         {service.description}
@@ -454,7 +500,7 @@ export default function Navigation({
 
             {/* Mobile Blog Section */}
             <div className="pt-2">
-              <div className="px-3 py-2 text-sm font-medium text-foreground">
+              <div className="text-foreground px-3 py-2 text-sm font-medium">
                 Blog
               </div>
               {blogPosts.length > 0 ? (
@@ -463,19 +509,19 @@ export default function Navigation({
                     <a
                       key={post.slug}
                       href={`/blog/${post.slug}`}
-                      className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors"
+                      className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors"
                     >
-                      <div className="text-sm font-medium line-clamp-2">
+                      <div className="line-clamp-2 text-sm font-medium">
                         {post.title}
                       </div>
-                      <div className="text-xs text-muted-foreground mt-0.5">
+                      <div className="text-muted-foreground mt-0.5 text-xs">
                         {formatDate(post.pubDate)}
                       </div>
                     </a>
                   ))}
                   <a
                     href="/blog"
-                    className="block px-3 py-2 rounded-md text-primary hover:bg-accent transition-colors font-medium text-sm"
+                    className="text-primary hover:bg-accent block rounded-md px-3 py-2 text-sm font-medium transition-colors"
                   >
                     View All Posts →
                   </a>
@@ -483,7 +529,7 @@ export default function Navigation({
               ) : (
                 <a
                   href="/blog"
-                  className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors"
+                  className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors"
                 >
                   Visit Blog
                 </a>
@@ -492,8 +538,8 @@ export default function Navigation({
 
             {/* Contact */}
             <a
-              href={buildContactHref()}
-              className="block px-3 py-2 rounded-md text-muted-foreground hover:text-primary hover:bg-accent transition-colors duration-300"
+              href="/contact"
+              className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors duration-300"
             >
               Contact
             </a>

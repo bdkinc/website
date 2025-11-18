@@ -1,8 +1,8 @@
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
 
 export async function getNavigationData() {
   // Get services data (now from JSON files)
-  const servicesEntries = await getCollection("services");
+  const servicesEntries = await getCollection('services');
   const servicesData = servicesEntries
     .sort((a: any, b: any) => a.data.order - b.data.order)
     .map((entry: any) => ({
@@ -13,7 +13,7 @@ export async function getNavigationData() {
     }));
 
   // Get recent blog posts
-  const blogEntries = await getCollection("blog");
+  const blogEntries = await getCollection('blog');
   const recentPosts = blogEntries
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
     .slice(0, 3)

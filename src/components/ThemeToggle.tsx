@@ -1,38 +1,38 @@
-import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
+import { Moon, Sun } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Button } from './ui/button';
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [mounted, setMounted] = useState(false);
 
   // Load theme from localStorage and set initial state
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
+      '(prefers-color-scheme: dark)'
     ).matches;
 
-    const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
+    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     setTheme(initialTheme);
 
-    if (initialTheme === "dark") {
-      document.documentElement.classList.add("dark");
+    if (initialTheme === 'dark') {
+      document.documentElement.classList.add('dark');
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
+    const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    localStorage.setItem('theme', newTheme);
 
-    if (newTheme === "dark") {
-      document.documentElement.classList.add("dark");
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove('dark');
     }
   };
 
@@ -41,8 +41,8 @@ export default function ThemeToggle() {
     return (
       <Button
         aria-label="Toggle theme"
-        variant={"ghost"}
-        size={"icon"}
+        variant={'ghost'}
+        size={'icon'}
         className="cursor-pointer"
       >
         <Sun className="h-5 w-5" />
@@ -53,12 +53,12 @@ export default function ThemeToggle() {
   return (
     <Button
       onClick={toggleTheme}
-      variant={"ghost"}
-      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+      variant={'ghost'}
+      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
       className="cursor-pointer"
-      size={"icon"}
+      size={'icon'}
     >
-      {theme === "light" ? (
+      {theme === 'light' ? (
         <Moon className="h-5 w-5" />
       ) : (
         <Sun className="h-5 w-5" />

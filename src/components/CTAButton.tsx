@@ -1,6 +1,6 @@
-import React from 'react'
-import { buttonVariants } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import React from 'react';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import {
   Mail,
   Phone,
@@ -11,30 +11,52 @@ import {
   MousePointerClick,
   Calendar,
   Pointer,
-  Search
-} from 'lucide-react'
+  Search,
+} from 'lucide-react';
 
-type CTAVariant = 'default' | 'outline' | 'ghost' | 'secondary' | 'destructive' | 'link'
-type CTASize = 'default' | 'sm' | 'lg' | 'cta' | 'icon' | 'icon-sm' | 'icon-lg'
+type CTAVariant =
+  | 'default'
+  | 'outline'
+  | 'ghost'
+  | 'secondary'
+  | 'destructive'
+  | 'link';
+type CTASize = 'default' | 'sm' | 'lg' | 'cta' | 'icon' | 'icon-sm' | 'icon-lg';
 
 interface CTAButtonBaseProps {
-  variant?: CTAVariant
-  size?: CTASize
-  icon?: 'mail' | 'phone' | 'sparkles' | 'arrow' | 'home' | 'back' | 'click' | 'calendar' | 'pointer' | 'search' | 'none'
-  children: React.ReactNode
-  className?: string
+  variant?: CTAVariant;
+  size?: CTASize;
+  icon?:
+    | 'mail'
+    | 'phone'
+    | 'sparkles'
+    | 'arrow'
+    | 'home'
+    | 'back'
+    | 'click'
+    | 'calendar'
+    | 'pointer'
+    | 'search'
+    | 'none';
+  children: React.ReactNode;
+  className?: string;
 }
 
 type CTAButtonProps =
-  | (CTAButtonBaseProps & React.ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined })
-  | (CTAButtonBaseProps & React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string })
+  | (CTAButtonBaseProps &
+      React.ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined })
+  | (CTAButtonBaseProps &
+      React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string });
 
 /**
  * CTA Button Component
  * Extends the base Button component with convenient icon support for common CTA actions.
  * Icons are automatically selected based on button text patterns or explicitly specified.
  */
-export const CTAButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, CTAButtonProps>(
+export const CTAButton = React.forwardRef<
+  HTMLButtonElement | HTMLAnchorElement,
+  CTAButtonProps
+>(
   (
     {
       children,
@@ -48,65 +70,73 @@ export const CTAButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement,
     ref
   ) => {
     // Auto-detect icon based on button text if not explicitly provided
-    const getIconFromText = (): 'mail' | 'phone' | 'sparkles' | 'arrow' | 'home' | 'back' | 'click' | 'calendar' | 'pointer' | 'search' | 'none' => {
-      if (icon && icon !== 'none') return icon
+    const getIconFromText = ():
+      | 'mail'
+      | 'phone'
+      | 'sparkles'
+      | 'arrow'
+      | 'home'
+      | 'back'
+      | 'click'
+      | 'calendar'
+      | 'pointer'
+      | 'search'
+      | 'none' => {
+      if (icon && icon !== 'none') return icon;
 
-      const text = typeof children === 'string' ? children.toLowerCase() : ''
+      const text = typeof children === 'string' ? children.toLowerCase() : '';
 
       if (text.includes('touch')) {
-        return 'pointer'
+        return 'pointer';
       }
-      if (
-        text.includes('contact') ||
-        text.includes('message')
-      ) {
-        return 'mail'
+      if (text.includes('contact') || text.includes('message')) {
+        return 'mail';
       }
       if (
         text.includes('schedule') ||
         text.includes('book') ||
         text.includes('appointment')
       ) {
-        return 'calendar'
+        return 'calendar';
       }
       if (
         text.includes('call') ||
         text.includes('phone') ||
         text.includes('conversation')
       ) {
-        return 'phone'
+        return 'phone';
       }
       if (text.includes('get started') || text.includes('try')) {
-        return 'sparkles'
+        return 'sparkles';
       }
       if (
         text.includes('learn more') ||
         text.includes('explore') ||
         text.includes('next')
       ) {
-        return 'arrow'
+        return 'arrow';
       }
       if (
         text.includes('search') ||
         text.includes('find') ||
         text.includes('discover')
       ) {
-        return 'search'
+        return 'search';
       }
       if (text.includes('home') || text.includes('homepage')) {
-        return 'home'
+        return 'home';
       }
       if (text.includes('back') || text.includes('previous')) {
-        return 'back'
+        return 'back';
       }
       if (text.includes('click') || text.includes('action')) {
-        return 'click'
+        return 'click';
       }
 
-      return 'none'
-    }
+      return 'none';
+    };
 
-    const selectedIcon = getIconFromText()
+    const selectedIcon = getIconFromText();
 
     // Icon components mapping
     const iconComponents: Record<string, React.ReactNode> = {
@@ -120,20 +150,21 @@ export const CTAButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement,
       calendar: <Calendar className="h-4 w-4" aria-hidden="true" />,
       pointer: <Pointer className="h-4 w-4" aria-hidden="true" />,
       search: <Search className="h-4 w-4" aria-hidden="true" />,
-      none: null
-    }
+      none: null,
+    };
 
-    const buttonIcon = iconComponents[selectedIcon] || null
+    const buttonIcon = iconComponents[selectedIcon] || null;
 
     const content = (
       <>
         {children}
         {buttonIcon}
       </>
-    )
+    );
 
     if (href) {
-      const { target, rel, ...anchorProps } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>
+      const { target, rel, ...anchorProps } =
+        props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
       return (
         <a
@@ -146,7 +177,7 @@ export const CTAButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement,
         >
           {content}
         </a>
-      )
+      );
     }
 
     return (
@@ -157,10 +188,10 @@ export const CTAButton = React.forwardRef<HTMLButtonElement | HTMLAnchorElement,
       >
         {content}
       </button>
-    )
+    );
   }
-)
+);
 
-CTAButton.displayName = 'CTAButton'
+CTAButton.displayName = 'CTAButton';
 
-export default CTAButton
+export default CTAButton;

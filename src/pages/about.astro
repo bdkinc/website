@@ -139,8 +139,19 @@ const whyChooseUs = [
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-4xl text-center">
+        {/* Badge */}
+        <div
+          class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+        >
+          <div class="text-sm">
+            Trusted IT Partner for <span class="text-accent font-semibold"
+              >25+ Years</span
+            >
+          </div>
+        </div>
+
         <h1
-          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold duration-700 md:text-6xl"
+          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold delay-100 duration-700 md:text-6xl"
         >
           <span class="text-foreground">IT Made Simple Since </span>
           <span
@@ -294,7 +305,7 @@ const whyChooseUs = [
         </div>
       </section>
       <div
-        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
@@ -677,7 +688,7 @@ const whyChooseUs = [
       title="Ready to Partner with BDKinc?"
       description="Let's discuss how our 25+ years of experience can help transform your IT infrastructure and drive business growth."
       buttonText="Start the Conversation"
-      buttonHref="/contact?from=about"
+      buttonHref="/contact"
     />
   </main>
 

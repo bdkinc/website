@@ -31,7 +31,6 @@ import {
   Eye,
   Award,
   Bell,
-  Mail,
 } from 'lucide-react';
 
 const service = await getEntry('services', 'application-development');
@@ -60,7 +59,11 @@ const _serviceSchema = {
   areaServed: ['Mid-Atlantic', 'United States'],
 };
 
-const relatedTags = ['application-development', 'software-development', 'modernization'];
+const relatedTags = [
+  'application-development',
+  'software-development',
+  'modernization',
+];
 // Narrow the collection item data shape so TypeScript knows about optional fields
 const relatedPosts = (await getCollection('blog'))
   .filter((post) => {
@@ -68,7 +71,10 @@ const relatedPosts = (await getCollection('blog'))
     // exclude drafts
     if (data.draft) return false;
     // ensure tags is an array then check for any matching tag
-    return Array.isArray(data.tags) && data.tags.some((tag: string) => relatedTags.includes(tag));
+    return (
+      Array.isArray(data.tags) &&
+      data.tags.some((tag: string) => relatedTags.includes(tag))
+    );
   })
   .slice(0, 3);
 
@@ -85,9 +91,11 @@ const metrics = [
   description="Custom application development, modernization, and systems integration that streamline complex workflows for regulated and growth-stage organizations across the Mid-Atlantic."
   ogDescription="Enterprise-grade custom application development and modernization from BDKinc, aligning critical workflows, integrations, and security requirements for growth-focused teams."
 >
-  <script type="application/ld+json" is:inline>
-    {JSON.stringify(_serviceSchema)}
-  </script>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(_serviceSchema)}
+  />
   <Navigation
     client:load
     services={servicesData}
@@ -105,7 +113,10 @@ const metrics = [
             class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
           >
-            <IconComponent className="text-primary h-12 w-12" aria-hidden="true" />
+            <IconComponent
+              className="text-primary h-12 w-12"
+              aria-hidden="true"
+            />
           </div>
           <h1
             class="mb-6 text-5xl font-bold md:text-6xl"
@@ -123,27 +134,41 @@ const metrics = [
           <p
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
-            class="text-muted-foreground mx-auto max-w-3xl text-xl mb-12"
+            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
           >
             {service.data.description}
           </p>
         </div>
 
         {/* Hero Image Placeholder */}
-        <div class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700">
-          <div class="glass mx-auto max-w-5xl overflow-hidden rounded-2xl border border-primary/20 shadow-lg">
-            <div class="bg-linear-to-br from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center">
+        <div
+          class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
+        >
+          <div
+            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
+          >
+            <div
+              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
+            >
               <div class="text-center">
-                <div class="text-muted-foreground/40 mb-2 text-sm font-medium uppercase tracking-wider">Service Hero Image</div>
-                <div class="text-muted-foreground/60 text-lg">Application Development Illustration</div>
-                <div class="text-muted-foreground/40 mt-2 text-xs">Recommended: 1400x800px</div>
+                <div
+                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                >
+                  Service Hero Image
+                </div>
+                <div class="text-muted-foreground/60 text-lg">
+                  Application Development Illustration
+                </div>
+                <div class="text-muted-foreground/40 mt-2 text-xs">
+                  Recommended: 1400x800px
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div
-        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
@@ -179,10 +204,13 @@ const metrics = [
                   Solutions Built for Your Business
                 </h3>
 
-                <ServiceCardGrid>
-                  <ServiceCard>
+                <ServiceCardGrid client:visible>
+                  <ServiceCard client:visible>
                     <div class="mb-6">
-                      <Code2 className="text-primary h-16 w-16" aria-hidden="true" />
+                      <Code2
+                        className="text-primary h-16 w-16"
+                        aria-hidden="true"
+                      />
                     </div>
                     <h4 class="text-foreground mb-4 text-2xl font-bold">
                       Custom Business Applications
@@ -196,9 +224,12 @@ const metrics = [
                     </div>
                   </ServiceCard>
 
-                  <ServiceCard>
+                  <ServiceCard client:visible>
                     <div class="mb-6">
-                      <Network className="text-primary h-16 w-16" aria-hidden="true" />
+                      <Network
+                        className="text-primary h-16 w-16"
+                        aria-hidden="true"
+                      />
                     </div>
                     <h4 class="text-foreground mb-4 text-2xl font-bold">
                       Enterprise Integration
@@ -211,9 +242,12 @@ const metrics = [
                     </div>
                   </ServiceCard>
 
-                  <ServiceCard>
+                  <ServiceCard client:visible>
                     <div class="mb-6">
-                      <RefreshCw className="text-primary h-16 w-16" aria-hidden="true" />
+                      <RefreshCw
+                        className="text-primary h-16 w-16"
+                        aria-hidden="true"
+                      />
                     </div>
                     <h4 class="text-foreground mb-4 text-2xl font-bold">
                       Application Modernization
@@ -233,80 +267,124 @@ const metrics = [
                   Key Benefits
                 </h3>
 
-            <div class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <Card size="default" interactive={false} className="flex flex-col items-center text-center">
-                  <div class="mb-4">
-                    <Target className="text-primary h-10 w-10" aria-hidden="true" />
-                  </div>
-                  <h4 class="text-foreground mb-2 text-xl font-bold">
-                    Tailored Solutions
-                  </h4>
-                  <div class="text-muted-foreground">
-                    Applications designed specifically for your business
-                    processes
-                  </div>
-                </Card>
+                <div
+                  class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+                >
+                  <Card
+                    size="default"
+                    interactive={false}
+                    className="flex flex-col items-center text-center"
+                  >
+                    <div class="mb-4">
+                      <Target
+                        className="text-primary h-10 w-10"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Tailored Solutions
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Applications designed specifically for your business
+                      processes
+                    </div>
+                  </Card>
 
-                <Card size="default" interactive={false} className="flex flex-col items-center text-center">
-                  <div class="mb-4">
-                    <Trophy className="text-primary h-10 w-10" aria-hidden="true" />
-                  </div>
-                  <h4 class="text-foreground mb-2 text-xl font-bold">
-                    Competitive Advantage
-                  </h4>
-                  <div class="text-muted-foreground">
-                    Custom features that differentiate you from competitors
-                  </div>
-                </Card>
+                  <Card
+                    size="default"
+                    interactive={false}
+                    className="flex flex-col items-center text-center"
+                  >
+                    <div class="mb-4">
+                      <Trophy
+                        className="text-primary h-10 w-10"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Competitive Advantage
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Custom features that differentiate you from competitors
+                    </div>
+                  </Card>
 
-                <Card size="default" interactive={false} className="flex flex-col items-center text-center">
-                  <div class="mb-4">
-                    <TrendingUp className="text-primary h-10 w-10" aria-hidden="true" />
-                  </div>
-                  <h4 class="text-foreground mb-2 text-xl font-bold">
-                    Increased Efficiency
-                  </h4>
-                  <div class="text-muted-foreground">
-                    Automation reduces manual work and human error
-                  </div>
-                </Card>
+                  <Card
+                    size="default"
+                    interactive={false}
+                    className="flex flex-col items-center text-center"
+                  >
+                    <div class="mb-4">
+                      <TrendingUp
+                        className="text-primary h-10 w-10"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Increased Efficiency
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Automation reduces manual work and human error
+                    </div>
+                  </Card>
 
-                <Card size="default" interactive={false} className="flex flex-col items-center text-center">
-                  <div class="mb-4">
-                    <Link className="text-primary h-10 w-10" aria-hidden="true" />
-                  </div>
-                  <h4 class="text-foreground mb-2 text-xl font-bold">
-                    Better Integration
-                  </h4>
-                  <div class="text-muted-foreground">
-                    Seamless connectivity between all your business systems
-                  </div>
-                </Card>
+                  <Card
+                    size="default"
+                    interactive={false}
+                    className="flex flex-col items-center text-center"
+                  >
+                    <div class="mb-4">
+                      <Link
+                        className="text-primary h-10 w-10"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Better Integration
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Seamless connectivity between all your business systems
+                    </div>
+                  </Card>
 
-                <Card size="default" interactive={false} className="flex flex-col items-center text-center">
-                  <div class="mb-4">
-                    <Maximize className="text-primary h-10 w-10" aria-hidden="true" />
-                  </div>
-                  <h4 class="text-foreground mb-2 text-xl font-bold">
-                    Scalability
-                  </h4>
-                  <div class="text-muted-foreground">
-                    Applications that grow with your business needs
-                  </div>
-                </Card>
+                  <Card
+                    size="default"
+                    interactive={false}
+                    className="flex flex-col items-center text-center"
+                  >
+                    <div class="mb-4">
+                      <Maximize
+                        className="text-primary h-10 w-10"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Scalability
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Applications that grow with your business needs
+                    </div>
+                  </Card>
 
-                <Card size="default" interactive={false} className="flex flex-col items-center text-center">
-                  <div class="mb-4">
-                    <ShieldCheck className="text-primary h-10 w-10" aria-hidden="true" />
-                  </div>
-                  <h4 class="text-foreground mb-2 text-xl font-bold">
-                    Data Ownership
-                  </h4>
-                  <div class="text-muted-foreground">
-                    Full control over your applications and data
-                  </div>
-                </Card>
-              </div>
+                  <Card
+                    size="default"
+                    interactive={false}
+                    className="flex flex-col items-center text-center"
+                  >
+                    <div class="mb-4">
+                      <ShieldCheck
+                        className="text-primary h-10 w-10"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h4 class="text-foreground mb-2 text-xl font-bold">
+                      Data Ownership
+                    </h4>
+                    <div class="text-muted-foreground">
+                      Full control over your applications and data
+                    </div>
+                  </Card>
+                </div>
 
                 <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
                   Technology Stack
@@ -315,7 +393,10 @@ const metrics = [
                 <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
                   <div class="glass border-border rounded-2xl border p-8">
                     <div class="mb-6 flex items-center gap-3">
-                      <Terminal className="text-primary h-8 w-8" aria-hidden="true" />
+                      <Terminal
+                        className="text-primary h-8 w-8"
+                        aria-hidden="true"
+                      />
                       <h4 class="text-foreground text-2xl font-bold">
                         Technology Expertise
                       </h4>
@@ -332,7 +413,10 @@ const metrics = [
                         >
                       </div>
                       <div class="flex items-start gap-2">
-                        <Code2 className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
+                        <Code2
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                          aria-hidden="true"
+                        />
                         <span
                           ><strong class="text-foreground"
                             >JavaScript/TypeScript:</strong
@@ -360,7 +444,10 @@ const metrics = [
                         >
                       </div>
                       <div class="flex items-start gap-2">
-                        <Cloud className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
+                        <Cloud
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                          aria-hidden="true"
+                        />
                         <span
                           ><strong class="text-foreground"
                             >Cloud Platforms:</strong
@@ -382,14 +469,20 @@ const metrics = [
 
                   <div class="glass border-border rounded-2xl border p-8">
                     <div class="mb-6 flex items-center gap-3">
-                      <Shield className="text-primary h-8 w-8" aria-hidden="true" />
+                      <Shield
+                        className="text-primary h-8 w-8"
+                        aria-hidden="true"
+                      />
                       <h4 class="text-foreground text-2xl font-bold">
                         Application Security
                       </h4>
                     </div>
                     <div class="text-muted-foreground space-y-3">
                       <div class="flex items-start gap-2">
-                        <Lock className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
+                        <Lock
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                          aria-hidden="true"
+                        />
                         <span
                           ><strong class="text-foreground"
                             >Secure Coding:</strong
@@ -408,14 +501,20 @@ const metrics = [
                         >
                       </div>
                       <div class="flex items-start gap-2">
-                        <Eye className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
+                        <Eye
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                          aria-hidden="true"
+                        />
                         <span
                           ><strong class="text-foreground">Encryption:</strong> Data
                           at rest and in transit</span
                         >
                       </div>
                       <div class="flex items-start gap-2">
-                        <Bell className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
+                        <Bell
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                          aria-hidden="true"
+                        />
                         <span
                           ><strong class="text-foreground"
                             >Security Testing:</strong
@@ -423,7 +522,10 @@ const metrics = [
                         >
                       </div>
                       <div class="flex items-start gap-2">
-                        <Award className="text-primary mt-1 h-5 w-5 shrink-0" aria-hidden="true" />
+                        <Award
+                          className="text-primary mt-1 h-5 w-5 shrink-0"
+                          aria-hidden="true"
+                        />
                         <span
                           ><strong class="text-foreground">Compliance:</strong> HIPAA,
                           PCI-DSS, SOC 2 standards</span
@@ -495,31 +597,33 @@ const metrics = [
               </div>
             </div>
 
-            {relatedPosts.length > 0 && (
-              <section class="mx-auto max-w-5xl">
-                <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                  Related Resources
-                </h2>
-                <div class="grid gap-6 md:grid-cols-3">
-                  {relatedPosts.map((post) => (
-                    <a
-                      href={`/blog/${post.slug}`}
-                      class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
-                    >
-                      <h3 class="text-foreground mb-2 text-lg font-semibold">
-                        {post.data.title}
-                      </h3>
-                      <p class="text-muted-foreground text-sm">
-                        {post.data.description}
-                      </p>
-                      <span class="text-primary mt-4 text-sm font-medium">
-                        Read Article →
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </section>
-            )}
+            {
+              relatedPosts.length > 0 && (
+                <section class="mx-auto max-w-5xl">
+                  <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
+                    Related Resources
+                  </h2>
+                  <div class="grid gap-6 md:grid-cols-3">
+                    {relatedPosts.map((post) => (
+                      <a
+                        href={`/blog/${post.slug}`}
+                        class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
+                      >
+                        <h3 class="text-foreground mb-2 text-lg font-semibold">
+                          {post.data.title}
+                        </h3>
+                        <p class="text-muted-foreground text-sm">
+                          {post.data.description}
+                        </p>
+                        <span class="text-primary mt-4 text-sm font-medium">
+                          Read Article →
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </section>
+              )
+            }
 
             <ImpactMetricsSection metrics={metrics} />
 
@@ -528,7 +632,7 @@ const metrics = [
               title="Ready to Transform Your IT?"
               description={`Let's discuss how ${service.data.title.toLowerCase()} can help your business thrive with reliable, scalable technology solutions.`}
               buttonText="Get in Touch"
-              buttonHref="/contact?from=application-development"
+              buttonHref="/contact"
             />
           </div>
         </div>

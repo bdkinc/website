@@ -40,25 +40,43 @@ const tocItems = [
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-4xl text-center">
-        <div class="mb-6 inline-flex items-center justify-center rounded-lg bg-primary/10 p-4">
-          <Shield className="w-10 h-10 text-primary" />
+        {/* Badge */}
+        <div
+          class="glass border-primary/20 animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+        >
+          <span class="text-sm">
+            Your <span class="font-semibold text-[--brand-accent]">Privacy</span
+            > Matters
+          </span>
+        </div>
+
+        <div
+          class="bg-primary/10 mb-6 inline-flex items-center justify-center rounded-lg p-4"
+        >
+          <Shield className="text-primary h-10 w-10" />
         </div>
         <h1
           class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold duration-700 md:text-6xl"
         >
           <span class="text-foreground">Privacy </span>
-          <span class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+          <span
+            class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
             >Policy</span
           >
         </h1>
         <p
           class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mb-4 text-lg leading-relaxed delay-200 duration-700"
         >
-          Your privacy is important to us. Learn how we collect, use, and protect your personal information.
+          Your privacy is important to us. Learn how we collect, use, and
+          protect your personal information.
         </p>
         <p class="text-muted-foreground/70 text-sm">
           Last updated: {LAST_UPDATED}
         </p>
+      </div>
+      <div
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r to-[--brand-accent]/50"
+      >
       </div>
     </section>
 
@@ -75,16 +93,18 @@ const tocItems = [
                 interactive={false}
               >
                 <nav class="space-y-1">
-                  <p class="text-foreground mb-4 text-sm font-semibold uppercase tracking-widest"
-                    >On this page</p
+                  <p
+                    class="text-foreground mb-4 text-sm font-semibold tracking-widest uppercase"
                   >
+                    On this page
+                  </p>
                   <ul class="space-y-2">
                     {
                       tocItems.map((item) => (
                         <li>
                           <a
                             href={`#${item.id}`}
-                            class="text-muted-foreground hover:text-primary text-sm transition-colors duration-200 block py-1"
+                            class="text-muted-foreground hover:text-primary block py-1 text-sm transition-colors duration-200"
                           >
                             {item.label}
                           </a>
@@ -98,17 +118,24 @@ const tocItems = [
           </aside>
 
           {/* Main Content */}
-          <article class="lg:col-span-3 space-y-12">
+          <article class="space-y-12 lg:col-span-3">
             {/* Information We Collect */}
             <section id="information-we-collect">
-              <h2 class="text-foreground mb-4 text-3xl font-bold">Information We Collect</h2>
+              <h2 class="text-foreground mb-4 text-3xl font-bold">
+                Information We Collect
+              </h2>
               <p class="text-muted-foreground mb-4 leading-relaxed">
-                We collect information you voluntarily provide to us, such as when you fill out forms, request services, or contact us via email or phone. This includes:
+                We collect information you voluntarily provide to us, such as
+                when you fill out forms, request services, or contact us via
+                email or phone. This includes:
               </p>
-              <ul class="text-muted-foreground space-y-2 ml-4">
+              <ul class="text-muted-foreground ml-4 space-y-2">
                 <li class="flex gap-3">
                   <span class="text-primary flex-shrink-0">•</span>
-                  <span>Contact information (name, email address, phone number, company name)</span>
+                  <span
+                    >Contact information (name, email address, phone number,
+                    company name)</span
+                  >
                 </li>
                 <li class="flex gap-3">
                   <span class="text-primary flex-shrink-0">•</span>
@@ -120,18 +147,24 @@ const tocItems = [
                 </li>
                 <li class="flex gap-3">
                   <span class="text-primary flex-shrink-0">•</span>
-                  <span>Technical information such as IP address, browser type, and pages visited</span>
+                  <span
+                    >Technical information such as IP address, browser type, and
+                    pages visited</span
+                  >
                 </li>
               </ul>
             </section>
 
             {/* How We Use Your Information */}
             <section id="how-we-use">
-              <h2 class="text-foreground mb-4 text-3xl font-bold">How We Use Your Information</h2>
+              <h2 class="text-foreground mb-4 text-3xl font-bold">
+                How We Use Your Information
+              </h2>
               <p class="text-muted-foreground mb-4 leading-relaxed">
-                We use the information we collect for legitimate business purposes, including:
+                We use the information we collect for legitimate business
+                purposes, including:
               </p>
-              <ul class="text-muted-foreground space-y-2 ml-4">
+              <ul class="text-muted-foreground ml-4 space-y-2">
                 <li class="flex gap-3">
                   <span class="text-primary flex-shrink-0">•</span>
                   <span>Providing and improving our services</span>
@@ -142,11 +175,15 @@ const tocItems = [
                 </li>
                 <li class="flex gap-3">
                   <span class="text-primary flex-shrink-0">•</span>
-                  <span>Sending marketing communications (with your consent)</span>
+                  <span
+                    >Sending marketing communications (with your consent)</span
+                  >
                 </li>
                 <li class="flex gap-3">
                   <span class="text-primary flex-shrink-0">•</span>
-                  <span>Analyzing usage patterns to enhance user experience</span>
+                  <span
+                    >Analyzing usage patterns to enhance user experience</span
+                  >
                 </li>
                 <li class="flex gap-3">
                   <span class="text-primary flex-shrink-0">•</span>
@@ -157,33 +194,52 @@ const tocItems = [
 
             {/* Information Sharing */}
             <section id="information-sharing">
-              <h2 class="text-foreground mb-4 text-3xl font-bold">Information Sharing</h2>
+              <h2 class="text-foreground mb-4 text-3xl font-bold">
+                Information Sharing
+              </h2>
               <p class="text-muted-foreground mb-4 leading-relaxed">
-                We do not sell, rent, or trade your personal information. We may share information with trusted service providers who assist us in operating our website and conducting our business, such as hosting providers, payment processors, and communication platforms. These service providers are contractually obligated to use your information only as necessary to provide services to us.
+                We do not sell, rent, or trade your personal information. We may
+                share information with trusted service providers who assist us
+                in operating our website and conducting our business, such as
+                hosting providers, payment processors, and communication
+                platforms. These service providers are contractually obligated
+                to use your information only as necessary to provide services to
+                us.
               </p>
               <p class="text-muted-foreground leading-relaxed">
-                We may also disclose information when required by law or when necessary to protect our rights, privacy, safety, or property.
+                We may also disclose information when required by law or when
+                necessary to protect our rights, privacy, safety, or property.
               </p>
             </section>
 
             {/* Data Security */}
             <section id="data-security">
-              <h2 class="text-foreground mb-4 text-3xl font-bold">Data Security</h2>
+              <h2 class="text-foreground mb-4 text-3xl font-bold">
+                Data Security
+              </h2>
               <p class="text-muted-foreground mb-4 leading-relaxed">
-                We implement industry-standard security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. This includes SSL encryption, secure servers, and regular security audits.
+                We implement industry-standard security measures to protect your
+                personal information from unauthorized access, alteration,
+                disclosure, or destruction. This includes SSL encryption, secure
+                servers, and regular security audits.
               </p>
               <p class="text-muted-foreground leading-relaxed">
-                However, no method of internet transmission is completely secure. While we strive to protect your information, we cannot guarantee absolute security.
+                However, no method of internet transmission is completely
+                secure. While we strive to protect your information, we cannot
+                guarantee absolute security.
               </p>
             </section>
 
             {/* Your Rights */}
             <section id="your-rights">
-              <h2 class="text-foreground mb-4 text-3xl font-bold">Your Rights</h2>
+              <h2 class="text-foreground mb-4 text-3xl font-bold">
+                Your Rights
+              </h2>
               <p class="text-muted-foreground mb-4 leading-relaxed">
-                Depending on your location, you may have the following rights regarding your personal information:
+                Depending on your location, you may have the following rights
+                regarding your personal information:
               </p>
-              <ul class="text-muted-foreground space-y-2 ml-4">
+              <ul class="text-muted-foreground ml-4 space-y-2">
                 <li class="flex gap-3">
                   <span class="text-primary flex-shrink-0">•</span>
                   <span>Access to your personal information</span>
@@ -206,53 +262,84 @@ const tocItems = [
                 </li>
               </ul>
               <p class="text-muted-foreground mt-4 leading-relaxed">
-                To exercise any of these rights, please contact us using the information provided in the "Contact Us" section below.
+                To exercise any of these rights, please contact us using the
+                information provided in the "Contact Us" section below.
               </p>
             </section>
 
             {/* Cookies & Tracking */}
             <section id="cookies-tracking">
-              <h2 class="text-foreground mb-4 text-3xl font-bold">Cookies & Tracking</h2>
+              <h2 class="text-foreground mb-4 text-3xl font-bold">
+                Cookies & Tracking
+              </h2>
               <p class="text-muted-foreground mb-4 leading-relaxed">
-                Our website uses cookies and similar tracking technologies to enhance your user experience. Cookies are small files stored on your device that help us remember your preferences and analyze site usage.
+                Our website uses cookies and similar tracking technologies to
+                enhance your user experience. Cookies are small files stored on
+                your device that help us remember your preferences and analyze
+                site usage.
               </p>
               <p class="text-muted-foreground mb-4 leading-relaxed">
-                You can control cookie settings through your browser preferences. However, disabling cookies may affect your ability to use certain features of our website.
+                You can control cookie settings through your browser
+                preferences. However, disabling cookies may affect your ability
+                to use certain features of our website.
               </p>
               <p class="text-muted-foreground leading-relaxed">
-                We use analytics tools to understand how visitors interact with our site, enabling us to improve functionality and user experience.
+                We use analytics tools to understand how visitors interact with
+                our site, enabling us to improve functionality and user
+                experience.
               </p>
             </section>
 
             {/* Third-Party Links */}
             <section id="third-party-links">
-              <h2 class="text-foreground mb-4 text-3xl font-bold">Third-Party Links</h2>
+              <h2 class="text-foreground mb-4 text-3xl font-bold">
+                Third-Party Links
+              </h2>
               <p class="text-muted-foreground leading-relaxed">
-                Our website may contain links to third-party websites. We are not responsible for the privacy practices or content of external sites. We encourage you to review the privacy policies of any third-party websites before providing your information.
+                Our website may contain links to third-party websites. We are
+                not responsible for the privacy practices or content of external
+                sites. We encourage you to review the privacy policies of any
+                third-party websites before providing your information.
               </p>
             </section>
 
             {/* Children's Privacy */}
             <section id="childrens-privacy">
-              <h2 class="text-foreground mb-4 text-3xl font-bold">Children's Privacy</h2>
+              <h2 class="text-foreground mb-4 text-3xl font-bold">
+                Children's Privacy
+              </h2>
               <p class="text-muted-foreground leading-relaxed">
-                Our services are not directed to individuals under the age of 18. We do not knowingly collect personal information from children. If we become aware that a child has provided us with personal information, we will take steps to delete such information and terminate the child's account.
+                Our services are not directed to individuals under the age of
+                18. We do not knowingly collect personal information from
+                children. If we become aware that a child has provided us with
+                personal information, we will take steps to delete such
+                information and terminate the child's account.
               </p>
             </section>
 
             {/* Changes to This Policy */}
             <section id="changes-to-policy">
-              <h2 class="text-foreground mb-4 text-3xl font-bold">Changes to This Policy</h2>
+              <h2 class="text-foreground mb-4 text-3xl font-bold">
+                Changes to This Policy
+              </h2>
               <p class="text-muted-foreground leading-relaxed">
-                We may update this privacy policy periodically to reflect changes in our practices or legal requirements. We will notify you of significant changes by posting the updated policy on our website and updating the "Last Updated" date. Your continued use of our services after such changes constitutes your acceptance of the updated policy.
+                We may update this privacy policy periodically to reflect
+                changes in our practices or legal requirements. We will notify
+                you of significant changes by posting the updated policy on our
+                website and updating the "Last Updated" date. Your continued use
+                of our services after such changes constitutes your acceptance
+                of the updated policy.
               </p>
             </section>
 
             {/* Contact Us */}
             <section id="contact-us">
-              <h2 class="text-foreground mb-4 text-3xl font-bold">Contact Us</h2>
+              <h2 class="text-foreground mb-4 text-3xl font-bold">
+                Contact Us
+              </h2>
               <p class="text-muted-foreground mb-6 leading-relaxed">
-                If you have questions about this privacy policy or how we handle your information, please contact us:
+                If you have questions about this privacy policy or how we handle
+                your information, please contact us:
               </p>
               <Card
                 className="bg-card/50 border-primary/20"
@@ -264,13 +351,13 @@ const tocItems = [
                     <p class="text-foreground font-semibold">BDKinc</p>
                   </div>
                   <div>
-                  <p class="text-muted-foreground text-sm">Email:</p>
-                  <a
-                    href="mailto:info@bdkinc.com"
-                    class="text-primary hover:text-primary/80 transition-colors"
-                  >
-                    info@bdkinc.com
-                  </a>
+                    <p class="text-muted-foreground text-sm">Email:</p>
+                    <a
+                      href="mailto:info@bdkinc.com"
+                      class="text-primary hover:text-primary/80 transition-colors"
+                    >
+                      info@bdkinc.com
+                    </a>
                   </div>
                   <div>
                     <p class="text-muted-foreground text-sm">Phone:</p>

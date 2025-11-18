@@ -32,6 +32,7 @@
   --color-brand-primary: var(--brand-primary);
   --color-brand-secondary: var(--brand-secondary);
   --color-brand-accent: var(--brand-accent);
+  --color-border-accent: var(--brand-accent);
 }
 
 :root {
@@ -70,13 +71,13 @@
   /* Brand colors - updated for consistency */
   --brand-primary: oklch(0.65 0.18 210); /* Cyan blue */
   --brand-secondary: oklch(0.65 0.22 280); /* Purple */
-  --brand-accent: oklch(0.70 0.18 45); /* Orange/amber accent */
+  --brand-accent: oklch(0.7 0.18 45); /* Orange/amber accent */
 
   /* Shadows */
   --shadow-glow: 0 0 20px oklch(0.65 0.18 210 / 0.3);
   --shadow-glow-sm: 0 0 10px oklch(0.65 0.18 210 / 0.2);
-  --shadow-glow-accent: 0 0 20px oklch(0.70 0.18 45 / 0.3);
-  --shadow-glow-accent-sm: 0 0 10px oklch(0.70 0.18 45 / 0.2);
+  --shadow-glow-accent: 0 0 20px oklch(0.7 0.18 45 / 0.3);
+  --shadow-glow-accent-sm: 0 0 10px oklch(0.7 0.18 45 / 0.2);
 }
 
 .dark {
@@ -262,6 +263,13 @@
 .text-sm {
   @apply text-[0.875rem];
 } /* 14px */
+
+.text-accent {
+  color: var(--color-brand-accent);
+}
+.border-accent {
+  border-color: var(--color-brand-accent);
+}
 .text-base {
   @apply text-[1rem];
 } /* 16px */
@@ -564,8 +572,14 @@ li {
 
 /* Terminal Cursor */
 @keyframes terminal-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .terminal-cursor {
@@ -579,8 +593,12 @@ li {
 
 /* Typewriter Effect */
 @keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 .typewriter {
@@ -605,12 +623,44 @@ li {
 /* Isometric Grid */
 .isometric-grid {
   background-image:
-    linear-gradient(30deg, var(--brand-primary) 12%, transparent 12.5%, transparent 87%, var(--brand-primary) 87.5%, var(--brand-primary)),
-    linear-gradient(150deg, var(--brand-primary) 12%, transparent 12.5%, transparent 87%, var(--brand-primary) 87.5%, var(--brand-primary)),
-    linear-gradient(30deg, var(--brand-primary) 12%, transparent 12.5%, transparent 87%, var(--brand-primary) 87.5%, var(--brand-primary)),
-    linear-gradient(150deg, var(--brand-primary) 12%, transparent 12.5%, transparent 87%, var(--brand-primary) 87.5%, var(--brand-primary));
+    linear-gradient(
+      30deg,
+      var(--brand-primary) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--brand-primary) 87.5%,
+      var(--brand-primary)
+    ),
+    linear-gradient(
+      150deg,
+      var(--brand-primary) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--brand-primary) 87.5%,
+      var(--brand-primary)
+    ),
+    linear-gradient(
+      30deg,
+      var(--brand-primary) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--brand-primary) 87.5%,
+      var(--brand-primary)
+    ),
+    linear-gradient(
+      150deg,
+      var(--brand-primary) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--brand-primary) 87.5%,
+      var(--brand-primary)
+    );
   background-size: 80px 140px;
-  background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+  background-position:
+    0 0,
+    0 0,
+    40px 70px,
+    40px 70px;
   opacity: 0.03;
 }
 
@@ -621,11 +671,32 @@ li {
 /* Hexagonal Pattern */
 .hex-pattern {
   background-image:
-    radial-gradient(circle at 50% 50%, transparent 40%, var(--brand-primary) 40%, var(--brand-primary) 41%, transparent 41%),
-    radial-gradient(circle at 0% 50%, transparent 40%, var(--brand-secondary) 40%, var(--brand-secondary) 41%, transparent 41%),
-    radial-gradient(circle at 100% 50%, transparent 40%, var(--brand-accent) 40%, var(--brand-accent) 41%, transparent 41%);
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 40%,
+      var(--brand-primary) 40%,
+      var(--brand-primary) 41%,
+      transparent 41%
+    ),
+    radial-gradient(
+      circle at 0% 50%,
+      transparent 40%,
+      var(--brand-secondary) 40%,
+      var(--brand-secondary) 41%,
+      transparent 41%
+    ),
+    radial-gradient(
+      circle at 100% 50%,
+      transparent 40%,
+      var(--brand-accent) 40%,
+      var(--brand-accent) 41%,
+      transparent 41%
+    );
   background-size: 50px 87px;
-  background-position: 25px 0, 0 0, 50px 0;
+  background-position:
+    25px 0,
+    0 0,
+    50px 0;
   opacity: 0.05;
 }
 
@@ -635,9 +706,15 @@ li {
 
 /* CRT Screen Effect */
 @keyframes crt-flicker {
-  0% { opacity: 0.98; }
-  50% { opacity: 1; }
-  100% { opacity: 0.98; }
+  0% {
+    opacity: 0.98;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.98;
+  }
 }
 
 .crt-effect {
@@ -750,23 +827,74 @@ li {
 /* Pulse Ring Effect */
 @keyframes pulse-ring {
   0% {
-    transform: scale(0.95);
     box-shadow: 0 0 0 0 var(--brand-primary);
   }
 
   70% {
-    transform: scale(1);
     box-shadow: 0 0 0 10px transparent;
   }
 
   100% {
-    transform: scale(0.95);
     box-shadow: 0 0 0 0 transparent;
   }
 }
 
 .pulse-ring {
   animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+
+/* Pulse Glow Effect for CTA Button - Subtle Breathing Glow */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 8px oklch(0.7 0.18 210 / 0.5),
+      0 0 16px oklch(0.7 0.18 210 / 0.25),
+      0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 12px oklch(0.7 0.18 210 / 0.7),
+      0 0 24px oklch(0.7 0.18 210 / 0.35),
+      0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* CTA highlight sweep for secondary hero button */
+@keyframes cta-highlight-sweep {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.cta-scan::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: cta-highlight-sweep 3.5s ease-out infinite;
 }
 
 /* ====================================

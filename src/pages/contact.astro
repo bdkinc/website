@@ -6,8 +6,24 @@ import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 import { Phone, Mail, Clock, MapPin } from 'lucide-react';
+import { actions } from 'astro:actions';
+
+export const prerender = false;
 
 const { servicesData, recentPosts } = await getNavigationData();
+
+// Get referrer-based suggestions using Astro action
+const fromParam = Astro.url.searchParams.get('from');
+const result = await Astro.callAction(actions.getReferrerSuggestions, {
+  from: fromParam || undefined
+});
+
+const initialSuggestions = result?.data?.suggestions || [
+  'How can I get a quote for IT services?',
+  'I need help with network infrastructure',
+  'What managed IT services do you offer?',
+  'Tell me about your cloud services',
+];
 ---
 
 <Layout title="Contact Us | BDKinc - Get in Touch">
@@ -23,8 +39,18 @@ const { servicesData, recentPosts } = await getNavigationData();
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-4xl text-center">
+        {/* Badge */}
+        <div
+          class="glass border-primary/20 animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+        >
+          <span class="text-sm">
+            <span class="font-semibold text-[--brand-accent]">24/7</span> Support
+            Available
+          </span>
+        </div>
+
         <h1
-          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold duration-700 md:text-6xl"
+          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold delay-100 duration-700 md:text-6xl"
         >
           <span class="text-foreground">Get in </span>
           <span
@@ -42,7 +68,7 @@ const { servicesData, recentPosts } = await getNavigationData();
         </p>
       </div>
       <div
-        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
@@ -62,7 +88,7 @@ const { servicesData, recentPosts } = await getNavigationData();
               Message
             </span>
           </h2>
-          <ContactChat client:only="react" />
+          <ContactChat client:only="react" initialSuggestions={initialSuggestions} />
         </div>
 
         {/* Contact Information - Horizontal Layout */}

@@ -13,7 +13,7 @@ interface MetricCountUpProps {
 export default function MetricCountUp({ value, label }: MetricCountUpProps) {
   // Extract numeric value and suffix
   const match = value.match(/^(\d+(?:\.\d+)?)(.*?)$/);
-  
+
   if (!match) {
     // Fallback for non-numeric values
     return (

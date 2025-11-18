@@ -132,7 +132,7 @@ Based on shadcn UI button system:
 </Button>
 
 // Ghost/Interactive
-<Button variant="ghost className="hover:bg-accent">
+<Button variant="ghost" className="hover:bg-accent">
   Learn More
 </Button>
 ```
@@ -321,6 +321,389 @@ useEffect(() => {
 - `transition-all duration-300` - Standard hover transitions
 - `hover:scale-105` - Subtle scale effect on hover
 - `hover:shadow-[--shadow-glow-sm]` - Glowing shadow on hover
+- `.pulse-ring` - Pulse ring ripple effect for CTA buttons
+
+## Advanced Interactive Effects
+
+The BDKinc website implements several cutting-edge interactive effects that create a distinctive hi-tech aesthetic while maintaining professional polish. These effects are carefully balanced to be eye-catching without being overwhelming.
+
+### 1. Particle Network Effect (Hero Section)
+
+A canvas-based particle system that creates an interactive "Digital Constellation" effect with glowing nodes and connection lines.
+
+**Implementation Pattern:**
+```tsx
+// Hero.tsx
+useEffect(() => {
+  // Check for reduced motion preference
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
+
+  const container = particlesRef.current;
+  if (!container) return;
+
+  // Create canvas
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  canvas.className = "absolute inset-0 w-full h-full pointer-events-none";
+  container.appendChild(canvas);
+
+  // Configuration
+  const particleCount = 60;
+  const connectionDistance = 150;        // Max distance for connection lines
+  const mouseInfluenceDistance = 250;    // Range of mouse repulsion effect
+  const colors = [
+    "0, 212, 255",    // cyan (primary)
+    "124, 58, 237",   // purple (secondary)
+    "255, 153, 51",   // orange (accent)
+  ];
+
+  // Particle interface
+  interface Particle {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    color: string;
+    baseX: number;
+    baseY: number;
+  }
+
+  const particles: Particle[] = [];
+  const mouse = { x: -1000, y: -1000 };
+
+  // Initialize particles
+  for (let i = 0; i < particleCount; i++) {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    particles.push({
+      x, y,
+      vx: (Math.random() - 0.5) * 0.3,  // Gentle drift velocity
+      vy: (Math.random() - 0.5) * 0.3,
+      color: colors[i % colors.length],
+      baseX: x,
+      baseY: y,
+    });
+  }
+
+  // Mouse tracking
+  const handleMouseMove = (e: MouseEvent) => {
+    const rect = container.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  };
+
+  const handleMouseLeave = () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+  };
+
+  container.addEventListener("mousemove", handleMouseMove);
+  container.addEventListener("mouseleave", handleMouseLeave);
+
+  // Animation loop
+  const animate = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((particle, i) => {
+      // Gentle drift
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+
+      // Bounce off edges
+      if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+      if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+
+      // Mouse repulsion - particles move away from cursor
+      const dx = particle.x - mouse.x;
+      const dy = particle.y - mouse.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < mouseInfluenceDistance) {
+        const force = (1 - distance / mouseInfluenceDistance) * 8;
+        particle.x += (dx / distance) * force;
+        particle.y += (dy / distance) * force;
+      }
+
+      // Draw connection lines between nearby particles
+      particles.slice(i + 1).forEach((otherParticle) => {
+        const dx = particle.x - otherParticle.x;
+        const dy = particle.y - otherParticle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < connectionDistance) {
+          const opacity = (1 - distance / connectionDistance) * 0.3;
+
+          // Boost opacity if either particle is near mouse
+          const particle1ToMouse = Math.sqrt(
+            Math.pow(particle.x - mouse.x, 2) + Math.pow(particle.y - mouse.y, 2)
+          );
+          const particle2ToMouse = Math.sqrt(
+            Math.pow(otherParticle.x - mouse.x, 2) + Math.pow(otherParticle.y - mouse.y, 2)
+          );
+          const nearMouse = Math.min(particle1ToMouse, particle2ToMouse) < mouseInfluenceDistance;
+          const finalOpacity = nearMouse ? opacity * 2 : opacity;
+
+          ctx.strokeStyle = `rgba(${particle.color}, ${finalOpacity})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(particle.x, particle.y);
+          ctx.lineTo(otherParticle.x, otherParticle.y);
+          ctx.stroke();
+        }
+      });
+
+      // Draw particle with glow
+      const distanceToMouse = Math.sqrt(
+        Math.pow(particle.x - mouse.x, 2) + Math.pow(particle.y - mouse.y, 2)
+      );
+      const nearMouse = distanceToMouse < mouseInfluenceDistance;
+      const glowIntensity = nearMouse
+        ? (1 - distanceToMouse / mouseInfluenceDistance) * 0.8
+        : 0.4;
+
+      ctx.shadowBlur = nearMouse ? 15 : 8;
+      ctx.shadowColor = `rgb(${particle.color})`;
+      ctx.fillStyle = `rgba(${particle.color}, ${glowIntensity})`;
+      ctx.beginPath();
+      ctx.arc(particle.x, particle.y, nearMouse ? 4 : 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+
+    requestAnimationFrame(animate);
+  };
+
+  animate();
+
+  // Cleanup
+  return () => {
+    window.removeEventListener("resize", resizeCanvas);
+    container.removeEventListener("mousemove", handleMouseMove);
+    container.removeEventListener("mouseleave", handleMouseLeave);
+    canvas.remove();
+  };
+}, []);
+```
+
+**Design Principles:**
+- **Performance First**: Always check `prefers-reduced-motion` before creating canvas animations
+- **Subtle Movement**: Gentle drift velocity (0.3) prevents distraction from content
+- **Interactive Feedback**: Mouse repulsion with force multiplier of 8 creates noticeable but smooth effect
+- **Visual Hierarchy**: Connection lines fade based on distance, particles glow near cursor
+- **Brand Consistency**: Uses exact brand colors (cyan, purple, orange) in RGB format
+- **Cleanup**: Always remove event listeners and canvas element on unmount
+
+**Key Configuration Values:**
+- `particleCount: 60` - Balanced for performance and visual density
+- `connectionDistance: 150` - Max distance for drawing connection lines
+- `mouseInfluenceDistance: 250` - Range where mouse affects particles
+- `force: 8` - Repulsion strength (increased from 2 for visibility)
+- Drift velocity: `0.3` - Gentle, non-distracting movement
+
+**Usage:**
+```tsx
+// Container for particle system
+<div ref={particlesRef} className="absolute inset-0 -top-16 pointer-events-none" aria-hidden="true" />
+```
+
+### 2. Mouse-Tracking Spotlight Effect (Service Cards)
+
+An interactive glassmorphism effect where a radial gradient "spotlight" follows the user's cursor across service cards.
+
+**Implementation Pattern:**
+```tsx
+// Services.tsx or InteractiveServiceCard.tsx
+const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+const [mousePositions, setMousePositions] = useState<{ [key: number]: MousePosition }>({});
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
+return (
+  <a
+    href={`/services/${service.slug}`}
+    className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 group h-full"
+    onMouseMove={(e) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      setMousePositions(prev => ({ ...prev, [index]: { x, y } }));
+    }}
+    onMouseEnter={() => setHoveredCard(index)}
+    onMouseLeave={() => setHoveredCard(null)}
+  >
+    <Card className="h-full flex flex-col justify-center relative overflow-hidden backdrop-blur-xl bg-card/60 border-border/50">
+      {/* Mouse-tracking spotlight overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none transition-opacity duration-300 z-10"
+        style={{
+          opacity: isHovered ? 1 : 0,
+          background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.1) 40%, transparent 60%)`,
+        }}
+      />
+
+      {/* Card content */}
+      <div className="relative z-20">
+        {/* Content here */}
+      </div>
+    </Card>
+  </a>
+);
+```
+
+**Design Principles:**
+- **Glassmorphism Foundation**: `backdrop-blur-xl` with `bg-card/60` creates depth
+- **Smooth Tracking**: Mouse position calculated as percentage of card width/height
+- **Layered Effects**: Spotlight overlay at `z-10`, content at `z-20`
+- **Dual-Color Gradient**: Cyan (primary) at center, purple (secondary) at edges
+- **Graceful Transitions**: `transition-opacity duration-300` for fade in/out
+- **Accessibility**: `pointer-events-none` on overlay prevents interaction blocking
+
+**Key Configuration Values:**
+- Gradient radius: `600px` - Large enough to feel ambient, not harsh
+- Primary color opacity: `0.15` - Visible but subtle
+- Secondary color opacity: `0.1` - Softer accent
+- Gradient stops: `0% → 40% → 60%` - Smooth falloff to transparency
+- Transition duration: `300ms` - Quick enough to feel responsive
+
+**Grid Layout Requirements:**
+```tsx
+// Ensure equal card heights
+<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
+  {services.map((service, index) => (
+    // Service cards here
+  ))}
+</div>
+```
+
+**Critical:** Use `auto-rows-fr` on grid container to ensure all cards are equal height regardless of content.
+
+### 3. Pulse Ring Effect (CTA Buttons)
+
+A dynamic "ripple" ring animation for primary call-to-action buttons that draws attention in the Hero section.
+
+**CSS Implementation:**
+```css
+/* global.css */
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 var(--brand-primary);
+  }
+  70% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+```
+
+**Usage:**
+```tsx
+<CTAButton
+  size="lg"
+  className="pulse-ring hover:scale-105 transition-all duration-300"
+  href="/contact"
+  icon="click"
+>
+  Get Started
+</CTAButton>
+```
+
+**Design Principles:**
+- **Visual Feedback**: Creates a visible "ping" effect that suggests interactivity
+- **Brand Alignment**: Uses `var(--brand-primary)` for the ring color
+- **Non-Intrusive**: Ring fades to transparent (`box-shadow: ... 10px transparent`)
+- **Timing**: 2-second duration with cubic-bezier for organic expansion
+
+**Key Configuration Values:**
+- Ring expansion: `0px` to `10px`
+- Color: Primary brand color
+- Animation duration: `2s`
+- Easing: `cubic-bezier(0.455, 0.03, 0.515, 0.955)`
+
+**When to Use:**
+- Primary CTAs on hero sections
+- High-priority action buttons
+- "Get Started" buttons
+- NOT for secondary actions or ghost buttons
+
+### 4. Tri-Color Gradient Bars
+
+Horizontal gradient bars using all three brand colors for visual separation and brand reinforcement.
+
+**Implementation:**
+```tsx
+// Gradient bar at bottom of hero sections
+<div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/50 via-secondary/50 to-[--brand-accent]/50"></div>
+
+// Gradient bar at top of sections (like Footer, WhyChooseUs)
+<div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/50 via-secondary/50 to-[--brand-accent]/50" />
+```
+
+**Design Principles:**
+- **Brand Consistency**: Uses all three brand colors (cyan, purple, orange)
+- **Subtle Opacity**: 50% opacity prevents overwhelming visual hierarchy
+- **Strategic Placement**: Bottom of hero sections, top/bottom of feature sections
+- **Absolute Positioning**: `absolute` with `left-0 right-0` spans full width
+- **Minimal Height**: `h-1` (4px) provides accent without dominating
+
+**Usage Locations:**
+- Bottom of Hero section
+- Top and bottom of WhyChooseUs section
+- Top of Footer
+- Between major page sections for visual separation
+
+### 5. Design Refinement Philosophy
+
+The current home page design embodies a carefully balanced approach to hi-tech aesthetics:
+
+#### Core Principles:
+1. **Professional First, Flashy Second**: Effects enhance, not overpower
+2. **Purposeful Interactivity**: Every animation has a clear purpose
+3. **Performance Conscious**: All effects respect `prefers-reduced-motion`
+4. **Brand Cohesion**: Consistent use of cyan, purple, and orange throughout
+5. **Subtle Depth**: Layered effects create depth without visual clutter
+
+#### Balance Guidelines:
+- **Hero Section**: Maximum visual interest with particles, Aurora, circuit overlay
+- **Content Sections**: Clean backgrounds to focus on readability
+- **Interactive Elements**: Mouse-tracking effects on cards, not entire page
+- **Button CTAs**: Pulse ring for primary actions only
+- **Gradient Accents**: Strategic placement for visual rhythm
+
+#### Effect Intensity Scale:
+1. **Hero Background** (Highest): Particles + Aurora + Circuit + Gradients
+2. **Interactive Cards** (Medium): Mouse-tracking spotlight + Glassmorphism
+3. **CTA Buttons** (Medium): Pulse ring effect
+4. **Section Breaks** (Low): Tri-color gradient bars
+5. **Content Areas** (Minimal): Clean backgrounds, focus on typography
+
+#### Anti-Patterns to Avoid:
+❌ Applying particle effects to entire page
+❌ Using circuit overlay outside hero sections
+❌ Overwhelming pulse effects (>15px ring on buttons)
+❌ Mouse-tracking effects on static content
+❌ Multiple competing animations in same viewport
+❌ Neglecting reduced motion preferences
+
+#### Testing Checklist:
+- [ ] All canvas animations check `prefers-reduced-motion`
+- [ ] Mouse effects are smooth at 60fps
+- [ ] Glow effects are subtle and professional
+- [ ] Brand colors are consistent across all effects
+- [ ] Effects enhance, not distract from content
+- [ ] Mobile experience is performant (consider disabling heavy effects)
+- [ ] Accessibility is maintained (focus states, keyboard navigation)
 
 ## View Transitions API
 
@@ -616,14 +999,14 @@ Transition names must be on the **same structural level** on both pages.
 {services.map(service => (
   <a href={`/services/${service.slug}`}>
     <Card>
-      <!-- Icon wrapper -->
+      {/* Icon wrapper */}
       <div transition:name={`service-icon-${service.slug}`} transition:animate="initial">
         <div class="bg-primary/5 p-3 rounded-lg">
           <ServiceIcon className="icon-lg text-primary" />
         </div>
       </div>
       
-      <!-- Title -->
+      {/* Title */}
       <h2 
         class="text-2xl font-bold"
         transition:name={`service-title-${service.slug}`}

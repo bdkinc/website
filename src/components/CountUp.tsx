@@ -24,7 +24,7 @@ export default function CountUp({
   startWhen = true,
   separator = '',
   onStart,
-  onEnd
+  onEnd,
 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const motionValue = useMotionValue(direction === 'down' ? to : from);
@@ -34,7 +34,7 @@ export default function CountUp({
 
   const springValue = useSpring(motionValue, {
     damping,
-    stiffness
+    stiffness,
   });
 
   const isInView = useInView(ref, { once: true, margin: '0px' });
@@ -59,8 +59,10 @@ export default function CountUp({
   }, [from, to, direction]);
 
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
     if (isInView && startWhen) {
       if (typeof onStart === 'function') {
         onStart();
@@ -95,22 +97,37 @@ export default function CountUp({
         clearTimeout(durationTimeoutId);
       };
     }
-  }, [isInView, startWhen, motionValue, direction, from, to, delay, onStart, onEnd, duration]);
+  }, [
+    isInView,
+    startWhen,
+    motionValue,
+    direction,
+    from,
+    to,
+    delay,
+    onStart,
+    onEnd,
+    duration,
+  ]);
 
   useEffect(() => {
-    const unsubscribe = springValue.on('change', latest => {
+    const unsubscribe = springValue.on('change', (latest) => {
       if (ref.current) {
         const hasDecimals = maxDecimals > 0;
 
         const options: Intl.NumberFormatOptions = {
           useGrouping: !!separator,
           minimumFractionDigits: hasDecimals ? maxDecimals : 0,
-          maximumFractionDigits: hasDecimals ? maxDecimals : 0
+          maximumFractionDigits: hasDecimals ? maxDecimals : 0,
         };
 
-        const formattedNumber = Intl.NumberFormat('en-US', options).format(latest);
+        const formattedNumber = Intl.NumberFormat('en-US', options).format(
+          latest
+        );
 
-        ref.current.textContent = separator ? formattedNumber.replace(/,/g, separator) : formattedNumber;
+        ref.current.textContent = separator
+          ? formattedNumber.replace(/,/g, separator)
+          : formattedNumber;
       }
     });
 

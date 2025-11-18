@@ -18,9 +18,7 @@ import {
   Wrench,
   RefreshCw,
   CheckCircle2,
-  Mail,
 } from 'lucide-react';
-import { Logo } from '@/components/Logo';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'ibm-power');
@@ -140,7 +138,7 @@ const detailColumns = [
         </div>
       </div>
       <div
-        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
@@ -171,8 +169,8 @@ const detailColumns = [
               What We Manage on IBM Power
             </h3>
 
-            <ServiceCardGrid className="lg:grid-cols-3">
-              <ServiceCard>
+            <ServiceCardGrid client:visible className="lg:grid-cols-3">
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <Wrench
                     className="text-primary h-16 w-16"
@@ -188,7 +186,7 @@ const detailColumns = [
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <Server
                     className="text-primary h-16 w-16"
@@ -204,7 +202,7 @@ const detailColumns = [
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <RefreshCw
                     className="text-primary h-16 w-16"
@@ -221,7 +219,7 @@ const detailColumns = [
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <TrendingUp
                     className="text-primary h-16 w-16"
@@ -237,7 +235,7 @@ const detailColumns = [
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <ShieldCheck
                     className="text-primary h-16 w-16"
@@ -253,7 +251,7 @@ const detailColumns = [
                 </div>
               </ServiceCard>
 
-              <ServiceCard>
+              <ServiceCard client:visible>
                 <div class="mb-6">
                   <Cloud
                     className="text-primary h-16 w-16"
@@ -593,7 +591,7 @@ const detailColumns = [
           description="Partner with a team that runs IBM i (IBMi), AIX, VIOS, Red Hat, and Ubuntu on Power every day. Backed by 40+ years of experience and IBM Silver Partner credentials, we keep critical systems online while guiding your next steps."
           primaryAction={{
             text: 'Talk to an IBM Power Specialist',
-            href: '/contact?from=ibm-power',
+            href: '/contact',
           }}
         />
       </div>
