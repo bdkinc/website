@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import ThemeToggle from '@/components/ThemeToggle';
 import { Logo } from '@/components/Logo';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuTrigger,
-  NavigationMenuContent,
   NavigationMenuList,
   NavigationMenuLink,
   navigationMenuTriggerStyle,
@@ -39,10 +37,6 @@ export default function Navigation({
 }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  // Determine if we should show transitions
-  const isServicesPage = currentPath.startsWith('/services');
-  const showTransitions = !isServicesPage;
 
   // Track scroll position for enhanced blur effect
   useEffect(() => {
@@ -101,7 +95,6 @@ export default function Navigation({
                 {/* Services Dropdown */}
                 <ServicesDropdown
                   services={services}
-                  showTransitions={showTransitions}
                 />
 
                 {/* Blog Dropdown */}
@@ -180,11 +173,9 @@ export default function Navigation({
                   >
                     {Icon && (
                       <div
-                        {...(showTransitions && {
-                          style: {
-                            viewTransitionName: `service-icon-${service.slug}`,
-                          } as any,
-                        })}
+                        style={{
+                          viewTransitionName: `service-icon-${service.slug}`,
+                        }}
                       >
                         <Icon className="text-accent mt-0.5 h-4 w-4 shrink-0 transition-colors duration-300" />
                       </div>
@@ -192,21 +183,17 @@ export default function Navigation({
                     <div className="min-w-0 flex-1">
                       <div
                         className="text-sm font-medium"
-                        {...(showTransitions && {
-                          style: {
-                            viewTransitionName: `service-title-${service.slug}`,
-                          } as any,
-                        })}
+                        style={{
+                          viewTransitionName: `service-title-${service.slug}`,
+                        }}
                       >
                         {service.title}
                       </div>
                       <div
                         className="text-muted-foreground line-clamp-1 text-xs"
-                        {...(showTransitions && {
-                          style: {
-                            viewTransitionName: `service-description-${service.slug}`,
-                          } as any,
-                        })}
+                        style={{
+                          viewTransitionName: `service-description-${service.slug}`,
+                        }}
                       >
                         {service.description}
                       </div>

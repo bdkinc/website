@@ -13,7 +13,6 @@ interface ServiceDropdownItemProps {
   service: { slug: string; title: string; description: string };
   icon: any;
   index: number;
-  showTransitions: boolean;
 }
 
 // Service Dropdown Item with mouse-tracking spotlight
@@ -21,7 +20,6 @@ function ServiceDropdownItem({
   service,
   icon: Icon,
   index,
-  showTransitions,
 }: ServiceDropdownItemProps) {
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = useState(false);
@@ -58,11 +56,9 @@ function ServiceDropdownItem({
             {Icon && (
               <div
                 className="flex justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
-                {...(showTransitions && {
-                  style: {
-                    viewTransitionName: `service-icon-${service.slug}`,
-                  } as any,
-                })}
+                style={{
+                  viewTransitionName: `service-icon-${service.slug}`,
+                }}
               >
                 <div className="bg-primary/10 rounded-lg p-2.5">
                   <Icon className="text-primary h-10 w-10" />
@@ -73,11 +69,9 @@ function ServiceDropdownItem({
             {/* Title */}
             <div
               className="text-foreground group-hover:text-primary text-base font-bold leading-tight transition-colors duration-300"
-              {...(showTransitions && {
-                style: {
-                  viewTransitionName: `service-title-${service.slug}`,
-                } as any,
-              })}
+              style={{
+                viewTransitionName: `service-title-${service.slug}`,
+              }}
             >
               {service.title}
             </div>
@@ -85,11 +79,9 @@ function ServiceDropdownItem({
             {/* Description */}
             <p
               className="text-muted-foreground text-xs leading-relaxed"
-              {...(showTransitions && {
-                style: {
-                  viewTransitionName: `service-description-${service.slug}`,
-                } as any,
-              })}
+              style={{
+                viewTransitionName: `service-description-${service.slug}`,
+              }}
             >
               {service.description}
             </p>
@@ -107,10 +99,9 @@ interface ServicesDropdownProps {
     description: string;
     icon: string;
   }>;
-  showTransitions: boolean;
 }
 
-export function ServicesDropdown({ services, showTransitions }: ServicesDropdownProps) {
+export function ServicesDropdown({ services }: ServicesDropdownProps) {
   return (
     <NavigationMenuItem>
       <NavigationMenuTrigger
@@ -130,7 +121,6 @@ export function ServicesDropdown({ services, showTransitions }: ServicesDropdown
                 service={service}
                 icon={Icon}
                 index={index}
-                showTransitions={showTransitions}
               />
             );
           })}
