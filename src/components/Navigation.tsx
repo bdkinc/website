@@ -294,10 +294,11 @@ export default function Navigation({
                               <a
                                 href="/blog"
                                 className={cn(
-                                  'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary block rounded-md p-3 text-sm leading-none font-medium no-underline transition-all duration-300 outline-none select-none'
+                                  'group hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground text-primary flex flex-row items-center gap-2 rounded-md p-3 text-sm leading-none font-medium no-underline transition-all duration-300 hover:gap-3 outline-none select-none'
                                 )}
                               >
-                                View All Posts →
+                                <span>View All Posts</span>
+                                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                               </a>
                             </NavigationMenuLink>
                           </li>
