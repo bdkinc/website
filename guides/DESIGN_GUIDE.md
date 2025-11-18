@@ -1015,7 +1015,7 @@ Transition names must be on the **same structural level** on both pages.
         {service.title}
       </h2>
       
-      <!-- Description -->
+      {/* Description */}
       <p 
         class="text-muted-foreground"
         transition:name={`service-description-${service.slug}`}

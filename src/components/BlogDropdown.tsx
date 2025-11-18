@@ -67,7 +67,7 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
         Blog
       </NavigationMenuTrigger>
       <NavigationMenuContent className="bg-background">
-        <ul className="w-[400px] p-4">
+        <ul className="w-[400px] p-4 space-y-3">
           {/* Recent Posts */}
           {blogPosts.length > 0 ? (
             <>
@@ -98,7 +98,7 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
                     )}
                   >
                     <span>View All Posts</span>
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
                   </a>
                 </NavigationMenuLink>
               </li>
