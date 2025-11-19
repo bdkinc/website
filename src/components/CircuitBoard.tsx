@@ -180,6 +180,31 @@ const extractTraceSegments = (polys: Point[][]): TraceSegment[] => {
   return segments;
 };
 
+interface GraphSegment extends TraceSegment {
+  id: number;
+  startNode: number;
+  endNode: number;
+}
+
+interface Signal {
+  segmentId: number;
+  previousSegmentId?: number;
+  progress: number;
+  direction: 1 | -1;
+  speed: number;
+  color: string;
+  life: number;
+  trailBuffer: Float32Array;
+  trailIndex: number;
+  trailSize: number;
+  trailGradient: CanvasGradient | null;
+  gradientStart: Point | null;
+  gradientEnd: Point | null;
+}
+
+const POLYGONS = parsePolygons(SVG_PATH);
+const TILE_SEGMENTS = extractTraceSegments(POLYGONS);
+
 export default function CircuitBoard({ className }: CircuitBoardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -197,7 +222,6 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // 1. Prepare Pattern & Segments
     const patternSize = 304;
     const patternCanvas = document.createElement('canvas');
     patternCanvas.width = patternSize;
@@ -210,55 +234,140 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
       pCtx.fill(path);
     }
 
-    // Parse & Extract Graph
-    const polys = parsePolygons(SVG_PATH);
-    const tileSegments = extractTraceSegments(polys);
+    const headSprites = new Map<string, HTMLCanvasElement>();
+    const trailPool: Float32Array[] = [];
 
-    // 2. Resize & Build Global Graph
+    const colors = ['#00d4ff', '#7c3aed', '#ff9933'];
+    const BASE_SPEED_PX = 0.3;
+    const SPAWN_RATE = 0.25;
+    const MAX_SIGNALS = 30;
+    const MAX_LIFE = 900;
+    const TRAIL_POINTS = 120;
+    const TRAIL_BUFFER_SIZE = TRAIL_POINTS * 2;
+    const HEAD_SIZE = 12;
+    const HEAD_RADIUS = HEAD_SIZE / 2;
+
     let nodes: Point[] = [];
-    let adjacency = new Map<number, number[]>(); // nodeIndex -> segmentIndices
-    let graphSegments: (TraceSegment & {
-      id: number;
-      startNode: number;
-      endNode: number;
-    })[] = [];
-
-    // Offscreen canvas for the full background pattern (optimization)
+    let adjacency = new Map<number, number[]>();
+    let graphSegments: GraphSegment[] = [];
+    let segmentLookup = new Map<number, GraphSegment>();
     let bgCanvas: HTMLCanvasElement | null = null;
 
-    interface Signal {
-      segmentId: number;
-      previousSegmentId?: number; // Track previous to avoid immediate reversal
-      progress: number; // 0 to 1
-      direction: 1 | -1; // 1: p1->p2, -1: p2->p1
-      speed: number; // normalized speed (1/length * px_per_frame)
-      color: string;
-      trail: Point[]; // History of points for bending trail
-      life: number; // Lifespan in frames
-    }
-
     const activeSignals: Signal[] = [];
-    const colors = ['#00d4ff', '#7c3aed', '#ff9933']; // Cyan, Purple, Orange
-    const BASE_SPEED_PX = 0.75;
-    const SPAWN_RATE = 0.25; // Adjusted spawn rate
-    const MAX_SIGNALS = 60;
-    const TRAIL_LENGTH = 100; // significantly increased for longer tails
-    const MAX_LIFE = 900; // ~10 seconds at 60fps
 
-    const resizeCanvas = () => {
-      canvas.width = container.clientWidth;
-      canvas.height = container.clientHeight;
+    const allocateTrailBuffer = () =>
+      trailPool.pop() ?? new Float32Array(TRAIL_BUFFER_SIZE);
 
-      // Rebuild background pattern canvas
+    const releaseTrailBuffer = (buffer: Float32Array) => {
+      trailPool.push(buffer);
+    };
+
+    const releaseAllSignals = () => {
+      while (activeSignals.length) {
+        const signal = activeSignals.pop()!;
+        signal.trailGradient = null;
+        signal.gradientStart = null;
+        signal.gradientEnd = null;
+        releaseTrailBuffer(signal.trailBuffer);
+      }
+    };
+
+    const disposeSignalAt = (index: number) => {
+      const [removed] = activeSignals.splice(index, 1);
+      if (removed) {
+        removed.trailGradient = null;
+        removed.gradientStart = null;
+        removed.gradientEnd = null;
+        releaseTrailBuffer(removed.trailBuffer);
+      }
+    };
+
+    const appendTrailPoint = (signal: Signal, x: number, y: number) => {
+      const base = signal.trailIndex * 2;
+      signal.trailBuffer[base] = x;
+      signal.trailBuffer[base + 1] = y;
+      signal.trailIndex = (signal.trailIndex + 1) % TRAIL_POINTS;
+      if (signal.trailSize < TRAIL_POINTS) {
+        signal.trailSize += 1;
+      }
+    };
+
+    const ensureTrailGradient = (
+      signal: Signal,
+      startX: number,
+      startY: number,
+      endX: number,
+      endY: number
+    ) => {
+      signal.gradientStart = { x: startX, y: startY };
+      signal.gradientEnd = { x: endX, y: endY };
+      const gradient = ctx.createLinearGradient(startX, startY, endX, endY);
+      gradient.addColorStop(0, 'rgba(0,0,0,0)');
+      gradient.addColorStop(1, signal.color);
+      signal.trailGradient = gradient;
+      return gradient;
+    };
+
+    const getHeadSprite = (color: string) => {
+      let sprite = headSprites.get(color);
+      if (!sprite) {
+        sprite = document.createElement('canvas');
+        sprite.width = HEAD_SIZE;
+        sprite.height = HEAD_SIZE;
+        const spriteCtx = sprite.getContext('2d');
+        if (spriteCtx) {
+          const gradient = spriteCtx.createRadialGradient(
+            HEAD_RADIUS,
+            HEAD_RADIUS,
+            0,
+            HEAD_RADIUS,
+            HEAD_RADIUS,
+            HEAD_RADIUS
+          );
+          gradient.addColorStop(0, '#ffffff');
+          gradient.addColorStop(0.4, color);
+          gradient.addColorStop(1, 'rgba(0,0,0,0)');
+          spriteCtx.fillStyle = gradient;
+          spriteCtx.fillRect(0, 0, HEAD_SIZE, HEAD_SIZE);
+        }
+        headSprites.set(color, sprite);
+      }
+      return sprite;
+    };
+
+    const spawnSignal = () => {
+      if (!graphSegments.length) return;
+      const seg =
+        graphSegments[Math.floor(Math.random() * graphSegments.length)];
+      const direction: 1 | -1 = Math.random() > 0.5 ? 1 : -1;
+      activeSignals.push({
+        segmentId: seg.id,
+        progress: direction === 1 ? 0 : 1,
+        direction,
+        speed: BASE_SPEED_PX / Math.max(seg.length, 0.001),
+        color: colors[Math.floor(Math.random() * colors.length)],
+        life: MAX_LIFE + Math.random() * 200,
+        trailBuffer: allocateTrailBuffer(),
+        trailIndex: 0,
+        trailSize: 0,
+        trailGradient: null,
+        gradientStart: null,
+        gradientEnd: null,
+      });
+    };
+
+    const rebuildScene = (width: number, height: number) => {
+      const nextWidth = Math.max(1, Math.round(width));
+      const nextHeight = Math.max(1, Math.round(height));
+
+      canvas.width = nextWidth;
+      canvas.height = nextHeight;
+
       bgCanvas = document.createElement('canvas');
-      bgCanvas.width = canvas.width;
-      bgCanvas.height = canvas.height;
+      bgCanvas.width = nextWidth;
+      bgCanvas.height = nextHeight;
       const bgCtx = bgCanvas.getContext('2d');
 
-      const cols = Math.ceil(canvas.width / patternSize);
-      const rows = Math.ceil(canvas.height / patternSize);
-
-      // Draw pattern to offscreen canvas once
       if (bgCtx && pCtx) {
         const pattern = bgCtx.createPattern(patternCanvas, 'repeat');
         if (pattern) {
@@ -267,23 +376,24 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
         }
       }
 
-      // Clear graph
       nodes = [];
-      adjacency.clear();
+      adjacency = new Map();
       graphSegments = [];
-      activeSignals.splice(0, activeSignals.length);
+      segmentLookup = new Map();
+      releaseAllSignals();
 
-      // Helper to get/create node
-      const NODE_TOLERANCE = 10.0; // px - Increased further
+      const NODE_TOLERANCE = 10;
+      const toleranceSq = NODE_TOLERANCE * NODE_TOLERANCE;
       const getNodeIndex = (x: number, y: number) => {
         for (let i = 0; i < nodes.length; i++) {
-          if (distSq(nodes[i], { x, y }) < NODE_TOLERANCE * NODE_TOLERANCE)
-            return i;
+          if (distSq(nodes[i], { x, y }) < toleranceSq) return i;
         }
         nodes.push({ x, y });
         return nodes.length - 1;
       };
 
+      const cols = Math.ceil(nextWidth / patternSize);
+      const rows = Math.ceil(nextHeight / patternSize);
       let segIdCounter = 0;
 
       for (let i = 0; i < cols; i++) {
@@ -291,15 +401,14 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
           const offsetX = i * patternSize;
           const offsetY = j * patternSize;
 
-          // Add segments to graph
-          tileSegments.forEach((seg) => {
+          TILE_SEGMENTS.forEach((seg) => {
             const p1 = { x: seg.p1.x + offsetX, y: seg.p1.y + offsetY };
             const p2 = { x: seg.p2.x + offsetX, y: seg.p2.y + offsetY };
 
             const n1 = getNodeIndex(p1.x, p1.y);
             const n2 = getNodeIndex(p2.x, p2.y);
 
-            const gSeg = {
+            const gSeg: GraphSegment = {
               ...seg,
               p1,
               p2,
@@ -309,6 +418,7 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
             };
 
             graphSegments.push(gSeg);
+            segmentLookup.set(gSeg.id, gSeg);
 
             if (!adjacency.has(n1)) adjacency.set(n1, []);
             if (!adjacency.has(n2)) adjacency.set(n2, []);
@@ -319,26 +429,23 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
         }
       }
 
-      // 3. Gap Bridging (Post-processing)
-      // Fix disconnected corners by creating bridge segments between close dead-end nodes
-      const BRIDGE_DIST = 15.0;
+      const BRIDGE_DIST = 15;
       const bridgeSq = BRIDGE_DIST * BRIDGE_DIST;
 
-      // Single pass to create bridges
       const deadEnds = Array.from(adjacency.entries())
-        .filter(([_, segs]) => segs.length === 1)
-        .map(([n, _]) => n);
+        .filter(([, segs]) => segs.length === 1)
+        .map(([n]) => n);
 
       for (const nodeIdx of deadEnds) {
         const nodePos = nodes[nodeIdx];
         const segId = adjacency.get(nodeIdx)?.[0];
         if (segId === undefined) continue;
 
-        const seg = graphSegments[segId];
+        const seg = segmentLookup.get(segId);
+        if (!seg) continue;
 
-        // Determine vector pointing OUT of the node
-        let dx = 0,
-          dy = 0;
+        let dx = 0;
+        let dy = 0;
         if (nodeIdx === seg.startNode) {
           dx = seg.p1.x - seg.p2.x;
           dy = seg.p1.y - seg.p2.y;
@@ -346,7 +453,7 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
           dx = seg.p2.x - seg.p1.x;
           dy = seg.p2.y - seg.p1.y;
         }
-        const len = Math.sqrt(dx * dx + dy * dy);
+        const len = Math.sqrt(dx * dx + dy * dy) || 1;
         dx /= len;
         dy /= len;
 
@@ -368,22 +475,18 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
         }
 
         if (bestMatch !== -1) {
-          // Check if already connected to avoid parallel bridges (which cause bouncing)
           const existingSegs = adjacency.get(nodeIdx);
           const targetSegs = adjacency.get(bestMatch);
-
-          // Check if any segment in nodeIdx also exists in bestMatch
           const alreadyConnected = existingSegs?.some((id) =>
             targetSegs?.includes(id)
           );
 
           if (!alreadyConnected) {
-            // Create Bridge Segment
             const p1 = nodes[nodeIdx];
             const p2 = nodes[bestMatch];
             const bridgeLen = Math.sqrt(minDist);
 
-            const bridgeSeg = {
+            const bridgeSeg: GraphSegment = {
               p1,
               p2,
               length: bridgeLen,
@@ -394,6 +497,7 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
             };
 
             graphSegments.push(bridgeSeg);
+            segmentLookup.set(bridgeSeg.id, bridgeSeg);
 
             adjacency.get(nodeIdx)?.push(bridgeSeg.id);
             adjacency.get(bestMatch)?.push(bridgeSeg.id);
@@ -402,10 +506,50 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
       }
     };
 
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    let pendingWidth = container.clientWidth;
+    let pendingHeight = container.clientHeight;
+    let resizeRaf: number | null = null;
 
-    // Mouse Interaction
+    const scheduleResize = (width: number, height: number) => {
+      const roundedWidth = Math.max(1, Math.round(width));
+      const roundedHeight = Math.max(1, Math.round(height));
+      if (
+        roundedWidth === pendingWidth &&
+        roundedHeight === pendingHeight &&
+        graphSegments.length
+      ) {
+        return;
+      }
+      pendingWidth = roundedWidth;
+      pendingHeight = roundedHeight;
+      if (resizeRaf !== null) return;
+      resizeRaf = requestAnimationFrame(() => {
+        resizeRaf = null;
+        rebuildScene(pendingWidth, pendingHeight);
+      });
+    };
+
+    rebuildScene(pendingWidth, pendingHeight);
+
+    let resizeObserver: ResizeObserver | null = null;
+    let resizeListener: (() => void) | null = null;
+
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === container) {
+            scheduleResize(entry.contentRect.width, entry.contentRect.height);
+          }
+        });
+      });
+      resizeObserver.observe(container);
+    } else {
+      resizeListener = () => {
+        scheduleResize(container.clientWidth, container.clientHeight);
+      };
+      window.addEventListener('resize', resizeListener);
+    }
+
     const mouse = { x: -1000, y: -1000 };
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
@@ -419,22 +563,25 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
     container.addEventListener('mousemove', handleMouseMove);
     container.addEventListener('mouseleave', handleMouseLeave);
 
-    // Animation Loop
-    let animationId: number;
+    let isIntersecting = true;
+    let isDocumentHidden = document.hidden;
+    let animationId: number | null = null;
 
-    const animate = () => {
+    const renderFrame = () => {
+      if (!isIntersecting || isDocumentHidden) {
+        animationId = null;
+        return;
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 1. Draw Static Background (Dim)
       if (bgCanvas) {
         ctx.globalAlpha = 0.1;
         ctx.drawImage(bgCanvas, 0, 0);
       }
 
-      // 2. Draw Mouse Glow (Masked to Circuit)
-      ctx.globalAlpha = 1.0;
+      ctx.globalAlpha = 1;
       if (mouse.x > -100 && bgCanvas) {
-        // Create a layer for the glow
         ctx.save();
 
         const gradient = ctx.createRadialGradient(
@@ -451,180 +598,192 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Mask using the circuit pattern
         ctx.globalCompositeOperation = 'destination-in';
         ctx.drawImage(bgCanvas, 0, 0);
 
         ctx.restore();
       }
 
-      // 3. Draw Signals
-      // Spawn Signals
       if (
         Math.random() < SPAWN_RATE &&
-        graphSegments.length > 0 &&
-        activeSignals.length < MAX_SIGNALS
+        activeSignals.length < MAX_SIGNALS &&
+        graphSegments.length
       ) {
-        const seg =
-          graphSegments[Math.floor(Math.random() * graphSegments.length)];
-        const direction = Math.random() > 0.5 ? 1 : -1;
-        activeSignals.push({
-          segmentId: seg.id,
-          progress: direction === 1 ? 0 : 1,
-          direction,
-          speed: BASE_SPEED_PX / seg.length,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          trail: [],
-          life: MAX_LIFE + Math.random() * 200,
-        });
+        spawnSignal();
       }
 
-      // Update and draw signals
       ctx.globalCompositeOperation = 'screen';
       ctx.lineWidth = 2;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
 
       for (let i = activeSignals.length - 1; i >= 0; i--) {
-        const s = activeSignals[i];
-        const seg = graphSegments[s.segmentId];
-
-        // Check life
-        s.life--;
-        if (s.life <= 0) {
-          activeSignals.splice(i, 1);
+        const signal = activeSignals[i];
+        const seg = segmentLookup.get(signal.segmentId);
+        if (!seg) {
+          disposeSignalAt(i);
           continue;
         }
 
-        // Update progress
-        s.progress += s.speed * s.direction;
+        signal.life -= 1;
+        if (signal.life <= 0) {
+          disposeSignalAt(i);
+          continue;
+        }
 
-        // Calculate current position
-        const x = seg.p1.x + (seg.p2.x - seg.p1.x) * s.progress;
-        const y = seg.p1.y + (seg.p2.y - seg.p1.y) * s.progress;
+        signal.progress += signal.speed * signal.direction;
 
-        // Add to trail
-        s.trail.push({ x, y });
-        if (s.trail.length > TRAIL_LENGTH) s.trail.shift();
+        const x = seg.p1.x + (seg.p2.x - seg.p1.x) * signal.progress;
+        const y = seg.p1.y + (seg.p2.y - seg.p1.y) * signal.progress;
 
-        // Check for node arrival
+        appendTrailPoint(signal, x, y);
+
         let arrivedAtNode = -1;
-        if (s.direction === 1 && s.progress >= 1) arrivedAtNode = seg.endNode;
-        else if (s.direction === -1 && s.progress <= 0)
+        if (signal.direction === 1 && signal.progress >= 1) {
+          arrivedAtNode = seg.endNode;
+        } else if (signal.direction === -1 && signal.progress <= 0) {
           arrivedAtNode = seg.startNode;
+        }
 
         if (arrivedAtNode !== -1) {
-          // Pick next segment
           const neighbors = adjacency.get(arrivedAtNode);
 
           if (neighbors) {
-            // 1. Dead End Check (only connected to current segment)
             if (neighbors.length === 1 && neighbors[0] === seg.id) {
-              // Signal reaches dead end: Die
-              activeSignals.splice(i, 1);
-
-              // Optional: Death effect (flash)
-              ctx.fillStyle = s.color;
+              ctx.globalAlpha = 0.9;
+              ctx.fillStyle = signal.color;
               ctx.beginPath();
-              ctx.arc(x, y, 3, 0, Math.PI * 2);
+              ctx.arc(x, y, 2, 0, Math.PI * 2);
               ctx.fill();
-
+              ctx.globalAlpha = 1;
+              disposeSignalAt(i);
               continue;
             }
 
-            // 2. Junction Logic
             const candidates = neighbors.filter((id) => id !== seg.id);
-
             if (candidates.length > 0) {
-              // Prefer not to return to previous segment if other options exist
               const nonReversing = candidates.filter(
-                (id) => id !== s.previousSegmentId
+                (id) => id !== signal.previousSegmentId
               );
-              const nextSegId =
-                nonReversing.length > 0
-                  ? nonReversing[
-                      Math.floor(Math.random() * nonReversing.length)
-                    ]
-                  : candidates[Math.floor(Math.random() * candidates.length)];
+              const pool = nonReversing.length > 0 ? nonReversing : candidates;
+              const nextSegId = pool[Math.floor(Math.random() * pool.length)];
+              const nextSeg = segmentLookup.get(nextSegId);
 
-              const nextSeg = graphSegments[nextSegId];
-
-              s.previousSegmentId = s.segmentId;
-              s.segmentId = nextSegId;
-
-              // Determine direction on next segment
-              if (nextSeg.startNode === arrivedAtNode) {
-                s.direction = 1;
-                s.progress = 0;
-              } else {
-                s.direction = -1;
-                s.progress = 1;
+              if (!nextSeg) {
+                disposeSignalAt(i);
+                continue;
               }
 
-              s.speed = BASE_SPEED_PX / nextSeg.length;
+              signal.previousSegmentId = signal.segmentId;
+              signal.segmentId = nextSegId;
+
+              if (nextSeg.startNode === arrivedAtNode) {
+                signal.direction = 1;
+                signal.progress = 0;
+              } else {
+                signal.direction = -1;
+                signal.progress = 1;
+              }
+
+              signal.speed = BASE_SPEED_PX / Math.max(nextSeg.length, 0.001);
               continue;
             }
           }
 
-          // Fallback: orphan node or error
-          activeSignals.splice(i, 1);
+          disposeSignalAt(i);
           continue;
         }
 
-        // Draw Trail
-        if (s.trail.length > 1) {
-          const gradient = ctx.createLinearGradient(
-            s.trail[0].x,
-            s.trail[0].y,
-            s.trail[s.trail.length - 1].x,
-            s.trail[s.trail.length - 1].y
-          );
-          gradient.addColorStop(0, 'rgba(0,0,0,0)');
-          gradient.addColorStop(1, s.color);
+        if (signal.trailSize > 1) {
+          const oldestIdx =
+            (signal.trailIndex - signal.trailSize + TRAIL_POINTS) %
+            TRAIL_POINTS;
+          const startBase = oldestIdx * 2;
+          const startX = signal.trailBuffer[startBase];
+          const startY = signal.trailBuffer[startBase + 1];
+          const gradient = ensureTrailGradient(signal, startX, startY, x, y);
 
           ctx.strokeStyle = gradient;
           ctx.beginPath();
-          ctx.moveTo(s.trail[0].x, s.trail[0].y);
-          for (let k = 1; k < s.trail.length; k++) {
-            ctx.lineTo(s.trail[k].x, s.trail[k].y);
+          for (let k = 0; k < signal.trailSize; k++) {
+            const idx =
+              (signal.trailIndex - signal.trailSize + k + TRAIL_POINTS) %
+              TRAIL_POINTS;
+            const base = idx * 2;
+            const tx = signal.trailBuffer[base];
+            const ty = signal.trailBuffer[base + 1];
+            if (k === 0) ctx.moveTo(tx, ty);
+            else ctx.lineTo(tx, ty);
           }
           ctx.stroke();
         }
 
-        // Draw Head
-        // Optimized: Replaced shadowBlur with radial gradient for performance
-        const glowRadius = 4;
-        const headGradient = ctx.createRadialGradient(
-          x,
-          y,
-          0,
-          x,
-          y,
-          glowRadius
-        );
-        headGradient.addColorStop(0, '#ffffff');
-        headGradient.addColorStop(0.4, s.color);
-        headGradient.addColorStop(1, 'rgba(0,0,0,0)');
-
-        ctx.fillStyle = headGradient;
-        ctx.beginPath();
-        ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
-        ctx.fill();
+        const sprite = getHeadSprite(signal.color);
+        ctx.globalAlpha = 0.9;
+        ctx.drawImage(sprite, x - HEAD_RADIUS, y - HEAD_RADIUS);
+        ctx.globalAlpha = 1;
       }
 
       ctx.globalCompositeOperation = 'source-over';
-      // Removed ctx.restore() because we removed the save/clip block for signals
 
-      animationId = requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(renderFrame);
     };
 
-    animate();
+    const updateAnimationState = () => {
+      const shouldRun = isIntersecting && !isDocumentHidden;
+      if (!shouldRun) {
+        if (animationId !== null) {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
+        return;
+      }
+
+      if (animationId === null) {
+        animationId = requestAnimationFrame(renderFrame);
+      }
+    };
+
+    const visibilityObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === container) {
+            isIntersecting = entry.isIntersecting;
+          }
+        });
+        updateAnimationState();
+      },
+      { threshold: 0.1 }
+    );
+
+    visibilityObserver.observe(container);
+
+    const handleVisibilityChange = () => {
+      isDocumentHidden = document.hidden;
+      updateAnimationState();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    updateAnimationState();
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
+      resizeObserver?.disconnect();
+      if (resizeListener) {
+        window.removeEventListener('resize', resizeListener);
+      }
+      if (resizeRaf !== null) {
+        cancelAnimationFrame(resizeRaf);
+      }
+      visibilityObserver.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       container.removeEventListener('mousemove', handleMouseMove);
       container.removeEventListener('mouseleave', handleMouseLeave);
-      cancelAnimationFrame(animationId);
+      if (animationId !== null) {
+        cancelAnimationFrame(animationId);
+      }
+      releaseAllSignals();
+      headSprites.clear();
     };
   }, []);
 
