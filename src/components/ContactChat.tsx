@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
 import {
   Conversation,
   ConversationContent,
   ConversationScrollButton,
-} from "@/components/ai-elements/conversation";
+} from '@/components/ai-elements/conversation';
 import {
   Message,
   MessageAvatar,
   MessageContent,
-} from "@/components/ai-elements/message";
+} from '@/components/ai-elements/message';
 import {
   PromptInput,
   PromptInputBody,
@@ -18,16 +18,16 @@ import {
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputTools,
-} from "@/components/ai-elements/prompt-input";
+} from '@/components/ai-elements/prompt-input';
 
-import { Suggestion, Suggestions } from "@/components/ai-elements/suggestion";
+import { Suggestion, Suggestions } from '@/components/ai-elements/suggestion';
 
-import { nanoid } from "nanoid";
-import { useCallback, useState } from "react";
+import { nanoid } from 'nanoid';
+import { useCallback, useState } from 'react';
 
 type MessageType = {
   key: string;
-  from: "user" | "assistant";
+  from: 'user' | 'assistant';
   version: {
     id: string;
     content: string;
@@ -37,48 +37,53 @@ type MessageType = {
   isStreaming?: boolean;
 };
 
-const initialMessages: MessageType[] = [
-  {
-    key: nanoid(),
-    from: "assistant",
-    version: {
-      id: nanoid(),
-      content: "Hi! How can we help you today?",
-    },
-    avatar: "/favicon.svg",
-    name: "BDKinc",
-  },
-];
-
-const suggestions = [
-  "How can I get a quote for IT services?",
-  "I need help with network infrastructure",
-  "What managed IT services do you offer?",
-  "Tell me about your cloud services",
-];
-
 const mockResponses = [
-  "Thanks for reaching out! Our team will respond shortly. You can also call us at (800) 309-0004 for immediate assistance.",
+  'Thanks for reaching out! Our team will respond shortly. You can also call us at (800) 309-0004 for immediate assistance.',
   "Great question! We'd love to help you with that. One of our experts will get back to you soon, or feel free to call (800) 309-0004.",
   "Thank you for your interest! We're here to help. Our team will be in touch shortly, or you can reach us directly at (800) 309-0004.",
 ];
 
-export default function ContactChat() {
-  const [text, setText] = useState<string>("");
+interface ContactChatProps {
+  initialSuggestions?: string[];
+}
+
+export default function ContactChat({ initialSuggestions }: ContactChatProps) {
+  const [text, setText] = useState<string>('');
   const [status, setStatus] = useState<
-    "submitted" | "streaming" | "ready" | "error"
-  >("ready");
-  const [messages, setMessages] = useState<MessageType[]>(initialMessages);
+    'submitted' | 'streaming' | 'ready' | 'error'
+  >('ready');
+
+  const [suggestions] = useState<string[]>(
+    initialSuggestions || [
+      'How can I get a quote for IT services?',
+      'I need help with network infrastructure',
+      'What managed IT services do you offer?',
+      'Tell me about your cloud services',
+    ]
+  );
+
+  const [messages, setMessages] = useState<MessageType[]>(() => [
+    {
+      key: nanoid(),
+      from: 'assistant',
+      version: {
+        id: nanoid(),
+        content: 'Hi! How can we help you today?',
+      },
+      avatar: '/favicon.svg',
+      name: 'BDKinc',
+    },
+  ]);
 
   const streamResponse = useCallback(
     async (messageId: string, content: string) => {
-      setStatus("streaming");
+      setStatus('streaming');
 
-      const words = content.split(" ");
-      let currentContent = "";
+      const words = content.split(' ');
+      let currentContent = '';
 
       for (let i = 0; i < words.length; i++) {
-        currentContent += (i > 0 ? " " : "") + words[i];
+        currentContent += (i > 0 ? ' ' : '') + words[i];
 
         setMessages((prev) =>
           prev.map((msg) => {
@@ -103,7 +108,7 @@ export default function ContactChat() {
         )
       );
 
-      setStatus("ready");
+      setStatus('ready');
     },
     []
   );
@@ -112,13 +117,13 @@ export default function ContactChat() {
     (content: string) => {
       const userMessage: MessageType = {
         key: `user-${Date.now()}`,
-        from: "user",
+        from: 'user',
         version: {
           id: `user-${Date.now()}`,
           content,
         },
-        avatar: "https://github.com/shadcn.png",
-        name: "You",
+        avatar: 'https://github.com/shadcn.png',
+        name: 'You',
       };
 
       setMessages((prev) => [...prev, userMessage]);
@@ -130,13 +135,13 @@ export default function ContactChat() {
 
         const assistantMessage: MessageType = {
           key: `assistant-${Date.now()}`,
-          from: "assistant",
+          from: 'assistant',
           version: {
             id: assistantMessageId,
-            content: "",
+            content: '',
           },
-          avatar: "/favicon.svg",
-          name: "BDKinc",
+          avatar: '/favicon.svg',
+          name: 'BDKinc',
           isStreaming: true,
         };
 
@@ -154,18 +159,18 @@ export default function ContactChat() {
       return;
     }
 
-    setStatus("submitted");
-    addUserMessage(message.text || "");
-    setText("");
+    setStatus('submitted');
+    addUserMessage(message.text || '');
+    setText('');
   };
 
   const handleSuggestionClick = (suggestion: string) => {
-    setStatus("submitted");
+    setStatus('submitted');
     addUserMessage(suggestion);
   };
 
   return (
-    <div className="bg-background rounded-xl p-4 border border-input shadow-sm">
+    <div className="bg-background border-input rounded-xl border p-4 shadow-sm">
       <div>
         <div className="relative flex h-[500px] flex-col overflow-hidden">
           <Conversation>
@@ -173,9 +178,7 @@ export default function ContactChat() {
               {messages.map((message) => (
                 <Message from={message.from} key={message.key}>
                   <div className="max-w-[80%]">
-                    <MessageContent
-                      className="relative transition-all duration-200 ease-out max-w-none"
-                    >
+                    <MessageContent className="relative max-w-none transition-all duration-200 ease-out">
                       <div className="whitespace-pre-wrap">
                         {message.version.content}
                       </div>
@@ -187,7 +190,7 @@ export default function ContactChat() {
             </ConversationContent>
             <ConversationScrollButton />
           </Conversation>
-          <div className="grid shrink-0 gap-4 p-4 border-t border-input">
+          <div className="border-input grid shrink-0 gap-4 border-t p-4">
             <Suggestions>
               {suggestions.map((suggestion) => (
                 <Suggestion
@@ -208,7 +211,7 @@ export default function ContactChat() {
               <PromptInputFooter>
                 <PromptInputTools />
                 <PromptInputSubmit
-                  disabled={!text.trim() || status === "streaming"}
+                  disabled={!text.trim() || status === 'streaming'}
                   status={status}
                 />
               </PromptInputFooter>

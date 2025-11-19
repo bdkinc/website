@@ -14,14 +14,18 @@ This is an Astro-based marketing website with selective React hydration. Perform
 
 ```astro
 <!-- ✅ Good: Only hydrate what needs interactivity -->
-<Navigation client:load />          <!-- Needs immediate state for mobile menu -->
-<Hero client:visible />              <!-- Lazy load when scrolled into view -->
+<Navigation client:load />
+<!-- Needs immediate state for mobile menu -->
+<Hero client:visible />
+<!-- Lazy load when scrolled into view -->
 
 <!-- ❌ Bad: Unnecessary hydration -->
-<StaticContent client:load />        <!-- Should be plain Astro/HTML -->
+<StaticContent client:load />
+<!-- Should be plain Astro/HTML -->
 ```
 
 **Hydration directive decision tree:**
+
 - `client:load` - Only for above-the-fold interactive components (Navigation)
 - `client:visible` - For below-the-fold interactive components (modals, animations)
 - `client:idle` - For low-priority interactive components
@@ -30,11 +34,13 @@ This is an Astro-based marketing website with selective React hydration. Perform
 ### 2. Component Creation Guidelines
 
 **When to use `.astro` vs `.tsx`:**
+
 - `.astro` files - For ALL static content, layouts, pages
 - `.tsx` files in `components/react/` - Only when you need useState, useEffect, or event handlers
 - `.tsx` files in `components/ui/` - Reusable UI primitives (buttons, cards) that may be used in interactive contexts
 
 **Component file naming:**
+
 - React components: PascalCase (e.g., `Hero.tsx`, `Services.tsx`)
 - Astro components: PascalCase (e.g., `Layout.astro`, `Footer.astro`)
 - Pages: lowercase (e.g., `index.astro`, `services.astro`)
@@ -69,6 +75,7 @@ import { cn } from '@/lib/utils'
 ```
 
 **Leverage existing utility classes from global.css:**
+
 - `.glass` - For glassmorphism effects (nav, modals, cards)
 - `.gradient-primary` - Primary to secondary gradient
 - `.gradient-mesh` - Radial gradient background overlay
@@ -79,6 +86,7 @@ import { cn } from '@/lib/utils'
 **shadcn-style component structure:**
 
 All UI components in `components/ui/` follow this pattern:
+
 1. Use `React.forwardRef` for ref forwarding
 2. Use `class-variance-authority` (cva) for variant management
 3. Export both the component and variants
@@ -86,17 +94,18 @@ All UI components in `components/ui/` follow this pattern:
 
 ```tsx
 // Example from button.tsx
-const buttonVariants = cva("base-classes", {
+const buttonVariants = cva('base-classes', {
   variants: {
-    variant: { default: "...", outline: "...", ghost: "..." },
-    size: { default: "...", sm: "...", lg: "..." }
+    variant: { default: '...', outline: '...', ghost: '...' },
+    size: { default: '...', sm: '...', lg: '...' },
   },
-  defaultVariants: { variant: "default", size: "default" }
-})
+  defaultVariants: { variant: 'default', size: 'default' },
+});
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-  VariantProps<typeof buttonVariants> {
-  asChild?: boolean  // Allow polymorphic behavior via Radix Slot
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean; // Allow polymorphic behavior via Radix Slot
 }
 ```
 
@@ -105,10 +114,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 **Use lucide-react for all icons:**
 
 ```tsx
-import { Server, Shield, Cloud, ArrowRight } from 'lucide-react'
+import { Server, Shield, Cloud, ArrowRight } from 'lucide-react';
 
 // Icons automatically inherit color and size from parent
-<ArrowRight className="w-4 h-4 text-[--color-primary]" />
+<ArrowRight className="h-4 w-4 text-[--color-primary]" />;
 ```
 
 **Critical: Always use `className` for React components in Astro files, even though `.astro` files allow `class` for HTML elements:**
@@ -116,18 +125,18 @@ import { Server, Shield, Cloud, ArrowRight } from 'lucide-react'
 ```astro
 ---
 // In .astro files, React components (icons, UI components, etc.) require className
-import { Code2, Shield, Lock } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Code2, Shield, Lock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 ---
 
 <!-- ✅ CORRECT: React components use className -->
-<Code2 className="w-16 h-16 text-primary" />
-<Shield className="w-8 h-8 text-primary" />
+<Code2 className="text-primary h-16 w-16" />
+<Shield className="text-primary h-8 w-8" />
 <Button className="mt-4">Click me</Button>
 
 <!-- ❌ WRONG: Do not use class with React components -->
-<Code2 class="w-16 h-16 text-primary" />
-<Shield class="w-8 h-8 text-primary" />
+<Code2 class="text-primary h-16 w-16" />
+<Shield class="text-primary h-8 w-8" />
 
 <!-- ✅ CORRECT: Regular HTML elements can use class in .astro files -->
 <div class="flex items-center gap-4">Content</div>
@@ -137,20 +146,95 @@ import { Button } from '@/components/ui/button'
 
 ### 6. Animation Patterns
 
-**For simple animations, use inline styles or Tailwind:**
+**For simple animations, use CSS keyframes in global.css:**
 
-```tsx
-// Example from Hero.tsx
-<style>{`
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(5deg); }
+```css
+/* global.css */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 8px oklch(0.7 0.18 210 / 0.5),
+      0 0 16px oklch(0.7 0.18 210 / 0.25);
   }
-  .animate-float { animation: float 6s ease-in-out infinite; }
-`}</style>
+  50% {
+    box-shadow:
+      0 0 12px oklch(0.7 0.18 210 / 0.7),
+      0 0 24px oklch(0.7 0.18 210 / 0.35);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
 ```
 
+**For canvas-based interactive effects (particle systems, etc.):**
+
+```tsx
+// Always check for reduced motion FIRST
+useEffect(() => {
+  const prefersReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+  if (prefersReducedMotion) return;
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  // Setup canvas
+  canvas.className = 'absolute inset-0 w-full h-full pointer-events-none';
+  container.appendChild(canvas);
+
+  // Animation loop
+  const animate = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Draw particles/effects
+    requestAnimationFrame(animate);
+  };
+
+  animate();
+
+  // CRITICAL: Always cleanup
+  return () => {
+    canvas.remove();
+    // Remove event listeners
+  };
+}, []);
+```
+
+**For mouse-tracking effects:**
+
+```tsx
+const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+
+const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
+  setMousePosition({ x, y });
+};
+
+// Use in inline styles for dynamic gradients
+style={{
+  background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.15), transparent 60%)`
+}}
+```
+
+**Animation Performance Rules:**
+
+- ✅ Use `transform` and `opacity` for CSS animations (GPU accelerated)
+- ✅ Use `requestAnimationFrame` for canvas/JS animations
+- ✅ Always check `prefers-reduced-motion` for canvas animations
+- ✅ Use `pointer-events-none` on decorative overlays
+- ✅ Cleanup all event listeners and canvas elements on unmount
+- ❌ Don't animate `width`, `height`, or `top/left` (causes reflow)
+- ❌ Don't create canvas elements on every render
+- ❌ Don't forget to respect reduced motion preferences
+
 **For complex animations, use react-bits:**
+
 - Installed but not yet extensively used
 - Prefer react-bits over heavier libraries like Framer Motion
 - Only import what you need to minimize bundle size
@@ -161,12 +245,12 @@ import { Button } from '@/components/ui/button'
 
 ```tsx
 // ✅ Good
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 // ❌ Bad
-import { Button } from '../components/ui/button'
-import { cn } from '../../lib/utils'
+import { Button } from '../components/ui/button';
+import { cn } from '../../lib/utils';
 ```
 
 ### 8. TypeScript Patterns
@@ -189,11 +273,11 @@ export type HeroProps = { ... }
 ```astro
 ---
 interface Props {
-  title: string
-  description?: string
+  title: string;
+  description?: string;
 }
 
-const { title, description = "Default description" } = Astro.props
+const { title, description = 'Default description' } = Astro.props;
 ---
 ```
 
@@ -208,8 +292,8 @@ const { title, description = "Default description" } = Astro.props
 
 ```astro
 ---
-import Layout from '@/layouts/Layout.astro'
-import Navigation from '@/components/Navigation'
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 ---
 
 <Layout title="Page Title">
@@ -237,6 +321,7 @@ import Navigation from '@/components/Navigation'
 ## Performance Checklist
 
 Before committing new features, verify:
+
 - [ ] React components are only used when interactivity is required
 - [ ] Hydration directives are as lazy as possible (`client:visible` > `client:load`)
 - [ ] Images are optimized and use appropriate formats

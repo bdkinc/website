@@ -1,1 +1,7 @@
-{"title": "IBM Cloud Solutions & Migration", "description": "IBM Cloud infrastructure, Power Systems migration, hybrid cloud architecture, cloud-native application development, and IBM Cloud Pak implementation for enterprise workloads.", "icon": "CloudCog", "order": 26, "category": "cloud"}
+{
+  "title": "IBM Cloud Solutions & Migration",
+  "description": "IBM Cloud infrastructure, Power Systems migration, hybrid cloud architecture, cloud-native application development, and IBM Cloud Pak implementation for enterprise workloads.",
+  "icon": "CloudCog",
+  "order": 26,
+  "category": "cloud"
+}

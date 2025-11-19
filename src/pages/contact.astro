@@ -4,10 +4,26 @@ import Navigation from '../components/Navigation';
 import ContactChat from '../components/ContactChat';
 import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
-import { Logo } from '@/components/Logo';
+import Footer from '@/components/Footer.astro';
 import { Phone, Mail, Clock, MapPin } from 'lucide-react';
+import { actions } from 'astro:actions';
+
+export const prerender = false;
 
 const { servicesData, recentPosts } = await getNavigationData();
+
+// Get referrer-based suggestions using Astro action
+const fromParam = Astro.url.searchParams.get('from');
+const result = await Astro.callAction(actions.getReferrerSuggestions, {
+  from: fromParam || undefined
+});
+
+const initialSuggestions = result?.data?.suggestions || [
+  'How can I get a quote for IT services?',
+  'I need help with network infrastructure',
+  'What managed IT services do you offer?',
+  'Tell me about your cloud services',
+];
 ---
 
 <Layout title="Contact Us | BDKinc - Get in Touch">
@@ -22,27 +38,37 @@ const { servicesData, recentPosts } = await getNavigationData();
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-      <div class="relative z-10 mx-auto max-w-7xl text-center">
-        <h1
-          class="fill-mode-both animate-in fade-in slide-in-from-top-6 text-5xl font-bold tracking-tight duration-700 md:text-6xl"
+      <div class="relative z-10 mx-auto max-w-4xl text-center">
+        {/* Badge */}
+        <div
+          class="glass border-primary/20 animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
         >
-          <span class="text-foreground">Let's </span>
+          <span class="text-sm">
+            <span class="font-semibold text-[--brand-accent]">24/7</span> Support
+            Available
+          </span>
+        </div>
+
+        <h1
+          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold delay-100 duration-700 md:text-6xl"
+        >
+          <span class="text-foreground">Get in </span>
           <span
             class="from-brand-primary to-brand-secondary bg-linear-to-br bg-clip-text text-transparent"
           >
-            Connect
+            Touch
           </span>
         </h1>
-
         <p
-          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-200 duration-600 md:text-2xl"
+          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
         >
-          Ready to transform your IT infrastructure? Our team is here to help
-          24/7.
+          Have a question or need IT support? We're here to help. Reach out to
+          our team and let's discuss how we can transform your technology
+          infrastructure.
         </p>
       </div>
       <div
-        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
@@ -62,7 +88,7 @@ const { servicesData, recentPosts } = await getNavigationData();
               Message
             </span>
           </h2>
-          <ContactChat client:only="react" />
+          <ContactChat client:only="react" initialSuggestions={initialSuggestions} />
         </div>
 
         {/* Contact Information - Horizontal Layout */}
@@ -152,23 +178,6 @@ const { servicesData, recentPosts } = await getNavigationData();
         </div>
       </div>
     </section>
-    {/* Footer */}
-    <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
-      <div
-        class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
-      >
-        <div>
-          <Logo />
-        </div>
-        <p class="text-muted-foreground mb-4">
-          Your trusted technology partner since 1999
-        </p>
-        <p class="text-muted-foreground/70 text-sm">
-          &copy; {new Date().getFullYear()}
-          <span class="font-display font-extrabold">BDKinc</span>. All rights
-          reserved.
-        </p>
-      </div>
-    </footer>
+    <Footer />
   </main>
 </Layout>

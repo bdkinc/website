@@ -1,1 +1,7 @@
-{"title": "Linux Administration", "description": "Professional Linux server management including Ubuntu, CentOS, Red Hat, and Debian distributions. Shell scripting, security hardening, and performance optimization.", "icon": "Terminal", "order": 14, "category": "os"}
+{
+  "title": "Linux Administration",
+  "description": "Professional Linux server management including Ubuntu, CentOS, Red Hat, and Debian distributions. Shell scripting, security hardening, and performance optimization.",
+  "icon": "Terminal",
+  "order": 14,
+  "category": "os"
+}

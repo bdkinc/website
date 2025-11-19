@@ -1,38 +1,38 @@
 ---
-import '../styles/global.css'
+import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
-  title: string
-  description?: string
-  canonical?: string
-  ogTitle?: string
-  ogDescription?: string
-  ogImage?: string
-  ogImageAlt?: string
-  twitterCard?: string
-  robots?: string | null
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  twitterCard?: string;
+  robots?: string | null;
 }
 
 const {
   title,
-  description = "IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.",
+  description = 'IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.',
   canonical = Astro.url.pathname,
   ogTitle = title,
   ogDescription = description,
-  ogImage = "/og-image.jpg",
+  ogImage = '/og-image.jpg',
   ogImageAlt,
-  twitterCard = "summary_large_image",
-  robots = "index,follow"
-} = Astro.props
+  twitterCard = 'summary_large_image',
+  robots = 'index,follow',
+} = Astro.props;
 
-const siteOrigin = Astro.site?.origin ?? "https://www.bdkinc.com"
-const canonicalUrl = canonical.startsWith("http")
+const siteOrigin = Astro.site?.origin ?? 'https://www.bdkinc.com';
+const canonicalUrl = canonical.startsWith('http')
   ? canonical
-  : new URL(canonical, siteOrigin).toString()
-const ogImageUrl = ogImage.startsWith("http")
+  : new URL(canonical, siteOrigin).toString();
+const ogImageUrl = ogImage.startsWith('http')
   ? ogImage
-  : new URL(ogImage, siteOrigin).toString()
+  : new URL(ogImage, siteOrigin).toString();
 ---
 
 <!doctype html>
@@ -45,12 +45,15 @@ const ogImageUrl = ogImage.startsWith("http")
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <meta name="generator" content={Astro.generator} />
-    
+
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalUrl} />
-    
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
@@ -58,40 +61,47 @@ const ogImageUrl = ogImage.startsWith("http")
     {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content="website" />
-    
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content={twitterCard} />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImageUrl} />
     {ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
-    
+
     <title>{title}</title>
-    
+
     <!-- View Transitions -->
     <ClientRouter />
-    
+
     <script is:inline>
       // Apply theme function - used on initial load and after swaps
       function applyTheme() {
-        const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const theme =
+          localStorage.getItem('theme') ||
+          (window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light');
         if (theme === 'dark') {
           document.documentElement.classList.add('dark');
         } else {
           document.documentElement.classList.remove('dark');
         }
       }
-      
+
       // Apply theme immediately on initial page load
       applyTheme();
-      
+
       // Apply theme after each page transition to prevent flash
       document.addEventListener('astro:after-swap', applyTheme);
     </script>
   </head>
   <body>
     <!-- Skip to main content link -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-primary focus:text-primary-foreground">
+    <a
+      href="#main-content"
+      class="focus:bg-primary focus:text-primary-foreground sr-only focus:not-sr-only focus:fixed focus:top-0 focus:left-0 focus:z-50 focus:p-4"
+    >
       Skip to main content
     </a>
     <slot />

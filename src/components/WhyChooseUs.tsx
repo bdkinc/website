@@ -1,43 +1,24 @@
-import { useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
-import { Zap, ShieldCheck, Users } from "lucide-react";
-import { useIntersectionObserver } from "@/components/hooks/useIntersectionObserver";
-
-const features = [
-  {
-    icon: <Zap className="icon-md text-primary" />,
-    title: "Fast Response",
-    description:
-      "Quick turnaround times with dedicated support staff available 24/7.",
-  },
-  {
-    icon: <ShieldCheck className="icon-md text-primary" />,
-    title: "Proven Expertise",
-    description:
-      "Over 25 years of experience delivering reliable IT solutions.",
-  },
-  {
-    icon: <Users className="icon-md text-primary" />,
-    title: "Personalized Service",
-    description: "Dedicated team that understands your unique business needs.",
-  },
-];
+import { useEffect, useRef } from 'react';
+import { cn } from '@/lib/utils';
+import { Zap, ShieldCheck, Users } from 'lucide-react';
+import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 
 export default function WhyChooseUs() {
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Viewport detection for section header
-  const { ref: headerRef, isIntersecting: headerInView } = useIntersectionObserver({
-    threshold: 0.2,
-    rootMargin: '0px',
-    triggerOnce: true
-  });
+  const { ref: headerRef, isIntersecting: headerInView } =
+    useIntersectionObserver({
+      threshold: 0.2,
+      rootMargin: '0px',
+      triggerOnce: true,
+    });
 
   // Viewport detection for features grid
   const { ref: gridRef, isIntersecting: gridInView } = useIntersectionObserver({
     threshold: 0.1,
     rootMargin: '50px',
-    triggerOnce: true
+    triggerOnce: true,
   });
 
   useEffect(() => {
@@ -52,96 +33,173 @@ export default function WhyChooseUs() {
       if (!iconWrapper) return;
 
       const handleMouseEnter = () => {
-        iconWrapper.style.transform = "scale(1.15) rotate(8deg)";
+        iconWrapper.style.transform = 'scale(1.15) rotate(8deg)';
       };
 
       const handleMouseLeave = () => {
-        iconWrapper.style.transform = "scale(1) rotate(0deg)";
+        iconWrapper.style.transform = 'scale(1) rotate(0deg)';
       };
 
-      iconWrapper.addEventListener("mouseenter", handleMouseEnter);
-      iconWrapper.addEventListener("mouseleave", handleMouseLeave);
+      iconWrapper.addEventListener('mouseenter', handleMouseEnter);
+      iconWrapper.addEventListener('mouseleave', handleMouseLeave);
 
       listeners.push({ iconWrapper, handleMouseEnter, handleMouseLeave });
     });
 
     return () => {
-      listeners.forEach(({ iconWrapper, handleMouseEnter, handleMouseLeave }) => {
-        iconWrapper.removeEventListener("mouseenter", handleMouseEnter);
-        iconWrapper.removeEventListener("mouseleave", handleMouseLeave);
-      });
+      listeners.forEach(
+        ({ iconWrapper, handleMouseEnter, handleMouseLeave }) => {
+          iconWrapper.removeEventListener('mouseenter', handleMouseEnter);
+          iconWrapper.removeEventListener('mouseleave', handleMouseLeave);
+        }
+      );
     };
   }, []);
 
-  return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8 gradient-mesh relative">
-      <div className="absolute top-0 left-0 right-0 h-1 bg-primary" />
+  const getCardStyle = (delay: number) =>
+    gridInView
+      ? {
+          transitionDelay: `${delay}ms`,
+          opacity: 1,
+          transform: 'translateY(0)',
+        }
+      : {
+          transitionDelay: '0ms',
+          opacity: 0,
+          transform: 'translateY(24px)',
+        };
 
-      <div className="max-w-7xl mx-auto">
-        <div 
+  return (
+    <section className="gradient-mesh relative px-4 py-24 sm:px-6 lg:px-8">
+      <div className="from-primary/50 via-secondary/50 absolute top-0 right-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50" />
+
+      <div className="mx-auto max-w-7xl">
+        <div
           ref={headerRef as any}
           className={cn(
-            "text-center mb-16",
-            "opacity-0 translate-y-8 transition-[opacity,transform] duration-700 ease-out",
-            headerInView && "opacity-100 translate-y-0"
+            'mb-16 text-center',
+            'translate-y-8 opacity-0 transition-[opacity,transform] duration-700 ease-out',
+            headerInView && 'translate-y-0 opacity-100'
           )}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="mb-4 text-4xl font-bold md:text-5xl">
             <span className="text-foreground">Why Choose </span>
-            <span className="text-primary font-display font-extrabold">
+            <span className="font-display from-primary to-secondary bg-linear-to-br bg-clip-text font-extrabold text-transparent">
               BDK
             </span>
             <span>?</span>
           </h2>
         </div>
 
-        <div 
+        <div
           ref={gridRef as any}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 gap-8 md:grid-cols-3"
         >
-          {features.map((feature, index) => {
-            // Stagger: 120ms between features
-            const delayMs = index * 120;
-            return (
-              <div
-                key={index}
-                className={cn(
-                  "flex flex-col items-center justify-center text-center space-y-4 h-full",
-                  "opacity-0 translate-y-6 transition-[opacity,transform] duration-600 ease-out"
-                )}
-                style={{ 
-                  transitionDelay: gridInView ? `${delayMs}ms` : '0ms',
-                  opacity: gridInView ? 1 : 0,
-                  transform: gridInView ? 'translateY(0)' : 'translateY(24px)'
-                }}
-              >
-                <div
-                  ref={(el) => {
-                    iconRefs.current[index] = el;
-                  }}
-                  className={cn(
-                    "w-16 h-16 rounded-full text-foreground flex items-center justify-center",
-                    "transition-transform duration-300"
-                  )}
-                >
-                  {feature.icon}
-                </div>
-                <h3 className={cn(
-                  "text-2xl font-semibold text-foreground text-center",
-                  "transition-colors duration-300"
-                )}>
-                  {feature.title}
-                </h3>
-                <p className="text-muted-foreground text-center max-w-sm mx-auto">
-                  {feature.description}
-                </p>
-              </div>
-            );
-          })}
+          <div
+            className={cn(
+              'flex h-full flex-col items-center justify-center space-y-4 text-center',
+              'translate-y-6 opacity-0 transition-[opacity,transform] duration-600 ease-out'
+            )}
+            style={getCardStyle(0)}
+          >
+            <div
+              ref={(el) => {
+                iconRefs.current[0] = el;
+              }}
+              className={cn(
+                'text-foreground flex h-16 w-16 items-center justify-center rounded-full',
+                'transition-all duration-300',
+                'from-primary/10 to-secondary/10 bg-linear-to-br',
+                'hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]'
+              )}
+            >
+              <Zap className="icon-md text-primary" aria-hidden />
+            </div>
+            <h3
+              className={cn(
+                'text-foreground text-center text-2xl font-semibold',
+                'transition-colors duration-300'
+              )}
+            >
+              Fast Response
+            </h3>
+            <p className="text-muted-foreground mx-auto max-w-sm text-center">
+              Quick turnaround times with dedicated{' '}
+              <span className="text-accent">support</span> staff available 24/7.
+            </p>
+          </div>
+
+          <div
+            className={cn(
+              'flex h-full flex-col items-center justify-center space-y-4 text-center',
+              'translate-y-6 opacity-0 transition-[opacity,transform] duration-600 ease-out'
+            )}
+            style={getCardStyle(120)}
+          >
+            <div
+              ref={(el) => {
+                iconRefs.current[1] = el;
+              }}
+              className={cn(
+                'text-foreground flex h-16 w-16 items-center justify-center rounded-full',
+                'transition-all duration-300',
+                'from-primary/10 to-secondary/10 bg-linear-to-br',
+                'hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]'
+              )}
+            >
+              <ShieldCheck className="icon-md text-primary" aria-hidden />
+            </div>
+            <h3
+              className={cn(
+                'text-foreground text-center text-2xl font-semibold',
+                'transition-colors duration-300'
+              )}
+            >
+              Proven Expertise
+            </h3>
+            <p className="text-muted-foreground mx-auto max-w-sm text-center">
+              Over 25 years of <span className="text-accent">experience</span>{' '}
+              delivering reliable IT solutions.
+            </p>
+          </div>
+
+          <div
+            className={cn(
+              'flex h-full flex-col items-center justify-center space-y-4 text-center',
+              'translate-y-6 opacity-0 transition-[opacity,transform] duration-600 ease-out'
+            )}
+            style={getCardStyle(240)}
+          >
+            <div
+              ref={(el) => {
+                iconRefs.current[2] = el;
+              }}
+              className={cn(
+                'text-foreground flex h-16 w-16 items-center justify-center rounded-full',
+                'transition-all duration-300',
+                'from-primary/10 to-secondary/10 bg-linear-to-br',
+                'hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]'
+              )}
+            >
+              <Users className="icon-md text-primary" aria-hidden />
+            </div>
+            <h3
+              className={cn(
+                'text-foreground text-center text-2xl font-semibold',
+                'transition-colors duration-300'
+              )}
+            >
+              Personalized Service
+            </h3>
+            <p className="text-muted-foreground mx-auto max-w-sm text-center">
+              Dedicated team that understands your unique{' '}
+              <span className="text-accent">business</span> needs.
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary" />
+      <div className="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50" />
     </section>
   );
 }

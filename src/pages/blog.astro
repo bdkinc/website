@@ -1,12 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation';
-import CTAButton from '@/components/CTAButton';
+import CTASection from '@/components/CTASection';
 import { getCollection } from 'astro:content';
 import { Calendar, User, Tag } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
-import { Logo } from '@/components/Logo';
+import Footer from '@/components/Footer.astro';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -39,8 +39,19 @@ function formatDate(date: Date): string {
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl text-center">
+        {/* Badge */}
+        <div
+          class="glass border-primary/20 animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+        >
+          <span class="text-sm">
+            Latest <span class="font-semibold text-[--brand-accent]"
+              >IT Insights</span
+            >
+          </span>
+        </div>
+
         <h1
-          class="fill-mode-both animate-in fade-in slide-in-from-top-6 mb-6 text-5xl font-bold duration-700 md:text-7xl"
+          class="fill-mode-both animate-in fade-in slide-in-from-top-6 mb-6 text-5xl font-bold delay-100 duration-700 md:text-7xl"
         >
           <span class="text-foreground">Our </span>
           <span class="text-primary"> Blog </span>
@@ -53,7 +64,7 @@ function formatDate(date: Date): string {
         </p>
       </div>
       <div
-        class="from-brand-primary to-brand-secondary absolute right-0 bottom-0 left-0 h-2 bg-linear-to-br"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
@@ -68,6 +79,8 @@ function formatDate(date: Date): string {
               const column = index % 3;
               const row = Math.floor(index / 3);
               const delayMs = 150 + column * 60 + row * 100;
+              const tags = post.data.tags ?? [];
+              const hasTags = tags.length > 0;
 
               return (
                 <a
@@ -110,9 +123,9 @@ function formatDate(date: Date): string {
                     </div>
 
                     <div class="mt-auto">
-                      {post.data.tags && post.data.tags.length > 0 && (
+                      {hasTags && (
                         <div class="mb-4 flex flex-wrap gap-2">
-                          {post.data.tags.map((tag, tagIndex) => (
+                          {tags.map((tag, tagIndex) => (
                             <span
                               class="bg-primary/10 text-primary fill-mode-both animate-in fade-in slide-in-from-left-2 inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium duration-500"
                               style={{
@@ -163,48 +176,14 @@ function formatDate(date: Date): string {
     </section>
 
     <!-- CTA Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div
-        class="fill-mode-both animate-in fade-in zoom-in mx-auto max-w-4xl text-center delay-700 duration-700"
-      >
-        <Card size="xl" interactive={false}>
-          <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-            Stay Updated with IT Insights
-          </h2>
-          <p class="text-muted-foreground mb-8 text-xl">
-            Want to discuss how these insights can help your business? Let's
-            talk.
-          </p>
-          <CTAButton
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href = '/contact';
-            }}
-            className="shadow-sm"
-          >
-            Get in Touch
-          </CTAButton>
-        </Card>
-      </div>
-    </section>
+    <CTASection
+      client:visible
+      title="Stay Updated with IT Insights"
+      description="Want to discuss how these insights can help your business? Let's talk."
+      buttonText="Get in Touch"
+      buttonHref="/contact"
+    />
   </main>
 
-  <!-- Footer -->
-  <footer class="relative px-4 py-12 sm:px-6 lg:px-8">
-    <div
-      class="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center"
-    >
-      <div>
-        <Logo />
-      </div>
-      <p class="text-muted-foreground mb-4">
-        Your trusted technology partner since 1999
-      </p>
-      <p class="text-muted-foreground/70 text-sm">
-        &copy; {new Date().getFullYear()}
-        <span class="font-display font-extrabold">BDKinc</span>. All rights
-        reserved.
-      </p>
-    </div>
-  </footer>
+  <Footer />
 </Layout>

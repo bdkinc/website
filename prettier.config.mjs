@@ -1,8 +1,5 @@
-import * as pluginAstro from 'prettier-plugin-astro';
-import * as pluginTailwind from 'prettier-plugin-tailwindcss';
-
 export default {
-  plugins: [pluginAstro, pluginTailwind],
+  plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
   semi: true,
   trailingComma: 'es5',
   singleQuote: true,

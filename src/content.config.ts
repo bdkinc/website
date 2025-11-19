@@ -1,7 +1,7 @@
-import { z, defineCollection } from "astro:content";
+import { z, defineCollection } from 'astro:content';
 
 const servicesCollection = defineCollection({
-  type: "data",
+  type: 'data',
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -11,18 +11,20 @@ const servicesCollection = defineCollection({
 });
 
 const blogCollection = defineCollection({
-  type: "content",
+  type: 'content',
   schema: z.object({
     title: z.string(),
     pubDate: z.date(),
     description: z.string(),
     author: z.string(),
     image: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    draft: z.boolean().optional(),
   }),
 });
 
 const locationsCollection = defineCollection({
-  type: "content",
+  type: 'content',
   schema: z.object({
     name: z.string(),
     state: z.string(),
@@ -37,13 +39,23 @@ const locationsCollection = defineCollection({
 });
 
 const pseoServicesCollection = defineCollection({
-  type: "data",
+  type: 'data',
   schema: z.object({
     title: z.string(),
     description: z.string(),
     icon: z.string(),
     order: z.number(),
-    category: z.enum(["hardware", "os", "cloud", "specialized", "software", "security", "communication", "support", "infrastructure"]),
+    category: z.enum([
+      'hardware',
+      'os',
+      'cloud',
+      'specialized',
+      'software',
+      'security',
+      'communication',
+      'support',
+      'infrastructure',
+    ]),
   }),
 });
 

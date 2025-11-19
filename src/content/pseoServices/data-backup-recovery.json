@@ -1,1 +1,7 @@
-{"title": "Data Backup & Recovery Solutions", "description": "Comprehensive data protection services including automated backup systems, disaster recovery planning, and emergency data recovery for businesses of all sizes.", "icon": "Shield", "order": 19, "category": "infrastructure"}
+{
+  "title": "Data Backup & Recovery Solutions",
+  "description": "Comprehensive data protection services including automated backup systems, disaster recovery planning, and emergency data recovery for businesses of all sizes.",
+  "icon": "Shield",
+  "order": 19,
+  "category": "infrastructure"
+}

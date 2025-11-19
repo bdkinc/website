@@ -25,7 +25,7 @@ import {
   FileCheck,
   Activity,
   type LucideIcon,
-} from "lucide-react";
+} from 'lucide-react';
 
 /**
  * Centralized icon map for use across components.

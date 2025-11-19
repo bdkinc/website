@@ -1,1 +1,7 @@
-{"title": "PC Support & Repair Services", "description": "Professional PC repair, maintenance, and troubleshooting for desktop computers and workstations. Fast response for hardware issues, malware removal, and system optimization.", "icon": "Monitor", "order": 10, "category": "hardware"}
+{
+  "title": "PC Support & Repair Services",
+  "description": "Professional PC repair, maintenance, and troubleshooting for desktop computers and workstations. Fast response for hardware issues, malware removal, and system optimization.",
+  "icon": "Monitor",
+  "order": 10,
+  "category": "hardware"
+}

@@ -1,345 +1,262 @@
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { Button } from "@/components/ui/button";
-import {
-  ArrowRight,
-  Server,
-  Shield,
-  Cloud,
-  Database,
-  Lock,
-  Cpu,
-  Network,
-  HardDrive,
-  Terminal,
-  Wifi,
-  Code,
-  Smartphone,
-  Globe,
-  Laptop,
-  Zap,
-  Layers,
-  GitBranch,
-  Settings,
-  Monitor,
-  CloudCog,
-  Headphones,
-  LineChart,
-} from "lucide-react";
-import Aurora from "./Aurora";
-import CountUp from "./CountUp";
+import { useEffect, useRef } from 'react';
+import CTAButton from '@/components/CTAButton';
+import Aurora from './Aurora';
+import CountUp from './CountUp';
 
 export default function Hero() {
-  const iconsRef = useRef<SVGSVGElement[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
-  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const particlesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Check if user prefers reduced motion
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
     if (prefersReducedMotion) return;
 
-    // Animate floating icons with GSAP for continuous animation
-    const icons = iconsRef.current.filter((icon) => icon !== null);
-    const buttons = buttonsRef.current.filter((button) => button !== null);
+    const container = particlesRef.current;
+    if (!container) return;
 
-    const ctx = gsap.context(() => {
-      icons.forEach((icon) => {
-        // Random entrance animation
-        gsap.fromTo(
-          icon,
-          {
-            opacity: 0,
-            y: gsap.utils.random(-30, 30),
-            x: gsap.utils.random(-30, 30),
-          },
-          {
-            opacity: 0.2,
-            y: 0,
-            x: 0,
-            duration: gsap.utils.random(1, 2),
-            delay: gsap.utils.random(0, 1.5),
-            ease: "power2.out",
-            immediateRender: true,
-          }
-        );
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-        // Add continuous floating animation with enhanced motion
-        gsap.to(icon, {
-          y: gsap.utils.random(-25, 25),
-          x: gsap.utils.random(-10, 10),
-          rotation: gsap.utils.random(-10, 10),
-          duration: gsap.utils.random(4, 6),
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          delay: gsap.utils.random(0, 2),
-        });
+    canvas.className = 'absolute inset-0 w-full h-full pointer-events-none';
+    container.appendChild(canvas);
 
-        // Add subtle glow effect
-        gsap.to(icon, {
-          opacity: gsap.utils.random(0.15, 0.35),
-          duration: gsap.utils.random(2, 3),
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          delay: gsap.utils.random(0, 1),
-        });
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Particle system
+    const particleCount = 60;
+    const connectionDistance = 150;
+    const mouseInfluenceDistance = 250; // Increased for more noticeable effect
+    const colors = [
+      '0, 212, 255', // cyan (primary)
+      '124, 58, 237', // purple (secondary)
+      '255, 153, 51', // orange (accent)
+    ];
+
+    interface Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      color: string;
+      baseX: number;
+      baseY: number;
+    }
+
+    const particles: Particle[] = [];
+    const mouse = { x: -1000, y: -1000 };
+
+    // Initialize particles
+    for (let i = 0; i < particleCount; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      particles.push({
+        x,
+        y,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        color: colors[i % colors.length],
+        baseX: x,
+        baseY: y,
       });
+    }
 
-      // Add hover animations to buttons
-      buttons.forEach((button) => {
-        // Find the arrow icon inside the button
-        const arrow = button.querySelector('[class*="h-4"]');
-        
-        if (arrow) {
-          // Set initial state - arrow closer to text
-          gsap.set(arrow, { x: -2 });
-          
-          // Hover enter animation - move arrow further from text
-          const handleMouseEnter = () => {
-            gsap.to(arrow, {
-              x: 3,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-          };
+    // Track mouse
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    };
+    const handleMouseLeave = () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    };
+    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mouseleave', handleMouseLeave);
 
-          // Hover leave animation - return arrow closer to text
-          const handleMouseLeave = () => {
-            gsap.to(arrow, {
-              x: -2,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-          };
+    // Animation loop
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          // Add event listeners
-          button.addEventListener("mouseenter", handleMouseEnter);
-          button.addEventListener("mouseleave", handleMouseLeave);
+      // Update and draw particles
+      particles.forEach((particle, i) => {
+        // Gentle drift
+        particle.x += particle.vx;
+        particle.y += particle.vy;
 
-          // Clean up function
-          return () => {
-            button.removeEventListener("mouseenter", handleMouseEnter);
-            button.removeEventListener("mouseleave", handleMouseLeave);
-          };
+        // Bounce off edges
+        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+
+        // Mouse interaction - particles move away from cursor
+        const dx = particle.x - mouse.x;
+        const dy = particle.y - mouse.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < mouseInfluenceDistance) {
+          const force = (1 - distance / mouseInfluenceDistance) * 8; // Increased from 2 to 8 for stronger repulsion
+          particle.x += (dx / distance) * force;
+          particle.y += (dy / distance) * force;
         }
-      });
-    }, contentRef);
 
-    return () => ctx.revert();
+        // Draw connections
+        particles.slice(i + 1).forEach((otherParticle) => {
+          const dx = particle.x - otherParticle.x;
+          const dy = particle.y - otherParticle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < connectionDistance) {
+            const opacity = (1 - distance / connectionDistance) * 0.3;
+
+            // Boost opacity if either particle is near mouse
+            const particle1ToMouse = Math.sqrt(
+              Math.pow(particle.x - mouse.x, 2) +
+                Math.pow(particle.y - mouse.y, 2)
+            );
+            const particle2ToMouse = Math.sqrt(
+              Math.pow(otherParticle.x - mouse.x, 2) +
+                Math.pow(otherParticle.y - mouse.y, 2)
+            );
+            const nearMouse =
+              Math.min(particle1ToMouse, particle2ToMouse) <
+              mouseInfluenceDistance;
+            const finalOpacity = nearMouse ? opacity * 2 : opacity;
+
+            ctx.strokeStyle = `rgba(${particle.color}, ${finalOpacity})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(otherParticle.x, otherParticle.y);
+            ctx.stroke();
+          }
+        });
+
+        // Draw particle
+        const distanceToMouse = Math.sqrt(
+          Math.pow(particle.x - mouse.x, 2) + Math.pow(particle.y - mouse.y, 2)
+        );
+        const nearMouse = distanceToMouse < mouseInfluenceDistance;
+        const glowIntensity = nearMouse
+          ? (1 - distanceToMouse / mouseInfluenceDistance) * 0.8
+          : 0.4;
+
+        ctx.shadowBlur = nearMouse ? 15 : 8;
+        ctx.shadowColor = `rgb(${particle.color})`;
+        ctx.fillStyle = `rgba(${particle.color}, ${glowIntensity})`;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, nearMouse ? 4 : 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      container.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('mouseleave', handleMouseLeave);
+      canvas.remove();
+    };
   }, []);
 
-  const addIconRef = (el: SVGSVGElement | null) => {
-    if (el && !iconsRef.current.includes(el)) {
-      el.setAttribute("aria-hidden", "true");
-      iconsRef.current.push(el);
-    }
-  };
-
-  const addButtonRef = (el: HTMLButtonElement | null) => {
-    if (el && !buttonsRef.current.includes(el)) {
-      buttonsRef.current.push(el);
-    }
-  };
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden -mt-16 pt-16">
-      {/* Aurora background - extends to top */}
-      <div className="absolute inset-0 -top-16 opacity-30 dark:opacity-60">
+    <section className="relative -mt-16 flex min-h-screen items-center justify-center overflow-hidden pt-16">
+      {/* Clean gradient background */}
+      <div className="absolute inset-0 -top-16 opacity-40 dark:opacity-60">
         <Aurora
-          colorStops={["#00d4ff", "#7c3aed", "#00d4ff"]}
-          amplitude={1.8}
-          blend={0.5}
-          speed={0.8}
+          colorStops={['#00d4ff', '#7c3aed', '#00d4ff']}
+          amplitude={1.5}
+          blend={0.6}
+          speed={0.6}
         />
       </div>
 
-      {/* Animated background - extends to top */}
-      <div className="absolute inset-0 -top-16 gradient-mesh"></div>
+      {/* Circuit board overlay */}
+      <div className="circuit-overlay absolute inset-0 -top-16 opacity-30"></div>
 
-      {/* Circuit board pattern overlay - extends to top */}
-      <div className="absolute inset-0 -top-16 opacity-40 circuit-overlay"></div>
+      {/* Subtle gradient overlay */}
+      <div className="via-background/50 to-background absolute inset-0 -top-16 bg-linear-to-b from-transparent"></div>
 
-      {/* Floating icons */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Top row */}
-        <Server
-          ref={addIconRef}
-          className="absolute top-[8%] left-[5%] text-brand-primary w-8 h-8 opacity-0"
-        />
-        <Shield
-          ref={addIconRef}
-          className="absolute top-[12%] left-[18%] text-brand-secondary w-16 h-16 opacity-0"
-        />
-        <Wifi
-          ref={addIconRef}
-          className="absolute top-[6%] left-[32%] text-brand-primary w-7 h-7 opacity-0"
-        />
-        <Code
-          ref={addIconRef}
-          className="absolute top-[15%] left-[45%] text-brand-secondary w-10 h-10 opacity-0"
-        />
-        <Zap
-          ref={addIconRef}
-          className="absolute top-[10%] left-[60%] text-brand-primary w-14 h-14 opacity-0"
-        />
-        <Globe
-          ref={addIconRef}
-          className="absolute top-[18%] left-[75%] text-brand-primary w-11 h-11 opacity-0"
-        />
-        <Network
-          ref={addIconRef}
-          className="absolute top-[8%] right-[12%] text-brand-secondary w-9 h-9 opacity-0"
-        />
-        <Monitor
-          ref={addIconRef}
-          className="absolute top-[20%] right-[5%] text-brand-secondary w-12 h-12 opacity-0"
-        />
-        <LineChart
-          ref={addIconRef}
-          className="absolute top-[14%] right-[25%] text-brand-primary w-8 h-8 opacity-0"
-        />
+      {/* Particle field */}
+      <div
+        ref={particlesRef}
+        className="pointer-events-none absolute inset-0 -top-16"
+        aria-hidden="true"
+      />
 
-        {/* Middle row */}
-        <Lock
-          ref={addIconRef}
-          className="absolute top-[35%] left-[3%] text-brand-secondary w-10 h-10 opacity-0"
-        />
-        <Laptop
-          ref={addIconRef}
-          className="absolute top-[42%] left-[15%] text-brand-secondary w-15 h-15 opacity-0"
-        />
-        <Settings
-          ref={addIconRef}
-          className="absolute top-[38%] left-[30%] text-brand-primary w-7 h-7 opacity-0"
-        />
-        <Database
-          ref={addIconRef}
-          className="absolute top-[45%] left-[43%] text-brand-secondary w-13 h-13 opacity-0"
-        />
-        <Layers
-          ref={addIconRef}
-          className="absolute top-[40%] left-[58%] text-brand-secondary w-9 h-9 opacity-0"
-        />
-        <CloudCog
-          ref={addIconRef}
-          className="absolute top-[48%] left-[72%] text-brand-secondary w-16 h-16 opacity-0"
-        />
-        <Cpu
-          ref={addIconRef}
-          className="absolute top-[36%] right-[18%] text-brand-primary w-11 h-11 opacity-0"
-        />
-        <Smartphone
-          ref={addIconRef}
-          className="absolute top-[50%] right-[8%] text-brand-primary w-6 h-6 opacity-0"
-        />
-        <Terminal
-          ref={addIconRef}
-          className="absolute top-[44%] right-[32%] text-brand-secondary w-8 h-8 opacity-0"
-        />
-
-        {/* Bottom row */}
-        <Network
-          ref={addIconRef}
-          className="absolute bottom-[8%] left-[6%] text-brand-primary w-9 h-9 opacity-0"
-        />
-        <HardDrive
-          ref={addIconRef}
-          className="absolute bottom-[15%] left-[20%] text-brand-primary w-17 h-17 opacity-0"
-        />
-        <Shield
-          ref={addIconRef}
-          className="absolute bottom-[12%] left-[35%] text-brand-secondary w-10 h-10 opacity-0"
-        />
-        <Monitor
-          ref={addIconRef}
-          className="absolute bottom-[18%] left-[50%] text-brand-primary w-7 h-7 opacity-0"
-        />
-        <GitBranch
-          ref={addIconRef}
-          className="absolute bottom-[10%] left-[65%] text-brand-secondary w-11 h-11 opacity-0"
-        />
-        <Cloud
-          ref={addIconRef}
-          className="absolute bottom-[20%] left-[78%] text-brand-primary w-14 h-14 opacity-0"
-        />
-        <Cpu
-          ref={addIconRef}
-          className="absolute bottom-[6%] right-[20%] text-brand-primary w-8 h-8 opacity-0"
-        />
-        <Headphones
-          ref={addIconRef}
-          className="absolute bottom-[14%] right-[12%] text-brand-primary w-13 h-13 opacity-0"
-        />
-        <Lock
-          ref={addIconRef}
-          className="absolute bottom-[22%] right-[5%] text-brand-secondary w-6 h-6 opacity-0"
-        />
-        <Server
-          ref={addIconRef}
-          className="absolute bottom-[16%] right-[35%] text-brand-primary w-12 h-12 opacity-0"
-        />
-      </div>
+      {/* Radial gradient spotlight */}
+      <div className="bg-radial-gradient from-primary/5 absolute inset-0 -top-16 via-transparent to-transparent opacity-50"></div>
 
       {/* Content */}
       <div
         ref={contentRef}
-        className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+        className="relative z-20 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8"
       >
         <div className="space-y-8">
-          {/* Badge - fade in + slide from top */}
-          <div className="inline-flex items-center px-4 py-2 rounded-full glass border border-input animate-in fade-in slide-in-from-top-4 duration-500 fill-mode-both">
-            <span className="text-sm ">
-              {new Date().getFullYear() - 2000}+ Years of <span className="text-orange-500 dark:text-orange-300 font-medium">IT Excellence</span>
+          {/* Badge */}
+          <div className="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500">
+            <span className="text-sm">
+              {new Date().getFullYear() - 2000}+ Years of{' '}
+              <span className="text-accent font-semibold">IT Excellence</span>
             </span>
           </div>
 
-          {/* Main heading - fade in + slide from bottom with stagger */}
-          <h1 className="text-6xl md:text-8xl lg:text-10xl font-bold tracking-tight animate-in fill-mode-both fade-in slide-in-from-bottom-8 duration-700 delay-100 text-shadow">
-            <span>IT Made</span>{" "}
-            <span className="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent">
+          {/* Main heading - clean and bold */}
+          <h1 className="lg:text-10xl animate-in fill-mode-both fade-in slide-in-from-bottom-8 text-6xl font-bold tracking-tight delay-100 duration-700 md:text-8xl">
+            <span className="text-foreground">IT Made </span>
+            <span className="from-primary via-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
               Simple
             </span>
           </h1>
 
-          {/* Subheading - fade in + slide from bottom */}
-          <p className="max-w-2xl mx-auto text-xl md:text-2xl fill-mode-both animate-in fade-in slide-in-from-bottom-6 duration-700 delay-200">
+          {/* Subheading */}
+          <p className="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto max-w-2xl text-xl delay-200 duration-700 md:text-2xl">
             Transform your business with comprehensive managed IT services,
             cloud solutions, artificial intelligence, and enterprise-grade
             cybersecurity.
           </p>
 
-          {/* CTAs - fade in + slide from bottom with stagger */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-30">
-            <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
-              <Button
+          {/* CTAs - clean with subtle animations */}
+          <div className="relative z-30 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 delay-300 duration-500">
+              <CTAButton
                 size="lg"
-                className="shadow-lg"
-                ref={addButtonRef}
-                onClick={() => window.location.href = '/contact'}
+                className="pulse-ring transition-all duration-300 hover:scale-105"
+                href="/contact"
+                icon="click"
               >
                 Get Started
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-              </Button>
+              </CTAButton>
             </div>
-            <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 duration-500 delay-400">
-              <Button
+            <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 delay-400 duration-500">
+              <CTAButton
                 size="lg"
                 variant="outline"
-                className="shadow-lg"
-                ref={addButtonRef}
-                onClick={() => window.location.href = '/services'}
+                className="hover:border-primary/50 hover:bg-primary/5 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                href="/services"
+                icon="search"
               >
                 Explore Services
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-              </Button>
+              </CTAButton>
             </div>
           </div>
 
-          {/* Stats - fade in + zoom in with stagger */}
-          <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto pt-12">
-            <div className="space-y-2 fill-mode-both animate-in fade-in zoom-in duration-600 delay-500">
-              <div className="text-3xl md:text-4xl font-bold text-brand-primary">
+          {/* Stats - clean cards with subtle depth */}
+          <div className="mx-auto grid max-w-3xl grid-cols-3 gap-8 pt-12">
+            <div className="fill-mode-both animate-in fade-in zoom-in glass border-primary/10 hover:border-primary/30 space-y-2 rounded-xl border p-6 backdrop-blur-xl transition-all delay-500 duration-600 hover:scale-105">
+              <div className="text-primary text-3xl font-bold md:text-4xl">
                 <CountUp
                   from={0}
                   to={new Date().getFullYear() - 2000}
@@ -347,24 +264,24 @@ export default function Hero() {
                 />
                 +
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-muted-foreground text-sm font-medium">
                 Years in Business
               </div>
             </div>
-            <div className="space-y-2 fill-mode-both animate-in fade-in zoom-in duration-600 delay-600">
-              <div className="text-3xl md:text-4xl font-bold text-brand-primary">
+            <div className="fill-mode-both animate-in fade-in zoom-in glass border-primary/10 hover:border-primary/30 space-y-2 rounded-xl border p-6 backdrop-blur-xl transition-all delay-600 duration-600 hover:scale-105">
+              <div className="text-primary text-3xl font-bold md:text-4xl">
                 <CountUp from={0} to={500} duration={1.25} />+
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-muted-foreground text-sm font-medium">
                 Clients Served
               </div>
             </div>
-            <div className="space-y-2 fill-mode-both animate-in fade-in zoom-in duration-600 delay-700">
-              <div className="text-3xl md:text-4xl font-bold text-brand-primary">
+            <div className="fill-mode-both animate-in fade-in zoom-in glass border-primary/10 space-y-2 rounded-xl border p-6 backdrop-blur-xl transition-all delay-700 duration-600 hover:scale-105 hover:border-[--brand-accent]/30">
+              <div className="text-accent text-3xl font-bold md:text-4xl">
                 <CountUp from={0} to={24} duration={1.25} />x
                 <CountUp from={0} to={7} duration={1.25} />
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-muted-foreground text-sm font-medium">
                 Support Available
               </div>
             </div>
@@ -372,8 +289,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Bottom gradient bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-2 bg-linear-to-br from-brand-primary to-brand-secondary"></div>
+      {/* Bottom accent bar - clean gradient */}
+      <div className="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"></div>
     </section>
   );
 }
