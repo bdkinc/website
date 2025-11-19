@@ -194,6 +194,7 @@ interface Signal {
   speed: number;
   color: string;
   life: number;
+  age: number;
   trailBuffer: Float32Array;
   trailIndex: number;
   trailSize: number;
@@ -246,6 +247,8 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
     const TRAIL_BUFFER_SIZE = TRAIL_POINTS * 2;
     const HEAD_SIZE = 12;
     const HEAD_RADIUS = HEAD_SIZE / 2;
+    const FADE_IN_FRAMES = 30;
+    const FADE_OUT_FRAMES = 90;
 
     let nodes: Point[] = [];
     let adjacency = new Map<number, number[]>();
@@ -308,6 +311,12 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
       return gradient;
     };
 
+    const getSignalOpacity = (signal: Signal) => {
+      const fadeIn = Math.min(1, signal.age / FADE_IN_FRAMES);
+      const fadeOut = Math.min(1, signal.life / FADE_OUT_FRAMES);
+      return Math.max(0, Math.min(fadeIn, fadeOut));
+    };
+
     const getHeadSprite = (color: string) => {
       let sprite = headSprites.get(color);
       if (!sprite) {
@@ -347,6 +356,7 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
         speed: BASE_SPEED_PX / Math.max(seg.length, 0.001),
         color: colors[Math.floor(Math.random() * colors.length)],
         life: MAX_LIFE + Math.random() * 200,
+        age: 0,
         trailBuffer: allocateTrailBuffer(),
         trailIndex: 0,
         trailSize: 0,
@@ -626,7 +636,9 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
         }
 
         signal.life -= 1;
-        if (signal.life <= 0) {
+        signal.age += 1;
+        const opacity = getSignalOpacity(signal);
+        if (signal.life <= 0 || opacity <= 0) {
           disposeSignalAt(i);
           continue;
         }
@@ -650,7 +662,7 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
 
           if (neighbors) {
             if (neighbors.length === 1 && neighbors[0] === seg.id) {
-              ctx.globalAlpha = 0.9;
+              ctx.globalAlpha = opacity;
               ctx.fillStyle = signal.color;
               ctx.beginPath();
               ctx.arc(x, y, 2, 0, Math.PI * 2);
@@ -703,7 +715,9 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
           const startY = signal.trailBuffer[startBase + 1];
           const gradient = ensureTrailGradient(signal, startX, startY, x, y);
 
+          ctx.save();
           ctx.strokeStyle = gradient;
+          ctx.globalAlpha = opacity * 0.85;
           ctx.beginPath();
           for (let k = 0; k < signal.trailSize; k++) {
             const idx =
@@ -716,10 +730,11 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
             else ctx.lineTo(tx, ty);
           }
           ctx.stroke();
+          ctx.restore();
         }
 
         const sprite = getHeadSprite(signal.color);
-        ctx.globalAlpha = 0.9;
+        ctx.globalAlpha = opacity;
         ctx.drawImage(sprite, x - HEAD_RADIUS, y - HEAD_RADIUS);
         ctx.globalAlpha = 1;
       }
