@@ -9,16 +9,16 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
 import {
-  Server,
-  Cloud,
-  ShieldCheck,
-  TrendingUp,
-  Users,
-  Award,
-  Wrench,
-  RefreshCw,
-  CheckCircle2,
-} from 'lucide-react';
+  PiDesktop,
+  PiCloud,
+  PiShieldCheck,
+  PiUsers,
+  PiMedal,
+  PiWrench,
+  PiArrowsClockwise,
+  PiCheckCircle,
+  PiTrendUp,
+} from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'ibm-power');
@@ -33,16 +33,16 @@ const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 
 const metrics = [
-  { value: '500+', label: 'LPARS MANAGED', icon: Server },
-  { value: '99.99%', label: 'AVAILABILITY TARGET', icon: ShieldCheck },
-  { value: '24/7', label: 'OPERATIONS COVERAGE', icon: RefreshCw },
-  { value: '30+', label: 'POWER ENGINEERS', icon: Users },
+  { value: '500+', label: 'LPARS MANAGED', icon: PiDesktop },
+  { value: '99.99%', label: 'AVAILABILITY TARGET', icon: PiShieldCheck },
+  { value: '24/7', label: 'OPERATIONS COVERAGE', icon: PiArrowsClockwise },
+  { value: '30+', label: 'POWER ENGINEERS', icon: PiUsers },
 ];
 
 const detailColumns = [
   {
     title: 'Power Platform Services',
-    icon: Wrench,
+    icon: PiWrench,
     items: [
       'Lifecycle support covering sizing, installation, and firmware strategy',
       'PowerVM design delivers HA, performance, and efficient resource sharing',
@@ -51,7 +51,7 @@ const detailColumns = [
   },
   {
     title: 'Operations & Compliance',
-    icon: ShieldCheck,
+    icon: PiShieldCheck,
     items: [
       '24/7 monitoring, patching, and backup validation across every partition',
       'Security hardening satisfies SOX, PCI, HIPAA, and industry mandates',
@@ -172,7 +172,7 @@ const detailColumns = [
             <ServiceCardGrid client:visible className="lg:grid-cols-3">
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Wrench
+                  <PiWrench
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -188,7 +188,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Server
+                  <PiDesktop
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -204,7 +204,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <RefreshCw
+                  <PiArrowsClockwise
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -221,7 +221,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <TrendingUp
+                  <PiTrendUp
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -237,7 +237,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <ShieldCheck
+                  <PiShieldCheck
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -253,7 +253,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Cloud
+                  <PiCloud
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -288,7 +288,7 @@ const detailColumns = [
                     <div class="text-muted-foreground space-y-3">
                       {column.items.map((item) => (
                         <div class="flex items-start gap-2">
-                          <CheckCircle2
+                          <PiCheckCircle
                             className="text-primary mt-1 h-5 w-5 shrink-0"
                             aria-hidden="true"
                           />
@@ -422,7 +422,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Users
+                  <PiUsers
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -442,7 +442,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Award
+                  <PiMedal
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -462,7 +462,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <ShieldCheck
+                  <PiShieldCheck
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -482,7 +482,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <TrendingUp
+                  <PiTrendUp
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -502,7 +502,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Server
+                  <PiDesktop
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -522,7 +522,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <RefreshCw
+                  <PiArrowsClockwise
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -592,6 +592,7 @@ const detailColumns = [
           primaryAction={{
             text: 'Talk to an IBM Power Specialist',
             href: '/contact',
+            icon: 'phone',
           }}
         />
       </div>

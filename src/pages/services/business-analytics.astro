@@ -9,14 +9,13 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
 import {
-  TrendingUp,
-  Clock,
-  Target,
-  Zap,
-  CheckCircle2,
-  Database,
-  Users,
-} from 'lucide-react';
+  PiTrendUp,
+  PiClock,
+  PiTarget,
+  PiLightning,
+  PiDatabase,
+  PiUsers,
+} from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'business-analytics');
@@ -49,7 +48,7 @@ const detailColumns = [
   },
   {
     title: 'Reporting Capabilities',
-    icon: TrendingUp,
+    icon: PiTrendUp,
     items: [
       'Role-based dashboards deliver tailored KPIs for each team',
       'Scenario modeling highlights opportunities and risks in minutes',
@@ -168,7 +167,7 @@ const detailColumns = [
             <ServiceCardGrid client:visible>
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Clock
+                  <PiClock
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -185,7 +184,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Zap className="text-primary h-16 w-16" aria-hidden="true" />
+                  <PiLightning className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Real-Time Visibility
@@ -199,7 +198,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Target
+                  <PiTarget
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -256,7 +255,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Clock
+                  <PiClock
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -294,7 +293,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Target
+                  <PiTarget
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -332,7 +331,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Users
+                  <PiUsers
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -351,7 +350,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Database
+                  <PiDatabase
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />

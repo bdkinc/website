@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ThemeToggle from '@/components/ThemeToggle';
-import { Logo } from '@/components/Logo';
-import { Menu, X } from 'lucide-react';
+import Logo from '@/components/Logo';
+import { PiList, PiX } from 'react-icons/pi';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -33,7 +33,6 @@ interface NavigationProps {
 export default function Navigation({
   services,
   blogPosts = [],
-  currentPath = '',
 }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -58,7 +57,7 @@ export default function Navigation({
       )}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="relative flex h-16 items-center justify-between">
+        <div className="relative flex h-20 items-center justify-between">
           {/* Logo */}
           <Logo />
 
@@ -93,9 +92,7 @@ export default function Navigation({
                 </NavigationMenuItem>
 
                 {/* Services Dropdown */}
-                <ServicesDropdown
-                  services={services}
-                />
+                <ServicesDropdown services={services} />
 
                 {/* Blog Dropdown */}
                 <BlogDropdown blogPosts={blogPosts} />
@@ -129,9 +126,9 @@ export default function Navigation({
               className="hover:bg-accent rounded-md p-2"
             >
               {isOpen ? (
-                <X className="text-foreground h-6 w-6" />
+                <PiX className="text-foreground h-6 w-6" />
               ) : (
-                <Menu className="text-foreground h-6 w-6" />
+                <PiList className="text-foreground h-6 w-6" />
               )}
             </button>
           </div>

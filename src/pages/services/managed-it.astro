@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -9,17 +9,16 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
 import {
-  Server,
-  HeadphonesIcon,
-  Activity,
-  MapPin,
-  TrendingUp,
-  Clock,
-  Users,
-  Shield,
-  Zap,
-  CheckCircle2,
-} from 'lucide-react';
+  PiHeadphones,
+  PiCheckCircle,
+  PiMapPin,
+  PiClock,
+  PiUsersThree,
+  PiShieldCheck,
+  PiTrendUp,
+  PiLightning,
+  PiMonitor,
+} from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'managed-it');
@@ -57,16 +56,16 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .slice(0, 3);
 
 const metrics = [
-  { value: '10K+', label: 'TICKETS CLOSED', icon: HeadphonesIcon },
-  { value: '98%', label: 'FIRST-CALL RESOLUTION', icon: CheckCircle2 },
-  { value: '2', label: 'HOUR ONSITE SLA', icon: MapPin },
-  { value: '24/7', label: 'SUPPORT COVERAGE', icon: Clock },
+  { value: '10K+', label: 'TICKETS CLOSED', icon: PiHeadphones },
+  { value: '98%', label: 'FIRST-CALL RESOLUTION', icon: PiCheckCircle },
+  { value: '2', label: 'HOUR ONSITE SLA', icon: PiMapPin },
+  { value: '24/7', label: 'SUPPORT COVERAGE', icon: PiClock },
 ];
 
 const detailColumns = [
   {
     title: 'Support Tiers',
-    icon: HeadphonesIcon,
+    icon: PiHeadphones,
     items: [
       'Unlimited help desk covers remote and onsite incidents',
       'Dedicated account managers align roadmaps with leadership goals',
@@ -75,7 +74,7 @@ const detailColumns = [
   },
   {
     title: 'Technology Operations',
-    icon: Server,
+    icon: PiMonitor,
     items: [
       'Proactive monitoring prevents outages with automated remediation',
       'Quarterly reviews surface optimization and security priorities',
@@ -201,7 +200,7 @@ const detailColumns = [
             <ServiceCardGrid client:visible>
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <HeadphonesIcon
+                  <PiHeadphones
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -218,7 +217,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Activity
+                  <PiMonitor
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -235,7 +234,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <MapPin
+                  <PiMapPin
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -368,7 +367,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Clock
+                  <PiClock
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -388,7 +387,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Users
+                  <PiUsersThree
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -408,7 +407,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Shield
+                  <PiShieldCheck
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -427,7 +426,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <TrendingUp
+                  <PiTrendUp
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -446,7 +445,10 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Zap className="text-primary h-10 w-10" aria-hidden="true" />
+                  <PiLightning
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Rapid Response
@@ -462,7 +464,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Server
+                  <PiMonitor
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -576,7 +578,7 @@ const detailColumns = [
                     <div class="text-muted-foreground space-y-3">
                       {column.items.map((item) => (
                         <div class="flex items-start gap-2">
-                          <CheckCircle2
+                          <PiCheckCircle
                             className="text-primary mt-1 h-5 w-5 shrink-0"
                             aria-hidden="true"
                           />

@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <section className="relative -mt-16 flex min-h-screen items-center justify-center overflow-hidden pt-16">
       {/* Clean gradient background */}
-      <div className="absolute inset-0 -top-16 opacity-40 dark:opacity-60">
+      <div className="absolute inset-0 -top-16 opacity-10 dark:opacity-60">
         <Aurora
           colorStops={['#00d4ff', '#7c3aed', '#00d4ff']}
           amplitude={1.5}
@@ -73,7 +73,7 @@ export default function Hero() {
               <CTAButton
                 size="lg"
                 variant="outline"
-                className="hover:border-primary/50 hover:bg-primary/5 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                className="hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-105"
                 href="/services"
                 icon="search"
               >

@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { UIMessage } from 'ai';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
 import type { ComponentProps, HTMLAttributes, ReactElement } from 'react';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
@@ -161,7 +161,7 @@ export const BranchPrevious = ({
       variant="ghost"
       {...props}
     >
-      {children ?? <ChevronLeftIcon size={14} />}
+      {children ?? <PiCaretLeft size={14} />}
     </Button>
   );
 };
@@ -191,7 +191,7 @@ export const BranchNext = ({
       variant="ghost"
       {...props}
     >
-      {children ?? <ChevronRightIcon size={14} />}
+      {children ?? <PiCaretRight size={14} />}
     </Button>
   );
 };

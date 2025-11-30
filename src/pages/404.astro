@@ -5,7 +5,7 @@ import Footer from '@/components/Footer.astro';
 import CTAButton from '@/components/CTAButton';
 import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
-import { AlertCircle, Home, ArrowLeft } from 'lucide-react';
+import { PiWarningCircle, PiHouse, PiArrowLeft } from 'react-icons/pi';
 
 const { servicesData, recentPosts } = await getNavigationData();
 ---
@@ -45,7 +45,7 @@ const { servicesData, recentPosts } = await getNavigationData();
           class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both mb-8 duration-500"
         >
           <div class="inline-flex items-center justify-center">
-            <AlertCircle className="icon-xl text-brand-primary animate-float" />
+            <PiWarningCircle className="icon-xl text-brand-primary animate-float" />
           </div>
         </div>
 
@@ -87,7 +87,7 @@ const { servicesData, recentPosts } = await getNavigationData();
                 className="bg-brand-primary hover:bg-brand-primary/90 text-primary-foreground group w-full gap-2 sm:w-auto"
                 aria-label="Return to homepage"
               >
-                <Home
+                <PiHouse
                   className="icon-sm transition-transform duration-300 group-hover:scale-110"
                 />
                 <span>Go Home</span>
@@ -102,7 +102,7 @@ const { servicesData, recentPosts } = await getNavigationData();
                 data-back-button="true"
                 aria-label="Go back to previous page"
               >
-                <ArrowLeft
+                <PiArrowLeft
                   className="icon-sm transition-transform duration-300 group-hover:-translate-x-1"
                 />
                 <span>Go Back</span>

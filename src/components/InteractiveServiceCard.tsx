@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { iconMap } from '@/lib/icons';
-import { Box } from 'lucide-react';
+import { PiPackage } from 'react-icons/pi';
 
 interface InteractiveServiceCardProps {
   id: string;
@@ -21,7 +21,7 @@ export default function InteractiveServiceCard({
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const cardRef = useRef<HTMLAnchorElement>(null);
 
-  const Icon = iconMap[icon] || Box;
+  const Icon = iconMap[icon] || PiPackage;
 
   return (
     <a

@@ -6,20 +6,20 @@ import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 import {
-  Rocket,
-  Eye,
-  Target,
-  Lightbulb,
-  Shield,
-  Users,
-  Award,
-  Clock,
-  Box,
-  Briefcase,
-  Package,
-  Trophy,
-  Zap,
-} from 'lucide-react';
+  PiRocket,
+  PiEye,
+  PiTarget,
+  PiLightbulb,
+  PiShield,
+  PiUsers,
+  PiClock,
+  PiPackage,
+  PiBriefcase,
+  PiPackage as PiPackageAlt,
+  PiTrophy,
+  PiLightning,
+  PiMedal,
+} from 'react-icons/pi';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -238,7 +238,7 @@ const whyChooseUs = [
                 <div
                   class="bg-primary/10 inline-flex items-center justify-center rounded-lg p-4"
                 >
-                  <Rocket className="icon-lg text-primary" />
+                  <PiRocket className="icon-lg text-primary" />
                 </div>
               </div>
               <h2 class="text-foreground mb-4 text-center text-3xl font-bold">
@@ -287,7 +287,7 @@ const whyChooseUs = [
                 <div
                   class="bg-secondary/10 inline-flex items-center justify-center rounded-lg p-4"
                 >
-                  <Eye className="icon-lg text-secondary" />
+                  <PiEye className="icon-lg text-secondary" />
                 </div>
               </div>
               <h2 class="text-foreground mb-4 text-center text-3xl font-bold">
@@ -329,16 +329,16 @@ const whyChooseUs = [
           {
             values.map((value, index) => {
               const iconMap = {
-                Target,
-                Lightbulb,
-                Shield,
-                Users,
-                Award,
-                Clock,
-                Box,
+                Target: PiTarget,
+                Lightbulb: PiLightbulb,
+                Shield: PiShield,
+                Users: PiUsers,
+                Award: PiMedal,
+                Clock: PiClock,
+                Box: PiPackage,
               };
               const IconComponent =
-                iconMap[value.icon as keyof typeof iconMap] || Box;
+                iconMap[value.icon as keyof typeof iconMap] || PiPackage;
               return (
                 <Card
                   className={`fill-mode-both animate-in fade-in zoom-in flex h-full flex-col items-center justify-center text-center duration-600 delay-${200 + index * 100}`}
@@ -640,14 +640,14 @@ const whyChooseUs = [
           {
             whyChooseUs.map((item, index) => {
               const iconMap = {
-                Briefcase,
-                Package,
-                Trophy,
-                Zap,
-                Box,
+                Briefcase: PiBriefcase,
+                Package: PiPackageAlt,
+                Trophy: PiTrophy,
+                Zap: PiLightning,
+                Box: PiPackage,
               };
               const IconComponent =
-                iconMap[item.icon as keyof typeof iconMap] || Box;
+                iconMap[item.icon as keyof typeof iconMap] || PiPackage;
               const delayClasses = [
                 'delay-200',
                 'delay-300',

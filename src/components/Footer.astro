@@ -1,13 +1,13 @@
 ---
-import { Logo } from '@/components/Logo';
+import Logo from '@/components/Logo';
 ---
 
 <footer
-  class="border-border/60 from-secondary/3 via-background to-background relative border-t bg-gradient-to-b px-4 py-10 sm:px-6 lg:px-8"
+  class="border-border/60 from-secondary/3 via-background to-background relative border-t bg-linear-to-b px-4 py-10 sm:px-6 lg:px-8"
 >
   {/* Tri-color gradient bar at top */}
   <div
-    class="from-primary/50 via-secondary/50 absolute top-0 right-0 left-0 h-1 bg-gradient-to-r to-[--brand-accent]/50"
+    class="from-primary/50 via-secondary/50 absolute top-0 right-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
   >
   </div>
 
@@ -35,7 +35,7 @@ import { Logo } from '@/components/Logo';
         class="flex flex-col items-center gap-3 md:items-start md:self-start"
       >
         <div class="mb-4 origin-top-left scale-[1.15] sm:scale-[1.25]">
-          <Logo className="mt-0" />
+          <Logo />
         </div>
         <p
           class="text-muted-foreground/80 max-w-md text-[0.8rem] sm:text-[0.9rem]"

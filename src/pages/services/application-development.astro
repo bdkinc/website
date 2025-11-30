@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -9,29 +9,18 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
 import {
-  Code2,
-  Network,
-  RefreshCw,
-  Target,
-  Trophy,
-  TrendingUp,
-  Link,
-  Maximize,
-  ShieldCheck,
-  Search,
-  LayoutIcon,
-  GitBranch,
-  Rocket,
-  Database,
-  Cloud,
-  Terminal,
-  Shield,
-  Lock,
-  KeyRound,
-  Eye,
-  Award,
-  Bell,
-} from 'lucide-react';
+  PiArrowsClockwise,
+  PiTarget,
+  PiShieldCheck,
+  PiDatabase,
+  PiCloud,
+  PiShield,
+  PiLock,
+  PiEye,
+  PiBell,
+  PiMedal,
+} from 'react-icons/pi';
+import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'application-development');
 if (!service) {
@@ -226,7 +215,7 @@ const metrics = [
 
                   <ServiceCard client:visible>
                     <div class="mb-6">
-                      <Network
+                      <PiNetworkX
                         className="text-primary h-16 w-16"
                         aria-hidden="true"
                       />
@@ -244,7 +233,7 @@ const metrics = [
 
                   <ServiceCard client:visible>
                     <div class="mb-6">
-                      <RefreshCw
+                      <PiArrowsClockwise
                         className="text-primary h-16 w-16"
                         aria-hidden="true"
                       />
@@ -276,7 +265,7 @@ const metrics = [
                     className="flex flex-col items-center text-center"
                   >
                     <div class="mb-4">
-                      <Target
+                      <PiTarget
                         className="text-primary h-10 w-10"
                         aria-hidden="true"
                       />
@@ -372,7 +361,7 @@ const metrics = [
                     className="flex flex-col items-center text-center"
                   >
                     <div class="mb-4">
-                      <ShieldCheck
+                      <PiShieldCheck
                         className="text-primary h-10 w-10"
                         aria-hidden="true"
                       />
@@ -424,7 +413,7 @@ const metrics = [
                         </span>
                       </div>
                       <div class="flex items-start gap-2">
-                        <Database
+                        <PiDatabase
                           className="text-primary mt-1 h-5 w-5 shrink-0"
                           aria-hidden="true"
                         />
@@ -444,7 +433,7 @@ const metrics = [
                         >
                       </div>
                       <div class="flex items-start gap-2">
-                        <Cloud
+                        <PiCloud
                           className="text-primary mt-1 h-5 w-5 shrink-0"
                           aria-hidden="true"
                         />
@@ -470,7 +459,7 @@ const metrics = [
 
                   <div class="glass border-border rounded-2xl border p-8">
                     <div class="mb-6 flex items-center gap-3">
-                      <Shield
+                      <PiShield
                         className="text-primary h-8 w-8"
                         aria-hidden="true"
                       />
@@ -480,7 +469,7 @@ const metrics = [
                     </div>
                     <div class="text-muted-foreground space-y-3">
                       <div class="flex items-start gap-2">
-                        <Lock
+                        <PiLock
                           className="text-primary mt-1 h-5 w-5 shrink-0"
                           aria-hidden="true"
                         />
@@ -502,7 +491,7 @@ const metrics = [
                         >
                       </div>
                       <div class="flex items-start gap-2">
-                        <Eye
+                        <PiEye
                           className="text-primary mt-1 h-5 w-5 shrink-0"
                           aria-hidden="true"
                         />
@@ -512,7 +501,7 @@ const metrics = [
                         >
                       </div>
                       <div class="flex items-start gap-2">
-                        <Bell
+                        <PiBell
                           className="text-primary mt-1 h-5 w-5 shrink-0"
                           aria-hidden="true"
                         />
@@ -523,7 +512,7 @@ const metrics = [
                         >
                       </div>
                       <div class="flex items-start gap-2">
-                        <Award
+                        <PiMedal
                           className="text-primary mt-1 h-5 w-5 shrink-0"
                           aria-hidden="true"
                         />

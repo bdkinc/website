@@ -6,15 +6,15 @@ import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { getLocationBySlug } from '@/lib/locations';
 import {
-  MapPin,
-  Phone,
-  Mail,
-  Clock,
-  Users,
-  CheckCircle,
-  Shield,
-  TrendingUp,
-} from 'lucide-react';
+  PiMapPin,
+  PiPhone,
+  PiEnvelope,
+  PiClock,
+  PiUsers,
+  PiCheckCircle,
+  PiShield,
+  PiTrendUp,
+} from 'react-icons/pi';
 import { Card } from '@/components/ui/card';
 import Footer from '@/components/Footer.astro';
 
@@ -93,22 +93,22 @@ const locationIntro = `As a leading Managed Service Provider serving ${locationD
 
 const locationFeatures = [
   {
-    icon: MapPin,
+    icon: PiMapPin,
     title: 'Local Expertise',
     description: `Deep understanding of ${locationData.name}'s business landscape and regulatory environment`,
   },
   {
-    icon: Clock,
+    icon: PiClock,
     title: 'Rapid Response',
     description: 'Average response time under 2 hours for critical issues',
   },
   {
-    icon: Shield,
+    icon: PiShield,
     title: 'Proactive Monitoring',
     description: '24/7/365 system monitoring and preventive maintenance',
   },
   {
-    icon: Users,
+    icon: PiUsers,
     title: 'Dedicated Team',
     description:
       'Assigned technician who knows your business and infrastructure',
@@ -144,7 +144,7 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl text-center">
         <div class="mb-6 inline-flex items-center justify-center gap-2 text-lg">
-          <MapPin className="text-primary h-5 w-5" />
+          <PiMapPin className="text-primary h-5 w-5" />
           <span class="text-muted-foreground"
             >{locationData.name}, {locationData.state}</span
           >
@@ -168,13 +168,13 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
             class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
           >
             Get Started Today
-            <Phone className="h-4 w-4" />
+            <PiPhone className="h-4 w-4" />
           </a>
           <a
             href="tel:410-555-0123"
             class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
           >
-            <Phone className="h-4 w-4" />
+            <PiPhone className="h-4 w-4" />
             (410) 555-0123
           </a>
         </div>
@@ -227,25 +227,25 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
             </h3>
             <div class="space-y-4">
               <div class="flex items-start gap-3">
-                <CheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
+                <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
                   Proactive system monitoring and maintenance
                 </p>
               </div>
               <div class="flex items-start gap-3">
-                <CheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
+                <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
                   24/7 technical support and emergency response
                 </p>
               </div>
               <div class="flex items-start gap-3">
-                <CheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
+                <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
                   Tailored solutions for {locationData.state} business requirements
                 </p>
               </div>
               <div class="flex items-start gap-3">
-                <CheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
+                <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
                   Regular performance reports and strategic reviews
                 </p>
@@ -259,7 +259,7 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
             </h3>
             <div class="space-y-4">
               <div class="flex items-start gap-3">
-                <MapPin className="text-primary mt-1 h-5 w-5 shrink-0" />
+                <PiMapPin className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
                   Serving {
                     locationData.counties?.join(' and ') || 'Eastern Shore'
@@ -267,19 +267,19 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
                 </p>
               </div>
               <div class="flex items-start gap-3">
-                <Clock className="text-primary mt-1 h-5 w-5 shrink-0" />
+                <PiClock className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
                   Average response time under 2 hours for critical issues
                 </p>
               </div>
               <div class="flex items-start gap-3">
-                <Users className="text-primary mt-1 h-5 w-5 shrink-0" />
+                <PiUsers className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
                   Local team familiar with regional business challenges
                 </p>
               </div>
               <div class="flex items-start gap-3">
-                <TrendingUp className="text-primary mt-1 h-5 w-5 shrink-0" />
+                <PiTrendUp className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
                   Proven track record with {locationData.region} businesses
                 </p>
@@ -301,7 +301,7 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {nearbyLocations.map((nearbyLoc) => (
                 <Card key={nearbyLoc.id} className="text-center p-6">
-                  <MapPin className="text-primary mx-auto mb-3 h-6 w-6" />
+                  <PiMapPin className="text-primary mx-auto mb-3 h-6 w-6" />
                   <h3 class="text-foreground font-semibold">
                     {nearbyLoc.data.name}
                   </h3>
@@ -339,13 +339,13 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
               class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
             >
               Schedule Consultation
-              <Mail className="h-4 w-4" />
+              <PiEnvelope className="h-4 w-4" />
             </a>
             <a
               href="tel:410-555-0123"
               class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
             >
-              <Phone className="h-4 w-4" />
+              <PiPhone className="h-4 w-4" />
               Call (410) 555-0123
             </a>
           </div>

@@ -2,17 +2,17 @@ import React from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
-  Mail,
-  Phone,
-  Sparkles,
-  ArrowRight,
-  Home,
-  ArrowLeftCircle,
-  MousePointerClick,
-  Calendar,
-  Pointer,
-  Search,
-} from 'lucide-react';
+  PiEnvelope,
+  PiPhone,
+  PiSparkle,
+  PiArrowRight,
+  PiHouse,
+  PiArrowCircleLeft,
+  PiCursorClick,
+  PiCalendar,
+  PiCursor,
+  PiMagnifyingGlass,
+} from 'react-icons/pi';
 
 type CTAVariant =
   | 'default'
@@ -140,16 +140,16 @@ export const CTAButton = React.forwardRef<
 
     // Icon components mapping
     const iconComponents: Record<string, React.ReactNode> = {
-      mail: <Mail className="h-4 w-4" aria-hidden="true" />,
-      phone: <Phone className="h-4 w-4" aria-hidden="true" />,
-      sparkles: <Sparkles className="h-4 w-4" aria-hidden="true" />,
-      arrow: <ArrowRight className="h-4 w-4" aria-hidden="true" />,
-      home: <Home className="h-4 w-4" aria-hidden="true" />,
-      back: <ArrowLeftCircle className="h-4 w-4" aria-hidden="true" />,
-      click: <MousePointerClick className="h-4 w-4" aria-hidden="true" />,
-      calendar: <Calendar className="h-4 w-4" aria-hidden="true" />,
-      pointer: <Pointer className="h-4 w-4" aria-hidden="true" />,
-      search: <Search className="h-4 w-4" aria-hidden="true" />,
+      mail: <PiEnvelope className="h-4 w-4" aria-hidden="true" />,
+      phone: <PiPhone className="h-4 w-4" aria-hidden="true" />,
+      sparkles: <PiSparkle className="h-4 w-4" aria-hidden="true" />,
+      arrow: <PiArrowRight className="h-4 w-4" aria-hidden="true" />,
+      home: <PiHouse className="h-4 w-4" aria-hidden="true" />,
+      back: <PiArrowCircleLeft className="h-4 w-4" aria-hidden="true" />,
+      click: <PiCursorClick className="h-4 w-4" aria-hidden="true" />,
+      calendar: <PiCalendar className="h-4 w-4" aria-hidden="true" />,
+      pointer: <PiCursor className="h-4 w-4" aria-hidden="true" />,
+      search: <PiMagnifyingGlass className="h-4 w-4" aria-hidden="true" />,
       none: null,
     };
 

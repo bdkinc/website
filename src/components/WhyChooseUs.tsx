@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { Zap, ShieldCheck, Users } from 'lucide-react';
+import { PiLightning, PiShieldCheck, PiUsers } from 'react-icons/pi';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 
 export default function WhyChooseUs() {
@@ -113,7 +113,7 @@ export default function WhyChooseUs() {
                 'hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]'
               )}
             >
-              <Zap className="icon-md text-primary" aria-hidden />
+              <PiLightning className="icon-md text-primary" aria-hidden />
             </div>
             <h3
               className={cn(
@@ -147,7 +147,7 @@ export default function WhyChooseUs() {
                 'hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]'
               )}
             >
-              <ShieldCheck className="icon-md text-primary" aria-hidden />
+              <PiShieldCheck className="icon-md text-primary" aria-hidden />
             </div>
             <h3
               className={cn(
@@ -181,7 +181,7 @@ export default function WhyChooseUs() {
                 'hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]'
               )}
             >
-              <Users className="icon-md text-primary" aria-hidden />
+              <PiUsers className="icon-md text-primary" aria-hidden />
             </div>
             <h3
               className={cn(

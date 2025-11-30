@@ -1,4 +1,4 @@
-import { Moon, Sun } from 'lucide-react';
+import { PiMoon, PiSun } from 'react-icons/pi';
 import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 
@@ -45,7 +45,7 @@ export default function ThemeToggle() {
         size={'icon'}
         className="cursor-pointer"
       >
-        <Sun className="h-5 w-5" />
+        <PiSun className="h-5 w-5" />
       </Button>
     );
   }
@@ -59,9 +59,9 @@ export default function ThemeToggle() {
       size={'icon'}
     >
       {theme === 'light' ? (
-        <Moon className="h-5 w-5" />
+        <PiMoon className="h-5 w-5" />
       ) : (
-        <Sun className="h-5 w-5" />
+        <PiSun className="h-5 w-5" />
       )}
     </Button>
   );

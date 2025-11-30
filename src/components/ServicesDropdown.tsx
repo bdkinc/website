@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { PiArrowRight } from 'react-icons/pi';
 import {
   NavigationMenuItem,
   NavigationMenuTrigger,
@@ -32,7 +32,7 @@ function ServiceDropdownItem({
       <NavigationMenuLink asChild>
         <a
           href={`/services/${service.slug}`}
-          className="group relative block overflow-hidden rounded-lg border border-border/30 bg-card/40 p-5 backdrop-blur-sm no-underline transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 outline-none select-none"
+          className="group relative flex flex-col h-full overflow-hidden rounded-lg border border-border/30 bg-card/40 p-5 backdrop-blur-sm no-underline transition-all duration-300 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 outline-none select-none"
           onMouseMove={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
             const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -136,7 +136,7 @@ export function ServicesDropdown({ services }: ServicesDropdownProps) {
               >
                 <span>View All Services</span>
                 <span>
-                  <ArrowRight className="text-current transition-transform duration-300 group-hover:translate-x-1" />
+                  <PiArrowRight className="text-current transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               </a>
             </NavigationMenuLink>

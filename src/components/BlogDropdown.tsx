@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+import { PiArrowRight } from 'react-icons/pi';
 import {
   NavigationMenuItem,
   NavigationMenuTrigger,
@@ -98,7 +98,7 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
                     )}
                   >
                     <span>View All Posts</span>
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
+                    <PiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
                   </a>
                 </NavigationMenuLink>
               </li>

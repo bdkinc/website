@@ -9,17 +9,10 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
 import {
-  Sparkles,
-  Shield,
-  TrendingUp,
-  Zap,
-  Lock,
-  Users,
-  FileText,
-  BarChart3,
-  Target,
-  CheckCircle2,
-} from 'lucide-react';
+  PiLightning,
+  PiLock,
+  PiUsers,
+} from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'artificial-intelligence');
@@ -206,7 +199,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Zap className="text-primary h-16 w-16" aria-hidden="true" />
+                  <PiLightning className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   AI Integration
@@ -350,7 +343,7 @@ const detailColumns = [
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <Users
+                  <PiUsers
                     className="text-primary mb-4 h-12 w-12"
                     aria-hidden="true"
                   />
@@ -365,7 +358,7 @@ const detailColumns = [
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <Target
+                  <PiTarget
                     className="text-primary mb-4 h-12 w-12"
                     aria-hidden="true"
                   />
@@ -442,7 +435,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Shield
+                  <PiShield
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -462,7 +455,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Zap className="text-primary h-10 w-10" aria-hidden="true" />
+                  <PiLightning className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Production-Ready
@@ -479,7 +472,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Target
+                  <PiTarget
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -519,7 +512,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Users
+                  <PiUsers
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -539,7 +532,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Lock className="text-primary h-10 w-10" aria-hidden="true" />
+                  <PiLock className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Responsible AI

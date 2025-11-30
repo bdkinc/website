@@ -37,15 +37,15 @@ import {
 import { cn } from '@/lib/utils';
 import type { ChatStatus, FileUIPart } from 'ai';
 import {
-  ImageIcon,
-  Loader2Icon,
-  MicIcon,
-  PaperclipIcon,
-  PlusIcon,
-  SendIcon,
-  SquareIcon,
-  XIcon,
-} from 'lucide-react';
+  PiImage,
+  PiSpinner,
+  PiMicrophone,
+  PiPaperclip,
+  PiPlus,
+  PiPaperPlaneRight,
+  PiSquare,
+  PiX,
+} from 'react-icons/pi';
 import { nanoid } from 'nanoid';
 import {
   type ChangeEvent,
@@ -295,7 +295,7 @@ export function PromptInputAttachment({
                 />
               ) : (
                 <div className="text-muted-foreground flex size-5 items-center justify-center">
-                  <PaperclipIcon className="size-3" />
+                  <PiPaperclip className="size-3" />
                 </div>
               )}
             </div>
@@ -309,7 +309,7 @@ export function PromptInputAttachment({
               type="button"
               variant="ghost"
             >
-              <XIcon />
+              <PiX />
               <span className="sr-only">Remove</span>
             </Button>
           </div>
@@ -389,7 +389,7 @@ export const PromptInputActionAddAttachments = ({
         attachments.openFileDialog();
       }}
     >
-      <ImageIcon className="mr-2 size-4" /> {label}
+      <PiImage className="mr-2 size-4" /> {label}
     </DropdownMenuItem>
   );
 };
@@ -943,7 +943,7 @@ export const PromptInputActionMenuTrigger = ({
 }: PromptInputActionMenuTriggerProps) => (
   <DropdownMenuTrigger asChild>
     <PromptInputButton className={className} {...props}>
-      {children ?? <PlusIcon className="size-4" />}
+      {children ?? <PiPlus className="size-4" />}
     </PromptInputButton>
   </DropdownMenuTrigger>
 );
@@ -983,14 +983,14 @@ export const PromptInputSubmit = ({
   children,
   ...props
 }: PromptInputSubmitProps) => {
-  let Icon = <SendIcon className="size-4" />;
+  let Icon = <PiPaperPlaneRight className="size-4" />;
 
   if (status === 'submitted') {
-    Icon = <Loader2Icon className="size-4 animate-spin" />;
+    Icon = <PiSpinner className="size-4 animate-spin" />;
   } else if (status === 'streaming') {
-    Icon = <SquareIcon className="size-4" />;
+    Icon = <PiSquare className="size-4" />;
   } else if (status === 'error') {
-    Icon = <XIcon className="size-4" />;
+    Icon = <PiX className="size-4" />;
   }
 
   return (
@@ -1161,7 +1161,7 @@ export const PromptInputSpeechButton = ({
       onClick={toggleListening}
       {...props}
     >
-      <MicIcon className="size-4" />
+      <PiMicrophone className="size-4" />
     </PromptInputButton>
   );
 };

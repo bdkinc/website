@@ -7,7 +7,7 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
-import { BrainIcon, ChevronDownIcon } from 'lucide-react';
+import { PiBrainCircuit, PiCaretDown } from 'react-icons/pi';
 import type { ComponentProps } from 'react';
 import { createContext, memo, useContext, useEffect, useState } from 'react';
 import { Response } from './response';
@@ -137,9 +137,9 @@ export const ReasoningTrigger = memo(
       >
         {children ?? (
           <>
-            <BrainIcon className="size-4" />
+            <PiBrainCircuit className="size-4" />
             {getThinkingMessage(isStreaming, duration)}
-            <ChevronDownIcon
+            <PiCaretDown
               className={cn(
                 'size-4 transition-transform',
                 isOpen ? 'rotate-180' : 'rotate-0'

@@ -54,7 +54,7 @@ import {
 } from '@/components/ai-elements/sources';
 import { Suggestion, Suggestions } from '@/components/ai-elements/suggestion';
 import type { ToolUIPart } from 'ai';
-import { GlobeIcon, MicIcon } from 'lucide-react';
+import { PiGlobeHemisphereWest, PiMicrophone } from 'react-icons/pi';
 import { nanoid } from 'nanoid';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
@@ -513,14 +513,14 @@ const Example = () => {
                   onClick={() => setUseMicrophone(!useMicrophone)}
                   variant={useMicrophone ? 'default' : 'ghost'}
                 >
-                  <MicIcon size={16} />
+                  <PiMicrophone size={16} />
                   <span className="sr-only">Microphone</span>
                 </PromptInputButton>
                 <PromptInputButton
                   onClick={() => setUseWebSearch(!useWebSearch)}
                   variant={useWebSearch ? 'default' : 'ghost'}
                 >
-                  <GlobeIcon size={16} />
+                  <PiGlobeHemisphereWest size={16} />
                   <span>Search</span>
                 </PromptInputButton>
                 <PromptInputModelSelect onValueChange={setModel} value={model}>

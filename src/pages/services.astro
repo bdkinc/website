@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { getCollection } from 'astro:content';
-import { Mail } from 'lucide-react';
+import { PiEnvelope } from 'react-icons/pi';
 import { Card } from '@/components/ui/card';
 import InteractiveServiceCard from '@/components/InteractiveServiceCard';
 import Footer from '@/components/Footer.astro';
@@ -111,7 +111,7 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
             class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
           >
             Contact Us
-            <Mail className="h-4 w-4" aria-hidden="true" />
+            <PiEnvelope className="h-4 w-4" aria-hidden="true" />
           </a>
         </Card>
       </div>

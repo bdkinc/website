@@ -9,20 +9,23 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
 import {
-  Server,
-  Network,
-  Database,
-  TrendingUp,
-  DollarSign,
-  Lock,
-  Zap,
-  CheckCircle2,
-  Factory,
-  Truck,
-  Calculator,
-  FileSpreadsheet,
-  HeadphonesIcon,
-} from 'lucide-react';
+  PiDesktop,
+  PiNetworkX,
+  PiDatabase,
+  PiLock,
+  PiLightning,
+  PiTrendUp,
+  PiHeadphones,
+  PiFileXls,
+  PiArrowUp,
+  PiStack,
+  PiCalculator,
+  PiFactory,
+  PiTruck,
+  PiCurrencyDollar,
+  PiCheckCircle,
+  PiCloudCheck,
+} from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'hosted-erp');
@@ -37,16 +40,16 @@ const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 
 const metrics = [
-  { value: '35%', label: 'PROCESS EFFICIENCY', icon: TrendingUp },
-  { value: '99.9%', label: 'HOSTED UPTIME', icon: Lock },
-  { value: '180+', label: 'ERP INTEGRATIONS', icon: Network },
-  { value: '24/7', label: 'SUPPORT COVERAGE', icon: HeadphonesIcon },
+  { value: '35%', label: 'PROCESS EFFICIENCY', icon: PiTrendUp },
+  { value: '99.9%', label: 'HOSTED UPTIME', icon: PiArrowUp },
+  { value: '180+', label: 'ERP INTEGRATIONS', icon: PiNetworkX },
+  { value: '24/7', label: 'SUPPORT COVERAGE', icon: PiHeadphones },
 ];
 
 const detailColumns = [
   {
     title: 'Implementation & Migration',
-    icon: FileSpreadsheet,
+    icon: PiFileXls,
     items: [
       'Fit-gap workshops align ERP modules with manufacturing and distribution goals',
       'Data migration playbooks cleanse, convert, and reconcile legacy records',
@@ -55,7 +58,7 @@ const detailColumns = [
   },
   {
     title: 'Managed Operations',
-    icon: Server,
+    icon: PiStack,
     items: [
       '24/7 monitoring covers backups, patching, and performance tuning',
       'Change management governs updates, tax tables, and regulatory enhancements',
@@ -175,7 +178,7 @@ const detailColumns = [
             <ServiceCardGrid client:visible>
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <FileSpreadsheet
+                  <PiFileXls
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -192,7 +195,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Network
+                  <PiCloudCheck
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -209,7 +212,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Calculator
+                  <PiCalculator
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -266,7 +269,7 @@ const detailColumns = [
                 <div
                   class="bg-background/50 border-border hover:border-primary flex flex-col items-center rounded-lg border p-6 text-center transition-colors"
                 >
-                  <Factory
+                  <PiFactory
                     className="text-primary mb-4 h-12 w-12"
                     aria-hidden="true"
                   />
@@ -281,7 +284,7 @@ const detailColumns = [
                 <div
                   class="bg-background/50 border-border hover:border-primary flex flex-col items-center rounded-lg border p-6 text-center transition-colors"
                 >
-                  <Truck
+                  <PiTruck
                     className="text-primary mb-4 h-12 w-12"
                     aria-hidden="true"
                   />
@@ -296,7 +299,7 @@ const detailColumns = [
                 <div
                   class="bg-background/50 border-border hover:border-primary flex flex-col items-center rounded-lg border p-6 text-center transition-colors"
                 >
-                  <Calculator
+                  <PiCalculator
                     className="text-primary mb-4 h-12 w-12"
                     aria-hidden="true"
                   />
@@ -323,7 +326,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <TrendingUp
+                  <PiTrendUp
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -342,7 +345,10 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Zap className="text-primary h-10 w-10" aria-hidden="true" />
+                  <PiLightning
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Improved Efficiency
@@ -358,7 +364,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <CheckCircle2
+                  <PiCheckCircle
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -377,7 +383,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Database
+                  <PiDatabase
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -396,7 +402,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <DollarSign
+                  <PiCurrencyDollar
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -416,7 +422,10 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Lock className="text-primary h-10 w-10" aria-hidden="true" />
+                  <PiLock
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Data Security
@@ -448,7 +457,7 @@ const detailColumns = [
                     <div class="text-muted-foreground space-y-3">
                       {column.items.map((item) => (
                         <div class="flex items-start gap-2">
-                          <CheckCircle2
+                          <PiCheckCircle
                             className="text-primary mt-1 h-5 w-5 shrink-0"
                             aria-hidden="true"
                           />

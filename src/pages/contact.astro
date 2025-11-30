@@ -5,7 +5,7 @@ import ContactChat from '../components/ContactChat';
 import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
-import { Phone, Mail, Clock, MapPin } from 'lucide-react';
+import { PiPhone, PiEnvelope, PiClock, PiMapPin } from 'react-icons/pi';
 import { actions } from 'astro:actions';
 
 export const prerender = false;
@@ -110,7 +110,7 @@ const initialSuggestions = result?.data?.suggestions || [
                 <div
                   class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
                 >
-                  <Phone className="text-brand-primary h-6 w-6" />
+                  <PiPhone className="text-brand-primary h-6 w-6" />
                 </div>
                 <p class="text-muted-foreground mb-2 text-sm">Phone</p>
                 <span
@@ -128,7 +128,7 @@ const initialSuggestions = result?.data?.suggestions || [
                 <div
                   class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
                 >
-                  <Mail className="text-brand-primary h-6 w-6" />
+                  <PiEnvelope className="text-brand-primary h-6 w-6" />
                 </div>
                 <p class="text-muted-foreground mb-2 text-sm">Email</p>
                 <span
@@ -148,7 +148,7 @@ const initialSuggestions = result?.data?.suggestions || [
                 <div
                   class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
                 >
-                  <MapPin className="text-brand-primary h-6 w-6" />
+                  <PiMapPin className="text-brand-primary h-6 w-6" />
                 </div>
                 <p class="text-muted-foreground mb-2 text-sm">Location</p>
                 <span
@@ -165,7 +165,7 @@ const initialSuggestions = result?.data?.suggestions || [
                 <div
                   class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
                 >
-                  <Clock className="text-brand-primary h-6 w-6" />
+                  <PiClock className="text-brand-primary h-6 w-6" />
                 </div>
                 <p class="text-muted-foreground mb-2 text-sm">Hours</p>
                 <p class="text-foreground flex items-center gap-2 text-sm">

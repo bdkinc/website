@@ -145,7 +145,7 @@ export default function CTASection({
             <div className="relative inline-block">
               <CTAButton
                 ref={buttonRef}
-                className="relative z-10 cursor-pointer shadow-lg"
+                className="relative z-10 cursor-pointer shadow-lg pulse-ring"
                 icon={resolvedPrimaryAction.icon}
                 href={resolvedPrimaryAction.href}
                 target={resolvedPrimaryAction.target}

@@ -4,7 +4,7 @@ import Navigation from '../components/Navigation';
 import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
-import { Shield } from 'lucide-react';
+import { PiShield } from 'react-icons/pi';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -53,7 +53,7 @@ const tocItems = [
         <div
           class="bg-primary/10 mb-6 inline-flex items-center justify-center rounded-lg p-4"
         >
-          <Shield className="text-primary h-10 w-10" />
+          <PiShield className="text-primary h-10 w-10" />
         </div>
         <h1
           class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold duration-700 md:text-6xl"

@@ -9,14 +9,14 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
 import {
-  TrendingUp,
-  Zap,
-  DollarSign,
-  CheckCircle2,
-  Users,
-  ShoppingCart,
-  Eye,
-} from 'lucide-react';
+  PiLightning,
+  PiUsers,
+  PiShoppingCart,
+  PiEye,
+  PiTrendUp,
+  PiCheckCircle,
+  PiCurrencyDollar,
+} from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'edi-solutions');
@@ -31,16 +31,16 @@ const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 
 const metrics = [
-  { value: '250+', label: 'RETAIL CONNECTIONS', icon: ShoppingCart },
-  { value: '99.8%', label: 'DOCUMENT ACCURACY', icon: CheckCircle2 },
-  { value: '48H', label: 'AVERAGE ONBOARDING', icon: Zap },
-  { value: '24/7', label: 'TRANSACTION MONITORING', icon: Eye },
+  { value: '250+', label: 'RETAIL CONNECTIONS', icon: PiShoppingCart },
+  { value: '99.8%', label: 'DOCUMENT ACCURACY', icon: PiCheckCircle },
+  { value: '48H', label: 'AVERAGE ONBOARDING', icon: PiLightning },
+  { value: '24/7', label: 'TRANSACTION MONITORING', icon: PiEye },
 ];
 
 const detailColumns = [
   {
     title: 'Retail Integration',
-    icon: ShoppingCart,
+    icon: PiShoppingCart,
     items: [
       'Certified maps for national retailers, distributors, and 3PL networks',
       'Automated testing validates compliance before every partner go-live',
@@ -49,7 +49,7 @@ const detailColumns = [
   },
   {
     title: 'Operational Support',
-    icon: Users,
+    icon: PiUsers,
     items: [
       'Managed VAN and API connectivity with proactive transaction monitoring',
       'Exception workflows resolve failed documents before SLAs are missed',
@@ -168,7 +168,7 @@ const detailColumns = [
             <ServiceCardGrid client:visible>
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <ShoppingCart
+                  <PiShoppingCart
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -185,7 +185,10 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Zap className="text-primary h-16 w-16" aria-hidden="true" />
+                  <PiLightning
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Automate Order Processing
@@ -199,7 +202,10 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Eye className="text-primary h-16 w-16" aria-hidden="true" />
+                  <PiEye
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Real-Time Visibility
@@ -333,7 +339,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <TrendingUp
+                  <PiTrendUp
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -352,7 +358,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <CheckCircle2
+                  <PiCheckCircle
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -371,7 +377,10 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Zap className="text-primary h-10 w-10" aria-hidden="true" />
+                  <PiLightning
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Faster Processing
@@ -387,7 +396,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <DollarSign
+                  <PiCurrencyDollar
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -406,7 +415,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Users
+                  <PiUsers
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -426,7 +435,10 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Eye className="text-primary h-10 w-10" aria-hidden="true" />
+                  <PiEye
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Better Visibility
@@ -457,7 +469,7 @@ const detailColumns = [
                     <div class="text-muted-foreground space-y-3">
                       {column.items.map((item) => (
                         <div class="flex items-start gap-2">
-                          <CheckCircle2
+                          <PiCheckCircle
                             className="text-primary mt-1 h-5 w-5 shrink-0"
                             aria-hidden="true"
                           />

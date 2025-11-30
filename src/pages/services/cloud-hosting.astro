@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -9,17 +9,19 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
 import {
-  Shield,
-  DollarSign,
-  RefreshCw,
-  Users,
-  Lock,
-  Zap,
-  Cloud,
-  ArrowLeftRight,
-  Clock,
-  CheckCircle2,
-} from 'lucide-react';
+  PiLock,
+  PiLightning,
+  PiUsers,
+  PiShield,
+  PiArrowsClockwise,
+  PiCloud,
+  PiClock,
+  PiArrowsHorizontalFill,
+  PiCurrencyDollar,
+  PiCheckCircle,
+  PiGearSix,
+  PiCloudArrowUp,
+} from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'cloud-hosting');
@@ -53,16 +55,16 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .slice(0, 3);
 
 const metrics = [
-  { value: '99.95%', label: 'UPTIME SLA', icon: Shield },
-  { value: '75+', label: 'CLOUD MIGRATIONS', icon: ArrowLeftRight },
-  { value: '1.5PB', label: 'DATA MANAGED', icon: Cloud },
-  { value: '24/7', label: 'OPERATIONS CENTER', icon: Clock },
+  { value: '99.95%', label: 'UPTIME SLA', icon: PiShield },
+  { value: '75+', label: 'CLOUD MIGRATIONS', icon: PiArrowsClockwise },
+  { value: '1.5PB', label: 'DATA MANAGED', icon: PiCloud },
+  { value: '24/7', label: 'OPERATIONS CENTER', icon: PiClock },
 ];
 
 const detailColumns = [
   {
     title: 'Migration Strategy',
-    icon: ArrowLeftRight,
+    icon: PiCloudArrowUp,
     items: [
       'Assessment workshops align cloud targets with business priorities',
       'Migration sprints minimize downtime and validate performance',
@@ -71,7 +73,7 @@ const detailColumns = [
   },
   {
     title: 'Managed Operations',
-    icon: RefreshCw,
+    icon: PiGearSix,
     items: [
       'Proactive monitoring resolves issues before they impact users',
       'Cost optimization reviews keep monthly spend under control',
@@ -200,7 +202,10 @@ const detailColumns = [
             <ServiceCardGrid client:visible>
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Lock className="text-primary h-16 w-16" aria-hidden="true" />
+                  <PiLock
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Private Cloud
@@ -213,7 +218,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <ArrowLeftRight
+                  <PiArrowsHorizontalFill
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -229,7 +234,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Cloud
+                  <PiCloud
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -441,7 +446,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Shield
+                  <PiShield
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -461,7 +466,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <DollarSign
+                  <PiCurrencyDollar
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -481,7 +486,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <RefreshCw
+                  <PiArrowsClockwise
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -501,7 +506,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Users
+                  <PiUsers
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -521,7 +526,10 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Lock className="text-primary h-10 w-10" aria-hidden="true" />
+                  <PiLock
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">Security</h4>
                 <div class="text-muted-foreground">
@@ -536,7 +544,10 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Zap className="text-primary h-10 w-10" aria-hidden="true" />
+                  <PiLightning
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Flexibility
@@ -563,7 +574,7 @@ const detailColumns = [
                     <div class="text-muted-foreground space-y-3">
                       {column.items.map((item) => (
                         <div class="flex items-start gap-2">
-                          <CheckCircle2
+                          <PiCheckCircle
                             className="text-primary mt-1 h-5 w-5 shrink-0"
                             aria-hidden="true"
                           />

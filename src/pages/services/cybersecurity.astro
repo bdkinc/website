@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -9,18 +9,18 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
 import {
-  Shield,
-  Lock,
-  AlertTriangle,
-  FileCheck,
-  Eye,
-  HardDrive,
-  CheckCircle2,
-  Bell,
-  RefreshCw,
-  ShieldCheck,
-  Users,
-} from 'lucide-react';
+  PiArrowsClockwise,
+  PiBell,
+  PiCheckCircle,
+  PiEye,
+  PiFileText,
+  PiHardDrives,
+  PiLock,
+  PiShield,
+  PiShieldCheck,
+  PiUsers,
+  PiWarning,
+} from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'cybersecurity');
@@ -67,16 +67,16 @@ const relatedPosts = (await getCollection('blog'))
   .slice(0, 3);
 
 const metrics = [
-  { value: '24/7', label: 'SECURITY MONITORING', icon: Eye },
-  { value: '15 MIN', label: 'AVERAGE ALERT RESPONSE', icon: Bell },
-  { value: '99.99%', label: 'UPTIME TARGET', icon: ShieldCheck },
-  { value: '120+', label: 'COMPLIANCE AUDITS/YR', icon: FileCheck },
+  { value: '24/7', label: 'SECURITY MONITORING', icon: PiEye },
+  { value: '15 MIN', label: 'AVERAGE ALERT RESPONSE', icon: PiBell },
+  { value: '99.99%', label: 'UPTIME TARGET', icon: PiShieldCheck },
+  { value: '120+', label: 'COMPLIANCE AUDITS/YR', icon: PiFileText },
 ];
 
 const detailColumns = [
   {
     title: 'Managed Detection & Response',
-    icon: Shield,
+    icon: PiShieldCheck,
     items: [
       'Real-time monitoring across endpoints, network, and cloud workloads',
       'Security analysts triage alerts and coordinate remediation 24/7',
@@ -85,7 +85,7 @@ const detailColumns = [
   },
   {
     title: 'Compliance & Risk',
-    icon: FileCheck,
+    icon: PiFileText,
     items: [
       'Mapped controls for HIPAA, PCI, CJIS, NIST, and regional mandates',
       'Audit-ready reporting with evidence collection and retention',
@@ -211,7 +211,10 @@ const detailColumns = [
             <ServiceCardGrid client:visible>
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Lock className="text-primary h-16 w-16" aria-hidden="true" />
+                  <PiLock
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
                   Ransomware Protection
@@ -225,7 +228,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <RefreshCw
+                  <PiArrowsClockwise
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -242,7 +245,7 @@ const detailColumns = [
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <CheckCircle2
+                  <PiCheckCircle
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -376,7 +379,7 @@ const detailColumns = [
                   class="bg-background/50 border-border rounded-xl border p-6"
                 >
                   <div class="mb-4">
-                    <ShieldCheck
+                    <PiShieldCheck
                       className="text-primary h-10 w-10"
                       aria-hidden="true"
                     />
@@ -412,7 +415,7 @@ const detailColumns = [
                   class="bg-background/50 border-border rounded-xl border p-6"
                 >
                   <div class="mb-4">
-                    <Eye
+                    <PiEye
                       className="text-primary h-10 w-10"
                       aria-hidden="true"
                     />
@@ -446,7 +449,7 @@ const detailColumns = [
                   class="bg-background/50 border-border rounded-xl border p-6"
                 >
                   <div class="mb-4">
-                    <Bell
+                    <PiBell
                       className="text-primary h-10 w-10"
                       aria-hidden="true"
                     />
@@ -482,7 +485,7 @@ const detailColumns = [
                   class="bg-background/50 border-border rounded-xl border p-6"
                 >
                   <div class="mb-4">
-                    <HardDrive
+                    <PiHardDrives
                       className="text-primary h-10 w-10"
                       aria-hidden="true"
                     />
@@ -529,7 +532,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <AlertTriangle
+                  <PiWarning
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -549,7 +552,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <FileCheck
+                  <PiFileText
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -569,7 +572,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <RefreshCw
+                  <PiArrowsClockwise
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -588,7 +591,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Shield
+                  <PiShield
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -607,7 +610,10 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Eye className="text-primary h-10 w-10" aria-hidden="true" />
+                  <PiEye
+                    className="text-primary h-10 w-10"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Peace of Mind
@@ -623,7 +629,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <Users
+                  <PiUsers
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -730,7 +736,7 @@ const detailColumns = [
                     <div class="text-muted-foreground space-y-3">
                       {column.items.map((item) => (
                         <div class="flex items-start gap-2">
-                          <CheckCircle2
+                          <PiCheckCircle
                             className="text-primary mt-1 h-5 w-5 shrink-0"
                             aria-hidden="true"
                           />
