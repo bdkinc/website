@@ -7,7 +7,6 @@ import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
-import { Card } from '@/components/ui/card';
 import {
   PiArrowsClockwise,
   PiBell,
@@ -22,6 +21,9 @@ import {
   PiWarning,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import WhoThisIsFor from '@/components/WhoThisIsFor';
+import { cn } from '@/lib/utils';
 
 const service = await getEntry('services', 'cybersecurity');
 if (!service) {
@@ -39,14 +41,14 @@ const _serviceSchema = {
   '@type': 'Service',
   name: service.data.title,
   description:
-    'Managed cybersecurity services from BDKinc including ransomware protection, compliance, monitoring, and incident response for Mid-Atlantic businesses.',
+    'Fortified security for a complex world. Enterprise-grade threat resilience, managed detection and response, and rigorous compliance engineering for high-stakes environments.',
   provider: {
     '@type': 'Organization',
     name: 'BDKinc',
     url: 'https://www.bdkinc.com',
   },
   serviceType: 'Managed Cybersecurity Services',
-  areaServed: ['Maryland', 'Delaware', 'Mid-Atlantic'],
+  areaServed: ['National', 'Global'],
 };
 
 const relatedTags = [
@@ -70,7 +72,25 @@ const metrics = [
   { value: '24/7', label: 'SECURITY MONITORING', icon: PiEye },
   { value: '15 MIN', label: 'AVERAGE ALERT RESPONSE', icon: PiBell },
   { value: '99.99%', label: 'UPTIME TARGET', icon: PiShieldCheck },
-  { value: '120+', label: 'COMPLIANCE AUDITS/YR', icon: PiFileText },
+  { value: '100%', label: 'COMPLIANCE READINESS', icon: PiFileText },
+];
+
+const faqs = [
+  {
+    question: 'How does BDKinc integrate with our existing IT team?',
+    answer:
+      'We operate as a force multiplier for your internal team. Whether you need a fully managed security operations center (SOC) or co-managed support, we integrate seamlessly into your workflows. We provide the tools, telemetry, and tier-3 expertise, allowing your staff to focus on strategic initiatives while we handle threat detection and response.',
+  },
+  {
+    question: 'Can you assist with SOC 2, HIPAA, and PCI compliance?',
+    answer:
+      'Yes. We do not just consult on compliance; we engineer it. Our team implements the specific technical controls required for HIPAA, PCI DSS, SOC 2, and NIST frameworks. We map your infrastructure to regulatory requirements, automate evidence collection, and ensure your organization is prepared to pass rigorous third-party audits.',
+  },
+  {
+    question: 'What is your response time for critical security incidents?',
+    answer:
+      'Time is the critical factor in containment. Our Security Operations Center (SOC) operates 24/7/365 with aggressive SLAs. For critical severity incidents, we initiate containment protocols immediately upon detection, minimizing dwell time and preventing lateral movement within your network.',
+  },
 ];
 
 const detailColumns = [
@@ -97,8 +117,8 @@ const detailColumns = [
 
 <Layout
   title={`${service.data.title} & Compliance Services | BDKinc`}
-  description="Managed cybersecurity, compliance readiness, and incident response for regulated organizations across Maryland, Delaware, and the Mid-Atlantic."
-  ogDescription="BDKinc delivers 24/7 managed cybersecurity with ransomware protection, compliance readiness, and rapid incident response tailored to Mid-Atlantic businesses."
+  description="Fortified security for a complex world. Enterprise-grade threat resilience, managed detection and response, and rigorous compliance engineering."
+  ogDescription="BDKinc delivers 24/7 managed cybersecurity with ransomware protection, compliance readiness, and rapid incident response for enterprise environments."
 >
   <script
     type="application/ld+json"
@@ -154,8 +174,20 @@ const detailColumns = [
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
           <div
-            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
+            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg relative"
           >
+             {/* Scanline overlay */}
+            <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.05]"></div>
+             {/* Corner accents */}
+            <div class="absolute top-0 right-0 h-12 w-12">
+              <div class="absolute top-4 right-4 h-px w-6 bg-primary/40"></div>
+              <div class="absolute top-4 right-4 h-6 w-px bg-primary/40"></div>
+            </div>
+            <div class="absolute bottom-0 left-0 h-12 w-12">
+              <div class="absolute bottom-4 left-4 h-px w-6 bg-primary/40"></div>
+              <div class="absolute bottom-4 left-4 h-6 w-px bg-primary/40"></div>
+            </div>
+
             <div
               class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
             >
@@ -191,16 +223,12 @@ const detailColumns = [
           <div class="service-content-wrapper">
             <div class="not-prose mx-auto max-w-4xl">
               <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Protect Your Business from Cyber Threats
+                Enterprise-Grade Threat Resilience
               </h2>
               <div
                 class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
               >
-                Protect your business with comprehensive cybersecurity
-                solutions, disaster recovery planning, and business continuity
-                services. In today's threat landscape, cybersecurity isn't
-                optional—it's essential for protecting your data, operations,
-                and reputation.
+                In an era of sophisticated state-sponsored attacks and automated ransomware, standard antivirus is no longer sufficient. BDKinc delivers comprehensive, defense-in-depth security architectures designed for high-stakes environments. We operate as your dedicated security partner, navigating the complexities of compliance and threat management so you can focus on innovation.
               </div>
             </div>
 
@@ -211,52 +239,46 @@ const detailColumns = [
             <ServiceCardGrid client:visible>
               <ServiceCard client:visible>
                 <div class="mb-6">
+                  <PiShieldCheck
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
+                  Managed Detection & Response
+                </h4>
+                <div class="text-foreground leading-relaxed">
+                  24/7/365 surveillance of your entire digital estate. Our SOC analysts leverage advanced telemetry to detect anomalies, investigate threats, and neutralize attacks before they impact operations.
+                </div>
+              </ServiceCard>
+
+              <ServiceCard client:visible>
+                <div class="mb-6">
                   <PiLock
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Ransomware Protection
+                  Ransomware Defense
                 </h4>
                 <div class="text-foreground leading-relaxed">
-                  Multi-layered security approach with advanced threat
-                  detection, regular backups, and incident response planning to
-                  protect against ransomware attacks.
+                  Zero-trust architecture combined with immutable backups. We implement rigorous prevention strategies and rapid recovery protocols to ensure business continuity in the face of extortion attempts.
                 </div>
               </ServiceCard>
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <PiArrowsClockwise
+                  <PiFileText
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Disaster Recovery
+                  Compliance Engineering
                 </h4>
                 <div class="text-foreground leading-relaxed">
-                  Comprehensive recovery plans ensure you can restore critical
-                  operations quickly. We design and test procedures so you're
-                  prepared for any emergency.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiCheckCircle
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Business Continuity
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Keep your business running no matter what happens. Our
-                  planning identifies critical functions and creates strategies
-                  to maintain operations during disruptions.
+                  We don't just consult on compliance; we engineer it. Our team implements the technical controls required for HIPAA, PCI DSS, SOC 2, and NIST frameworks to prepare you for audits.
                 </div>
               </ServiceCard>
             </ServiceCardGrid>
@@ -276,14 +298,26 @@ const detailColumns = [
               {/* Feature Image Placeholder */}
               <div class="mb-10">
                 <div
-                  class="glass border-primary/20 mx-auto max-w-3xl overflow-hidden rounded-xl border"
+                  class="glass border-primary/20 mx-auto max-w-3xl overflow-hidden rounded-xl border relative"
                 >
+                   {/* Scanline overlay */}
+                  <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.05]"></div>
+                  {/* Corner accents */}
+                  <div class="absolute top-0 right-0 h-8 w-8">
+                    <div class="absolute top-2 right-2 h-px w-4 bg-primary/40"></div>
+                    <div class="absolute top-2 right-2 h-4 w-px bg-primary/40"></div>
+                  </div>
+                  <div class="absolute bottom-0 left-0 h-8 w-8">
+                    <div class="absolute bottom-2 left-2 h-px w-4 bg-primary/40"></div>
+                    <div class="absolute bottom-2 left-2 h-4 w-px bg-primary/40"></div>
+                  </div>
+
                   <div
                     class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-21/9 items-center justify-center bg-linear-to-br"
                   >
-                    <div class="p-4 text-center">
+                    <div class="p-4 text-center relative z-10">
                       <div
-                        class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
+                        class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase font-display"
                       >
                         Feature Image
                       </div>
@@ -306,12 +340,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Patches & Updates Management
+                      Threat Intelligence
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Unpatched systems are the #1 vulnerability exploited by
-                      attackers. We manage security updates across your
-                      infrastructure without disrupting operations.
+                      Integrated feeds from global threat networks keep your defenses tuned to the latest attack vectors and zero-day vulnerabilities.
                     </div>
                   </div>
                 </div>
@@ -323,12 +355,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Security Monitoring
+                      Vulnerability Management
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      24/7 monitoring detects threats before they become
-                      breaches. We watch for suspicious activity and respond
-                      immediately.
+                      Continuous scanning and automated patching to eliminate exposure points before they can be exploited by attackers.
                     </div>
                   </div>
                 </div>
@@ -340,12 +370,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Backup Solutions
+                      Endpoint Detection & Response
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Regular, tested backups are your last line of defense.
-                      Automated backup systems with secure offsite storage
-                      ensure data recovery.
+                      Behavior-based analysis to block malicious activity at the device level, even when off-network, preventing lateral movement.
                     </div>
                   </div>
                 </div>
@@ -357,12 +385,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Security Assessments
+                      Identity & Access Management
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Understand your vulnerabilities before attackers do.
-                      Regular assessments identify weaknesses and recommend
-                      improvements.
+                      Zero-trust principles applied to user access, ensuring least-privilege enforcement and robust authentication across your organization.
                     </div>
                   </div>
                 </div>
@@ -375,19 +401,18 @@ const detailColumns = [
 
             <div class="not-prose mb-20">
               <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <div
-                  class="bg-background/50 border-border rounded-xl border p-6"
-                >
-                  <div class="mb-4">
+                <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-all hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+                  <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
+                  <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-all">
                     <PiShieldCheck
-                      className="text-primary h-10 w-10"
+                      className="text-primary h-8 w-8"
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display">
                     Prevent
                   </h4>
-                  <ul class="text-muted-foreground space-y-2 text-sm">
+                  <ul class="text-muted-foreground space-y-2 text-sm font-sans">
                     <li class="flex items-start gap-2">
                       <span class="text-primary mt-1">•</span>
                       <span>Firewall management</span>
@@ -411,17 +436,16 @@ const detailColumns = [
                   </ul>
                 </div>
 
-                <div
-                  class="bg-background/50 border-border rounded-xl border p-6"
-                >
-                  <div class="mb-4">
+                <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-all hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+                  <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
+                  <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-all">
                     <PiEye
-                      className="text-primary h-10 w-10"
+                      className="text-primary h-8 w-8"
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold">Detect</h4>
-                  <ul class="text-muted-foreground space-y-2 text-sm">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display">Detect</h4>
+                  <ul class="text-muted-foreground space-y-2 text-sm font-sans">
                     <li class="flex items-start gap-2">
                       <span class="text-primary mt-1">•</span>
                       <span>24/7 monitoring</span>
@@ -445,19 +469,18 @@ const detailColumns = [
                   </ul>
                 </div>
 
-                <div
-                  class="bg-background/50 border-border rounded-xl border p-6"
-                >
-                  <div class="mb-4">
+                <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-all hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+                  <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
+                  <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-all">
                     <PiBell
-                      className="text-primary h-10 w-10"
+                      className="text-primary h-8 w-8"
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display">
                     Respond
                   </h4>
-                  <ul class="text-muted-foreground space-y-2 text-sm">
+                  <ul class="text-muted-foreground space-y-2 text-sm font-sans">
                     <li class="flex items-start gap-2">
                       <span class="text-primary mt-1">•</span>
                       <span>Incident response</span>
@@ -481,19 +504,18 @@ const detailColumns = [
                   </ul>
                 </div>
 
-                <div
-                  class="bg-background/50 border-border rounded-xl border p-6"
-                >
-                  <div class="mb-4">
+                <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-all hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+                  <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
+                  <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-all">
                     <PiHardDrives
-                      className="text-primary h-10 w-10"
+                      className="text-primary h-8 w-8"
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display">
                     Recover
                   </h4>
-                  <ul class="text-muted-foreground space-y-2 text-sm">
+                  <ul class="text-muted-foreground space-y-2 text-sm font-sans">
                     <li class="flex items-start gap-2">
                       <span class="text-primary mt-1">•</span>
                       <span>Backup systems</span>
@@ -526,10 +548,12 @@ const detailColumns = [
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <Card
+              <ServiceCard
+                client:visible
                 size="default"
-                interactive={false}
+                interactive={true}
                 className="flex flex-col items-center text-center"
+                delay={100}
               >
                 <div class="mb-4">
                   <PiWarning
@@ -537,19 +561,21 @@ const detailColumns = [
                     aria-hidden="true"
                   />
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
+                <h4 class="text-foreground mb-2 text-xl font-bold font-display">
                   Reduce Risk
                 </h4>
-                <div class="text-muted-foreground">
+                <div class="text-muted-foreground font-sans text-sm">
                   Protect against data breaches, ransomware, and other cyber
                   threats
                 </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
+              <ServiceCard
+                client:visible
                 size="default"
-                interactive={false}
+                interactive={true}
                 className="flex flex-col items-center text-center"
+                delay={200}
               >
                 <div class="mb-4">
                   <PiFileText
@@ -557,19 +583,21 @@ const detailColumns = [
                     aria-hidden="true"
                   />
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
+                <h4 class="text-foreground mb-2 text-xl font-bold font-display">
                   Ensure Compliance
                 </h4>
-                <div class="text-muted-foreground">
+                <div class="text-muted-foreground font-sans text-sm">
                   Meet industry security standards and regulations (HIPAA, PCI
                   DSS, SOC 2)
                 </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
+              <ServiceCard
+                client:visible
                 size="default"
-                interactive={false}
+                interactive={true}
                 className="flex flex-col items-center text-center"
+                delay={300}
               >
                 <div class="mb-4">
                   <PiArrowsClockwise
@@ -577,18 +605,20 @@ const detailColumns = [
                     aria-hidden="true"
                   />
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
+                <h4 class="text-foreground mb-2 text-xl font-bold font-display">
                   Minimize Downtime
                 </h4>
-                <div class="text-muted-foreground">
+                <div class="text-muted-foreground font-sans text-sm">
                   Quick recovery from incidents keeps your business running
                 </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
+              <ServiceCard
+                client:visible
                 size="default"
-                interactive={false}
+                interactive={true}
                 className="flex flex-col items-center text-center"
+                delay={400}
               >
                 <div class="mb-4">
                   <PiShield
@@ -596,18 +626,20 @@ const detailColumns = [
                     aria-hidden="true"
                   />
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
+                <h4 class="text-foreground mb-2 text-xl font-bold font-display">
                   Protect Reputation
                 </h4>
-                <div class="text-muted-foreground">
+                <div class="text-muted-foreground font-sans text-sm">
                   Prevent data breaches that damage customer trust
                 </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
+              <ServiceCard
+                client:visible
                 size="default"
-                interactive={false}
+                interactive={true}
                 className="flex flex-col items-center text-center"
+                delay={500}
               >
                 <div class="mb-4">
                   <PiEye
@@ -615,18 +647,20 @@ const detailColumns = [
                     aria-hidden="true"
                   />
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
+                <h4 class="text-foreground mb-2 text-xl font-bold font-display">
                   Peace of Mind
                 </h4>
-                <div class="text-muted-foreground">
+                <div class="text-muted-foreground font-sans text-sm">
                   Know your systems are monitored and protected 24/7
                 </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
+              <ServiceCard
+                client:visible
                 size="default"
-                interactive={false}
+                interactive={true}
                 className="flex flex-col items-center text-center"
+                delay={600}
               >
                 <div class="mb-4">
                   <PiUsers
@@ -634,13 +668,13 @@ const detailColumns = [
                     aria-hidden="true"
                   />
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
+                <h4 class="text-foreground mb-2 text-xl font-bold font-display">
                   Expert Guidance
                 </h4>
-                <div class="text-muted-foreground">
+                <div class="text-muted-foreground font-sans text-sm">
                   Access to experienced security professionals
                 </div>
-              </Card>
+              </ServiceCard>
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
@@ -652,14 +686,26 @@ const detailColumns = [
                 {/* Approach Image Placeholder */}
                 <div class="order-2 md:order-1">
                   <div
-                    class="glass border-primary/20 overflow-hidden rounded-xl border"
+                    class="glass border-primary/20 overflow-hidden rounded-xl border relative"
                   >
+                     {/* Scanline overlay */}
+                    <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.05]"></div>
+                     {/* Corner accents */}
+                    <div class="absolute top-0 right-0 h-8 w-8">
+                      <div class="absolute top-2 right-2 h-px w-4 bg-primary/40"></div>
+                      <div class="absolute top-2 right-2 h-4 w-px bg-primary/40"></div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 h-8 w-8">
+                      <div class="absolute bottom-2 left-2 h-px w-4 bg-primary/40"></div>
+                      <div class="absolute bottom-2 left-2 h-4 w-px bg-primary/40"></div>
+                    </div>
+
                     <div
                       class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-square items-center justify-center bg-linear-to-br"
                     >
-                      <div class="p-4 text-center">
+                      <div class="p-4 text-center relative z-10">
                         <div
-                          class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
+                          class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase font-display"
                         >
                           Approach Visual
                         </div>
@@ -702,17 +748,32 @@ const detailColumns = [
               Compliance & Standards
             </h3>
 
-            <div
-              class="border-border from-primary/10 to-secondary/10 not-prose mb-20 rounded-2xl border bg-linear-to-br p-10"
-            >
-              <div
-                class="text-muted-foreground mx-auto mb-6 max-w-4xl text-center text-lg leading-relaxed"
-              >
-                We help you meet security requirements for HIPAA (Healthcare),
-                PCI DSS (Payment cards), SOC 2, industry-specific regulations,
-                and cyber insurance requirements. Our team stays current with
-                evolving compliance standards to ensure your security posture
-                meets all necessary criteria.
+            <div class="relative overflow-hidden rounded-xl border border-primary/20 bg-card/40 p-10 mb-20 backdrop-blur-sm">
+              <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5"></div>
+              <div class="pointer-events-none absolute inset-0">
+                <div class="absolute left-0 top-0 h-16 w-16 border-l-2 border-t-2 border-primary/40"></div>
+                <div class="absolute right-0 top-0 h-16 w-16 border-r-2 border-t-2 border-primary/40"></div>
+                <div class="absolute bottom-0 left-0 h-16 w-16 border-b-2 border-l-2 border-primary/40"></div>
+                <div class="absolute bottom-0 right-0 h-16 w-16 border-b-2 border-r-2 border-primary/40"></div>
+              </div>
+              
+              <div class="relative z-10 flex flex-col items-center text-center">
+                <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
+                  <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
+                  <span class="text-xs font-bold tracking-widest text-primary font-display uppercase">Compliance Engineering Vault</span>
+                </div>
+                
+                <h4 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display">
+                  Rigorous Standards. <span class="text-primary">Zero Compromise.</span>
+                </h4>
+                
+                <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
+                  We help you meet security requirements for HIPAA (Healthcare),
+                  PCI DSS (Payment cards), SOC 2, industry-specific regulations,
+                  and cyber insurance requirements. Our team stays current with
+                  evolving compliance standards to ensure your security posture
+                  meets all necessary criteria.
+                </div>
               </div>
             </div>
 
@@ -753,7 +814,7 @@ const detailColumns = [
               Why Choose BDK for Cybersecurity?
             </h3>
 
-            <div class="text-center">
+            <div class="text-center mb-24">
               <div
                 class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
               >
@@ -769,6 +830,15 @@ const detailColumns = [
                 Don't wait for a breach to take security seriously. Let us help
                 you build a robust cybersecurity program today.
               </div>
+            </div>
+
+            <WhoThisIsFor client:visible />
+
+            <div class="mb-24">
+              <h3 class="text-foreground mb-8 text-center text-3xl font-bold font-display">
+                Common Questions
+              </h3>
+              <TechnicalFAQ client:visible faqs={faqs} />
             </div>
           </div>
         </div>

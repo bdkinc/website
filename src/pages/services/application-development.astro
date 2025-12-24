@@ -7,20 +7,22 @@ import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
-import { Card } from '@/components/ui/card';
+import CapabilitiesGrid from '@/components/app-dev/CapabilitiesGrid';
+import TechStackShowcase from '@/components/app-dev/TechStackShowcase';
+import LifecycleVisualization from '@/components/app-dev/LifecycleVisualization';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import WhoThisIsFor from '@/components/WhoThisIsFor';
 import {
   PiArrowsClockwise,
-  PiTarget,
-  PiShieldCheck,
-  PiDatabase,
-  PiCloud,
-  PiShield,
-  PiLock,
-  PiEye,
-  PiBell,
-  PiMedal,
+  PiNetworkX,
 } from 'react-icons/pi';
-import Footer from '@/components/Footer.astro';
+import {
+  Code2,
+  Award,
+  Link,
+  Rocket,
+  TrendingUp,
+} from 'lucide-react';
 
 const service = await getEntry('services', 'application-development');
 if (!service) {
@@ -38,14 +40,14 @@ const _serviceSchema = {
   '@type': 'Service',
   name: service.data.title,
   description:
-    'Custom business application development, modernization, and integration services delivered by BDKinc for growth-focused organizations.',
+    'BDKinc is your full-service development shop for custom software, enterprise integration, and application modernization. Built to power your vision.',
   provider: {
     '@type': 'Organization',
     name: 'BDKinc',
     url: 'https://www.bdkinc.com',
   },
   serviceType: 'Custom Application Development',
-  areaServed: ['Mid-Atlantic', 'United States'],
+  areaServed: ['United States'],
 };
 
 const relatedTags = [
@@ -53,13 +55,11 @@ const relatedTags = [
   'software-development',
   'modernization',
 ];
-// Narrow the collection item data shape so TypeScript knows about optional fields
+
 const relatedPosts = (await getCollection('blog'))
   .filter((post) => {
     const data = post.data as unknown as { tags?: string[]; draft?: boolean };
-    // exclude drafts
     if (data.draft) return false;
-    // ensure tags is an array then check for any matching tag
     return (
       Array.isArray(data.tags) &&
       data.tags.some((tag: string) => relatedTags.includes(tag))
@@ -73,12 +73,27 @@ const metrics = [
   { value: '60+', label: 'SYSTEM INTEGRATIONS', icon: Link },
   { value: '45', label: 'ANNUAL RELEASES', icon: Rocket },
 ];
+
+const faqs = [
+  {
+    question: "How do you ensure the scalability of custom applications?",
+    answer: "We design with an 'architecture-first' mindset. By utilizing cloud-native technologies, microservices where appropriate, and robust database optimization (SQL/NoSQL), we ensure your application can handle increased loads and expanding feature sets without performance degradation."
+  },
+  {
+    question: "What is your approach to legacy system modernization?",
+    answer: "We prioritize risk mitigation and business continuity. Our team analyzes your existing codebase to identify the best path forward—whether it's refactoring, re-platforming, or a complete rebuild. We ensure that critical business logic is preserved while transitioning you to a modern, secure tech stack."
+  },
+  {
+    question: "Do you provide ongoing support after deployment?",
+    answer: "Absolutely. As a full-service partner, we offer comprehensive post-deployment support, including monitoring, security updates, and feature enhancements. Because we can also host what we build, we have full visibility into the application's performance, allowing us to proactively address issues before they impact your business."
+  }
+];
 ---
 
 <Layout
-  title={`${service.data.title} for Regulated & Growth Enterprises | BDKinc`}
-  description="Custom application development, modernization, and systems integration that streamline complex workflows for regulated and growth-stage organizations across the Mid-Atlantic."
-  ogDescription="Enterprise-grade custom application development and modernization from BDKinc, aligning critical workflows, integrations, and security requirements for growth-focused teams."
+  title="Custom Application Development & Modernization | BDKinc"
+  description="BDKinc is your full-service development shop for custom software, enterprise integration, and application modernization. Built to power your vision."
+  ogDescription="BDKinc is your full-service development shop for custom software, enterprise integration, and application modernization. Built to power your vision."
 >
   <script
     type="application/ld+json"
@@ -125,7 +140,7 @@ const metrics = [
             transition:animate="initial"
             class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
           >
-            {service.data.description}
+            Custom Software Built to Power Your Vision.
           </p>
         </div>
 
@@ -143,13 +158,10 @@ const metrics = [
                 <div
                   class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
                 >
-                  Service Hero Image
+                  BDK Dev Shop
                 </div>
                 <div class="text-muted-foreground/60 text-lg">
-                  Application Development Illustration
-                </div>
-                <div class="text-muted-foreground/40 mt-2 text-xs">
-                  Recommended: 1400x800px
+                  Engineering Enterprise Innovation
                 </div>
               </div>
             </div>
@@ -168,445 +180,106 @@ const metrics = [
         class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
       >
         <div class="mx-auto max-w-7xl">
-          <div
-            class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
-          >
-            <div class="mx-auto max-w-7xl">
-              <div class="service-content-wrapper">
-                <div class="not-prose mx-auto max-w-4xl">
-                  <h2
-                    class="text-foreground mb-6 text-center text-3xl font-bold"
-                  >
-                    Custom Applications That Drive Business Success
-                  </h2>
-                  <div
-                    class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-                  >
-                    Enterprise-grade custom application development solutions
-                    designed to solve your unique business challenges. We build
-                    scalable, secure applications tailored to your specific
-                    workflows, processes, and objectives.
-                  </div>
-                </div>
-
-                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-                  Solutions Built for Your Business
-                </h3>
-
-                <ServiceCardGrid client:visible>
-                  <ServiceCard client:visible>
-                    <div class="mb-6">
-                      <Code2
-                        className="text-primary h-16 w-16"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <h4 class="text-foreground mb-4 text-2xl font-bold">
-                      Custom Business Applications
-                    </h4>
-                    <div class="text-foreground leading-relaxed">
-                      Off-the-shelf software forces you to adapt your processes
-                      to someone else's vision. Our custom applications are
-                      built around how your business actually works—automating
-                      workflows, integrating systems, and solving problems
-                      specific to your industry and operations.
-                    </div>
-                  </ServiceCard>
-
-                  <ServiceCard client:visible>
-                    <div class="mb-6">
-                      <PiNetworkX
-                        className="text-primary h-16 w-16"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <h4 class="text-foreground mb-4 text-2xl font-bold">
-                      Enterprise Integration
-                    </h4>
-                    <div class="text-foreground leading-relaxed">
-                      Connect your existing systems into a unified ecosystem. We
-                      build integration solutions that bridge gaps between
-                      legacy systems, cloud services, databases, and third-party
-                      APIs—creating seamless data flow across your organization.
-                    </div>
-                  </ServiceCard>
-
-                  <ServiceCard client:visible>
-                    <div class="mb-6">
-                      <PiArrowsClockwise
-                        className="text-primary h-16 w-16"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <h4 class="text-foreground mb-4 text-2xl font-bold">
-                      Application Modernization
-                    </h4>
-                    <div class="text-foreground leading-relaxed">
-                      Transform outdated legacy applications into modern,
-                      cloud-ready solutions. We help you preserve valuable
-                      business logic while updating technology stacks, improving
-                      performance, and adding new capabilities.
-                    </div>
-                  </ServiceCard>
-                </ServiceCardGrid>
-
-                <h3
-                  class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
-                >
-                  Key Benefits
-                </h3>
-
-                <div
-                  class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-                >
-                  <Card
-                    size="default"
-                    interactive={false}
-                    className="flex flex-col items-center text-center"
-                  >
-                    <div class="mb-4">
-                      <PiTarget
-                        className="text-primary h-10 w-10"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Tailored Solutions
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Applications designed specifically for your business
-                      processes
-                    </div>
-                  </Card>
-
-                  <Card
-                    size="default"
-                    interactive={false}
-                    className="flex flex-col items-center text-center"
-                  >
-                    <div class="mb-4">
-                      <Trophy
-                        className="text-primary h-10 w-10"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Competitive Advantage
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Custom features that differentiate you from competitors
-                    </div>
-                  </Card>
-
-                  <Card
-                    size="default"
-                    interactive={false}
-                    className="flex flex-col items-center text-center"
-                  >
-                    <div class="mb-4">
-                      <TrendingUp
-                        className="text-primary h-10 w-10"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Increased Efficiency
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Automation reduces manual work and human error
-                    </div>
-                  </Card>
-
-                  <Card
-                    size="default"
-                    interactive={false}
-                    className="flex flex-col items-center text-center"
-                  >
-                    <div class="mb-4">
-                      <Link
-                        className="text-primary h-10 w-10"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Better Integration
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Seamless connectivity between all your business systems
-                    </div>
-                  </Card>
-
-                  <Card
-                    size="default"
-                    interactive={false}
-                    className="flex flex-col items-center text-center"
-                  >
-                    <div class="mb-4">
-                      <Maximize
-                        className="text-primary h-10 w-10"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Scalability
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Applications that grow with your business needs
-                    </div>
-                  </Card>
-
-                  <Card
-                    size="default"
-                    interactive={false}
-                    className="flex flex-col items-center text-center"
-                  >
-                    <div class="mb-4">
-                      <PiShieldCheck
-                        className="text-primary h-10 w-10"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <h4 class="text-foreground mb-2 text-xl font-bold">
-                      Data Ownership
-                    </h4>
-                    <div class="text-muted-foreground">
-                      Full control over your applications and data
-                    </div>
-                  </Card>
-                </div>
-
-                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-                  Technology Stack
-                </h3>
-
-                <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-                  <div class="glass border-border rounded-2xl border p-8">
-                    <div class="mb-6 flex items-center gap-3">
-                      <Terminal
-                        className="text-primary h-8 w-8"
-                        aria-hidden="true"
-                      />
-                      <h4 class="text-foreground text-2xl font-bold">
-                        Technology Expertise
-                      </h4>
-                    </div>
-                    <div class="text-muted-foreground space-y-3">
-                      <div class="flex items-start gap-2">
-                        <Code2
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span
-                          ><strong class="text-foreground"
-                            >JavaScript/TypeScript:</strong
-                          > React, Node.js, modern web frameworks</span
-                        >
-                      </div>
-                      <div class="flex items-start gap-2">
-                        <Search
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span>
-                          <strong class="text-foreground">Python:</strong> Data processing,
-                          automation, machine learning
-                        </span>
-                      </div>
-                      <div class="flex items-start gap-2">
-                        <PiDatabase
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span>
-                          <strong class="text-foreground">Lansa & RPG:</strong>
-                          Enterprise applications and services
-                        </span>
-                      </div>
-                      <div class="flex items-start gap-2">
-                        <LayoutIcon
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span
-                          ><strong class="text-foreground">SQL & NoSQL:</strong>
-                          Database design and optimization</span
-                        >
-                      </div>
-                      <div class="flex items-start gap-2">
-                        <PiCloud
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span>
-                          <strong class="text-foreground"
-                            >Cloud Platforms:</strong
-                          >
-                          BDK Cloud, Cloudflare, IBM Cloud, AWS...
-                        </span>
-                      </div>
-                      <div class="flex items-start gap-2">
-                        <GitBranch
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span
-                          ><strong class="text-foreground">DevOps:</strong> CI/CD,
-                          containerization, infrastructure as code</span
-                        >
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="glass border-border rounded-2xl border p-8">
-                    <div class="mb-6 flex items-center gap-3">
-                      <PiShield
-                        className="text-primary h-8 w-8"
-                        aria-hidden="true"
-                      />
-                      <h4 class="text-foreground text-2xl font-bold">
-                        Application Security
-                      </h4>
-                    </div>
-                    <div class="text-muted-foreground space-y-3">
-                      <div class="flex items-start gap-2">
-                        <PiLock
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span
-                          ><strong class="text-foreground"
-                            >Secure Coding:</strong
-                          > Practices and code reviews</span
-                        >
-                      </div>
-                      <div class="flex items-start gap-2">
-                        <KeyRound
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span
-                          ><strong class="text-foreground"
-                            >Authentication:</strong
-                          > Authorization frameworks</span
-                        >
-                      </div>
-                      <div class="flex items-start gap-2">
-                        <PiEye
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span
-                          ><strong class="text-foreground">Encryption:</strong> Data
-                          at rest and in transit</span
-                        >
-                      </div>
-                      <div class="flex items-start gap-2">
-                        <PiBell
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span
-                          ><strong class="text-foreground"
-                            >Security Testing:</strong
-                          > Vulnerability scanning</span
-                        >
-                      </div>
-                      <div class="flex items-start gap-2">
-                        <PiMedal
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span
-                          ><strong class="text-foreground">Compliance:</strong> HIPAA,
-                          PCI-DSS, SOC 2 standards</span
-                        >
-                      </div>
-                      <div class="flex items-start gap-2">
-                        <Rocket
-                          className="text-primary mt-1 h-5 w-5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span
-                          ><strong class="text-foreground">Monitoring:</strong> Security
-                          monitoring and response</span
-                        >
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-                  Why Choose BDK for Custom Development?
-                </h3>
-
-                <div class="text-center">
-                  <div
-                    class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
-                  >
-                    We bring decades of experience building mission-critical
-                    business applications. Our team understands both technology
-                    and business—we speak your language and translate business
-                    requirements into elegant technical solutions.
-                  </div>
-                  <div class="mt-8 grid gap-6 md:grid-cols-3">
-                    <div>
-                      <h5 class="text-primary mb-2 text-lg font-bold">
-                        Enterprise Experience
-                      </h5>
-                      <div class="text-muted-foreground text-sm">
-                        Built applications for IBM Power systems, integrated
-                        with complex ERP platforms, and developed solutions that
-                        handle millions of transactions
-                      </div>
-                    </div>
-                    <div>
-                      <h5 class="text-primary mb-2 text-lg font-bold">
-                        Full-Stack Capability
-                      </h5>
-                      <div class="text-muted-foreground text-sm">
-                        From database design to user interfaces, APIs to DevOps,
-                        we handle every aspect of application development
-                      </div>
-                    </div>
-                    <div>
-                      <h5 class="text-primary mb-2 text-lg font-bold">
-                        Long-Term Partnership
-                      </h5>
-                      <div class="text-muted-foreground text-sm">
-                        We build relationships, not just software. Many of our
-                        clients have been with us for years as we continue to
-                        evolve their applications
-                      </div>
-                    </div>
-                  </div>
-                  <div class="text-primary mt-8 text-xl font-semibold">
-                    Let us help you build the custom applications your business
-                    needs to compete and grow.
-                  </div>
-                </div>
+          <div class="service-content-wrapper">
+            <div class="not-prose mx-auto max-w-4xl">
+              <h2
+                class="text-foreground mb-6 text-center text-3xl font-bold"
+              >
+                The BDK Dev Shop: Engineering Innovation
+              </h2>
+              <div
+                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
+              >
+                We are more than just developers—we are a <span class="text-primary font-semibold">full-service Dev Shop</span> dedicated to engineering solutions that drive enterprise growth. From robust database architecture to seamless front-end experiences, our full-stack team delivers custom software that solves complex business challenges. We combine technical excellence with strategic vision to modernize your operations and accelerate your digital transformation.
               </div>
+            </div>
+
+            <WhoThisIsFor client:visible />
+
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              Solutions Built for Your Business
+            </h3>
+
+            <ServiceCardGrid client:visible>
+              <ServiceCard client:visible>
+                <div class="mb-6">
+                  <Code2
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
+                  Custom Business Applications
+                </h4>
+                <div class="text-foreground leading-relaxed">
+                  We engineer purpose-built software tailored to your exact operational requirements. Our solutions eliminate inefficiencies, automate complex workflows, and provide a user experience that empowers your workforce to achieve more.
+                </div>
+              </ServiceCard>
+
+              <ServiceCard client:visible>
+                <div class="mb-6">
+                  <PiNetworkX
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
+                  Enterprise Integration
+                </h4>
+                <div class="text-foreground leading-relaxed">
+                  Unify your digital ecosystem. We architect secure, high-performance integrations that bridge the gap between legacy systems, modern cloud platforms, and third-party APIs—ensuring your data flows seamlessly across the enterprise.
+                </div>
+              </ServiceCard>
+
+              <ServiceCard client:visible>
+                <div class="mb-6">
+                  <PiArrowsClockwise
+                    className="text-primary h-16 w-16"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h4 class="text-foreground mb-4 text-2xl font-bold">
+                  Application Modernization
+                </h4>
+                <div class="text-foreground leading-relaxed">
+                  Future-proof your critical assets. We transform legacy applications into modern, scalable, cloud-native solutions. Our modernization strategies preserve your core business logic while upgrading performance, security, and maintainability.
+                </div>
+              </ServiceCard>
+            </ServiceCardGrid>
+
+            <CapabilitiesGrid client:visible />
+
+            <TechStackShowcase client:visible />
+
+            <LifecycleVisualization client:visible />
+
+            <div class="mx-auto max-w-4xl mt-24 mb-16">
+              <h3 class="text-foreground mb-8 text-center text-2xl font-bold">
+                Frequently Asked Questions
+              </h3>
+              <TechnicalFAQ client:visible faqs={faqs} />
             </div>
 
             {
               relatedPosts.length > 0 && (
-                <section class="mx-auto max-w-5xl">
+                <section class="mx-auto max-w-5xl mt-24">
                   <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                    Related Resources
+                    Related Insights
                   </h2>
                   <div class="grid gap-6 md:grid-cols-3">
                     {relatedPosts.map((post) => (
                       <a
                         href={`/blog/${post.slug}`}
-                        class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
+                        class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors group"
                       >
-                        <h3 class="text-foreground mb-2 text-lg font-semibold">
+                        <h3 class="text-foreground mb-2 text-lg font-semibold group-hover:text-primary transition-colors">
                           {post.data.title}
                         </h3>
-                        <p class="text-muted-foreground text-sm">
+                        <p class="text-muted-foreground text-sm line-clamp-3">
                           {post.data.description}
                         </p>
-                        <span class="text-primary mt-4 text-sm font-medium">
-                          Read Article →
+                        <span class="text-primary mt-4 text-sm font-medium flex items-center gap-1">
+                          Read Article <TrendingUp className="h-3 w-3" />
                         </span>
                       </a>
                     ))}
@@ -619,9 +292,9 @@ const metrics = [
 
             <CTASection
               client:visible
-              title="Ready to Transform Your IT?"
-              description={`Let's discuss how ${service.data.title.toLowerCase()} can help your business thrive with reliable, scalable technology solutions.`}
-              buttonText="Get in Touch"
+              title="Build Your Vision with BDK"
+              description="Ready to engineer the future of your business? Partner with a development shop that understands enterprise scale."
+              buttonText="Start Your Project"
               buttonHref="/contact"
             />
           </div>

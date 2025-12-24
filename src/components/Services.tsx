@@ -92,14 +92,13 @@ export default function Services({ services }: ServicesProps) {
           )}
         >
           <h2 className="mb-4 text-4xl font-bold md:text-5xl">
-            <span className="text-foreground">Our </span>
+            <span className="text-foreground">Expert </span>
             <span className="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
-              Services
+              Solutions
             </span>
           </h2>
-          <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Comprehensive <span className="text-accent">IT solutions</span>{' '}
-            tailored for businesses of any size
+          <p className="text-muted-foreground mx-auto max-w-2xl text-xl font-sans">
+            Enterprise-grade <span className="text-primary font-semibold">technical expertise</span> tailored for high-growth organizations.
           </p>
         </div>
 
@@ -143,9 +142,13 @@ export default function Services({ services }: ServicesProps) {
                 <Card
                   className={cn(
                     'relative flex h-full flex-col justify-center overflow-hidden',
-                    'bg-card/60 border-border/50 backdrop-blur-xl'
+                    'bg-card/60 border-border/50 backdrop-blur-xl transition-colors duration-300',
+                    isHovered && 'border-primary/30'
                   )}
                 >
+                  {/* Technical Scanline Overlay */}
+                  <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03]" />
+
                   {/* Mouse-tracking spotlight */}
                   <div
                     className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
@@ -154,6 +157,15 @@ export default function Services({ services }: ServicesProps) {
                       background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.1) 40%, transparent 60%)`,
                     }}
                   />
+
+                  {/* Corner accents */}
+                  <div className={cn(
+                    "absolute top-0 right-0 h-8 w-8 transition-opacity duration-300",
+                    isHovered ? "opacity-100" : "opacity-0"
+                  )}>
+                    <div className="absolute top-2 right-2 h-px w-4 bg-primary/40" />
+                    <div className="absolute top-2 right-2 h-4 w-px bg-primary/40" />
+                  </div>
 
                   <CardHeader className="relative z-20 flex flex-1 flex-col items-center justify-center text-center">
                     <div

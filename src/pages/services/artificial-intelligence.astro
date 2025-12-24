@@ -7,12 +7,31 @@ import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import NeuralPipeline from '@/components/NeuralPipeline';
+import WatsonxSpotlight from '@/components/WatsonxSpotlight';
+import WhoThisIsFor from '@/components/WhoThisIsFor';
 import { Card } from '@/components/ui/card';
 import {
-  PiLightning,
-  PiLock,
-  PiUsers,
-} from 'react-icons/pi';
+  Sparkles,
+  Zap,
+  TrendingUp,
+  Shield,
+  Target,
+  BarChart3,
+  CheckCircle2,
+  FileText,
+  Lock,
+  Brain,
+  Network,
+  Workflow,
+  Cpu,
+  Users,
+  LineChart,
+  ShieldCheck,
+  Search,
+  Server
+} from 'lucide-react';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'artificial-intelligence');
@@ -27,31 +46,25 @@ const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 
 const metrics = [
-  { value: '120+', label: 'AI WORKFLOWS LAUNCHED', icon: Sparkles },
-  { value: '6 WEEKS', label: 'AVERAGE PILOT TIMELINE', icon: Zap },
-  { value: '30%', label: 'MANUAL EFFORT REDUCTION', icon: TrendingUp },
-  { value: '24/7', label: 'MODEL MONITORING', icon: Shield },
+  { value: '100+', label: 'ENTERPRISE MODELS DEPLOYED', icon: Brain },
+  { value: '6 WEEKS', label: 'MVP TO PRODUCTION', icon: Zap },
+  { value: '40%', label: 'OPS EFFICIENCY GAIN', icon: TrendingUp },
+  { value: '99.9%', label: 'INFERENCE UPTIME', icon: Shield },
 ];
 
-const detailColumns = [
+const faqs = [
   {
-    title: 'AI Delivery Framework',
-    icon: Target,
-    items: [
-      'Discovery sprints capture use cases, risks, and ROI expectations',
-      'Model prototyping validates datasets and success metrics before scale',
-      'Go-live playbooks cover deployment, retraining, and support',
-    ],
+    question: "How do you calculate ROI for an AI initiative?",
+    answer: "We focus on measurable outcomes: reduced operational costs, increased throughput, or revenue uplift. Our Discovery Phase establishes clear KPIs, ensuring every model deployed drives tangible business value within 3-6 months."
   },
   {
-    title: 'Governance & Security',
-    icon: Lock,
-    items: [
-      'Guardrails enforce policy, privacy, and prompt security at every layer',
-      'Human-in-the-loop workflows maintain accountability and transparency',
-      'Monitoring detects drift, bias, and anomalies across production models',
-    ],
+    question: "Is my proprietary data safe when using Generative AI?",
+    answer: "Absolutely. We utilize private model instances and RAG (Retrieval-Augmented Generation) architectures where your data is used strictly for context retrieval, never for public model training. Your intellectual property remains isolated and secure."
   },
+  {
+    question: "Can you integrate AI into our legacy ERP systems?",
+    answer: "Yes. Our 'API-first' approach allows us to wrap legacy systems with modern AI interfaces. We can inject predictive insights or automated actions directly into your existing screens and workflows."
+  }
 ];
 ---
 
@@ -117,10 +130,10 @@ const detailColumns = [
                 <div
                   class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
                 >
-                  Service Hero Image
+                  Enterprise AI Platform
                 </div>
                 <div class="text-muted-foreground/60 text-lg">
-                  AI Solutions Illustration
+                  IBM watsonx & Machine Learning Ecosystem
                 </div>
                 <div class="text-muted-foreground/40 mt-2 text-xs">
                   Recommended: 1400x800px
@@ -145,44 +158,43 @@ const detailColumns = [
           <div class="service-content-wrapper">
             <div class="not-prose mx-auto max-w-4xl">
               <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Transform Your Business with AI
+                Strategic AI Orchestration
               </h2>
               <div
                 class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
               >
-                We design, build, and securely deploy production-ready AI
-                solutions tailored to your business needs. From generative AI
-                assistants to predictive analytics, our AI services help you
-                automate processes, gain deeper insights, and deliver
-                exceptional customer experiences.
+                We move beyond hype to deliver engineered intelligence. By leveraging the 
+                IBM watsonx platform and advanced machine learning protocols, BDKinc architects 
+                AI ecosystems that are secure, governed, and seamlessly integrated into your 
+                core infrastructure. We turn unstructured data into decisive strategic advantages.
               </div>
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our AI Services
+              Core Capabilities
             </h3>
 
             <ServiceCardGrid client:visible>
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <Sparkles
+                  <Brain
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Generative AI
+                  Generative AI & LLMs
                 </h4>
                 <div class="text-foreground leading-relaxed">
-                  Leverage large language models to automate content creation,
-                  enhance customer interactions, and streamline workflows with
-                  intelligent assistants.
+                  Build secure, domain-specific generative models using RAG architectures. 
+                  We implement watsonx.ai to ensure your assistants and content engines 
+                  are grounded in your proprietary data—never hallucinating, always compliant.
                 </div>
               </ServiceCard>
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <TrendingUp
+                  <LineChart
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
@@ -191,26 +203,29 @@ const detailColumns = [
                   Predictive Analytics
                 </h4>
                 <div class="text-foreground leading-relaxed">
-                  Make data-driven decisions with AI models that forecast
-                  trends, identify patterns, and optimize operations for better
-                  business outcomes.
+                  Transform historical data into future certainty. Our machine learning models 
+                  forecast demand, identify supply chain risks, and optimize resource allocation 
+                  with high-precision inference engines running on IBM Power Systems.
                 </div>
               </ServiceCard>
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <PiLightning className="text-primary h-16 w-16" aria-hidden="true" />
+                  <Workflow className="text-primary h-16 w-16" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  AI Integration
+                  Intelligent Automation
                 </h4>
                 <div class="text-foreground leading-relaxed">
-                  Seamlessly integrate AI capabilities into your existing
-                  systems and workflows for automated decision-making and
-                  real-time processing.
+                  Embed AI directly into operational workflows. From computer vision for 
+                  quality control to NLP for document processing, we automate complex 
+                  cognitive tasks to reduce manual overhead and accelerate throughput.
                 </div>
               </ServiceCard>
             </ServiceCardGrid>
+
+            {/* Watsonx Integration Spotlight */}
+            <WatsonxSpotlight client:visible />
 
             <h3
               class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
@@ -220,35 +235,8 @@ const detailColumns = [
 
             <div class="not-prose mb-20">
               <p class="text-muted-foreground mb-10 text-center text-xl">
-                Leverage the power of large language models to transform your
-                operations
+                Enterprise-grade Large Language Models built for business utility
               </p>
-
-              {/* Feature Image Placeholder */}
-              <div class="mb-10">
-                <div
-                  class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border"
-                >
-                  <div
-                    class="from-primary/5 via-secondary/5 to-primary/5 flex items-center justify-center bg-linear-to-br"
-                    style="aspect-ratio: 21/9;"
-                  >
-                    <div class="text-center">
-                      <div
-                        class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                      >
-                        Feature Image
-                      </div>
-                      <div class="text-muted-foreground/60 text-lg">
-                        Generative AI Capabilities
-                      </div>
-                      <div class="text-muted-foreground/40 mt-2 text-xs">
-                        Recommended: 1200x500px (21:9)
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <div class="grid gap-6 md:grid-cols-2">
                 <div
@@ -261,9 +249,7 @@ const detailColumns = [
                       Custom AI Assistants
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Build intelligent chatbots and virtual assistants that
-                      understand your business context and deliver personalized
-                      experiences
+                      Deploy intelligent agents trained on your documentation, ensuring accurate, context-aware support for internal teams or customers.
                     </div>
                   </div>
                 </div>
@@ -275,11 +261,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Document Processing
+                      Intelligent Document Processing
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Automate document analysis, summarization, and information
-                      extraction to save time and improve accuracy
+                      Automate the extraction of critical data from contracts, invoices, and reports with NLP models achieving near-human accuracy.
                     </div>
                   </div>
                 </div>
@@ -291,11 +276,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Content Generation
+                      Code Modernization
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Create marketing copy, technical documentation, and
-                      personalized communications at scale
+                      Accelerate development cycles using AI to refactor legacy codebases, generate unit tests, and document complex systems.
                     </div>
                   </div>
                 </div>
@@ -307,11 +291,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Code Assistance
+                      Content Strategy at Scale
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Accelerate development with AI-powered code generation and
-                      review tools
+                      Generate high-fidelity technical documentation, marketing copy, and personalized communications with brand-voice alignment.
                     </div>
                   </div>
                 </div>
@@ -335,30 +318,29 @@ const detailColumns = [
                     Demand Forecasting
                   </h5>
                   <div class="text-muted-foreground text-sm">
-                    Predict customer demand to optimize inventory and resource
-                    allocation
+                    Anticipate market shifts with time-series analysis to optimize inventory levels.
                   </div>
                 </div>
 
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <PiUsers
+                  <Users
                     className="text-primary mb-4 h-12 w-12"
                     aria-hidden="true"
                   />
                   <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Churn Prediction
+                    Churn Prevention
                   </h5>
                   <div class="text-muted-foreground text-sm">
-                    Identify at-risk customers before they leave
+                    Identify behavioral patterns indicating risk and trigger automated retention workflows.
                   </div>
                 </div>
 
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <PiTarget
+                  <Target
                     className="text-primary mb-4 h-12 w-12"
                     aria-hidden="true"
                   />
@@ -366,60 +348,33 @@ const detailColumns = [
                     Anomaly Detection
                   </h5>
                   <div class="text-muted-foreground text-sm">
-                    Automatically detect unusual patterns in operations,
-                    security, or quality
+                    Real-time monitoring of operational data to flag irregularities in security or production.
                   </div>
                 </div>
 
                 <div
                   class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
                 >
-                  <Sparkles
+                  <Network
                     className="text-primary mb-4 h-12 w-12"
                     aria-hidden="true"
                   />
                   <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Recommendation Systems
+                    Logistics Optimization
                   </h5>
                   <div class="text-muted-foreground text-sm">
-                    Personalize customer experiences with intelligent
-                    recommendations
+                    Route optimization and supply chain resilience modeling using graph neural networks.
                   </div>
                 </div>
               </div>
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              How We Implement AI
+              AI Delivery Framework
             </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {
-                detailColumns.map((column) => (
-                  <div class="glass border-border rounded-2xl border p-8">
-                    <div class="mb-6 flex items-center gap-3">
-                      <column.icon
-                        className="text-primary h-8 w-8"
-                        aria-hidden="true"
-                      />
-                      <h4 class="text-foreground text-2xl font-bold">
-                        {column.title}
-                      </h4>
-                    </div>
-                    <div class="text-muted-foreground space-y-3">
-                      {column.items.map((item) => (
-                        <div class="flex items-start gap-2">
-                          <CheckCircle2
-                            className="text-primary mt-1 h-5 w-5 shrink-0"
-                            aria-hidden="true"
-                          />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              }
+            
+            <div class="not-prose mb-20">
+              <NeuralPipeline client:visible />
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
@@ -435,7 +390,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <PiShield
+                  <ShieldCheck
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -444,8 +399,7 @@ const detailColumns = [
                   Security First
                 </h4>
                 <div class="text-muted-foreground">
-                  Enterprise-grade security controls, data encryption, and
-                  compliance with industry standards
+                  Enterprise-grade security controls, encryption, and compliance. Your data never trains public models.
                 </div>
               </Card>
 
@@ -455,14 +409,13 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <PiLightning className="text-primary h-10 w-10" aria-hidden="true" />
+                  <Zap className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
                   Production-Ready
                 </h4>
                 <div class="text-muted-foreground">
-                  Built for reliability and scale with proper monitoring, error
-                  handling, and performance optimization
+                  Built for reliability and scale with proper MLOps pipelines, drift detection, and automated retraining.
                 </div>
               </Card>
 
@@ -472,7 +425,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <PiTarget
+                  <Target
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -481,8 +434,7 @@ const detailColumns = [
                   Business-Focused
                 </h4>
                 <div class="text-muted-foreground">
-                  We start with your business objectives and design AI solutions
-                  that deliver measurable ROI
+                  We start with business objectives, not technology. Every model is tied to a measurable KPI.
                 </div>
               </Card>
 
@@ -501,8 +453,7 @@ const detailColumns = [
                   Transparent & Explainable
                 </h4>
                 <div class="text-muted-foreground">
-                  AI solutions that are interpretable and explainable for
-                  informed decision-making
+                  Glass-box models that are interpretable. We prioritize explainability for informed decision-making.
                 </div>
               </Card>
 
@@ -512,7 +463,7 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <PiUsers
+                  <Users
                     className="text-primary h-10 w-10"
                     aria-hidden="true"
                   />
@@ -521,8 +472,7 @@ const detailColumns = [
                   Ongoing Support
                 </h4>
                 <div class="text-muted-foreground">
-                  Continuous monitoring and refinement to ensure your AI systems
-                  adapt as your business evolves
+                  Continuous monitoring and refinement to ensure your AI systems adapt as your business evolves.
                 </div>
               </Card>
 
@@ -532,138 +482,27 @@ const detailColumns = [
                 className="flex flex-col items-center text-center"
               >
                 <div class="mb-4">
-                  <PiLock className="text-primary h-10 w-10" aria-hidden="true" />
+                  <Cpu className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
                 <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Responsible AI
+                  Infrastructure Expertise
                 </h4>
                 <div class="text-muted-foreground">
-                  Committed to ethical AI with privacy protection, bias
-                  mitigation, and human oversight
+                  Deep expertise in the underlying compute, storage, and networking required to run AI at scale.
                 </div>
               </Card>
             </div>
+            
+            <WhoThisIsFor client:visible />
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our AI Development Process
+              Common Questions
             </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {/* Left: Image Placeholder */}
-              <div
-                class="glass border-primary/20 overflow-hidden rounded-2xl border"
-              >
-                <div
-                  class="from-primary/5 via-secondary/5 to-primary/5 flex h-full min-h-[300px] items-center justify-center bg-linear-to-br"
-                >
-                  <div class="text-center">
-                    <div
-                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                    >
-                      Process Image
-                    </div>
-                    <div class="text-muted-foreground/60 text-lg">
-                      AI Development Workflow
-                    </div>
-                    <div class="text-muted-foreground/40 mt-2 text-xs">
-                      Recommended: 600x400px
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Text Card */}
-              <Card
-                size="default"
-                interactive={false}
-                className="flex items-center"
-              >
-                <div class="grid gap-8 md:grid-cols-1 lg:grid-cols-1">
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      1
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Discovery & Assessment
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Understand your business challenges and identify
-                      high-impact AI opportunities
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      2
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Data Evaluation
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Assess data quality, availability, and compliance
-                      requirements
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      3
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Proof of Concept
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Rapidly prototype solutions to validate feasibility and
-                      business value
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      4
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Development & Training
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Build and train custom AI models with your data
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      5
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Integration & Deployment
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Securely deploy AI into your production environment
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      6
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Monitoring & Optimization
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Continuously monitor performance and refine models for
-                      better results
-                    </div>
-                  </div>
-                </div>
-              </Card>
+            
+            <div class="not-prose mb-20">
+              <TechnicalFAQ client:visible faqs={faqs} />
             </div>
+
           </div>
         </div>
       </div>
@@ -672,10 +511,10 @@ const detailColumns = [
 
       <CTASection
         client:load
-        title="Ready to Transform Your Business with AI?"
-        description="Let's discuss how artificial intelligence can transform your business operations, improve decision-making, and unlock new opportunities."
+        title="Architect Your AI Future"
+        description="Stop experimenting and start scaling. Partner with BDKinc to build secure, governed, and high-impact AI solutions powered by IBM watsonx."
         primaryAction={{
-          text: 'Discuss Your AI Strategy',
+          text: 'Schedule an AI Strategy Session',
           href: '/contact',
         }}
       />

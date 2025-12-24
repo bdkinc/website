@@ -7,6 +7,8 @@ interface ServiceCardProps {
   className?: string;
   animated?: boolean;
   delay?: number;
+  size?: 'default' | 'sm' | 'lg';
+  interactive?: boolean;
 }
 
 interface MousePosition {
@@ -19,6 +21,8 @@ export function ServiceCard({
   className,
   animated = true,
   delay = 0,
+  size = 'lg',
+  interactive = true,
 }: ServiceCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState<MousePosition>({
@@ -27,6 +31,7 @@ export function ServiceCard({
   });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!interactive) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -47,22 +52,43 @@ export function ServiceCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       <Card
-        size="lg"
-        interactive={true}
+        size={size}
+        interactive={interactive}
         className={cn(
           'relative flex h-full flex-col items-center justify-center text-center overflow-hidden',
           'bg-card/60 border-border/50 backdrop-blur-xl',
           className
         )}
       >
+        {/* Technical Scanline Overlay */}
+        <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03]" />
+
         {/* Mouse-tracking spotlight */}
-        <div
-          className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
-          style={{
-            opacity: isHovered ? 1 : 0,
-            background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.1) 40%, transparent 60%)`,
-          }}
-        />
+        {interactive && (
+          <div
+            className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
+            style={{
+              opacity: isHovered ? 1 : 0,
+              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.1) 40%, transparent 60%)`,
+            }}
+          />
+        )}
+
+        {/* Corner accents */}
+        <div className={cn(
+          "absolute top-0 right-0 h-8 w-8 transition-opacity duration-300",
+          (isHovered || !interactive) ? "opacity-100" : "opacity-0" // Always show on non-interactive or on hover
+        )}>
+          <div className="absolute top-2 right-2 h-px w-4 bg-primary/40" />
+          <div className="absolute top-2 right-2 h-4 w-px bg-primary/40" />
+        </div>
+        <div className={cn(
+          "absolute bottom-0 left-0 h-8 w-8 transition-opacity duration-300",
+          (isHovered || !interactive) ? "opacity-100" : "opacity-0"
+        )}>
+          <div className="absolute bottom-2 left-2 h-px w-4 bg-primary/40" />
+          <div className="absolute bottom-2 left-2 h-4 w-px bg-primary/40" />
+        </div>
 
         <div className="text-foreground relative z-20 flex w-full flex-col items-center">
           {children}

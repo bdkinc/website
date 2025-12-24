@@ -24,6 +24,10 @@ import {
   PiAppleLogo,
   PiLightbulb,
   PiPulse,
+  PiHardDrives,
+  PiSparkle,
+  PiArrowsClockwise,
+  PiSquaresFour,
 } from 'react-icons/pi';
 import type { ComponentType } from 'react';
 
@@ -58,4 +62,8 @@ export const iconMap: Record<string, ComponentType<{ className?: string }>> = {
   LifeBuoy: PiLifebuoy,
   FileCheck: PiFile,
   Activity: PiPulse,
+  HardDrive: PiHardDrives,
+  Sparkles: PiSparkle,
+  RefreshCw: PiArrowsClockwise,
+  LayoutGrid: PiSquaresFour,
 };

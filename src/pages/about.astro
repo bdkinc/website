@@ -125,8 +125,36 @@ const whyChooseUs = [
 
 <Layout
   title="About Us | IT Excellence Since 1999 | BDKinc"
-  description="Learn about BDKinc's 25+ year journey of delivering exceptional managed IT services, cloud hosting, and cybersecurity solutions to businesses."
+  description="Discover BDKinc's 25+ year legacy of IT excellence. Trusted by 500+ businesses for managed IT services, cloud hosting, cybersecurity, and AI solutions in the Mid-Atlantic region."
+  ogDescription="BDKinc: Your trusted IT partner since 1999. 25+ years of managed IT services, cloud hosting, and cybersecurity solutions for businesses across the Mid-Atlantic."
 >
+  <!-- AboutPage Schema Markup -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "BDKinc",
+        "foundingDate": "1999",
+        "description": "BDKinc is a trusted IT services provider with 25+ years of experience delivering managed IT, cloud hosting, cybersecurity, and AI solutions.",
+        "url": "https://www.bdkinc.com",
+        "areaServed": ["Mid-Atlantic", "Delaware", "Maryland", "Eastern Shore"],
+        "numberOfEmployees": {
+          "@type": "QuantitativeValue",
+          "value": "50+"
+        },
+        "knowsAbout": [
+          "Managed IT Services",
+          "Cloud Hosting",
+          "Cybersecurity",
+          "IBM Power Systems",
+          "AI Solutions",
+          "Business Applications"
+        ]
+      }
+    }
+  </script>
   <Navigation
     client:load
     services={servicesData}
@@ -377,165 +405,300 @@ const whyChooseUs = [
             <span class="text-primary">Leadership</span>
           </h2>
           <p
-            class="text-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
           >
             The experts driving innovation and excellence
           </p>
         </div>
 
-        {/* Team Grid */}
-        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Team Member 1 */}
-          <Card
-            className="fill-mode-both animate-in fade-in zoom-in flex flex-col delay-200 duration-600"
-            size="lg"
-            interactive={false}
-          >
-            <div class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6">
+        {/* Team Placeholder - Professional Coming Soon */}
+        <Card
+          className="fill-mode-both animate-in fade-in zoom-in mx-auto max-w-4xl delay-200 duration-600"
+          size="lg"
+          interactive={false}
+        >
+          <div class="py-12 text-center">
+            <div class="mb-6">
               <div
-                class="from-primary/10 to-secondary/10 flex aspect-square items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br"
+                class="from-primary/20 to-secondary/10 mx-auto inline-flex items-center justify-center rounded-full bg-linear-to-br p-6"
               >
-                <div class="p-4 text-center">
-                  <div
-                    class="text-muted-foreground/40 mb-1 text-xs tracking-wider uppercase"
-                  >
-                    Photo
-                  </div>
-                  <div class="text-muted-foreground/60 text-sm">
-                    Team Member
-                  </div>
-                  <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                    400x400px
-                  </div>
-                </div>
+                <PiUsers className="text-primary h-12 w-12" />
               </div>
             </div>
-            <div class="text-center">
-              <h3 class="text-foreground mb-1 text-lg font-bold">
-                Leadership Name
-              </h3>
-              <p class="text-primary mb-3 text-sm font-medium">
-                Chief Executive Officer
-              </p>
-              <p class="text-muted-foreground text-sm">
-                Brief bio or expertise description
-              </p>
+            <h3 class="text-foreground mb-4 text-2xl font-bold">
+              Leadership Profiles Coming Soon
+            </h3>
+            <p class="text-muted-foreground mx-auto mb-6 max-w-2xl text-lg">
+              Our leadership team brings decades of combined experience in IT
+              services, enterprise solutions, and technology innovation. Full
+              team profiles will be available shortly.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+              <div
+                class="border-border bg-card/50 flex items-center gap-2 rounded-full border px-4 py-2"
+              >
+                <span class="text-primary text-sm font-semibold"
+                  >Executive Leadership</span
+                >
+              </div>
+              <div
+                class="border-border bg-card/50 flex items-center gap-2 rounded-full border px-4 py-2"
+              >
+                <span class="text-primary text-sm font-semibold"
+                  >Technical Directors</span
+                >
+              </div>
+              <div
+                class="border-border bg-card/50 flex items-center gap-2 rounded-full border px-4 py-2"
+              >
+                <span class="text-primary text-sm font-semibold"
+                  >Operations Team</span
+                >
+              </div>
             </div>
-          </Card>
+            <p class="text-muted-foreground/80 mt-8 text-sm">
+              Want to learn more about our team? <a
+                href="/contact"
+                class="text-primary hover:underline">Contact us</a
+              > for a personalized introduction.
+            </p>
+          </div>
+        </Card>
+      </div>
+    </section>
 
-          {/* Team Member 2 */}
-          <Card
-            className="fill-mode-both animate-in fade-in zoom-in flex flex-col delay-300 duration-600"
-            size="lg"
-            interactive={false}
+    {/* Certifications & Trust Section */}
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
           >
-            <div class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6">
-              <div
-                class="from-primary/10 to-secondary/10 flex aspect-square items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br"
-              >
-                <div class="p-4 text-center">
-                  <div
-                    class="text-muted-foreground/40 mb-1 text-xs tracking-wider uppercase"
-                  >
-                    Photo
-                  </div>
-                  <div class="text-muted-foreground/60 text-sm">
-                    Team Member
-                  </div>
-                  <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                    400x400px
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center">
-              <h3 class="text-foreground mb-1 text-lg font-bold">
-                Leadership Name
-              </h3>
-              <p class="text-primary mb-3 text-sm font-medium">
-                Chief Technology Officer
-              </p>
-              <p class="text-muted-foreground text-sm">
-                Brief bio or expertise description
-              </p>
-            </div>
-          </Card>
+            <span class="text-foreground">Trusted </span>
+            <span class="text-primary">Partnerships</span>
+          </h2>
+          <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
+          >
+            Industry certifications and technology partnerships that ensure
+            excellence
+          </p>
+        </div>
 
-          {/* Team Member 3 */}
-          <Card
-            className="fill-mode-both animate-in fade-in zoom-in flex flex-col delay-400 duration-600"
-            size="lg"
-            interactive={false}
-          >
-            <div class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6">
-              <div
-                class="from-primary/10 to-secondary/10 flex aspect-square items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br"
-              >
-                <div class="p-4 text-center">
-                  <div
-                    class="text-muted-foreground/40 mb-1 text-xs tracking-wider uppercase"
-                  >
-                    Photo
+        {/* Technology Partners */}
+        <div class="mb-12">
+          <h3 class="text-foreground mb-8 text-center text-3xl font-bold">
+            Technology Partners
+          </h3>
+          <div class="grid grid-cols-2 gap-6 sm:grid-cols-4 lg:grid-cols-4">
+            {
+              [
+                { 
+                  name: 'IBM', 
+                  description: 'Power Systems & Enterprise Solutions',
+                  category: 'Enterprise' 
+                },
+                { 
+                  name: 'Cisco', 
+                  description: 'Networking & Security Infrastructure',
+                  category: 'Networking' 
+                },
+                { 
+                  name: 'Lenovo', 
+                  description: 'Server & Workstation Hardware',
+                  category: 'Hardware' 
+                },
+                { 
+                  name: 'Microsoft', 
+                  description: 'Cloud & Productivity Solutions',
+                  category: 'Cloud' 
+                },
+              ].map((partner, index) => (
+                <Card
+                  className={`fill-mode-both animate-in fade-in zoom-in flex flex-col items-center justify-center p-6 text-center duration-500 delay-${100 + index * 50}`}
+                  size="default"
+                  interactive={false}
+                >
+                  <div class="from-primary/10 to-secondary/10 mb-3 flex h-20 w-20 items-center justify-center rounded-xl bg-linear-to-br">
+                    <span class="text-primary text-2xl font-bold">{partner.name}</span>
                   </div>
-                  <div class="text-muted-foreground/60 text-sm">
-                    Team Member
-                  </div>
-                  <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                    400x400px
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center">
-              <h3 class="text-foreground mb-1 text-lg font-bold">
-                Leadership Name
-              </h3>
-              <p class="text-primary mb-3 text-sm font-medium">
-                VP of Operations
-              </p>
-              <p class="text-muted-foreground text-sm">
-                Brief bio or expertise description
-              </p>
-            </div>
-          </Card>
+                  <h4 class="text-foreground text-base font-bold">{partner.name}</h4>
+                  <p class="text-muted-foreground mt-1 text-xs">{partner.description}</p>
+                </Card>
+              ))
+            }
+          </div>
+        </div>
 
-          {/* Team Member 4 */}
-          <Card
-            className="fill-mode-both animate-in fade-in zoom-in flex flex-col delay-500 duration-600"
-            size="lg"
-            interactive={false}
-          >
-            <div class="-mx-4 -mt-4 mb-4 sm:-mx-6 sm:-mt-6">
-              <div
-                class="from-primary/10 to-secondary/10 flex aspect-square items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br"
+        {/* Certifications Grid */}
+        <div class="mb-16 grid grid-cols-2 gap-6 sm:grid-cols-4 lg:grid-cols-4">
+          {
+            [
+              { name: 'IBM Business Partner', category: 'Enterprise' },
+              { name: 'Microsoft Partner', category: 'Cloud' },
+              { name: 'AWS Partner', category: 'Cloud' },
+              { name: 'Cisco Partner', category: 'Networking' },
+              { name: 'Lenovo Partner', category: 'Hardware' },
+              { name: 'SOC 2 Compliant', category: 'Security' },
+              { name: 'HIPAA Compliant', category: 'Compliance' },
+              { name: 'PCI-DSS Certified', category: 'Security' },
+            ].map((cert, index) => (
+              <Card
+                className={`fill-mode-both animate-in fade-in zoom-in flex flex-col items-center justify-center p-6 text-center duration-500 delay-${100 + index * 50}`}
+                size="default"
+                interactive={false}
               >
-                <div class="p-4 text-center">
-                  <div
-                    class="text-muted-foreground/40 mb-1 text-xs tracking-wider uppercase"
-                  >
-                    Photo
-                  </div>
-                  <div class="text-muted-foreground/60 text-sm">
-                    Team Member
-                  </div>
-                  <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                    400x400px
-                  </div>
+                <div class="from-primary/10 to-secondary/10 mb-3 flex h-16 w-16 items-center justify-center rounded-xl bg-linear-to-br">
+                  <PiShield className="text-primary h-8 w-8" />
                 </div>
+                <h4 class="text-foreground text-sm font-bold">{cert.name}</h4>
+                <p class="text-muted-foreground mt-1 text-xs">
+                  {cert.category}
+                </p>
+              </Card>
+            ))
+          }
+        </div>
+
+        {/* Trust Stats */}
+        <div
+          class="from-primary/5 to-secondary/5 rounded-2xl bg-linear-to-br p-8"
+        >
+          <div
+            class="grid grid-cols-2 gap-8 text-center md:grid-cols-4 md:divide-x md:divide-white/10"
+          >
+            <div>
+              <div class="text-primary text-4xl font-bold">25+</div>
+              <div class="text-muted-foreground mt-2 text-sm">
+                Years of Excellence
               </div>
             </div>
-            <div class="text-center">
-              <h3 class="text-foreground mb-1 text-lg font-bold">
-                Leadership Name
-              </h3>
-              <p class="text-primary mb-3 text-sm font-medium">
-                Director of Security
-              </p>
-              <p class="text-muted-foreground text-sm">
-                Brief bio or expertise description
-              </p>
+            <div>
+              <div class="text-primary text-4xl font-bold">500+</div>
+              <div class="text-muted-foreground mt-2 text-sm">
+                Satisfied Clients
+              </div>
             </div>
-          </Card>
+            <div>
+              <div class="text-primary text-4xl font-bold">99.9%</div>
+              <div class="text-muted-foreground mt-2 text-sm">
+                Uptime Guarantee
+              </div>
+            </div>
+            <div>
+              <div class="text-primary text-4xl font-bold">24/7</div>
+              <div class="text-muted-foreground mt-2 text-sm">
+                Support Available
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Testimonials Section */}
+    <section
+      class="via-secondary/5 bg-linear-to-b from-transparent to-transparent px-4 py-24 sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">What Our </span>
+            <span class="text-primary">Clients Say</span>
+          </h2>
+          <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
+          >
+            Trusted by businesses across the Mid-Atlantic region
+          </p>
+        </div>
+
+        {/* Testimonials Grid */}
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {
+            [
+              {
+                quote:
+                  'BDKinc transformed our entire IT infrastructure. Their managed services have been instrumental in our growth, providing the reliability and security we need.',
+                author: 'Manufacturing Executive',
+                company: 'Regional Manufacturing Company',
+                industry: 'Manufacturing',
+              },
+              {
+                quote:
+                  "The team's expertise with IBM Power systems is unmatched. They've helped us modernize legacy applications while maintaining business continuity.",
+                author: 'IT Director',
+                company: 'Distribution & Logistics Firm',
+                industry: 'Distribution',
+              },
+              {
+                quote:
+                  "Their cybersecurity solutions give us peace of mind. We trust BDKinc to protect our sensitive data and keep our operations running smoothly.",
+                author: 'Operations Manager',
+                company: 'Healthcare Services Provider',
+                industry: 'Healthcare',
+              },
+            ].map((testimonial, index) => (
+              <Card
+                className={`fill-mode-both animate-in fade-in slide-in-from-bottom-6 flex h-full flex-col duration-600 delay-${200 + index * 100}`}
+                size="lg"
+                interactive={false}
+              >
+                <div class="mb-6 flex gap-1">
+                  {[1, 2, 3, 4, 5].map(() => (
+                    <svg
+                      class="text-primary h-5 w-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <blockquote class="text-foreground mb-6 flex-grow text-lg italic leading-relaxed">
+                  "{testimonial.quote}"
+                </blockquote>
+                <div class="border-border border-t pt-4">
+                  <div class="text-foreground font-semibold">
+                    {testimonial.author}
+                  </div>
+                  <div class="text-muted-foreground text-sm">
+                    {testimonial.company}
+                  </div>
+                  <div class="text-primary mt-1 text-xs font-medium">
+                    {testimonial.industry}
+                  </div>
+                </div>
+              </Card>
+            ))
+          }
+        </div>
+
+        {/* CTA within testimonials */}
+        <div class="mt-12 text-center">
+          <p class="text-muted-foreground mb-4">
+            Join the growing list of businesses that trust BDKinc
+          </p>
+          <a
+            href="/contact"
+            class="from-primary to-secondary hover:shadow-primary/25 inline-flex items-center gap-2 rounded-lg bg-linear-to-r px-6 py-3 font-semibold text-white transition-shadow hover:shadow-lg"
+          >
+            Start Your Journey
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </a>
         </div>
       </div>
     </section>

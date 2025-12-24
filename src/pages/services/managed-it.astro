@@ -8,6 +8,9 @@ import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import TechSpecs from '@/components/TechSpecs';
+import WhoThisIsFor from '@/components/WhoThisIsFor';
 import {
   PiHeadphones,
   PiCheckCircle,
@@ -37,8 +40,7 @@ const _serviceSchema = {
   '@type': 'Service',
   name: service.data.title,
   description:
-    'Managed IT services covering the Mid-Atlantic region with 24/7 support, proactive monitoring, and strategic technology planning from BDKinc.',
-  areaServed: ['Maryland', 'Delaware', 'Mid-Atlantic'],
+    'Elite managed IT services delivering 24/7 enterprise support, proactive infrastructure management, and strategic technology leadership for growth-focused organizations.',
   provider: {
     '@type': 'Organization',
     name: 'BDKinc',
@@ -62,32 +64,26 @@ const metrics = [
   { value: '24/7', label: 'SUPPORT COVERAGE', icon: PiClock },
 ];
 
-const detailColumns = [
+const faqs = [
   {
-    title: 'Support Tiers',
-    icon: PiHeadphones,
-    items: [
-      'Unlimited help desk covers remote and onsite incidents',
-      'Dedicated account managers align roadmaps with leadership goals',
-      'Lifecycle management tracks assets, warranties, and renewals',
-    ],
+    question: "How does BDKinc integrate with our existing internal IT team?",
+    answer: "We function as a force multiplier for your internal team. Our Co-Managed IT model handles the heavy lifting of monitoring, patching, and Level 1 support, freeing your internal leaders to focus on high-value strategic initiatives and proprietary business applications."
   },
   {
-    title: 'Technology Operations',
-    icon: PiMonitor,
-    items: [
-      'Proactive monitoring prevents outages with automated remediation',
-      'Quarterly reviews surface optimization and security priorities',
-      'Documented runbooks keep every response consistent and auditable',
-    ],
+    question: "What industries do you specialize in supporting?",
+    answer: "We specialize in high-complexity, compliance-driven sectors including healthcare, finance, manufacturing, and logistics. Our engineers are well-versed in the regulatory requirements and operational demands of environments where downtime is not an option."
   },
+  {
+    question: "How do you handle rapid organizational scaling or M&A activity?",
+    answer: "Our infrastructure is built for elasticity. We have extensive experience navigating the technical integration of mergers and acquisitions, standardizing disparate systems, and rapidly onboarding new users to ensure business continuity during critical growth phases."
+  }
 ];
 ---
 
 <Layout
-  title={`${service.data.title} for Maryland & Delaware SMBs | BDKinc`}
-  description="Comprehensive managed IT services for small and midsize businesses across Maryland and Delaware, including 24/7 help desk support, proactive monitoring, on-site/remote assistance, and strategic IT planning."
-  ogDescription="Managed IT services in Maryland & Delaware delivering 24/7 support, proactive monitoring, cybersecurity, and strategic technology planning for growth-focused organizations."
+  title="Elite Managed IT Services & Strategic Technology Management | BDKinc"
+  description="Transform your technology into a competitive advantage. BDKinc provides elite managed IT services, 24/7 enterprise support, and strategic infrastructure leadership for growth-focused organizations."
+  ogDescription="Elite managed IT services delivering 24/7 enterprise support, proactive infrastructure management, and strategic technology leadership for growth-focused organizations."
 >
   <script
     type="application/ld+json"
@@ -134,7 +130,7 @@ const detailColumns = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            {service.data.description}
+            Technology shouldn't be a bottleneck; it should be an accelerator. We monitor your systems 24/7/365, preventing issues before they disrupt your operations, ensuring your infrastructure is always on, always optimized, and always ready.
           </p>
         </div>
 
@@ -180,16 +176,12 @@ const detailColumns = [
           <div class="service-content-wrapper">
             <div class="not-prose mx-auto max-w-4xl">
               <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Comprehensive IT Management for Your Business
+                Strategic IT Leadership
               </h2>
               <div
                 class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
               >
-                Our managed IT services provide comprehensive support for all
-                your technology needs. With unlimited help desk support and both
-                on-site and remote assistance, we ensure your systems run
-                smoothly 24/7. Let our experienced technicians handle your IT
-                infrastructure while you focus on growing your business.
+                True enterprise growth requires more than just keeping the lights on. It demands a technology strategy that anticipates challenges and scales with your ambition. BDKinc serves as your strategic partner, delivering the technical depth of a global consultancy with the accountability of a dedicated team. We architect, manage, and secure your infrastructure so you can focus on driving your business forward.
               </div>
             </div>
 
@@ -206,46 +198,40 @@ const detailColumns = [
                   />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Unlimited Help Desk
+                  Enterprise Service Desk
                 </h4>
                 <div class="text-foreground leading-relaxed">
-                  Get immediate assistance whenever you need it. Our dedicated
-                  support team is ready to resolve your IT issues quickly and
-                  efficiently, minimizing downtime.
+                  Beyond basic troubleshooting. Our tiered support structure resolves 98% of incidents on first contact, providing your team with immediate access to senior engineers who understand your specific operational context.
                 </div>
               </ServiceCard>
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <PiMonitor
+                  <PiTrendUp
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Proactive Monitoring
+                  Predictive Infrastructure Intelligence
                 </h4>
                 <div class="text-foreground leading-relaxed">
-                  We don't wait for problems to occur. Our advanced monitoring
-                  tools track your systems 24/7, identifying and resolving
-                  potential issues before they impact your operations.
+                  We don't just react to alerts; we anticipate failures utilizing advanced telemetry and AI-driven analytics to identify anomalies and remediate performance bottlenecks before they impact your users.
                 </div>
               </ServiceCard>
 
               <ServiceCard client:visible>
                 <div class="mb-6">
-                  <PiMapPin
+                  <PiUsersThree
                     className="text-primary h-16 w-16"
                     aria-hidden="true"
                   />
                 </div>
                 <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Flexible Support
+                  Strategic Co-Management
                 </h4>
                 <div class="text-foreground leading-relaxed">
-                  Whether you need hands-on assistance or quick remote
-                  troubleshooting, our technicians are equipped to help with
-                  flexible support options that fit your business needs.
+                  Whether acting as your entire IT department or augmenting your internal team, we integrate seamlessly with your workflows, providing specialized expertise in cloud, security, and compliance exactly where you need it.
                 </div>
               </ServiceCard>
             </ServiceCardGrid>
@@ -253,13 +239,12 @@ const detailColumns = [
             <h3
               class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
             >
-              Why Choose Managed IT Services?
+              The Strategic Advantage of Elite Management
             </h3>
 
             <div class="not-prose mb-20">
               <p class="text-muted-foreground mb-10 text-center text-xl">
-                Transform your technology from a cost center into a strategic
-                advantage
+                Move beyond break/fix and operational drag
               </p>
 
               {/* Feature Image Placeholder */}
@@ -295,11 +280,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Reduce IT Costs
+                      Operational Resilience
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Outsource your IT infrastructure and eliminate the expense
-                      of maintaining an in-house IT department
+                      Systems designed for 99.99% uptime, ensuring your business never pauses.
                     </div>
                   </div>
                 </div>
@@ -311,11 +295,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Improve Efficiency
+                      Scalable Architecture
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Let our experts handle technology so you can focus on core
-                      business operations
+                      Infrastructure that adapts instantly to mergers, acquisitions, and rapid user growth.
                     </div>
                   </div>
                 </div>
@@ -327,11 +310,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Minimize Downtime
+                      Cost Predictability
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Proactive monitoring and rapid response keep your systems
-                      running smoothly
+                      Shift from volatile capital expenditures to predictable, value-driven operational models.
                     </div>
                   </div>
                 </div>
@@ -343,11 +325,10 @@ const detailColumns = [
                   </div>
                   <div>
                     <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Scalable Solutions
+                      Security Posture
                     </h5>
                     <div class="text-muted-foreground text-sm">
-                      Our services grow with your business, adapting to your
-                      changing needs
+                      Enterprise-grade defense mechanisms interwoven into daily operations, not bolted on as an afterthought.
                     </div>
                   </div>
                 </div>
@@ -479,7 +460,7 @@ const detailColumns = [
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our Approach
+              Built for Maturity. Engineered for Scale.
             </h3>
 
             <div class="not-prose mb-20">
@@ -516,21 +497,13 @@ const detailColumns = [
                       class="text-muted-foreground space-y-4 text-lg leading-relaxed"
                     >
                       <p>
-                        We take a comprehensive approach to IT management,
-                        covering everything from day-to-day support to strategic
-                        planning.
+                        We reject the "generic" approach to managed services. Your environment is unique, and your support model should be too. We begin with a deep-dive architectural review to align your technology roadmap with your business objectives.
                       </p>
                       <p>
-                        Our team becomes an extension of your business,
-                        understanding your unique challenges and delivering
-                        customized solutions that drive results.
+                        Our "Giants in the Toolkit" philosophy leverages the proven reliability of IBM, Microsoft, and Cisco, integrated with our elite service layer. This ensures you benefit from world-class R&D while receiving the personalized attention of a boutique firm.
                       </p>
                       <p>
-                        Whether you're a small business looking for reliable IT
-                        support or a growing company needing scalable
-                        infrastructure management, we have the expertise and
-                        resources to keep your technology running at peak
-                        performance.
+                        As you scale, we scale. From supporting distributed workforces to managing complex hybrid cloud environments, BDKinc provides the mature operational framework necessary to support an unstoppable enterprise.
                       </p>
                     </div>
                   </div>
@@ -538,57 +511,19 @@ const detailColumns = [
               </div>
             </div>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Why Choose BDK for Managed IT?
-            </h3>
-
-            <div class="text-center">
-              <div
-                class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
-              >
-                With decades of experience in IT management and support, we
-                understand what it takes to keep businesses running smoothly.
-                Our proactive approach means we're solving problems before they
-                affect your operations. We combine technical expertise with
-                excellent customer service to deliver IT support that truly
-                makes a difference.
-              </div>
-              <div class="text-primary text-xl font-semibold">
-                Focus on your business. Let us handle your technology.
-              </div>
-            </div>
-
             <h3 class="text-foreground mb-12 text-center text-2xl font-bold">
               Service Details
             </h3>
 
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {
-                detailColumns.map((column) => (
-                  <div class="glass border-border rounded-2xl border p-8">
-                    <div class="mb-6 flex items-center gap-3">
-                      <column.icon
-                        className="text-primary h-8 w-8"
-                        aria-hidden="true"
-                      />
-                      <h4 class="text-foreground text-2xl font-bold">
-                        {column.title}
-                      </h4>
-                    </div>
-                    <div class="text-muted-foreground space-y-3">
-                      {column.items.map((item) => (
-                        <div class="flex items-start gap-2">
-                          <PiCheckCircle
-                            className="text-primary mt-1 h-5 w-5 shrink-0"
-                            aria-hidden="true"
-                          />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              }
+            <TechSpecs />
+
+            <WhoThisIsFor client:visible />
+
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              Frequently Asked Questions
+            </h3>
+            <div class="mb-20">
+              <TechnicalFAQ faqs={faqs} client:idle />
             </div>
           </div>
         </div>
@@ -627,9 +562,9 @@ const detailColumns = [
         <!-- CTA -->
         <CTASection
           client:visible
-          title="Ready to Transform Your IT?"
-          description={`Let's discuss how ${service.data.title.toLowerCase()} can help your business thrive with reliable, scalable technology solutions.`}
-          buttonText="Get in Touch"
+          title="Power Your Growth with Elite IT"
+          description="Stop settling for standard support. Partner with the experts who understand your scale."
+          buttonText="Schedule a Strategy Session"
           buttonHref="/contact"
         />
       </div>
