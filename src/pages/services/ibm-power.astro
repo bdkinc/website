@@ -14,6 +14,7 @@ import { ModernizationRoadmap } from '@/components/ModernizationRoadmap';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
 import TechnicalSection from '@/components/TechnicalSection';
 import { CornerBrackets } from '@/components/CornerBrackets';
+import IBMPowerVisualization from '@/components/visualizations/IBMPowerVisualization';
 import {
   PiDesktopTower,
   PiCloud,
@@ -113,35 +114,12 @@ const faqs = [
           </p>
         </div>
 
-        {/* Hero Image Placeholder */}
+        {/* Hero Visualization */}
         <div
           class="fill-mode-both animate-in fade-in zoom-in relative delay-300 duration-700"
         >
-          <div className="scanlines absolute inset-0 opacity-[0.05] pointer-events-none" />
-          <div className="absolute top-0 right-0 h-16 w-16">
-            <div className="absolute top-4 right-4 h-px w-8 bg-primary/40" />
-            <div className="absolute top-4 right-4 h-8 w-px bg-primary/40" />
-          </div>
-          <div
-            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
-          >
-            <div
-              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
-            >
-              <div class="text-center">
-                <div
-                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase font-mono"
-                >
-                  SYSTEM_DASHBOARD_INIT
-                </div>
-                <div class="text-muted-foreground/60 text-lg">
-                  IBM Power Systems Visualization
-                </div>
-                <div class="text-muted-foreground/40 mt-2 text-xs font-mono">
-                  VERSION 10.4.0
-                </div>
-              </div>
-            </div>
+          <div class="mx-auto max-w-5xl">
+             <IBMPowerVisualization client:load />
           </div>
         </div>
       </div>

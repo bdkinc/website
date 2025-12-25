@@ -13,6 +13,7 @@ import LifecycleVisualization from '@/components/app-dev/LifecycleVisualization'
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
 import TechnicalSection from '@/components/TechnicalSection';
+import ApplicationDevelopmentVisualization from '@/components/visualizations/ApplicationDevelopmentVisualization';
 import {
   PiArrowsClockwise,
   PiNetworkX,
@@ -143,27 +144,12 @@ const faqs = [
           </p>
         </div>
 
-        {/* Hero Image Placeholder */}
+        {/* Hero Visualization */}
         <div
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
-          <div
-            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
-          >
-            <div
-              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
-            >
-              <div class="text-center">
-                <div
-                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                >
-                  BDK Dev Shop
-                </div>
-                <div class="text-muted-foreground/60 text-lg">
-                  Engineering Enterprise Innovation
-                </div>
-              </div>
-            </div>
+          <div class="mx-auto max-w-5xl">
+            <ApplicationDevelopmentVisualization client:load />
           </div>
         </div>
       </div>
