@@ -1,30 +1,31 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Layout, Server, Database, GitBranch, Terminal } from 'lucide-react';
+import { PiLayout, PiDesktop, PiDatabase, PiGitBranch, PiTerminal } from 'react-icons/pi';
+import { ServiceCard } from '@/components/ServiceCard';
 
 export default function CapabilitiesGrid() {
   const capabilities = [
     {
       title: 'Frontend & UX',
-      icon: Layout,
+      icon: PiLayout,
       details: ['React / Astro Architecture', 'Responsive Interfaces', 'State Management', 'WCAG Accessibility'],
       code: 'FE_LAYER'
     },
     {
       title: 'Backend Systems',
-      icon: Server,
+      icon: PiDesktop,
       details: ['REST & GraphQL APIs', 'Microservices', 'Serverless Functions', 'Real-time Sockets'],
       code: 'BE_CORE'
     },
     {
       title: 'Data Architecture',
-      icon: Database,
+      icon: PiDatabase,
       details: ['SQL Optimization', 'NoSQL Modeling', 'Data Warehousing', 'Caching Strategies'],
       code: 'DB_STORE'
     },
     {
       title: 'DevSecOps',
-      icon: GitBranch,
+      icon: PiGitBranch,
       details: ['CI/CD Pipelines', 'Containerization', 'Infrastructure as Code', 'Automated Testing'],
       code: 'OPS_PIPE'
     }
@@ -32,61 +33,44 @@ export default function CapabilitiesGrid() {
 
   return (
     <div className="w-full max-w-7xl mx-auto my-16">
-      <div className="flex items-center gap-2 mb-6">
-        <Terminal className="h-5 w-5 text-primary animate-pulse" />
+      <div className="flex items-center gap-2 mb-8">
+        <PiTerminal className="h-5 w-5 text-primary animate-pulse" />
         <h3 className="text-xl font-bold font-display uppercase tracking-widest text-foreground">
           System_Architecture_Overview
         </h3>
-        <div className="h-px bg-primary/30 flex-grow ml-4"></div>
+        <div className="h-px bg-primary/20 flex-grow ml-4"></div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-primary/20 bg-card/30 backdrop-blur-sm relative overflow-hidden rounded-lg">
-        {/* Scanline Background */}
-        <div className="absolute inset-0 scanlines opacity-[0.03] pointer-events-none z-0"></div>
-        
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {capabilities.map((cap, index) => (
-          <div 
-            key={index} 
-            className={cn(
-              "group relative p-8 border-b md:border-b-0 lg:border-r border-primary/20 last:border-r-0 last:border-b-0 md:nth-2:border-r-0",
-              // Handle borders for grid
-              index === 0 && "md:border-b md:border-r",
-              index === 1 && "md:border-b lg:border-r-0",
-              index === 2 && "lg:border-r",
-              // Hover effect
-              "hover:bg-primary/5 transition-colors duration-300"
-            )}
+          <ServiceCard
+            key={index}
+            variant="technical"
+            interactive
+            delay={index * 100}
+            metadata={cap.code}
           >
-            {/* Animated Corner Accents */}
-            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary/0 group-hover:border-primary/60 transition-colors duration-300"></div>
-            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary/0 group-hover:border-primary/60 transition-colors duration-300"></div>
-            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary/0 group-hover:border-primary/60 transition-colors duration-300"></div>
-            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary/0 group-hover:border-primary/60 transition-colors duration-300"></div>
-
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="flex justify-between items-start mb-6">
-                <div className="p-3 bg-primary/10 rounded-md ring-1 ring-primary/30 group-hover:ring-primary/60 transition-all duration-300 group-hover:shadow-[0_0_15px_rgba(0,212,255,0.2)]">
-                  <cap.icon className="h-8 w-8 text-primary" strokeWidth={1.5} />
+            <div className="relative z-10 flex flex-col h-full p-8 text-left">
+              <div className="flex justify-between items-start mb-8">
+                <div className="p-3 bg-primary/10 rounded-lg border border-primary/20 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-500 shadow-[0_0_15px_rgba(0,212,255,0.1)]">
+                  <cap.icon className="h-8 w-8 text-primary" />
                 </div>
-                <span className="text-[10px] font-mono text-muted-foreground bg-background/50 px-2 py-1 rounded border border-border">
-                  {cap.code}
-                </span>
               </div>
 
-              <h4 className="text-xl font-bold font-display text-foreground mb-4 group-hover:text-primary transition-colors">
+              <h4 className="text-xl font-bold font-display text-foreground mb-6 uppercase tracking-tight group-hover:text-primary transition-colors">
                 {cap.title}
               </h4>
 
-              <ul className="space-y-3 mt-auto">
+              <ul className="space-y-4 mt-auto">
                 {cap.details.map((detail, idx) => (
-                  <li key={idx} className="flex items-center text-sm text-muted-foreground font-sans group-hover:text-foreground/80 transition-colors">
-                    <span className="w-1.5 h-1.5 bg-primary/50 rounded-full mr-3 group-hover:bg-primary group-hover:shadow-[0_0_8px_rgba(0,212,255,0.8)] transition-all"></span>
+                  <li key={idx} className="flex items-center text-[10px] text-muted-foreground font-mono uppercase tracking-widest group-hover:text-foreground transition-colors">
+                    <span className="w-1.5 h-1.5 bg-primary/40 rounded-none mr-3 group-hover:bg-primary group-hover:shadow-[0_0_8px_rgba(0,212,255,0.8)] transition-all"></span>
                     {detail}
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
+          </ServiceCard>
         ))}
       </div>
     </div>

@@ -5,20 +5,23 @@ import CTASection from '@/components/CTASection';
 import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
+import CoreProtocols from '@/components/CoreProtocols';
+import DevelopmentLogTimeline from '@/components/DevelopmentLogTimeline';
+import MissionVision from '@/components/MissionVision';
+import PartnerGrid from '@/components/PartnerGrid';
+import { ServiceCard } from '@/components/ServiceCard';
+import { CornerBrackets } from '@/components/CornerBrackets';
 import {
-  PiRocket,
-  PiEye,
-  PiTarget,
-  PiLightbulb,
-  PiShield,
   PiUsers,
-  PiClock,
-  PiPackage,
+  PiShield,
   PiBriefcase,
-  PiPackage as PiPackageAlt,
+  PiClock,
   PiTrophy,
+  PiGlobe,
+  PiPackage,
   PiLightning,
-  PiMedal,
+  PiArrowRight,
+  PiStar,
 } from 'react-icons/pi';
 
 const { servicesData, recentPosts } = await getNavigationData();
@@ -29,37 +32,37 @@ const values = [
     icon: 'Target',
     title: 'Client-Focused',
     description:
-      'Your success is our success. We tailor solutions to meet your unique business needs.',
+      'Your strategic goals define our technical roadmap. We engineer solutions that directly drive your business outcomes.',
   },
   {
     icon: 'Lightbulb',
     title: 'Innovation',
     description:
-      'We stay ahead of technology trends to bring you cutting-edge solutions.',
+      'We constantly evaluate emerging technologies to bring you proven, high-impact advancements.',
   },
   {
     icon: 'Shield',
     title: 'Reliability',
     description:
-      '25+ years of proven track record delivering consistent, dependable IT services.',
+      '25+ years of steadfast stability. We build systems designed for maximum uptime and resilience.',
   },
   {
     icon: 'Users',
     title: 'Partnership',
     description:
-      "We're not just vendors—we're your long-term technology partners.",
+      'We operate as an extension of your leadership team, invested in your long-term success.',
   },
   {
     icon: 'Award',
     title: 'Excellence',
     description:
-      'We maintain the highest standards in service delivery and customer satisfaction.',
+      'We hold ourselves to elite standards of technical precision and operational discipline.',
   },
   {
     icon: 'Clock',
     title: '24/7 Support',
     description:
-      'Round-the-clock availability because your business never stops.',
+      'Unrelenting vigilance. Our expert team ensures your infrastructure never sleeps.',
   },
 ];
 
@@ -67,30 +70,54 @@ const values = [
 const milestones = [
   {
     year: '1999',
-    title: 'Founded',
-    description: 'was established with a vision to simplify IT for businesses.',
+    title: 'Foundation of Excellence',
+    description: 'Established with a commitment to specialized IT engineering and high-touch service.',
   },
   {
     year: '2005',
-    title: 'Cloud Services',
-    description: 'Expanded into cloud hosting and virtualization services.',
+    title: 'Cloud Expansion',
+    description: 'Early adoption of virtualization and data center services, laying the groundwork for hybrid cloud mastery.',
   },
   {
     year: '2012',
-    title: 'Cybersecurity',
+    title: 'Security Fortification',
     description:
-      'Launched comprehensive cybersecurity and compliance services.',
+      'Launch of our dedicated cybersecurity division to protect clients against emerging digital threats.',
   },
   {
     year: '2020',
-    title: 'AI Integration',
+    title: 'AI & Innovation',
     description:
-      'Pioneered AI and machine learning solutions for business automation.',
+      'Pioneering the integration of IBM watsonx and machine learning to drive enterprise automation.',
   },
   {
     year: '2024',
-    title: '500+ Clients',
-    description: 'Serving over 500 businesses with comprehensive IT solutions.',
+    title: 'Elite Partnership',
+    description: 'Recognized as a premier partner for global tech giants, serving complex organizations at scale.',
+  },
+];
+
+// Partners Data
+const partners = [
+  { 
+    name: 'IBM', 
+    description: 'Power Systems & Enterprise Solutions',
+    category: 'Enterprise' 
+  },
+  { 
+    name: 'Cisco', 
+    description: 'Networking & Security Infrastructure',
+    category: 'Networking' 
+  },
+  { 
+    name: 'Lenovo', 
+    description: 'Server & Workstation Hardware',
+    category: 'Hardware' 
+  },
+  { 
+    name: 'Microsoft', 
+    description: 'Cloud & Productivity Solutions',
+    category: 'Cloud' 
   },
 ];
 
@@ -98,35 +125,35 @@ const milestones = [
 const whyChooseUs = [
   {
     icon: 'Briefcase',
-    title: 'Industry Expertise',
+    title: 'Elite Toolkit',
     description:
-      "With 25+ years in the industry, we've navigated every technology evolution and helped hundreds of businesses transform successfully.",
+      "We don't just use tools; we master them. As certified experts for IBM, Microsoft, Cisco, and Lenovo, we deploy enterprise-grade leverage for your specific needs.",
   },
   {
-    icon: 'Package',
-    title: 'Complete Solutions',
+    icon: 'Clock', // Using Clock for years/evolution
+    title: '25+ Years of Evolution',
     description:
-      'From managed IT and cloud hosting to cybersecurity and AI, we offer comprehensive end-to-end solutions for any business.',
+      'A quarter-century of stability and adaptation. We’ve navigated every major tech shift—from on-premise to cloud to AI—so you stay ahead of the curve.',
   },
   {
     icon: 'Trophy',
-    title: 'Proven Expertise',
+    title: 'Professional Excellence',
     description:
-      'Over 500+ satisfied clients across industries trust us to consistently deliver results and build strong lasting partnerships.',
+      'Technical depth meets business acumen. Our team consists of elite practitioners who translate complex infrastructure into clear competitive advantages.',
   },
   {
-    icon: 'Zap',
-    title: 'Future Leadership',
+    icon: 'Globe', // Need to make sure PiGlobe is imported and mapped
+    title: 'Global Power, Local Touch',
     description:
-      'We help you prepare for tomorrow with AI, machine learning, and cloud solutions that deliver competitive advantage today.',
+      'The responsiveness of a dedicated partner backed by the R&D and scale of global technology leaders.',
   },
 ];
 ---
 
 <Layout
-  title="About Us | IT Excellence Since 1999 | BDKinc"
-  description="Discover BDKinc's 25+ year legacy of IT excellence. Trusted by 500+ businesses for managed IT services, cloud hosting, cybersecurity, and AI solutions in the Mid-Atlantic region."
-  ogDescription="BDKinc: Your trusted IT partner since 1999. 25+ years of managed IT services, cloud hosting, and cybersecurity solutions for businesses across the Mid-Atlantic."
+  title="About Us | Elite Technology Partner | BDKinc"
+  description="Discover BDKinc's 25-year evolution into an elite technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth."
+  ogDescription="Discover BDKinc's 25-year evolution into an elite technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth."
 >
   <!-- AboutPage Schema Markup -->
   <script type="application/ld+json">
@@ -137,9 +164,8 @@ const whyChooseUs = [
         "@type": "Organization",
         "name": "BDKinc",
         "foundingDate": "1999",
-        "description": "BDKinc is a trusted IT services provider with 25+ years of experience delivering managed IT, cloud hosting, cybersecurity, and AI solutions.",
+        "description": "BDKinc is an elite technology partner delivering enterprise-grade managed IT, cloud hosting, cybersecurity, and AI solutions.",
         "url": "https://www.bdkinc.com",
-        "areaServed": ["Mid-Atlantic", "Delaware", "Maryland", "Eastern Shore"],
         "numberOfEmployees": {
           "@type": "QuantitativeValue",
           "value": "50+"
@@ -172,8 +198,8 @@ const whyChooseUs = [
           class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
         >
           <div class="text-sm">
-            Trusted IT Partner for <span class="text-accent font-semibold"
-              >25+ Years</span
+            25+ Years of <span class="text-accent font-semibold"
+              >Technical Authority</span
             >
           </div>
         </div>
@@ -181,27 +207,25 @@ const whyChooseUs = [
         <h1
           class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold delay-100 duration-700 md:text-6xl"
         >
-          <span class="text-foreground">IT Made Simple Since </span>
+          <span class="text-foreground">Elite Technology Partner with </span>
           <span
             class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
-            >1999</span
+            >Deep Expertise</span
           >
         </h1>
         <p
           class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
         >
-          For over 25 years, BDKinc has been the trusted technology partner for
-          businesses seeking reliable, innovative IT solutions. We transform
-          complex technology challenges into simple, effective solutions that
-          drive business growth.
+          From specialized roots to a powerhouse for enterprise innovation. We combine 25 years of technical mastery with the global power of IBM, Microsoft, Cisco, and Lenovo to architect your success.
         </p>
 
         {/* Hero Image Placeholder */}
         <div
-          class="fill-mode-both animate-in fade-in zoom-in mt-12 delay-400 duration-700"
+          class="fill-mode-both animate-in fade-in zoom-in mt-12 delay-400 duration-700 relative group"
         >
+          <CornerBrackets client:visible isHovered={true} className="z-30" />
           <div
-            class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border shadow-lg"
+            class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-xl border shadow-lg relative"
           >
             <div
               class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
@@ -233,111 +257,14 @@ const whyChooseUs = [
     {/* Mission & Vision Section */}
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <div class="grid gap-12 md:grid-cols-2">
-          {/* Mission - using Card component */}
-          <Card
-            className="fill-mode-both animate-in fade-in slide-in-from-left-8 flex h-full flex-col delay-300 duration-700"
-            size="lg"
-            interactive={false}
-          >
-            {/* Mission Image Placeholder */}
-            <div class="-mx-4 -mt-4 mb-6 sm:-mx-6 sm:-mt-6">
-              <div
-                class="from-primary/10 via-primary/5 flex aspect-video items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br to-transparent"
-              >
-                <div class="p-4 text-center">
-                  <div
-                    class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
-                  >
-                    Image Placeholder
-                  </div>
-                  <div class="text-muted-foreground/60 text-sm">
-                    Mission Image
-                  </div>
-                  <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                    800x450px
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex flex-col items-center justify-center text-center">
-              <div class="mb-4">
-                <div
-                  class="bg-primary/10 inline-flex items-center justify-center rounded-lg p-4"
-                >
-                  <PiRocket className="icon-lg text-primary" />
-                </div>
-              </div>
-              <h2 class="text-foreground mb-4 text-center text-3xl font-bold">
-                Our Mission
-              </h2>
-              <p
-                class="text-muted-foreground mx-auto max-w-lg text-center text-lg leading-relaxed"
-              >
-                To empower businesses through innovative technology solutions
-                that simplify IT infrastructure, enhance security, and drive
-                operational efficiency. We're committed to being more than just
-                a service provider—we're your strategic technology partner.
-              </p>
-            </div>
-          </Card>
-
-          {/* Vision - using Card component */}
-          <Card
-            className="fill-mode-both animate-in fade-in slide-in-from-right-8 flex h-full flex-col delay-400 duration-700"
-            size="lg"
-            interactive={false}
-          >
-            {/* Vision Image Placeholder */}
-            <div class="-mx-4 -mt-4 mb-6 sm:-mx-6 sm:-mt-6">
-              <div
-                class="from-secondary/10 via-secondary/5 flex aspect-video items-center justify-center overflow-hidden rounded-t-xl bg-linear-to-br to-transparent"
-              >
-                <div class="p-4 text-center">
-                  <div
-                    class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
-                  >
-                    Image Placeholder
-                  </div>
-                  <div class="text-muted-foreground/60 text-sm">
-                    Vision Image
-                  </div>
-                  <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                    800x450px
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex flex-col items-center justify-center text-center">
-              <div class="mb-4">
-                <div
-                  class="bg-secondary/10 inline-flex items-center justify-center rounded-lg p-4"
-                >
-                  <PiEye className="icon-lg text-secondary" />
-                </div>
-              </div>
-              <h2 class="text-foreground mb-4 text-center text-3xl font-bold">
-                Our Vision
-              </h2>
-              <p
-                class="text-muted-foreground mx-auto max-w-lg text-center text-lg leading-relaxed"
-              >
-                To be the most trusted IT partner for businesses seeking to
-                leverage technology for competitive advantage. We envision a
-                future where businesses of all sizes can access enterprise-grade
-                IT solutions with simplicity and confidence.
-              </p>
-            </div>
-          </Card>
-        </div>
+        <MissionVision client:visible />
       </div>
     </section>
 
     {/* Values Section */}
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
+    <section class="px-4 py-24 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background pointer-events-none" />
+      <div class="mx-auto max-w-7xl relative z-10">
         <div class="mb-16 text-center">
           <h2
             class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
@@ -348,47 +275,11 @@ const whyChooseUs = [
           <p
             class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
           >
-            The principles that guide everything we do
+            The principles that guide our elite standards
           </p>
         </div>
 
-        {/* Values Grid */}
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {
-            values.map((value, index) => {
-              const iconMap = {
-                Target: PiTarget,
-                Lightbulb: PiLightbulb,
-                Shield: PiShield,
-                Users: PiUsers,
-                Award: PiMedal,
-                Clock: PiClock,
-                Box: PiPackage,
-              };
-              const IconComponent =
-                iconMap[value.icon as keyof typeof iconMap] || PiPackage;
-              return (
-                <Card
-                  className={`fill-mode-both animate-in fade-in zoom-in flex h-full flex-col items-center justify-center text-center duration-600 delay-${200 + index * 100}`}
-                  size="lg"
-                  interactive={false}
-                >
-                  <div class="mb-6">
-                    <div class="bg-primary/10 inline-flex items-center justify-center rounded-lg p-3">
-                      <IconComponent className="icon-md text-primary" />
-                    </div>
-                  </div>
-                  <h3 class="text-foreground mb-3 text-center text-xl font-bold">
-                    {value.title}
-                  </h3>
-                  <p class="text-muted-foreground text-center">
-                    {value.description}
-                  </p>
-                </Card>
-              );
-            })
-          }
-        </div>
+        <CoreProtocols values={values} client:visible />
       </div>
     </section>
 
@@ -412,12 +303,13 @@ const whyChooseUs = [
         </div>
 
         {/* Team Placeholder - Professional Coming Soon */}
-        <Card
-          className="fill-mode-both animate-in fade-in zoom-in mx-auto max-w-4xl delay-200 duration-600"
-          size="lg"
+        <ServiceCard
+          className="mx-auto max-w-4xl"
+          delay={200}
           interactive={false}
+          metadata="TEAM_SYSTEM_OFFLINE"
         >
-          <div class="py-12 text-center">
+          <div class="py-12 text-center p-8">
             <div class="mb-6">
               <div
                 class="from-primary/20 to-secondary/10 mx-auto inline-flex items-center justify-center rounded-full bg-linear-to-br p-6"
@@ -425,33 +317,31 @@ const whyChooseUs = [
                 <PiUsers className="text-primary h-12 w-12" />
               </div>
             </div>
-            <h3 class="text-foreground mb-4 text-2xl font-bold">
+            <h3 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight">
               Leadership Profiles Coming Soon
             </h3>
             <p class="text-muted-foreground mx-auto mb-6 max-w-2xl text-lg">
-              Our leadership team brings decades of combined experience in IT
-              services, enterprise solutions, and technology innovation. Full
-              team profiles will be available shortly.
+              Our leadership team consists of veteran technologists and strategists who bring deep expertise in IT services, enterprise architecture, and business innovation. Full team profiles will be available shortly.
             </p>
             <div class="flex flex-wrap justify-center gap-4">
               <div
-                class="border-border bg-card/50 flex items-center gap-2 rounded-full border px-4 py-2"
+                class="border-primary/20 bg-card/50 flex items-center gap-2 rounded-none border px-4 py-2"
               >
-                <span class="text-primary text-sm font-semibold"
+                <span class="text-primary text-xs font-mono font-semibold uppercase tracking-widest"
                   >Executive Leadership</span
                 >
               </div>
               <div
-                class="border-border bg-card/50 flex items-center gap-2 rounded-full border px-4 py-2"
+                class="border-primary/20 bg-card/50 flex items-center gap-2 rounded-none border px-4 py-2"
               >
-                <span class="text-primary text-sm font-semibold"
+                <span class="text-primary text-xs font-mono font-semibold uppercase tracking-widest"
                   >Technical Directors</span
                 >
               </div>
               <div
-                class="border-border bg-card/50 flex items-center gap-2 rounded-full border px-4 py-2"
+                class="border-primary/20 bg-card/50 flex items-center gap-2 rounded-none border px-4 py-2"
               >
-                <span class="text-primary text-sm font-semibold"
+                <span class="text-primary text-xs font-mono font-semibold uppercase tracking-widest"
                   >Operations Team</span
                 >
               </div>
@@ -463,7 +353,7 @@ const whyChooseUs = [
               > for a personalized introduction.
             </p>
           </div>
-        </Card>
+        </ServiceCard>
       </div>
     </section>
 
@@ -485,77 +375,44 @@ const whyChooseUs = [
           </p>
         </div>
 
-        {/* Technology Partners */}
+        {/* Technology Partners Grid */}
         <div class="mb-12">
           <h3 class="text-foreground mb-8 text-center text-3xl font-bold">
             Technology Partners
           </h3>
-          <div class="grid grid-cols-2 gap-6 sm:grid-cols-4 lg:grid-cols-4">
-            {
-              [
-                { 
-                  name: 'IBM', 
-                  description: 'Power Systems & Enterprise Solutions',
-                  category: 'Enterprise' 
-                },
-                { 
-                  name: 'Cisco', 
-                  description: 'Networking & Security Infrastructure',
-                  category: 'Networking' 
-                },
-                { 
-                  name: 'Lenovo', 
-                  description: 'Server & Workstation Hardware',
-                  category: 'Hardware' 
-                },
-                { 
-                  name: 'Microsoft', 
-                  description: 'Cloud & Productivity Solutions',
-                  category: 'Cloud' 
-                },
-              ].map((partner, index) => (
-                <Card
-                  className={`fill-mode-both animate-in fade-in zoom-in flex flex-col items-center justify-center p-6 text-center duration-500 delay-${100 + index * 50}`}
-                  size="default"
-                  interactive={false}
-                >
-                  <div class="from-primary/10 to-secondary/10 mb-3 flex h-20 w-20 items-center justify-center rounded-xl bg-linear-to-br">
-                    <span class="text-primary text-2xl font-bold">{partner.name}</span>
-                  </div>
-                  <h4 class="text-foreground text-base font-bold">{partner.name}</h4>
-                  <p class="text-muted-foreground mt-1 text-xs">{partner.description}</p>
-                </Card>
-              ))
-            }
-          </div>
+          <PartnerGrid partners={partners} client:visible />
         </div>
 
         {/* Certifications Grid */}
         <div class="mb-16 grid grid-cols-2 gap-6 sm:grid-cols-4 lg:grid-cols-4">
           {
             [
-              { name: 'IBM Business Partner', category: 'Enterprise' },
-              { name: 'Microsoft Partner', category: 'Cloud' },
-              { name: 'AWS Partner', category: 'Cloud' },
-              { name: 'Cisco Partner', category: 'Networking' },
-              { name: 'Lenovo Partner', category: 'Hardware' },
-              { name: 'SOC 2 Compliant', category: 'Security' },
-              { name: 'HIPAA Compliant', category: 'Compliance' },
-              { name: 'PCI-DSS Certified', category: 'Security' },
+              { name: 'IBM Business Partner', category: 'Enterprise', meta: 'CERT_IBM_01' },
+              { name: 'Microsoft Partner', category: 'Cloud', meta: 'CERT_MSFT_02' },
+              { name: 'AWS Partner', category: 'Cloud', meta: 'CERT_AWS_03' },
+              { name: 'Cisco Partner', category: 'Networking', meta: 'CERT_CSCO_04' },
+              { name: 'Lenovo Partner', category: 'Hardware', meta: 'CERT_LNV_05' },
+              { name: 'SOC 2 Compliant', category: 'Security', meta: 'CERT_SOC2_06' },
+              { name: 'HIPAA Compliant', category: 'Compliance', meta: 'CERT_HIPAA_07' },
+              { name: 'PCI-DSS Certified', category: 'Security', meta: 'CERT_PCI_08' },
             ].map((cert, index) => (
-              <Card
-                className={`fill-mode-both animate-in fade-in zoom-in flex flex-col items-center justify-center p-6 text-center duration-500 delay-${100 + index * 50}`}
-                size="default"
+              <ServiceCard
+                key={index}
+                variant="technical"
                 interactive={false}
+                delay={100 + index * 50}
+                metadata={cert.meta}
               >
-                <div class="from-primary/10 to-secondary/10 mb-3 flex h-16 w-16 items-center justify-center rounded-xl bg-linear-to-br">
-                  <PiShield className="text-primary h-8 w-8" />
+                <div class="flex flex-col items-center justify-center p-6 text-center">
+                  <div class="from-primary/10 to-secondary/10 mb-3 flex h-16 w-16 items-center justify-center rounded-xl bg-linear-to-br border border-primary/20">
+                    <PiShield className="text-primary h-8 w-8" />
+                  </div>
+                  <h4 class="text-foreground text-sm font-bold font-display uppercase tracking-tight">{cert.name}</h4>
+                  <p class="text-muted-foreground mt-1 text-[10px] font-mono uppercase tracking-widest">
+                    {cert.category}
+                  </p>
                 </div>
-                <h4 class="text-foreground text-sm font-bold">{cert.name}</h4>
-                <p class="text-muted-foreground mt-1 text-xs">
-                  {cert.category}
-                </p>
-              </Card>
+              </ServiceCard>
             ))
           }
         </div>
@@ -611,7 +468,7 @@ const whyChooseUs = [
           <p
             class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
           >
-            Trusted by businesses across the Mid-Atlantic region
+            Trusted by businesses for critical infrastructure and innovation
           </p>
         </div>
 
@@ -623,55 +480,56 @@ const whyChooseUs = [
                 quote:
                   'BDKinc transformed our entire IT infrastructure. Their managed services have been instrumental in our growth, providing the reliability and security we need.',
                 author: 'Manufacturing Executive',
-                company: 'Regional Manufacturing Company',
+                company: 'Manufacturing Partner',
                 industry: 'Manufacturing',
+                meta: 'CLIENT_FEEDBACK_01'
               },
               {
                 quote:
                   "The team's expertise with IBM Power systems is unmatched. They've helped us modernize legacy applications while maintaining business continuity.",
                 author: 'IT Director',
-                company: 'Distribution & Logistics Firm',
+                company: 'Logistics Enterprise',
                 industry: 'Distribution',
+                meta: 'CLIENT_FEEDBACK_02'
               },
               {
                 quote:
                   "Their cybersecurity solutions give us peace of mind. We trust BDKinc to protect our sensitive data and keep our operations running smoothly.",
                 author: 'Operations Manager',
-                company: 'Healthcare Services Provider',
+                company: 'Healthcare Provider',
                 industry: 'Healthcare',
+                meta: 'CLIENT_FEEDBACK_03'
               },
             ].map((testimonial, index) => (
-              <Card
-                className={`fill-mode-both animate-in fade-in slide-in-from-bottom-6 flex h-full flex-col duration-600 delay-${200 + index * 100}`}
-                size="lg"
+              <ServiceCard
+                key={index}
+                variant="technical"
                 interactive={false}
+                metadata={testimonial.meta}
+                delay={200 + index * 100}
               >
-                <div class="mb-6 flex gap-1">
-                  {[1, 2, 3, 4, 5].map(() => (
-                    <svg
-                      class="text-primary h-5 w-5"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <blockquote class="text-foreground mb-6 flex-grow text-lg italic leading-relaxed">
-                  "{testimonial.quote}"
-                </blockquote>
-                <div class="border-border border-t pt-4">
-                  <div class="text-foreground font-semibold">
-                    {testimonial.author}
+                <div class="flex h-full flex-col p-8">
+                  <div class="mb-6 flex gap-1">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <PiStar key={i} className="text-primary h-5 w-5 fill-current" />
+                    ))}
                   </div>
-                  <div class="text-muted-foreground text-sm">
-                    {testimonial.company}
-                  </div>
-                  <div class="text-primary mt-1 text-xs font-medium">
-                    {testimonial.industry}
+                  <blockquote class="text-foreground mb-6 flex-grow text-lg italic leading-relaxed">
+                    "{testimonial.quote}"
+                  </blockquote>
+                  <div class="border-border border-t pt-4">
+                    <div class="text-foreground font-semibold">
+                      {testimonial.author}
+                    </div>
+                    <div class="text-muted-foreground text-sm">
+                      {testimonial.company}
+                    </div>
+                    <div class="text-primary mt-1 text-xs font-medium uppercase tracking-widest font-mono">
+                      {testimonial.industry}
+                    </div>
                   </div>
                 </div>
-              </Card>
+              </ServiceCard>
             ))
           }
         </div>
@@ -686,18 +544,7 @@ const whyChooseUs = [
             class="from-primary to-secondary hover:shadow-primary/25 inline-flex items-center gap-2 rounded-lg bg-linear-to-r px-6 py-3 font-semibold text-white transition-shadow hover:shadow-lg"
           >
             Start Your Journey
-            <svg
-              class="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-            </svg>
+            <PiArrowRight className="h-4 w-4 ml-2" />
           </a>
         </div>
       </div>
@@ -720,62 +567,7 @@ const whyChooseUs = [
           </p>
         </div>
 
-        {/* Timeline */}
-        <div class="relative">
-          {/* Vertical line */}
-          <div
-            class="from-primary via-secondary to-primary absolute top-0 bottom-0 left-8 w-0.5 bg-linear-to-b md:left-1/2"
-          >
-          </div>
-
-          <div class="space-y-12">
-            {
-              milestones.map((milestone, index) => {
-                const isEven = index % 2 === 0;
-                return (
-                  <div
-                    class={`relative ${isEven ? 'md:text-right' : 'md:text-left'}`}
-                  >
-                    <div
-                      class={`md:grid md:grid-cols-2 md:gap-8 ${isEven ? '' : 'md:flex-row-reverse'}`}
-                    >
-                      <div
-                        class={isEven ? 'md:pr-12' : 'md:col-start-2 md:pl-12'}
-                      >
-                        <Card
-                          className={`fill-mode-both animate-in ml-16 md:ml-0 ${index % 2 === 0 ? 'slide-in-from-left-8' : 'slide-in-from-right-8'} fade-in duration-700 delay-${200 + index * 100}`}
-                          size="lg"
-                          interactive={false}
-                        >
-                          <div class="text-primary mb-2 text-3xl font-bold">
-                            {milestone.year}
-                          </div>
-                          <h3 class="text-foreground mb-2 text-xl font-bold">
-                            {milestone.title}
-                          </h3>
-                          {index === 0 ? (
-                            <p class="text-muted-foreground">
-                              <span class="font-display font-extrabold">
-                                BDKinc
-                              </span>{' '}
-                              {milestone.description}
-                            </p>
-                          ) : (
-                            <p class="text-muted-foreground">
-                              {milestone.description}
-                            </p>
-                          )}
-                        </Card>
-                      </div>
-                    </div>
-                    {/* Timeline dot */}
-                    <div class="bg-primary ring-background absolute top-6 left-8 -ml-2 h-4 w-4 rounded-full shadow-[--shadow-glow-sm] ring-4 md:left-1/2" />
-                  </div>
-                );
-              })
-            }
-          </div>
-        </div>
+        <DevelopmentLogTimeline milestones={milestones} client:visible />
       </div>
     </section>
 
@@ -804,37 +596,38 @@ const whyChooseUs = [
             whyChooseUs.map((item, index) => {
               const iconMap = {
                 Briefcase: PiBriefcase,
-                Package: PiPackageAlt,
+                Package: PiPackage,
                 Trophy: PiTrophy,
                 Zap: PiLightning,
                 Box: PiPackage,
+                Clock: PiClock,
+                Globe: PiGlobe,
               };
               const IconComponent =
                 iconMap[item.icon as keyof typeof iconMap] || PiPackage;
-              const delayClasses = [
-                'delay-200',
-                'delay-300',
-                'delay-400',
-                'delay-500',
-              ];
+              
               return (
-                <Card
-                  className={`animate-in fade-in zoom-in flex h-full flex-col items-center justify-center text-center duration-600 ${delayClasses[index] || 'delay-200'} group hover:shadow-primary/20 transition-all hover:shadow-lg`}
-                  size="lg"
-                  interactive={false}
+                <ServiceCard
+                  key={index}
+                  variant="technical"
+                  interactive
+                  delay={200 + index * 100}
+                  metadata={`ADVANTAGE_NODE_0${index + 1}`}
                 >
-                  <div class="mb-6">
-                    <div class="from-primary/20 to-secondary/10 group-hover:from-primary/30 group-hover:to-secondary/20 inline-flex items-center justify-center rounded-lg bg-linear-to-br p-3 transition-colors">
-                      <IconComponent className="icon-lg text-primary" />
+                  <div class="p-8 flex flex-col items-center text-center h-full">
+                    <div class="mb-6">
+                      <div class="from-primary/20 to-secondary/10 group-hover:from-primary/30 group-hover:to-secondary/20 inline-flex items-center justify-center rounded-lg bg-linear-to-br p-3 transition-colors border border-primary/20">
+                        <IconComponent className="h-8 w-8 text-primary" />
+                      </div>
                     </div>
+                    <h3 class="text-foreground mb-3 text-center text-lg font-bold font-display uppercase tracking-tight">
+                      {item.title}
+                    </h3>
+                    <p class="text-muted-foreground text-sm leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
-                  <h3 class="text-foreground mb-3 text-center text-lg font-bold">
-                    {item.title}
-                  </h3>
-                  <p class="text-muted-foreground text-sm leading-relaxed">
-                    {item.description}
-                  </p>
-                </Card>
+                </ServiceCard>
               );
             })
           }
@@ -845,9 +638,9 @@ const whyChooseUs = [
     {/* CTA Section */}
     <CTASection
       client:visible
-      title="Ready to Partner with BDKinc?"
-      description="Let's discuss how our 25+ years of experience can help transform your IT infrastructure and drive business growth."
-      buttonText="Start the Conversation"
+      title="Partner with True Technical Authority"
+      description="Stop settling for standard support. Leverage our 25+ years of deep expertise to build your future."
+      buttonText="Connect with Our Experts"
       buttonHref="/contact"
     />
   </main>

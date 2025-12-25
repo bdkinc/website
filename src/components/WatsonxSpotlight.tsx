@@ -1,24 +1,25 @@
 import { motion } from 'motion/react';
-import { Database, Server, ShieldCheck, Cpu, CheckCircle2 } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { PiDatabase, PiShieldCheck, PiCpu, PiCheckCircle, PiBrain } from 'react-icons/pi';
+import { ServiceCard } from '@/components/ServiceCard';
 
 export default function WatsonxSpotlight() {
   return (
-    <section className="relative my-24 overflow-hidden rounded-2xl border border-primary/20 bg-background/50 p-8 md:p-12">
+    <section className="relative my-24 overflow-hidden rounded-none border border-primary/20 bg-background/50 p-8 md:p-12">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,102,255,0.08),transparent_40%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(124,58,237,0.08),transparent_40%)]" />
-      <div className="scanlines absolute inset-0 opacity-[0.02]" />
+      <div className="scanlines absolute inset-0 opacity-[0.03]" />
+      <div className="circuit-overlay absolute inset-0 opacity-[0.02] pointer-events-none" />
 
       <div className="relative z-10 grid gap-12 lg:grid-cols-2 lg:items-center">
         {/* Content Side */}
         <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-semibold tracking-wider text-primary uppercase">
-            <Cpu className="h-3.5 w-3.5" />
-            Elite Toolkit
+          <div className="inline-flex items-center gap-2 border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-semibold tracking-wider text-primary uppercase font-mono">
+            <PiCpu className="h-3.5 w-3.5" />
+            Elite Toolkit // watsonx
           </div>
           
-          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl uppercase">
             Powered by <span className="text-primary">IBM watsonx</span>
           </h2>
           
@@ -36,8 +37,8 @@ export default function WatsonxSpotlight() {
               "OpenShift Containerization"
             ].map((feature, i) => (
               <div key={i} className="flex items-center gap-3">
-                <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
-                <span className="text-sm font-medium text-foreground">{feature}</span>
+                <PiCheckCircle className="h-5 w-5 shrink-0 text-primary" />
+                <span className="text-sm font-medium text-foreground uppercase tracking-wide font-display">{feature}</span>
               </div>
             ))}
           </div>
@@ -45,87 +46,67 @@ export default function WatsonxSpotlight() {
 
         {/* Visual Side - "Module" Look */}
         <div className="relative">
-          <div className="relative rounded-xl border border-border bg-card/80 p-6 backdrop-blur-xl shadow-2xl">
-            {/* Header */}
-            <div className="mb-6 flex items-center justify-between border-b border-border pb-4">
-              <div className="flex items-center gap-3">
-                <div className="h-3 w-3 rounded-full bg-red-500/50" />
-                <div className="h-3 w-3 rounded-full bg-yellow-500/50" />
-                <div className="h-3 w-3 rounded-full bg-green-500/50" />
+          <ServiceCard
+            variant="technical"
+            interactive={false}
+            metadata="WATSONX_CORE_V3.2"
+            className="shadow-2xl"
+          >
+            <div className="p-6">
+              {/* Header */}
+              <div className="mb-6 flex items-center justify-between border-b border-primary/20 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="h-2 w-2 rounded-full bg-red-500/50 animate-pulse" />
+                  <div className="h-2 w-2 rounded-full bg-yellow-500/50 animate-pulse delay-75" />
+                  <div className="h-2 w-2 rounded-full bg-green-500/50 animate-pulse delay-150" />
+                </div>
+                <div className="font-mono text-[10px] text-primary/60 tracking-widest uppercase">NODE_STATUS: OPTIMIZED</div>
               </div>
-              <div className="font-mono text-xs text-muted-foreground">SYSTEM_READY</div>
+
+              {/* Modules Grid */}
+              <div className="grid gap-4">
+                <div className="group flex items-center gap-4 border border-primary/10 bg-background/50 p-4 transition-all hover:border-primary/40 hover:bg-primary/5">
+                  <div className="rounded-md bg-blue-500/10 p-3 text-blue-400 border border-blue-500/20 group-hover:shadow-[0_0_10px_rgba(59,130,246,0.3)] transition-all">
+                    <PiBrain className="h-6 w-6" />
+                  </div>
+                  <div className="text-left">
+                    <div className="font-bold text-foreground font-display uppercase tracking-tight text-sm">Foundation Models</div>
+                    <div className="text-[10px] text-muted-foreground font-mono">GRANITE-13B, LLAMA-3, FALCON-180B</div>
+                  </div>
+                  <div className="ml-auto">
+                     <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+                  </div>
+                </div>
+
+                <div className="group flex items-center gap-4 border border-primary/10 bg-background/50 p-4 transition-all hover:border-purple/40 hover:bg-purple-500/5">
+                  <div className="rounded-md bg-purple-500/10 p-3 text-purple-400 border border-purple-500/20 group-hover:shadow-[0_0_10px_rgba(168,85,247,0.3)] transition-all">
+                    <PiDatabase className="h-6 w-6" />
+                  </div>
+                  <div className="text-left">
+                    <div className="font-bold text-foreground font-display uppercase tracking-tight text-sm">Vector Store</div>
+                    <div className="text-[10px] text-muted-foreground font-mono">RAG_KNOWLEDGE_BASE // SCALE_READY</div>
+                  </div>
+                  <div className="ml-auto font-mono text-[10px] text-primary/80 tracking-tighter">SYNCED</div>
+                </div>
+
+                <div className="group flex items-center gap-4 border border-primary/10 bg-background/50 p-4 transition-all hover:border-emerald/40 hover:bg-emerald-500/5">
+                  <div className="rounded-md bg-emerald-500/10 p-3 text-emerald-400 border border-emerald-500/20 group-hover:shadow-[0_0_10px_rgba(16,185,129,0.3)] transition-all">
+                    <PiShieldCheck className="h-6 w-6" />
+                  </div>
+                  <div className="text-left">
+                    <div className="font-bold text-foreground font-display uppercase tracking-tight text-sm">Governance Layer</div>
+                    <div className="text-[10px] text-muted-foreground font-mono">DRIFT_DETECTION_ACTIVE // COMPLIANT</div>
+                  </div>
+                  <div className="ml-auto font-mono text-[10px] text-emerald-500 tracking-tighter">ACTIVE</div>
+                </div>
+              </div>
             </div>
-
-            {/* Modules Grid */}
-            <div className="grid gap-4">
-              <div className="group flex items-center gap-4 rounded-lg border border-border bg-background/50 p-4 transition-colors hover:border-primary/50">
-                <div className="rounded-md bg-blue-500/10 p-3 text-blue-400">
-                  <BrainCircuitIcon className="h-6 w-6" />
-                </div>
-                <div>
-                  <div className="font-bold text-foreground">Foundation Models</div>
-                  <div className="text-xs text-muted-foreground">Granite-13b, Llama-2, Falcon</div>
-                </div>
-                <div className="ml-auto">
-                   <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                </div>
-              </div>
-
-              <div className="group flex items-center gap-4 rounded-lg border border-border bg-background/50 p-4 transition-colors hover:border-purple/50">
-                <div className="rounded-md bg-purple-500/10 p-3 text-purple-400">
-                  <Database className="h-6 w-6" />
-                </div>
-                <div>
-                  <div className="font-bold text-foreground">Vector Store</div>
-                  <div className="text-xs text-muted-foreground">RAG Knowledge Base</div>
-                </div>
-                <div className="ml-auto font-mono text-xs text-primary">SYNCED</div>
-              </div>
-
-              <div className="group flex items-center gap-4 rounded-lg border border-border bg-background/50 p-4 transition-colors hover:border-emerald/50">
-                <div className="rounded-md bg-emerald-500/10 p-3 text-emerald-400">
-                  <ShieldCheck className="h-6 w-6" />
-                </div>
-                <div>
-                  <div className="font-bold text-foreground">Governance Layer</div>
-                  <div className="text-xs text-muted-foreground">Drift Detection & Bias Checks</div>
-                </div>
-                <div className="ml-auto font-mono text-xs text-emerald-500">ACTIVE</div>
-              </div>
-            </div>
-
-            {/* Tech Decoration */}
-            <div className="absolute -bottom-1 -right-1 h-4 w-4 border-b-2 border-r-2 border-primary" />
-            <div className="absolute -top-1 -left-1 h-4 w-4 border-t-2 border-l-2 border-primary" />
-          </div>
+          </ServiceCard>
           
           {/* Background Glow */}
-          <div className="absolute -inset-4 z-[-1] rounded-[2rem] bg-gradient-to-br from-primary/20 via-secondary/20 to-transparent blur-2xl" />
+          <div className="absolute -inset-4 z-[-1] rounded-none bg-gradient-to-br from-primary/20 via-secondary/20 to-transparent blur-3xl opacity-50" />
         </div>
       </div>
     </section>
   );
-}
-
-function BrainCircuitIcon(props: any) {
-    return (
-        <svg
-          {...props}
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
-          <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
-          <path d="M15 13a4.5 4.5 0 0 1-3-1.4 4.5 4.5 0 0 1-3 1.4" />
-          <path d="M5.5 13a2 2 0 0 1 4 0" />
-          <path d="M14.5 13a2 2 0 0 1 4 0" />
-        </svg>
-      )
 }

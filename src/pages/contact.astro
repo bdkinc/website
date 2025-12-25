@@ -2,10 +2,17 @@
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation';
 import ContactChat from '../components/ContactChat';
-import { Card } from '@/components/ui/card';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
-import { PiPhone, PiEnvelope, PiClock, PiMapPin } from 'react-icons/pi';
+import { ServiceCard } from '@/components/ServiceCard';
+import {
+  PiPhone,
+  PiEnvelope,
+  PiClock,
+  PiNetwork,
+  PiPulse,
+  PiCpu,
+} from 'react-icons/pi';
 import { actions } from 'astro:actions';
 
 export const prerender = false;
@@ -19,14 +26,14 @@ const result = await Astro.callAction(actions.getReferrerSuggestions, {
 });
 
 const initialSuggestions = result?.data?.suggestions || [
-  'How can I get a quote for IT services?',
-  'I need help with network infrastructure',
-  'What managed IT services do you offer?',
-  'Tell me about your cloud services',
+  'Initiate strategic architecture consultation',
+  'Request system modernization analysis',
+  'Inquire about enterprise ERP solutions',
+  'Schedule technical feasibility assessment',
 ];
 ---
 
-<Layout title="Contact Us | BDKinc - Get in Touch">
+<Layout title="Contact | BDKinc - Strategic Technical Architect">
   <Navigation
     client:load
     services={servicesData}
@@ -41,140 +48,149 @@ const initialSuggestions = result?.data?.suggestions || [
       <div class="relative z-10 mx-auto max-w-4xl text-center">
         {/* Badge */}
         <div
-          class="glass border-primary/20 animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+          class="glass border-primary/20 animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
         >
-          <span class="text-sm">
-            <span class="font-semibold text-[--brand-accent]">24/7</span> Support
-            Available
+          <PiPulse className="h-4 w-4 text-[--brand-accent]" />
+          <span class="text-sm font-mono tracking-wide">
+            <span class="text-[--brand-accent]">OPERATIONAL STATUS:</span> ONLINE
           </span>
         </div>
 
         <h1
-          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold delay-100 duration-700 md:text-6xl"
+          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold delay-100 duration-700 md:text-5xl lg:text-6xl font-display uppercase tracking-tight"
         >
-          <span class="text-foreground">Get in </span>
+          <span class="text-foreground">Connect with a </span>
+          <br class="hidden md:block" />
           <span
             class="from-brand-primary to-brand-secondary bg-linear-to-br bg-clip-text text-transparent"
           >
-            Touch
+            Strategic Technical Architect
           </span>
         </h1>
         <p
-          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
+          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 max-w-2xl mx-auto"
         >
-          Have a question or need IT support? We're here to help. Reach out to
-          our team and let's discuss how we can transform your technology
-          infrastructure.
+          Direct line to senior engineering leadership. We eliminate the sales layer to provide immediate, high-level architectural consultation for your most complex challenges.
         </p>
       </div>
       <div
-        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r to-[--brand-accent]/50"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-px bg-gradient-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
 
     {/* Contact Form and Info Section */}
-    <section class="px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-5xl space-y-8">
-        {/* AI Chat Interface - Centered */}
+    <section class="px-4 py-16 sm:px-6 lg:px-8 relative">
+       {/* Background decorative elements */}
+       <div class="absolute top-0 left-1/4 w-64 h-64 bg-brand-primary/5 rounded-full blur-3xl -z-10"></div>
+       <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-brand-secondary/5 rounded-full blur-3xl -z-10"></div>
+
+      <div class="mx-auto max-w-6xl space-y-12 relative z-10">
+        {/* AI Chat Interface - Diagnostic Interface */}
         <div
           class="fill-mode-both animate-in fade-in slide-in-from-left-4 delay-300 duration-600"
         >
-          <h2 class="mb-6 text-center text-2xl font-bold">
-            <span class="text-foreground">Send us a </span>
-            <span
-              class="from-brand-primary to-brand-secondary bg-linear-to-br bg-clip-text text-transparent"
-            >
-              Message
-            </span>
-          </h2>
-          <ContactChat client:only="react" initialSuggestions={initialSuggestions} />
+          <div class="text-center mb-8 text-left">
+            <div class="inline-flex items-center justify-center p-3 rounded-xl bg-primary/5 border border-primary/20 backdrop-blur-sm mb-4 group-hover:scale-110 transition-transform duration-500">
+              <PiCpu className="w-6 h-6 text-brand-primary" />
+            </div>
+            <h2 class="text-2xl font-bold font-display tracking-tight uppercase group-hover:text-primary transition-colors">
+              <span class="text-foreground">Diagnostic </span>
+              <span class="text-brand-primary">Interface</span>
+            </h2>
+            <p class="text-muted-foreground mt-2 font-mono text-xs tracking-widest uppercase">
+              &gt; Initial response within 2 business hours for strategic inquiries
+            </p>
+          </div>
+          
+          <ServiceCard variant="technical" interactive={false} metadata="UPLINK_SECURE_CHANNEL" className="max-w-3xl mx-auto">
+            <div class="overflow-hidden">
+              <ContactChat client:only="react" initialSuggestions={initialSuggestions} />
+            </div>
+          </ServiceCard>
         </div>
 
-        {/* Contact Information - Horizontal Layout */}
+        {/* Communication Nodes */}
         <div
-          class="fill-mode-both animate-in fade-in slide-in-from-right-4 gradient-mesh rounded-lg delay-400 duration-600"
+          class="fill-mode-both animate-in fade-in slide-in-from-right-4 delay-400 duration-600"
         >
-          <Card size="lg" interactive={false}>
-            <h3 class="text-foreground mb-10 text-center text-xl font-bold">
-              Other Ways to Reach Us
-            </h3>
-            <div
-              class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4"
-            >
-              {/* Phone */}
-              <a
-                href="tel:8003090004"
-                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-500 duration-600"
-              >
-                <div
-                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
-                >
-                  <PiPhone className="text-brand-primary h-6 w-6" />
+          <div class="flex items-center gap-4 mb-12">
+            <div class="h-px flex-1 bg-primary/20"></div>
+            <h3 class="text-foreground font-display text-lg tracking-widest uppercase">Communication Nodes</h3>
+            <div class="h-px flex-1 bg-primary/20"></div>
+          </div>
+          
+          <div
+            class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+          >
+            {/* Voice Node */}
+            <ServiceCard variant="technical" interactive delay={500} metadata="VOICE_LINK_01">
+              <div class="relative z-10 flex flex-col items-center text-center p-6">
+                <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10 border border-brand-primary/20 text-brand-primary group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(0,212,255,0.1)]">
+                  <PiPhone className="h-6 h-6" />
                 </div>
-                <p class="text-muted-foreground mb-2 text-sm">Phone</p>
-                <span
-                  class="text-brand-primary text-sm font-medium hover:underline"
-                >
+                <h4 class="font-mono text-[10px] text-muted-foreground uppercase tracking-widest mb-2">Voice Uplink</h4>
+                <a href="tel:8003090004" class="text-lg font-bold text-foreground hover:text-brand-primary transition-colors font-display">
                   (800) 309-0004
-                </span>
-              </a>
-
-              {/* Email */}
-              <a
-                href="mailto:info@bdkinc.com"
-                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-600 duration-600"
-              >
-                <div
-                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
-                >
-                  <PiEnvelope className="text-brand-primary h-6 w-6" />
-                </div>
-                <p class="text-muted-foreground mb-2 text-sm">Email</p>
-                <span
-                  class="text-brand-primary text-sm font-medium break-all hover:underline"
-                >
-                  info@bdkinc.com
-                </span>
-              </a>
-
-              {/* Location */}
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=29515+Canvasback+Drive+Easton+MD+21601"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-700 duration-600"
-              >
-                <div
-                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
-                >
-                  <PiMapPin className="text-brand-primary h-6 w-6" />
-                </div>
-                <p class="text-muted-foreground mb-2 text-sm">Location</p>
-                <span
-                  class="text-brand-primary text-sm font-medium hover:underline"
-                >
-                  Get Directions
-                </span>
-              </a>
-
-              {/* Hours */}
-              <div
-                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-800 duration-600"
-              >
-                <div
-                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
-                >
-                  <PiClock className="text-brand-primary h-6 w-6" />
-                </div>
-                <p class="text-muted-foreground mb-2 text-sm">Hours</p>
-                <p class="text-foreground flex items-center gap-2 text-sm">
-                  <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                  24/7 Support
-                </p>
+                </a>
+                <span class="text-[9px] text-brand-secondary mt-2 font-mono tracking-tighter uppercase font-bold">ENCRYPTED // SECURE</span>
               </div>
-            </div>
-          </Card>
+            </ServiceCard>
+
+            {/* Data Node */}
+            <ServiceCard variant="technical" interactive delay={600} metadata="DATA_STREAM_02">
+              <div class="relative z-10 flex flex-col items-center text-center p-6">
+                <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10 border border-brand-primary/20 text-brand-primary group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(0,212,255,0.1)]">
+                  <PiEnvelope className="h-6 h-6" />
+                </div>
+                <h4 class="font-mono text-[10px] text-muted-foreground uppercase tracking-widest mb-2">Data Stream</h4>
+                <a href="mailto:info@bdkinc.com" class="text-lg font-bold text-foreground hover:text-brand-primary transition-colors break-all font-display">
+                  info@bdkinc.com
+                </a>
+                <span class="text-[9px] text-brand-secondary mt-2 font-mono tracking-tighter uppercase font-bold">PRIORITY: HIGH</span>
+              </div>
+            </ServiceCard>
+
+            {/* HQ Node */}
+            <ServiceCard variant="technical" interactive delay={700} metadata="CMD_CENTER_03">
+              <div class="relative z-10 flex flex-col items-center text-center p-6">
+                <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10 border border-brand-primary/20 text-brand-primary group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(0,212,255,0.1)]">
+                  <PiNetwork className="h-6 h-6" />
+                </div>
+                <h4 class="font-mono text-[10px] text-muted-foreground uppercase tracking-widest mb-2">Command Center</h4>
+                <a 
+                  href="https://www.google.com/maps/search/?api=1&query=29515+Canvasback+Drive+Easton+MD+21601"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm font-bold text-foreground hover:text-brand-primary transition-colors font-display uppercase tracking-tight"
+                >
+                  Easton, MD
+                  <span class="block text-[10px] font-normal text-muted-foreground mt-1 lowercase font-sans">Global Headquarters</span>
+                </a>
+                <span class="text-[9px] text-brand-secondary mt-2 font-mono tracking-tighter uppercase font-bold">LAT: 38.77 / LON: -76.07</span>
+              </div>
+            </ServiceCard>
+
+            {/* Operations Node */}
+            <ServiceCard variant="technical" interactive delay={800} metadata="PROTOCOL_WIN_04">
+              <div class="relative z-10 flex flex-col items-center text-center p-6">
+                <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-brand-primary/10 border border-brand-primary/20 text-brand-primary group-hover:scale-110 transition-transform duration-300 shadow-[0_0_15px_rgba(0,212,255,0.1)]">
+                  <PiClock className="h-6 h-6" />
+                </div>
+                <h4 class="font-mono text-[10px] text-muted-foreground uppercase tracking-widest mb-2">Protocol Window</h4>
+                <div class="text-lg font-bold text-foreground font-display uppercase tracking-tight">
+                  24/7 Monitoring
+                </div>
+                <div class="flex items-center gap-1.5 mt-2">
+                   <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                  <span class="text-[9px] text-green-500 font-mono uppercase font-bold tracking-widest">ACTIVE</span>
+                </div>
+              </div>
+            </ServiceCard>
+          </div>
         </div>
       </div>
     </section>

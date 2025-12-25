@@ -7,24 +7,25 @@ import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import WhoThisIsFor from '@/components/WhoThisIsFor';
+import TechnicalSection from '@/components/TechnicalSection';
+import { ERPPerformanceConsole } from '@/components/ERPPerformanceConsole';
+import { GlobalNetworkMap } from '@/components/GlobalNetworkMap';
 import { Card } from '@/components/ui/card';
 import {
-  PiDesktop,
-  PiNetworkX,
-  PiDatabase,
-  PiLock,
-  PiLightning,
-  PiTrendUp,
-  PiHeadphones,
-  PiFileXls,
   PiArrowUp,
+  PiDatabase,
+  PiHeadphones,
+  PiLightning,
+  PiGlobe,
   PiStack,
-  PiCalculator,
-  PiFactory,
-  PiTruck,
-  PiCurrencyDollar,
+  PiShieldCheck,
+  PiTrendUp,
+  PiCpu,
   PiCheckCircle,
-  PiCloudCheck,
+  PiLock,
+  PiCurrencyDollar
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 
@@ -39,32 +40,48 @@ const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 
+// Updated Metrics for "Technical Authority"
 const metrics = [
-  { value: '35%', label: 'PROCESS EFFICIENCY', icon: PiTrendUp },
-  { value: '99.9%', label: 'HOSTED UPTIME', icon: PiArrowUp },
-  { value: '180+', label: 'ERP INTEGRATIONS', icon: PiNetworkX },
-  { value: '24/7', label: 'SUPPORT COVERAGE', icon: PiHeadphones },
+  { value: '99.99%', label: 'SLA UPTIME', icon: PiArrowUp },
+  { value: 'Sub-ms', label: 'NETWORK LATENCY', icon: PiLightning },
+  { value: 'Tier-3', label: 'DATA CENTERS', icon: PiDatabase },
+  { value: '24/7', label: 'NOC MONITORING', icon: PiHeadphones },
 ];
 
 const detailColumns = [
   {
-    title: 'Implementation & Migration',
-    icon: PiFileXls,
+    title: 'Migration & Onboarding',
+    icon: PiArrowUp,
     items: [
-      'Fit-gap workshops align ERP modules with manufacturing and distribution goals',
-      'Data migration playbooks cleanse, convert, and reconcile legacy records',
-      'Integration accelerators connect ERP with CRM, MES, WMS, and financial tools',
+      'Comprehensive fit-gap analysis and infrastructure assessment',
+      'Parallel sandbox environments for zero-risk data migration',
+      'Custom integration mapping for EDI, MES, and WMS endpoints',
     ],
   },
   {
     title: 'Managed Operations',
     icon: PiStack,
     items: [
-      '24/7 monitoring covers backups, patching, and performance tuning',
-      'Change management governs updates, tax tables, and regulatory enhancements',
-      'CFO-ready reporting tracks KPIs, compliance deadlines, and audit trails',
+      'Automated patch management and security hardening',
+      'Performance tuning for high-throughput transaction processing',
+      'Real-time compliance auditing and immutable log retention',
     ],
   },
+];
+
+const faqs = [
+  {
+    question: "How do you handle migration from legacy on-premise hardware?",
+    answer: "We utilize a phased 'lift-and-shift' or 're-platform' methodology. Our engineers perform full system imaging and data verification in a parallel sandbox environment before cutover, ensuring zero data loss and minimal operational downtime."
+  },
+  {
+    question: "Can you support hybrid environments with both cloud and IBM Power Systems?",
+    answer: "Yes. Our infrastructure seamlessly integrates IBM Power (AS/400, iSeries) with x86 cloud environments. We establish low-latency private interconnects, allowing modern web applications to query legacy databases in real-time without synchronization lag."
+  },
+  {
+    question: "How is compliance and data sovereignty managed for global operations?",
+    answer: "We strictly adhere to GDPR, CCPA, and industry-specific mandates. Data residency controls allow you to lock specific datasets to geographic regions, while our immutable audit logs provide complete transparency for regulatory reporting."
+  }
 ];
 ---
 
@@ -133,7 +150,7 @@ const detailColumns = [
                   Service Hero Image
                 </div>
                 <div class="text-muted-foreground/60 text-lg">
-                  Hosted ERP Illustration
+                  Server Infrastructure Rack
                 </div>
                 <div class="text-muted-foreground/40 mt-2 text-xs">
                   Recommended: 1400x800px
@@ -156,289 +173,251 @@ const detailColumns = [
       >
         <div class="mx-auto max-w-7xl">
           <div class="service-content-wrapper">
-            <div class="not-prose mx-auto max-w-4xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Streamline Your Business with Hosted ERP
-              </h2>
-              <div
-                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-              >
-                Enterprise resource planning solutions tailored for
-                manufacturing, distribution, and finance. We specialize in
-                hosting and supporting your critical ERP systems, helping you
-                transition from spreadsheet-based management to integrated,
-                efficient business processes.
+            <TechnicalSection client:visible id="erp-infrastructure" overlayOpacity="opacity-10">
+              <div class="relative z-10 flex flex-col items-center text-center">
+                <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
+                  <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
+                  <span class="text-xs font-bold tracking-widest text-primary font-display uppercase">Enterprise Backbone Operations</span>
+                </div>
+                
+                <h4 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display uppercase tracking-tight">
+                  Advanced ERP <span class="text-primary">Infrastructure Management.</span>
+                </h4>
+                
+                <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
+                  We deliver precision-engineered hosting environments for mission-critical ERP systems. 
+                  Whether you operate Oracle, SAP, Microsoft Dynamics, or custom legacy platforms, 
+                  our infrastructure ensures sub-millisecond latency and global availability.
+                </div>
               </div>
-            </div>
+            </TechnicalSection>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Transform Your Operations
+            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display">
+              Core Capabilities
             </h3>
 
-            <ServiceCardGrid client:visible>
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiFileXls
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Leave Spreadsheets Behind
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Stop managing your business with disconnected spreadsheets and
-                  manual processes. Our integrated ERP solutions connect your
-                  entire operation from inventory to accounting.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiCloudCheck
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Fully Hosted & Managed
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  We handle all the infrastructure, maintenance, and updates.
-                  Your ERP runs in our secure environment while you focus on
-                  using it to run your business.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiCalculator
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Finance Integration
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Seamlessly connect your financial systems with operations.
-                  Real-time visibility into costs, revenue, and profitability
-                  helps you make informed decisions.
-                </div>
-              </ServiceCard>
-            </ServiceCardGrid>
+            <div class="mb-24">
+              <ERPPerformanceConsole client:visible />
+            </div>
 
             <h3
-              class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+              class="text-foreground mt-12 mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight"
             >
-              Industry-Focused Solutions
+              Enterprise-Grade Capabilities
             </h3>
 
             <div class="not-prose mb-20">
-              <p class="text-muted-foreground mb-10 text-center text-xl">
-                We specialize in ERP implementations for key industries
+              <p class="text-muted-foreground mb-12 text-center text-xl">
+                Built for security, speed, and sovereignty
               </p>
 
-              {/* Feature Image Placeholder */}
-              <div class="mb-10">
-                <div
-                  class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border"
-                >
-                  <div
-                    class="from-primary/5 via-secondary/5 to-primary/5 flex items-center justify-center bg-linear-to-br"
-                    style="aspect-ratio: 21/9;"
-                  >
-                    <div class="text-center">
-                      <div
-                        class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                      >
-                        Feature Image
-                      </div>
-                      <div class="text-muted-foreground/60 text-lg">
-                        ERP System Dashboard
-                      </div>
-                      <div class="text-muted-foreground/40 mt-2 text-xs">
-                        Recommended: 1200x500px (21:9)
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              {/* Global Network Map */}
+              <div class="mb-12">
+                <GlobalNetworkMap client:visible />
               </div>
 
               <div class="grid gap-6 md:grid-cols-3">
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex flex-col items-center rounded-lg border p-6 text-center transition-colors"
+                <ServiceCard
+                  variant="technical"
+                  interactive={false}
+                  metadata="ERP_CAP_01"
                 >
-                  <PiFactory
-                    className="text-primary mb-4 h-12 w-12"
-                    aria-hidden="true"
-                  />
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Manufacturing
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Production planning, inventory control, quality management
+                  <div class="flex flex-col items-center text-center p-8">
+                    <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                      <PiGlobe
+                        className="text-primary h-12 w-12"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight">
+                      Global Availability
+                    </h5>
+                    <div class="text-muted-foreground text-sm leading-relaxed">
+                      Low-latency edge nodes and redundant failover regions ensuring business continuity.
+                    </div>
                   </div>
-                </div>
+                </ServiceCard>
 
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex flex-col items-center rounded-lg border p-6 text-center transition-colors"
+                <ServiceCard
+                  variant="technical"
+                  interactive={false}
+                  metadata="ERP_CAP_02"
                 >
-                  <PiTruck
-                    className="text-primary mb-4 h-12 w-12"
-                    aria-hidden="true"
-                  />
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Distribution
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Warehouse management, order processing, logistics
+                  <div class="flex flex-col items-center text-center p-8">
+                    <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                      <PiStack
+                        className="text-primary h-12 w-12"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight">
+                      Multi-Platform Support
+                    </h5>
+                    <div class="text-muted-foreground text-sm leading-relaxed">
+                      Native support for SAP, Oracle, Microsoft Dynamics, and custom legacy builds.
+                    </div>
                   </div>
-                </div>
+                </ServiceCard>
 
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex flex-col items-center rounded-lg border p-6 text-center transition-colors"
+                <ServiceCard
+                  variant="technical"
+                  interactive={false}
+                  metadata="ERP_CAP_03"
                 >
-                  <PiCalculator
-                    className="text-primary mb-4 h-12 w-12"
-                    aria-hidden="true"
-                  />
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Finance
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Accounting, financial reporting, compliance
+                  <div class="flex flex-col items-center text-center p-8">
+                    <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                      <PiShieldCheck
+                        className="text-primary h-12 w-12"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight">
+                      Data Sovereignty
+                    </h5>
+                    <div class="text-muted-foreground text-sm leading-relaxed">
+                      Regional locking and strict compliance adherence for GDPR, CCPA, and industry mandates.
+                    </div>
                   </div>
-                </div>
+                </ServiceCard>
               </div>
             </div>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Key Benefits
+            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
+              Operational Advantages
             </h3>
 
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="ERP_BENEFIT_01"
               >
-                <div class="mb-4">
-                  <PiTrendUp
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiTrendUp
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Predictable Performance
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Guaranteed IOPS and throughput for data-intensive transaction processing.
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Real-Time Visibility
-                </h4>
-                <div class="text-muted-foreground">
-                  Access up-to-date information across all business functions
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="ERP_BENEFIT_02"
               >
-                <div class="mb-4">
-                  <PiLightning
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiLightning
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Rapid Scalability
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Dynamic resource allocation to handle peak loads and seasonal spikes.
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Improved Efficiency
-                </h4>
-                <div class="text-muted-foreground">
-                  Automate processes and eliminate manual data entry
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="ERP_BENEFIT_03"
               >
-                <div class="mb-4">
-                  <PiCheckCircle
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiCheckCircle
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Compliance Ready
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Infrastructure pre-certified for SOC 2, HIPAA, and PCI DSS standards.
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Better Decision Making
-                </h4>
-                <div class="text-muted-foreground">
-                  Accurate, timely data supports informed business decisions
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="ERP_BENEFIT_04"
               >
-                <div class="mb-4">
-                  <PiDatabase
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiDatabase
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Disaster Recovery
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Automated snapshots and geo-redundant backups for near-zero RPO/RTO.
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Scalability
-                </h4>
-                <div class="text-muted-foreground">
-                  Systems that grow with your business
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="ERP_BENEFIT_05"
               >
-                <div class="mb-4">
-                  <PiCurrencyDollar
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiCurrencyDollar
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    OpEx Efficiency
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Shift from heavy CapEx hardware cycles to a predictable monthly operating model.
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Cost Effective
-                </h4>
-                <div class="text-muted-foreground">
-                  Hosted solutions eliminate expensive infrastructure
-                  investments
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="ERP_BENEFIT_06"
               >
-                <div class="mb-4">
-                  <PiLock
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiLock
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Zero Trust Security
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Micro-segmentation, encryption at rest/transit, and real-time threat detection.
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Data Security
-                </h4>
-                <div class="text-muted-foreground">
-                  Enterprise-grade security and regular backups protect your
-                  business data
-                </div>
-              </Card>
+              </ServiceCard>
             </div>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              How We Run Your ERP
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold font-display">
+              Technical Execution
             </h3>
 
             <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
@@ -450,7 +429,7 @@ const detailColumns = [
                         className="text-primary h-8 w-8"
                         aria-hidden="true"
                       />
-                      <h4 class="text-foreground text-2xl font-bold">
+                      <h4 class="text-foreground text-2xl font-bold font-display">
                         {column.title}
                       </h4>
                     </div>
@@ -470,65 +449,16 @@ const detailColumns = [
               }
             </div>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our Hosted ERP Services
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold font-display">
+               Frequently Asked Questions
             </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {/* Left: Image Placeholder */}
-              <div
-                class="glass border-primary/20 overflow-hidden rounded-2xl border"
-              >
-                <div
-                  class="from-primary/5 via-secondary/5 to-primary/5 flex h-full min-h-[300px] items-center justify-center bg-linear-to-br"
-                >
-                  <div class="text-center">
-                    <div
-                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                    >
-                      Service Image
-                    </div>
-                    <div class="text-muted-foreground/60 text-lg">
-                      ERP Implementation
-                    </div>
-                    <div class="text-muted-foreground/40 mt-2 text-xs">
-                      Recommended: 600x400px
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Text Card */}
-              <Card
-                size="default"
-                interactive={false}
-                className="flex items-center"
-              >
-                <div class="grid gap-8 md:grid-cols-1">
-                  <div>
-                    <h4 class="text-foreground mb-4 text-2xl font-bold">
-                      Implementation & Support
-                    </h4>
-                    <div class="text-foreground leading-relaxed">
-                      From initial setup to ongoing optimization, our team
-                      provides expert guidance. We help you configure the system
-                      to match your business processes and train your team to
-                      use it effectively.
-                    </div>
-                  </div>
-                  <div>
-                    <h4 class="text-foreground mb-4 text-2xl font-bold">
-                      Expert Support
-                    </h4>
-                    <div class="text-foreground leading-relaxed">
-                      Dedicated team with deep ERP and industry knowledge
-                      ensures your system delivers maximum value. We don't just
-                      host your software—we partner with you for success.
-                    </div>
-                  </div>
-                </div>
-              </Card>
+            
+            <div class="not-prose mb-20">
+               <TechnicalFAQ client:visible faqs={faqs} />
             </div>
+
+            <WhoThisIsFor client:visible />
+
           </div>
         </div>
 
@@ -537,9 +467,9 @@ const detailColumns = [
         <CTASection
           client:load
           title="Why Choose BDK for Hosted ERP?"
-          description="We combine ERP expertise with managed hosting services, giving you a complete solution. Our team understands both the technical aspects of ERP systems and the business processes they support. We don't just host your software—we partner with you to ensure it delivers maximum value to your business."
+          description="Unrivaled uptime, military-grade security, and specialized expertise in complex ERP ecosystems. We do not just host servers; we guarantee the operational backbone of your enterprise."
           primaryAction={{
-            text: 'Start Your ERP Journey',
+            text: 'Architect Your Solution',
             href: '/contact',
             icon: 'arrow',
           }}

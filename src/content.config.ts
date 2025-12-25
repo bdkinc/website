@@ -19,6 +19,7 @@ const blogCollection = defineCollection({
     author: z.string(),
     image: z.string().optional(),
     tags: z.array(z.string()).optional(),
+    category: z.enum(['Infrastructure', 'Security', 'Development', 'AI']).default('Infrastructure'),
     draft: z.boolean().optional(),
   }),
 });

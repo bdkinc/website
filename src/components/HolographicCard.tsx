@@ -7,6 +7,7 @@ interface HolographicCardProps {
   className?: string;
   size?: 'sm' | 'default' | 'lg' | 'xl';
   interactive?: boolean;
+  metadata?: string;
 }
 
 /**
@@ -18,6 +19,7 @@ export default function HolographicCard({
   className,
   size = 'lg',
   interactive = true,
+  metadata,
 }: HolographicCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -49,38 +51,66 @@ export default function HolographicCard({
   }, []);
 
   return (
-    <div ref={cardRef} className="group relative">
+    <div ref={cardRef} className="group relative h-full">
       <Card
         size={size}
-        interactive={interactive}
-        className={cn('relative overflow-hidden backdrop-blur-xl', className)}
+        interactive={false}
+        className={cn(
+          'relative h-full flex flex-col overflow-hidden backdrop-blur-xl rounded-none border-primary/30 transition-all duration-300',
+          isHovered && 'border-primary/60 shadow-[0_0_30px_rgba(0,212,255,0.2)]',
+          className
+        )}
       >
+        {/* Technical Overlays */}
+        <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.05]" />
+        <div className="circuit-overlay absolute inset-0 opacity-[0.03] pointer-events-none" />
+
         {/* Mouse-tracking holographic spotlight */}
         <div
-          className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-200"
+          className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
           style={{
             opacity: isHovered ? 1 : 0,
-            background: `radial-gradient(400px circle at ${mousePosition.x}% ${mousePosition.y}%,
-              rgba(0, 212, 255, 0.4),
-              rgba(124, 58, 237, 0.35) 30%,
-              rgba(255, 153, 51, 0.25) 50%,
+            background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%,
+              rgba(0, 212, 255, 0.25),
+              rgba(124, 58, 237, 0.2) 30%,
+              rgba(255, 153, 51, 0.15) 50%,
               transparent 70%)`,
           }}
         />
 
-        {/* Border glow effect */}
-        <div
-          className="pointer-events-none absolute inset-0 rounded-xl transition-all duration-200"
-          style={{
-            opacity: isHovered ? 1 : 0,
-            boxShadow: isHovered
-              ? `0 0 30px rgba(0, 212, 255, 0.3), 0 0 60px rgba(124, 58, 237, 0.2)`
-              : 'none',
-          }}
-        />
+        {/* 4 Corner Brackets - Technical Style */}
+        <div className={cn(
+          "absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary transition-all duration-300 z-30",
+          (isHovered || !interactive) ? "w-6 h-6 opacity-100" : "opacity-0"
+        )} />
+        <div className={cn(
+          "absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary transition-all duration-300 z-30",
+          (isHovered || !interactive) ? "w-6 h-6 opacity-100" : "opacity-0"
+        )} />
+        <div className={cn(
+          "absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary transition-all duration-300 z-30",
+          (isHovered || !interactive) ? "w-6 h-6 opacity-100" : "opacity-0"
+        )} />
+        <div className={cn(
+          "absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary transition-all duration-300 z-30",
+          (isHovered || !interactive) ? "w-6 h-6 opacity-100" : "opacity-0"
+        )} />
 
         {/* Content */}
-        <div className="relative z-10">{children}</div>
+        <div className="relative z-10 h-full flex flex-col">
+          {children}
+          
+          {/* Technical Footer Decoration */}
+          <div className="mt-auto pt-6 w-full flex justify-between items-end p-6">
+            <div className="text-[9px] font-mono tracking-widest text-primary/60 uppercase">
+              {metadata || 'HOLO_PROTOCOL_V2.0'}
+            </div>
+            <div className={cn(
+              "h-1 w-12 bg-primary/30 transition-all duration-500",
+              isHovered && "w-20 bg-primary/70 shadow-[0_0_10px_var(--color-primary)]"
+            )} />
+          </div>
+        </div>
       </Card>
     </div>
   );

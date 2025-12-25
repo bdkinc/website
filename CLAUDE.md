@@ -79,18 +79,18 @@ import { cn } from '@/lib/utils'
 
 ### React Components in Astro Files
 
-When using React components (like lucide-react icons) **inside Astro files**, always use `className` instead of `class`, even though `.astro` files allow `class` for HTML elements:
+When using React components (like Phosphor icons) **inside Astro files**, always use `className` instead of `class`, even though `.astro` files allow `class` for HTML elements:
 
 ```typescript
 // CORRECT: React components use className
-import { Code2, Shield, Lock } from 'lucide-react'
+import { PiCode, PiShieldCheck, PiLock } from 'react-icons/pi'
 
-<Code2 className="w-16 h-16 text-primary" />
-<Shield className="w-8 h-8 text-primary" />
-<Lock className="w-5 h-5 text-primary mt-1 shrink-0" />
+<PiCode className="w-16 h-16 text-primary" />
+<PiShieldCheck className="w-8 h-8 text-primary" />
+<PiLock className="w-5 h-5 text-primary mt-1 shrink-0" />
 
 // WRONG: Do not use class with React components
-<Code2 class="w-16 h-16 text-primary" />  // ❌ Won't work properly
+<PiCode class="w-16 h-16 text-primary" />  // ❌ Won't work properly
 ```
 
 This is because React expects the `className` prop regardless of the file format. Using `class` in Astro files will not properly apply styles to React components.
@@ -98,7 +98,7 @@ This is because React expects the `className` prop regardless of the file format
 ## Key Dependencies
 
 - **react-bits** - Animation library (installed but not yet used extensively)
-- **lucide-react** - Icon library used throughout (e.g., Menu, X icons)
+- **react-icons/pi** - Phosphor icon library used throughout (Standardized)
 - **@radix-ui/react-slot** - Polymorphic component utilities for shadcn UI
 - **class-variance-authority** - For component variant management in UI components
 

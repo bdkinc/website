@@ -11,6 +11,8 @@ import { Card } from '@/components/ui/card';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 import TechSpecs from '@/components/TechSpecs';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
+import TechnicalSection from '@/components/TechnicalSection';
+import { CornerBrackets } from '@/components/CornerBrackets';
 import {
   PiHeadphones,
   PiCheckCircle,
@@ -185,87 +187,91 @@ const faqs = [
               </div>
             </div>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
               Core Services
             </h3>
 
             <ServiceCardGrid client:visible>
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiHeadphones
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Enterprise Service Desk
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Beyond basic troubleshooting. Our tiered support structure resolves 98% of incidents on first contact, providing your team with immediate access to senior engineers who understand your specific operational context.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiTrendUp
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Predictive Infrastructure Intelligence
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  We don't just react to alerts; we anticipate failures utilizing advanced telemetry and AI-driven analytics to identify anomalies and remediate performance bottlenecks before they impact your users.
+              <ServiceCard variant="technical" interactive metadata="IT_SERV_01">
+                <div class="p-8 flex flex-col items-center text-center h-full">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
+                    <PiHeadphones
+                      className="text-primary h-16 w-16"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                    Enterprise Service Desk
+                  </h4>
+                  <div class="text-muted-foreground leading-relaxed text-sm">
+                    Beyond basic troubleshooting. Our tiered support structure resolves 98% of incidents on first contact, providing your team with immediate access to senior engineers who understand your specific operational context.
+                  </div>
                 </div>
               </ServiceCard>
 
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiUsersThree
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
+              <ServiceCard variant="technical" interactive metadata="IT_SERV_02">
+                <div class="p-8 flex flex-col items-center text-center h-full">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
+                    <PiTrendUp
+                      className="text-primary h-16 w-16"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                    Predictive Infrastructure Intelligence
+                  </h4>
+                  <div class="text-muted-foreground leading-relaxed text-sm">
+                    We don't just react to alerts; we anticipate failures utilizing advanced telemetry and AI-driven analytics to identify anomalies and remediate performance bottlenecks before they impact your users.
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Strategic Co-Management
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Whether acting as your entire IT department or augmenting your internal team, we integrate seamlessly with your workflows, providing specialized expertise in cloud, security, and compliance exactly where you need it.
+              </ServiceCard>
+
+              <ServiceCard variant="technical" interactive metadata="IT_SERV_03">
+                <div class="p-8 flex flex-col items-center text-center h-full">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
+                    <PiUsersThree
+                      className="text-primary h-16 w-16"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                    Strategic Co-Management
+                  </h4>
+                  <div class="text-muted-foreground leading-relaxed text-sm">
+                    Whether acting as your entire IT department or augmenting your internal team, we integrate seamlessly with your workflows, providing specialized expertise in cloud, security, and compliance exactly where you need it.
+                  </div>
                 </div>
               </ServiceCard>
             </ServiceCardGrid>
 
             <h3
-              class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+              class="text-foreground mt-12 mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight"
             >
               The Strategic Advantage of Elite Management
             </h3>
 
             <div class="not-prose mb-20">
-              <p class="text-muted-foreground mb-10 text-center text-xl">
+              <p class="text-muted-foreground mb-12 text-center text-xl">
                 Move beyond break/fix and operational drag
               </p>
 
               {/* Feature Image Placeholder */}
-              <div class="mb-10">
+              <div class="mb-12 relative group">
+                <CornerBrackets client:visible isHovered={true} className="z-30" />
                 <div
-                  class="glass border-primary/20 mx-auto max-w-3xl overflow-hidden rounded-xl border"
+                  class="glass border-primary/20 mx-auto max-w-3xl overflow-hidden rounded-xl border relative"
                 >
                   <div
                     class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-21/9 items-center justify-center bg-linear-to-br"
                   >
                     <div class="p-4 text-center">
                       <div
-                        class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
+                        class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase font-mono"
                       >
-                        Feature Image
+                        ADVANTAGE_VISUAL_INIT
                       </div>
                       <div class="text-muted-foreground/60 text-sm">
-                        Benefits Illustration
-                      </div>
-                      <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                        1200x500px
+                        Strategic IT Lifecycle Illustration
                       </div>
                     </div>
                   </div>
@@ -273,217 +279,232 @@ const faqs = [
               </div>
 
               <div class="grid gap-6 md:grid-cols-2">
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Operational Resilience
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Systems designed for 99.99% uptime, ensuring your business never pauses.
+                <ServiceCard variant="technical" interactive={false} metadata="ADV_STRAT_01">
+                  <div class="flex items-start gap-4 p-6 group">
+                    <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                      <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
+                      </div>
+                    </div>
+                    <div>
+                      <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                        Operational Resilience
+                      </h5>
+                      <div class="text-muted-foreground text-sm leading-relaxed">
+                        Systems designed for 99.99% uptime, ensuring your business never pauses.
+                      </div>
                     </div>
                   </div>
-                </div>
+                </ServiceCard>
 
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Scalable Architecture
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Infrastructure that adapts instantly to mergers, acquisitions, and rapid user growth.
+                <ServiceCard variant="technical" interactive={false} metadata="ADV_STRAT_02">
+                  <div class="flex items-start gap-4 p-6 group">
+                    <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                      <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
+                      </div>
+                    </div>
+                    <div>
+                      <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                        Scalable Architecture
+                      </h5>
+                      <div class="text-muted-foreground text-sm leading-relaxed">
+                        Infrastructure that adapts instantly to mergers, acquisitions, and rapid user growth.
+                      </div>
                     </div>
                   </div>
-                </div>
+                </ServiceCard>
 
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Cost Predictability
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Shift from volatile capital expenditures to predictable, value-driven operational models.
+                <ServiceCard variant="technical" interactive={false} metadata="ADV_STRAT_03">
+                  <div class="flex items-start gap-4 p-6 group">
+                    <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                      <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
+                      </div>
+                    </div>
+                    <div>
+                      <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                        Cost Predictability
+                      </h5>
+                      <div class="text-muted-foreground text-sm leading-relaxed">
+                        Shift from volatile capital expenditures to predictable, value-driven operational models.
+                      </div>
                     </div>
                   </div>
-                </div>
+                </ServiceCard>
 
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Security Posture
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Enterprise-grade defense mechanisms interwoven into daily operations, not bolted on as an afterthought.
+                <ServiceCard variant="technical" interactive={false} metadata="ADV_STRAT_04">
+                  <div class="flex items-start gap-4 p-6 group">
+                    <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                      <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
+                      </div>
+                    </div>
+                    <div>
+                      <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                        Security Posture
+                      </h5>
+                      <div class="text-muted-foreground text-sm leading-relaxed">
+                        Enterprise-grade defense mechanisms interwoven into daily operations, not bolted on as an afterthought.
+                      </div>
                     </div>
                   </div>
-                </div>
+                </ServiceCard>
               </div>
             </div>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
               Key Benefits
             </h3>
 
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CORE_BENEFIT_01"
               >
-                <div class="mb-4">
-                  <PiClock
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiClock
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    24/7 Availability
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Round-the-clock monitoring and support ensures your business
+                    never stops
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  24/7 Availability
-                </h4>
-                <div class="text-muted-foreground">
-                  Round-the-clock monitoring and support ensures your business
-                  never stops
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CORE_BENEFIT_02"
               >
-                <div class="mb-4">
-                  <PiUsersThree
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiUsersThree
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Expert Support
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Access to experienced technicians with diverse technical
+                    expertise
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Expert Support
-                </h4>
-                <div class="text-muted-foreground">
-                  Access to experienced technicians with diverse technical
-                  expertise
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CORE_BENEFIT_03"
               >
-                <div class="mb-4">
-                  <PiShieldCheck
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiShieldCheck
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Security First
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Proactive security measures protect your data and systems
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Security First
-                </h4>
-                <div class="text-muted-foreground">
-                  Proactive security measures protect your data and systems
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CORE_BENEFIT_04"
               >
-                <div class="mb-4">
-                  <PiTrendUp
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiTrendUp
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Business Growth
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Technology that scales with your business objectives
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Business Growth
-                </h4>
-                <div class="text-muted-foreground">
-                  Technology that scales with your business objectives
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CORE_BENEFIT_05"
               >
-                <div class="mb-4">
-                  <PiLightning
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiLightning
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Rapid Response
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Quick issue resolution minimizes disruption to your operations
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Rapid Response
-                </h4>
-                <div class="text-muted-foreground">
-                  Quick issue resolution minimizes disruption to your operations
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CORE_BENEFIT_06"
               >
-                <div class="mb-4">
-                  <PiMonitor
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiMonitor
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Infrastructure Management
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Complete oversight of your IT infrastructure and assets
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Infrastructure Management
-                </h4>
-                <div class="text-muted-foreground">
-                  Complete oversight of your IT infrastructure and assets
-                </div>
-              </Card>
+              </ServiceCard>
             </div>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Built for Maturity. Engineered for Scale.
-            </h3>
-
-            <div class="not-prose mb-20">
-              <div class="grid items-center gap-8 md:grid-cols-2">
+            <TechnicalSection client:visible id="maturity-scale" overlayOpacity="opacity-10">
+              <div class="grid items-stretch gap-8 md:grid-cols-2">
                 {/* Approach Image Placeholder */}
-                <div class="order-2 md:order-1">
+                <div class="order-2 md:order-1 relative group">
+                  <CornerBrackets client:visible isHovered={true} className="z-30" />
                   <div
-                    class="glass border-primary/20 overflow-hidden rounded-xl border"
+                    class="glass border-primary/20 overflow-hidden rounded-xl border h-full min-h-[400px] relative"
                   >
+                    <div className="scanlines absolute inset-0 opacity-[0.05] pointer-events-none" />
                     <div
-                      class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-square items-center justify-center bg-linear-to-br"
+                      class="from-primary/5 via-secondary/5 to-primary/5 flex h-full items-center justify-center bg-linear-to-br"
                     >
                       <div class="p-4 text-center">
                         <div
-                          class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
+                          class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase font-mono"
                         >
-                          Approach Visual
+                          ARCHITECTURAL_BLUEPRINT_01
                         </div>
-                        <div class="text-muted-foreground/60 text-sm">
-                          Workflow Diagram
-                        </div>
-                        <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                          800x800px
+                        <div class="text-muted-foreground/60 text-lg">
+                          Workflow Orchestration Diagram
                         </div>
                       </div>
                     </div>
@@ -491,10 +512,10 @@ const faqs = [
                 </div>
 
                 {/* Approach Text */}
-                <div class="order-1 md:order-2">
-                  <div class="glass border-border rounded-xl border p-8">
+                <div class="order-1 md:order-2 flex flex-col">
+                  <ServiceCard variant="technical" interactive={false} metadata="APPROACH_INTEL">
                     <div
-                      class="text-muted-foreground space-y-4 text-lg leading-relaxed"
+                      class="text-muted-foreground space-y-6 text-lg leading-relaxed p-8"
                     >
                       <p>
                         We reject the "generic" approach to managed services. Your environment is unique, and your support model should be too. We begin with a deep-dive architectural review to align your technology roadmap with your business objectives.
@@ -506,12 +527,12 @@ const faqs = [
                         As you scale, we scale. From supporting distributed workforces to managing complex hybrid cloud environments, BDKinc provides the mature operational framework necessary to support an unstoppable enterprise.
                       </p>
                     </div>
-                  </div>
+                  </ServiceCard>
                 </div>
               </div>
-            </div>
+            </TechnicalSection>
 
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold">
+            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
               Service Details
             </h3>
 

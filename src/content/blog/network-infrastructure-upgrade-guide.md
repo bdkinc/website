@@ -3,6 +3,7 @@ title: 'Is It Time to Upgrade Your Network Infrastructure?'
 description: 'Signs your business network needs an upgrade and how to plan for a seamless transition to modern infrastructure.'
 pubDate: 2025-10-25
 author: 'BDKinc'
+category: 'Infrastructure'
 tags: ['networking', 'infrastructure', 'upgrades']
 draft: false
 ---

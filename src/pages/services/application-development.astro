@@ -12,17 +12,16 @@ import TechStackShowcase from '@/components/app-dev/TechStackShowcase';
 import LifecycleVisualization from '@/components/app-dev/LifecycleVisualization';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
+import TechnicalSection from '@/components/TechnicalSection';
 import {
   PiArrowsClockwise,
   PiNetworkX,
+  PiCode,
+  PiMedal,
+  PiLink,
+  PiRocket,
+  PiTrendUp,
 } from 'react-icons/pi';
-import {
-  Code2,
-  Award,
-  Link,
-  Rocket,
-  TrendingUp,
-} from 'lucide-react';
 
 const service = await getEntry('services', 'application-development');
 if (!service) {
@@ -68,10 +67,10 @@ const relatedPosts = (await getCollection('blog'))
   .slice(0, 3);
 
 const metrics = [
-  { value: '250+', label: 'APPS DELIVERED', icon: Code2 },
-  { value: '92%', label: 'CLIENT RETENTION', icon: Award },
-  { value: '60+', label: 'SYSTEM INTEGRATIONS', icon: Link },
-  { value: '45', label: 'ANNUAL RELEASES', icon: Rocket },
+  { value: '250+', label: 'APPS DELIVERED', icon: PiCode },
+  { value: '92%', label: 'CLIENT RETENTION', icon: PiMedal },
+  { value: '60+', label: 'SYSTEM INTEGRATIONS', icon: PiLink },
+  { value: '45', label: 'ANNUAL RELEASES', icon: PiRocket },
 ];
 
 const faqs = [
@@ -181,68 +180,78 @@ const faqs = [
       >
         <div class="mx-auto max-w-7xl">
           <div class="service-content-wrapper">
-            <div class="not-prose mx-auto max-w-4xl">
-              <h2
-                class="text-foreground mb-6 text-center text-3xl font-bold"
-              >
-                The BDK Dev Shop: Engineering Innovation
-              </h2>
-              <div
-                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-              >
-                We are more than just developers—we are a <span class="text-primary font-semibold">full-service Dev Shop</span> dedicated to engineering solutions that drive enterprise growth. From robust database architecture to seamless front-end experiences, our full-stack team delivers custom software that solves complex business challenges. We combine technical excellence with strategic vision to modernize your operations and accelerate your digital transformation.
+            <TechnicalSection client:visible id="dev-innovation" overlayOpacity="opacity-10">
+              <div class="relative z-10 flex flex-col items-center text-center">
+                <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
+                  <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
+                  <span class="text-xs font-bold tracking-widest text-primary font-display uppercase">BDK Dev Shop Operations</span>
+                </div>
+                
+                <h4 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display uppercase tracking-tight">
+                  Engineering <span class="text-primary">Enterprise Innovation.</span>
+                </h4>
+                
+                <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
+                  We are more than just developers—we are a <span class="text-primary font-semibold">full-service Dev Shop</span> dedicated to engineering solutions that drive enterprise growth. From robust database architecture to seamless front-end experiences, our full-stack team delivers custom software that solves complex business challenges.
+                </div>
               </div>
-            </div>
+            </TechnicalSection>
 
             <WhoThisIsFor client:visible />
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
               Solutions Built for Your Business
             </h3>
 
             <ServiceCardGrid client:visible>
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <Code2
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Custom Business Applications
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  We engineer purpose-built software tailored to your exact operational requirements. Our solutions eliminate inefficiencies, automate complex workflows, and provide a user experience that empowers your workforce to achieve more.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiNetworkX
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Enterprise Integration
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Unify your digital ecosystem. We architect secure, high-performance integrations that bridge the gap between legacy systems, modern cloud platforms, and third-party APIs—ensuring your data flows seamlessly across the enterprise.
+              <ServiceCard variant="technical" interactive metadata="DEV_SOL_01">
+                <div class="p-8 flex flex-col items-center text-center h-full">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
+                    <PiCode
+                      className="text-primary h-16 w-16"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                    Custom Business Applications
+                  </h4>
+                  <div class="text-muted-foreground leading-relaxed text-sm">
+                    We engineer purpose-built software tailored to your exact operational requirements. Our solutions eliminate inefficiencies, automate complex workflows, and provide a user experience that empowers your workforce to achieve more.
+                  </div>
                 </div>
               </ServiceCard>
 
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiArrowsClockwise
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
+              <ServiceCard variant="technical" interactive metadata="DEV_SOL_02">
+                <div class="p-8 flex flex-col items-center text-center h-full">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
+                    <PiNetworkX
+                      className="text-primary h-16 w-16"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                    Enterprise Integration
+                  </h4>
+                  <div class="text-muted-foreground leading-relaxed text-sm">
+                    Unify your digital ecosystem. We architect secure, high-performance integrations that bridge the gap between legacy systems, modern cloud platforms, and third-party APIs—ensuring your data flows seamlessly across the enterprise.
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Application Modernization
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Future-proof your critical assets. We transform legacy applications into modern, scalable, cloud-native solutions. Our modernization strategies preserve your core business logic while upgrading performance, security, and maintainability.
+              </ServiceCard>
+
+              <ServiceCard variant="technical" interactive metadata="DEV_SOL_03">
+                <div class="p-8 flex flex-col items-center text-center h-full">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
+                    <PiArrowsClockwise
+                      className="text-primary h-16 w-16"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                    Application Modernization
+                  </h4>
+                  <div class="text-muted-foreground leading-relaxed text-sm">
+                    Future-proof your critical assets. We transform legacy applications into modern, scalable, cloud-native solutions. Our modernization strategies preserve your core business logic while upgrading performance, security, and maintainability.
+                  </div>
                 </div>
               </ServiceCard>
             </ServiceCardGrid>
@@ -279,7 +288,7 @@ const faqs = [
                           {post.data.description}
                         </p>
                         <span class="text-primary mt-4 text-sm font-medium flex items-center gap-1">
-                          Read Article <TrendingUp className="h-3 w-3" />
+                          Read Article <PiTrendUp className="h-3 w-3" />
                         </span>
                       </a>
                     ))}

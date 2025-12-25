@@ -9,6 +9,8 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
+import TechnicalSection from '@/components/TechnicalSection';
+import { CornerBrackets } from '@/components/CornerBrackets';
 import { Card } from '@/components/ui/card';
 import {
   PiLock,
@@ -27,9 +29,15 @@ import {
   PiGraph,
   PiSquaresFour,
   PiGlobe,
-  PiStack
+  PiStack,
+  PiBuildings,
+  PiCurrencyDollar,
+  PiCode,
+  PiDesktop,
+  PiDatabase,
+  PiNetwork,
+  PiLaptop,
 } from 'react-icons/pi';
-import { Code2, Server, Database, Cloud, Network, Laptop } from 'lucide-react';
 import Footer from '@/components/Footer.astro';
 
 const service = await getEntry('services', 'cloud-hosting');
@@ -106,12 +114,12 @@ const faqs = [
 ];
 
 const providers = [
-  { name: "IBM Cloud", icon: Server, desc: "Enterprise-grade reliability and Power Systems expertise" },
-  { name: "AWS", icon: Cloud, desc: "Industry-leading breadth for diverse application ecosystems" },
-  { name: "Microsoft Azure", icon: Database, desc: "Seamless integration for Microsoft-centric enterprises" },
-  { name: "Cisco", icon: Network, desc: "Building on the world's most robust network backbone" },
-  { name: "Google Cloud", icon: Code2, desc: "Advanced data analytics and AI capabilities" },
-  { name: "Lenovo", icon: Laptop, desc: "High-performance hardware designed for modern business" },
+  { name: "IBM Cloud", icon: PiDesktop, desc: "Enterprise-grade reliability and Power Systems expertise" },
+  { name: "AWS", icon: PiCloud, desc: "Industry-leading breadth for diverse application ecosystems" },
+  { name: "Microsoft Azure", icon: PiDatabase, desc: "Seamless integration for Microsoft-centric enterprises" },
+  { name: "Cisco", icon: PiNetwork, desc: "Building on the world's most robust network backbone" },
+  { name: "Google Cloud", icon: PiCode, desc: "Advanced data analytics and AI capabilities" },
+  { name: "Lenovo", icon: PiLaptop, desc: "High-performance hardware designed for modern business" },
 ];
 ---
 
@@ -226,60 +234,66 @@ const providers = [
 
             {/* Cloud Deployment Grid - Polished with Scanlines & Accents via ServiceCard */}
             <ServiceCardGrid client:visible>
-              <ServiceCard client:visible>
-                <div class="mb-6 relative">
-                  <div class="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-50"></div>
-                  <PiLock
-                    className="text-primary h-16 w-16 relative z-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold font-display">
-                  Private Cloud
-                </h4>
-                <div class="text-foreground leading-relaxed mb-4">
-                  Uncompromising Control. BDKinc’s Private Cloud offers dedicated resources in our secure datacenters, ensuring absolute data sovereignty, predictable performance, and compliance for sensitive workloads.
-                </div>
-                <div class="text-muted-foreground text-sm font-mono mt-auto">
-                  <span class="text-primary">TARGET:</span> Healthcare, Finance, Gov
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6 relative">
-                  <div class="absolute inset-0 bg-secondary/20 blur-xl rounded-full opacity-50"></div>
-                  <PiStack
-                    className="text-secondary h-16 w-16 relative z-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold font-display">
-                  Hybrid Cloud
-                </h4>
-                <div class="text-foreground leading-relaxed mb-4">
-                  Seamless Integration. Bridge the gap between on-premise legacy systems and modern cloud agility. Our hybrid architectures allow you to scale securely, keeping sensitive data close while leveraging public cloud power.
-                </div>
-                <div class="text-muted-foreground text-sm font-mono mt-auto">
-                  <span class="text-secondary">TARGET:</span> Enterprise, Mixed Workloads
+              <ServiceCard variant="technical" interactive metadata="PRIVATE_NODE_01">
+                <div class="p-8 flex flex-col items-center text-center h-full">
+                  <div class="mb-6 relative group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-50"></div>
+                    <PiLock
+                      className="text-primary h-16 w-16 relative z-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                    Private Cloud
+                  </h4>
+                  <div class="text-muted-foreground leading-relaxed mb-6 text-sm">
+                    Uncompromising Control. BDKinc’s Private Cloud offers dedicated resources in our secure datacenters, ensuring absolute data sovereignty, predictable performance, and compliance for sensitive workloads.
+                  </div>
+                  <div class="text-primary text-[10px] font-mono mt-auto uppercase tracking-widest bg-primary/5 px-2 py-1 border border-primary/10">
+                    TARGET: Healthcare, Finance, Gov
+                  </div>
                 </div>
               </ServiceCard>
 
-              <ServiceCard client:visible>
-                <div class="mb-6 relative">
-                  <div class="absolute inset-0 bg-accent/20 blur-xl rounded-full opacity-50"></div>
-                  <PiGlobe
-                    className="text-accent h-16 w-16 relative z-10"
-                    aria-hidden="true"
-                  />
+              <ServiceCard variant="technical" interactive metadata="HYBRID_NODE_02">
+                <div class="p-8 flex flex-col items-center text-center h-full">
+                  <div class="mb-6 relative group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-secondary/20 blur-xl rounded-full opacity-50"></div>
+                    <PiStack
+                      className="text-secondary h-16 w-16 relative z-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-secondary transition-colors">
+                    Hybrid Cloud
+                  </h4>
+                  <div class="text-muted-foreground leading-relaxed mb-6 text-sm">
+                    Seamless Integration. Bridge the gap between on-premise legacy systems and modern cloud agility. Our hybrid architectures allow you to scale securely, keeping sensitive data close while leveraging public cloud power.
+                  </div>
+                  <div class="text-secondary text-[10px] font-mono mt-auto uppercase tracking-widest bg-secondary/5 px-2 py-1 border border-secondary/10">
+                    TARGET: Enterprise, Mixed Workloads
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold font-display">
-                  Public Cloud
-                </h4>
-                <div class="text-foreground leading-relaxed mb-4">
-                  Infinite Scalability. Leverage the massive global reach of AWS, Azure, and IBM Cloud. We manage the complexity, optimizing your deployment for cost-efficiency, security, and performance at scale.
-                </div>
-                <div class="text-muted-foreground text-sm font-mono mt-auto">
-                  <span class="text-accent">TARGET:</span> Startups, AI/ML, Big Data
+              </ServiceCard>
+
+              <ServiceCard variant="technical" interactive metadata="PUBLIC_NODE_03">
+                <div class="p-8 flex flex-col items-center text-center h-full">
+                  <div class="mb-6 relative group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-50"></div>
+                    <PiGlobe
+                      className="text-primary h-16 w-16 relative z-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                    Public Cloud
+                  </h4>
+                  <div class="text-muted-foreground leading-relaxed mb-6 text-sm">
+                    Infinite Scalability. Leverage the massive global reach of AWS, Azure, and IBM Cloud. We manage the complexity, optimizing your deployment for cost-efficiency, security, and performance at scale.
+                  </div>
+                  <div class="text-primary text-[10px] font-mono mt-auto uppercase tracking-widest bg-primary/5 px-2 py-1 border border-primary/10">
+                    TARGET: Startups, AI/ML, Big Data
+                  </div>
                 </div>
               </ServiceCard>
             </ServiceCardGrid>
@@ -399,31 +413,26 @@ const providers = [
               </div>
             </div>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our Approach
-            </h3>
-
-            <div class="not-prose mb-20">
-              <div class="grid items-center gap-8 md:grid-cols-2">
+            <TechnicalSection client:visible id="cloud-approach" overlayOpacity="opacity-10">
+              <div class="grid items-stretch gap-8 md:grid-cols-2">
                 {/* Approach Image Placeholder */}
-                <div class="order-2 md:order-1">
+                <div class="order-2 md:order-1 relative group">
+                  <CornerBrackets client:visible isHovered={true} className="z-30" />
                   <div
-                    class="glass border-primary/20 overflow-hidden rounded-xl border"
+                    class="glass border-primary/20 overflow-hidden rounded-xl border h-full min-h-[400px] relative"
                   >
+                    <div className="scanlines absolute inset-0 opacity-[0.05] pointer-events-none" />
                     <div
-                      class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-square items-center justify-center bg-linear-to-br"
+                      class="from-primary/5 via-secondary/5 to-primary/5 flex h-full items-center justify-center bg-linear-to-br"
                     >
                       <div class="p-4 text-center">
                         <div
-                          class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
+                          class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase font-mono"
                         >
-                          Approach Visual
+                          MIGRATION_STRATEGY_MAP_01
                         </div>
-                        <div class="text-muted-foreground/60 text-sm">
-                          Workflow Diagram
-                        </div>
-                        <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                          800x800px
+                        <div class="text-muted-foreground/60 text-lg">
+                          Cloud Evolution Workflow
                         </div>
                       </div>
                     </div>
@@ -431,13 +440,17 @@ const providers = [
                 </div>
 
                 {/* Approach Text */}
-                <div class="order-1 md:order-2">
-                  <div class="glass border-border rounded-xl border p-8">
+                <div class="order-1 md:order-2 flex flex-col">
+                  <ServiceCard
+                    variant="technical"
+                    interactive={false}
+                    metadata="APPROACH_INTEL"
+                  >
                     <div
-                      class="text-muted-foreground space-y-4 text-lg leading-relaxed"
+                      class="text-muted-foreground space-y-6 text-lg leading-relaxed p-8"
                     >
                       <p>
-                        <strong class="text-foreground">Precision Migration.</strong> We don't just "lift and shift." We assess, refactor, and migrate workloads with a zero-disruption methodology.
+                        <strong class="text-primary font-bold uppercase tracking-tight">Precision Migration.</strong> We don't just "lift and shift." We assess, refactor, and migrate workloads with a zero-disruption methodology.
                       </p>
                       <p>
                         We ensure your business keeps running while your infrastructure transforms, maintaining strict data integrity throughout the transition.
@@ -446,134 +459,148 @@ const providers = [
                         From initial architectural assessment to final cutover, our team manages every detail of your cloud evolution.
                       </p>
                     </div>
-                  </div>
+                  </ServiceCard>
                 </div>
               </div>
-            </div>
+            </TechnicalSection>
 
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
               Key Benefits
             </h3>
 
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CLOUD_BENEFIT_01"
               >
-                <div class="mb-4">
-                  <PiShield
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiShield
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Enhanced Reliability
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Redundancy capabilities prevent downtime and protect your
+                    critical business data
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Enhanced Reliability
-                </h4>
-                <div class="text-muted-foreground">
-                  Redundancy capabilities prevent downtime and protect your
-                  critical business data
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CLOUD_BENEFIT_02"
               >
-                <div class="mb-4">
-                  <PiCurrencyDollar
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiCurrencyDollar
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Cost Efficiency
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Reduce capital expenses by moving from physical infrastructure
+                    to flexible cloud solutions
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Cost Efficiency
-                </h4>
-                <div class="text-muted-foreground">
-                  Reduce capital expenses by moving from physical infrastructure
-                  to flexible cloud solutions
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CLOUD_BENEFIT_03"
               >
-                <div class="mb-4">
-                  <PiArrowsClockwise
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiArrowsClockwise
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Business Continuity
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Built-in disaster recovery and backup solutions keep your
+                    business running
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Business Continuity
-                </h4>
-                <div class="text-muted-foreground">
-                  Built-in disaster recovery and backup solutions keep your
-                  business running
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CLOUD_BENEFIT_04"
               >
-                <div class="mb-4">
-                  <PiUsers
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiUsers
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Expert Support
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    60+ years of combined experience in cloud infrastructure and
+                    migration
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Expert Support
-                </h4>
-                <div class="text-muted-foreground">
-                  60+ years of combined experience in cloud infrastructure and
-                  migration
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CLOUD_BENEFIT_05"
               >
-                <div class="mb-4">
-                  <PiLock
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiLock
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Security Posture
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Enterprise-grade security controls protect your data in the
+                    cloud
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">Security</h4>
-                <div class="text-muted-foreground">
-                  Enterprise-grade security controls protect your data in the
-                  cloud
-                </div>
-              </Card>
+              </ServiceCard>
 
-              <Card
-                size="default"
+              <ServiceCard
+                variant="technical"
                 interactive={false}
-                className="flex flex-col items-center text-center"
+                metadata="CLOUD_BENEFIT_06"
               >
-                <div class="mb-4">
-                  <PiLightning
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
+                <div class="flex flex-col items-center text-center p-8">
+                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
+                    <PiLightning
+                      className="text-primary h-10 w-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                    Infinite Flexibility
+                  </h4>
+                  <div class="text-muted-foreground text-sm leading-relaxed">
+                    Choose from public, private, or hybrid cloud configurations
+                  </div>
                 </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Flexibility
-                </h4>
-                <div class="text-muted-foreground">
-                  Choose from public, private, or hybrid cloud configurations
-                </div>
-              </Card>
+              </ServiceCard>
             </div>
 
             <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
@@ -614,39 +641,41 @@ const providers = [
             {/* Replaced with TechnicalFAQ component */}
             <TechnicalFAQ client:visible faqs={faqs} />
 
-            <div class="not-prose my-16 mx-auto max-w-4xl">
-              <Card size="lg" interactive={false} className="border-secondary/20 bg-gradient-to-br from-card to-background">
-                <div class="scanlines absolute inset-0 opacity-[0.02] pointer-events-none"></div>
-                <div class="flex flex-col items-center text-center gap-6 relative z-10">
-                  <div class="flex gap-6 items-center">
-                    <div class="p-4 bg-secondary/10 rounded-xl border border-secondary/20">
+            <div class="not-prose my-24 mx-auto max-w-4xl">
+              <ServiceCard variant="technical" interactive metadata="DEV_SHOP_CROSS_PROMO">
+                <div class="flex flex-col items-center text-center gap-8 p-12 relative z-10">
+                  <div class="flex gap-8 items-center">
+                    <div class="p-4 bg-secondary/10 rounded-lg border border-secondary/20 group-hover:scale-110 transition-transform">
                       <PiCloud className="text-secondary h-12 w-12" aria-hidden="true" />
                     </div>
-                    <div class="h-px w-8 bg-border"></div>
-                    <div class="p-4 bg-primary/10 rounded-xl border border-primary/20 relative">
-                       <div class="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-background animate-pulse"></div>
+                    <div class="h-px w-12 bg-primary/20 relative">
+                      <div class="absolute inset-0 bg-primary/40 blur-sm"></div>
+                    </div>
+                    <div class="p-4 bg-primary/10 rounded-lg border border-primary/20 relative group-hover:scale-110 transition-transform">
+                       <div class="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full border-2 border-background animate-pulse shadow-[0_0_8px_var(--color-primary)]"></div>
                        <PiTerminal className="text-primary h-12 w-12" aria-hidden="true" />
                     </div>
                   </div>
                   
-                  <h3 class="text-foreground text-2xl font-bold">
-                    Need Custom Applications Too?
-                  </h3>
-                  
-                  <p class="text-muted-foreground text-lg max-w-2xl">
-                    BDKinc is a full-service <strong class="text-primary">Dev Shop</strong>. We build custom applications tailored to your business and deploy them on infrastructure we manage. One partner, complete solution.
-                  </p>
+                  <div class="space-y-4">
+                    <h3 class="text-foreground text-3xl font-bold font-display uppercase tracking-tight">
+                      Need Custom Applications Too?
+                    </h3>
+                    
+                    <p class="text-muted-foreground text-lg max-w-2xl leading-relaxed">
+                      BDKinc is a full-service <strong class="text-primary font-bold">Dev Shop</strong>. We build custom applications tailored to your business and deploy them on infrastructure we manage. One partner, complete solution.
+                    </p>
+                  </div>
                   
                   <a
                     href="/services/application-development"
-                    class="group relative inline-flex items-center gap-3 px-8 py-3 bg-primary/10 text-primary font-bold rounded-lg border border-primary/20 hover:bg-primary hover:text-primary-foreground transition-all duration-300 overflow-hidden"
+                    class="group relative inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-bold rounded-none hover:bg-primary/90 transition-all duration-300 overflow-hidden shadow-[0_0_20px_rgba(0,212,255,0.3)]"
                   >
-                    <span class="relative z-10">Explore Development Services</span>
-                    <Code2 className="h-5 w-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-                    <div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <span class="relative z-10 uppercase tracking-widest text-sm">Explore Development Services</span>
+                    <PiCode className="h-5 w-5 relative z-10 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </div>
-              </Card>
+              </ServiceCard>
             </div>
           </div>
         </div>

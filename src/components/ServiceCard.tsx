@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
+import { Slot } from '@radix-ui/react-slot';
 
 interface ServiceCardProps {
   children: React.ReactNode;
@@ -9,6 +10,9 @@ interface ServiceCardProps {
   delay?: number;
   size?: 'default' | 'sm' | 'lg';
   interactive?: boolean;
+  variant?: 'default' | 'technical';
+  metadata?: string;
+  asChild?: boolean;
 }
 
 interface MousePosition {
@@ -23,12 +27,17 @@ export function ServiceCard({
   delay = 0,
   size = 'lg',
   interactive = true,
+  variant = 'technical',
+  metadata,
+  asChild = false,
 }: ServiceCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState<MousePosition>({
     x: 50,
     y: 50,
   });
+
+  const Component = asChild ? Slot : 'div';
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!interactive) return;
@@ -39,12 +48,13 @@ export function ServiceCard({
   };
 
   return (
-    <div
+    <Component
       className={cn(
-        'relative h-full',
+        'relative h-full group block focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
         animated
           ? 'fill-mode-both animate-in fade-in slide-in-from-bottom-6 duration-600'
-          : ''
+          : '',
+        className
       )}
       style={animated ? { animationDelay: `${delay}ms` } : undefined}
       onMouseMove={handleMouseMove}
@@ -53,14 +63,15 @@ export function ServiceCard({
     >
       <Card
         size={size}
-        interactive={interactive}
+        interactive={false} // We handle interaction ourselves
         className={cn(
           'relative flex h-full flex-col items-center justify-center text-center overflow-hidden',
-          'bg-card/60 border-border/50 backdrop-blur-xl',
-          className
+          'bg-card/60 border-border/50 backdrop-blur-xl transition-all duration-300',
+          variant === 'technical' && 'border-primary/20',
+          interactive && isHovered && 'border-primary/40 shadow-[--shadow-glow-sm]'
         )}
       >
-        {/* Technical Scanline Overlay */}
+        {/* Technical Overlays */}
         <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03]" />
 
         {/* Mouse-tracking spotlight */}
@@ -69,32 +80,31 @@ export function ServiceCard({
             className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
             style={{
               opacity: isHovered ? 1 : 0,
-              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.1) 40%, transparent 60%)`,
+              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.12), rgba(124, 58, 237, 0.08) 40%, transparent 60%)`,
             }}
           />
         )}
 
-        {/* Corner accents */}
-        <div className={cn(
-          "absolute top-0 right-0 h-8 w-8 transition-opacity duration-300",
-          (isHovered || !interactive) ? "opacity-100" : "opacity-0" // Always show on non-interactive or on hover
-        )}>
-          <div className="absolute top-2 right-2 h-px w-4 bg-primary/40" />
-          <div className="absolute top-2 right-2 h-4 w-px bg-primary/40" />
-        </div>
-        <div className={cn(
-          "absolute bottom-0 left-0 h-8 w-8 transition-opacity duration-300",
-          (isHovered || !interactive) ? "opacity-100" : "opacity-0"
-        )}>
-          <div className="absolute bottom-2 left-2 h-px w-4 bg-primary/40" />
-          <div className="absolute bottom-2 left-2 h-4 w-px bg-primary/40" />
-        </div>
-
-        <div className="text-foreground relative z-20 flex w-full flex-col items-center">
-          {children}
+        <div className="text-foreground relative z-20 flex w-full flex-col h-full">
+          <div className="flex-grow w-full">
+            {children}
+          </div>
+          
+          {/* Technical Footer Decoration */}
+          {variant === 'technical' && (
+            <div className="mt-auto pt-6 w-full flex justify-between items-end">
+              <div className="text-[9px] font-mono tracking-widest text-primary/40 uppercase">
+                {metadata || 'TECH_PROTOCOL_V1.0'}
+              </div>
+              <div className={cn(
+                "h-1 w-12 bg-primary/20 transition-all duration-500",
+                isHovered && "w-20 bg-primary/50"
+              )} />
+            </div>
+          )}
         </div>
       </Card>
-    </div>
+    </Component>
   );
 }
 

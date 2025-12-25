@@ -7,7 +7,7 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
-import { PiBrainCircuit, PiCaretDown } from 'react-icons/pi';
+import { PiBrain, PiCaretDown } from 'react-icons/pi';
 import type { ComponentProps } from 'react';
 import { createContext, memo, useContext, useEffect, useState } from 'react';
 import { Response } from './response';
@@ -137,7 +137,7 @@ export const ReasoningTrigger = memo(
       >
         {children ?? (
           <>
-            <PiBrainCircuit className="size-4" />
+            <PiBrain className="size-4" />
             {getThinkingMessage(isStreaming, duration)}
             <PiCaretDown
               className={cn(

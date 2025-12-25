@@ -38,9 +38,9 @@ type MessageType = {
 };
 
 const mockResponses = [
-  'Thanks for reaching out! Our team will respond shortly. You can also call us at (800) 309-0004 for immediate assistance.',
-  "Great question! We'd love to help you with that. One of our experts will get back to you soon, or feel free to call (800) 309-0004.",
-  "Thank you for your interest! We're here to help. Our team will be in touch shortly, or you can reach us directly at (800) 309-0004.",
+  'Transmission received. A Strategic Architect has been notified and will analyze your inquiry. Expect a response within the designated protocol window.',
+  'Inquiry logged. Our engineering team is reviewing your requirements for feasibility and strategic alignment. Stand by for initial assessment.',
+  'Data packet received. We are routing your request to the appropriate technical lead. You will receive a diagnostic response shortly.',
 ];
 
 interface ContactChatProps {
@@ -68,10 +68,10 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
       from: 'assistant',
       version: {
         id: nanoid(),
-        content: 'Hi! How can we help you today?',
+        content: 'Diagnostic Interface Initialized. Please state your inquiry for strategic analysis.',
       },
       avatar: '/favicon.svg',
-      name: 'BDKinc',
+      name: 'BDK Architect',
     },
   ]);
 
@@ -141,7 +141,7 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
             content: '',
           },
           avatar: '/favicon.svg',
-          name: 'BDKinc',
+          name: 'BDK Architect',
           isStreaming: true,
         };
 
@@ -170,7 +170,8 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
   };
 
   return (
-    <div className="bg-background border-input rounded-xl border p-4 shadow-sm">
+    <div className="bg-background border-primary/20 rounded-none border p-4 shadow-2xl relative">
+      <div className="absolute inset-0 scanlines opacity-[0.02] pointer-events-none" />
       <div>
         <div className="relative flex h-[500px] flex-col overflow-hidden">
           <Conversation>
@@ -178,25 +179,26 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
               {messages.map((message) => (
                 <Message from={message.from} key={message.key}>
                   <div className="max-w-[80%]">
-                    <MessageContent className="relative max-w-none transition-all duration-200 ease-out">
-                      <div className="whitespace-pre-wrap">
+                    <MessageContent className="relative max-w-none transition-all duration-200 ease-out border border-primary/10 rounded-none bg-card/40 backdrop-blur-sm shadow-sm group-hover:border-primary/30 transition-all duration-300">
+                      <div className="whitespace-pre-wrap font-sans text-sm leading-relaxed">
                         {message.version.content}
                       </div>
                     </MessageContent>
                   </div>
-                  <MessageAvatar name={message.name} src={message.avatar} />
+                  <MessageAvatar name={message.name} src={message.avatar} className="border border-primary/20 rounded-none bg-primary/5" />
                 </Message>
               ))}
             </ConversationContent>
             <ConversationScrollButton />
           </Conversation>
-          <div className="border-input grid shrink-0 gap-4 border-t p-4">
+          <div className="border-primary/10 grid shrink-0 gap-4 border-t p-4 bg-muted/5">
             <Suggestions>
               {suggestions.map((suggestion) => (
                 <Suggestion
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
                   suggestion={suggestion}
+                  className="rounded-none border-primary/20 bg-background/50 hover:bg-primary/10 hover:border-primary/40 font-mono text-[10px] uppercase tracking-wider transition-all duration-300"
                 />
               ))}
             </Suggestions>
@@ -205,7 +207,8 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
                 <PromptInputTextarea
                   onChange={(event) => setText(event.target.value)}
                   value={text}
-                  placeholder="Type your message..."
+                  placeholder="&gt; INPUT_INQUIRY_PARAMS..."
+                  className="font-mono text-sm border-none bg-transparent focus:ring-0"
                 />
               </PromptInputBody>
               <PromptInputFooter>
@@ -213,6 +216,7 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
                 <PromptInputSubmit
                   disabled={!text.trim() || status === 'streaming'}
                   status={status}
+                  className="rounded-none shadow-[0_0_10px_rgba(0,212,255,0.2)]"
                 />
               </PromptInputFooter>
             </PromptInput>

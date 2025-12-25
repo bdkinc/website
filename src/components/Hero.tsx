@@ -33,7 +33,7 @@ export default function Hero() {
         ref={contentRef}
         className="relative z-20 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8"
       >
-        <div className="space-y-8">
+        <div className="flex flex-col items-center space-y-8">
           {/* Badge */}
           <div className="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500">
             <span className="text-sm">

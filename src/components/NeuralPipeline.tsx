@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Scan, BrainCircuit, Rocket, ArrowRight, Zap } from 'lucide-react';
+import { PiScan, PiBrain, PiRocket, PiArrowRight, PiLightning } from 'react-icons/pi';
 
 export default function NeuralPipeline() {
   const steps = [
@@ -7,7 +7,7 @@ export default function NeuralPipeline() {
       id: 'discovery',
       title: 'Discovery & Feasibility',
       description: 'Data readiness assessment & ROI modeling',
-      icon: Scan,
+      icon: PiScan,
       color: 'text-[--color-primary]',
       bg: 'bg-[--color-primary]/10',
       border: 'border-[--color-primary]/20',
@@ -16,7 +16,7 @@ export default function NeuralPipeline() {
       id: 'engineering',
       title: 'Model Engineering',
       description: 'Custom training & fine-tuning with watsonx',
-      icon: BrainCircuit,
+      icon: PiBrain,
       color: 'text-[--color-secondary]',
       bg: 'bg-[--color-secondary]/10',
       border: 'border-[--color-secondary]/20',
@@ -25,7 +25,7 @@ export default function NeuralPipeline() {
       id: 'production',
       title: 'Production Deployment',
       description: 'Scalable inference on OpenShift / Power Systems',
-      icon: Rocket,
+      icon: PiRocket,
       color: 'text-[--brand-accent]',
       bg: 'bg-[--brand-accent]/10',
       border: 'border-[--brand-accent]/20',
