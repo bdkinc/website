@@ -13,6 +13,40 @@ export default function CloudHostingVisualization() {
     () => {
       const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.1 }); // ~2.5s loop
 
+      // Orbiting Ring
+      gsap.to('.orbit-ring', {
+        rotation: 360,
+        duration: 8,
+        repeat: -1,
+        ease: 'linear',
+      });
+
+      // Conduit Shimmer
+      gsap.to('.conduit-shimmer', {
+        x: '100%',
+        duration: 2,
+        repeat: -1,
+        ease: 'linear',
+      });
+
+      // Background Pulse
+      gsap.to('.bg-pulse', {
+        scale: 1.1,
+        opacity: 0.3,
+        duration: 5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+
+      // Circuit Overlay Animation
+      gsap.to('.circuit-path', {
+        strokeDashoffset: 0,
+        duration: 4,
+        repeat: -1,
+        ease: 'linear',
+      });
+
       // Burst of 3 request packets
       const reqTargets = ['.req-1', '.req-2', '.req-3'];
       reqTargets.forEach((target, i) => {
@@ -24,7 +58,7 @@ export default function CloudHostingVisualization() {
             opacity: 1,
             scale: 1,
             duration: 1.2,
-            ease: 'linear',
+            ease: 'power1.inOut',
             keyframes: {
               '0%': { opacity: 0, scale: 0.5 },
               '50%': { opacity: 1, scale: 1 },
@@ -46,7 +80,7 @@ export default function CloudHostingVisualization() {
             opacity: 1,
             scale: 1,
             duration: 1.2,
-            ease: 'linear',
+            ease: 'power1.inOut',
             keyframes: {
               '0%': { opacity: 0, scale: 0.5 },
               '50%': { opacity: 1, scale: 1 },
@@ -86,11 +120,23 @@ export default function CloudHostingVisualization() {
       className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
     >
       {/* Map Background (Abstract) */}
-      <div className="absolute inset-0 z-0 opacity-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
+      <div className="absolute inset-0 z-0 opacity-20 overflow-hidden">
+        <div className="bg-pulse absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
       </div>
 
-      <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-10" />
+      <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-10">
+         <svg className="h-full w-full" preserveAspectRatio="none">
+            <path
+              d="M0 50 Q 50 20 100 50 T 200 50"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              className="text-primary circuit-path"
+              strokeDasharray="20 20"
+              vectorEffect="non-scaling-stroke"
+            />
+         </svg>
+      </div>
 
       <div className="relative z-10 flex flex-col items-center justify-between gap-8 md:flex-row md:gap-4">
         {/* Node 1: Global Traffic */}
@@ -108,7 +154,7 @@ export default function CloudHostingVisualization() {
           <div className="relative z-20 flex h-24 w-24 items-center justify-center rounded-full border-2 border-secondary bg-background/80 shadow-[0_0_30px_rgba(124,58,237,0.3)] backdrop-blur-xl">
             <div className="absolute inset-0 animate-pulse rounded-full bg-secondary/10"></div>
             {/* Orbiting ring */}
-            <div className="absolute -inset-2 animate-[spin_8s_linear_infinite] rounded-full border border-secondary/30"></div>
+            <div className="orbit-ring absolute -inset-2 rounded-full border border-secondary/30"></div>
             <PiGlobe className="h-10 w-10 text-secondary" />
           </div>
           <div className="mt-4 text-center">
@@ -197,7 +243,7 @@ function Conduit() {
   return (
     <div className="relative hidden h-2 flex-1 overflow-hidden rounded-full bg-muted/20 md:block">
       <div className="absolute inset-x-0 top-1/2 h-[1px] -translate-y-1/2 bg-border"></div>
-      <div className="animate-shimmer absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:200%_100%]"></div>
+      <div className="conduit-shimmer absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:50%_100%]"></div>
     </div>
   );
 }

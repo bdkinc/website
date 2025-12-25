@@ -11,6 +11,44 @@ export default function ManagedITVisualization() {
 
   useGSAP(
     () => {
+      // Radar Sweep (Spin)
+      gsap.to('.radar-sweep', {
+        rotation: 360,
+        duration: 3,
+        repeat: -1,
+        ease: 'linear',
+      });
+
+      // Health Packet Ping
+      gsap.to('.packet-ping', {
+        scale: 1.5,
+        opacity: 0,
+        duration: 1,
+        repeat: -1,
+        ease: 'power1.out',
+      });
+
+      // Status Pulse
+      gsap.to('.status-dot', {
+        opacity: 0.4,
+        duration: 0.8,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut',
+      });
+
+      // ECG Line Animation (Draw)
+      gsap.fromTo(
+        '.ecg-path',
+        { strokeDashoffset: 1000 },
+        {
+          strokeDashoffset: 0,
+          duration: 3,
+          repeat: -1,
+          ease: 'linear',
+        }
+      );
+
       const tl = gsap.timeline({ repeat: -1 }); // 3s loop
 
       // Health Check (Endpoints -> Monitoring)
@@ -70,8 +108,9 @@ export default function ManagedITVisualization() {
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
-            className="animate-pulse text-primary"
+            className="text-primary ecg-path"
             vectorEffect="non-scaling-stroke"
+            strokeDasharray="1000 1000"
           />
         </svg>
       </div>
@@ -92,7 +131,7 @@ export default function ManagedITVisualization() {
           <div className="relative z-20 flex h-24 w-24 items-center justify-center rounded-full border-2 border-primary bg-background/80 shadow-[0_0_30px_rgba(0,212,255,0.3)] backdrop-blur-xl">
             {/* Radar Sweep */}
             <div className="absolute inset-0 overflow-hidden rounded-full">
-              <div className="absolute left-0 inset-0 h-full w-1/2 origin-right animate-[spin_3s_linear_infinite] bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
+              <div className="radar-sweep absolute left-0 inset-0 h-full w-1/2 origin-right bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
             </div>
             <PiPulse className="relative z-10 h-10 w-10 text-primary" />
           </div>
@@ -127,7 +166,7 @@ export default function ManagedITVisualization() {
 
       {/* Floating Status */}
       <div className="absolute left-4 top-4 hidden items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 md:flex">
-        <div className="h-2 w-2 animate-pulse rounded-full bg-green-500"></div>
+        <div className="status-dot h-2 w-2 rounded-full bg-green-500"></div>
         <span className="text-xs font-mono text-green-500">
           SYSTEM HEALTHY
         </span>
@@ -198,7 +237,7 @@ function HealthPacket({
         className
       )}
     >
-      <div className="absolute inset-0 animate-ping rounded-full bg-inherit opacity-75"></div>
+      <div className="packet-ping absolute inset-0 rounded-full bg-inherit opacity-75"></div>
     </div>
   );
 }

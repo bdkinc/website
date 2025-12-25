@@ -17,6 +17,50 @@ export default function HostedERPVisualization() {
 
   useGSAP(
     () => {
+      // Stacking Squares Animation
+      gsap.to('.stack-square-1', {
+        y: -5,
+        duration: 0.6,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut',
+        delay: 0.1,
+      });
+      gsap.to('.stack-square-2', {
+        y: -5,
+        duration: 0.6,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut',
+        delay: 0.2,
+      });
+
+      // Conduit Shimmer
+      gsap.to('.conduit-shimmer', {
+        x: '100%',
+        duration: 2,
+        repeat: -1,
+        ease: 'linear',
+      });
+
+      // Background Grid Pulse
+      gsap.to('.erp-grid', {
+        opacity: 0.3,
+        scale: 1.05,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+
+      // Circuit Overlay Animation
+      gsap.to('.circuit-path', {
+        strokeDashoffset: 0,
+        duration: 3,
+        repeat: -1,
+        ease: 'linear',
+      });
+
       const tl = gsap.timeline({ repeat: -1 }); // ~4.5s loop
 
       // Sales Order (Left to Center)
@@ -85,11 +129,23 @@ export default function HostedERPVisualization() {
       className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
     >
       {/* Background Grid */}
-      <div className="absolute inset-0 z-0 opacity-20">
+      <div className="absolute inset-0 z-0 opacity-20 erp-grid">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px]"></div>
       </div>
 
-      <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-10" />
+      <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-10">
+         <svg className="h-full w-full" preserveAspectRatio="none">
+            <path
+              d="M0 20 H 100 V 80 H 200"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              className="text-primary circuit-path"
+              strokeDasharray="20 20"
+              vectorEffect="non-scaling-stroke"
+            />
+         </svg>
+      </div>
 
       <div className="relative z-10 flex flex-col items-center justify-between gap-8 md:flex-row md:gap-4">
         {/* Node 1: Sales Channel */}
@@ -107,8 +163,8 @@ export default function HostedERPVisualization() {
           <div className="relative z-20 flex h-24 w-24 items-center justify-center rounded-lg border-2 border-primary bg-background/80 shadow-[0_0_30px_rgba(0,212,255,0.3)] backdrop-blur-xl">
             <div className="absolute inset-0 animate-pulse rounded-lg bg-primary/10"></div>
             {/* Stacking squares animation */}
-            <div className="absolute -right-2 -top-2 h-6 w-6 animate-bounce rounded bg-primary/20 delay-75"></div>
-            <div className="absolute -bottom-2 -left-2 h-6 w-6 animate-bounce rounded bg-primary/20 delay-150"></div>
+            <div className="stack-square-1 absolute -right-2 -top-2 h-6 w-6 rounded bg-primary/20"></div>
+            <div className="stack-square-2 absolute -bottom-2 -left-2 h-6 w-6 rounded bg-primary/20"></div>
             <PiBuildings className="h-10 w-10 text-primary" />
           </div>
           <div className="mt-4 text-center">
@@ -203,7 +259,7 @@ function Conduit() {
   return (
     <div className="relative hidden h-2 flex-1 overflow-hidden rounded-full bg-muted/20 md:block">
       <div className="absolute inset-x-0 top-1/2 h-[1px] -translate-y-1/2 bg-border"></div>
-      <div className="animate-shimmer absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:200%_100%]"></div>
+      <div className="conduit-shimmer absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:50%_100%]"></div>
     </div>
   );
 }

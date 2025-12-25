@@ -98,6 +98,15 @@ export default function ArtificialIntelligenceVisualization() {
         },
         1.5
       );
+
+      // Background Pulse
+      gsap.to('.neural-bg', {
+        opacity: 0.2,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
     },
     { scope: containerRef }
   );
@@ -108,7 +117,7 @@ export default function ArtificialIntelligenceVisualization() {
       className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
     >
       {/* Neural Background */}
-      <div className="absolute inset-0 z-0 opacity-10">
+      <div className="neural-bg absolute inset-0 z-0 opacity-10">
         <svg className="h-full w-full">
           <pattern
             id="neural-net"

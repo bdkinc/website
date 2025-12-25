@@ -35,6 +35,24 @@ export default function CybersecurityVisualization() {
         ease: 'linear',
       });
 
+      // Conduit Shimmer
+      gsap.to('.conduit-shimmer', {
+        x: '100%',
+        duration: 2,
+        repeat: -1,
+        ease: 'linear',
+      });
+
+      // Background Grid Pulse
+      gsap.to('.cyber-grid', {
+        opacity: 0.4,
+        scale: 1.05,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+
       const tl = gsap.timeline({ repeat: -1 }); // 3s loop
 
       // Threat Packet (Blocked)
@@ -117,7 +135,7 @@ export default function CybersecurityVisualization() {
       className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
     >
       {/* Grid Background with Red Tint on Left */}
-      <div className="absolute inset-0 z-0 opacity-20">
+      <div className="absolute inset-0 z-0 opacity-20 cyber-grid">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,0,0,0.1),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       </div>
@@ -217,7 +235,7 @@ function Conduit() {
   return (
     <div className="relative hidden h-2 flex-1 overflow-hidden rounded-full bg-muted/20 md:block">
       <div className="absolute inset-x-0 top-1/2 h-[1px] -translate-y-1/2 bg-border"></div>
-      <div className="animate-shimmer absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:200%_100%]"></div>
+      <div className="conduit-shimmer absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:50%_100%]"></div>
     </div>
   );
 }

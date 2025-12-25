@@ -11,6 +11,41 @@ export default function IBMPowerVisualization() {
 
   useGSAP(
     () => {
+      // Lightning Bounce
+      gsap.to('.lightning-icon', {
+        y: -10,
+        duration: 0.5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut',
+      });
+
+      // Energy Pulse (Ping effect)
+      gsap.to('.energy-pulse', {
+        scale: 1.4,
+        opacity: 0,
+        duration: 1.5,
+        repeat: -1,
+        ease: 'power1.out',
+      });
+
+      // Power Line Shimmer
+      gsap.to('.power-shimmer', {
+        x: '200%',
+        duration: 1,
+        repeat: -1,
+        ease: 'linear',
+      });
+
+      // Background Circuit Pulse
+      gsap.to('.ibm-circuit', {
+        opacity: 0.3,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+
       const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.2 }); // ~2s loop
 
       // Fast Stream (Workloads -> CPU)
@@ -66,7 +101,7 @@ export default function IBMPowerVisualization() {
       className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
     >
       {/* Circuit Background */}
-      <div className="absolute inset-0 z-0 opacity-15">
+      <div className="absolute inset-0 z-0 opacity-15 ibm-circuit">
         <svg className="h-full w-full">
           <pattern
             id="circuit-board"
@@ -120,10 +155,10 @@ export default function IBMPowerVisualization() {
           <div className="relative z-20 flex h-28 w-28 items-center justify-center rounded-xl border-2 border-primary bg-background/90 shadow-[0_0_50px_rgba(0,212,255,0.4)] backdrop-blur-xl">
             <div className="absolute inset-0 animate-pulse rounded-xl bg-primary/20"></div>
             {/* Radiating Energy */}
-            <div className="absolute -inset-4 z-0 animate-ping rounded-xl border border-primary/30 opacity-50 scale-110"></div>
+            <div className="energy-pulse absolute -inset-4 z-0 rounded-xl border border-primary/30 opacity-50 scale-100"></div>
             <PiCpu className="relative z-10 h-14 w-14 text-primary" />
             {/* Electrical Arcs */}
-            <PiLightning className="absolute -right-3 -top-3 h-6 w-6 animate-bounce text-yellow-400" />
+            <PiLightning className="lightning-icon absolute -right-3 -top-3 h-6 w-6 text-yellow-400" />
           </div>
           <div className="mt-4 text-center">
             <div className="font-display text-lg font-bold text-primary">
@@ -204,8 +239,8 @@ function Node({
 function PowerLine() {
   return (
     <div className="relative hidden h-4 flex-1 items-center md:flex">
-      <div className="h-1 w-full overflow-hidden rounded-full bg-muted/30">
-        <div className="h-full w-full animate-[shimmer_1s_infinite_linear] bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.5),transparent)] bg-[length:50%_100%]"></div>
+      <div className="h-1 w-full overflow-hidden rounded-full bg-muted/30 relative">
+        <div className="power-shimmer h-full w-full absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.5),transparent)] bg-[length:50%_100%]"></div>
       </div>
     </div>
   );

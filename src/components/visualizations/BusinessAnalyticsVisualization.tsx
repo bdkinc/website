@@ -74,6 +74,34 @@ export default function BusinessAnalyticsVisualization() {
         },
         2.0
       );
+      // Background Grid Pulse
+      gsap.to('.analytics-grid', {
+        opacity: 0.3,
+        scale: 1.05,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+
+      // Pipeline Shimmer
+      gsap.to('.pipeline-shimmer', {
+        x: '100%',
+        duration: 2,
+        repeat: -1,
+        ease: 'linear',
+      });
+
+      // Floating Stats
+      gsap.to('.stat-bar', {
+        scaleX: 1.2,
+        opacity: 0.8,
+        duration: 1.5,
+        repeat: -1,
+        yoyo: true,
+        stagger: 0.2,
+        ease: 'power1.inOut',
+      });
     },
     { scope: containerRef }
   );
@@ -84,7 +112,7 @@ export default function BusinessAnalyticsVisualization() {
       className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
     >
       {/* Grid Background */}
-      <div className="absolute inset-0 z-0 opacity-10">
+      <div className="absolute inset-0 z-0 opacity-10 analytics-grid">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       </div>
 
@@ -151,9 +179,9 @@ export default function BusinessAnalyticsVisualization() {
 
       {/* Floating Stats Background */}
       <div className="pointer-events-none absolute right-8 top-4 flex flex-col gap-1 opacity-20">
-        <div className="animate-pulse h-1 w-16 rounded bg-primary"></div>
-        <div className="animate-pulse delay-75 h-1 w-10 rounded bg-primary"></div>
-        <div className="animate-pulse delay-150 h-1 w-24 rounded bg-primary"></div>
+        <div className="stat-bar h-1 w-16 rounded bg-primary origin-left"></div>
+        <div className="stat-bar h-1 w-10 rounded bg-primary origin-left"></div>
+        <div className="stat-bar h-1 w-24 rounded bg-primary origin-left"></div>
       </div>
     </div>
   );
@@ -202,7 +230,7 @@ function PipelineConduit() {
   return (
     <div className="relative hidden h-2 flex-1 overflow-hidden rounded-full bg-muted/20 md:block">
       <div className="absolute inset-x-0 top-1/2 h-[1px] -translate-y-1/2 bg-border"></div>
-      <div className="animate-shimmer absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:200%_100%]"></div>
+      <div className="pipeline-shimmer absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:50%_100%]"></div>
     </div>
   );
 }

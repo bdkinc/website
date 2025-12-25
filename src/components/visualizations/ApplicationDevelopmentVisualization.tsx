@@ -11,6 +11,31 @@ export default function ApplicationDevelopmentVisualization() {
 
   useGSAP(
     () => {
+      // Gear Rotation
+      gsap.to('.gear-icon', {
+        rotation: 360,
+        duration: 8,
+        repeat: -1,
+        ease: 'linear',
+      });
+
+      // Background Grid Pulse
+      gsap.to('.grid-bg', {
+        opacity: 0.4,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+
+      // Circuit Overlay Animation
+      gsap.to('.circuit-path', {
+        strokeDashoffset: 0,
+        duration: 3,
+        repeat: -1,
+        ease: 'linear',
+      });
+
       const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.2 }); // 3.8s + 0.2s = 4.0s loop approximately
 
       // Packet 1: Development -> Pipeline
@@ -60,11 +85,23 @@ export default function ApplicationDevelopmentVisualization() {
       className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
     >
       {/* Background Grid */}
-      <div className="absolute inset-0 z-0 opacity-20">
+      <div className="absolute inset-0 z-0 opacity-20 grid-bg">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       </div>
 
-      <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-10" />
+      <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-10">
+         <svg className="h-full w-full" preserveAspectRatio="none">
+            <path
+              d="M0 20 H 100 V 80 H 200"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              className="text-primary circuit-path"
+              strokeDasharray="20 20"
+              vectorEffect="non-scaling-stroke"
+            />
+         </svg>
+      </div>
 
       <div className="relative z-10 flex flex-col items-center justify-between gap-8 md:flex-row md:gap-4">
         {/* Node 1: Development */}
@@ -81,7 +118,7 @@ export default function ApplicationDevelopmentVisualization() {
         <div className="relative flex flex-col items-center">
           <div className="relative z-20 flex h-24 w-24 items-center justify-center rounded-2xl border-2 border-secondary bg-background/80 shadow-[0_0_30px_rgba(124,58,237,0.3)] backdrop-blur-xl">
             <div className="absolute inset-0 animate-pulse rounded-2xl bg-secondary/10"></div>
-            <PiGearSix className="animate-spin-slow h-10 w-10 text-secondary" />
+            <PiGearSix className="gear-icon h-10 w-10 text-secondary" />
           </div>
           <div className="mt-4 text-center">
             <div className="font-display text-lg font-bold text-secondary">

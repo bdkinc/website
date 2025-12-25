@@ -11,6 +11,49 @@ export default function EDIFlowVisualization() {
 
   useGSAP(
     () => {
+      // Central Node Spin
+      gsap.to('.spin-ring', {
+        rotation: 360,
+        duration: 4,
+        repeat: -1,
+        ease: 'linear',
+      });
+
+      // Conduit Shimmer
+      gsap.to('.conduit-shimmer', {
+        x: '100%',
+        duration: 2,
+        repeat: -1,
+        ease: 'linear',
+      });
+
+      // Status Pulse
+      gsap.to('.status-dot', {
+        opacity: 0.4,
+        duration: 0.8,
+        repeat: -1,
+        yoyo: true,
+        ease: 'power1.inOut',
+      });
+
+      // Background Pulse
+      gsap.to('.edi-grid', {
+        opacity: 0.3,
+        scale: 1.05,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+
+      // Circuit Overlay Animation
+      gsap.to('.circuit-path', {
+        strokeDashoffset: 0,
+        duration: 3,
+        repeat: -1,
+        ease: 'linear',
+      });
+
       const tl = gsap.timeline({ repeat: -1 }); // 4s loop
 
       // Packet 1 (Partner -> Engine)
@@ -79,12 +122,24 @@ export default function EDIFlowVisualization() {
       className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
     >
       {/* Background Grid & Decorations */}
-      <div className="absolute inset-0 z-0 opacity-20">
+      <div className="absolute inset-0 z-0 opacity-20 edi-grid">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       </div>
 
       {/* Circuit Overlay */}
-      <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-10" />
+      <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-10">
+         <svg className="h-full w-full" preserveAspectRatio="none">
+            <path
+              d="M0 20 H 100 V 80 H 200"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              className="text-primary circuit-path"
+              strokeDasharray="20 20"
+              vectorEffect="non-scaling-stroke"
+            />
+         </svg>
+      </div>
 
       <div className="relative z-10 flex flex-col items-center justify-between gap-8 md:flex-row md:gap-4">
         {/* Node 1: Partners */}
@@ -105,7 +160,7 @@ export default function EDIFlowVisualization() {
             <PiDesktop className="h-10 w-10 text-primary" />
 
             {/* Orbiting particles */}
-            <div className="absolute -inset-1 animate-[spin_4s_linear_infinite] rounded-2xl border border-dashed border-primary/30"></div>
+            <div className="spin-ring absolute -inset-1 rounded-2xl border border-dashed border-primary/30"></div>
           </div>
           <div className="mt-4 text-center">
             <div className="font-display text-lg font-bold text-primary">
@@ -144,7 +199,7 @@ export default function EDIFlowVisualization() {
       {/* Legend / Status */}
       <div className="mt-12 flex items-center justify-center gap-6 border-t border-border/50 pt-4">
         <div className="flex items-center gap-2">
-          <div className="h-2 w-2 animate-pulse rounded-full bg-green-500"></div>
+          <div className="status-dot h-2 w-2 rounded-full bg-green-500"></div>
           <span className="font-mono text-xs text-muted-foreground">
             SYSTEM ONLINE
           </span>
@@ -212,7 +267,7 @@ function Conduit() {
       <div className="absolute inset-x-0 top-1/2 h-[1px] -translate-y-1/2 bg-border"></div>
 
       {/* Animated flow background */}
-      <div className="animate-shimmer absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:200%_100%]"></div>
+      <div className="conduit-shimmer absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:50%_100%]"></div>
     </div>
   );
 }
