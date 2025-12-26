@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { PiGlobe, PiDesktop, PiShieldCheck, PiWifiHigh } from 'react-icons/pi';
 import { ServiceCard } from '@/components/ServiceCard';

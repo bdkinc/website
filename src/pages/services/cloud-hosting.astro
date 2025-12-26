@@ -12,7 +12,6 @@ import WhoThisIsFor from '@/components/WhoThisIsFor';
 import TechnicalSection from '@/components/TechnicalSection';
 import CloudHostingVisualization from '@/components/visualizations/CloudHostingVisualization';
 import { CornerBrackets } from '@/components/CornerBrackets';
-import { Card } from '@/components/ui/card';
 import {
   PiLock,
   PiLightning,
@@ -34,7 +33,6 @@ import {
   PiBuildings,
   PiCurrencyDollar,
   PiCode,
-  PiDesktop,
   PiDatabase,
   PiNetwork,
   PiLaptop,
@@ -115,11 +113,11 @@ const faqs = [
 ];
 
 const providers = [
-  { name: "IBM Cloud", icon: PiDesktop, desc: "Enterprise-grade reliability and Power Systems expertise" },
+  { name: "IBM Cloud", icon: PiCloud, desc: "Enterprise-grade reliability and Power Systems expertise" },
   { name: "AWS", icon: PiCloud, desc: "Industry-leading breadth for diverse application ecosystems" },
   { name: "Microsoft Azure", icon: PiDatabase, desc: "Seamless integration for Microsoft-centric enterprises" },
   { name: "Cisco", icon: PiNetwork, desc: "Building on the world's most robust network backbone" },
-  { name: "Google Cloud", icon: PiCode, desc: "Advanced data analytics and AI capabilities" },
+  { name: "Google Cloud", icon: PiCloud, desc: "Advanced data analytics and AI capabilities" },
   { name: "Lenovo", icon: PiLaptop, desc: "High-performance hardware designed for modern business" },
 ];
 ---

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BlogCard } from './BlogCard';
 import { cn } from '@/lib/utils';
 import type { CollectionEntry } from 'astro:content';
@@ -66,7 +66,7 @@ export function BlogList({ posts }: BlogListProps) {
       {filteredPosts.length === 0 && (
         <div className="text-center py-20 border border-dashed border-primary/20 rounded-xl bg-primary/5">
           <p className="text-muted-foreground font-mono">
-            // No briefings found for category: {activeCategory}
+            {'// No briefings found for category: ' + activeCategory}
           </p>
         </div>
       )}

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { PiRocket, PiEye } from 'react-icons/pi';
 import { ServiceCard } from '@/components/ServiceCard';
@@ -29,7 +29,7 @@ export default function MissionVision() {
           </h2>
           
           <p className="max-w-md mx-auto text-lg text-muted-foreground leading-relaxed">
-            To architect and secure the digital infrastructure that powers the world's most ambitious enterprises. We elevate technology from a utility to a strategic driver of unconstrained growth.
+            To architect and secure the digital infrastructure that powers the world&apos;s most ambitious enterprises. We elevate technology from a utility to a strategic driver of unconstrained growth.
           </p>
         </div>
       </ServiceCard>

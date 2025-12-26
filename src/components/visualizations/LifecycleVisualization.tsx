@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { PiCode, PiCloud, PiArrowRight, PiArrowsClockwise, PiShieldCheck, PiLightning, PiLock } from 'react-icons/pi';
 import { motion } from 'motion/react';
 import { ServiceCard } from '@/components/ServiceCard';
@@ -13,7 +13,7 @@ export default function LifecycleVisualization() {
           Complete Lifecycle Ownership
         </h2>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-          We don't just write code; we own the outcome. BDKinc bridges the gap between development and operations.
+          We don&apos;t just write code; we own the outcome. BDKinc bridges the gap between development and operations.
         </p>
       </div>
 

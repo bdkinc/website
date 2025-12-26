@@ -54,7 +54,7 @@ export default function Testimonials() {
             Client <span className="text-primary">Success</span>
           </h2>
           <p className="text-muted-foreground mx-auto max-w-2xl text-xl font-sans mt-4">
-            Real outcomes for organizations with <span class="text-primary">mission-critical</span> needs.
+            Real outcomes for organizations with <span className="text-primary">mission-critical</span> needs.
           </p>
         </div>
 
@@ -76,7 +76,7 @@ export default function Testimonials() {
                 
                 <div className="flex-grow">
                   <p className="text-lg leading-relaxed italic text-foreground/90 font-sans mb-8">
-                    "{t.quote}"
+                    &quot;{t.quote}&quot;
                   </p>
                 </div>
 

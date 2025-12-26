@@ -1,7 +1,7 @@
-import React from 'react';
+
 import { cn } from '@/lib/utils';
 import { ServiceCard } from '@/components/ServiceCard';
-import { PiPulse, PiCheckCircle, PiWarningCircle, PiFileText, PiArrowUpRight, PiArrowDownLeft, PiArrowsClockwise, PiClock } from 'react-icons/pi';
+import { PiPulse, PiCheckCircle, PiArrowUpRight, PiArrowDownLeft, PiArrowsClockwise, PiClock } from 'react-icons/pi';
 
 export default function TransactionConsole() {
   return (
@@ -196,7 +196,7 @@ function MetricCard({ label, value, unit, trend, icon: Icon, color = "text-prima
         </div>
         <div className="mt-2 flex items-center text-[10px] font-mono text-green-500">
           <PiArrowUpRight className="mr-1 h-3 w-3" />
-          {trend} // PEAK_STABILITY
+          {trend} {'// PEAK_STABILITY'}
         </div>
       </div>
     </ServiceCard>

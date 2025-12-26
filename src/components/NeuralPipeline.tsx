@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { PiScan, PiBrain, PiRocket, PiArrowRight, PiLightning } from 'react-icons/pi';
+import { PiScan, PiBrain, PiRocket } from 'react-icons/pi';
 
 export default function NeuralPipeline() {
   const steps = [

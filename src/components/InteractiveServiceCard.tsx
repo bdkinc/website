@@ -1,4 +1,3 @@
-import { cn } from '@/lib/utils';
 import { iconMap } from '@/lib/icons';
 import { PiPackage, PiCaretRight } from 'react-icons/pi';
 import { ServiceCard } from '@/components/ServiceCard';

@@ -1,5 +1,4 @@
 import React from 'react';
-import { cn } from '@/lib/utils';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { PiTarget, PiLightbulb, PiShield, PiUsers, PiMedal, PiClock, PiPackage } from 'react-icons/pi';
 import { ServiceCard } from '@/components/ServiceCard';

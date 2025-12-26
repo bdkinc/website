@@ -4,7 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import { ServiceCard } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
@@ -13,7 +13,6 @@ import TechnicalSection from '@/components/TechnicalSection';
 import { ERPPerformanceConsole } from '@/components/ERPPerformanceConsole';
 import { GlobalNetworkMap } from '@/components/GlobalNetworkMap';
 import HostedERPVisualization from '@/components/visualizations/HostedERPVisualization';
-import { Card } from '@/components/ui/card';
 import {
   PiArrowUp,
   PiDatabase,
@@ -23,7 +22,6 @@ import {
   PiStack,
   PiShieldCheck,
   PiTrendUp,
-  PiCpu,
   PiCheckCircle,
   PiLock,
   PiCurrencyDollar

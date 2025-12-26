@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { PiLightning, PiShieldCheck, PiUsers } from 'react-icons/pi';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
@@ -63,7 +62,7 @@ export default function WhyChooseUs() {
           <span>?</span>
         </h2>
         <p className="text-muted-foreground mx-auto max-w-2xl text-xl font-sans mt-4">
-          Technical authority <span class="text-primary">refined over decades</span>.
+          Technical authority <span className="text-primary">refined over decades</span>.
         </p>
       </div>
 

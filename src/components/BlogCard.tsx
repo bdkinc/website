@@ -1,5 +1,3 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
 import { PiClock, PiCalendar, PiArrowRight, PiTerminal } from 'react-icons/pi';
 import type { CollectionEntry } from 'astro:content';
 import { ServiceCard } from '@/components/ServiceCard';

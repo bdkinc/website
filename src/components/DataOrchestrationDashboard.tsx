@@ -1,4 +1,3 @@
-import React from 'react';
 import { PiLayout, PiNetwork, PiBrain } from 'react-icons/pi';
 import { ServiceCard } from '@/components/ServiceCard';
 

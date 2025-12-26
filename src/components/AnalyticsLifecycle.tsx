@@ -1,4 +1,3 @@
-import React from 'react';
 import { PiDatabase, PiCpu, PiLightbulb, PiArrowRight, PiLightning } from 'react-icons/pi';
 import { cn } from '@/lib/utils';
 import { ServiceCard } from '@/components/ServiceCard';

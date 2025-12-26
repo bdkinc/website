@@ -1,5 +1,3 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
 import { PiLayout, PiDesktop, PiDatabase, PiGitBranch, PiTerminal } from 'react-icons/pi';
 import { ServiceCard } from '@/components/ServiceCard';
 

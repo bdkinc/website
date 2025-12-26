@@ -1,4 +1,3 @@
-import React from 'react';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { ServiceCard } from '@/components/ServiceCard';
 

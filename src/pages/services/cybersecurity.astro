@@ -19,15 +19,12 @@ import {
   PiShieldCheck,
   PiUsers,
   PiWarning,
-  PiTrendUp,
-  PiCode,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
 import TechnicalSection from '@/components/TechnicalSection';
 import CybersecurityVisualization from '@/components/visualizations/CybersecurityVisualization';
-import { cn } from '@/lib/utils';
 
 const service = await getEntry('services', 'cybersecurity');
 if (!service) {

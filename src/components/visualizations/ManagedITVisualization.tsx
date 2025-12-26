@@ -1,4 +1,3 @@
-import React, { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { PiDesktop, PiHeadset, PiPulse } from 'react-icons/pi';

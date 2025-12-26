@@ -1,6 +1,6 @@
-import React from 'react';
+
 import { cn } from '@/lib/utils';
-import { PiDesktop, PiCloud, PiDeviceMobile, PiStack, PiCaretDown } from 'react-icons/pi';
+import { PiDesktop, PiDeviceMobile, PiStack, PiCaretDown } from 'react-icons/pi';
 import { ServiceCard } from '@/components/ServiceCard';
 
 export function ModernizationRoadmap() {

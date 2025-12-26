@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+
 import { PiDatabase, PiShieldCheck, PiCpu, PiCheckCircle, PiBrain } from 'react-icons/pi';
 import { ServiceCard } from '@/components/ServiceCard';
 
@@ -24,7 +24,7 @@ export default function WatsonxSpotlight() {
           </h2>
           
           <p className="text-lg leading-relaxed text-muted-foreground">
-            We don't just use AI APIs; we engineer enterprise-grade AI platforms. 
+            We don&apos;t just use AI APIs; we engineer enterprise-grade AI platforms. 
             Leveraging the watsonx stack, we deliver models that are transparent, 
             governable, and trained on your proprietary data—not the public internet.
           </p>
