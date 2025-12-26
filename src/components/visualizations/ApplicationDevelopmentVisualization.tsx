@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { PiCode, PiGearSix, PiCloud, PiGitMerge, PiRocket } from 'react-icons/pi';

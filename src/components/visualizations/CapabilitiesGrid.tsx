@@ -36,7 +36,7 @@ export default function CapabilitiesGrid() {
         <h3 className="text-xl font-bold font-display uppercase tracking-widest text-foreground">
           System_Architecture_Overview
         </h3>
-        <div className="h-px bg-primary/20 flex-grow ml-4"></div>
+        <div className="h-px bg-primary/20 grow ml-4"></div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -45,7 +45,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <TechnicalSection client:visible id="why-choose-us" overlayOpacity="opacity-10">
+    <TechnicalSection  id="why-choose-us" overlayOpacity="opacity-10">
       <div
         ref={headerRef as any}
         className={cn(

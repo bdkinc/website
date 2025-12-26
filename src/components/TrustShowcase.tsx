@@ -42,7 +42,7 @@ export default function TrustShowcase() {
   });
 
   return (
-    <TechnicalSection client:visible id="trust-showcase" overlayOpacity="opacity-10">
+    <TechnicalSection  id="trust-showcase" overlayOpacity="opacity-10">
       <div
         ref={headerRef as any}
         className={cn(
