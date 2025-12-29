@@ -1,0 +1,11 @@
+{
+  "name": "VMware",
+  "description": "Virtualization & Cloud Infrastructure",
+  "detail": "Industry-leading virtualization and cloud platform.",
+  "metadata": "VMW_PARTNER_NODE_06",
+  "category": "Virtualization",
+  "order": 6,
+  "featured": true,
+  "showOnAbout": false
+  ,"logo": "/logos/partners/vmware.svg"
+}

@@ -1,18 +1,22 @@
-# <span class="font-display font-extrabold">BDKinc</span> Design Guide
+# BDKinc Website UI & Design Implementation Guide
 
-This comprehensive design guide ensures visual consistency across all components and pages throughout the <span class="font-display font-extrabold">BDKinc</span> website. All droids should reference this guide when creating or modifying UI elements.
+Use this guide when building or modifying UI components, layouts, styling, and motion on the BDKinc marketing site. It is the source of truth for implementation details (design tokens, Tailwind usage, component patterns) so the site stays consistent and performant.
+
+**Use this for:** UI design decisions, component styling, interaction/motion patterns.
+
+**Not for:** marketing copy and wording decisions (see `guides/MESSAGING_FRAMEWORK.md`), or tracking/sourcing imagery (see `guides/VISUAL_ASSET_INVENTORY.md`).
 
 ## Design Philosophy
 
-The <span class="font-display font-extrabold">BDKinc</span> design embodies a **dark technical aesthetic** with circuit board motifs, glowing accents, and glassmorphism effects. The design appeals to tech professionals and MSP/CSP businesses while maintaining readability, accessibility, and modern web standards.
+The BDKinc design embodies a **modern professional aesthetic** with subtle technical accents, clean lines, and glassmorphism effects. The design appeals to **professional IT decision-makers (CIOs, CTOs)** while maintaining readability, accessibility, and modern web standards.
 
 ### Core Design Principles
 
-- **Technical Sophistication**: Circuit board overlays and tech iconography
-- **Visual Hierarchy**: Clear typography scale and spacing system
-- **Interactive Depth**: Glassmorphism, animations, and micro-interactions
-- **Accessibility**: WCAG 2.1 AA+ compliance throughout
-- **Performance**: Optimized animations with reduced motion support
+- **Executive Confidence**: Clean layouts, professional typography, and subtle technical motifs (rather than overt "hacker" visuals).
+- **Visual Hierarchy**: Clear typography scale and spacing system to guide decision-making.
+- **Interactive Depth**: Glassmorphism, smooth animations, and refined micro-interactions.
+- **Accessibility**: WCAG 2.1 AA+ compliance throughout.
+- **Performance**: Optimized animations with reduced motion support.
 
 ## Color System
 
@@ -313,7 +317,7 @@ Using consistent icon size classes:
 
 ### Icon Usage
 
-- Use **lucide-react** for consistent iconography
+- Use **react-icons/pi** (Phosphor Icons) for consistent iconography
 - Apply `text-brand-primary` or `text-brand-secondary` for accent colors
 - Use `text-muted-foreground` for secondary icons
 - Maintain consistent sizing within component groups
@@ -1818,4 +1822,4 @@ Before submitting any UI changes, ensure:
 - [ ] Transitions work bidirectionally (forward and backward)
 - [ ] Elements are appropriate for morphing (similar positions/sizes)
 
-This design guide serves as the single source of truth for all visual and interactive elements across the <span class="font-display font-extrabold">BDKinc</span> website. All droids should consult this guide to ensure consistency and quality throughout the project.
+This design guide serves as the single source of truth for all visual and interactive elements across the BDKinc website. All contributors should consult this guide to ensure consistency and quality throughout the project.

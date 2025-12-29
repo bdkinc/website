@@ -6,6 +6,12 @@ Guidelines for AI coding agents (Claude, Cursor, Copilot, etc.) working in this 
 
 This is an Astro-based marketing website with selective React hydration. Performance is critical - ship as little JavaScript as possible to the client while maintaining rich interactivity where needed.
 
+## Reference Guides
+
+- `guides/DESIGN_GUIDE.md` - UI & design implementation rules (components, styling, motion)
+- `guides/MESSAGING_FRAMEWORK.md` - website copy and messaging (voice, tone, positioning)
+- `guides/VISUAL_ASSET_INVENTORY.md` - what visual assets are needed + status
+
 ## Critical Patterns to Follow
 
 ### 1. Astro Islands Hydration Strategy

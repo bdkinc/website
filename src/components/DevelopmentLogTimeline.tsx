@@ -11,7 +11,9 @@ interface DevelopmentLogTimelineProps {
   milestones: Milestone[];
 }
 
-export default function DevelopmentLogTimeline({ milestones }: DevelopmentLogTimelineProps) {
+export default function DevelopmentLogTimeline({
+  milestones,
+}: DevelopmentLogTimelineProps) {
   const { ref: containerRef, isIntersecting } = useIntersectionObserver({
     threshold: 0.1,
     triggerOnce: true,
@@ -20,8 +22,8 @@ export default function DevelopmentLogTimeline({ milestones }: DevelopmentLogTim
   return (
     <div ref={containerRef as any} className="relative py-12">
       {/* Central Axis Line */}
-      <div className="absolute left-8 top-0 bottom-0 w-px bg-border/40 md:left-1/2 md:-ml-px">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/50 to-transparent" />
+      <div className="bg-border/40 absolute top-0 bottom-0 left-8 w-px md:left-1/2 md:-ml-px">
+        <div className="via-primary/50 absolute inset-0 bg-linear-to-b from-transparent to-transparent" />
       </div>
 
       <div className="space-y-12">
@@ -31,46 +33,42 @@ export default function DevelopmentLogTimeline({ milestones }: DevelopmentLogTim
             <div
               key={index}
               className={cn(
-                'relative flex flex-col md:flex-row items-center gap-8 transition-all duration-700 ease-out',
+                'relative flex flex-col items-center gap-8 transition-all duration-700 ease-out md:flex-row',
                 isIntersecting
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-8'
+                  ? 'translate-y-0 opacity-100'
+                  : 'translate-y-8 opacity-0'
               )}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               {/* Date Marker (Mobile: Left, Desktop: Center) */}
-              <div className="absolute left-8 md:left-1/2 -ml-3 md:-ml-3 w-6 h-6 flex items-center justify-center z-10">
-                <div className="w-3 h-3 bg-background border border-primary rounded-full shadow-[0_0_10px_var(--color-primary)]">
-                    <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-                </div>
+              <div className="absolute left-8 z-10 -ml-3 flex h-6 w-6 items-center justify-center md:left-1/2 md:-ml-3">
+                <div className="bg-primary h-3 w-3 animate-pulse rounded-full shadow-[0_0_10px_var(--color-primary)]" />
               </div>
 
               {/* Content Card */}
-              <div className={cn(
-                "w-full md:w-[calc(50%-2rem)] pl-16 md:pl-0",
-                isEven ? "md:text-right md:pr-12" : "md:flex-row-reverse md:ml-auto md:text-left md:pl-12"
-              )}>
-                <div className="group relative overflow-hidden rounded-lg border border-border/60 bg-card/40 backdrop-blur-sm p-6 hover:border-primary/50 transition-colors duration-300">
-                  {/* Decorative corner accents */}
-                  <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary/40 group-hover:border-primary transition-colors" />
-                  <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary/40 group-hover:border-primary transition-colors" />
-                  <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary/40 group-hover:border-primary transition-colors" />
-                  <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary/40 group-hover:border-primary transition-colors" />
-
+              <div
+                className={cn(
+                  'w-full pl-16 md:w-[calc(50%-2rem)] md:pl-0',
+                  isEven
+                    ? 'md:pr-12 md:text-right'
+                    : 'md:ml-auto md:flex-row-reverse md:pl-12 md:text-left'
+                )}
+              >
+                <div className="group border-border/60 bg-card/40 hover:border-primary/50 relative overflow-hidden rounded-lg border p-6 backdrop-blur-sm transition-colors duration-300">
                   {/* Scanline overlay */}
-                  <div className="scanlines absolute inset-0 opacity-[0.03] pointer-events-none" />
+                  <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03]" />
 
                   <div className="relative z-10 space-y-2">
-                    <div className="flex items-center gap-2 mb-2 text-primary/80 font-mono text-xs uppercase tracking-widest">
-                      <span className="inline-block w-2 h-2 bg-primary/40" />
-                      LOG_ENTRY_{milestone.year}
+                    <div className="text-primary/80 mb-2 flex items-center gap-2 font-mono text-xs tracking-widest uppercase">
+                      <span className="bg-primary/40 inline-block h-2 w-2" />
+                      {milestone.year}
                     </div>
-                    
-                    <h3 className="text-xl font-bold font-display text-foreground group-hover:text-primary transition-colors">
+
+                    <h3 className="font-display text-foreground group-hover:text-primary text-xl font-bold transition-colors">
                       {milestone.title}
                     </h3>
-                    
-                    <p className="text-sm text-muted-foreground leading-relaxed font-mono">
+
+                    <p className="text-muted-foreground font-mono text-sm leading-relaxed">
                       {index === 0 ? (
                         <>
                           <span className="text-primary font-bold">BDKinc</span>{' '}

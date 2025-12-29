@@ -1,0 +1,11 @@
+{
+  "name": "Lenovo",
+  "description": "Enterprise Hardware Systems",
+  "detail": "High-performance computing for modern business.",
+  "metadata": "LNV_PARTNER_NODE_04",
+  "category": "x86 Hardware",
+  "order": 4,
+  "featured": true,
+  "showOnAbout": true
+  ,"logo": "/logos/partners/lenovo.svg"
+}
