@@ -19,7 +19,9 @@ const blogCollection = defineCollection({
     author: z.string(),
     image: z.string().optional(),
     tags: z.array(z.string()).optional(),
-    category: z.enum(['Infrastructure', 'Security', 'Development', 'AI']).default('Infrastructure'),
+    category: z
+      .enum(['Infrastructure', 'Security', 'Development', 'AI'])
+      .default('Infrastructure'),
     draft: z.boolean().optional(),
   }),
 });
@@ -60,9 +62,25 @@ const pseoServicesCollection = defineCollection({
   }),
 });
 
+const partnersCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    name: z.string(),
+    description: z.string(),
+    detail: z.string().optional(),
+    metadata: z.string().optional(),
+    category: z.string().optional(),
+    order: z.number().optional(),
+    featured: z.boolean().optional(),
+    showOnAbout: z.boolean().optional(),
+    logo: z.string().optional(),
+  }),
+});
+
 export const collections = {
   services: servicesCollection,
   blog: blogCollection,
   locations: locationsCollection,
   pseoServices: pseoServicesCollection,
+  partners: partnersCollection,
 };

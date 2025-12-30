@@ -1,6 +1,6 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navigation from '../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import CTASection from '@/components/CTASection';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
@@ -9,7 +9,6 @@ import DevelopmentLogTimeline from '@/components/DevelopmentLogTimeline';
 import MissionVision from '@/components/MissionVision';
 import PartnerGrid from '@/components/PartnerGrid';
 import { ServiceCard } from '@/components/ServiceCard';
-import { CornerBrackets } from '@/components/CornerBrackets';
 import {
   PiUsers,
   PiShield,
@@ -22,6 +21,8 @@ import {
   PiArrowRight,
   PiStar,
 } from 'react-icons/pi';
+
+
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -432,12 +433,13 @@ const whyChooseUs = [
                 category: 'Compliance',
                 meta: 'CERT_HIPAA_07',
               },
-              {
-                name: 'PCI-DSS Certified',
-                category: 'Security',
-                meta: 'CERT_PCI_08',
-              },
-            ].map((cert, index) => (
+            {
+              name: 'PCI-DSS Certified',
+              category: 'Security',
+              meta: 'CERT_PCI_08',
+            },
+          ].map((cert, index) => (
+            <div>
               <ServiceCard
                 variant="technical"
                 interactive={false}
@@ -456,9 +458,10 @@ const whyChooseUs = [
                   </p>
                 </div>
               </ServiceCard>
-            ))
-          }
-        </div>
+            </div>
+          ))
+        }
+      </div>
 
         {/* Trust Stats */}
         <div
@@ -519,31 +522,32 @@ const whyChooseUs = [
         <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {
             [
-              {
-                quote:
-                  'BDKinc transformed our entire IT infrastructure. Their managed services have been instrumental in our growth, providing the reliability and security we need.',
-                author: 'Manufacturing Executive',
-                company: 'Manufacturing Partner',
-                industry: 'Manufacturing',
-                meta: 'CLIENT_FEEDBACK_01',
-              },
-              {
-                quote:
-                  "The team's expertise with IBM Power systems is unmatched. They've helped us modernize legacy applications while maintaining business continuity.",
-                author: 'IT Director',
-                company: 'Logistics Enterprise',
-                industry: 'Distribution',
-                meta: 'CLIENT_FEEDBACK_02',
-              },
-              {
-                quote:
-                  'Their cybersecurity solutions give us peace of mind. We trust BDKinc to protect our sensitive data and keep our operations running smoothly.',
-                author: 'Operations Manager',
-                company: 'Healthcare Provider',
-                industry: 'Healthcare',
-                meta: 'CLIENT_FEEDBACK_03',
-              },
-            ].map((testimonial, index) => (
+            {
+              quote:
+                'BDKinc transformed our entire IT infrastructure. Their managed services have been instrumental in our growth, providing the reliability and security we need.',
+              author: 'Manufacturing Executive',
+              company: 'Manufacturing Partner',
+              industry: 'Manufacturing',
+              meta: 'CLIENT_FEEDBACK_01',
+            },
+            {
+              quote:
+                    "The team’s expertise with IBM Power systems is unmatched. They’ve helped us modernize legacy applications while maintaining business continuity.",
+              author: 'IT Director',
+              company: 'Logistics Enterprise',
+              industry: 'Distribution',
+              meta: 'CLIENT_FEEDBACK_02',
+            },
+            {
+              quote:
+                'Their cybersecurity solutions give us peace of mind. We trust BDKinc to protect our sensitive data and keep our operations running smoothly.',
+              author: 'Operations Manager',
+              company: 'Healthcare Provider',
+              industry: 'Healthcare',
+              meta: 'CLIENT_FEEDBACK_03',
+            },
+          ].map((testimonial, index) => (
+            <div>
               <ServiceCard
                 variant="technical"
                 interactive={false}
@@ -552,7 +556,7 @@ const whyChooseUs = [
               >
                 <div class="flex h-full flex-col p-8">
                   <div class="mb-6 flex gap-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
+                    {[1, 2, 3, 4, 5].map((_i) => (
                       <PiStar className="text-primary h-5 w-5 fill-current" />
                     ))}
                   </div>
@@ -572,9 +576,10 @@ const whyChooseUs = [
                   </div>
                 </div>
               </ServiceCard>
-            ))
-          }
-        </div>
+            </div>
+          ))
+        }
+      </div>
 
         {/* CTA within testimonials */}
         <div class="mt-12 text-center">
