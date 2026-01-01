@@ -396,6 +396,17 @@ Before committing new features, verify:
 - [ ] No unnecessary dependencies are imported
 - [ ] Bundle size impact is minimal (check with `npm run build`)
 
+### Build Protocol
+
+**Do NOT run a full build (`npm run build`) after every single small change.**
+
+- Builds are resource-intensive and slow down the development loop.
+- Only run a full build when:
+  1. You have completed a significant feature or refactor.
+  2. You need to verify complex type changes or build-specific errors.
+  3. You are about to finish your session and need final verification.
+- For incremental changes, trust your knowledge of the code and the linter/type-checker.
+
 ## Code Quality Standards
 
 - Use TypeScript strictly - no `any` types without justification
