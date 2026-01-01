@@ -1,19 +1,19 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navigation from '../components/Navigation';
-import Hero from '../components/Hero';
-import Services from '../components/Services';
-import TrustShowcase from '../components/TrustShowcase';
-import WhyChooseUs from '../components/WhyChooseUs';
-import Testimonials from '../components/Testimonials';
-import CTASection from '../components/CTASection';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
+import Hero from '@/components/Hero';
+import Services from '@/components/Services';
+import TrustShowcase from '@/components/TrustShowcase';
+import WhyChooseUs from '@/components/WhyChooseUs';
+import Testimonials from '@/components/Testimonials';
+import CTASection from '@/components/CTASection';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 
 const { servicesData, recentPosts } = await getNavigationData();
 ---
 
-<Layout title="Elite Managed IT Services & Cloud Hosting | BDKinc">
+<Layout title="Premier Managed IT Services & Cloud Hosting | BDKinc">
   <!-- JSON-LD Organization Schema -->
   <script type="application/ld+json">
     {
@@ -22,7 +22,7 @@ const { servicesData, recentPosts } = await getNavigationData();
       "name": "BDKinc",
       "url": "https://www.bdkinc.com",
       "logo": "https://www.bdkinc.com/logo.svg",
-      "description": "Elite technology partner delivering Managed IT, Cloud Solutions, and Custom Software with enterprise-grade expertise.",
+      "description": "Premier technology partner delivering Managed IT, Cloud Solutions, and Custom Software with enterprise-grade expertise.",
       "sameAs": [],
       "contactPoint": {
         "@type": "ContactPoint",
@@ -45,8 +45,7 @@ const { servicesData, recentPosts } = await getNavigationData();
     <TrustShowcase client:visible />
     <WhyChooseUs client:visible />
     <Testimonials client:visible />
-
-    <CTASection client:visible />
+    <CTASection client:visible icon="click" />
   </main>
 
   <Footer />

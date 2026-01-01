@@ -21,7 +21,7 @@ export const cardVariants = cva(
         xl: 'p-10',
       },
       interactive: {
-        true: 'hover:border-primary/50 hover:scale-105 hover:shadow-[--shadow-glow-sm] focus-visible:border-primary/50 focus-visible:scale-105 focus-visible:shadow-[--shadow-glow-sm] focus-visible:outline-none',
+        true: 'hover:border-primary/50 hover:scale-105 focus-visible:border-primary/50 focus-visible:scale-105 focus-visible:outline-none',
         false: '',
       },
       holographic: {

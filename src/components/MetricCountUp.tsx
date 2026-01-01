@@ -1,4 +1,4 @@
-import CountUp from './CountUp';
+import CountUp from '@/components/CountUp';
 
 interface MetricCountUpProps {
   value: string;
@@ -42,7 +42,7 @@ export default function MetricCountUp({ value, label }: MetricCountUpProps) {
           separator=","
           className="inline"
         />
-        <span>{suffix}</span>
+        <span className="inline">{suffix}</span>
       </div>
       <div className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
         {label}

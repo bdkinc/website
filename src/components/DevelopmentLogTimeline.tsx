@@ -22,7 +22,7 @@ export default function DevelopmentLogTimeline({
   return (
     <div ref={containerRef as any} className="relative py-12">
       {/* Central Axis Line */}
-      <div className="bg-border/40 absolute top-0 bottom-0 left-8 w-px md:left-1/2 md:-ml-px">
+      <div className="bg-border/40 absolute top-0 bottom-0 left-8 w-px -translate-x-1/2 md:left-1/2">
         <div className="via-primary/50 absolute inset-0 bg-linear-to-b from-transparent to-transparent" />
       </div>
 
@@ -41,8 +41,8 @@ export default function DevelopmentLogTimeline({
               style={{ transitionDelay: `${index * 150}ms` }}
             >
               {/* Date Marker (Mobile: Left, Desktop: Center) */}
-              <div className="absolute left-8 z-10 -ml-3 flex h-6 w-6 items-center justify-center md:left-1/2 md:-ml-3">
-                <div className="bg-primary h-3 w-3 animate-pulse rounded-full shadow-[0_0_10px_var(--color-primary)]" />
+              <div className="absolute left-8 z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center md:left-1/2">
+                <div className="bg-primary h-3 w-3 rounded-full" />
               </div>
 
               {/* Content Card */}
@@ -60,7 +60,6 @@ export default function DevelopmentLogTimeline({
 
                   <div className="relative z-10 space-y-2">
                     <div className="text-primary/80 mb-2 flex items-center gap-2 font-mono text-xs tracking-widest uppercase">
-                      <span className="bg-primary/40 inline-block h-2 w-2" />
                       {milestone.year}
                     </div>
 

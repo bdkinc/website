@@ -3,7 +3,6 @@ export interface Testimonial {
   author: string;
   company: string;
   industry: string;
-  metadata: string;
 }
 
 export const testimonials: Testimonial[] = [
@@ -13,7 +12,6 @@ export const testimonials: Testimonial[] = [
     author: 'Operations Director',
     company: 'National Manufacturing Corp',
     industry: 'Manufacturing',
-    metadata: 'LOG_REF_MFR_09',
   },
   {
     quote:
@@ -21,7 +19,6 @@ export const testimonials: Testimonial[] = [
     author: 'Chief Technology Officer',
     company: 'Global Logistics Group',
     industry: 'Distribution',
-    metadata: 'LOG_REF_DIST_22',
   },
   {
     quote:
@@ -29,6 +26,5 @@ export const testimonials: Testimonial[] = [
     author: 'Compliance Officer',
     company: 'Regional Health Network',
     industry: 'Healthcare',
-    metadata: 'LOG_REF_HC_14',
   },
 ];

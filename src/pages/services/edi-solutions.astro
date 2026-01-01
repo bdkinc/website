@@ -1,7 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
@@ -131,7 +131,7 @@ const audience = [
         <div
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700 mx-auto max-w-6xl"
         >
-          <EDIFlowVisualization client:visible />
+          <EDIFlowVisualization client:load />
         </div>
       </div>
       <div

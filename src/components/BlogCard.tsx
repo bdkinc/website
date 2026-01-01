@@ -1,6 +1,7 @@
-import { PiClock, PiCalendar, PiArrowRight, PiTerminal } from 'react-icons/pi';
+import { PiCalendar, PiClock } from 'react-icons/pi';
 import type { CollectionEntry } from 'astro:content';
 import { ServiceCard } from '@/components/ServiceCard';
+import { cn } from '@/lib/utils';
 
 interface BlogCardProps {
   post: CollectionEntry<'blog'>;
@@ -10,60 +11,43 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ post, readTime, className, index }: BlogCardProps) {
-  const { title, description, pubDate, category } = post.data;
+  const { title, description, pubDate } = post.data;
 
-  // Format date
   const formattedDate = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
-    month: 'long',
+    month: 'short',
     day: 'numeric',
   }).format(pubDate);
 
   return (
     <ServiceCard
-      asChild
       interactive
-      variant="technical"
+      variant="blog"
       delay={index * 100}
       metadata={`POST_UUID_${post.id.substring(0, 8).toUpperCase()}`}
-      className={className}
+      className={cn('h-full', className)}
     >
-      <article className="relative z-10 flex flex-col h-full p-6 text-left">
-        {/* Header Metadata */}
-        <div className="flex items-center justify-between mb-4 text-xs font-mono tracking-wider">
-          <span className="text-muted-foreground/60 uppercase">Technical Briefing</span>
-          <span className="text-primary flex items-center gap-1.5 px-2 py-1 rounded-sm bg-primary/10 border border-primary/20">
-            <PiTerminal className="w-3 h-3" />
-            {category}
-          </span>
+      <article className="relative z-10 flex h-full flex-col p-6 text-left">
+        {/* Header (Date & Read Time) */}
+        <div className="text-muted-foreground/80 mb-5 flex items-center justify-between text-xs font-medium">
+          <div className="flex items-center gap-1.5">
+            <PiCalendar className="text-primary/70 h-3.5 w-3.5" />
+            <time dateTime={pubDate.toISOString()}>{formattedDate}</time>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <PiClock className="text-primary/70 h-3.5 w-3.5" />
+            <span>{readTime}</span>
+          </div>
         </div>
 
-        {/* Title & Content */}
-        <div className="flex-1 mb-6">
-          <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2 font-display uppercase tracking-tight">
+        {/* Body */}
+        <div className="flex-1">
+          <h3 className="font-display text-foreground group-hover:text-primary mb-3 line-clamp-2 text-xl leading-snug font-bold tracking-tight uppercase transition-colors">
             {title}
           </h3>
-          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+          <p className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
             {description}
           </p>
-        </div>
-
-        {/* Footer Metadata */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground font-mono mt-auto pt-4 border-t border-primary/10">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5">
-              <PiCalendar className="w-3.5 h-3.5 text-primary/60" />
-              <time dateTime={pubDate.toISOString()}>{formattedDate}</time>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <PiClock className="w-3.5 h-3.5 text-primary/60" />
-              <span>{readTime}</span>
-            </div>
-          </div>
-          
-          <div className="text-primary opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-            <PiArrowRight className="w-4 h-4" />
-          </div>
         </div>
       </article>
     </ServiceCard>

@@ -1,7 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { ServiceCard } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
@@ -309,7 +309,7 @@ const faqs = [
       <CTASection
         client:load
         title="The BDK Analytics Advantage"
-        description="Our analytics solutions are not standalone silos; they are integral components of the BDK Elite Toolkit. We fuse deep technical expertise with strategic business acumen to deliver systems that are secure, scalable, and seamlessly integrated into your existing infrastructure."
+        description="Our analytics solutions are not standalone silos; they are integral components of the BDK Premier Toolkit. We fuse deep technical expertise with strategic business acumen to deliver systems that are secure, scalable, and seamlessly integrated into your existing infrastructure."
         primaryAction={{
           text: 'Initialize Intelligence Strategy',
           href: '/contact',

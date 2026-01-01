@@ -114,7 +114,7 @@ export default function ArtificialIntelligenceVisualization() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
+      className="border-primary/20 bg-background/40 relative w-full overflow-hidden rounded-xl border p-8 backdrop-blur-md"
     >
       {/* Neural Background */}
       <div className="neural-bg absolute inset-0 z-0 opacity-10">
@@ -152,20 +152,20 @@ export default function ArtificialIntelligenceVisualization() {
 
         {/* Node 2: Neural Processing */}
         <div className="relative flex flex-col items-center">
-          <div className="relative z-20 flex h-28 w-28 items-center justify-center rounded-full border-2 border-secondary bg-background/80 shadow-[0_0_40px_rgba(124,58,237,0.4)] backdrop-blur-xl">
-            <div className="absolute inset-0 animate-pulse rounded-full bg-secondary/10"></div>
+          <div className="border-secondary bg-background/80 relative z-20 flex h-28 w-28 items-center justify-center rounded-full border-2 shadow-lg backdrop-blur-xl">
+            <div className="bg-secondary/10 absolute inset-0 rounded-full"></div>
             {/* Brain/Chip Animation */}
             <div className="relative">
-              <PiBrain className="relative z-10 h-12 w-12 text-secondary" />
-              <div className="ring-dashed absolute -inset-4 rounded-full border border-dashed border-secondary/40" />
-              <div className="ring-dotted absolute -inset-8 rounded-full border border-dotted border-secondary/20" />
+              <PiBrain className="text-secondary relative z-10 h-12 w-12" />
+              <div className="ring-dashed border-secondary/40 absolute -inset-4 rounded-full border border-dashed" />
+              <div className="ring-dotted border-secondary/20 absolute -inset-8 rounded-full border border-dotted" />
             </div>
           </div>
           <div className="mt-4 text-center">
-            <div className="font-display text-lg font-bold text-secondary">
+            <div className="font-display text-secondary text-lg font-bold">
               Neural Engine
             </div>
-            <div className="font-mono text-xs text-muted-foreground">
+            <div className="text-muted-foreground font-mono text-xs">
               Pattern Recognition
             </div>
           </div>
@@ -183,7 +183,7 @@ export default function ArtificialIntelligenceVisualization() {
       </div>
 
       {/* Synapse Firings */}
-      <div className="pointer-events-none absolute left-0 top-1/2 h-20 w-full -translate-y-1/2 px-16 md:px-24">
+      <div className="pointer-events-none absolute top-1/2 left-0 h-20 w-full -translate-y-1/2 px-16 md:px-24">
         <SynapsePulse className="pulse-1" color="bg-primary" />
         <SynapsePulse className="pulse-2" color="bg-primary" />
         <SynapsePulse className="pulse-3" color="bg-secondary" />
@@ -206,24 +206,24 @@ function Node({
   const colorClasses = {
     primary: 'border-primary text-primary shadow-primary/20',
     secondary: 'border-secondary text-secondary shadow-secondary/20',
-    accent: 'border-brand-accent text-brand-accent shadow-brand-accent/20',
+    accent: 'border-accent text-accent-foreground shadow-accent/20',
   };
 
   return (
     <div className="relative z-10 flex flex-col items-center">
       <div
         className={cn(
-          'flex h-20 w-20 items-center justify-center rounded-xl border bg-card/80 shadow-lg backdrop-blur-md transition-all hover:scale-105',
+          'bg-card/80 flex h-20 w-20 items-center justify-center rounded-xl border shadow-lg backdrop-blur-md transition-all hover:scale-105',
           colorClasses[color]
         )}
       >
         <Icon className="h-8 w-8" />
       </div>
       <div className="mt-4 text-center">
-        <div className="font-display text-sm font-bold text-foreground">
+        <div className="font-display text-foreground text-sm font-bold">
           {label}
         </div>
-        <div className="font-mono text-xs text-muted-foreground">
+        <div className="text-muted-foreground font-mono text-xs">
           {sublabel}
         </div>
       </div>
@@ -250,14 +250,14 @@ function NeuralConduit({
         <path
           d="M0,32 C50,32 50,32 100,32"
           vectorEffect="non-scaling-stroke"
-          className="stroke-border stroke-1 fill-none"
+          className="stroke-border fill-none stroke-1"
         />
         {/* Animated data flow */}
         <path
           d="M0,32 C50,32 50,32 100,32"
           vectorEffect="non-scaling-stroke"
           className={cn(
-            'stroke-2 fill-none',
+            'fill-none stroke-2',
             reverse ? 'stroke-secondary' : 'stroke-primary',
             className
           )}
@@ -279,7 +279,7 @@ function SynapsePulse({
   return (
     <div
       className={cn(
-        'absolute top-1/2 -mt-1.5 h-3 w-3 rounded-full shadow-[0_0_15px_currentColor] blur-[1px] opacity-0',
+        'absolute top-1/2 -mt-1.5 h-3 w-3 rounded-full opacity-0 shadow-sm blur-[1px]',
         color,
         className
       )}

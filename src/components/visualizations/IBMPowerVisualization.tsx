@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { PiCpu, PiDatabase, PiLightning, PiShieldCheck } from 'react-icons/pi';
+import { PiCpu, PiDatabase, PiShieldCheck } from 'react-icons/pi';
 import { cn } from '@/lib/utils';
 
 gsap.registerPlugin(useGSAP);
@@ -11,39 +11,12 @@ export default function IBMPowerVisualization() {
 
   useGSAP(
     () => {
-      // Lightning Bounce
-      gsap.to('.lightning-icon', {
-        y: -10,
-        duration: 0.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'power1.inOut',
-      });
-
-      // Energy Pulse (Ping effect)
-      gsap.to('.energy-pulse', {
-        scale: 1.4,
-        opacity: 0,
-        duration: 1.5,
-        repeat: -1,
-        ease: 'power1.out',
-      });
-
       // Power Line Shimmer
       gsap.to('.power-shimmer', {
         x: '200%',
         duration: 1,
         repeat: -1,
         ease: 'linear',
-      });
-
-      // Background Circuit Pulse
-      gsap.to('.ibm-circuit', {
-        opacity: 0.3,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
       });
 
       const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.2 }); // ~2s loop
@@ -98,10 +71,10 @@ export default function IBMPowerVisualization() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
+      className="border-primary/20 bg-background/40 relative w-full overflow-hidden rounded-xl border p-8 backdrop-blur-md"
     >
       {/* Circuit Background */}
-      <div className="absolute inset-0 z-0 opacity-15 ibm-circuit">
+      <div className="absolute inset-0 z-0 opacity-15">
         <svg className="h-full w-full">
           <pattern
             id="circuit-board"
@@ -137,7 +110,7 @@ export default function IBMPowerVisualization() {
         </svg>
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+      <div className="from-background absolute inset-0 bg-gradient-to-t via-transparent to-transparent"></div>
 
       <div className="relative z-10 flex flex-col items-center justify-between gap-8 md:flex-row md:gap-4">
         {/* Node 1: Mission Critical Workload */}
@@ -152,19 +125,15 @@ export default function IBMPowerVisualization() {
 
         {/* Node 2: IBM Power CPU */}
         <div className="relative flex flex-col items-center">
-          <div className="relative z-20 flex h-28 w-28 items-center justify-center rounded-xl border-2 border-primary bg-background/90 shadow-[0_0_50px_rgba(0,212,255,0.4)] backdrop-blur-xl">
-            <div className="absolute inset-0 animate-pulse rounded-xl bg-primary/20"></div>
-            {/* Radiating Energy */}
-            <div className="energy-pulse absolute -inset-4 z-0 rounded-xl border border-primary/30 opacity-50 scale-100"></div>
-            <PiCpu className="relative z-10 h-14 w-14 text-primary" />
-            {/* Electrical Arcs */}
-            <PiLightning className="lightning-icon absolute -right-3 -top-3 h-6 w-6 text-yellow-400" />
+          <div className="border-primary bg-background/90 relative z-20 flex h-28 w-28 items-center justify-center rounded-xl border-2 shadow-lg backdrop-blur-xl">
+            <div className="bg-primary/10 absolute inset-0 rounded-xl"></div>
+            <PiCpu className="text-primary relative z-10 h-14 w-14" />
           </div>
           <div className="mt-4 text-center">
-            <div className="font-display text-lg font-bold text-primary">
+            <div className="font-display text-primary text-lg font-bold">
               IBM Power
             </div>
-            <div className="font-mono text-xs text-muted-foreground">
+            <div className="text-muted-foreground font-mono text-xs">
               High Performance
             </div>
           </div>
@@ -182,7 +151,7 @@ export default function IBMPowerVisualization() {
       </div>
 
       {/* Energy Packets */}
-      <div className="pointer-events-none absolute left-0 top-1/2 h-20 w-full -translate-y-1/2 px-16 md:px-24">
+      <div className="pointer-events-none absolute top-1/2 left-0 h-20 w-full -translate-y-1/2 px-16 md:px-24">
         {/* Fast Stream */}
         <EnergyPacket className="packet-1" color="bg-secondary" />
         <EnergyPacket className="packet-2" color="bg-secondary" />
@@ -211,24 +180,24 @@ function Node({
   const colorClasses = {
     primary: 'border-primary text-primary shadow-primary/20',
     secondary: 'border-secondary text-secondary shadow-secondary/20',
-    accent: 'border-brand-accent text-brand-accent shadow-brand-accent/20',
+    accent: 'border-accent text-accent-foreground shadow-accent/20',
   };
 
   return (
     <div className="relative z-10 flex flex-col items-center">
       <div
         className={cn(
-          'flex h-20 w-20 items-center justify-center rounded-xl border bg-card/80 shadow-lg backdrop-blur-md transition-all hover:scale-105',
+          'bg-card/80 flex h-20 w-20 items-center justify-center rounded-xl border shadow-lg backdrop-blur-md transition-all hover:scale-105',
           colorClasses[color]
         )}
       >
         <Icon className="h-8 w-8" />
       </div>
       <div className="mt-4 text-center">
-        <div className="font-display text-sm font-bold text-foreground">
+        <div className="font-display text-foreground text-sm font-bold">
           {label}
         </div>
-        <div className="font-mono text-xs text-muted-foreground">
+        <div className="text-muted-foreground font-mono text-xs">
           {sublabel}
         </div>
       </div>
@@ -239,8 +208,8 @@ function Node({
 function PowerLine() {
   return (
     <div className="relative hidden h-4 flex-1 items-center md:flex">
-      <div className="h-1 w-full overflow-hidden rounded-full bg-muted/30 relative">
-        <div className="power-shimmer h-full w-full absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.5),transparent)] bg-[length:50%_100%]"></div>
+      <div className="bg-muted/30 relative h-1 w-full overflow-hidden rounded-full">
+        <div className="power-shimmer absolute inset-0 h-full w-full -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.5),transparent)] bg-[length:50%_100%]"></div>
       </div>
     </div>
   );
@@ -256,7 +225,7 @@ function EnergyPacket({
   return (
     <div
       className={cn(
-        'absolute top-1/2 -mt-1 h-2 w-8 rounded-full shadow-[0_0_15px_currentColor] opacity-0',
+        'absolute top-1/2 -mt-1 h-2 w-8 rounded-full opacity-0 shadow-sm',
         color,
         className
       )}

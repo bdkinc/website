@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import CTAButton from '@/components/CTAButton';
-import Aurora from './Aurora';
-import CountUp from './CountUp';
-import CircuitBoard from './CircuitBoard';
+import Aurora from '@/components/Aurora';
+import CountUp from '@/components/CountUp';
+import CircuitBoard from '@/components/CircuitBoard';
 
 export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,9 @@ export default function Hero() {
           <div className="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500">
             <span className="text-sm">
               {new Date().getFullYear() - 2000}+ Years of{' '}
-              <span className="text-accent font-semibold">Enterprise Innovation</span>
+              <span className="text-accent font-semibold">
+                Enterprise Innovation
+              </span>
             </span>
           </div>
 
@@ -47,19 +49,16 @@ export default function Hero() {
             <h1 className="lg:text-10xl animate-in fill-mode-both fade-in slide-in-from-bottom-8 text-6xl font-bold tracking-tight delay-100 duration-700 md:text-8xl">
               <span className="text-foreground">IT Made </span>
               <span className="from-primary via-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
-                Simple.
+                Simple
               </span>
             </h1>
-            {/* Subtle technical markers */}
-            <div className="absolute -top-4 -left-4 h-2 w-2 border-t border-l border-primary/40" />
-            <div className="absolute -top-4 -right-4 h-2 w-2 border-t border-r border-primary/40" />
-            <div className="absolute -bottom-4 -left-4 h-2 w-2 border-b border-l border-primary/40" />
-            <div className="absolute -bottom-4 -right-4 h-2 w-2 border-b border-r border-primary/40" />
           </div>
 
           {/* Subheading */}
-          <p className="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto max-w-2xl text-xl font-sans delay-200 duration-700 md:text-2xl">
-            The elite technology partner for growth-focused organizations. We deliver Managed IT, Cloud Solutions, and Custom Software with enterprise-grade expertise.
+          <p className="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto max-w-2xl font-sans text-xl delay-200 duration-700 md:text-2xl">
+            The premier technology partner for growth-focused organizations. We
+            deliver Managed IT, Cloud Solutions, and Custom Software with
+            enterprise-grade expertise.
           </p>
 
           {/* CTAs - clean with subtle animations */}

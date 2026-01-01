@@ -1,4 +1,3 @@
-
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { PiRocket, PiEye } from 'react-icons/pi';
 import { ServiceCard } from '@/components/ServiceCard';
@@ -19,17 +18,19 @@ export default function MissionVision() {
         metadata="STRATEGIC_MISSION_V1.0"
         animated={isIntersecting}
       >
-        <div className="relative z-10 flex flex-col items-center justify-center p-8 sm:p-12 text-center h-full">
-          <div className="mb-6 p-4 rounded-full bg-primary/10 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-500">
-            <PiRocket className="h-10 w-10 text-primary" />
+        <div className="relative z-10 flex h-full flex-col items-center justify-center p-8 text-center sm:p-12">
+          <div className="bg-primary/10 border-primary/20 group-hover:bg-primary/20 mb-6 rounded-full border p-4 transition-all duration-500 group-hover:scale-110">
+            <PiRocket className="text-primary h-10 w-10" />
           </div>
-          
-          <h2 className="mb-4 text-3xl font-bold font-display text-foreground uppercase tracking-tight">
+
+          <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight uppercase">
             Our Mission
           </h2>
-          
-          <p className="max-w-md mx-auto text-lg text-muted-foreground leading-relaxed">
-            To architect and secure the digital infrastructure that powers the world&apos;s most ambitious enterprises. We elevate technology from a utility to a strategic driver of unconstrained growth.
+
+          <p className="text-muted-foreground mx-auto max-w-md text-lg leading-relaxed">
+            To architect and secure the digital infrastructure that powers the
+            world&apos;s most ambitious enterprises. We elevate technology from
+            a utility to a strategic driver of unconstrained growth.
           </p>
         </div>
       </ServiceCard>
@@ -42,17 +43,19 @@ export default function MissionVision() {
         metadata="ENTERPRISE_VISION_V1.0"
         animated={isIntersecting}
       >
-        <div className="relative z-10 flex flex-col items-center justify-center p-8 sm:p-12 text-center h-full">
-          <div className="mb-6 p-4 rounded-full bg-secondary/10 border border-secondary/20 group-hover:scale-110 group-hover:bg-secondary/20 transition-all duration-500">
-            <PiEye className="h-10 w-10 text-secondary" />
+        <div className="relative z-10 flex h-full flex-col items-center justify-center p-8 text-center sm:p-12">
+          <div className="bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20 mb-6 rounded-full border p-4 transition-all duration-500 group-hover:scale-110">
+            <PiEye className="text-secondary h-10 w-10" />
           </div>
-          
-          <h2 className="mb-4 text-3xl font-bold font-display text-foreground uppercase tracking-tight">
+
+          <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight uppercase">
             Our Vision
           </h2>
-          
-          <p className="max-w-md mx-auto text-lg text-muted-foreground leading-relaxed">
-            To set the global standard for technical excellence, where elite expertise meets the reliability of industry giants to solve the most complex business challenges.
+
+          <p className="text-muted-foreground mx-auto max-w-md text-lg leading-relaxed">
+            To set the global standard for technical excellence, where premier
+            expertise meets the reliability of industry giants to solve the most
+            complex business challenges.
           </p>
         </div>
       </ServiceCard>

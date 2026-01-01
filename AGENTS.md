@@ -6,11 +6,13 @@ Guidelines for AI coding agents (Claude, Cursor, Copilot, etc.) working in this 
 
 This is an Astro-based marketing website with selective React hydration. Performance is critical - ship as little JavaScript as possible to the client while maintaining rich interactivity where needed.
 
-## Reference Guides
+## Reference Skills
 
-- `guides/DESIGN_GUIDE.md` - UI & design implementation rules (components, styling, motion)
-- `guides/MESSAGING_FRAMEWORK.md` - website copy and messaging (voice, tone, positioning)
-- `guides/VISUAL_ASSET_INVENTORY.md` - what visual assets are needed + status
+The legacy `guides/*` markdown docs were migrated into the repo’s skill system.
+
+- `.opencode/skill/bdkinc-brand-guidelines/SKILL.md` - UI & design implementation rules (components, styling, motion)
+- `.opencode/skill/bdkinc-messaging/SKILL.md` - website copy and messaging (voice, tone, positioning)
+- `.opencode/skill/bdkinc-visual-assets/SKILL.md` - visual asset inventory + recommendations
 
 ## Critical Patterns to Follow
 
@@ -117,6 +119,43 @@ export interface ButtonProps
 
 ### 5. Icon Usage & React Components in Astro Files
 
+**Service Card Variation System (Footer Decoration):**
+All “card” components that use the technical footer decoration must follow this standardized variation system. This decoration is a core, reusable visual cue across the site.
+
+**Interaction rules (all variations):**
+
+- The decoration is **purely decorative** (do not convey critical information solely through it).
+- On hover/focus within the card, the bars should **expand slightly** and **light up** (subtle contrast/opacity increase). The circle remains present as the “anchor” point.
+- Keep transitions quick and restrained (enterprise feel; avoid bloom/neon).
+
+**Variations (layout + semantic color):**
+
+1. **Standard Service Cards — “Bar + Circle” (Right-aligned, Primary color)**
+   - Placement: bottom-right corner of the card.
+   - Structure: a rounded bar (`h-1`) and a **separate** circle (`h-2 w-2`) with `gap-2`.
+   - Alignment: right-aligned; do **not** nest the circle inside the bar.
+   - Color: **Primary** (blue/cyan) because services are core identity/offerings.
+
+2. **Partner Cards — “Circle + Bar” (Left-aligned, Secondary color)**
+   - Placement: bottom-left corner of the card.
+   - Structure: circle first, then the rounded bar (same sizing rules), with a visible gap.
+   - Alignment: left-aligned; bar expands/lights on hover the same way.
+   - Color: **Secondary** (purple) because partners represent ecosystem/trust.
+
+3. **Feature Cards (WhyChooseUs) — “Bar + Circle + Bar” (Center-aligned, Primary color)**
+   - Placement: centered along the bottom edge of the card.
+   - Structure: left bar + circle + right bar (all separate elements), evenly spaced.
+   - Alignment: center-aligned; on hover, the bars expand outward and light up.
+   - Color: **Primary** (blue/cyan) because features communicate core capability.
+
+4. **Testimonial Cards — “Circle + Bar” (Left-aligned, Secondary color)**
+   - Placement: bottom-left corner of the card.
+   - Structure: circle first, then the rounded bar (same sizing rules), with a visible gap.
+   - Alignment: left-aligned; bar expands/lights on hover the same way.
+   - Color: **Secondary** (purple) because testimonials are ecosystem/trust signals.
+
+**Note:** Testimonials and Partners intentionally share the same left-aligned/**Secondary** style.
+
 **Use react-icons/pi (Phosphor Icons) for all icons:**
 
 ```tsx
@@ -150,7 +189,29 @@ import { Button } from '@/components/ui/button';
 
 **Remember:** React expects the `className` prop regardless of whether the component is rendered in a `.tsx` or `.astro` file. Using `class` with React components in Astro files will not apply styles correctly.
 
-### 6. Animation Patterns
+### 6. Section Titling Standards
+
+Use these patterns to keep section headings consistent across pages and components.
+
+**H2 (Display):** Uppercase, bold. Structure:
+
+```astro
+<h2 class="text-foreground font-bold tracking-tight uppercase">
+  <span class="text-foreground">Title</span>{' '}
+  <span class="gradient-primary">Highlight</span>
+</h2>
+```
+
+**Subtitle (Sans):** Muted text + emphasized key phrase.
+
+```astro
+<p class="text-muted-foreground">
+  Subtitle copy with a <span class="text-accent font-semibold">Key Phrase</span
+  >.
+</p>
+```
+
+### 7. Animation Patterns
 
 **For simple animations, use CSS keyframes in global.css:**
 
@@ -245,7 +306,7 @@ style={{
 - Prefer react-bits over heavier libraries like Framer Motion
 - Only import what you need to minimize bundle size
 
-### 7. Import Path Rules
+### 8. Import Path Rules
 
 **Always use the `@/` alias for src imports:**
 
@@ -259,7 +320,7 @@ import { Button } from '../components/ui/button';
 import { cn } from '../../lib/utils';
 ```
 
-### 8. TypeScript Patterns
+### 9. TypeScript Patterns
 
 **Prefer interfaces over types for component props:**
 

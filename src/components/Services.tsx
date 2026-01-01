@@ -1,9 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import {
-  CardTitle,
-  CardDescription,
-} from '@/components/ui/card';
+import { CardTitle, CardDescription } from '@/components/ui/card';
 import { iconMap } from '@/lib/icons';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { ServiceCard } from '@/components/ServiceCard';
@@ -79,14 +76,18 @@ export default function Services({ services }: ServicesProps) {
             headerInView && 'translate-y-0 opacity-100'
           )}
         >
-          <h2 className="mb-4 text-4xl font-bold md:text-5xl font-display uppercase tracking-tight">
+          <h2 className="font-display mb-4 text-4xl font-bold tracking-tight uppercase md:text-5xl">
             <span className="text-foreground">Expert </span>
             <span className="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
               Solutions
             </span>
           </h2>
-          <p className="text-muted-foreground mx-auto max-w-2xl text-xl font-sans">
-            Enterprise-grade <span className="text-primary font-semibold">technical expertise</span> tailored for high-growth organizations.
+          <p className="text-muted-foreground mx-auto max-w-2xl font-sans text-xl">
+            Enterprise-grade{' '}
+            <span className="text-accent font-semibold">
+              technical expertise
+            </span>{' '}
+            tailored for high-growth organizations.
           </p>
         </div>
 
@@ -106,7 +107,6 @@ export default function Services({ services }: ServicesProps) {
                 interactive
                 variant="technical"
                 delay={delayMs}
-                metadata={`CORE_NODE_0${index + 1}`}
                 animated={gridInView}
               >
                 <a
@@ -118,8 +118,8 @@ export default function Services({ services }: ServicesProps) {
                       iconRefs.current[index] = el;
                     }}
                     className={cn(
-                      'from-primary/10 to-accent/10 to-secondary/10 mx-auto mb-6 w-fit rounded-xl bg-linear-to-br p-4',
-                      'flex items-center justify-center border border-primary/20 group-hover:border-primary/50 transition-colors'
+                      'from-primary/10 to-secondary/10 mx-auto mb-6 w-fit rounded-xl bg-linear-to-br p-4',
+                      'border-primary/20 group-hover:border-primary/50 flex items-center justify-center border transition-colors'
                     )}
                   >
                     {Icon && <Icon className="text-primary h-8 w-8" />}
@@ -128,7 +128,7 @@ export default function Services({ services }: ServicesProps) {
                     ref={(el) => {
                       titleRefs.current[index] = el;
                     }}
-                    className="mb-2 text-center text-lg font-display uppercase tracking-wider group-hover:text-primary transition-colors"
+                    className="font-display group-hover:text-primary mb-2 text-center text-lg tracking-wider uppercase transition-colors"
                   >
                     {service.title}
                   </CardTitle>

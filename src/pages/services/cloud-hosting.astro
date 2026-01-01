@@ -1,7 +1,7 @@
 ---
 import { getEntry, getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
@@ -55,7 +55,7 @@ const _serviceSchema = {
   '@type': 'Service',
   name: service.data.title,
   description:
-    'Secure, scalable cloud solutions for the enterprise. BDKinc delivers intelligent orchestration across private, public, and hybrid environments with elite management and 24/7 support.',
+    'Secure, scalable cloud solutions for the enterprise. BDKinc delivers intelligent orchestration across private, public, and hybrid environments with premier management and 24/7 support.',
   provider: {
     '@type': 'Organization',
     name: 'BDKinc',
@@ -87,7 +87,7 @@ const detailColumns = [
     ],
   },
   {
-    title: 'Elite Day-2 Operations',
+    title: 'Premier Day-2 Operations',
     icon: PiGearSix,
     items: [
       '24/7 active monitoring of performance and security posture',
@@ -205,7 +205,7 @@ const providers = [
               <div
                 class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
               >
-                One cloud does not fit all. We architect the perfect mix of <span class="text-primary font-semibold">private</span>, <span class="text-secondary font-semibold">hybrid</span>, and <span class="text-accent font-semibold">public</span> environments to maximize performance and minimize cost across your entire organization. BDKinc delivers the agility of the public cloud with the control and security of elite private infrastructure.
+                One cloud does not fit all. We architect the perfect mix of <span class="text-primary font-semibold">private</span>, <span class="text-secondary font-semibold">hybrid</span>, and <span class="text-accent font-semibold">public</span> environments to maximize performance and minimize cost across your entire organization. BDKinc delivers the agility of the public cloud with the control and security of premier private infrastructure.
               </div>
             </div>
 
@@ -402,7 +402,7 @@ const providers = [
                   <div
                     class="glass border-primary/20 overflow-hidden rounded-xl border h-full min-h-[400px] relative"
                   >
-                    <div className="scanlines absolute inset-0 opacity-[0.05] pointer-events-none" />
+                    <div class="scanlines absolute inset-0 opacity-[0.05] pointer-events-none" />
                     <div
                       class="from-primary/5 via-secondary/5 to-primary/5 flex h-full items-center justify-center bg-linear-to-br"
                     >
@@ -694,7 +694,7 @@ const providers = [
         <CTASection
           client:visible
           title="Stop Settling for Standard Support."
-          description="Partner with the elite experts who understand your scale. Let’s architect a cloud strategy that drives your business forward."
+          description="Partner with the premier experts who understand your scale. Let’s architect a cloud strategy that drives your business forward."
           buttonText="Consult with an Architect"
           buttonHref="/contact"
         />

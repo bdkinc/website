@@ -1,7 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { ServiceCard } from '@/components/ServiceCard';
@@ -64,7 +64,7 @@ const faqs = [
 
 <Layout
   title="IBM Power Systems - Managed Hosting & Modernization | BDKinc"
-  description="Maximize your AS/400 and iSeries legacy. Elite IBM Power orchestration, managed hosting, and modernization services for high-availability enterprise environments."
+  description="Maximize your AS/400 and iSeries legacy. Premier IBM Power orchestration, managed hosting, and modernization services for high-availability enterprise environments."
 >
   <Navigation
     client:load
@@ -116,7 +116,7 @@ const faqs = [
           class="fill-mode-both animate-in fade-in zoom-in relative delay-300 duration-700"
         >
           <div class="mx-auto max-w-5xl">
-             <IBMPowerVisualization client:load />
+             <IBMPowerVisualization client:visible />
           </div>
         </div>
       </div>
@@ -141,7 +141,7 @@ const faqs = [
                 </div>
                 
                 <h4 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display uppercase tracking-tight">
-                  Elite IBM Power <span class="text-primary">Orchestration.</span>
+                  Premier IBM Power <span class="text-primary">Orchestration.</span>
                 </h4>
                 
                 <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
@@ -177,7 +177,7 @@ const faqs = [
 
               {/* Feature Image Placeholder */}
               <div class="mb-12 relative">
-                <div className="scanlines absolute inset-0 opacity-[0.03] pointer-events-none" />
+                <div class="scanlines absolute inset-0 opacity-[0.03] pointer-events-none"></div>
                 <div
                   class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border"
                 >
@@ -328,7 +328,7 @@ const faqs = [
                 },
                 {
                   title: "Single Partner, Multi-OS",
-                  desc: "One elite team for IBM i, AIX, and Linux—simplifying your operational overhead.",
+                  desc: "One premier team for IBM i, AIX, and Linux—simplifying your operational overhead.",
                   icon: PiDesktopTower,
                   meta: "POWER_EXP_05"
                 },
@@ -362,7 +362,7 @@ const faqs = [
                   class="glass border-primary/20 overflow-hidden rounded-xl border relative group"
                 >
                   <CornerBrackets client:visible isHovered={true} className="z-30" />
-                  <div className="scanlines absolute inset-0 opacity-[0.05] pointer-events-none" />
+                  <div class="scanlines absolute inset-0 opacity-[0.05] pointer-events-none"></div>
                   <div
                     class="from-primary/5 via-secondary/5 to-primary/5 flex h-full min-h-[300px] items-center justify-center bg-linear-to-br"
                   >
@@ -409,7 +409,7 @@ const faqs = [
 
         <CTASection
           client:load
-          title="Your Power Systems deserve elite hands."
+          title="Your Power Systems deserve premier hands."
           description="Don't let your legacy become a liability. Secure, optimize, and modernize your IBM investment with the experts who know it best."
           primaryAction={{
             text: 'Consult with a Power Architect',

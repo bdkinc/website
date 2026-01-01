@@ -7,22 +7,8 @@ import Footer from '@/components/Footer.astro';
 import CoreProtocols from '@/components/CoreProtocols';
 import DevelopmentLogTimeline from '@/components/DevelopmentLogTimeline';
 import MissionVision from '@/components/MissionVision';
-import PartnerGrid from '@/components/PartnerGrid';
-import { ServiceCard } from '@/components/ServiceCard';
-import {
-  PiUsers,
-  PiShield,
-  PiBriefcase,
-  PiClock,
-  PiTrophy,
-  PiGlobe,
-  PiPackage,
-  PiLightning,
-  PiArrowRight,
-  PiStar,
-} from 'react-icons/pi';
-
-
+import FoundingStory from '@/components/FoundingStory.astro';
+import TrustShowcase from '@/components/TrustShowcase';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -56,7 +42,7 @@ const values = [
     icon: 'Award',
     title: 'Excellence',
     description:
-      'We hold ourselves to elite standards of technical precision and operational discipline.',
+      'We hold ourselves to premier standards of technical precision and operational discipline.',
   },
   {
     icon: 'Clock',
@@ -72,91 +58,51 @@ const milestones = [
     year: '1999',
     title: 'Foundation of Excellence',
     description:
-      'Established with a commitment to specialized IT engineering and high-touch service.',
+      'Established with a focused commitment to IBM Power Systems and specialized software solutions.',
   },
   {
     year: '2005',
-    title: 'Cloud Expansion',
+    title: 'Growth & Expansion',
     description:
-      'Early adoption of virtualization and data center services, laying the groundwork for hybrid cloud mastery.',
+      'Opened multiple office locations and expanded service offerings to include enterprise Networking and Windows Server support.',
   },
   {
-    year: '2012',
-    title: 'Security Fortification',
+    year: '2010',
+    title: 'Cloud Hosting',
     description:
-      'Launch of our dedicated cybersecurity division to protect clients against emerging digital threats.',
+      'Launched comprehensive hosting services for IBM Power, Windows, and Linux environments.',
   },
   {
-    year: '2020',
+    year: '2015',
+    title: 'Infrastructure & Analytics',
+    description:
+      'Extended reach to multiple datacenters while enhancing software solutions with advanced analytics and integration capabilities.',
+  },
+  {
+    year: '2018',
+    title: 'Public Cloud Integration',
+    description:
+      'Forged strategic integrations with major public cloud vendors including Azure, Google Cloud, and Cloudflare.',
+  },
+  {
+    year: '2022',
+    title: 'Premier Partnership',
+    description:
+      'Solidified status as a premier IT solutions partner capable of serving businesses of any size with enterprise-grade support.',
+  },
+  {
+    year: '2025',
     title: 'AI & Innovation',
     description:
-      'Pioneering the integration of IBM watsonx and machine learning to drive enterprise automation.',
-  },
-  {
-    year: '2024',
-    title: 'Elite Partnership',
-    description:
-      'Recognized as a premier partner for global tech giants, serving complex organizations at scale.',
-  },
-];
-
-// Partners Data
-const partners = [
-  {
-    name: 'IBM',
-    description: 'Power Systems & Enterprise Solutions',
-    category: 'Enterprise',
-  },
-  {
-    name: 'Cisco',
-    description: 'Networking & Security Infrastructure',
-    category: 'Networking',
-  },
-  {
-    name: 'Lenovo',
-    description: 'Server & Workstation Hardware',
-    category: 'Hardware',
-  },
-  {
-    name: 'Microsoft',
-    description: 'Cloud & Productivity Solutions',
-    category: 'Cloud',
-  },
-];
-
-// Why Choose Us data
-const whyChooseUs = [
-  {
-    icon: 'Briefcase',
-    title: 'Elite Toolkit',
-    description:
-      "We don't just use tools; we master them. As certified experts for IBM, Microsoft, Cisco, and Lenovo, we deploy enterprise-grade leverage for your specific needs.",
-  },
-  {
-    icon: 'Clock', // Using Clock for years/evolution
-    title: '25+ Years of Evolution',
-    description:
-      'A quarter-century of stability and adaptation. We’ve navigated every major tech shift—from on-premise to cloud to AI—so you stay ahead of the curve.',
-  },
-  {
-    icon: 'Trophy',
-    title: 'Professional Excellence',
-    description:
-      'Technical depth meets business acumen. Our team consists of elite practitioners who translate complex infrastructure into clear competitive advantages.',
-  },
-  {
-    icon: 'Globe', // Need to make sure PiGlobe is imported and mapped
-    title: 'Global Power, Local Touch',
-    description:
-      'The responsiveness of a dedicated partner backed by the R&D and scale of global technology leaders.',
+      'Pioneering the future as a specialized IBM watsonx solutions expert, driving enterprise AI adoption.',
   },
 ];
 ---
 
 <Layout
-  title="About Us | Elite Technology Partner | BDKinc"
-  description="Discover BDKinc's 25-year evolution into an elite technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth."
-  ogDescription="Discover BDKinc's 25-year evolution into an elite technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth."
+  title="About BDKinc | Enterprise Technology Partner"
+  description="Discover BDKinc's 25-year evolution into a premier technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth."
+  ogDescription="Discover BDKinc's 25-year evolution into a premier technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth."
 >
   <!-- AboutPage Schema Markup -->
   <script type="application/ld+json">
@@ -167,7 +113,7 @@ const whyChooseUs = [
         "@type": "Organization",
         "name": "BDKinc",
         "foundingDate": "1999",
-        "description": "BDKinc is an elite technology partner delivering enterprise-grade managed IT, cloud hosting, cybersecurity, and AI solutions.",
+        "description": "BDKinc is a premier technology partner delivering enterprise-grade managed IT, cloud hosting, cybersecurity, and AI solutions.",
         "url": "https://www.bdkinc.com",
         "numberOfEmployees": {
           "@type": "QuantitativeValue",
@@ -191,18 +137,16 @@ const whyChooseUs = [
     currentPath={Astro.url.pathname}
   />
   <main id="main-content">
-    {/* Hero Section */}
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-4xl text-center">
-        {/* Badge */}
         <div
           class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
         >
           <div class="text-sm">
             25+ Years of <span class="text-accent font-semibold"
-              >Technical Authority</span
+              >Client Dedication</span
             >
           </div>
         </div>
@@ -210,21 +154,21 @@ const whyChooseUs = [
         <h1
           class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold delay-100 duration-700 md:text-6xl"
         >
-          <span class="text-foreground">Elite Technology Partner with </span>
+          <span class="text-foreground">Partners in </span>
           <span
             class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
-            >Deep Expertise</span
           >
+            Your Potential
+          </span>
         </h1>
         <p
           class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
         >
-          From specialized roots to a powerhouse for enterprise innovation. We
-          combine 25 years of technical mastery with the global power of IBM,
-          Microsoft, Cisco, and Lenovo to architect your success.
+          More than a vendor. We are the strategic extension of your
+          team—bringing clarity, discipline, and engineering depth to every
+          decision.
         </p>
 
-        {/* Hero Image Placeholder */}
         <div
           class="fill-mode-both animate-in fade-in zoom-in group relative mt-12 delay-400 duration-700"
         >
@@ -258,31 +202,38 @@ const whyChooseUs = [
       </div>
     </section>
 
-    {/* Mission & Vision Section */}
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <MissionVision client:visible />
-      </div>
+    <FoundingStory />
+
+    <section class="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+      <MissionVision client:visible />
     </section>
 
-    {/* Values Section */}
-    <section class="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-8">
+    <section class="relative overflow-hidden">
+      <div
+        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
       <div
         class="from-background via-primary/5 to-background pointer-events-none absolute inset-0 bg-linear-to-b"
       >
       </div>
-      <div class="relative z-10 mx-auto max-w-7xl">
+      <div class="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <div class="mb-16 text-center">
           <h2
-            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold tracking-tight uppercase duration-600 md:text-5xl"
           >
             <span class="text-foreground">Our </span>
-            <span class="text-primary">Values</span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Values</span
+            >
           </h2>
           <p
             class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
           >
-            The principles that guide our elite standards
+            The principles that guide our <span
+              class="text-accent font-semibold">premier standards</span
+            >
           </p>
         </div>
 
@@ -290,327 +241,22 @@ const whyChooseUs = [
       </div>
     </section>
 
-    {/* Team Section */}
-    <section
-      class="via-primary/5 bg-linear-to-b from-transparent to-transparent px-4 py-24 sm:px-6 lg:px-8"
-    >
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-16 text-center">
-          <h2
-            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
-          >
-            <span class="text-foreground">Meet Our </span>
-            <span class="text-primary">Leadership</span>
-          </h2>
-          <p
-            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
-          >
-            The experts driving innovation and excellence
-          </p>
-        </div>
-
-        {/* Team Placeholder - Professional Coming Soon */}
-        <ServiceCard
-          className="mx-auto max-w-4xl"
-          delay={200}
-          interactive={false}
-          metadata="TEAM_SYSTEM_OFFLINE"
-        >
-          <div class="p-8 py-12 text-center">
-            <div class="mb-6">
-              <div
-                class="from-primary/20 to-secondary/10 mx-auto inline-flex items-center justify-center rounded-full bg-linear-to-br p-6"
-              >
-                <PiUsers className="text-primary h-12 w-12" />
-              </div>
-            </div>
-            <h3
-              class="text-foreground font-display mb-4 text-2xl font-bold tracking-tight uppercase"
-            >
-              Leadership Profiles Coming Soon
-            </h3>
-            <p class="text-muted-foreground mx-auto mb-6 max-w-2xl text-lg">
-              Our leadership team consists of veteran technologists and
-              strategists who bring deep expertise in IT services, enterprise
-              architecture, and business innovation. Full team profiles will be
-              available shortly.
-            </p>
-            <div class="flex flex-wrap justify-center gap-4">
-              <div
-                class="border-primary/20 bg-card/50 flex items-center gap-2 rounded-none border px-4 py-2"
-              >
-                <span
-                  class="text-primary font-mono text-xs font-semibold tracking-widest uppercase"
-                  >Executive Leadership</span
-                >
-              </div>
-              <div
-                class="border-primary/20 bg-card/50 flex items-center gap-2 rounded-none border px-4 py-2"
-              >
-                <span
-                  class="text-primary font-mono text-xs font-semibold tracking-widest uppercase"
-                  >Technical Directors</span
-                >
-              </div>
-              <div
-                class="border-primary/20 bg-card/50 flex items-center gap-2 rounded-none border px-4 py-2"
-              >
-                <span
-                  class="text-primary font-mono text-xs font-semibold tracking-widest uppercase"
-                  >Operations Team</span
-                >
-              </div>
-            </div>
-            <p class="text-muted-foreground/80 mt-8 text-sm">
-              Want to learn more about our team? <a
-                href="/contact"
-                class="text-primary hover:underline">Contact us</a
-              > for a personalized introduction.
-            </p>
-          </div>
-        </ServiceCard>
-      </div>
-    </section>
-
-    {/* Certifications & Trust Section */}
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-16 text-center">
-          <h2
-            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
-          >
-            <span class="text-foreground">Trusted </span>
-            <span class="text-primary">Partnerships</span>
-          </h2>
-          <p
-            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
-          >
-            Industry certifications and technology partnerships that ensure
-            excellence
-          </p>
-        </div>
-
-        {/* Technology Partners Grid */}
-        <div class="mb-12">
-          <h3 class="text-foreground mb-8 text-center text-3xl font-bold">
-            Technology Partners
-          </h3>
-          <PartnerGrid partners={partners} client:visible />
-        </div>
-
-        {/* Certifications Grid */}
-        <div class="mb-16 grid grid-cols-2 gap-6 sm:grid-cols-4 lg:grid-cols-4">
-          {
-            [
-              {
-                name: 'IBM Business Partner',
-                category: 'Enterprise',
-                meta: 'CERT_IBM_01',
-              },
-              {
-                name: 'Microsoft Partner',
-                category: 'Cloud',
-                meta: 'CERT_MSFT_02',
-              },
-              { name: 'AWS Partner', category: 'Cloud', meta: 'CERT_AWS_03' },
-              {
-                name: 'Cisco Partner',
-                category: 'Networking',
-                meta: 'CERT_CSCO_04',
-              },
-              {
-                name: 'Lenovo Partner',
-                category: 'Hardware',
-                meta: 'CERT_LNV_05',
-              },
-              {
-                name: 'SOC 2 Compliant',
-                category: 'Security',
-                meta: 'CERT_SOC2_06',
-              },
-              {
-                name: 'HIPAA Compliant',
-                category: 'Compliance',
-                meta: 'CERT_HIPAA_07',
-              },
-            {
-              name: 'PCI-DSS Certified',
-              category: 'Security',
-              meta: 'CERT_PCI_08',
-            },
-          ].map((cert, index) => (
-            <div>
-              <ServiceCard
-                variant="technical"
-                interactive={false}
-                delay={100 + index * 50}
-                metadata={cert.meta}
-              >
-                <div class="flex flex-col items-center justify-center p-6 text-center">
-                  <div class="from-primary/10 to-secondary/10 border-primary/20 mb-3 flex h-16 w-16 items-center justify-center rounded-xl border bg-linear-to-br">
-                    <PiShield className="text-primary h-8 w-8" />
-                  </div>
-                  <h4 class="text-foreground font-display text-sm font-bold tracking-tight uppercase">
-                    {cert.name}
-                  </h4>
-                  <p class="text-muted-foreground mt-1 font-mono text-[10px] tracking-widest uppercase">
-                    {cert.category}
-                  </p>
-                </div>
-              </ServiceCard>
-            </div>
-          ))
-        }
-      </div>
-
-        {/* Trust Stats */}
-        <div
-          class="from-primary/5 to-secondary/5 rounded-2xl bg-linear-to-br p-8"
-        >
-          <div
-            class="grid grid-cols-2 gap-8 text-center md:grid-cols-4 md:divide-x md:divide-white/10"
-          >
-            <div>
-              <div class="text-primary text-4xl font-bold">25+</div>
-              <div class="text-muted-foreground mt-2 text-sm">
-                Years of Excellence
-              </div>
-            </div>
-            <div>
-              <div class="text-primary text-4xl font-bold">500+</div>
-              <div class="text-muted-foreground mt-2 text-sm">
-                Satisfied Clients
-              </div>
-            </div>
-            <div>
-              <div class="text-primary text-4xl font-bold">99.9%</div>
-              <div class="text-muted-foreground mt-2 text-sm">
-                Uptime Guarantee
-              </div>
-            </div>
-            <div>
-              <div class="text-primary text-4xl font-bold">24/7</div>
-              <div class="text-muted-foreground mt-2 text-sm">
-                Support Available
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/* Testimonials Section */}
-    <section
-      class="via-secondary/5 bg-linear-to-b from-transparent to-transparent px-4 py-24 sm:px-6 lg:px-8"
-    >
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-16 text-center">
-          <h2
-            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
-          >
-            <span class="text-foreground">What Our </span>
-            <span class="text-primary">Clients Say</span>
-          </h2>
-          <p
-            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
-          >
-            Trusted by businesses for critical infrastructure and innovation
-          </p>
-        </div>
-
-        {/* Testimonials Grid */}
-        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {
-            [
-            {
-              quote:
-                'BDKinc transformed our entire IT infrastructure. Their managed services have been instrumental in our growth, providing the reliability and security we need.',
-              author: 'Manufacturing Executive',
-              company: 'Manufacturing Partner',
-              industry: 'Manufacturing',
-              meta: 'CLIENT_FEEDBACK_01',
-            },
-            {
-              quote:
-                    "The team’s expertise with IBM Power systems is unmatched. They’ve helped us modernize legacy applications while maintaining business continuity.",
-              author: 'IT Director',
-              company: 'Logistics Enterprise',
-              industry: 'Distribution',
-              meta: 'CLIENT_FEEDBACK_02',
-            },
-            {
-              quote:
-                'Their cybersecurity solutions give us peace of mind. We trust BDKinc to protect our sensitive data and keep our operations running smoothly.',
-              author: 'Operations Manager',
-              company: 'Healthcare Provider',
-              industry: 'Healthcare',
-              meta: 'CLIENT_FEEDBACK_03',
-            },
-          ].map((testimonial, index) => (
-            <div>
-              <ServiceCard
-                variant="technical"
-                interactive={false}
-                metadata={testimonial.meta}
-                delay={200 + index * 100}
-              >
-                <div class="flex h-full flex-col p-8">
-                  <div class="mb-6 flex gap-1">
-                    {[1, 2, 3, 4, 5].map((_i) => (
-                      <PiStar className="text-primary h-5 w-5 fill-current" />
-                    ))}
-                  </div>
-                  <blockquote class="text-foreground mb-6 grow text-lg leading-relaxed italic">
-                    "{testimonial.quote}"
-                  </blockquote>
-                  <div class="border-border border-t pt-4">
-                    <div class="text-foreground font-semibold">
-                      {testimonial.author}
-                    </div>
-                    <div class="text-muted-foreground text-sm">
-                      {testimonial.company}
-                    </div>
-                    <div class="text-primary mt-1 font-mono text-xs font-medium tracking-widest uppercase">
-                      {testimonial.industry}
-                    </div>
-                  </div>
-                </div>
-              </ServiceCard>
-            </div>
-          ))
-        }
-      </div>
-
-        {/* CTA within testimonials */}
-        <div class="mt-12 text-center">
-          <p class="text-muted-foreground mb-4">
-            Join the growing list of businesses that trust BDKinc
-          </p>
-          <a
-            href="/contact"
-            class="from-primary to-secondary hover:shadow-primary/25 inline-flex items-center gap-2 rounded-lg bg-linear-to-r px-6 py-3 font-semibold text-white transition-shadow hover:shadow-lg"
-          >
-            Start Your Journey
-            <PiArrowRight className="ml-2 h-4 w-4" />
-          </a>
-        </div>
-      </div>
-    </section>
-
-    {/* Journey/Timeline Section */}
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
         <div class="mb-16 text-center">
           <h2
-            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold tracking-tight uppercase duration-600 md:text-5xl"
           >
             <span class="text-foreground">Our </span>
-            <span class="text-primary">Journey</span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Journey</span
+            >
           </h2>
           <p
             class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
           >
-            A legacy of innovation and excellence
+            A legacy of innovation and <span class="text-accent font-semibold">excellence</span>
           </p>
         </div>
 
@@ -618,75 +264,13 @@ const whyChooseUs = [
       </div>
     </section>
 
-    {/* Why Choose Us Section */}
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-16 text-center">
-          <h2
-            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold duration-600 md:text-5xl"
-          >
-            <span class="text-foreground">Why Choose </span>
-            <span class="text-primary font-display font-extrabold">BDKinc</span>
-            <span class="text-foreground">?</span>
-          </h2>
-          <p
-            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
-          >
-            Four core reasons why industry leaders trust us with their
-            technology
-          </p>
-        </div>
+    <TrustShowcase client:visible />
 
-        {/* Why Choose Us Grid */}
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {
-            whyChooseUs.map((item, index) => {
-              const iconMap = {
-                Briefcase: PiBriefcase,
-                Package: PiPackage,
-                Trophy: PiTrophy,
-                Zap: PiLightning,
-                Box: PiPackage,
-                Clock: PiClock,
-                Globe: PiGlobe,
-              };
-              const IconComponent =
-                iconMap[item.icon as keyof typeof iconMap] || PiPackage;
-
-              return (
-                <ServiceCard
-                  variant="technical"
-                  interactive
-                  delay={200 + index * 100}
-                  metadata={`ADVANTAGE_NODE_0${index + 1}`}
-                >
-                  <div class="flex h-full flex-col items-center p-8 text-center">
-                    <div class="mb-6">
-                      <div class="from-primary/20 to-secondary/10 group-hover:from-primary/30 group-hover:to-secondary/20 border-primary/20 inline-flex items-center justify-center rounded-lg border bg-linear-to-br p-3 transition-colors">
-                        <IconComponent className="h-8 w-8 text-primary" />
-                      </div>
-                    </div>
-                    <h3 class="text-foreground font-display mb-3 text-center text-lg font-bold tracking-tight uppercase">
-                      {item.title}
-                    </h3>
-                    <p class="text-muted-foreground text-sm leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                </ServiceCard>
-              );
-            })
-          }
-        </div>
-      </div>
-    </section>
-
-    {/* CTA Section */}
     <CTASection
       client:visible
-      title="Partner with True Technical Authority"
-      description="Stop settling for standard support. Leverage our 25+ years of deep expertise to build your future."
-      buttonText="Connect with Our Experts"
+      title="Partner with Engineers Who Own Outcomes"
+      description="Bring clarity, resilience, and speed to mission-critical IT. Tap 25+ years of infrastructure, security, and modernization expertise."
+      buttonText="Talk to an Engineer"
       buttonHref="/contact"
     />
   </main>

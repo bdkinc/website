@@ -1,44 +1,52 @@
-
-import { PiDatabase, PiShieldCheck, PiCpu, PiCheckCircle, PiBrain } from 'react-icons/pi';
+import {
+  PiDatabase,
+  PiShieldCheck,
+  PiCpu,
+  PiCheckCircle,
+  PiBrain,
+} from 'react-icons/pi';
 import { ServiceCard } from '@/components/ServiceCard';
 
 export default function WatsonxSpotlight() {
   return (
-    <section className="relative my-24 overflow-hidden rounded-none border border-primary/20 bg-background/50 p-8 md:p-12">
+    <section className="border-primary/20 bg-background/50 relative my-24 overflow-hidden rounded-none border p-8 md:p-12">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,102,255,0.08),transparent_40%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(124,58,237,0.08),transparent_40%)]" />
       <div className="scanlines absolute inset-0 opacity-[0.03]" />
-      <div className="circuit-overlay absolute inset-0 opacity-[0.02] pointer-events-none" />
+      <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-[0.02]" />
 
       <div className="relative z-10 grid gap-12 lg:grid-cols-2 lg:items-center">
         {/* Content Side */}
         <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-semibold tracking-wider text-primary uppercase font-mono">
+          <div className="border-primary/30 bg-primary/5 text-primary inline-flex items-center gap-2 border px-4 py-1.5 font-mono text-xs font-semibold tracking-wider uppercase">
             <PiCpu className="h-3.5 w-3.5" />
-            Elite Toolkit // watsonx
+            Premier Toolkit // watsonx
           </div>
-          
-          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl uppercase">
+
+          <h2 className="font-display text-foreground text-3xl font-bold tracking-tight uppercase sm:text-4xl">
             Powered by <span className="text-primary">IBM watsonx</span>
           </h2>
-          
-          <p className="text-lg leading-relaxed text-muted-foreground">
-            We don&apos;t just use AI APIs; we engineer enterprise-grade AI platforms. 
-            Leveraging the watsonx stack, we deliver models that are transparent, 
-            governable, and trained on your proprietary data—not the public internet.
+
+          <p className="text-muted-foreground text-lg leading-relaxed">
+            We don&apos;t just use AI APIs; we engineer enterprise-grade AI
+            platforms. Leveraging the watsonx stack, we deliver models that are
+            transparent, governable, and trained on your proprietary data—not
+            the public internet.
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
             {[
-              "watsonx.ai for Generative Models",
-              "watsonx.data for Lakehouse Scale",
-              "watsonx.governance for Compliance",
-              "OpenShift Containerization"
+              'watsonx.ai for Generative Models',
+              'watsonx.data for Lakehouse Scale',
+              'watsonx.governance for Compliance',
+              'OpenShift Containerization',
             ].map((feature, i) => (
               <div key={i} className="flex items-center gap-3">
-                <PiCheckCircle className="h-5 w-5 shrink-0 text-primary" />
-                <span className="text-sm font-medium text-foreground uppercase tracking-wide font-display">{feature}</span>
+                <PiCheckCircle className="text-primary h-5 w-5 shrink-0" />
+                <span className="text-foreground font-display text-sm font-medium tracking-wide uppercase">
+                  {feature}
+                </span>
               </div>
             ))}
           </div>
@@ -54,57 +62,75 @@ export default function WatsonxSpotlight() {
           >
             <div className="p-6">
               {/* Header */}
-              <div className="mb-6 flex items-center justify-between border-b border-primary/20 pb-4">
+              <div className="border-primary/20 mb-6 flex items-center justify-between border-b pb-4">
                 <div className="flex items-center gap-3">
-                  <div className="h-2 w-2 rounded-full bg-red-500/50 animate-pulse" />
-                  <div className="h-2 w-2 rounded-full bg-yellow-500/50 animate-pulse delay-75" />
-                  <div className="h-2 w-2 rounded-full bg-green-500/50 animate-pulse delay-150" />
+                  <div className="bg-muted-foreground/50 h-2 w-2 rounded-full" />
+                  <div className="bg-muted-foreground/50 h-2 w-2 rounded-full" />
+                  <div className="bg-primary/50 h-2 w-2 rounded-full" />
                 </div>
-                <div className="font-mono text-[10px] text-primary/60 tracking-widest uppercase">NODE_STATUS: OPTIMIZED</div>
+                <div className="text-primary/60 font-mono text-[10px] tracking-widest uppercase">
+                  NODE_STATUS: OPTIMIZED
+                </div>
               </div>
 
               {/* Modules Grid */}
               <div className="grid gap-4">
-                <div className="group flex items-center gap-4 border border-primary/10 bg-background/50 p-4 transition-all hover:border-primary/40 hover:bg-primary/5">
-                  <div className="rounded-md bg-blue-500/10 p-3 text-blue-400 border border-blue-500/20 group-hover:shadow-[0_0_10px_rgba(59,130,246,0.3)] transition-all">
+                <div className="group border-primary/10 bg-background/50 hover:border-primary/40 hover:bg-primary/5 flex items-center gap-4 border p-4 transition-all">
+                  <div className="border-primary/20 bg-primary/10 text-primary group-hover:border-primary/40 rounded-md border p-3 transition-colors">
                     <PiBrain className="h-6 w-6" />
                   </div>
                   <div className="text-left">
-                    <div className="font-bold text-foreground font-display uppercase tracking-tight text-sm">Foundation Models</div>
-                    <div className="text-[10px] text-muted-foreground font-mono">GRANITE-13B, LLAMA-3, FALCON-180B</div>
+                    <div className="text-foreground font-display text-sm font-bold tracking-tight uppercase">
+                      Foundation Models
+                    </div>
+                    <div className="text-muted-foreground font-mono text-[10px]">
+                      GRANITE-13B, LLAMA-3, FALCON-180B
+                    </div>
                   </div>
                   <div className="ml-auto">
-                     <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+                    <div className="bg-primary/70 h-1.5 w-1.5 rounded-full" />
                   </div>
                 </div>
 
-                <div className="group flex items-center gap-4 border border-primary/10 bg-background/50 p-4 transition-all hover:border-purple/40 hover:bg-purple-500/5">
-                  <div className="rounded-md bg-purple-500/10 p-3 text-purple-400 border border-purple-500/20 group-hover:shadow-[0_0_10px_rgba(168,85,247,0.3)] transition-all">
+                <div className="group border-border/60 bg-background/50 hover:border-primary/40 hover:bg-primary/5 flex items-center gap-4 border p-4 transition-colors">
+                  <div className="border-secondary/20 bg-secondary/10 text-secondary group-hover:border-secondary/40 rounded-md border p-3 transition-colors">
                     <PiDatabase className="h-6 w-6" />
                   </div>
                   <div className="text-left">
-                    <div className="font-bold text-foreground font-display uppercase tracking-tight text-sm">Vector Store</div>
-                    <div className="text-[10px] text-muted-foreground font-mono">RAG_KNOWLEDGE_BASE // SCALE_READY</div>
+                    <div className="text-foreground font-display text-sm font-bold tracking-tight uppercase">
+                      Vector Store
+                    </div>
+                    <div className="text-muted-foreground font-mono text-[10px]">
+                      RAG_KNOWLEDGE_BASE // SCALE_READY
+                    </div>
                   </div>
-                  <div className="ml-auto font-mono text-[10px] text-primary/80 tracking-tighter">SYNCED</div>
+                  <div className="text-primary/80 ml-auto font-mono text-[10px] tracking-tighter">
+                    SYNCED
+                  </div>
                 </div>
 
-                <div className="group flex items-center gap-4 border border-primary/10 bg-background/50 p-4 transition-all hover:border-emerald/40 hover:bg-emerald-500/5">
-                  <div className="rounded-md bg-emerald-500/10 p-3 text-emerald-400 border border-emerald-500/20 group-hover:shadow-[0_0_10px_rgba(16,185,129,0.3)] transition-all">
+                <div className="group border-border/60 bg-background/50 hover:border-primary/40 hover:bg-primary/5 flex items-center gap-4 border p-4 transition-colors">
+                  <div className="border-primary/20 bg-primary/10 text-primary group-hover:border-primary/40 rounded-md border p-3 transition-colors">
                     <PiShieldCheck className="h-6 w-6" />
                   </div>
                   <div className="text-left">
-                    <div className="font-bold text-foreground font-display uppercase tracking-tight text-sm">Governance Layer</div>
-                    <div className="text-[10px] text-muted-foreground font-mono">DRIFT_DETECTION_ACTIVE // COMPLIANT</div>
+                    <div className="text-foreground font-display text-sm font-bold tracking-tight uppercase">
+                      Governance Layer
+                    </div>
+                    <div className="text-muted-foreground font-mono text-[10px]">
+                      DRIFT_DETECTION_ACTIVE // COMPLIANT
+                    </div>
                   </div>
-                  <div className="ml-auto font-mono text-[10px] text-emerald-500 tracking-tighter">ACTIVE</div>
+                  <div className="text-primary/80 ml-auto font-mono text-[10px] tracking-tighter">
+                    ACTIVE
+                  </div>
                 </div>
               </div>
             </div>
           </ServiceCard>
-          
-          {/* Background Glow */}
-          <div className="absolute -inset-4 z-[-1] rounded-none bg-gradient-to-br from-primary/20 via-secondary/20 to-transparent blur-3xl opacity-50" />
+
+          {/* Background */}
+          <div className="from-primary/10 via-secondary/10 absolute -inset-4 z-[-1] rounded-none bg-gradient-to-br to-transparent opacity-40 blur-3xl" />
         </div>
       </div>
     </section>

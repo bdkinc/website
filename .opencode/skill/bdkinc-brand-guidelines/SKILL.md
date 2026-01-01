@@ -8,7 +8,7 @@ license: Complete terms in LICENSE.txt
 
 ## Overview
 
-Use this skill to apply BDKinc’s official website look-and-feel: modern professional, dark-first UI with subtle technical accents (glassmorphism + gradients) and high contrast for accessibility.
+Use this skill to apply BDKinc’s official website look-and-feel: professional and clean, dark-first UI with subtle technical accents (glassmorphism + gradients) and high contrast for accessibility.
 
 **Keywords**: branding, corporate identity, visual identity, styling, brand colors, typography, BDKinc, shadcn, Tailwind, dark mode, glassmorphism
 
@@ -20,9 +20,9 @@ BDKinc uses a shadcn-style semantic color system backed by CSS variables (see `s
 
 **Brand Colors (CSS variables)**
 
-- Primary (Cyan): `--brand-primary: oklch(0.65 0.18 210)`
-- Secondary (Purple): `--brand-secondary: oklch(0.65 0.22 280)`
-- Accent (Amber): `--brand-accent: oklch(0.7 0.18 45)` (slightly brighter in dark mode)
+- Primary (Cyan): `--primary: oklch(0.65 0.18 210)`
+- Secondary (Purple): `--secondary: oklch(0.65 0.22 280)`
+- Accent (Amber): `--accent: oklch(0.7 0.18 45)` (slightly brighter in dark mode)
 
 **Semantic Surface Colors (CSS variables)**
 
@@ -34,8 +34,15 @@ BDKinc uses a shadcn-style semantic color system backed by CSS variables (see `s
 **Usage Rules**
 
 - Prefer semantic Tailwind utilities: `bg-background`, `text-foreground`, `bg-card`, `border-border`, `text-muted-foreground`.
-- Use brand utilities for emphasis and CTAs: `text-brand-primary`, `bg-brand-primary`, and gradients via `gradient-primary`.
+- Use brand utilities for emphasis and CTAs: `text-primary`, `bg-primary`, and gradients via `gradient-primary`.
 - Avoid inventing new hex colors; use existing tokens and opacity modifiers (e.g. `bg-primary/10`).
+
+### Icons
+
+Use Phosphor icons (via `react-icons/pi`) for all iconography.
+
+- Prefer importing only the icons you use (tree-shaking friendly).
+- Icons inherit size and color from CSS; style with semantic Tailwind classes (e.g. `h-5 w-5 text-muted-foreground`, `text-primary`).
 
 ### Typography
 
@@ -48,7 +55,7 @@ Typography is defined in `src/styles/global.css`.
 
 - Headings (`h1`–`h6`): `--font-display`, weight 700, line-height 1.2
 - Body: `--font-sans`, weight 400–500, line-height 1.6
-- Keep hierarchy clear; prefer Tailwind scale classes (`text-7xl`…`text-xs`) as defined in `guides/DESIGN_GUIDE.md`.
+- Keep hierarchy clear; prefer Tailwind scale classes (`text-7xl`…`text-xs`) as used consistently across existing site components.
 
 ## Features
 
@@ -61,7 +68,7 @@ Typography is defined in `src/styles/global.css`.
 
 ### Text Styling
 
-- Headings: high-contrast `text-foreground`, optional brand highlight using `text-brand-primary`
+- Headings: high-contrast `text-foreground`, optional brand highlight using `text-primary`
 - Body text: `text-foreground` with secondary content as `text-muted-foreground`
 - Links/CTAs: prefer brand primary + clear hover/underline affordances
 - Maintain accessibility: strong contrast against `bg-background` / `bg-card`
@@ -82,6 +89,6 @@ Typography is defined in `src/styles/global.css`.
 
 ### Color Application
 
-- Prefer semantic tokens (background/foreground/card/border/muted) and brand tokens (primary/secondary/accent).
+- Prefer semantic tokens (background/foreground/card/border/muted) and brand tokens (`--primary`, `--secondary`, `--accent`).
 - If you must output explicit colors (e.g., for slide tooling), derive them from the repo’s CSS variables in `src/styles/global.css` rather than inventing new values.
 - Support dark-first styling by default; ensure content remains readable in both light and dark contexts.

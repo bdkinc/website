@@ -12,6 +12,7 @@ import {
   PiCalendar,
   PiCursor,
   PiMagnifyingGlass,
+  PiHeadset,
 } from 'react-icons/pi';
 
 type CTAVariant =
@@ -37,6 +38,7 @@ interface CTAButtonBaseProps {
     | 'calendar'
     | 'pointer'
     | 'search'
+    | 'chat'
     | 'none';
   children: React.ReactNode;
   className?: string;
@@ -81,6 +83,7 @@ export const CTAButton = React.forwardRef<
       | 'calendar'
       | 'pointer'
       | 'search'
+      | 'chat'
       | 'none' => {
       if (icon && icon !== 'none') return icon;
 
@@ -105,6 +108,13 @@ export const CTAButton = React.forwardRef<
         text.includes('conversation')
       ) {
         return 'phone';
+      }
+      if (
+        text.includes('talk') ||
+        text.includes('support') ||
+        text.includes('chat')
+      ) {
+        return 'chat';
       }
       if (text.includes('get started') || text.includes('try')) {
         return 'sparkles';
@@ -150,6 +160,7 @@ export const CTAButton = React.forwardRef<
       calendar: <PiCalendar className="h-4 w-4" aria-hidden="true" />,
       pointer: <PiCursor className="h-4 w-4" aria-hidden="true" />,
       search: <PiMagnifyingGlass className="h-4 w-4" aria-hidden="true" />,
+      chat: <PiHeadset className="h-4 w-4" aria-hidden="true" />,
       none: null,
     };
 

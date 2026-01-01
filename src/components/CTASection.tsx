@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import CTAButton from '@/components/CTAButton.tsx';
 
-type CTAIcon =
+export type CTAIcon =
   | 'mail'
   | 'phone'
   | 'sparkles'
@@ -15,9 +15,10 @@ type CTAIcon =
   | 'back'
   | 'click'
   | 'search'
+  | 'chat'
   | 'none';
 
-interface CTAAction {
+export interface CTAAction {
   text: string;
   href: string;
   icon?: CTAIcon;
@@ -25,7 +26,7 @@ interface CTAAction {
   rel?: string;
 }
 
-interface CTASectionProps {
+export interface CTASectionProps {
   title?: string;
   description?: string;
   buttonText?: string;
@@ -145,7 +146,7 @@ export default function CTASection({
             <div className="relative inline-block">
               <CTAButton
                 ref={buttonRef}
-                className="relative z-10 cursor-pointer shadow-lg pulse-ring"
+                className="pulse-ring relative z-10 cursor-pointer shadow-lg"
                 icon={resolvedPrimaryAction.icon}
                 href={resolvedPrimaryAction.href}
                 target={resolvedPrimaryAction.target}

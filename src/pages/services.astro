@@ -1,9 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navigation from '../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { getCollection } from 'astro:content';
 import InteractiveServiceCard from '@/components/InteractiveServiceCard';
+import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer.astro';
 
 const { servicesData, recentPosts } = await getNavigationData();
@@ -91,26 +92,14 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
     </section>
 
     {/* CTA Section */}
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-4xl">
-        <InteractiveServiceCard
-          client:visible
-          id="cta-contact"
-          title="Ready to Get Started?"
-          description="Contact us today to discuss how our services can help your business grow. We architect, manage, and secure your infrastructure so you can focus on driving your business forward."
-          icon="Envelope"
-          index={10}
-          asChild
-        >
-          <a
-            href="/contact"
-            class="flex flex-col items-center text-center h-full w-full"
-          >
-            {/* The InteractiveServiceCard handles the layout, we just need to provide the link content if needed or wrap it */}
-          </a>
-        </InteractiveServiceCard>
-      </div>
-    </section>
+    <CTASection
+      client:visible
+      title="Ready to Get Started?"
+      description="Contact us today to discuss how our services can help your business grow. We architect, manage, and secure your infrastructure so you can focus on driving your business forward."
+      buttonText="Contact Us"
+      buttonHref="/contact"
+      icon="mail"
+    />
   </main>
 
   <Footer />

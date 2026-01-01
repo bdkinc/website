@@ -10,8 +10,16 @@ interface ServiceCardProps {
   delay?: number;
   size?: 'default' | 'sm' | 'lg';
   interactive?: boolean;
-  variant?: 'default' | 'technical';
+  /**
+   * Card visual treatment.
+   * - default: minimal chrome (no technical border or footer)
+   * - technical: technical chrome + "bar + circle" footer decoration
+   * - blog: technical chrome + "circle + bar" footer decoration (Left-aligned, Secondary)
+   * - simple: technical chrome but NO footer decoration
+   */
+  variant?: 'default' | 'technical' | 'simple' | 'blog';
   metadata?: string;
+  key?: React.Key;
   asChild?: boolean;
 }
 
@@ -28,7 +36,6 @@ export function ServiceCard({
   size = 'lg',
   interactive = true,
   variant = 'technical',
-  metadata,
   asChild = false,
 }: ServiceCardProps) {
   const [isHovered, setIsHovered] = useState(false);
@@ -50,7 +57,7 @@ export function ServiceCard({
   return (
     <Component
       className={cn(
-        'relative h-full group block focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+        'group focus-visible:ring-primary relative block h-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
         animated
           ? 'fill-mode-both animate-in fade-in slide-in-from-bottom-6 duration-600'
           : '',
@@ -60,15 +67,22 @@ export function ServiceCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onPointerEnter={() => setIsHovered(true)}
+      onPointerLeave={() => setIsHovered(false)}
     >
       <Card
         size={size}
         interactive={false} // We handle interaction ourselves
         className={cn(
-          'relative flex h-full flex-col items-center justify-center text-center overflow-hidden',
+          'relative flex h-full flex-col items-center justify-center overflow-hidden text-center',
           'bg-card/60 border-border/50 backdrop-blur-xl transition-all duration-300',
-          variant === 'technical' && 'border-primary/20',
-          interactive && isHovered && 'border-primary/40 shadow-[--shadow-glow-sm]'
+          (variant === 'technical' ||
+            variant === 'simple' ||
+            variant === 'blog') &&
+            'border-primary/20',
+          interactive &&
+            isHovered &&
+            'border-primary/40 shadow-[--shadow-glow-sm]'
         )}
       >
         {/* Technical Overlays */}
@@ -85,21 +99,42 @@ export function ServiceCard({
           />
         )}
 
-        <div className="text-foreground relative z-20 flex w-full flex-col h-full">
-          <div className="flex-grow w-full">
-            {children}
-          </div>
-          
+        <div className="text-foreground relative z-20 flex h-full w-full flex-col">
+          <div className="w-full flex-grow">{children}</div>
+
           {/* Technical Footer Decoration */}
           {variant === 'technical' && (
-            <div className="mt-auto pt-6 w-full flex justify-between items-end">
-              <div className="text-[9px] font-mono tracking-widest text-primary/40 uppercase">
-                {metadata || 'TECH_PROTOCOL_V1.0'}
-              </div>
-              <div className={cn(
-                "h-1 w-12 bg-primary/20 transition-all duration-500",
-                isHovered && "w-20 bg-primary/50"
-              )} />
+            <div className="mt-auto flex w-full items-center justify-end gap-2 pt-6">
+              <div
+                className={cn(
+                  'bg-primary/20 h-1 w-12 rounded-full transition-all duration-300 ease-out',
+                  isHovered && 'bg-primary/60 w-20'
+                )}
+              />
+              <div
+                className={cn(
+                  'bg-primary/20 h-2 w-2 rounded-full transition-all duration-300 ease-out',
+                  isHovered && 'bg-primary/60'
+                )}
+              />
+            </div>
+          )}
+
+          {/* Blog Footer Decoration (Left-aligned, Secondary) */}
+          {variant === 'blog' && (
+            <div className="mt-auto flex w-full items-center justify-start gap-2 pt-6">
+              <div
+                className={cn(
+                  'bg-secondary/20 h-2 w-2 rounded-full transition-all duration-300 ease-out',
+                  isHovered && 'bg-secondary/60'
+                )}
+              />
+              <div
+                className={cn(
+                  'bg-secondary/20 h-1 w-12 rounded-full transition-all duration-300 ease-out',
+                  isHovered && 'bg-secondary/60 w-20'
+                )}
+              />
             </div>
           )}
         </div>

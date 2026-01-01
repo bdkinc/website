@@ -119,26 +119,26 @@ export default function EDIFlowVisualization() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full overflow-hidden rounded-xl border border-primary/20 bg-background/40 p-8 backdrop-blur-md"
+      className="border-primary/20 bg-background/40 relative w-full overflow-hidden rounded-xl border p-8 backdrop-blur-md"
     >
       {/* Background Grid & Decorations */}
-      <div className="absolute inset-0 z-0 opacity-20 edi-grid">
+      <div className="edi-grid absolute inset-0 z-0 opacity-20">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       </div>
 
       {/* Circuit Overlay */}
       <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-10">
-         <svg className="h-full w-full" preserveAspectRatio="none">
-            <path
-              d="M0 20 H 100 V 80 H 200"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1"
-              className="text-primary circuit-path"
-              strokeDasharray="20 20"
-              vectorEffect="non-scaling-stroke"
-            />
-         </svg>
+        <svg className="h-full w-full" preserveAspectRatio="none">
+          <path
+            d="M0 20 H 100 V 80 H 200"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1"
+            className="text-primary circuit-path"
+            strokeDasharray="20 20"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
       </div>
 
       <div className="relative z-10 flex flex-col items-center justify-between gap-8 md:flex-row md:gap-4">
@@ -155,18 +155,18 @@ export default function EDIFlowVisualization() {
 
         {/* Node 2: BDK Engine */}
         <div className="relative flex flex-col items-center">
-          <div className="relative z-20 flex h-24 w-24 items-center justify-center rounded-2xl border-2 border-primary bg-background/80 shadow-[0_0_30px_rgba(0,212,255,0.3)] backdrop-blur-xl">
-            <div className="absolute inset-0 animate-pulse rounded-2xl bg-primary/10"></div>
-            <PiDesktop className="h-10 w-10 text-primary" />
+          <div className="border-primary bg-background/80 relative z-20 flex h-24 w-24 items-center justify-center rounded-2xl border-2 shadow-lg backdrop-blur-xl">
+            <div className="bg-primary/10 absolute inset-0 rounded-2xl"></div>
+            <PiDesktop className="text-primary h-10 w-10" />
 
             {/* Orbiting particles */}
-            <div className="spin-ring absolute -inset-1 rounded-2xl border border-dashed border-primary/30"></div>
+            <div className="spin-ring border-primary/30 absolute -inset-1 rounded-2xl border border-dashed"></div>
           </div>
           <div className="mt-4 text-center">
-            <div className="font-display text-lg font-bold text-primary">
+            <div className="font-display text-primary text-lg font-bold">
               BDK Engine
             </div>
-            <div className="font-mono text-xs text-muted-foreground">
+            <div className="text-muted-foreground font-mono text-xs">
               Translation & Routing
             </div>
           </div>
@@ -185,7 +185,7 @@ export default function EDIFlowVisualization() {
       </div>
 
       {/* Animated Packets Layer */}
-      <div className="pointer-events-none absolute left-0 top-1/2 h-20 w-full -translate-y-1/2 px-16 md:px-24">
+      <div className="pointer-events-none absolute top-1/2 left-0 h-20 w-full -translate-y-1/2 px-16 md:px-24">
         {/* Forward Packet 1 (Partner -> Engine) */}
         <DataPacket className="packet-1" color="bg-secondary" />
 
@@ -193,26 +193,26 @@ export default function EDIFlowVisualization() {
         <DataPacket className="packet-2" color="bg-primary" />
 
         {/* Acknowledge Packet (ERP -> Partner) - moving backwards */}
-        <DataPacket className="packet-3" color="bg-brand-accent" reverse />
+        <DataPacket className="packet-3" color="bg-accent" reverse />
       </div>
 
       {/* Legend / Status */}
-      <div className="mt-12 flex items-center justify-center gap-6 border-t border-border/50 pt-4">
+      <div className="border-border/50 mt-12 flex items-center justify-center gap-6 border-t pt-4">
         <div className="flex items-center gap-2">
-          <div className="status-dot h-2 w-2 rounded-full bg-green-500"></div>
-          <span className="font-mono text-xs text-muted-foreground">
+          <div className="status-dot bg-primary/70 h-2 w-2 rounded-full"></div>
+          <span className="text-muted-foreground font-mono text-xs">
             SYSTEM ONLINE
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-primary"></div>
-          <span className="font-mono text-xs text-muted-foreground">
+          <div className="bg-primary/70 h-2 w-2 rounded-full"></div>
+          <span className="text-muted-foreground font-mono text-xs">
             2.4ms LATENCY
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-secondary"></div>
-          <span className="font-mono text-xs text-muted-foreground">
+          <div className="bg-secondary h-2 w-2 rounded-full"></div>
+          <span className="text-muted-foreground font-mono text-xs">
             ENCRYPTED (AES-256)
           </span>
         </div>
@@ -235,24 +235,24 @@ function Node({
   const colorClasses = {
     primary: 'border-primary text-primary shadow-primary/20',
     secondary: 'border-secondary text-secondary shadow-secondary/20',
-    accent: 'border-brand-accent text-brand-accent shadow-brand-accent/20',
+    accent: 'border-accent text-accent-foreground shadow-accent/20',
   };
 
   return (
     <div className="relative z-10 flex flex-col items-center">
       <div
         className={cn(
-          'flex h-20 w-20 items-center justify-center rounded-xl border bg-card/80 shadow-lg backdrop-blur-md transition-all hover:scale-105',
+          'bg-card/80 flex h-20 w-20 items-center justify-center rounded-xl border shadow-lg backdrop-blur-md transition-all hover:scale-105',
           colorClasses[color]
         )}
       >
         <Icon className="h-8 w-8" />
       </div>
       <div className="mt-4 text-center">
-        <div className="font-display text-sm font-bold text-foreground">
+        <div className="font-display text-foreground text-sm font-bold">
           {label}
         </div>
-        <div className="font-mono text-xs text-muted-foreground">
+        <div className="text-muted-foreground font-mono text-xs">
           {sublabel}
         </div>
       </div>
@@ -262,12 +262,12 @@ function Node({
 
 function Conduit() {
   return (
-    <div className="relative hidden h-2 flex-1 overflow-hidden rounded-full bg-muted/20 md:block">
+    <div className="bg-muted/20 relative hidden h-2 flex-1 overflow-hidden rounded-full md:block">
       {/* Static line */}
-      <div className="absolute inset-x-0 top-1/2 h-[1px] -translate-y-1/2 bg-border"></div>
+      <div className="bg-border absolute inset-x-0 top-1/2 h-[1px] -translate-y-1/2"></div>
 
       {/* Animated flow background */}
-      <div className="conduit-shimmer absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,rgba(0,212,255,0.1),transparent)] bg-[length:50%_100%]"></div>
+      <div className="conduit-shimmer absolute inset-0 -translate-x-full bg-[linear-gradient(90deg,transparent,hsl(var(--primary)/0.10),transparent)] bg-[length:50%_100%]"></div>
     </div>
   );
 }
@@ -284,7 +284,7 @@ function DataPacket({
   return (
     <div
       className={cn(
-        'absolute top-1/2 -mt-3 flex h-6 w-16 items-center justify-center rounded-full shadow-[0_0_10px_currentColor] backdrop-blur-sm opacity-0',
+        'absolute top-1/2 -mt-3 flex h-6 w-16 items-center justify-center rounded-full opacity-0 shadow-sm backdrop-blur-sm',
         color,
         className
       )}

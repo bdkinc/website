@@ -1,0 +1,113 @@
+---
+import { PiUsersThree, PiBuildings } from 'react-icons/pi';
+
+// No props needed for this static section
+---
+
+<section class="relative overflow-hidden py-24">
+  <!-- Subtle Background Gradient for depth -->
+  <div
+    class="pointer-events-none absolute top-1/2 -left-64 -z-10 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-primary/5 blur-3xl"
+  >
+  </div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid gap-16 lg:grid-cols-2 lg:gap-24 items-center">
+      <!-- Text Content -->
+      <div class="flex flex-col gap-6">
+        <h2
+          class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-4 text-3xl font-bold tracking-tight uppercase duration-700 md:text-4xl"
+        >
+          <span class="text-foreground">The </span>
+          <span class="bg-linear-to-br from-primary to-secondary bg-clip-text text-transparent"
+            >Founding Story</span
+          >
+        </h2>
+
+        <div
+          class="space-y-6 text-lg text-muted-foreground leading-relaxed fill-mode-both animate-in fade-in slide-in-from-bottom-6 delay-200 duration-700"
+        >
+          <p>
+            BDKinc was founded in 1999 with a singular directive: to bridge the
+            gap between complex enterprise technology and the businesses that
+            rely on it. In an era where "IT support" often meant reactive fixes,
+            our founders envisioned a practice built on <strong
+              class="text-foreground font-semibold">precision engineering</strong
+            >—where systems are architected for resilience, not just repaired
+            after failure.
+          </p>
+
+          <p>
+            We rejected the transactional vendor model from day one. Instead, we
+            established a <strong class="text-foreground font-semibold"
+              >high-touch partnership</strong
+            > philosophy. We operate as a premier extension of your leadership team,
+            bringing the technical discipline required to navigate shifting digital
+            landscapes. Our goal isn't just to manage servers, but to own the outcomes
+            that drive your growth.
+          </p>
+
+          <p>
+            Today, that vision remains our core protocol. We combine the agility
+            of a specialized boutique with the capabilities of a global
+            powerhouse. Whether modernizing legacy infrastructure or deploying
+            cutting-edge AI, we stand as <strong
+              class="text-foreground font-semibold"
+              >partners in your potential</strong
+            >, ensuring every technical decision advances your strategic
+            mission.
+          </p>
+        </div>
+      </div>
+
+      <!-- Visual/Image Placeholder -->
+      <div
+        class="relative mx-auto w-full max-w-lg lg:max-w-none fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
+      >
+        <!-- The Card -->
+        <div
+          class="glass border-border group relative aspect-video w-full overflow-hidden rounded-xl border shadow-2xl"
+        >
+          <!-- Inner Gradient/Background -->
+          <div
+            class="absolute inset-0 bg-linear-to-br from-primary/5 via-background to-secondary/5"
+          >
+          </div>
+
+          <!-- Placeholder Content -->
+          <div
+            class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center"
+          >
+            <div
+              class="rounded-full bg-muted/50 p-6 ring-1 ring-white/10 backdrop-blur-sm"
+            >
+              <PiUsersThree className="h-12 w-12 text-muted-foreground/50" />
+            </div>
+            <div>
+              <div
+                class="text-sm font-medium tracking-widest uppercase text-muted-foreground/60"
+              >
+                Founding Partners
+              </div>
+              <div class="mt-1 text-xs text-muted-foreground/40">
+                1999 - Present
+              </div>
+            </div>
+          </div>
+
+          <!-- Hover Effect Overlay -->
+          <div
+            class="absolute inset-0 bg-primary/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          >
+          </div>
+        </div>
+
+        <!-- Caption/Tagline below image -->
+        <div class="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground/60">
+            <PiBuildings className="h-4 w-4" />
+            <span>Est. 1999 • Maryland Eastern Shore</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,6 +1,6 @@
 ---
 import type { ComponentType } from 'react';
-import MetricCountUp from './MetricCountUp';
+import MetricCountUp from '@/components/MetricCountUp';
 
 interface Metric {
   value: string;
@@ -24,18 +24,18 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
       <div class="mx-auto max-w-7xl">
         <div class="border-border/60 bg-background/80 relative overflow-hidden rounded-3xl border p-10 shadow-[--shadow-glow-sm] sm:p-12 lg:p-16">
           <div
-            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,#00d4ff33,transparent_65%)]"
+            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.08),transparent_65%)]"
             aria-hidden="true"
           />
           <div
-            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,#7c3aed2b,transparent_60%)]"
+            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,hsl(var(--secondary)/0.08),transparent_60%)]"
             aria-hidden="true"
           />
 
           <div class="relative z-10 flex flex-col gap-10">
             <div class="text-center">
               {eyebrow && (
-                <p class="text-primary mb-3 text-xs font-semibold tracking-[0.4em] uppercase">
+                <p class="text-primary mb-3 text-xs font-semibold tracking-[0.4em]">
                   {eyebrow}
                 </p>
               )}
@@ -65,6 +65,7 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
                         <metric.icon className="h-8 w-8" aria-hidden="true" />
                       </div>
                     )}
+
                     <div class="metric-value">
                       <MetricCountUp
                         client:visible
@@ -84,16 +85,22 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
 }
 
 <script>
+  // Ensure the GSAP animation logic is robustly loaded or simplify if it conflicts with client:visible
+  // The client:visible in MetricCountUp is likely correct, but let's check if GSAP is firing correctly.
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+  // Only run on client
   if (typeof window !== 'undefined') {
+    // We'll attach this setup function to a global event or run it immediately if DOM is ready
     const setupImpactMetrics = () => {
-      const cards = document.querySelectorAll('.impact-metric-card');
+      // Add a slight delay to ensure client:visible components might have mounted their DOM structure if needed
+      // Though Astro script tags run after hydration usually.
+      
+      const cards = document.querySelectorAll<HTMLElement>('.impact-metric-card');
       if (!cards.length) {
         return;
       }
-
       const prefersReducedMotion = window.matchMedia(
         '(prefers-reduced-motion: reduce)'
       ).matches;
@@ -119,18 +126,8 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
               { opacity: 1, y: 0, delay, duration: 0.8, ease: 'power3.out' }
             );
 
-            if (valueEl) {
-              gsap.fromTo(
-                valueEl,
-                { scale: 0.9 },
-                {
-                  scale: 1,
-                  delay: delay + 0.12,
-                  duration: 0.6,
-                  ease: 'back.out(1.7)',
-                }
-              );
-            }
+            // Removed separate animation for valueEl to avoid conflict with React's CountUp
+            // Let the React component handle the number animation via client:visible
 
             if (glowEl) {
               gsap.fromTo(

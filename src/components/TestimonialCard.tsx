@@ -56,12 +56,6 @@ export function TestimonialCard({
           <div className="text-muted-foreground mt-1 font-sans text-xs">
             {testimonial.company}
           </div>
-          <div className="text-primary/80 mt-2 font-mono text-[10px] tracking-widest">
-            <span aria-hidden="true" className="mr-1">
-              {'//'}
-            </span>
-            {testimonial.industry}
-          </div>
         </div>
       </Card>
     </div>
