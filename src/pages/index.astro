@@ -5,7 +5,7 @@ import Hero from '@/components/Hero';
 import Services from '@/components/Services';
 import TrustShowcase from '@/components/TrustShowcase';
 import WhyChooseUs from '@/components/WhyChooseUs';
-import Testimonials from '@/components/Testimonials';
+import Testimonials from '@/components/Testimonials.astro';
 import CTASection from '@/components/CTASection';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
@@ -44,7 +44,7 @@ const { servicesData, recentPosts } = await getNavigationData();
     <Services client:visible services={servicesData} />
     <TrustShowcase client:visible />
     <WhyChooseUs client:visible />
-    <Testimonials client:visible />
+    <Testimonials />
     <CTASection client:visible icon="click" />
   </main>
 

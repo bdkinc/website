@@ -46,6 +46,12 @@ Use Phosphor icons (via `react-icons/pi`) for all iconography.
 
 ### Typography
 
+**Uppercase usage (important):**
+
+- Avoid defaulting to `uppercase` styling across headings and UI labels.
+- Use Title Case or sentence case for most headings.
+- Reserve all-caps for small, short labels (e.g., eyebrow text) where it improves scannability; keep letter-spacing modest.
+
 Typography is defined in `src/styles/global.css`.
 
 - **Display / Headings**: Montserrat (`--font-display`)

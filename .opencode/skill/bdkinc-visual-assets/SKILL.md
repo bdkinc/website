@@ -171,6 +171,11 @@ For each detected asset, capture:
 
 ## Executive-Friendly Visual Direction (Hard Constraints)
 
+### Capitalization in UI visuals
+
+- Avoid all-caps labels baked into diagrams/visual panels.
+- Prefer sentence-case labels in UI-simulation components (dashboards/consoles) unless the design specifically calls for a small eyebrow label.
+
 ### Aesthetic Rules
 
 **Required:** clean, professional, technical, enterprise-ready.

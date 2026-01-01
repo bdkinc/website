@@ -29,6 +29,11 @@ BDKinc is a sophisticated technology partner (MSP/CSP/Dev Shop) delivering enter
 
 ## Copy Rules (Do / Don’t)
 
+**Capitalization rule (important):**
+
+- Avoid writing headlines/CTAs in ALL CAPS.
+- Prefer Title Case or sentence case; use emphasis via wording, hierarchy, and brand color accents instead of capitalization.
+
 **DO**
 
 - Lead with outcomes: uptime, security, efficiency, growth, risk reduction.
@@ -131,7 +136,7 @@ Frame partners as: certified expertise + leveraging global R&D to deliver a tail
 - “Understanding the unique challenges of complex industries—from manufacturing and logistics to healthcare and finance.”
 - “A 25-year legacy of powering business innovation.”
 
-**Scope rule:** It’s OK to say BDKinc can cover *any* core IT function (managed IT, cloud, security, development, data/AI). Avoid absolute claims like “any IT need” unless you immediately qualify with capability categories and/or an assessment step.
+**Scope rule:** It’s OK to say BDKinc can cover _any_ core IT function (managed IT, cloud, security, development, data/AI). Avoid absolute claims like “any IT need” unless you immediately qualify with capability categories and/or an assessment step.
 
 ## Call To Action (CTA)
 

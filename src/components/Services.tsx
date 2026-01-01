@@ -76,7 +76,7 @@ export default function Services({ services }: ServicesProps) {
             headerInView && 'translate-y-0 opacity-100'
           )}
         >
-          <h2 className="font-display mb-4 text-4xl font-bold tracking-tight uppercase md:text-5xl">
+          <h2 className="font-display mb-4 text-4xl font-bold tracking-tight md:text-5xl">
             <span className="text-foreground">Expert </span>
             <span className="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
               Solutions

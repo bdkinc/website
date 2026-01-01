@@ -41,6 +41,17 @@ const locationsCollection = defineCollection({
   }),
 });
 
+const testimonialsCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    quote: z.string(),
+    author: z.string(),
+    company: z.string(),
+    industry: z.string(),
+    order: z.number().optional(),
+  }),
+});
+
 const pseoServicesCollection = defineCollection({
   type: 'data',
   schema: z.object({
@@ -81,6 +92,7 @@ export const collections = {
   services: servicesCollection,
   blog: blogCollection,
   locations: locationsCollection,
+  testimonials: testimonialsCollection,
   pseoServices: pseoServicesCollection,
   partners: partnersCollection,
 };

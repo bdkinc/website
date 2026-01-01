@@ -85,7 +85,7 @@ export default function TrustShowcase({
               : 'translate-y-8 opacity-0'
           )}
         >
-          <h2 className="font-display mb-4 text-4xl font-bold tracking-tight uppercase md:text-5xl">
+          <h2 className="font-display mb-4 text-4xl font-bold tracking-tight md:text-5xl">
             <span className="text-foreground">Powered by </span>
             <span className="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
               Industry Leaders
