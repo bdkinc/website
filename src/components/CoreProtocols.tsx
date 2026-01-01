@@ -113,6 +113,20 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
 
   const displayValues = values.slice(0, nodeLayout.length);
 
+  // Set initial centering transform for desktop layout nodes
+  useEffect(() => {
+    if (!isDesktopLayout) return;
+    // Small delay to ensure refs are populated after render
+    const timer = setTimeout(() => {
+      nodesRef.current.forEach((node) => {
+        if (node) {
+          gsap.set(node, { xPercent: -50, yPercent: -50 });
+        }
+      });
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [isDesktopLayout, displayValues.length]);
+
   // Calculate paths
   const connectionPaths = useMemo(() => {
     const width = Math.max(layoutSize.width, 1);
@@ -131,7 +145,9 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
           y: (nodeLayout[end].y / 100) * height,
         };
 
-        // Calculate length for stroke-dasharray animation
+        // Center-to-center connection for perfect alignment
+        // The nodes have z-index higher than lines, so lines will visually disappear behind them
+        // This avoids any gap or misalignment issues with manual edge calculations
         const length = Math.hypot(target.x - anchor.x, target.y - anchor.y);
 
         return {
@@ -147,19 +163,23 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
     if (!isIntersecting || !isDesktopLayout) return;
 
     // 1. Animate Nodes Entry
-    gsap.fromTo(
-      nodesRef.current,
-      { opacity: 0, scale: 0, y: 20 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0, // Using percentage in CSS for position, so 0 here clears the transform offset
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'back.out(1.7)',
-        clearProps: 'transform', // Important to allow hover transforms later
-      }
-    );
+    // Set initial state with centering transform maintained
+    nodesRef.current.forEach((node, index) => {
+      if (!node) return;
+      // Use GSAP set to establish the base transform with centering
+      gsap.set(node, { xPercent: -50, yPercent: -50 });
+      gsap.fromTo(
+        node,
+        { opacity: 0, scale: 0 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          delay: index * 0.1,
+          ease: 'back.out(1.7)',
+        }
+      );
+    });
 
     // 2. Animate Info Card Entry
     if (infoCardRef.current) {
@@ -171,30 +191,47 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
     }
 
     // 3. Pulse Animation for Lines
+    // We'll store tweens to control them based on interaction
     pulseLinesRef.current.forEach((line, index) => {
       if (!line) return;
 
       const length = connectionPaths[index]?.length || 200;
 
-      gsap.fromTo(
-        line,
-        { strokeDasharray: length, strokeDashoffset: length, opacity: 0 },
-        {
-          strokeDashoffset: -length, // Travel full distance
-          opacity: 1,
-          duration: 2,
-          repeat: -1,
-          ease: 'power1.inOut',
-          delay: index * 0.2,
-          yoyo: false,
-          onRepeat: () => {
-            // Reset slightly to avoid glitch at loop end if needed,
-            // but strokeDashoffset loop usually works well
-          },
-        }
-      );
+      // Target connection connects Node 0 to Node (index + 1)
+      const targetNodeIndex = index + 1;
+
+      // Determine if this line should be active based on hover state
+      // Active if:
+      // 1. Hub is hovered (index 0) - all lines active
+      // 2. Specific satellite is hovered - only its line is active
+      const isActive = activeIndex === 0 || activeIndex === targetNodeIndex;
+
+      // Kill existing animations on this element to prevent conflicts
+      gsap.killTweensOf(line);
+
+      if (isActive) {
+        gsap.fromTo(
+          line,
+          { strokeDasharray: length, strokeDashoffset: length, opacity: 0.2 },
+          {
+            strokeDashoffset: -length,
+            opacity: 1,
+            duration: 2,
+            repeat: -1,
+            ease: 'power1.inOut',
+            delay: index * 0.1, // Slight stagger for visual interest
+          }
+        );
+      } else {
+        // Dim inactive lines
+        gsap.to(line, {
+          opacity: 0.1,
+          duration: 0.5,
+          overwrite: true,
+        });
+      }
     });
-  }, [isIntersecting, isDesktopLayout, connectionPaths]);
+  }, [isIntersecting, isDesktopLayout, connectionPaths, activeIndex]); // Added activeIndex dependency
 
   const currentDescription =
     displayValues[activeIndex]?.description ??
@@ -214,11 +251,11 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
       className="relative isolate overflow-visible"
     >
       <div
-        className="pointer-events-none absolute inset-0 opacity-60"
+        className="pointer-events-none absolute inset-0 opacity-40"
         aria-hidden="true"
         style={{
           background:
-            'radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.08), transparent 35%), radial-gradient(circle at 80% 0%, rgba(129, 140, 248, 0.08), transparent 40%)',
+            'radial-gradient(circle at 50% 50%, oklch(0.65 0.22 280 / 0.15), transparent 70%)',
         }}
       />
 
@@ -307,60 +344,82 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
                   onMouseEnter={() => setActiveIndex(index)}
                   onFocus={() => setActiveIndex(index)}
                   className={cn(
-                    'group bg-card hover:border-primary/60 border-border cursor-default rounded-full border px-2 py-8 text-center transition-all duration-300 ease-out hover:shadow-[0_0_30px_-5px_rgba(var(--color-primary),0.3)] focus-visible:ring md:absolute md:flex md:flex-col md:items-center md:justify-center md:gap-2 md:py-0',
+                    'group cursor-default transition-all duration-300 ease-out focus-visible:ring',
                     isDesktopLayout
-                      ? 'z-20 md:h-32 md:w-32'
-                      : 'w-full rounded-2xl py-6',
-                    // Special styling for center node (Index 0)
-                    index === 0 &&
-                      isDesktopLayout &&
-                      'border-primary/50 bg-background z-30 shadow-[0_0_40px_-10px_rgba(var(--color-primary),0.2)] md:h-40 md:w-40',
-                    // Hover scaling using Tailwind
-                    'hover:scale-105'
+                      ? 'border-border bg-card hover:border-primary/60 absolute z-20 flex items-center justify-center rounded-full border hover:scale-105 hover:shadow-[0_0_30px_-5px_rgba(var(--color-primary),0.3)]'
+                      : 'border-border bg-card relative flex w-full flex-col items-center gap-4 rounded-2xl border py-6',
+
+                    // Desktop Size Logic
+                    isDesktopLayout &&
+                      index === 0 &&
+                      'border-primary/50 bg-background z-30 h-24 w-24 shadow-[0_0_20px_-5px_rgba(var(--color-primary),0.2)]', // Hub
+                    isDesktopLayout && index !== 0 && 'h-16 w-16' // Satellite
                   )}
                   style={
                     isDesktopLayout
                       ? {
                           top: `${nodeLayout[index].y}%`,
                           left: `${nodeLayout[index].x}%`,
-                          transform: 'translate(-50%, -50%)', // Always center on coordinate
                         }
                       : undefined
                   }
                 >
+                  {/* Icon */}
                   <div
                     className={cn(
                       'text-primary transition-transform duration-300 group-hover:scale-110'
                     )}
                   >
                     <IconComponent
-                      className={cn(index === 0 ? 'h-10 w-10' : 'h-8 w-8')}
+                      className={cn(
+                        isDesktopLayout
+                          ? index === 0
+                            ? 'h-10 w-10'
+                            : 'h-7 w-7'
+                          : 'h-8 w-8'
+                      )}
                     />
                   </div>
 
+                  {/* Title */}
                   <h3
                     className={cn(
-                      'font-display text-foreground leading-tight font-bold',
-                      index === 0 ? 'text-sm' : 'text-xs'
+                      'font-display text-foreground text-center leading-tight font-bold',
+                      isDesktopLayout
+                        ? 'pointer-events-none absolute top-full mt-4 w-40 text-sm'
+                        : 'text-xs'
                     )}
                   >
                     {value.title}
                   </h3>
-                  <p className="sr-only">{value.description}</p>
+
+                  <p
+                    className={cn(
+                      isDesktopLayout
+                        ? 'sr-only'
+                        : 'text-muted-foreground px-4 text-center text-sm'
+                    )}
+                  >
+                    {value.description}
+                  </p>
                 </div>
               );
             })}
           </div>
         </div>
 
+        {/* Info Card - Desktop Only */}
         <div
           ref={infoCardRef}
-          className="border-border bg-card/70 mt-10 rounded-3xl border px-6 py-5 opacity-0 transition duration-500"
+          className={cn(
+            'glass border-border mt-10 rounded-2xl border px-6 py-5 transition duration-500',
+            isDesktopLayout ? 'opacity-0' : 'hidden' // Handle GSAP opacity for desktop, hidden for mobile
+          )}
         >
-          <p className="text-muted-foreground text-sm font-semibold tracking-[0.2em] uppercase">
+          <p className="text-foreground font-display text-base font-bold">
             {currentTitle}
           </p>
-          <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
+          <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
             {currentDescription}
           </p>
         </div>
