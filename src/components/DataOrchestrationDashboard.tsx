@@ -1,5 +1,5 @@
 import { PiLayout, PiNetwork, PiBrain } from 'react-icons/pi';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 
 export default function DataOrchestrationDashboard() {
   const modules = [
@@ -10,7 +10,7 @@ export default function DataOrchestrationDashboard() {
       icon: PiLayout,
       description: 'Real-time visualization layers',
       highlight: '99.9% Uptime',
-      metadata: 'VIS_NODE_01'
+      metadata: 'VIS_NODE_01',
     },
     {
       title: 'Data Pipelines',
@@ -19,7 +19,7 @@ export default function DataOrchestrationDashboard() {
       icon: PiNetwork,
       description: 'Automated ETL/ELT workflows',
       highlight: 'High Throughput',
-      metadata: 'PIPE_NODE_02'
+      metadata: 'PIPE_NODE_02',
     },
     {
       title: 'Predictive Models',
@@ -28,19 +28,19 @@ export default function DataOrchestrationDashboard() {
       icon: PiBrain,
       description: 'ML-driven trend forecasting',
       highlight: 'Adaptive Logic',
-      metadata: 'ML_NODE_03'
-    }
+      metadata: 'ML_NODE_03',
+    },
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto mb-20">
-       <h2 className="text-foreground mb-12 text-center text-3xl font-bold font-display uppercase tracking-tight">
-         Data Command Center
-       </h2>
-      
+    <div className="mx-auto mb-20 w-full max-w-7xl">
+      <h2 className="text-foreground font-display mb-12 text-center text-3xl font-bold tracking-tight uppercase">
+        Data Command Center
+      </h2>
+
       <div className="grid gap-6 lg:grid-cols-3">
         {modules.map((module, index) => (
-          <ServiceCard
+          <TechCard
             key={index}
             variant="technical"
             interactive
@@ -49,35 +49,43 @@ export default function DataOrchestrationDashboard() {
           >
             <div className="relative z-10 flex h-full flex-col p-8 text-left">
               {/* Header with Status */}
-              <div className="flex justify-between items-start mb-8">
-                <div className="p-3 rounded-lg bg-primary/10 border border-primary/20 text-primary group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-500 shadow-[0_0_15px_rgba(0,212,255,0.1)]">
-                  <module.icon className="w-8 h-8" />
+              <div className="mb-8 flex items-start justify-between">
+                <div className="bg-primary/10 border-primary/20 text-primary group-hover:bg-primary/20 rounded-lg border p-3 shadow-[0_0_15px_rgba(0,212,255,0.1)] transition-all duration-500 group-hover:scale-110">
+                  <module.icon className="h-8 w-8" />
                 </div>
                 <div className="flex flex-col items-end">
-                  <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-primary/80 bg-primary/5 px-2 py-1 rounded-none border border-primary/20 uppercase tracking-widest">
+                  <div className="text-primary/80 bg-primary/5 border-primary/20 flex items-center gap-2 rounded-none border px-2 py-1 font-mono text-[10px] font-bold tracking-widest uppercase">
                     <span className="relative flex h-1.5 w-1.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary shadow-[0_0_5px_var(--color-primary)]"></span>
+                      <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
+                      <span className="bg-primary relative inline-flex h-1.5 w-1.5 rounded-full shadow-[0_0_5px_var(--color-primary)]"></span>
                     </span>
                     {module.status}
                   </div>
-                  <div className="text-[9px] text-muted-foreground font-mono mt-2 uppercase tracking-tighter">
+                  <div className="text-muted-foreground mt-2 font-mono text-[9px] tracking-tighter uppercase">
                     LATENCY: {module.latency}
                   </div>
                 </div>
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-bold text-foreground mb-3 font-display uppercase tracking-tight group-hover:text-primary transition-colors">{module.title}</h3>
-              <p className="text-muted-foreground text-sm mb-6 leading-relaxed flex-grow">{module.description}</p>
+              <h3 className="text-foreground font-display group-hover:text-primary mb-3 text-xl font-bold tracking-tight uppercase transition-colors">
+                {module.title}
+              </h3>
+              <p className="text-muted-foreground mb-6 flex-grow text-sm leading-relaxed">
+                {module.description}
+              </p>
 
               {/* Footer / Highlight */}
-              <div className="mt-auto pt-4 border-t border-primary/10 flex justify-between items-center">
-                  <span className="text-[9px] font-mono text-muted-foreground/60 uppercase tracking-widest">MODULE_STREAM</span>
-                  <span className="text-[10px] font-mono font-bold text-primary uppercase tracking-widest">{module.highlight}</span>
+              <div className="border-primary/10 mt-auto flex items-center justify-between border-t pt-4">
+                <span className="text-muted-foreground/60 font-mono text-[9px] tracking-widest uppercase">
+                  MODULE_STREAM
+                </span>
+                <span className="text-primary font-mono text-[10px] font-bold tracking-widest uppercase">
+                  {module.highlight}
+                </span>
               </div>
             </div>
-          </ServiceCard>
+          </TechCard>
         ))}
       </div>
     </div>

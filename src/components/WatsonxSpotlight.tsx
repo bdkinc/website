@@ -5,7 +5,7 @@ import {
   PiCheckCircle,
   PiBrain,
 } from 'react-icons/pi';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 
 export default function WatsonxSpotlight() {
   return (
@@ -54,7 +54,7 @@ export default function WatsonxSpotlight() {
 
         {/* Visual Side - "Module" Look */}
         <div className="relative">
-          <ServiceCard
+          <TechCard
             variant="technical"
             interactive={false}
             metadata="WATSONX_CORE_V3.2"
@@ -127,7 +127,7 @@ export default function WatsonxSpotlight() {
                 </div>
               </div>
             </div>
-          </ServiceCard>
+          </TechCard>
 
           {/* Background */}
           <div className="from-primary/10 via-secondary/10 absolute -inset-4 z-[-1] rounded-none bg-gradient-to-br to-transparent opacity-40 blur-3xl" />

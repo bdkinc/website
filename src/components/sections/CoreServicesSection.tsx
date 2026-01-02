@@ -1,5 +1,5 @@
 import React from 'react';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import { TechCard, TechCardGrid } from '@/components/TechCard';
 import { PiHeadphones, PiShieldCheck, PiUsersThree } from 'react-icons/pi';
 
 export default function CoreServicesSection() {
@@ -9,8 +9,8 @@ export default function CoreServicesSection() {
         Core Services
       </h3>
 
-      <ServiceCardGrid>
-        <ServiceCard variant="technical" interactive>
+      <TechCardGrid>
+        <TechCard variant="technical" interactive>
           <div className="flex h-full flex-col items-center p-8 text-center">
             <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110">
               <PiHeadphones
@@ -29,9 +29,9 @@ export default function CoreServicesSection() {
               reaches every ticket.
             </div>
           </div>
-        </ServiceCard>
+        </TechCard>
 
-        <ServiceCard variant="technical" interactive>
+        <TechCard variant="technical" interactive>
           <div className="flex h-full flex-col items-center p-8 text-center">
             <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110">
               <PiShieldCheck
@@ -50,9 +50,9 @@ export default function CoreServicesSection() {
               secure.
             </div>
           </div>
-        </ServiceCard>
+        </TechCard>
 
-        <ServiceCard variant="technical" interactive>
+        <TechCard variant="technical" interactive>
           <div className="flex h-full flex-col items-center p-8 text-center">
             <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110">
               <PiUsersThree
@@ -71,8 +71,8 @@ export default function CoreServicesSection() {
               together.
             </div>
           </div>
-        </ServiceCard>
-      </ServiceCardGrid>
+        </TechCard>
+      </TechCardGrid>
     </>
   );
 }

@@ -4,7 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
@@ -198,7 +198,7 @@ const faqs = [
               </div>
 
               <div class="grid gap-6 md:grid-cols-3">
-                <ServiceCard
+                <TechCard
                   variant="technical"
                   interactive={false}
                   metadata="ERP_CAP_01"
@@ -217,9 +217,9 @@ const faqs = [
                       Low-latency edge nodes and redundant failover regions ensuring business continuity.
                     </div>
                   </div>
-                </ServiceCard>
+                </TechCard>
 
-                <ServiceCard
+                <TechCard
                   variant="technical"
                   interactive={false}
                   metadata="ERP_CAP_02"
@@ -238,9 +238,9 @@ const faqs = [
                       Native support for SAP, Oracle, Microsoft Dynamics, and custom legacy builds.
                     </div>
                   </div>
-                </ServiceCard>
+                </TechCard>
 
-                <ServiceCard
+                <TechCard
                   variant="technical"
                   interactive={false}
                   metadata="ERP_CAP_03"
@@ -259,7 +259,7 @@ const faqs = [
                       Regional locking and strict compliance adherence for GDPR, CCPA, and industry mandates.
                     </div>
                   </div>
-                </ServiceCard>
+                </TechCard>
               </div>
             </div>
 
@@ -270,7 +270,7 @@ const faqs = [
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="ERP_BENEFIT_01"
@@ -289,9 +289,9 @@ const faqs = [
                     Guaranteed IOPS and throughput for data-intensive transaction processing.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="ERP_BENEFIT_02"
@@ -310,9 +310,9 @@ const faqs = [
                     Dynamic resource allocation to handle peak loads and seasonal spikes.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="ERP_BENEFIT_03"
@@ -331,9 +331,9 @@ const faqs = [
                     Infrastructure pre-certified for SOC 2, HIPAA, and PCI DSS standards.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="ERP_BENEFIT_04"
@@ -352,9 +352,9 @@ const faqs = [
                     Automated snapshots and geo-redundant backups for near-zero RPO/RTO.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="ERP_BENEFIT_05"
@@ -373,9 +373,9 @@ const faqs = [
                     Shift from heavy CapEx hardware cycles to a predictable monthly operating model.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="ERP_BENEFIT_06"
@@ -394,7 +394,7 @@ const faqs = [
                     Micro-segmentation, encryption at rest/transit, and real-time threat detection.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold font-display">

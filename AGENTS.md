@@ -394,17 +394,15 @@ Before committing new features, verify:
 - [ ] Images are optimized and use appropriate formats
 - [ ] CSS variables are used instead of hardcoded colors
 - [ ] No unnecessary dependencies are imported
-- [ ] Bundle size impact is minimal (check with `npm run build`)
+- [ ] Bundle size impact is minimal
 
 ### Build Protocol
 
-**Do NOT run a full build (`npm run build`) after every single small change.**
+**Do NOT run a full build (`npm run build`) unless explicitly instructed by the user.**
 
 - Builds are resource-intensive and slow down the development loop.
-- Only run a full build when:
-  1. You have completed a significant feature or refactor.
-  2. You need to verify complex type changes or build-specific errors.
-  3. You are about to finish your session and need final verification.
+- Do not run a build after making changes to "verify" them.
+- Only run a build if the user specifically asks for it.
 - For incremental changes, trust your knowledge of the code and the linter/type-checker.
 
 ## Code Quality Standards

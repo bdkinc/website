@@ -3,7 +3,7 @@ import { getEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import DataOrchestrationDashboard from '@/components/DataOrchestrationDashboard';
@@ -162,7 +162,7 @@ const faqs = [
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="BA_BENEFIT_01"
@@ -181,9 +181,9 @@ const faqs = [
                     Eliminate manual latency with automated report generation
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="BA_BENEFIT_02"
@@ -202,9 +202,9 @@ const faqs = [
                     Automated validation protocols significantly reduce error rates
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="BA_BENEFIT_03"
@@ -223,9 +223,9 @@ const faqs = [
                     Real-time intelligence supports high-stakes decision making
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="BA_BENEFIT_04"
@@ -244,9 +244,9 @@ const faqs = [
                     Identify and capitalize on emerging patterns earlier
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="BA_BENEFIT_05"
@@ -265,9 +265,9 @@ const faqs = [
                     Clear, objective metrics align teams with organizational goals
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="BA_BENEFIT_06"
@@ -286,7 +286,7 @@ const faqs = [
                     Seamlessly aggregate data from heterogeneous systems
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
             </div>
 
             {/* Who This Is For Section */}

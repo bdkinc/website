@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { CardTitle, CardDescription } from '@/components/ui/card';
 import { iconMap } from '@/lib/icons';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 
 interface ServicesProps {
   services: Array<{
@@ -101,7 +101,7 @@ export default function Services({ services }: ServicesProps) {
             const delayMs = index * 100;
 
             return (
-              <ServiceCard
+              <TechCard
                 key={service.slug}
                 asChild
                 interactive
@@ -141,7 +141,7 @@ export default function Services({ services }: ServicesProps) {
                     {service.description}
                   </CardDescription>
                 </a>
-              </ServiceCard>
+              </TechCard>
             );
           })}
         </div>

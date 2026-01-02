@@ -4,7 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
@@ -170,8 +170,8 @@ const audience = [
               Core Capabilities
             </h3>
 
-            <ServiceCardGrid client:visible>
-              <ServiceCard variant="technical" interactive metadata="EDI_PARTNER_01">
+            <TechCardGrid client:visible>
+              <TechCard variant="technical" interactive metadata="EDI_PARTNER_01">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiUsers
@@ -186,9 +186,9 @@ const audience = [
                     Rapidly onboard retailers, suppliers, and 3PLs across any region. We maintain certified maps for thousands of trading partners, ensuring effortless compliance with complex routing requirements and varying standards.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard variant="technical" interactive metadata="EDI_AUTO_02">
+              <TechCard variant="technical" interactive metadata="EDI_AUTO_02">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiLightning
@@ -203,9 +203,9 @@ const audience = [
                     Eliminate manual intervention. Automate the full lifecycle of business documents—POs, Invoices, ASNs (850, 810, 856)—to reduce error rates to near-zero and accelerate order-to-cash cycles.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard variant="technical" interactive metadata="EDI_NET_03">
+              <TechCard variant="technical" interactive metadata="EDI_NET_03">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiNetwork
@@ -220,8 +220,8 @@ const audience = [
                     Secure, reliable transmission across all major protocols including AS2, SFTP, FTPS, and VAN. Our architecture adapts to your partners' technical constraints without requiring changes to your internal systems.
                   </div>
                 </div>
-              </ServiceCard>
-            </ServiceCardGrid>
+              </TechCard>
+            </TechCardGrid>
 
             {/* Managed Operations Dashboard */}
             <div class="my-24">
@@ -233,7 +233,7 @@ const audience = [
             </h3>
 
             <div class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="EDI_BENEFIT_01"
@@ -252,9 +252,9 @@ const audience = [
                     Mission-critical reliability for your most sensitive data streams
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="EDI_BENEFIT_02"
@@ -273,9 +273,9 @@ const audience = [
                     Process thousands of transactions per second with low-latency throughput
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="EDI_BENEFIT_03"
@@ -294,9 +294,9 @@ const audience = [
                     Stay ahead of retailer mandate changes with our active compliance monitoring
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="EDI_BENEFIT_04"
@@ -315,9 +315,9 @@ const audience = [
                     Eliminate VAN fees and reduce operational overhead with direct connections
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="EDI_BENEFIT_05"
@@ -336,9 +336,9 @@ const audience = [
                     Connect with partners in any region with support for international standards
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="EDI_BENEFIT_06"
@@ -357,7 +357,7 @@ const audience = [
                     End-to-end tracking of every document in your supply chain
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
             </div>
             
             <div class="mt-24">

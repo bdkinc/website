@@ -5,7 +5,7 @@ import {
   PiGitBranch,
   PiTerminal,
 } from 'react-icons/pi';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 
 export default function CapabilitiesGrid() {
   const capabilities = [
@@ -67,7 +67,7 @@ export default function CapabilitiesGrid() {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {capabilities.map((cap, index) => (
-          <ServiceCard
+          <TechCard
             key={index}
             variant="technical"
             interactive
@@ -97,7 +97,7 @@ export default function CapabilitiesGrid() {
                 ))}
               </ul>
             </div>
-          </ServiceCard>
+          </TechCard>
         ))}
       </div>
     </div>

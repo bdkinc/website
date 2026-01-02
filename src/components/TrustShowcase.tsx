@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 
 export interface TrustShowcaseProps {
   showAllPartners?: boolean;
@@ -103,7 +103,7 @@ export default function TrustShowcase({
           className={cn('grid grid-cols-1 gap-6 md:grid-cols-2', gridColsClass)}
         >
           {visiblePartners.map((partner, index) => (
-            <ServiceCard
+            <TechCard
               key={partner.name}
               variant="simple"
               interactive
@@ -131,13 +131,13 @@ export default function TrustShowcase({
                   </p>
                 </div>
 
-                {/* Custom footer decoration (flipped ServiceCard footer) */}
+                {/* Custom footer decoration (flipped TechCard footer) */}
                 <div className="absolute bottom-6 left-6 flex items-center justify-start gap-2">
                   <div className="bg-secondary/20 group-hover:bg-secondary/50 h-2 w-2 rounded-full transition-colors duration-500" />
                   <div className="bg-secondary/20 group-hover:bg-secondary/50 h-1 w-12 rounded-full transition-all duration-500 group-hover:w-20" />
                 </div>
               </div>
-            </ServiceCard>
+            </TechCard>
           ))}
         </div>
 

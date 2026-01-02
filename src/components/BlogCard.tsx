@@ -1,6 +1,6 @@
 import { PiCalendar, PiClock } from 'react-icons/pi';
 import type { CollectionEntry } from 'astro:content';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 import { cn } from '@/lib/utils';
 
 interface BlogCardProps {
@@ -20,7 +20,7 @@ export function BlogCard({ post, readTime, className, index }: BlogCardProps) {
   }).format(pubDate);
 
   return (
-    <ServiceCard
+    <TechCard
       interactive
       variant="blog"
       delay={index * 100}
@@ -50,6 +50,6 @@ export function BlogCard({ post, readTime, className, index }: BlogCardProps) {
           </p>
         </div>
       </article>
-    </ServiceCard>
+    </TechCard>
   );
 }

@@ -4,7 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import {
@@ -207,8 +207,8 @@ const detailColumns = [
               Core Security Services
             </h3>
 
-            <ServiceCardGrid client:visible>
-              <ServiceCard variant="technical" interactive metadata="THREAT_DEF_01">
+            <TechCardGrid client:visible>
+              <TechCard variant="technical" interactive metadata="THREAT_DEF_01">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiShieldCheck
@@ -223,9 +223,9 @@ const detailColumns = [
                     24/7/365 surveillance of your entire digital estate. Our SOC analysts leverage advanced telemetry to detect anomalies, investigate threats, and neutralize attacks before they impact operations.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard variant="technical" interactive metadata="RANSOM_SHIELD_02">
+              <TechCard variant="technical" interactive metadata="RANSOM_SHIELD_02">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiLock
@@ -240,9 +240,9 @@ const detailColumns = [
                     Zero-trust architecture combined with immutable backups. We implement rigorous prevention strategies and rapid recovery protocols to ensure business continuity in the face of extortion attempts.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard variant="technical" interactive metadata="COMPLIANCE_ENG_03">
+              <TechCard variant="technical" interactive metadata="COMPLIANCE_ENG_03">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiFileText
@@ -257,8 +257,8 @@ const detailColumns = [
                     We don't just consult on compliance; we engineer it. Our team implements the technical controls required for HIPAA, PCI DSS, SOC 2, and NIST frameworks to prepare you for audits.
                   </div>
                 </div>
-              </ServiceCard>
-            </ServiceCardGrid>
+              </TechCard>
+            </TechCardGrid>
 
             <h3
               class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
@@ -525,7 +525,7 @@ const detailColumns = [
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="SEC_BENEFIT_01"
@@ -545,9 +545,9 @@ const detailColumns = [
                     threats
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="SEC_BENEFIT_02"
@@ -567,9 +567,9 @@ const detailColumns = [
                     DSS, SOC 2)
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="SEC_BENEFIT_03"
@@ -588,9 +588,9 @@ const detailColumns = [
                     Quick recovery from incidents keeps your business running
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="SEC_BENEFIT_04"
@@ -609,9 +609,9 @@ const detailColumns = [
                     Prevent data breaches that damage customer trust
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="SEC_BENEFIT_05"
@@ -630,9 +630,9 @@ const detailColumns = [
                     Know your systems are monitored and protected 24/7
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="SEC_BENEFIT_06"
@@ -651,7 +651,7 @@ const detailColumns = [
                     Access to experienced security professionals
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
             </div>
 
             <h3 class="text-foreground mb-6 text-center text-2xl font-bold">

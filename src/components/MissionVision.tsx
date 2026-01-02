@@ -1,6 +1,6 @@
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { PiRocket, PiEye } from 'react-icons/pi';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 
 export default function MissionVision() {
   const { ref: containerRef, isIntersecting } = useIntersectionObserver({
@@ -11,7 +11,7 @@ export default function MissionVision() {
   return (
     <div ref={containerRef as any} className="grid gap-8 md:grid-cols-2">
       {/* Mission Card */}
-      <ServiceCard
+      <TechCard
         variant="technical"
         interactive
         delay={0}
@@ -33,10 +33,10 @@ export default function MissionVision() {
             a utility to a strategic driver of unconstrained growth.
           </p>
         </div>
-      </ServiceCard>
+      </TechCard>
 
       {/* Vision Card */}
-      <ServiceCard
+      <TechCard
         variant="technical"
         interactive
         delay={200}
@@ -58,7 +58,7 @@ export default function MissionVision() {
             complex business challenges.
           </p>
         </div>
-      </ServiceCard>
+      </TechCard>
     </div>
   );
 }

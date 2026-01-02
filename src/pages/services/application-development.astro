@@ -4,7 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import CapabilitiesGrid from '@/components/visualizations/CapabilitiesGrid';
@@ -189,8 +189,8 @@ const faqs = [
               Solutions Built for Your Business
             </h3>
 
-            <ServiceCardGrid client:visible>
-              <ServiceCard variant="technical" interactive metadata="DEV_SOL_01">
+            <TechCardGrid client:visible>
+              <TechCard variant="technical" interactive metadata="DEV_SOL_01">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiCode
@@ -205,9 +205,9 @@ const faqs = [
                     We engineer purpose-built software tailored to your exact operational requirements. Our solutions eliminate inefficiencies, automate complex workflows, and provide a user experience that empowers your workforce to achieve more.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard variant="technical" interactive metadata="DEV_SOL_02">
+              <TechCard variant="technical" interactive metadata="DEV_SOL_02">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiNetworkX
@@ -222,9 +222,9 @@ const faqs = [
                     Unify your digital ecosystem. We architect secure, high-performance integrations that bridge the gap between legacy systems, modern cloud platforms, and third-party APIs—ensuring your data flows seamlessly across the enterprise.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard variant="technical" interactive metadata="DEV_SOL_03">
+              <TechCard variant="technical" interactive metadata="DEV_SOL_03">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiArrowsClockwise
@@ -239,8 +239,8 @@ const faqs = [
                     Future-proof your critical assets. We transform legacy applications into modern, scalable, cloud-native solutions. Our modernization strategies preserve your core business logic while upgrading performance, security, and maintainability.
                   </div>
                 </div>
-              </ServiceCard>
-            </ServiceCardGrid>
+              </TechCard>
+            </TechCardGrid>
 
             <CapabilitiesGrid client:visible />
 

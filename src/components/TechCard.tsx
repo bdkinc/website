@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { Slot } from '@radix-ui/react-slot';
 
-interface ServiceCardProps {
+export interface TechCardProps {
   children: React.ReactNode;
   className?: string;
   animated?: boolean;
@@ -28,7 +28,7 @@ interface MousePosition {
   y: number;
 }
 
-export function ServiceCard({
+export function TechCard({
   children,
   className,
   animated = true,
@@ -37,7 +37,7 @@ export function ServiceCard({
   interactive = true,
   variant = 'technical',
   asChild = false,
-}: ServiceCardProps) {
+}: TechCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState<MousePosition>({
     x: 50,
@@ -143,24 +143,24 @@ export function ServiceCard({
   );
 }
 
-interface ServiceCardGridProps {
+export interface TechCardGridProps {
   children: React.ReactNode;
   className?: string;
 }
 
-export function ServiceCardGrid({ children, className }: ServiceCardGridProps) {
+export function TechCardGrid({ children, className }: TechCardGridProps) {
   const gridClass = cn(
     'grid gap-8 not-prose mb-20',
     className || 'md:grid-cols-3 grid-cols-1'
   );
 
-  // Add animation delays to children if they're ServiceCard components
+  // Add animation delays to children if they're TechCard components
   const childrenWithAnimations = React.Children.map(
     children,
     (child, index) => {
       if (React.isValidElement(child)) {
         return React.cloneElement(
-          child as React.ReactElement<ServiceCardProps>,
+          child as React.ReactElement<TechCardProps>,
           {
             delay: 150 + index * 80,
           } as any

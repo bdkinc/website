@@ -1,5 +1,5 @@
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 
 interface Partner {
   name: string;
@@ -23,7 +23,7 @@ export default function PartnerGrid({ partners }: PartnerGridProps) {
       className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
     >
       {partners.map((partner, index) => (
-        <ServiceCard
+        <TechCard
           key={partner.name}
           variant="technical"
           interactive
@@ -31,26 +31,26 @@ export default function PartnerGrid({ partners }: PartnerGridProps) {
           metadata={`NODE_ID_${partner.name.toUpperCase()}`}
           animated={gridInView}
         >
-          <div className="relative z-10 flex flex-col h-full p-6 text-left">
-            <div className="mb-6 flex items-center justify-center h-20 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-md border border-white/5 group-hover:from-primary/10 group-hover:to-secondary/10 transition-colors">
-              <span className="text-primary font-display font-bold text-3xl tracking-tight">
+          <div className="relative z-10 flex h-full flex-col p-6 text-left">
+            <div className="from-primary/5 to-secondary/5 group-hover:from-primary/10 group-hover:to-secondary/10 mb-6 flex h-20 items-center justify-center rounded-md border border-white/5 bg-gradient-to-br transition-colors">
+              <span className="text-primary font-display text-3xl font-bold tracking-tight">
                 {partner.name}
               </span>
             </div>
-            
+
             <div className="mt-auto">
-              <div className="flex items-center gap-2 mb-2">
-                 <div className="h-1 w-1 rounded-full bg-primary" />
-                 <span className="text-xs font-mono text-primary/80 uppercase tracking-wider">
-                   {partner.category}
-                 </span>
+              <div className="mb-2 flex items-center gap-2">
+                <div className="bg-primary h-1 w-1 rounded-full" />
+                <span className="text-primary/80 font-mono text-xs tracking-wider uppercase">
+                  {partner.category}
+                </span>
               </div>
-              <h3 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors uppercase tracking-tight font-display">
+              <h3 className="text-foreground group-hover:text-primary font-display text-sm font-bold tracking-tight uppercase transition-colors">
                 {partner.description}
               </h3>
             </div>
           </div>
-        </ServiceCard>
+        </TechCard>
       ))}
     </div>
   );

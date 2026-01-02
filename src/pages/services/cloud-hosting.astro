@@ -4,7 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
@@ -213,9 +213,9 @@ const providers = [
               Cloud Deployment Options
             </h3>
 
-            {/* Cloud Deployment Grid - Polished with Scanlines & Accents via ServiceCard */}
-            <ServiceCardGrid client:visible>
-              <ServiceCard variant="technical" interactive metadata="PRIVATE_NODE_01">
+            {/* Cloud Deployment Grid - Polished with Scanlines & Accents via TechCard */}
+            <TechCardGrid client:visible>
+              <TechCard variant="technical" interactive metadata="PRIVATE_NODE_01">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 relative group-hover:scale-110 transition-transform duration-500">
                     <div class="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-50"></div>
@@ -234,9 +234,9 @@ const providers = [
                     TARGET: Healthcare, Finance, Gov
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard variant="technical" interactive metadata="HYBRID_NODE_02">
+              <TechCard variant="technical" interactive metadata="HYBRID_NODE_02">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 relative group-hover:scale-110 transition-transform duration-500">
                     <div class="absolute inset-0 bg-secondary/20 blur-xl rounded-full opacity-50"></div>
@@ -255,9 +255,9 @@ const providers = [
                     TARGET: Enterprise, Mixed Workloads
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard variant="technical" interactive metadata="PUBLIC_NODE_03">
+              <TechCard variant="technical" interactive metadata="PUBLIC_NODE_03">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 relative group-hover:scale-110 transition-transform duration-500">
                     <div class="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-50"></div>
@@ -276,8 +276,8 @@ const providers = [
                     TARGET: Startups, AI/ML, Big Data
                   </div>
                 </div>
-              </ServiceCard>
-            </ServiceCardGrid>
+              </TechCard>
+            </TechCardGrid>
 
             {/* BDK Private Cloud Advantage - Control Room Style */}
             <div class="not-prose my-16">
@@ -422,7 +422,7 @@ const providers = [
 
                 {/* Approach Text */}
                 <div class="order-1 md:order-2 flex flex-col">
-                  <ServiceCard
+                  <TechCard
                     variant="technical"
                     interactive={false}
                     metadata="APPROACH_INTEL"
@@ -440,7 +440,7 @@ const providers = [
                         From initial architectural assessment to final cutover, our team manages every detail of your cloud evolution.
                       </p>
                     </div>
-                  </ServiceCard>
+                  </TechCard>
                 </div>
               </div>
             </TechnicalSection>
@@ -452,7 +452,7 @@ const providers = [
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CLOUD_BENEFIT_01"
@@ -472,9 +472,9 @@ const providers = [
                     critical business data
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CLOUD_BENEFIT_02"
@@ -494,9 +494,9 @@ const providers = [
                     to flexible cloud solutions
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CLOUD_BENEFIT_03"
@@ -516,9 +516,9 @@ const providers = [
                     business running
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CLOUD_BENEFIT_04"
@@ -538,9 +538,9 @@ const providers = [
                     migration
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CLOUD_BENEFIT_05"
@@ -560,9 +560,9 @@ const providers = [
                     cloud
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CLOUD_BENEFIT_06"
@@ -581,7 +581,7 @@ const providers = [
                     Choose from public, private, or hybrid cloud configurations
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
             </div>
 
             <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
@@ -623,7 +623,7 @@ const providers = [
             <TechnicalFAQ client:visible faqs={faqs} />
 
             <div class="not-prose my-24 mx-auto max-w-4xl">
-              <ServiceCard variant="technical" interactive metadata="DEV_SHOP_CROSS_PROMO">
+              <TechCard variant="technical" interactive metadata="DEV_SHOP_CROSS_PROMO">
                 <div class="flex flex-col items-center text-center gap-8 p-12 relative z-10">
                   <div class="flex gap-8 items-center">
                     <div class="p-4 bg-secondary/10 rounded-lg border border-secondary/20 group-hover:scale-110 transition-transform">
@@ -656,7 +656,7 @@ const providers = [
                     <PiCode className="h-5 w-5 relative z-10 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </div>
-              </ServiceCard>
+              </TechCard>
             </div>
           </div>
         </div>

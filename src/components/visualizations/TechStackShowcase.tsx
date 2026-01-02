@@ -1,6 +1,6 @@
 import React from 'react';
 import { PiDatabase, PiDesktop, PiCloud, PiStack } from 'react-icons/pi';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 
 interface TechItem {
   name: string;
@@ -94,7 +94,7 @@ export default function TechStackShowcase() {
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {layers.map((layer) => (
-          <ServiceCard
+          <TechCard
             key={layer.id}
             variant="technical"
             interactive
@@ -147,7 +147,7 @@ export default function TechStackShowcase() {
                 ))}
               </div>
             </div>
-          </ServiceCard>
+          </TechCard>
         ))}
       </div>
     </div>

@@ -4,7 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
@@ -173,8 +173,8 @@ const faqs = [
               Core Services
             </h3>
 
-            <ServiceCardGrid client:visible>
-              <ServiceCard variant="technical" interactive metadata="IT_SERV_01">
+            <TechCardGrid client:visible>
+              <TechCard variant="technical" interactive metadata="IT_SERV_01">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiHeadphones
@@ -189,9 +189,9 @@ const faqs = [
                     Beyond basic troubleshooting. Our tiered support structure resolves 98% of incidents on first contact, providing your team with immediate access to senior engineers who understand your specific operational context.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard variant="technical" interactive metadata="IT_SERV_02">
+              <TechCard variant="technical" interactive metadata="IT_SERV_02">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiTrendUp
@@ -206,9 +206,9 @@ const faqs = [
                     We don't just react to alerts; we anticipate failures utilizing advanced telemetry and AI-driven analytics to identify anomalies and remediate performance bottlenecks before they impact your users.
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard variant="technical" interactive metadata="IT_SERV_03">
+              <TechCard variant="technical" interactive metadata="IT_SERV_03">
                 <div class="p-8 flex flex-col items-center text-center h-full">
                   <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
                     <PiUsersThree
@@ -223,8 +223,8 @@ const faqs = [
                     Whether acting as your entire IT department or augmenting your internal team, we integrate seamlessly with your workflows, providing specialized expertise in cloud, security, and compliance exactly where you need it.
                   </div>
                 </div>
-              </ServiceCard>
-            </ServiceCardGrid>
+              </TechCard>
+            </TechCardGrid>
 
             <h3
               class="text-foreground mt-12 mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight"
@@ -261,7 +261,7 @@ const faqs = [
               </div>
 
               <div class="grid gap-6 md:grid-cols-2">
-                <ServiceCard variant="technical" interactive={false} metadata="ADV_STRAT_01">
+                <TechCard variant="technical" interactive={false} metadata="ADV_STRAT_01">
                   <div class="flex items-start gap-4 p-6 group">
                     <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
                       <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
@@ -276,9 +276,9 @@ const faqs = [
                       </div>
                     </div>
                   </div>
-                </ServiceCard>
+                </TechCard>
 
-                <ServiceCard variant="technical" interactive={false} metadata="ADV_STRAT_02">
+                <TechCard variant="technical" interactive={false} metadata="ADV_STRAT_02">
                   <div class="flex items-start gap-4 p-6 group">
                     <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
                       <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
@@ -293,9 +293,9 @@ const faqs = [
                       </div>
                     </div>
                   </div>
-                </ServiceCard>
+                </TechCard>
 
-                <ServiceCard variant="technical" interactive={false} metadata="ADV_STRAT_03">
+                <TechCard variant="technical" interactive={false} metadata="ADV_STRAT_03">
                   <div class="flex items-start gap-4 p-6 group">
                     <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
                       <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
@@ -310,9 +310,9 @@ const faqs = [
                       </div>
                     </div>
                   </div>
-                </ServiceCard>
+                </TechCard>
 
-                <ServiceCard variant="technical" interactive={false} metadata="ADV_STRAT_04">
+                <TechCard variant="technical" interactive={false} metadata="ADV_STRAT_04">
                   <div class="flex items-start gap-4 p-6 group">
                     <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
                       <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
@@ -327,7 +327,7 @@ const faqs = [
                       </div>
                     </div>
                   </div>
-                </ServiceCard>
+                </TechCard>
               </div>
             </div>
 
@@ -338,7 +338,7 @@ const faqs = [
             <div
               class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CORE_BENEFIT_01"
@@ -358,9 +358,9 @@ const faqs = [
                     never stops
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CORE_BENEFIT_02"
@@ -380,9 +380,9 @@ const faqs = [
                     expertise
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CORE_BENEFIT_03"
@@ -401,9 +401,9 @@ const faqs = [
                     Proactive security measures protect your data and systems
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CORE_BENEFIT_04"
@@ -422,9 +422,9 @@ const faqs = [
                     Technology that scales with your business objectives
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CORE_BENEFIT_05"
@@ -443,9 +443,9 @@ const faqs = [
                     Quick issue resolution minimizes disruption to your operations
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
 
-              <ServiceCard
+              <TechCard
                 variant="technical"
                 interactive={false}
                 metadata="CORE_BENEFIT_06"
@@ -464,7 +464,7 @@ const faqs = [
                     Complete oversight of your IT infrastructure and assets
                   </div>
                 </div>
-              </ServiceCard>
+              </TechCard>
             </div>
 
             <TechnicalSection client:visible id="maturity-scale" overlayOpacity="opacity-10">
@@ -495,7 +495,7 @@ const faqs = [
 
                 {/* Approach Text */}
                 <div class="order-1 md:order-2 flex flex-col">
-                  <ServiceCard variant="technical" interactive={false} metadata="APPROACH_INTEL">
+                  <TechCard variant="technical" interactive={false} metadata="APPROACH_INTEL">
                     <div
                       class="text-muted-foreground space-y-6 text-lg leading-relaxed p-8"
                     >
@@ -509,7 +509,7 @@ const faqs = [
                         As you scale, we scale. From supporting distributed workforces to managing complex hybrid cloud environments, BDKinc provides the mature operational framework necessary to support an unstoppable enterprise.
                       </p>
                     </div>
-                  </ServiceCard>
+                  </TechCard>
                 </div>
               </div>
             </TechnicalSection>

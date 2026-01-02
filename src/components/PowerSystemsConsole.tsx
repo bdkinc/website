@@ -1,113 +1,123 @@
 import { cn } from '@/lib/utils';
-import { 
-  PiDesktop, 
-  PiShieldCheck, 
-  PiDatabase, 
-  PiLightning, 
-  PiPulse, 
+import {
+  PiDesktop,
+  PiShieldCheck,
+  PiDatabase,
+  PiLightning,
+  PiPulse,
   PiArrowsClockwise,
-  PiCaretRight
+  PiCaretRight,
 } from 'react-icons/pi';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 
 const powerStats = [
   { label: 'SYSTEM STATUS', value: 'OPERATIONAL', color: 'text-green-500' },
   { label: 'CPW UTILIZATION', value: '42%', color: 'text-primary' },
   { label: 'SECURITY LEVEL', value: 'HIGH', color: 'text-primary' },
-  { label: 'ACTIVE LPARS', value: '12', color: 'text-primary' }
+  { label: 'ACTIVE LPARS', value: '12', color: 'text-primary' },
 ];
 
 export function PowerSystemsConsole() {
   const services = [
     {
-      title: "Managed Hosting",
-      desc: "Secure, scalable hosting for IBM i, AIX, and Linux with 99.99% availability.",
+      title: 'Managed Hosting',
+      desc: 'Secure, scalable hosting for IBM i, AIX, and Linux with 99.99% availability.',
       icon: PiDesktop,
-      tag: "CORE"
+      tag: 'CORE',
     },
     {
-      title: "Modernization",
-      desc: "RPG/COBOL modernization and integration with modern API-driven workflows.",
+      title: 'Modernization',
+      desc: 'RPG/COBOL modernization and integration with modern API-driven workflows.',
       icon: PiArrowsClockwise,
-      tag: "INNOVATE"
+      tag: 'INNOVATE',
     },
     {
-      title: "Disaster Recovery",
-      desc: "Real-time replication and rapid recovery protocols for business continuity.",
+      title: 'Disaster Recovery',
+      desc: 'Real-time replication and rapid recovery protocols for business continuity.',
       icon: PiShieldCheck,
-      tag: "PROTECT"
+      tag: 'PROTECT',
     },
     {
-      title: "Performance Tuning",
-      desc: "Deep-layer optimization of CPW, memory, and I/O for peak efficiency.",
+      title: 'Performance Tuning',
+      desc: 'Deep-layer optimization of CPW, memory, and I/O for peak efficiency.',
       icon: PiLightning,
-      tag: "OPTIMIZE"
+      tag: 'OPTIMIZE',
     },
     {
-      title: "OS Lifecycle",
-      desc: "Precision management of version upgrades, PTFs, and security patches.",
+      title: 'OS Lifecycle',
+      desc: 'Precision management of version upgrades, PTFs, and security patches.',
       icon: PiPulse,
-      tag: "MANAGE"
+      tag: 'MANAGE',
     },
     {
-      title: "Hybrid Integration",
-      desc: "Connecting Power workloads with Azure, AWS, and modern cloud stacks.",
+      title: 'Hybrid Integration',
+      desc: 'Connecting Power workloads with Azure, AWS, and modern cloud stacks.',
       icon: PiDatabase,
-      tag: "SCALE"
-    }
+      tag: 'SCALE',
+    },
   ];
 
   return (
     <div className="relative w-full py-12">
       {/* Console Header */}
-      <div className="mb-12 flex flex-col md:flex-row items-center justify-between gap-6 border-b border-primary/20 pb-8">
+      <div className="border-primary/20 mb-12 flex flex-col items-center justify-between gap-6 border-b pb-8 md:flex-row">
         <div className="flex items-center gap-4">
-          <div className="h-12 w-12 rounded bg-primary/10 flex items-center justify-center border border-primary/30">
+          <div className="bg-primary/10 border-primary/30 flex h-12 w-12 items-center justify-center rounded border">
             <PiDatabase className="text-primary h-6 w-6" />
           </div>
           <div className="text-left">
-            <h3 className="text-xl font-bold font-display tracking-tight uppercase">IBM Power Console v10.4</h3>
-            <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest">BDKinc Managed Services Interface</p>
+            <h3 className="font-display text-xl font-bold tracking-tight uppercase">
+              IBM Power Console v10.4
+            </h3>
+            <p className="text-muted-foreground font-mono text-xs tracking-widest uppercase">
+              BDKinc Managed Services Interface
+            </p>
           </div>
         </div>
-        
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {powerStats.map((stat) => (
             <div key={stat.label} className="text-left">
-              <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{stat.label}</div>
-              <div className={cn("text-sm font-bold font-mono", stat.color)}>{stat.value}</div>
+              <div className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                {stat.label}
+              </div>
+              <div className={cn('font-mono text-sm font-bold', stat.color)}>
+                {stat.value}
+              </div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Console Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {services.map((s, i) => (
-          <ServiceCard
+          <TechCard
             key={i}
             variant="technical"
             interactive
             delay={i * 100}
             metadata={s.tag}
           >
-            <div className="p-6 relative z-10 text-left h-full flex flex-col">
+            <div className="relative z-10 flex h-full flex-col p-6 text-left">
               <div className="mb-4 flex items-center justify-between">
-                <div className="p-2 rounded bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                  <s.icon className="h-6 w-6 text-primary" />
+                <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 rounded border p-2 transition-colors">
+                  <s.icon className="text-primary h-6 w-6" />
                 </div>
               </div>
-              
-              <h4 className="text-lg font-bold mb-2 font-display uppercase tracking-tight group-hover:text-primary transition-colors">{s.title}</h4>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow">
+
+              <h4 className="font-display group-hover:text-primary mb-2 text-lg font-bold tracking-tight uppercase transition-colors">
+                {s.title}
+              </h4>
+              <p className="text-muted-foreground mb-6 flex-grow text-sm leading-relaxed">
                 {s.desc}
               </p>
-              
-              <div className="flex items-center text-[10px] font-mono font-bold text-primary opacity-0 transition-all duration-300 group-hover:text-primary group-hover:translate-x-1 group-hover:opacity-100 uppercase tracking-widest">
-                SYSTEM_ACCESS <PiCaretRight className="h-3 w-3 ml-1" />
+
+              <div className="text-primary group-hover:text-primary flex items-center font-mono text-[10px] font-bold tracking-widest uppercase opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">
+                SYSTEM_ACCESS <PiCaretRight className="ml-1 h-3 w-3" />
               </div>
             </div>
-          </ServiceCard>
+          </TechCard>
         ))}
       </div>
     </div>

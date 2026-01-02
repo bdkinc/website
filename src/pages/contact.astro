@@ -4,7 +4,7 @@ import Navigation from '@/components/Navigation';
 import ContactChat from '@/components/ContactChat';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 import { PiPhone, PiEnvelope, PiMapPin, PiHeadset } from 'react-icons/pi';
 import { actions } from 'astro:actions';
 
@@ -98,7 +98,7 @@ const initialSuggestions = result?.data?.suggestions || [
             </div>
             <div class="flex items-center gap-2">
               <div class="h-1.5 w-1.5 rounded-full bg-emerald-500/60"></div>
-              <span>Premier IT partnership</span>
+              <span>Powered by WatsonX</span>
             </div>
           </div>
         </div>
@@ -112,7 +112,7 @@ const initialSuggestions = result?.data?.suggestions || [
   </main>
 
   {/* CHAT Section: Mostly below hero, slight overlap at top */}
-  <section class="relative z-20 -mt-16 px-4 sm:px-6 lg:px-8">
+  <section class="relative z-20 -mt-16 px-4 pb-24 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-5xl">
       <div
         class="fill-mode-both animate-in fade-in slide-in-from-bottom-6 delay-150 duration-700"
@@ -127,145 +127,153 @@ const initialSuggestions = result?.data?.suggestions || [
 
   {/* Secondary content: Contact cards BELOW chat */}
   <section
-    class="border-primary/5 bg-muted/5 relative border-t px-4 py-14 sm:px-6 lg:px-8"
+    class="bg-muted/5 relative px-4 py-14 sm:px-6 lg:px-8"
   >
+    {/* Faded Border Separator */}
+    <div
+      class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+    >
+    </div>
+
     <div class="mx-auto max-w-7xl">
-      <div class="mb-10 text-center">
-        <h2 class="text-foreground font-bold tracking-tight">
+      <div class="mb-16 text-center">
+        <h2 class="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
           <span class="text-foreground">Direct </span>
           <span class="gradient-primary bg-clip-text text-transparent"
             >Contact</span
           >
         </h2>
-        <p class="text-muted-foreground mx-auto mt-3 max-w-2xl">
+        <p class="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg">
           Prefer a traditional channel? Use phone/email, or find our HQ details
           below.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <ServiceCard
-          variant="default"
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+        {/* PHONE */}
+        <TechCard
+          variant="technical"
           interactive
+          client:visible
           delay={100}
           className="h-full"
+          asChild
         >
-          <div class="flex h-full flex-col justify-center p-6 text-center">
+          <a href="tel:8003090004" class="flex h-full flex-col items-center text-center">
             <div
-              class="bg-primary/10 text-brand-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full"
+              class="bg-primary/10 text-brand-primary mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg"
             >
               <PiPhone className="h-6 w-6" />
             </div>
             <h3
-              class="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase"
+              class="text-muted-foreground mb-1 text-xs font-bold uppercase tracking-wider"
             >
               Phone
             </h3>
-            <a
-              href="tel:8003090004"
-              class="text-foreground hover:text-brand-primary text-lg font-bold transition-colors"
+            <span
+              class="text-foreground group-hover:text-brand-primary text-xl font-bold transition-colors"
             >
               (800) 309-0004
-            </a>
-            <span class="text-muted-foreground mt-2 text-xs"
+            </span>
+            <span class="text-muted-foreground mt-1 text-sm"
               >Mon–Fri, 9am–5pm EST</span
             >
-          </div>
-        </ServiceCard>
+          </a>
+        </TechCard>
 
-        <ServiceCard
-          variant="default"
+        {/* EMAIL */}
+        <TechCard
+          variant="technical"
           interactive
+          client:visible
           delay={200}
           className="h-full"
+          asChild
         >
-          <div class="flex h-full flex-col justify-center p-6 text-center">
+          <a href="mailto:info@bdkinc.com" class="flex h-full flex-col items-center text-center">
             <div
-              class="bg-primary/10 text-brand-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full"
+              class="bg-primary/10 text-brand-primary mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg"
             >
               <PiEnvelope className="h-6 w-6" />
             </div>
             <h3
-              class="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase"
+              class="text-muted-foreground mb-1 text-xs font-bold uppercase tracking-wider"
             >
               Email
             </h3>
-            <a
-              href="mailto:info@bdkinc.com"
-              class="text-foreground hover:text-brand-primary text-lg font-bold transition-colors"
+            <span
+              class="text-foreground group-hover:text-brand-primary text-xl font-bold transition-colors"
             >
               info@bdkinc.com
-            </a>
-            <span class="text-muted-foreground mt-2 text-xs"
-              >General inquiries & introductions</span
+            </span>
+            <span class="text-muted-foreground mt-1 text-sm"
+              >General inquiries</span
             >
-          </div>
-        </ServiceCard>
+          </a>
+        </TechCard>
 
-        <ServiceCard
-          variant="default"
+        {/* HEADQUARTERS */}
+        <TechCard
+          variant="technical"
           interactive
+          client:visible
           delay={300}
           className="h-full"
+          asChild
         >
-          <div class="flex h-full flex-col justify-center p-6 text-center">
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=29515+Canvasback+Drive+Easton+MD+21601"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex h-full flex-col items-center text-center"
+          >
             <div
-              class="bg-primary/10 text-brand-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full"
+              class="bg-primary/10 text-brand-primary mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg"
             >
               <PiMapPin className="h-6 w-6" />
             </div>
             <h3
-              class="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase"
+              class="text-muted-foreground mb-1 text-xs font-bold uppercase tracking-wider"
             >
               Headquarters
             </h3>
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=29515+Canvasback+Drive+Easton+MD+21601"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-foreground hover:text-brand-primary text-lg font-bold transition-colors"
+            <span
+              class="text-foreground group-hover:text-brand-primary text-xl font-bold transition-colors"
             >
               Easton, MD
-            </a>
-            <span class="text-muted-foreground mt-2 text-xs"
+            </span>
+            <span class="text-muted-foreground mt-1 text-sm"
               >29515 Canvasback Drive</span
             >
-          </div>
-        </ServiceCard>
+          </a>
+        </TechCard>
 
-        <ServiceCard
-          variant="default"
+        {/* SUPPORT */}
+        <TechCard
+          variant="technical"
           interactive
+          client:visible
           delay={400}
           className="h-full"
         >
-          <div class="flex h-full flex-col justify-center p-6 text-center">
+          <div class="flex h-full flex-col items-center text-center">
             <div
-              class="bg-primary/10 text-brand-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full"
+              class="bg-primary/10 text-brand-primary mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg"
             >
               <PiHeadset className="h-6 w-6" />
             </div>
             <h3
-              class="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase"
+              class="text-muted-foreground mb-1 text-xs font-bold uppercase tracking-wider"
             >
               Client Support
             </h3>
-            <div class="text-foreground text-lg font-bold">24/7 Monitoring</div>
-            <span
-              class="mt-2 flex items-center justify-center gap-1.5 text-xs font-medium text-emerald-500"
-            >
-              <span class="relative flex h-2 w-2">
-                <span
-                  class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"
-                ></span>
-                <span
-                  class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"
-                ></span>
-              </span>
-              Active Support
-            </span>
+            <div class="text-foreground text-xl font-bold">24/7 NOC Monitoring</div>
+            <div class="text-muted-foreground mt-1 flex items-center gap-2 text-sm">
+              <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
+              <span>System Status: Operational</span>
+            </div>
           </div>
-        </ServiceCard>
+        </TechCard>
       </div>
     </div>
   </section>

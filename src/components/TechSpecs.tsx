@@ -1,5 +1,5 @@
 import { PiCheckCircle, PiHeadphones, PiMonitor } from 'react-icons/pi';
-import { ServiceCard } from '@/components/ServiceCard';
+import { TechCard } from '@/components/TechCard';
 
 const detailColumns = [
   {
@@ -24,33 +24,44 @@ const detailColumns = [
 
 export default function TechSpecs() {
   return (
-    <div className="grid gap-8 md:grid-cols-2 mb-20 not-prose">
+    <div className="not-prose mb-20 grid gap-8 md:grid-cols-2">
       {detailColumns.map((column, index) => (
-        <ServiceCard 
+        <TechCard
           key={index}
           variant="technical"
           interactive={false}
           metadata={`SPEC_0${index + 1} // REVISION_A`}
         >
           <div className="p-8">
-            <div className="flex items-center gap-4 mb-6 border-b border-primary/20 pb-4">
-               <div className="p-2 bg-primary/10 rounded-md">
-                   <column.icon className="w-6 h-6 text-primary" aria-hidden="true" />
-               </div>
-               <h4 className="font-display font-bold text-xl uppercase tracking-wide text-foreground">{column.title}</h4>
+            <div className="border-primary/20 mb-6 flex items-center gap-4 border-b pb-4">
+              <div className="bg-primary/10 rounded-md p-2">
+                <column.icon
+                  className="text-primary h-6 w-6"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4 className="font-display text-foreground text-xl font-bold tracking-wide uppercase">
+                {column.title}
+              </h4>
             </div>
-            
+
             <ul className="space-y-4">
               {column.items.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-3 text-muted-foreground font-sans">
-                  <PiCheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" aria-hidden="true" />
+                <li
+                  key={idx}
+                  className="text-muted-foreground flex items-start gap-3 font-sans"
+                >
+                  <PiCheckCircle
+                    className="text-primary mt-0.5 h-5 w-5 shrink-0"
+                    aria-hidden="true"
+                  />
                   <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
-        </ServiceCard>
+        </TechCard>
       ))}
     </div>
-  )
+  );
 }
