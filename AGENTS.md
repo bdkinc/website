@@ -6,13 +6,13 @@ Guidelines for AI coding agents (Claude, Cursor, Copilot, etc.) working in this 
 
 This is an Astro-based marketing website with selective React hydration. Performance is critical - ship as little JavaScript as possible to the client while maintaining rich interactivity where needed.
 
-## Reference Skills
+## Reference Guides
 
-The legacy `guides/*` markdown docs were migrated into the repo’s skill system.
+The primary documentation for BDKinc branding and assets is located in the `guides/` directory.
 
-- `.opencode/skill/bdkinc-brand-guidelines/SKILL.md` - UI & design implementation rules (components, styling, motion)
-- `.opencode/skill/bdkinc-messaging/SKILL.md` - website copy and messaging (voice, tone, positioning)
-- `.opencode/skill/bdkinc-visual-assets/SKILL.md` - visual asset inventory + recommendations
+- `guides/brand-guidelines.md` - UI & design implementation rules (components, styling, motion)
+- `guides/messaging.md` - website copy and messaging (voice, tone, positioning)
+- `guides/visual-assets.md` - visual asset inventory + recommendations
 
 ## Critical Patterns to Follow
 

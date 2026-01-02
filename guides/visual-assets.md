@@ -1,9 +1,3 @@
----
-name: bdkinc-visual-assets
-description: Identifies the types of visual assets used across the BDKinc site (icons, SVG marks, partner logos, programmatic visuals, dashboards, motion), and provides executive-friendly guidance for a clean, technical, enterprise MSP/CSP/Dev presentation (no neon/glow, subtle motion).
-license: Complete terms in LICENSE.txt
----
-
 # BDKinc Visual Assets (Audit + Classification)
 
 ## Overview

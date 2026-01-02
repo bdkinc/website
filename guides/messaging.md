@@ -1,9 +1,3 @@
----
-name: bdkinc-messaging
-description: Applies the BDKinc website’s official voice, positioning, and preferred phrasing to copy (headlines, service descriptions, CTAs, partner blurbs).
-license: Complete terms in LICENSE.txt
----
-
 # BDKinc Messaging
 
 ## Overview

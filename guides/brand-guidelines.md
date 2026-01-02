@@ -1,9 +1,3 @@
----
-name: bdkinc-brand-guidelines
-description: Applies BDKinc’s official website brand colors, typography, and UI styling conventions to artifacts that should match the BDKinc look-and-feel (dark technical, glassmorphism, subtle gradients).
-license: Complete terms in LICENSE.txt
----
-
 # BDKinc Brand Styling
 
 ## Overview
