@@ -1,23 +1,29 @@
 'use client';
 
+import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { Button } from '@/components/ui/button';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import type { ComponentProps } from 'react';
 
-export type SuggestionsProps = ComponentProps<typeof ScrollArea>;
+export type SuggestionsProps = ComponentProps<typeof ScrollAreaPrimitive.Root>;
 
 export const Suggestions = ({
   className,
   children,
   ...props
 }: SuggestionsProps) => (
-  <ScrollArea className="w-full overflow-x-auto whitespace-nowrap" {...props}>
-    <div className={cn('flex w-max flex-nowrap items-center gap-2', className)}>
-      {children}
-    </div>
-    <ScrollBar className="hidden" orientation="horizontal" />
-  </ScrollArea>
+  <ScrollAreaPrimitive.Root
+    className={cn('relative w-full', className)}
+    type="auto"
+    {...props}
+  >
+    <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]">
+      <div className="flex w-max items-center gap-2 pb-4">{children}</div>
+    </ScrollAreaPrimitive.Viewport>
+    <ScrollBar orientation="horizontal" />
+    <ScrollAreaPrimitive.Corner />
+  </ScrollAreaPrimitive.Root>
 );
 
 export type SuggestionProps = Omit<ComponentProps<typeof Button>, 'onClick'> & {
@@ -40,7 +46,7 @@ export const Suggestion = ({
 
   return (
     <Button
-      className={cn('cursor-pointer rounded-full px-4', className)}
+      className={cn('cursor-pointer rounded-lg px-4', className)}
       onClick={handleClick}
       size={size}
       type="button"

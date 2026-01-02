@@ -21,10 +21,11 @@ import {
 } from '@/components/ai-elements/prompt-input';
 
 import { Suggestion, Suggestions } from '@/components/ai-elements/suggestion';
+import { cn } from '@/lib/utils';
 
 import { nanoid } from 'nanoid';
 import { useCallback, useState } from 'react';
-import { PiShieldCheck, PiPulse, PiSparkle } from 'react-icons/pi';
+import { PiSparkle } from 'react-icons/pi';
 
 type MessageType = {
   key: string;
@@ -170,108 +171,107 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
   };
 
   return (
-    <section aria-label="BDKinc Strategic Assistant" className="relative">
-      {/* Outer shell: premium glass appliance */}
-      <div className="border-primary/20 bg-background/35 relative overflow-hidden rounded-2xl border shadow-2xl backdrop-blur-xl">
-        {/* Decorative corner glow + scanlines */}
-        <div className="pointer-events-none absolute inset-0 opacity-40">
-          <div className="bg-brand-primary/20 absolute -top-24 -left-24 h-64 w-64 rounded-full blur-[90px]" />
-          <div className="bg-brand-secondary/20 absolute -right-24 -bottom-24 h-64 w-64 rounded-full blur-[90px]" />
-        </div>
-        <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.035]" />
+    <section
+      aria-label="BDK Assistant"
+      className="relative mx-auto w-full max-w-3xl"
+    >
+      <div className="glass relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl ring-1 ring-white/5">
+        <div className="gradient-mesh pointer-events-none absolute inset-0 opacity-30" />
 
         {/* Header bar */}
-        <div className="border-primary/15 bg-background/30 relative z-10 flex items-center justify-between border-b px-5 py-4 backdrop-blur-xl">
+        <div className="bg-background/20 relative flex items-center justify-between border-b border-white/5 px-6 py-4 backdrop-blur-sm">
           <div className="flex items-center gap-3">
-            <div className="border-primary/20 bg-primary/10 relative flex h-9 w-9 items-center justify-center rounded-xl border">
-              <PiSparkle className="text-brand-primary h-4 w-4" />
-              <span className="ring-background/60 absolute -right-1 -bottom-1 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2" />
+            <div className="bg-primary/10 text-primary flex h-8 w-8 items-center justify-center rounded-lg">
+              <PiSparkle className="h-4 w-4" />
             </div>
-            <div className="leading-tight">
-              <div className="text-foreground text-sm font-semibold">
-                BDKinc Strategic Assistant
+            <div>
+              <div className="text-foreground text-sm font-medium">
+                BDK Assistant
               </div>
-              <div className="text-muted-foreground text-xs">
-                Secure intake • Engineer-routed • Response within 1 business day
-              </div>
-            </div>
-          </div>
-
-          <div className="text-muted-foreground hidden items-center gap-3 text-xs sm:flex">
-            <div className="border-primary/15 bg-background/20 flex items-center gap-2 rounded-full border px-3 py-1.5">
-              <PiShieldCheck className="text-brand-primary h-4 w-4" />
-              <span>Encrypted channel</span>
-            </div>
-            <div className="border-primary/15 bg-background/20 flex items-center gap-2 rounded-full border px-3 py-1.5">
-              <PiPulse className="h-4 w-4 text-emerald-500" />
-              <span>Online</span>
             </div>
           </div>
         </div>
 
         {/* Chat area */}
-        <div className="relative z-10 flex h-[600px] flex-col">
-          <Conversation>
-            <ConversationContent className="p-6">
+        <div className="bg-background/5 relative flex h-[600px] flex-col">
+          <Conversation className="flex-1 overflow-y-auto">
+            <ConversationContent className="space-y-6 p-6">
               {messages.map((message) => (
-                <Message from={message.from} key={message.key} className="mb-6">
+                <Message
+                  from={message.from}
+                  key={message.key}
+                  className={cn(
+                    'items-start gap-0',
+                    message.from === 'assistant'
+                      ? 'flex-row justify-start'
+                      : 'flex-row justify-end'
+                  )}
+                >
                   <MessageAvatar
                     name={message.name}
                     src={message.avatar}
-                    className="border-primary/15 bg-background/60 h-8 w-8 border shadow-sm"
+                    className={cn(
+                      'h-8 w-8 shrink-0 rounded-full border border-white/10 shadow-sm',
+                      message.from === 'assistant' ? 'mr-2' : 'order-last ml-2'
+                    )}
                   />
-                  <div className="max-w-[85%]">
-                    <MessageContent className="border-primary/10 bg-card/70 text-foreground/90 rounded-2xl border px-5 py-3 text-sm leading-relaxed shadow-sm backdrop-blur-md">
-                      {message.version.content}
-                    </MessageContent>
-                  </div>
+                  <MessageContent
+                    variant={message.from === 'user' ? 'contained' : 'flat'}
+                    className={cn(
+                      'rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm backdrop-blur-sm',
+                      message.from === 'assistant'
+                        ? 'bg-card/50 text-foreground border border-white/5'
+                        : 'bg-primary text-primary-foreground'
+                    )}
+                  >
+                    {message.version.content}
+                  </MessageContent>
                 </Message>
               ))}
             </ConversationContent>
-
             <ConversationScrollButton />
           </Conversation>
 
-          {/* Input + suggestions dock */}
-          <div className="border-primary/15 bg-background/35 border-t p-4 backdrop-blur-xl">
+          {/* Input area */}
+          <div className="bg-background/10 border-t border-white/5 p-4 backdrop-blur-sm">
             <Suggestions className="mb-4">
               {suggestions.map((suggestion) => (
                 <Suggestion
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
                   suggestion={suggestion}
-                  className="border-primary/10 bg-secondary/30 text-muted-foreground hover:border-primary/30 hover:bg-primary/5 hover:text-foreground rounded-full border px-4 py-2 text-xs font-medium transition-all"
+                  className="text-muted-foreground hover:text-foreground border-border bg-muted/20 hover:bg-muted shrink-0 rounded-lg border px-4 py-2 text-xs whitespace-nowrap transition-all"
                 />
               ))}
             </Suggestions>
 
             <PromptInput
               onSubmit={handleSubmit}
-              className="border-primary/20 bg-background/40 focus-within:ring-primary/20 overflow-hidden rounded-xl border shadow-sm transition-all focus-within:ring-2"
+              className="ring-offset-background focus-within:ring-primary/50 border-input bg-muted/50 relative overflow-hidden rounded-xl border transition-all focus-within:ring-2 [&_[data-slot=input-group]]:border-0 [&_[data-slot=input-group]]:bg-transparent [&_[data-slot=input-group]]:shadow-none [&_[data-slot=input-group]]:!ring-0"
             >
               <PromptInputBody>
                 <PromptInputTextarea
                   onChange={(event) => setText(event.target.value)}
                   value={text}
-                  placeholder="Describe your environment, scope, and timeline…"
-                  className="max-h-[200px] min-h-[54px] bg-transparent px-4 py-3 text-sm focus:outline-none"
+                  placeholder="How can we help?"
+                  className="placeholder:text-muted-foreground/50 min-h-[50px] bg-transparent px-4 py-3 text-sm focus:outline-none"
                 />
               </PromptInputBody>
-
-              <PromptInputFooter className="px-3 pb-3">
+              <PromptInputFooter className="flex justify-between px-3 pb-3">
                 <PromptInputTools />
                 <PromptInputSubmit
                   disabled={!text.trim() || status === 'streaming'}
                   status={status}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg"
+                  variant="ghost"
+                  size="icon-sm"
+                  className={cn(
+                    'h-8 w-8 rounded-full transition-all',
+                    'bg-primary/10 text-primary hover:bg-primary/20',
+                    'disabled:text-muted-foreground disabled:bg-transparent'
+                  )}
                 />
               </PromptInputFooter>
             </PromptInput>
-
-            <p className="text-muted-foreground mt-3 text-xs">
-              Tip: Include compliance requirements (SOC 2/HIPAA), current
-              vendors, and desired SLA.
-            </p>
           </div>
         </div>
       </div>

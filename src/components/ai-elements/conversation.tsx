@@ -1,33 +1,126 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { PiArrowDown } from 'react-icons/pi';
-import type { ComponentProps } from 'react';
-import { useCallback } from 'react';
-import { StickToBottom, useStickToBottomContext } from 'use-stick-to-bottom';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentProps,
+  type ReactNode,
+} from 'react';
 
-export type ConversationProps = ComponentProps<typeof StickToBottom>;
+// Context for scroll control
+interface ConversationContextValue {
+  isAtBottom: boolean;
+  scrollToBottom: () => void;
+}
 
-export const Conversation = ({ className, ...props }: ConversationProps) => (
-  <StickToBottom
-    className={cn('relative flex-1 overflow-y-auto', className)}
-    initial="smooth"
-    resize="smooth"
-    role="log"
-    {...props}
-  />
-);
+const ConversationContext = createContext<ConversationContextValue>({
+  isAtBottom: true,
+  scrollToBottom: () => {},
+});
 
-export type ConversationContentProps = ComponentProps<
-  typeof StickToBottom.Content
->;
+export type ConversationProps = ComponentProps<typeof ScrollArea> & {
+  children: ReactNode;
+};
+
+export const Conversation = ({
+  className,
+  children,
+  ...props
+}: ConversationProps) => {
+  const [isAtBottom, setIsAtBottom] = useState(true);
+  const viewportRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = useCallback(() => {
+    if (viewportRef.current) {
+      viewportRef.current.scrollTo({
+        top: viewportRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, []);
+
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+    const distanceToBottom = scrollHeight - scrollTop - clientHeight;
+    // Considered "at bottom" if within 50px
+    setIsAtBottom(distanceToBottom < 50);
+  };
+
+  // Auto-scroll when children change, if we were already at bottom or close to it
+  useEffect(() => {
+    // Simple heuristic: if we were at bottom, stay at bottom.
+    // In a real chat app you might want smarter logic (e.g. don't scroll if user is reading up history)
+    // For now, we'll auto-scroll on new messages for this marketing component.
+    if (isAtBottom) {
+      // Small timeout to allow layout to update
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
+    }
+  }, [children, isAtBottom, scrollToBottom]);
+
+  // Initial scroll
+  useEffect(() => {
+    // Force immediate scroll without smooth behavior for initial load
+    if (viewportRef.current) {
+      viewportRef.current.scrollTop = viewportRef.current.scrollHeight;
+    }
+  }, []);
+
+  return (
+    <ConversationContext.Provider value={{ isAtBottom, scrollToBottom }}>
+      <div className={cn('relative flex-1 overflow-hidden', className)}>
+        {/* We use a custom implementation of ScrollArea logic to hook into scroll events */}
+        <CustomScrollArea onScroll={handleScroll} viewportRef={viewportRef}>
+          {children}
+        </CustomScrollArea>
+      </div>
+    </ConversationContext.Provider>
+  );
+};
+
+import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
+import { ScrollBar } from '@/components/ui/scroll-area';
+
+const CustomScrollArea = ({
+  children,
+  onScroll,
+  viewportRef,
+}: {
+  children: ReactNode;
+  onScroll: (e: React.UIEvent<HTMLDivElement>) => void;
+  viewportRef: React.RefObject<HTMLDivElement | null>;
+}) => {
+  return (
+    <ScrollAreaPrimitive.Root className="h-full w-full overflow-hidden">
+      <ScrollAreaPrimitive.Viewport
+        className="h-full w-full rounded-[inherit]"
+        onScroll={onScroll}
+        ref={viewportRef}
+      >
+        {children}
+      </ScrollAreaPrimitive.Viewport>
+      <ScrollBar />
+      <ScrollAreaPrimitive.Corner />
+    </ScrollAreaPrimitive.Root>
+  );
+};
+
+export type ConversationContentProps = ComponentProps<'div'>;
 
 export const ConversationContent = ({
   className,
   ...props
 }: ConversationContentProps) => (
-  <StickToBottom.Content className={cn('p-4', className)} {...props} />
+  <div className={cn('p-4', className)} {...props} />
 );
 
 export type ConversationEmptyStateProps = ComponentProps<'div'> & {
@@ -71,27 +164,23 @@ export const ConversationScrollButton = ({
   className,
   ...props
 }: ConversationScrollButtonProps) => {
-  const { isAtBottom, scrollToBottom } = useStickToBottomContext();
+  const { isAtBottom, scrollToBottom } = useContext(ConversationContext);
 
-  const handleScrollToBottom = useCallback(() => {
-    scrollToBottom();
-  }, [scrollToBottom]);
+  if (isAtBottom) return null;
 
   return (
-    !isAtBottom && (
-      <Button
-        className={cn(
-          'absolute bottom-4 left-[50%] translate-x-[-50%] rounded-full',
-          className
-        )}
-        onClick={handleScrollToBottom}
-        size="icon"
-        type="button"
-        variant="outline"
-        {...props}
-      >
-        <PiArrowDown className="size-4" />
-      </Button>
-    )
+    <Button
+      className={cn(
+        'absolute bottom-4 left-[50%] translate-x-[-50%] rounded-full shadow-md',
+        className
+      )}
+      onClick={scrollToBottom}
+      size="icon"
+      type="button"
+      variant="outline"
+      {...props}
+    >
+      <PiArrowDown className="size-4" />
+    </Button>
   );
 };
