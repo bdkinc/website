@@ -478,7 +478,7 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
                       onBlur={() => setActiveIndex(0)}
                       className={cn(
                         'group focus-visible:ring-primary/30 cursor-default transition-colors duration-300 ease-out focus-visible:ring',
-                        'border-border bg-card hover:border-primary/60 flex items-center overflow-hidden rounded-full border shadow-[0_0_30px_-10px_rgba(var(--color-primary),0.25)]',
+                        'border-border bg-card hover:border-primary/60 flex items-center overflow-hidden border shadow-[0_0_30px_-10px_rgba(var(--color-primary),0.25)]',
                         index === 0 &&
                           'border-primary/50 bg-background shadow-[0_0_20px_-5px_rgba(var(--color-primary),0.2)]'
                       )}
