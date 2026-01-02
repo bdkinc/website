@@ -59,7 +59,7 @@ export default function DevelopmentLogTimeline({
                   <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03]" />
 
                   <div className="relative z-10 space-y-2">
-                    <div className="text-primary/80 mb-2 flex items-center gap-2 font-mono text-xs tracking-widest uppercase">
+                    <div className="text-primary/80 mb-2 flex items-center gap-2 font-mono text-xs tracking-widest">
                       {milestone.year}
                     </div>
 

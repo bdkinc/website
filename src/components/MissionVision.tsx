@@ -23,7 +23,7 @@ export default function MissionVision() {
             <PiRocket className="text-primary h-10 w-10" />
           </div>
 
-          <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight uppercase">
+          <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight">
             Our Mission
           </h2>
 
@@ -48,7 +48,7 @@ export default function MissionVision() {
             <PiEye className="text-secondary h-10 w-10" />
           </div>
 
-          <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight uppercase">
+          <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight">
             Our Vision
           </h2>
 

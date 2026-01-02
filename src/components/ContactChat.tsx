@@ -24,6 +24,7 @@ import { Suggestion, Suggestions } from '@/components/ai-elements/suggestion';
 
 import { nanoid } from 'nanoid';
 import { useCallback, useState } from 'react';
+import { PiShieldCheck, PiPulse, PiSparkle } from 'react-icons/pi';
 
 type MessageType = {
   key: string;
@@ -38,9 +39,9 @@ type MessageType = {
 };
 
 const mockResponses = [
-  'Transmission received. A Strategic Architect has been notified and will analyze your inquiry. Expect a response within the designated protocol window.',
-  'Inquiry logged. Our engineering team is reviewing your requirements for feasibility and strategic alignment. Stand by for initial assessment.',
-  'Data packet received. We are routing your request to the appropriate technical lead. You will receive a diagnostic response shortly.',
+  'Thank you for reaching out. A Senior Architect has been notified of your inquiry and will review your requirements shortly.',
+  "We've received your message. Our engineering team is currently reviewing similar projects and will contact you within one business day.",
+  "Thanks for the details. I've routed this to our technical leadership team. You can expect a follow-up email to schedule a consultation.",
 ];
 
 interface ContactChatProps {
@@ -55,10 +56,10 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
 
   const [suggestions] = useState<string[]>(
     initialSuggestions || [
-      'How can I get a quote for IT services?',
-      'I need help with network infrastructure',
-      'What managed IT services do you offer?',
-      'Tell me about your cloud services',
+      'I need a quote for managed services',
+      'We are looking to migrate to the cloud',
+      'Help us with cybersecurity compliance',
+      'Questions about IBM Power systems',
     ]
   );
 
@@ -68,10 +69,11 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
       from: 'assistant',
       version: {
         id: nanoid(),
-        content: 'Diagnostic Interface Initialized. Please state your inquiry for strategic analysis.',
+        content:
+          'Hello—tell us what you’re building, what you’re replacing, and what “success” looks like. We’ll route this to the right engineer.',
       },
       avatar: '/favicon.svg',
-      name: 'BDK Architect',
+      name: 'BDKinc',
     },
   ]);
 
@@ -98,7 +100,7 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
         );
 
         await new Promise((resolve) =>
-          setTimeout(resolve, Math.random() * 100 + 50)
+          setTimeout(resolve, Math.random() * 50 + 30)
         );
       }
 
@@ -122,7 +124,7 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
           id: `user-${Date.now()}`,
           content,
         },
-        avatar: 'https://github.com/shadcn.png',
+        avatar: '',
         name: 'You',
       };
 
@@ -141,13 +143,13 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
             content: '',
           },
           avatar: '/favicon.svg',
-          name: 'BDK Architect',
+          name: 'BDKinc',
           isStreaming: true,
         };
 
         setMessages((prev) => [...prev, assistantMessage]);
         streamResponse(assistantMessageId, randomResponse);
-      }, 500);
+      }, 600);
     },
     [streamResponse]
   );
@@ -155,9 +157,7 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
   const handleSubmit = (message: PromptInputMessage) => {
     const hasText = Boolean(message.text);
 
-    if (!hasText) {
-      return;
-    }
+    if (!hasText) return;
 
     setStatus('submitted');
     addUserMessage(message.text || '');
@@ -170,59 +170,111 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
   };
 
   return (
-    <div className="bg-background border-primary/20 rounded-none border p-4 shadow-2xl relative">
-      <div className="absolute inset-0 scanlines opacity-[0.02] pointer-events-none" />
-      <div>
-        <div className="relative flex h-[500px] flex-col overflow-hidden">
+    <section aria-label="BDKinc Strategic Assistant" className="relative">
+      {/* Outer shell: premium glass appliance */}
+      <div className="border-primary/20 bg-background/35 relative overflow-hidden rounded-2xl border shadow-2xl backdrop-blur-xl">
+        {/* Decorative corner glow + scanlines */}
+        <div className="pointer-events-none absolute inset-0 opacity-40">
+          <div className="bg-brand-primary/20 absolute -top-24 -left-24 h-64 w-64 rounded-full blur-[90px]" />
+          <div className="bg-brand-secondary/20 absolute -right-24 -bottom-24 h-64 w-64 rounded-full blur-[90px]" />
+        </div>
+        <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.035]" />
+
+        {/* Header bar */}
+        <div className="border-primary/15 bg-background/30 relative z-10 flex items-center justify-between border-b px-5 py-4 backdrop-blur-xl">
+          <div className="flex items-center gap-3">
+            <div className="border-primary/20 bg-primary/10 relative flex h-9 w-9 items-center justify-center rounded-xl border">
+              <PiSparkle className="text-brand-primary h-4 w-4" />
+              <span className="ring-background/60 absolute -right-1 -bottom-1 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2" />
+            </div>
+            <div className="leading-tight">
+              <div className="text-foreground text-sm font-semibold">
+                BDKinc Strategic Assistant
+              </div>
+              <div className="text-muted-foreground text-xs">
+                Secure intake • Engineer-routed • Response within 1 business day
+              </div>
+            </div>
+          </div>
+
+          <div className="text-muted-foreground hidden items-center gap-3 text-xs sm:flex">
+            <div className="border-primary/15 bg-background/20 flex items-center gap-2 rounded-full border px-3 py-1.5">
+              <PiShieldCheck className="text-brand-primary h-4 w-4" />
+              <span>Encrypted channel</span>
+            </div>
+            <div className="border-primary/15 bg-background/20 flex items-center gap-2 rounded-full border px-3 py-1.5">
+              <PiPulse className="h-4 w-4 text-emerald-500" />
+              <span>Online</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Chat area */}
+        <div className="relative z-10 flex h-[600px] flex-col">
           <Conversation>
-            <ConversationContent>
+            <ConversationContent className="p-6">
               {messages.map((message) => (
-                <Message from={message.from} key={message.key}>
-                  <div className="max-w-[80%]">
-                    <MessageContent className="relative max-w-none transition-all duration-200 ease-out border border-primary/10 rounded-none bg-card/40 backdrop-blur-sm shadow-sm group-hover:border-primary/30 transition-all duration-300">
-                      <div className="whitespace-pre-wrap font-sans text-sm leading-relaxed">
-                        {message.version.content}
-                      </div>
+                <Message from={message.from} key={message.key} className="mb-6">
+                  <MessageAvatar
+                    name={message.name}
+                    src={message.avatar}
+                    className="border-primary/15 bg-background/60 h-8 w-8 border shadow-sm"
+                  />
+                  <div className="max-w-[85%]">
+                    <MessageContent className="border-primary/10 bg-card/70 text-foreground/90 rounded-2xl border px-5 py-3 text-sm leading-relaxed shadow-sm backdrop-blur-md">
+                      {message.version.content}
                     </MessageContent>
                   </div>
-                  <MessageAvatar name={message.name} src={message.avatar} className="border border-primary/20 rounded-none bg-primary/5" />
                 </Message>
               ))}
             </ConversationContent>
+
             <ConversationScrollButton />
           </Conversation>
-          <div className="border-primary/10 grid shrink-0 gap-4 border-t p-4 bg-muted/5">
-            <Suggestions>
+
+          {/* Input + suggestions dock */}
+          <div className="border-primary/15 bg-background/35 border-t p-4 backdrop-blur-xl">
+            <Suggestions className="mb-4">
               {suggestions.map((suggestion) => (
                 <Suggestion
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
                   suggestion={suggestion}
-                  className="rounded-none border-primary/20 bg-background/50 hover:bg-primary/10 hover:border-primary/40 font-mono text-[10px] uppercase tracking-wider transition-all duration-300"
+                  className="border-primary/10 bg-secondary/30 text-muted-foreground hover:border-primary/30 hover:bg-primary/5 hover:text-foreground rounded-full border px-4 py-2 text-xs font-medium transition-all"
                 />
               ))}
             </Suggestions>
-            <PromptInput onSubmit={handleSubmit}>
+
+            <PromptInput
+              onSubmit={handleSubmit}
+              className="border-primary/20 bg-background/40 focus-within:ring-primary/20 overflow-hidden rounded-xl border shadow-sm transition-all focus-within:ring-2"
+            >
               <PromptInputBody>
                 <PromptInputTextarea
                   onChange={(event) => setText(event.target.value)}
                   value={text}
-                  placeholder="&gt; INPUT_INQUIRY_PARAMS..."
-                  className="font-mono text-sm border-none bg-transparent focus:ring-0"
+                  placeholder="Describe your environment, scope, and timeline…"
+                  className="max-h-[200px] min-h-[54px] bg-transparent px-4 py-3 text-sm focus:outline-none"
                 />
               </PromptInputBody>
-              <PromptInputFooter>
+
+              <PromptInputFooter className="px-3 pb-3">
                 <PromptInputTools />
                 <PromptInputSubmit
                   disabled={!text.trim() || status === 'streaming'}
                   status={status}
-                  className="rounded-none shadow-[0_0_10px_rgba(0,212,255,0.2)]"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg"
                 />
               </PromptInputFooter>
             </PromptInput>
+
+            <p className="text-muted-foreground mt-3 text-xs">
+              Tip: Include compliance requirements (SOC 2/HIPAA), current
+              vendors, and desired SLA.
+            </p>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -157,6 +157,7 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
       const wrapper = node.parentElement;
 
       // Set initial size for collapsed state - centered within the wrapper
+      // Use explicit border radius (half height) instead of 9999 to ensure smooth interpolation to 16px
       gsap.set(node, {
         xPercent: -50,
         yPercent: -50,
@@ -168,7 +169,7 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
         paddingRight: 0,
         paddingTop: 0,
         paddingBottom: 0,
-        borderRadius: 9999,
+        borderRadius: isHub ? 48 : 32, // Half of height/width for perfect circle
         zIndex: isHub ? 30 : 20,
       });
 
@@ -215,19 +216,19 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
       const collapsed = {
         width: isHub ? 96 : 64,
         height: isHub ? 96 : 64,
-        minHeight: isHub ? 96 : 64,
+        minHeight: isHub ? 96 : 64, // Keep minHeight same as height for circle
         paddingLeft: isHub ? 28 : 18,
         paddingRight: 0,
         paddingTop: 0,
         paddingBottom: 0,
-        borderRadius: 9999,
+        borderRadius: isHub ? 48 : 32, // Half height for smooth interpolation
         zIndex: isHub ? 30 : 20,
       };
 
       const expanded = {
         width: isHub ? 360 : 340,
-        height: 'auto', // Allow height to grow with content
-        minHeight: isHub ? 96 : 80,
+        height: isHub ? 140 : 120, // Fixed height instead of auto to prevent layout thrashing
+        minHeight: isHub ? 140 : 120,
         paddingLeft: isHub ? 24 : 20,
         paddingRight: isHub ? 24 : 24,
         paddingTop: isHub ? 16 : 12,
@@ -245,7 +246,7 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
         gsap.to(node, {
           ...expanded,
           duration: 0.4,
-          ease: 'power3.out', // Smoother expansion
+          ease: 'back.out(0.6)', // Slight overshoot for organic feel
           overwrite: 'auto',
         });
         // Fade out external label quickly at the start
@@ -295,7 +296,7 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
           ...collapsed,
           duration: 0.35,
           delay: 0.05,
-          ease: 'power3.inOut',
+          ease: 'power2.inOut', // Keep standard smooth ease for collapse
           overwrite: 'auto',
         });
         // Fade in external label as node finishes collapsing

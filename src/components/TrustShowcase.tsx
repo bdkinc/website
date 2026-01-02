@@ -123,7 +123,7 @@ export default function TrustShowcase({
                       )}
                     />
                   </div>
-                  <h3 className="text-foreground font-display mb-2 text-sm font-bold tracking-widest uppercase">
+                  <h3 className="text-foreground font-display mb-2 text-sm font-bold tracking-widest">
                     {partner.description}
                   </h3>
                   <p className="text-muted-foreground font-sans text-xs leading-relaxed">
@@ -143,7 +143,7 @@ export default function TrustShowcase({
 
         {/* Certifications Row */}
         <div className="mt-16 flex flex-wrap justify-center gap-8 opacity-50 grayscale transition-opacity hover:opacity-100">
-          {['SOC 2 COMPLIANT', 'HIPAA READY', 'PCI-DSS CERTIFIED'].map(
+          {['SOC 2 Compliant', 'HIPAA Ready', 'PCI-DSS Certified'].map(
             (cert) => (
               <div
                 key={cert}

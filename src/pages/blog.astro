@@ -10,7 +10,6 @@ import { PiArrowRight, PiCpu } from 'react-icons/pi';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
-
 // Get all blog posts, sorted by date (newest first), exclude drafts
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const sortedPosts = allPosts.sort(
@@ -31,7 +30,6 @@ const postsWithReadTime = sortedPosts.map((post) => {
 // Separate featured post (latest) from list
 const featuredPost = postsWithReadTime[0];
 const remainingPosts = postsWithReadTime.slice(1);
-
 ---
 
 <Layout title="Technical Intelligence - BDKinc">
@@ -43,65 +41,75 @@ const remainingPosts = postsWithReadTime.slice(1);
   />
   <main id="main-content">
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 overflow-hidden">
-      <div class="absolute inset-0 gradient-mesh opacity-20" />
-      <div class="absolute inset-0 circuit-overlay opacity-30" />
+    <section class="relative overflow-hidden pt-32 pb-20">
+      <div class="gradient-mesh absolute inset-0 opacity-20"></div>
+      <div class="circuit-overlay absolute inset-0 opacity-30"></div>
 
-      <div class="relative z-10 max-w-7xl mx-auto text-center px-4">
+      <div class="relative z-10 mx-auto max-w-7xl px-4 text-center">
         <!-- Badge -->
         <div
           class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-8 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
         >
           <div class="text-sm">
-            Strategic <span class="text-accent font-semibold">Technical Insights</span>
+            Strategic <span class="text-accent font-semibold"
+              >Technical Insights</span
+            >
           </div>
         </div>
 
         <!-- Title -->
-        <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight mb-6">
+        <h1
+          class="font-display mb-6 text-5xl font-bold tracking-tight md:text-7xl"
+        >
           <span class="text-foreground">News & </span>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Insights</span>
+          <span
+            class="from-primary to-secondary bg-gradient-to-r bg-clip-text text-transparent"
+            >Insights</span
+          >
         </h1>
 
         <!-- Subtitle -->
-        <p class="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
+        <p class="text-muted-foreground mx-auto max-w-2xl text-xl font-light">
           Technical deep-dives, industry updates, and BDKinc events.
         </p>
       </div>
 
       <!-- Bottom Ticker Border (Visual only) -->
-      <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      <div
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
+      >
+      </div>
     </section>
 
     <!-- Featured Post Section -->
-    <section class="relative z-20 border-b border-border/10 bg-card/20">
+    <section class="border-border/10 bg-card/20 relative z-20 border-b">
       <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <a
           href={`/blog/${featuredPost.slug}`}
-          class="group relative block overflow-hidden rounded-3xl border border-primary/20 bg-card/40 backdrop-blur-md transition-all duration-500 hover:border-primary/40 hover:bg-card/50"
+          class="group border-primary/20 bg-card/40 hover:border-primary/40 hover:bg-card/50 relative block overflow-hidden rounded-3xl border backdrop-blur-md transition-all duration-500"
         >
           <!-- Background Effects -->
           <div
-            class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-50"
+            class="from-primary/5 to-secondary/5 absolute inset-0 bg-gradient-to-br via-transparent opacity-50"
           >
           </div>
           <div
-            class="absolute -top-20 -right-20 h-96 w-96 rounded-full bg-primary/10 blur-3xl transition-all duration-700 group-hover:bg-primary/20"
+            class="bg-primary/10 group-hover:bg-primary/20 absolute -top-20 -right-20 h-96 w-96 rounded-full blur-3xl transition-all duration-700"
           >
           </div>
 
-          <div class="relative z-10 grid gap-8 p-8 md:p-12 lg:grid-cols-2 lg:gap-16">
+          <div
+            class="relative z-10 grid gap-8 p-8 md:p-12 lg:grid-cols-2 lg:gap-16"
+          >
             <div class="flex flex-col justify-center space-y-6">
               <!-- Meta Badge -->
               <div class="flex items-center gap-4">
                 <span
-                  class="inline-flex items-center rounded-sm border border-primary/20 bg-primary/5 px-2 py-1 text-xs font-medium text-primary/90"
+                  class="border-primary/20 bg-primary/5 text-primary/90 inline-flex items-center rounded-sm border px-2 py-1 text-xs font-medium"
                 >
                   Featured
                 </span>
-                <span
-                  class="text-xs font-medium text-muted-foreground/60"
-                >
+                <span class="text-muted-foreground/60 text-xs font-medium">
                   {
                     new Intl.DateTimeFormat('en-US', {
                       year: 'numeric',
@@ -112,19 +120,16 @@ const remainingPosts = postsWithReadTime.slice(1);
                 </span>
               </div>
 
-
               <!-- Title -->
               <h2
-                class="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl lg:leading-tight"
+                class="font-display text-foreground text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl lg:leading-tight"
               >
                 {featuredPost.data.title}
               </h2>
 
-
-
               <!-- Description -->
               <p
-                class="text-lg leading-relaxed text-muted-foreground md:text-xl"
+                class="text-muted-foreground text-lg leading-relaxed md:text-xl"
               >
                 {featuredPost.data.description}
               </p>
@@ -132,13 +137,12 @@ const remainingPosts = postsWithReadTime.slice(1);
               <!-- Action -->
               <div class="pt-4">
                 <span
-                  class="inline-flex items-center gap-2 text-sm font-bold tracking-widest text-primary transition-all group-hover:gap-4"
+                  class="text-primary inline-flex items-center gap-2 text-sm font-bold tracking-widest transition-all group-hover:gap-4"
                 >
                   Read Analysis
                   <PiArrowRight className="h-4 w-4" />
                 </span>
               </div>
-
             </div>
 
             <!-- Abstract Visual / Right Column -->
@@ -151,15 +155,15 @@ const remainingPosts = postsWithReadTime.slice(1);
               >
                 <div class="grid grid-cols-6 gap-4">
                   {
-                    Array.from({ length: 24 }).map((_, i) => (
-                      <div key={i} class="h-1.5 w-1.5 rounded-full bg-primary/40" />
+                    Array.from({ length: 24 }).map(() => (
+                      <div class="bg-primary/40 h-1.5 w-1.5 rounded-full" />
                     ))
                   }
                 </div>
               </div>
               <!-- Large Icon Overlay -->
               <div class="absolute inset-0 flex items-center justify-center">
-                <PiCpu className="h-32 w-32 text-primary/20" />
+                <PiCpu className="text-primary/20 h-32 w-32" />
               </div>
             </div>
           </div>
@@ -169,8 +173,7 @@ const remainingPosts = postsWithReadTime.slice(1);
 
     <!-- Blog Posts List -->
     <section>
-
-      <div class="px-4 py-24 sm:px-6 lg:px-8 relative z-10 mx-auto max-w-7xl">
+      <div class="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <BlogList client:load posts={remainingPosts} />
       </div>
     </section>
@@ -184,7 +187,6 @@ const remainingPosts = postsWithReadTime.slice(1);
       buttonHref="/contact"
       icon="arrow"
     />
-
   </main>
 
   <Footer />
