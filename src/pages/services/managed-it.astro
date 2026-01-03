@@ -11,8 +11,8 @@ import TechnicalFAQ from '@/components/TechnicalFAQ';
 import TechSpecs from '@/components/TechSpecs';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
 import TechnicalSection from '@/components/TechnicalSection';
-import { CornerBrackets } from '@/components/CornerBrackets';
 import ManagedITVisualization from '@/components/visualizations/ManagedITVisualization';
+import FeatureCarousel from '@/components/react/FeatureCarousel';
 import {
   PiHeadphones,
   PiCheckCircle,
@@ -68,17 +68,59 @@ const metrics = [
 
 const faqs = [
   {
-    question: "How does BDKinc integrate with our existing internal IT team?",
-    answer: "We function as a force multiplier for your internal team. Our Co-Managed IT model handles the heavy lifting of monitoring, patching, and Level 1 support, freeing your internal leaders to focus on high-value strategic initiatives and proprietary business applications."
+    question: 'How does BDKinc integrate with our existing internal IT team?',
+    answer:
+      'We function as a force multiplier for your internal team. Our Co-Managed IT model handles the heavy lifting of monitoring, patching, and Level 1 support, freeing your internal leaders to focus on high-value strategic initiatives and proprietary business applications.',
   },
   {
-    question: "What industries do you specialize in supporting?",
-    answer: "We specialize in high-complexity, compliance-driven sectors including healthcare, finance, manufacturing, and logistics. Our engineers are well-versed in the regulatory requirements and operational demands of environments where downtime is not an option."
+    question: 'What industries do you specialize in supporting?',
+    answer:
+      'We specialize in high-complexity, compliance-driven sectors including healthcare, finance, manufacturing, and logistics. Our engineers are well-versed in the regulatory requirements and operational demands of environments where downtime is not an option.',
   },
   {
-    question: "How do you handle rapid organizational scaling or M&A activity?",
-    answer: "Our infrastructure is built for elasticity. We have extensive experience navigating the technical integration of mergers and acquisitions, standardizing disparate systems, and rapidly onboarding new users to ensure business continuity during critical growth phases."
-  }
+    question: 'How do you handle rapid organizational scaling or M&A activity?',
+    answer:
+      'Our infrastructure is built for elasticity. We have extensive experience navigating the technical integration of mergers and acquisitions, standardizing disparate systems, and rapidly onboarding new users to ensure business continuity during critical growth phases.',
+  },
+];
+
+const strategicFeatures = [
+  {
+    title: 'Operational Resilience',
+    description:
+      'Systems designed for 99.99% uptime, ensuring your business never pauses.',
+    highlight: '99.99% uptime',
+    icon: 'CheckCircle',
+    detail:
+      "Our managed infrastructure is built on high-availability clusters and redundant network paths. We don't just aim for uptime; we guarantee it through rigorous architectural standards and automated failover protocols that keep your critical applications running even during hardware failures.",
+  },
+  {
+    title: 'Scalable Architecture',
+    description:
+      'Infrastructure that adapts instantly to mergers, acquisitions, and rapid user growth.',
+    highlight: 'adapts instantly',
+    icon: 'TrendUp',
+    detail:
+      "Growth shouldn't be painful. Whether you're onboarding 50 new employees or integrating a newly acquired branch, our cloud-first architecture allows for rapid resource provisioning. We eliminate the 'wait-and-see' approach to hardware procurement, replacing it with elastic capacity.",
+  },
+  {
+    title: 'Cost Predictability',
+    description:
+      'Shift from volatile capital expenditures to predictable, value-driven operational models.',
+    highlight: 'value-driven operational models',
+    icon: 'Lightning',
+    detail:
+      "Eliminate the 'surprise' IT bill. Our flat-fee managed services model turns your IT spend into a predictable monthly utility. This allows for better financial planning and ensures that our incentives are perfectly aligned with yours: keeping your systems running perfectly.",
+  },
+  {
+    title: 'Security Posture',
+    description:
+      'Enterprise-grade defense mechanisms interwoven into daily operations, not bolted on.',
+    highlight: 'interwoven into daily operations',
+    icon: 'ShieldCheck',
+    detail:
+      "Security is not a separate department; it's a fundamental property of every system we manage. From endpoint protection and multi-factor authentication to continuous vulnerability scanning, we build a 'defense-in-depth' strategy that protects your intellectual property and customer data.",
+  },
 ];
 ---
 
@@ -103,40 +145,44 @@ const faqs = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-      <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="text-center">
-          <div
-            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
-            transition:name={`service-icon-${service.id}`}
-          >
-            <IconComponent
-              className="text-primary h-12 w-12"
-              aria-hidden="true"
-            />
-          </div>
-          <h1
-            class="mb-6 text-5xl font-bold md:text-6xl"
-            transition:name={`service-title-${service.id}`}
-            transition:animate="initial"
-          >
-            <span class="text-foreground"
-              >{titleFirst ? `${titleFirst} ` : ''}</span
-            >
+
+      <div class="relative z-10 mx-auto max-w-7xl text-center">
+        <!-- Badge -->
+        <div
+          class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+        >
+          <div class="flex items-center gap-2 text-sm">
             <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >{lastTitleWord}</span
+              >24x7 Business <span class="text-accent font-semibold"
+                >Support</span
+              ></span
             >
-          </h1>
-          <p
-            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
-            transition:name={`service-description-${service.id}`}
-            transition:animate="initial"
-          >
-            Technology shouldn't be a bottleneck; it should be an accelerator. We monitor your systems 24/7/365, preventing issues before they disrupt your operations, ensuring your infrastructure is always on, always optimized, and always ready.
-          </p>
+          </div>
         </div>
 
-        {/* Hero Visualization */}
+        <!-- Heading -->
+        <h1
+          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight delay-100 duration-700 md:text-6xl"
+        >
+          <span class="text-foreground"
+            >{titleFirst ? `${titleFirst} ` : ''}</span
+          >
+          <span
+            class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+            >{lastTitleWord}</span
+          >
+        </h1>
+
+        <!-- Subtitle -->
+        <p
+          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto mb-16 max-w-3xl text-xl leading-relaxed delay-200 duration-700"
+        >
+          Technology shouldn't be a bottleneck; it should be an accelerator. We
+          monitor your systems 24/7/365, preventing issues before they disrupt
+          your operations.
+        </p>
+
+        <!-- Visualization -->
         <div
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
@@ -145,433 +191,417 @@ const faqs = [
           </div>
         </div>
       </div>
+
       <div
         class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
 
-    <!-- Content Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
+    <!-- Strategic Leadership Section -->
+    <section class="relative overflow-hidden py-24">
       <div
-        class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
+        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
       >
-        <div class="mx-auto max-w-7xl">
-          <div class="service-content-wrapper">
-            <div class="not-prose mx-auto max-w-4xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Strategic IT Leadership
-              </h2>
+      </div>
+      <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Strategic </span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Leadership</span
+            >
+          </h2>
+        </div>
+
+        <TechCard variant="technical" interactive={false} className="bg-card/30 backdrop-blur-md">
+          <div class="p-8 md:p-12 relative overflow-hidden">
+             <div class="absolute top-0 right-0 p-6 opacity-10">
+                <PiUsersThree className="w-24 h-24 text-primary" />
+             </div>
+             <p
+              class="text-muted-foreground relative z-10 text-xl md:text-2xl leading-relaxed text-center font-light"
+            >
+              "True enterprise growth requires more than just keeping the lights
+              on. It demands a technology strategy that <span
+                class="text-accent font-semibold">anticipates challenges</span
+              > and scales with your ambition. We architect, manage, and secure your
+              infrastructure so you can focus on driving your business forward."
+            </p>
+          </div>
+        </TechCard>
+      </div>
+    </section>
+
+    <!-- Core Services -->
+    <section class="bg-black/20 px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
+          >
+            <span class="text-foreground">Core </span>
+            <span
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+              >Capabilities</span
+            >
+          </h2>
+          <p
+            class="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl"
+          >
+            Comprehensive infrastructure management designed for the
+            <span class="text-accent font-semibold">modern enterprise</span>.
+          </p>
+        </div>
+
+        <TechCardGrid client:visible className="md:grid-cols-3">
+          <TechCard
+            variant="technical"
+            interactive={true}
+            metadata="IT_SERV_01"
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110"
               >
-                True enterprise growth requires more than just keeping the lights on. It demands a technology strategy that anticipates challenges and scales with your ambition. BDKinc serves as your strategic partner, delivering the technical depth of a global consultancy with the accountability of a dedicated team. We architect, manage, and secure your infrastructure so you can focus on driving your business forward.
+                <PiHeadphones
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight uppercase transition-colors"
+              >
+                Enterprise Service Desk
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Beyond basic troubleshooting. Our tiered support structure
+                resolves 98% of incidents on first contact, providing your team
+                with immediate access to senior engineers.
               </div>
             </div>
+          </TechCard>
 
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
-              Core Services
-            </h3>
+          <TechCard
+            variant="technical"
+            interactive={true}
+            metadata="IT_SERV_02"
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110"
+              >
+                <PiTrendUp
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight uppercase transition-colors"
+              >
+                Predictive Intelligence
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                We don't just react to alerts; we anticipate failures utilizing
+                advanced telemetry and AI-driven analytics to identify anomalies
+                before they impact your users.
+              </div>
+            </div>
+          </TechCard>
 
-            <TechCardGrid client:visible>
-              <TechCard variant="technical" interactive metadata="IT_SERV_01">
-                <div class="p-8 flex flex-col items-center text-center h-full">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
-                    <PiHeadphones
-                      className="text-primary h-16 w-16"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
-                    Enterprise Service Desk
-                  </h4>
-                  <div class="text-muted-foreground leading-relaxed text-sm">
-                    Beyond basic troubleshooting. Our tiered support structure resolves 98% of incidents on first contact, providing your team with immediate access to senior engineers who understand your specific operational context.
-                  </div>
-                </div>
-              </TechCard>
+          <TechCard
+            variant="technical"
+            interactive={true}
+            metadata="IT_SERV_03"
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110"
+              >
+                <PiUsersThree
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight uppercase transition-colors"
+              >
+                Strategic Co-Management
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Whether acting as your entire IT department or augmenting your
+                internal team, we integrate seamlessly with your workflows and
+                provide specialized expertise.
+              </div>
+            </div>
+          </TechCard>
+        </TechCardGrid>
+      </div>
+    </section>
 
-              <TechCard variant="technical" interactive metadata="IT_SERV_02">
-                <div class="p-8 flex flex-col items-center text-center h-full">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
-                    <PiTrendUp
-                      className="text-primary h-16 w-16"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
-                    Predictive Infrastructure Intelligence
-                  </h4>
-                  <div class="text-muted-foreground leading-relaxed text-sm">
-                    We don't just react to alerts; we anticipate failures utilizing advanced telemetry and AI-driven analytics to identify anomalies and remediate performance bottlenecks before they impact your users.
-                  </div>
-                </div>
-              </TechCard>
+    <!-- Strategic Advantage -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8 bg-linear-to-b from-transparent to-black/10">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight uppercase md:text-4xl"
+          >
+            The Strategic <span class="text-primary">Advantage</span>
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Move beyond break/fix and operational drag with a partner who builds for the future.
+          </p>
+        </div>
 
-              <TechCard variant="technical" interactive metadata="IT_SERV_03">
-                <div class="p-8 flex flex-col items-center text-center h-full">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
-                    <PiUsersThree
-                      className="text-primary h-16 w-16"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
-                    Strategic Co-Management
-                  </h4>
-                  <div class="text-muted-foreground leading-relaxed text-sm">
-                    Whether acting as your entire IT department or augmenting your internal team, we integrate seamlessly with your workflows, providing specialized expertise in cloud, security, and compliance exactly where you need it.
-                  </div>
-                </div>
-              </TechCard>
-            </TechCardGrid>
+        <FeatureCarousel client:visible features={strategicFeatures} />
+      </div>
+    </section>
 
-            <h3
-              class="text-foreground mt-12 mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight"
+    <!-- Key Benefits (Clean Icon Grid) -->
+    <section class="bg-black/20 px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight uppercase md:text-4xl"
+          >
+            Key <span class="text-primary">Benefits</span>
+          </h2>
+        </div>
+
+        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Benefit 1 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiClock
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
             >
-              The Strategic Advantage of Elite Management
-            </h3>
+              24/7 Availability
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Round-the-clock monitoring and support ensures your business never
+              stops
+            </p>
+          </div>
 
-            <div class="not-prose mb-20">
-              <p class="text-muted-foreground mb-12 text-center text-xl">
-                Move beyond break/fix and operational drag
-              </p>
+          <!-- Benefit 2 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiUsersThree
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+            >
+              Expert Support
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Access to experienced technicians with diverse technical expertise
+            </p>
+          </div>
 
-              {/* Feature Image Placeholder */}
-              <div class="mb-12 relative group">
-                <CornerBrackets client:visible isHovered={true} className="z-30" />
-                <div
-                  class="glass border-primary/20 mx-auto max-w-3xl overflow-hidden rounded-xl border relative"
-                >
-                  <div
-                    class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-21/9 items-center justify-center bg-linear-to-br"
-                  >
-                    <div class="p-4 text-center">
-                      <div
-                        class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase font-mono"
-                      >
-                        ADVANTAGE_VISUAL_INIT
-                      </div>
-                      <div class="text-muted-foreground/60 text-sm">
-                        Strategic IT Lifecycle Illustration
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <!-- Benefit 3 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiShieldCheck
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+            >
+              Security First
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Proactive security measures protect your data and systems
+            </p>
+          </div>
 
-              <div class="grid gap-6 md:grid-cols-2">
-                <TechCard variant="technical" interactive={false} metadata="ADV_STRAT_01">
-                  <div class="flex items-start gap-4 p-6 group">
-                    <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                      <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
-                      </div>
-                    </div>
-                    <div>
-                      <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
-                        Operational Resilience
-                      </h5>
-                      <div class="text-muted-foreground text-sm leading-relaxed">
-                        Systems designed for 99.99% uptime, ensuring your business never pauses.
-                      </div>
-                    </div>
-                  </div>
-                </TechCard>
+          <!-- Benefit 4 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiTrendUp
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+            >
+              Business Growth
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Technology that scales with your business objectives
+            </p>
+          </div>
 
-                <TechCard variant="technical" interactive={false} metadata="ADV_STRAT_02">
-                  <div class="flex items-start gap-4 p-6 group">
-                    <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                      <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
-                      </div>
-                    </div>
-                    <div>
-                      <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
-                        Scalable Architecture
-                      </h5>
-                      <div class="text-muted-foreground text-sm leading-relaxed">
-                        Infrastructure that adapts instantly to mergers, acquisitions, and rapid user growth.
-                      </div>
-                    </div>
-                  </div>
-                </TechCard>
+          <!-- Benefit 5 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiLightning
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+            >
+              Rapid Response
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Quick issue resolution minimizes disruption to your operations
+            </p>
+          </div>
 
-                <TechCard variant="technical" interactive={false} metadata="ADV_STRAT_03">
-                  <div class="flex items-start gap-4 p-6 group">
-                    <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                      <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
-                      </div>
-                    </div>
-                    <div>
-                      <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
-                        Cost Predictability
-                      </h5>
-                      <div class="text-muted-foreground text-sm leading-relaxed">
-                        Shift from volatile capital expenditures to predictable, value-driven operational models.
-                      </div>
-                    </div>
-                  </div>
-                </TechCard>
+          <!-- Benefit 6 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiMonitor
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+            >
+              Infrastructure Management
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Complete oversight of your IT infrastructure and assets
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                <TechCard variant="technical" interactive={false} metadata="ADV_STRAT_04">
-                  <div class="flex items-start gap-4 p-6 group">
-                    <div class="bg-primary/5 p-3 rounded-lg border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                      <div class="bg-primary h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
-                      </div>
-                    </div>
-                    <div>
-                      <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
-                        Security Posture
-                      </h5>
-                      <div class="text-muted-foreground text-sm leading-relaxed">
-                        Enterprise-grade defense mechanisms interwoven into daily operations, not bolted on as an afterthought.
-                      </div>
-                    </div>
-                  </div>
-                </TechCard>
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
-              Key Benefits
-            </h3>
-
+    <TechnicalSection
+      client:visible
+      id="maturity-scale"
+      overlayOpacity="opacity-10"
+      showBrackets={false}
+    >
+      <div class="grid items-stretch gap-8 md:grid-cols-2">
+        {/* Approach Image Placeholder */}
+        <div class="group relative order-2 md:order-1">
+          <div
+            class="glass border-primary/20 relative h-full min-h-[400px] overflow-hidden rounded-xl border"
+          >
             <div
-              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+              class="scanlines pointer-events-none absolute inset-0 opacity-[0.05]"
             >
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="CORE_BENEFIT_01"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiClock
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
-                    24/7 Availability
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Round-the-clock monitoring and support ensures your business
-                    never stops
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="CORE_BENEFIT_02"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiUsersThree
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
-                    Expert Support
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Access to experienced technicians with diverse technical
-                    expertise
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="CORE_BENEFIT_03"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiShieldCheck
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
-                    Security First
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Proactive security measures protect your data and systems
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="CORE_BENEFIT_04"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiTrendUp
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
-                    Business Growth
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Technology that scales with your business objectives
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="CORE_BENEFIT_05"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiLightning
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
-                    Rapid Response
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Quick issue resolution minimizes disruption to your operations
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="CORE_BENEFIT_06"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiMonitor
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
-                    Infrastructure Management
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Complete oversight of your IT infrastructure and assets
-                  </div>
-                </div>
-              </TechCard>
             </div>
-
-            <TechnicalSection client:visible id="maturity-scale" overlayOpacity="opacity-10">
-              <div class="grid items-stretch gap-8 md:grid-cols-2">
-                {/* Approach Image Placeholder */}
-                <div class="order-2 md:order-1 relative group">
-                  <CornerBrackets client:visible isHovered={true} className="z-30" />
-                  <div
-                    class="glass border-primary/20 overflow-hidden rounded-xl border h-full min-h-[400px] relative"
-                  >
-                    <div className="scanlines absolute inset-0 opacity-[0.05] pointer-events-none" />
-                    <div
-                      class="from-primary/5 via-secondary/5 to-primary/5 flex h-full items-center justify-center bg-linear-to-br"
-                    >
-                      <div class="p-4 text-center">
-                        <div
-                          class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase font-mono"
-                        >
-                          ARCHITECTURAL_BLUEPRINT_01
-                        </div>
-                        <div class="text-muted-foreground/60 text-lg">
-                          Workflow Orchestration Diagram
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+            <div
+              class="from-primary/5 via-secondary/5 to-primary/5 flex h-full items-center justify-center bg-linear-to-br"
+            >
+              <div class="p-4 text-center">
+                <div
+                  class="text-muted-foreground/40 mb-2 font-mono text-sm font-medium tracking-wider uppercase"
+                >
+                  ARCHITECTURAL_BLUEPRINT_01
                 </div>
-
-                {/* Approach Text */}
-                <div class="order-1 md:order-2 flex flex-col">
-                  <TechCard variant="technical" interactive={false} metadata="APPROACH_INTEL">
-                    <div
-                      class="text-muted-foreground space-y-6 text-lg leading-relaxed p-8"
-                    >
-                      <p>
-                        We reject the "generic" approach to managed services. Your environment is unique, and your support model should be too. We begin with a deep-dive architectural review to align your technology roadmap with your business objectives.
-                      </p>
-                      <p>
-                        Our "Giants in the Toolkit" philosophy leverages the proven reliability of IBM, Microsoft, and Cisco, integrated with our elite service layer. This ensures you benefit from world-class R&D while receiving the personalized attention of a boutique firm.
-                      </p>
-                      <p>
-                        As you scale, we scale. From supporting distributed workforces to managing complex hybrid cloud environments, BDKinc provides the mature operational framework necessary to support an unstoppable enterprise.
-                      </p>
-                    </div>
-                  </TechCard>
+                <div class="text-muted-foreground/60 text-lg">
+                  Workflow Orchestration Diagram
                 </div>
               </div>
-            </TechnicalSection>
-
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
-              Service Details
-            </h3>
-
-            <TechSpecs />
-
-            <WhoThisIsFor client:visible />
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Frequently Asked Questions
-            </h3>
-            <div class="mb-20">
-              <TechnicalFAQ faqs={faqs} client:idle />
             </div>
           </div>
         </div>
 
-        <!-- Related Resources -->
-        {
-          relatedPosts.length > 0 && (
-            <section class="mx-auto max-w-5xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Related Resources
-              </h2>
-              <div class="grid gap-6 md:grid-cols-3">
-                {relatedPosts.map((post) => (
-                  <a
-                    href={`/blog/${post.slug}`}
-                    class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
-                  >
-                    <h3 class="text-foreground mb-2 text-lg font-semibold">
-                      {post.data.title}
-                    </h3>
-                    <p class="text-muted-foreground text-sm">
-                      {post.data.description}
-                    </p>
-                    <span class="text-primary mt-4 text-sm font-medium">
-                      Read Article →
-                    </span>
-                  </a>
-                ))}
-              </div>
-            </section>
-          )
-        }
+        {/* Approach Text */}
+        <div class="order-1 flex flex-col md:order-2">
+          <TechCard
+            variant="technical"
+            interactive={false}
+            metadata="APPROACH_INTEL"
+          >
+            <div
+              class="text-muted-foreground space-y-6 p-8 text-lg leading-relaxed"
+            >
+              <p>
+                We reject the "generic" approach to managed services. Your
+                environment is unique, and your support model should be too. We
+                begin with a deep-dive architectural review to align your
+                technology roadmap with your business objectives.
+              </p>
+              <p>
+                Our "Giants in the Toolkit" philosophy leverages the proven
+                reliability of IBM, Microsoft, and Cisco, integrated with our
+                elite service layer. This ensures you benefit from world-class
+                R&D while receiving the personalized attention of a boutique
+                firm.
+              </p>
+              <p>
+                As you scale, we scale. From supporting distributed workforces
+                to managing complex hybrid cloud environments, BDKinc provides
+                the mature operational framework necessary to support an
+                unstoppable enterprise.
+              </p>
+            </div>
+          </TechCard>
+        </div>
+      </div>
+    </TechnicalSection>
 
-        <ImpactMetricsSection metrics={metrics} />
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <h3
+          class="text-foreground font-display mb-12 text-center text-2xl font-bold tracking-tight uppercase"
+        >
+          Service Details
+        </h3>
 
-        <!-- CTA -->
-        <CTASection
-          client:visible
-          title="Power Your Growth with Elite IT"
-          description="Stop settling for standard support. Partner with the experts who understand your scale."
-          buttonText="Schedule a Strategy Session"
-          buttonHref="/contact"
-        />
+        <TechSpecs />
+
+        <div class="mt-24">
+          <WhoThisIsFor client:visible />
+        </div>
+
+        <h3 class="text-foreground mt-24 mb-6 text-center text-2xl font-bold">
+          Frequently Asked Questions
+        </h3>
+        <div class="mb-20">
+          <TechnicalFAQ faqs={faqs} client:idle />
+        </div>
       </div>
     </section>
+
+    <!-- Related Resources -->
+    {
+      relatedPosts.length > 0 && (
+        <section class="mx-auto max-w-5xl px-4 py-24">
+          <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
+            Related Resources
+          </h2>
+          <div class="grid gap-6 md:grid-cols-3">
+            {relatedPosts.map((post) => (
+              <a
+                href={`/blog/${post.slug}`}
+                class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
+              >
+                <h3 class="text-foreground mb-2 text-lg font-semibold">
+                  {post.data.title}
+                </h3>
+                <p class="text-muted-foreground text-sm">
+                  {post.data.description}
+                </p>
+                <span class="text-primary mt-4 text-sm font-medium">
+                  Read Article →
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <ImpactMetricsSection metrics={metrics} />
+
+    <!-- CTA -->
+    <CTASection
+      client:visible
+      title="Power Your Growth with Elite IT"
+      description="Stop settling for standard support. Partner with the experts who understand your scale."
+      buttonText="Schedule a Strategy Session"
+      buttonHref="/contact"
+    />
   </main>
 
   <Footer />

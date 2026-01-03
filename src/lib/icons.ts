@@ -28,6 +28,9 @@ import {
   PiSparkle,
   PiArrowsClockwise,
   PiSquaresFour,
+  PiCheckCircle,
+  PiTrendUp,
+  PiLightning,
 } from 'react-icons/pi';
 import type { ComponentType } from 'react';
 
@@ -66,4 +69,7 @@ export const iconMap: Record<string, ComponentType<{ className?: string }>> = {
   Sparkles: PiSparkle,
   RefreshCw: PiArrowsClockwise,
   LayoutGrid: PiSquaresFour,
+  CheckCircle: PiCheckCircle,
+  TrendUp: PiTrendUp,
+  Lightning: PiLightning,
 };

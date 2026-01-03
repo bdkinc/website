@@ -38,6 +38,11 @@ export function TechCard({
   variant = 'technical',
   asChild = false,
 }: TechCardProps) {
+  const isInteractive = interactive;
+
+  // When interactive, CSS `group-hover:` should work (parent has `group`).
+  // We also keep an internal hovered state for the mouse-tracking spotlight.
+
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState<MousePosition>({
     x: 50,
@@ -47,7 +52,7 @@ export function TechCard({
   const Component = asChild ? Slot : 'div';
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!interactive) return;
+    if (!isInteractive) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -57,7 +62,8 @@ export function TechCard({
   return (
     <Component
       className={cn(
-        'group focus-visible:ring-primary relative block h-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+        'focus-visible:ring-primary relative block h-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+        isInteractive && 'group',
         animated
           ? 'fill-mode-both animate-in fade-in slide-in-from-bottom-6 duration-600'
           : '',
@@ -65,10 +71,10 @@ export function TechCard({
       )}
       style={animated ? { animationDelay: `${delay}ms` } : undefined}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onPointerEnter={() => setIsHovered(true)}
-      onPointerLeave={() => setIsHovered(false)}
+      onMouseEnter={() => isInteractive && setIsHovered(true)}
+      onMouseLeave={() => isInteractive && setIsHovered(false)}
+      onPointerEnter={() => isInteractive && setIsHovered(true)}
+      onPointerLeave={() => isInteractive && setIsHovered(false)}
     >
       <Card
         size={size}
@@ -80,16 +86,28 @@ export function TechCard({
             variant === 'simple' ||
             variant === 'blog') &&
             'border-primary/20',
-          interactive &&
-            isHovered &&
-            'border-primary/40 shadow-[--shadow-glow-sm]'
+          isInteractive &&
+            (isHovered
+              ? 'border-primary/40 shadow-[--shadow-glow-sm]'
+              : 'hover:border-primary/35 hover:shadow-[--shadow-glow-sm]')
         )}
       >
         {/* Technical Overlays */}
         <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03]" />
 
+        {/* Background gradient wash (hover) */}
+        {isInteractive && (
+          <div
+            className={cn(
+              'pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-300',
+              'from-primary/10 via-secondary/10 bg-linear-to-br to-transparent',
+              'group-hover:opacity-100'
+            )}
+          />
+        )}
+
         {/* Mouse-tracking spotlight */}
-        {interactive && (
+        {isInteractive && (
           <div
             className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
             style={{
@@ -108,12 +126,16 @@ export function TechCard({
               <div
                 className={cn(
                   'bg-primary/20 h-1 w-12 rounded-full transition-all duration-300 ease-out',
+                  isInteractive
+                    ? 'group-hover:bg-primary/60 group-hover:w-20'
+                    : '',
                   isHovered && 'bg-primary/60 w-20'
                 )}
               />
               <div
                 className={cn(
                   'bg-primary/20 h-2 w-2 rounded-full transition-all duration-300 ease-out',
+                  isInteractive ? 'group-hover:bg-primary/60' : '',
                   isHovered && 'bg-primary/60'
                 )}
               />
@@ -126,12 +148,16 @@ export function TechCard({
               <div
                 className={cn(
                   'bg-secondary/20 h-2 w-2 rounded-full transition-all duration-300 ease-out',
+                  isInteractive ? 'group-hover:bg-secondary/60' : '',
                   isHovered && 'bg-secondary/60'
                 )}
               />
               <div
                 className={cn(
                   'bg-secondary/20 h-1 w-12 rounded-full transition-all duration-300 ease-out',
+                  isInteractive
+                    ? 'group-hover:bg-secondary/60 group-hover:w-20'
+                    : '',
                   isHovered && 'bg-secondary/60 w-20'
                 )}
               />
