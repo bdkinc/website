@@ -24,7 +24,7 @@ import { Suggestion, Suggestions } from '@/components/ai-elements/suggestion';
 import { cn } from '@/lib/utils';
 
 import { nanoid } from 'nanoid';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { PiSparkle } from 'react-icons/pi';
 
 type MessageType = {
@@ -49,7 +49,26 @@ interface ContactChatProps {
   initialSuggestions?: string[];
 }
 
+type AnalyticsParams = Record<string, unknown>;
+
+type Gtag = (...args: unknown[]) => void;
+
+declare global {
+  interface Window {
+    dataLayer?: AnalyticsParams[];
+    gtag?: Gtag;
+  }
+}
+
+function track(event: string, params?: AnalyticsParams) {
+  if (typeof window === 'undefined') return;
+
+  window.dataLayer?.push({ event, ...params });
+  window.gtag?.('event', event, params);
+}
+
 export default function ContactChat({ initialSuggestions }: ContactChatProps) {
+  const hasStartedRef = useRef(false);
   const [text, setText] = useState<string>('');
   const [status, setStatus] = useState<
     'submitted' | 'streaming' | 'ready' | 'error'
@@ -77,6 +96,16 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
       name: 'BDKinc',
     },
   ]);
+
+  useEffect(() => {
+    track('contact_chat_view', { component: 'ContactChat' });
+  }, []);
+
+  const ensureStarted = useCallback((source: 'typed' | 'suggestion') => {
+    if (hasStartedRef.current) return;
+    hasStartedRef.current = true;
+    track('contact_chat_started', { source });
+  }, []);
 
   const streamResponse = useCallback(
     async (messageId: string, content: string) => {
@@ -156,16 +185,27 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
   );
 
   const handleSubmit = (message: PromptInputMessage) => {
-    const hasText = Boolean(message.text);
+    const rawText = message.text?.trim() ?? '';
+    if (!rawText) return;
 
-    if (!hasText) return;
+    ensureStarted('typed');
+    track('contact_chat_message_sent', {
+      method: 'typed',
+      char_count: rawText.length,
+    });
 
     setStatus('submitted');
-    addUserMessage(message.text || '');
+    addUserMessage(rawText);
     setText('');
   };
 
   const handleSuggestionClick = (suggestion: string) => {
+    ensureStarted('suggestion');
+    track('contact_chat_message_sent', {
+      method: 'suggestion',
+      char_count: suggestion.length,
+    });
+
     setStatus('submitted');
     addUserMessage(suggestion);
   };

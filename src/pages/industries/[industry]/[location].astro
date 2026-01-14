@@ -22,43 +22,22 @@ const slugifyLocation = (name: string) =>
   name.toLowerCase().replace(/\s+/g, '-').replace(/,/g, '');
 
 export async function getStaticPaths() {
-  // Get main services, PSEO services, and locations from collections
-  const mainServices = await getCollection('services');
-  const pseoServices = await getCollection('pseoServices');
+  const industries = await getCollection('pseoIndustries');
   const locations = await getCollection('locations');
   const paths = [];
 
-  for (const svc of mainServices) {
+  for (const industry of industries) {
     for (const location of locations) {
       const locationSlug = slugifyLocation(location.data.name);
 
       paths.push({
         params: {
-          service: svc.id,
+          industry: industry.id,
           location: locationSlug,
         },
         props: {
-          serviceSlug: svc.id,
+          industrySlug: industry.id,
           locationSlug,
-          collectionKey: 'services' as const,
-        },
-      });
-    }
-  }
-
-  for (const svc of pseoServices) {
-    for (const location of locations) {
-      const locationSlug = slugifyLocation(location.data.name);
-
-      paths.push({
-        params: {
-          service: svc.id,
-          location: locationSlug,
-        },
-        props: {
-          serviceSlug: svc.id,
-          locationSlug,
-          collectionKey: 'pseoServices' as const,
         },
       });
     }
@@ -69,24 +48,22 @@ export async function getStaticPaths() {
 
 export const prerender = true;
 
-const { serviceSlug, locationSlug, collectionKey } = Astro.props;
+const { industrySlug, locationSlug } = Astro.props;
 
 const locationData = getLocationBySlug(locationSlug);
 if (!locationData) {
   return new Response(null, { status: 404 });
 }
 
-// Get service data from the correct collection to avoid warnings
-const service = await getEntry(collectionKey, serviceSlug);
-if (!service) {
+const industry = await getEntry('pseoIndustries', industrySlug);
+if (!industry) {
   return new Response(null, { status: 404 });
 }
 
 const { servicesData, recentPosts } = await getNavigationData();
-const IconComponent = iconMap[service.data.icon];
+const IconComponent = iconMap[industry.data.icon];
 
-// Location-specific content
-const locationIntro = `${service.data.title} for ${locationData.name} teams who need reliable technology and a partner who understands the ${locationData.region} market. We keep daily operations stable while aligning your systems to the goals that drive growth in ${locationData.state}.`;
+const locationIntro = `${industry.data.title} for ${locationData.name} teams who need reliable technology and a partner who understands the ${locationData.region} market. We keep daily operations stable while aligning your systems to the goals that drive growth in ${locationData.state}.`;
 
 const locationFeatures = [
   {
@@ -107,8 +84,7 @@ const locationFeatures = [
   {
     icon: PiUsers,
     title: 'Dedicated Team',
-    description:
-      'Assigned technician who knows your business and infrastructure',
+    description: 'Assigned technician who knows your business and infrastructure',
   },
 ];
 
@@ -121,11 +97,11 @@ const nearbyLocations = locations
   )
   .slice(0, 3);
 
-const pageDescription = `${service.data.title} in ${locationData.name}, ${locationData.state}. Local MSP services with 24/7 support, proactive monitoring, and customizable solutions for ${locationData.region} businesses.`;
+const pageDescription = `${industry.data.title} in ${locationData.name}, ${locationData.state}. Local MSP services with 24/7 support, proactive monitoring, and customizable solutions for ${locationData.region} businesses.`;
 ---
 
 <Layout
-  title={`${service.data.title} in ${locationData.name}, ${locationData.state} | BDKinc`}
+  title={`${industry.data.title} in ${locationData.name}, ${locationData.state} | BDKinc`}
   description={pageDescription}
 >
   <Navigation
@@ -135,7 +111,6 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
     currentPath={Astro.url.pathname}
   />
   <main id="main-content">
-    <!-- Hero Section with Location -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
@@ -154,7 +129,7 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
           <IconComponent className="text-primary h-12 w-12" />
         </div>
         <h1 class="mb-6 text-5xl font-bold tracking-tight md:text-6xl">
-          <span class="text-foreground">{service.data.title}</span>
+          <span class="text-foreground">{industry.data.title}</span>
           <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
             {' '}{locationData.name}
           </span>
@@ -181,7 +156,6 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
       </div>
     </section>
 
-    <!-- Location-Specific Features -->
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2
@@ -213,7 +187,6 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
       </div>
     </section>
 
-    <!-- Service Benefits -->
     <section class="bg-muted/50 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2
@@ -225,7 +198,7 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <div>
             <h3 class="text-foreground mb-6 text-2xl font-semibold">
-              Comprehensive {service.data.title}
+              Comprehensive {industry.data.title}
             </h3>
             <div class="space-y-4">
               <div class="flex items-start gap-3">
@@ -292,7 +265,6 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
       </div>
     </section>
 
-    <!-- Nearby Locations -->
     {
       nearbyLocations.length > 0 && (
         <section class="px-4 py-16 sm:px-6 lg:px-8">
@@ -311,7 +283,7 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
                     {nearbyLoc.data.state}
                   </p>
                   <a
-                    href={`/services/${serviceSlug}/${slugifyLocation(nearbyLoc.data.name)}`}
+                    href={`/industries/${industrySlug}/${slugifyLocation(nearbyLoc.data.name)}`}
                     class="text-primary hover:text-primary/80 mt-3 text-sm font-medium"
                   >
                     View Services →
@@ -324,7 +296,6 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
       )
     }
 
-    <!-- CTA Section -->
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-4xl">
         <Card className="text-center" size="xl" interactive={false}>
@@ -356,6 +327,5 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
     </section>
   </main>
 
-  <!-- Footer -->
   <Footer />
 </Layout>

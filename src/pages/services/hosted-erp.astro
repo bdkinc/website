@@ -24,7 +24,7 @@ import {
   PiTrendUp,
   PiCheckCircle,
   PiLock,
-  PiCurrencyDollar
+  PiCurrencyDollar,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 
@@ -41,10 +41,10 @@ const titleFirst = titleWords.join(' ');
 
 // Updated Metrics for "Technical Authority"
 const metrics = [
-  { value: '99.99%', label: 'SLA UPTIME', icon: PiArrowUp },
-  { value: 'Sub-ms', label: 'NETWORK LATENCY', icon: PiLightning },
-  { value: 'Tier-3', label: 'DATA CENTERS', icon: PiDatabase },
-  { value: '24/7', label: 'NOC MONITORING', icon: PiHeadphones },
+  { value: '99.99%', label: 'SLA Uptime', icon: PiArrowUp },
+  { value: 'Sub-ms', label: 'Network Latency', icon: PiLightning },
+  { value: 'Tier-3', label: 'Data Centers', icon: PiDatabase },
+  { value: '24/7', label: 'NOC Monitoring', icon: PiHeadphones },
 ];
 
 const detailColumns = [
@@ -99,8 +99,15 @@ const faqs = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-      <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="text-center">
+       <div class="relative z-10 mx-auto max-w-7xl">
+         <div class="mx-auto max-w-4xl text-center">
+           <div
+             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+           >
+             <span class="text-sm">
+               <span class="text-accent font-semibold">BDKinc</span> Service
+             </span>
+           </div>
           <div
             class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
@@ -111,7 +118,7 @@ const faqs = [
             />
           </div>
           <h1
-            class="mb-6 text-5xl font-bold md:text-6xl"
+             class="mb-6 text-5xl font-bold tracking-tight md:text-6xl"
             transition:name={`service-title-${service.id}`}
             transition:animate="initial"
           >
@@ -137,7 +144,7 @@ const faqs = [
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
           <div class="mx-auto max-w-5xl">
-            <HostedERPVisualization client:load />
+            <HostedERPVisualization client:visible />
           </div>
         </div>
       </div>
@@ -158,17 +165,17 @@ const faqs = [
               <div class="relative z-10 flex flex-col items-center text-center">
                 <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
                   <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
-                  <span class="text-xs font-bold tracking-widest text-primary font-display uppercase">Enterprise Backbone Operations</span>
+                  <span class="text-xs font-bold tracking-widest text-primary font-display">Enterprise Backbone Operations</span>
                 </div>
                 
-                <h4 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display uppercase tracking-tight">
+                <h2 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
                   Advanced ERP <span class="text-primary">Infrastructure Management.</span>
-                </h4>
+                </h2>
                 
                 <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
                   We deliver precision-engineered hosting environments for mission-critical ERP systems. 
                   Whether you operate Oracle, SAP, Microsoft Dynamics, or custom legacy platforms, 
-                  our infrastructure ensures sub-millisecond latency and global availability.
+                  our infrastructure targets sub-millisecond latency and global availability.
                 </div>
               </div>
             </TechnicalSection>
@@ -182,7 +189,7 @@ const faqs = [
             </div>
 
             <h3
-              class="text-foreground mt-12 mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight"
+              class="text-foreground mt-12 mb-12 text-center text-2xl font-bold font-display tracking-tight"
             >
               Enterprise-Grade Capabilities
             </h3>
@@ -210,7 +217,7 @@ const faqs = [
                         aria-hidden="true"
                       />
                     </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight">
+                    <h5 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
                       Global Availability
                     </h5>
                     <div class="text-muted-foreground text-sm leading-relaxed">
@@ -231,7 +238,7 @@ const faqs = [
                         aria-hidden="true"
                       />
                     </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight">
+                    <h5 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
                       Multi-Platform Support
                     </h5>
                     <div class="text-muted-foreground text-sm leading-relaxed">
@@ -252,7 +259,7 @@ const faqs = [
                         aria-hidden="true"
                       />
                     </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold font-display uppercase tracking-tight">
+                    <h5 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
                       Data Sovereignty
                     </h5>
                     <div class="text-muted-foreground text-sm leading-relaxed">
@@ -263,7 +270,7 @@ const faqs = [
               </div>
             </div>
 
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
+            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display tracking-tight">
               Operational Advantages
             </h3>
 
@@ -282,11 +289,11 @@ const faqs = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Predictable Performance
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
-                    Guaranteed IOPS and throughput for data-intensive transaction processing.
+                     Provisioned IOPS and throughput targets for data-intensive transaction processing.
                   </div>
                 </div>
               </TechCard>
@@ -303,7 +310,7 @@ const faqs = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Rapid Scalability
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -324,11 +331,11 @@ const faqs = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Compliance Ready
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
-                    Infrastructure pre-certified for SOC 2, HIPAA, and PCI DSS standards.
+                     Infrastructure aligned with SOC 2, HIPAA, and PCI DSS standards.
                   </div>
                 </div>
               </TechCard>
@@ -345,11 +352,11 @@ const faqs = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Disaster Recovery
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
-                    Automated snapshots and geo-redundant backups for near-zero RPO/RTO.
+                     Automated snapshots and geo-redundant backups for low RPO/RTO targets.
                   </div>
                 </div>
               </TechCard>
@@ -366,7 +373,7 @@ const faqs = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     OpEx Efficiency
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -387,7 +394,7 @@ const faqs = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Zero Trust Security
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -445,13 +452,13 @@ const faqs = [
 
         <ImpactMetricsSection metrics={metrics} />
 
-        <CTASection
-          client:load
+<CTASection
+  client:visible
           title="Why Choose BDK for Hosted ERP?"
-          description="Unrivaled uptime, military-grade security, and specialized expertise in complex ERP ecosystems. We do not just host servers; we guarantee the operational backbone of your enterprise."
+          description="High-availability SLAs, defense-in-depth security, and specialized expertise in complex ERP ecosystems. We design, migrate, and operate the ERP backbone with measurable outcomes."
           primaryAction={{
-            text: 'Architect Your Solution',
-            href: '/contact',
+            text: 'Schedule ERP Assessment',
+            href: '/contact#chat',
             icon: 'arrow',
           }}
         />

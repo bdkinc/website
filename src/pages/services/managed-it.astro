@@ -1,9 +1,8 @@
 ---
 import { getEntry, getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
-import { iconMap } from '@/lib/icons';
 import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
@@ -31,7 +30,6 @@ if (!service) {
   return new Response(null, { status: 404 });
 }
 const { servicesData, recentPosts } = await getNavigationData();
-const IconComponent = iconMap[service.data.icon];
 const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
@@ -60,10 +58,10 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .slice(0, 3);
 
 const metrics = [
-  { value: '10K+', label: 'TICKETS CLOSED', icon: PiHeadphones },
-  { value: '98%', label: 'FIRST-CALL RESOLUTION', icon: PiCheckCircle },
-  { value: '2', label: 'HOUR ONSITE SLA', icon: PiMapPin },
-  { value: '24/7', label: 'SUPPORT COVERAGE', icon: PiClock },
+  { value: '10K+', label: 'Tickets Closed', icon: PiHeadphones },
+  { value: '98%', label: 'First-Call Resolution', icon: PiCheckCircle },
+  { value: '2', label: 'Hour Onsite SLA', icon: PiMapPin },
+  { value: '24/7', label: 'Support Coverage', icon: PiClock },
 ];
 
 const faqs = [
@@ -205,7 +203,7 @@ const strategicFeatures = [
       >
       </div>
       <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
+        <div class="mb-12 text-center">
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
@@ -217,13 +215,17 @@ const strategicFeatures = [
           </h2>
         </div>
 
-        <TechCard variant="technical" interactive={false} className="bg-card/30 backdrop-blur-md">
-          <div class="p-8 md:p-12 relative overflow-hidden">
-             <div class="absolute top-0 right-0 p-6 opacity-10">
-                <PiUsersThree className="w-24 h-24 text-primary" />
-             </div>
-             <p
-              class="text-muted-foreground relative z-10 text-xl md:text-2xl leading-relaxed text-center font-light"
+        <TechCard
+          variant="technical"
+          interactive={false}
+          className="bg-card/30 backdrop-blur-md"
+        >
+          <div class="relative overflow-hidden p-8 md:p-12">
+            <div class="absolute top-0 right-0 p-6 opacity-10">
+              <PiUsersThree className="text-primary h-24 w-24" />
+            </div>
+            <p
+              class="text-muted-foreground relative z-10 text-center text-xl leading-relaxed font-light md:text-2xl"
             >
               "True enterprise growth requires more than just keeping the lights
               on. It demands a technology strategy that <span
@@ -273,7 +275,7 @@ const strategicFeatures = [
                 />
               </div>
               <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight uppercase transition-colors"
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
                 Enterprise Service Desk
               </h4>
@@ -300,7 +302,7 @@ const strategicFeatures = [
                 />
               </div>
               <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight uppercase transition-colors"
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
                 Predictive Intelligence
               </h4>
@@ -327,7 +329,7 @@ const strategicFeatures = [
                 />
               </div>
               <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight uppercase transition-colors"
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
                 Strategic Co-Management
               </h4>
@@ -343,16 +345,19 @@ const strategicFeatures = [
     </section>
 
     <!-- Strategic Advantage -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8 bg-linear-to-b from-transparent to-black/10">
+    <section
+      class="bg-linear-to-b from-transparent to-black/10 px-4 py-24 sm:px-6 lg:px-8"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
-            class="font-display mb-4 text-3xl font-bold tracking-tight uppercase md:text-4xl"
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
             The Strategic <span class="text-primary">Advantage</span>
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond break/fix and operational drag with a partner who builds for the future.
+            Move beyond break/fix and operational drag with a partner who builds
+            for the future.
           </p>
         </div>
 
@@ -365,7 +370,7 @@ const strategicFeatures = [
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
-            class="font-display mb-4 text-3xl font-bold tracking-tight uppercase md:text-4xl"
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
             Key <span class="text-primary">Benefits</span>
           </h2>
@@ -379,7 +384,7 @@ const strategicFeatures = [
               aria-hidden="true"
             />
             <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
             >
               24/7 Availability
             </h4>
@@ -396,7 +401,7 @@ const strategicFeatures = [
               aria-hidden="true"
             />
             <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
             >
               Expert Support
             </h4>
@@ -412,7 +417,7 @@ const strategicFeatures = [
               aria-hidden="true"
             />
             <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
             >
               Security First
             </h4>
@@ -428,7 +433,7 @@ const strategicFeatures = [
               aria-hidden="true"
             />
             <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
             >
               Business Growth
             </h4>
@@ -444,7 +449,7 @@ const strategicFeatures = [
               aria-hidden="true"
             />
             <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
             >
               Rapid Response
             </h4>
@@ -460,7 +465,7 @@ const strategicFeatures = [
               aria-hidden="true"
             />
             <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase"
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
             >
               Infrastructure Management
             </h4>
@@ -476,7 +481,6 @@ const strategicFeatures = [
       client:visible
       id="maturity-scale"
       overlayOpacity="opacity-10"
-      showBrackets={false}
     >
       <div class="grid items-stretch gap-8 md:grid-cols-2">
         {/* Approach Image Placeholder */}
@@ -493,7 +497,7 @@ const strategicFeatures = [
             >
               <div class="p-4 text-center">
                 <div
-                  class="text-muted-foreground/40 mb-2 font-mono text-sm font-medium tracking-wider uppercase"
+                  class="text-muted-foreground/40 mb-2 font-mono text-sm font-medium tracking-wider"
                 >
                   ARCHITECTURAL_BLUEPRINT_01
                 </div>
@@ -543,7 +547,7 @@ const strategicFeatures = [
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h3
-          class="text-foreground font-display mb-12 text-center text-2xl font-bold tracking-tight uppercase"
+          class="text-foreground font-display mb-12 text-center text-2xl font-bold tracking-tight"
         >
           Service Details
         </h3>
@@ -600,7 +604,7 @@ const strategicFeatures = [
       title="Power Your Growth with Elite IT"
       description="Stop settling for standard support. Partner with the experts who understand your scale."
       buttonText="Schedule a Strategy Session"
-      buttonHref="/contact"
+      buttonHref="/contact#chat"
     />
   </main>
 

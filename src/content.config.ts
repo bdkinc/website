@@ -73,6 +73,24 @@ const pseoServicesCollection = defineCollection({
   }),
 });
 
+const pseoIndustriesCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    icon: z.string(),
+    order: z.number(),
+    category: z.enum([
+      'operations',
+      'regulated',
+      'service',
+      'production',
+      'logistics',
+      'community',
+    ]),
+  }),
+});
+
 const partnersCollection = defineCollection({
   type: 'data',
   schema: z.object({
@@ -94,5 +112,6 @@ export const collections = {
   locations: locationsCollection,
   testimonials: testimonialsCollection,
   pseoServices: pseoServicesCollection,
+  pseoIndustries: pseoIndustriesCollection,
   partners: partnersCollection,
 };

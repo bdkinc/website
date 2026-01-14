@@ -1,4 +1,3 @@
-import React from 'react';
 import { TechCard, TechCardGrid } from '@/components/TechCard';
 import { PiHeadphones, PiShieldCheck, PiUsersThree } from 'react-icons/pi';
 
@@ -64,9 +63,9 @@ export default function CoreServicesSection() {
               Co-Management Partnership
             </h4>
             <div className="text-muted-foreground text-sm leading-relaxed">
-              Extend your internal IT team's capacity without replacing it. We
-              work alongside your staff as a force multiplier—handling routine
-              operations while they focus on strategic initiatives. Fill
+              Extend your internal IT team&apos;s capacity without replacing it.
+              We work alongside your staff as a force multiplier—handling
+              routine operations while they focus on strategic initiatives. Fill
               capability gaps, scale expertise on demand, and move faster
               together.
             </div>

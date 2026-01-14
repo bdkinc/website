@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { PiDesktop, PiHeadset, PiPulse } from 'react-icons/pi';
@@ -11,7 +11,7 @@ export default function ManagedITVisualization() {
   const ecgScanRef = useRef<SVGPathElement>(null);
 
   useGSAP(
-    (context) => {
+    () => {
       // Radar Sweep (Spin)
       gsap.to('.radar-sweep', {
         rotation: 360,

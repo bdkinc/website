@@ -11,7 +11,7 @@ import TechnicalFAQ from '@/components/TechnicalFAQ';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
 import TechnicalSection from '@/components/TechnicalSection';
 import CloudHostingVisualization from '@/components/visualizations/CloudHostingVisualization';
-import { CornerBrackets } from '@/components/CornerBrackets';
+
 import {
   PiLock,
   PiLightning,
@@ -70,10 +70,10 @@ const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .slice(0, 3);
 
 const metrics = [
-  { value: '99.99%', label: 'UPTIME SLA', icon: PiShield },
-  { value: '75+', label: 'CLOUD MIGRATIONS', icon: PiArrowsClockwise },
-  { value: '1.5PB', label: 'DATA MANAGED', icon: PiCloud },
-  { value: '24/7', label: 'OPERATIONS CENTER', icon: PiClock },
+  { value: '99.99%', label: 'Uptime SLA', icon: PiShield },
+  { value: '75+', label: 'Cloud Migrations', icon: PiArrowsClockwise },
+  { value: '1.5PB', label: 'Data Managed', icon: PiCloud },
+  { value: '24/7', label: 'Operations Center', icon: PiClock },
 ];
 
 const detailColumns = [
@@ -143,8 +143,15 @@ const providers = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-      <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="text-center">
+       <div class="relative z-10 mx-auto max-w-7xl">
+         <div class="mx-auto max-w-4xl text-center">
+           <div
+             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+           >
+             <span class="text-sm">
+               <span class="text-accent font-semibold">BDKinc</span> Service
+             </span>
+           </div>
           <div
             class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
@@ -155,7 +162,7 @@ const providers = [
             />
           </div>
           <h1
-            class="mb-6 text-5xl font-bold md:text-6xl"
+             class="mb-6 text-5xl font-bold tracking-tight md:text-6xl"
             transition:name={`service-title-${service.id}`}
             transition:animate="initial"
           >
@@ -181,7 +188,7 @@ const providers = [
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
           <div class="mx-auto max-w-5xl">
-            <CloudHostingVisualization client:load />
+            <CloudHostingVisualization client:visible />
           </div>
         </div>
       </div>
@@ -205,7 +212,7 @@ const providers = [
               <div
                 class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
               >
-                One cloud does not fit all. We architect the perfect mix of <span class="text-primary font-semibold">private</span>, <span class="text-secondary font-semibold">hybrid</span>, and <span class="text-accent font-semibold">public</span> environments to maximize performance and minimize cost across your entire organization. BDKinc delivers the agility of the public cloud with the control and security of premier private infrastructure.
+                 No single model fits every workload. We design the right blend of <span class="text-primary font-semibold">private</span>, <span class="text-secondary font-semibold">hybrid</span>, and <span class="text-accent font-semibold">public</span> environments to balance performance, cost, and compliance. Get public-cloud agility without giving up private-infrastructure control.
               </div>
             </div>
 
@@ -224,13 +231,13 @@ const providers = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
                     Private Cloud
                   </h4>
                   <div class="text-muted-foreground leading-relaxed mb-6 text-sm">
                     Uncompromising Control. BDKinc’s Private Cloud offers dedicated resources in our secure datacenters, ensuring absolute data sovereignty, predictable performance, and compliance for sensitive workloads.
                   </div>
-                  <div class="text-primary text-[10px] font-mono mt-auto uppercase tracking-widest bg-primary/5 px-2 py-1 border border-primary/10">
+                  <div class="text-primary text-[10px] font-mono mt-auto tracking-widest bg-primary/5 px-2 py-1 border border-primary/10">
                     TARGET: Healthcare, Finance, Gov
                   </div>
                 </div>
@@ -245,13 +252,13 @@ const providers = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-secondary transition-colors">
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-secondary transition-colors">
                     Hybrid Cloud
                   </h4>
                   <div class="text-muted-foreground leading-relaxed mb-6 text-sm">
                     Seamless Integration. Bridge the gap between on-premise legacy systems and modern cloud agility. Our hybrid architectures allow you to scale securely, keeping sensitive data close while leveraging public cloud power.
                   </div>
-                  <div class="text-secondary text-[10px] font-mono mt-auto uppercase tracking-widest bg-secondary/5 px-2 py-1 border border-secondary/10">
+                  <div class="text-secondary text-[10px] font-mono mt-auto tracking-widest bg-secondary/5 px-2 py-1 border border-secondary/10">
                     TARGET: Enterprise, Mixed Workloads
                   </div>
                 </div>
@@ -266,13 +273,13 @@ const providers = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
                     Public Cloud
                   </h4>
                   <div class="text-muted-foreground leading-relaxed mb-6 text-sm">
                     Infinite Scalability. Leverage the massive global reach of AWS, Azure, and IBM Cloud. We manage the complexity, optimizing your deployment for cost-efficiency, security, and performance at scale.
                   </div>
-                  <div class="text-primary text-[10px] font-mono mt-auto uppercase tracking-widest bg-primary/5 px-2 py-1 border border-primary/10">
+                  <div class="text-primary text-[10px] font-mono mt-auto tracking-widest bg-primary/5 px-2 py-1 border border-primary/10">
                     TARGET: Startups, AI/ML, Big Data
                   </div>
                 </div>
@@ -281,11 +288,11 @@ const providers = [
 
             {/* BDK Private Cloud Advantage - Control Room Style */}
             <div class="not-prose my-16">
-              <div class="relative overflow-hidden rounded-xl border border-primary/30 bg-black/80 p-8 md:p-12 shadow-[0_0_50px_rgba(0,212,255,0.1)]">
+              <div class="relative overflow-hidden rounded-xl border border-primary/30 bg-card/80 p-8 md:p-12 shadow-[--shadow-glow]">
                 {/* Background Tech Effects */}
                 <div class="geometric-grid absolute inset-0 opacity-10"></div>
                 <div class="circuit-overlay absolute inset-0 opacity-10"></div>
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+                <div class="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary/50 to-transparent"></div>
                 
                 <div class="relative z-10 flex flex-col lg:flex-row items-start gap-10">
                   <div class="flex-shrink-0 w-full lg:w-1/3">
@@ -299,22 +306,22 @@ const providers = [
                          </div>
                       </div>
                       <div class="grid grid-cols-2 gap-4">
-                         <div class="text-center p-3 bg-black/40 rounded border border-primary/10">
+                         <div class="text-center p-3 bg-background/60 rounded border border-primary/10">
                             <PiCpu className="h-6 w-6 text-primary mx-auto mb-1" />
                             <div class="text-[10px] text-muted-foreground font-mono">COMPUTE</div>
                             <div class="text-sm font-bold text-foreground">DEDICATED</div>
                          </div>
-                         <div class="text-center p-3 bg-black/40 rounded border border-primary/10">
+                         <div class="text-center p-3 bg-background/60 rounded border border-primary/10">
                             <PiHardDrives className="h-6 w-6 text-primary mx-auto mb-1" />
                             <div class="text-[10px] text-muted-foreground font-mono">STORAGE</div>
                             <div class="text-sm font-bold text-foreground">NVMe POOLS</div>
                          </div>
-                         <div class="text-center p-3 bg-black/40 rounded border border-primary/10">
+                         <div class="text-center p-3 bg-background/60 rounded border border-primary/10">
                             <PiGraph className="h-6 w-6 text-primary mx-auto mb-1" />
                             <div class="text-[10px] text-muted-foreground font-mono">LATENCY</div>
                             <div class="text-sm font-bold text-foreground">&lt;1MS LOCAL</div>
                          </div>
-                         <div class="text-center p-3 bg-black/40 rounded border border-primary/10">
+                         <div class="text-center p-3 bg-background/60 rounded border border-primary/10">
                             <PiSquaresFour className="h-6 w-6 text-primary mx-auto mb-1" />
                             <div class="text-[10px] text-muted-foreground font-mono">NODES</div>
                             <div class="text-sm font-bold text-foreground">SCALABLE</div>
@@ -332,7 +339,7 @@ const providers = [
                     </div>
                     
                     <p class="text-muted-foreground mb-6 text-lg leading-relaxed border-l-2 border-primary/20 pl-4">
-                      For organizations that demand more than the "shared responsibility" model. Our owned and operated datacenters offer white-glove security, direct access to engineers, and custom hardware configurations that hyperscalers simply cannot match.
+                       For teams that need tighter control than the shared-responsibility model allows. Our owned datacenters provide direct engineer access, dedicated hardware options, and tighter security governance for sensitive workloads.
                     </p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -364,7 +371,7 @@ const providers = [
 
             <div class="not-prose mb-20">
               <p class="text-muted-foreground mb-10 text-center text-xl">
-                Giants in Our Toolkit. We are certified experts leveraging the R&D and reliability of global technology leaders.
+                 Certified expertise across leading cloud platforms and enterprise infrastructure partners.
               </p>
 
               {/* Giants in Our Toolkit - Geometric Grid */}
@@ -398,7 +405,7 @@ const providers = [
               <div class="grid items-stretch gap-8 md:grid-cols-2">
                 {/* Approach Image Placeholder */}
                 <div class="order-2 md:order-1 relative group">
-                  <CornerBrackets client:visible isHovered={true} className="z-30" />
+
                   <div
                     class="glass border-primary/20 overflow-hidden rounded-xl border h-full min-h-[400px] relative"
                   >
@@ -408,7 +415,7 @@ const providers = [
                     >
                       <div class="p-4 text-center">
                         <div
-                          class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase font-mono"
+                          class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider font-mono"
                         >
                           MIGRATION_STRATEGY_MAP_01
                         </div>
@@ -431,7 +438,7 @@ const providers = [
                       class="text-muted-foreground space-y-6 text-lg leading-relaxed p-8"
                     >
                       <p>
-                        <strong class="text-primary font-bold uppercase tracking-tight">Precision Migration.</strong> We don't just "lift and shift." We assess, refactor, and migrate workloads with a zero-disruption methodology.
+                        <strong class="text-primary font-bold tracking-tight">Precision Migration.</strong> We don't just "lift and shift." We assess, refactor, and migrate workloads with a zero-disruption methodology.
                       </p>
                       <p>
                         We ensure your business keeps running while your infrastructure transforms, maintaining strict data integrity throughout the transition.
@@ -445,7 +452,7 @@ const providers = [
               </div>
             </TechnicalSection>
 
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
+            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display tracking-tight">
               Key Benefits
             </h3>
 
@@ -464,7 +471,7 @@ const providers = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Enhanced Reliability
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -486,7 +493,7 @@ const providers = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Cost Efficiency
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -508,7 +515,7 @@ const providers = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Business Continuity
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -530,7 +537,7 @@ const providers = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Expert Support
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -552,7 +559,7 @@ const providers = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Security Posture
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -574,7 +581,7 @@ const providers = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Infinite Flexibility
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -639,7 +646,7 @@ const providers = [
                   </div>
                   
                   <div class="space-y-4">
-                    <h3 class="text-foreground text-3xl font-bold font-display uppercase tracking-tight">
+                    <h3 class="text-foreground text-3xl font-bold font-display tracking-tight">
                       Need Custom Applications Too?
                     </h3>
                     
@@ -652,7 +659,7 @@ const providers = [
                     href="/services/application-development"
                     class="group relative inline-flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-bold rounded-none hover:bg-primary/90 transition-all duration-300 overflow-hidden shadow-[0_0_20px_rgba(0,212,255,0.3)]"
                   >
-                    <span class="relative z-10 uppercase tracking-widest text-sm">Explore Development Services</span>
+                    <span class="relative z-10 tracking-widest text-sm">Explore Development Services</span>
                     <PiCode className="h-5 w-5 relative z-10 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </div>
@@ -696,7 +703,7 @@ const providers = [
           title="Stop Settling for Standard Support."
           description="Partner with the premier experts who understand your scale. Let’s architect a cloud strategy that drives your business forward."
           buttonText="Consult with an Architect"
-          buttonHref="/contact"
+          buttonHref="/contact#chat"
         />
       </div>
     </section>

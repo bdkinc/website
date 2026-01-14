@@ -30,11 +30,7 @@ export type ConversationProps = ComponentProps<typeof ScrollArea> & {
   children: ReactNode;
 };
 
-export const Conversation = ({
-  className,
-  children,
-  ...props
-}: ConversationProps) => {
+export const Conversation = ({ className, children }: ConversationProps) => {
   const [isAtBottom, setIsAtBottom] = useState(true);
   const viewportRef = useRef<HTMLDivElement>(null);
 

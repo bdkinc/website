@@ -70,10 +70,10 @@ const relatedPosts = (await getCollection('blog'))
   .slice(0, 3);
 
 const metrics = [
-  { value: '24/7', label: 'SECURITY MONITORING', icon: PiEye },
-  { value: '15 MIN', label: 'AVERAGE ALERT RESPONSE', icon: PiBell },
-  { value: '99.99%', label: 'UPTIME TARGET', icon: PiShieldCheck },
-  { value: '100%', label: 'COMPLIANCE READINESS', icon: PiFileText },
+  { value: '24/7', label: 'Security Monitoring', icon: PiEye },
+  { value: '15 min', label: 'Average Alert Response', icon: PiBell },
+  { value: '99.99%', label: 'Uptime Target', icon: PiShieldCheck },
+  { value: '100%', label: 'Compliance Readiness', icon: PiFileText },
 ];
 
 const faqs = [
@@ -137,8 +137,15 @@ const detailColumns = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-      <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="text-center">
+       <div class="relative z-10 mx-auto max-w-7xl">
+         <div class="mx-auto max-w-4xl text-center">
+           <div
+             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+           >
+             <span class="text-sm">
+               <span class="text-accent font-semibold">BDKinc</span> Service
+             </span>
+           </div>
           <div
             class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
@@ -149,7 +156,7 @@ const detailColumns = [
             />
           </div>
           <h1
-            class="mb-6 text-5xl font-bold md:text-6xl"
+             class="mb-6 text-5xl font-bold tracking-tight md:text-6xl"
             transition:name={`service-title-${service.id}`}
             transition:animate="initial"
           >
@@ -216,7 +223,7 @@ const detailColumns = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
                     Managed Detection & Response
                   </h4>
                   <div class="text-muted-foreground leading-relaxed text-sm">
@@ -233,7 +240,7 @@ const detailColumns = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
                     Ransomware Defense
                   </h4>
                   <div class="text-muted-foreground leading-relaxed text-sm">
@@ -250,7 +257,7 @@ const detailColumns = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display uppercase tracking-tight group-hover:text-primary transition-colors">
+                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
                     Compliance Engineering
                   </h4>
                   <div class="text-muted-foreground leading-relaxed text-sm">
@@ -291,21 +298,8 @@ const detailColumns = [
 
                   <div
                     class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-21/9 items-center justify-center bg-linear-to-br"
-                  >
-                    <div class="p-4 text-center relative z-10">
-                      <div
-                        class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase font-display"
-                      >
-                        Feature Image
-                      </div>
-                      <div class="text-muted-foreground/60 text-sm">
-                        Benefits Illustration
-                      </div>
-                      <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                        1200x500px
-                      </div>
-                    </div>
-                  </div>
+                    aria-hidden="true"
+                  ></div>
                 </div>
               </div>
 
@@ -518,7 +512,7 @@ const detailColumns = [
               </div>
             </div>
 
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display uppercase tracking-tight">
+            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display tracking-tight">
               Key Benefits
             </h3>
 
@@ -537,7 +531,7 @@ const detailColumns = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Reduce Risk
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -559,7 +553,7 @@ const detailColumns = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Ensure Compliance
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -581,7 +575,7 @@ const detailColumns = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Minimize Downtime
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -602,7 +596,7 @@ const detailColumns = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Protect Reputation
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -623,7 +617,7 @@ const detailColumns = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Peace of Mind
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -644,7 +638,7 @@ const detailColumns = [
                       aria-hidden="true"
                     />
                   </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display uppercase tracking-tight">
+                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
                     Expert Guidance
                   </h4>
                   <div class="text-muted-foreground text-sm leading-relaxed">
@@ -679,43 +673,29 @@ const detailColumns = [
 
                     <div
                       class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-square items-center justify-center bg-linear-to-br"
-                    >
-                      <div class="p-4 text-center relative z-10">
-                        <div
-                          class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase font-display"
-                        >
-                          Approach Visual
-                        </div>
-                        <div class="text-muted-foreground/60 text-sm">
-                          Workflow Diagram
-                        </div>
-                        <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                          800x800px
-                        </div>
-                      </div>
-                    </div>
+                      aria-hidden="true"
+                    ></div>
                   </div>
                 </div>
 
                 {/* Approach Text */}
                 <div class="order-1 md:order-2">
                   <div class="glass border-border rounded-xl border p-8">
-                    <div
-                      class="text-muted-foreground space-y-4 text-lg leading-relaxed"
-                    >
-                      <p>
-                        Cybersecurity requires constant vigilance and expertise.
-                      </p>
-                      <p>
-                        We stay current with emerging threats, manage your
-                        security infrastructure, and respond quickly to
-                        incidents.
-                      </p>
-                      <p>
-                        We take a proactive approach—preventing attacks rather
-                        than just responding to them.
-                      </p>
-                    </div>
+                     <div
+                       class="text-muted-foreground space-y-4 text-lg leading-relaxed"
+                     >
+                       <p>
+                         Effective security comes from coordinated monitoring, response, and recovery.
+                       </p>
+                       <p>
+                         We embed with your team to manage telemetry, tune controls, and execute clear
+                         runbooks when incidents occur.
+                       </p>
+                       <p>
+                         The result is a resilient program that reduces risk while keeping operations
+                         moving.
+                       </p>
+                     </div>
                   </div>
                 </div>
               </div>
@@ -725,12 +705,12 @@ const detailColumns = [
               <div class="relative z-10 flex flex-col items-center text-center">
                 <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
                   <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
-                  <span class="text-xs font-bold tracking-widest text-primary font-display uppercase">Compliance Engineering Vault</span>
+                  <span class="text-xs font-bold tracking-widest text-primary font-display">Compliance Engineering Vault</span>
                 </div>
                 
-                <h4 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display uppercase tracking-tight">
-                  Rigorous Standards. <span class="text-primary">Zero Compromise.</span>
-                </h4>
+                 <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
+                   Rigorous Standards. <span class="text-primary">Zero Compromise.</span>
+                 </h3>
                 
                 <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
                   We help you meet security requirements for HIPAA (Healthcare),
@@ -780,21 +760,17 @@ const detailColumns = [
             </h3>
 
             <div class="text-center mb-24">
-              <div
-                class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
-              >
-                Cybersecurity requires constant vigilance and expertise. Our
-                managed security services provide enterprise-grade protection
-                without the cost of building an internal security team. We stay
-                current with emerging threats, manage your security
-                infrastructure, and respond quickly to incidents. We take a
-                proactive approach—preventing attacks rather than just
-                responding to them.
-              </div>
-              <div class="text-primary text-xl font-semibold">
-                Don't wait for a breach to take security seriously. Let us help
-                you build a robust cybersecurity program today.
-              </div>
+               <div
+                 class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
+               >
+                 Enterprise-grade coverage without standing up a full internal SOC. We deliver
+                 24/7 monitoring, rapid response, and compliance-aligned reporting with clear
+                 SLAs and executive visibility.
+               </div>
+               <div class="text-primary text-xl font-semibold">
+                 Let’s build a cybersecurity program tailored to your risk profile and audit
+                 requirements.
+               </div>
             </div>
 
             <WhoThisIsFor client:visible />
@@ -843,7 +819,7 @@ const detailColumns = [
           title="Ready to Transform Your IT?"
           description={`Let's discuss how ${service.data.title.toLowerCase()} can help your business thrive with reliable, scalable technology solutions.`}
           buttonText="Get in Touch"
-          buttonHref="/contact"
+          buttonHref="/contact#chat"
         />
       </div>
     </section>

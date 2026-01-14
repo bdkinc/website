@@ -1,13 +1,11 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { CornerBrackets } from '@/components/CornerBrackets';
 
 interface TechnicalSectionProps {
   children: React.ReactNode;
   className?: string;
   containerClassName?: string;
   overlayOpacity?: string;
-  showBrackets?: boolean;
   id?: string;
 }
 
@@ -16,7 +14,6 @@ export default function TechnicalSection({
   className,
   containerClassName,
   overlayOpacity = 'opacity-20',
-  showBrackets = true,
   id,
 }: TechnicalSectionProps) {
   return (
@@ -42,14 +39,6 @@ export default function TechnicalSection({
             containerClassName
           )}
         >
-          {showBrackets && (
-            <CornerBrackets
-              isHovered={true}
-              size="lg"
-              className="z-20 opacity-60"
-            />
-          )}
-
           <div className="relative z-10">{children}</div>
         </div>
       </div>
