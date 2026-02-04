@@ -201,19 +201,19 @@ export default function EDIFlowVisualization() {
         <div className="flex items-center gap-2">
           <div className="status-dot bg-primary/70 h-2 w-2 rounded-full"></div>
           <span className="text-muted-foreground font-mono text-xs">
-            SYSTEM ONLINE
+            System Online
           </span>
         </div>
         <div className="flex items-center gap-2">
           <div className="bg-primary/70 h-2 w-2 rounded-full"></div>
           <span className="text-muted-foreground font-mono text-xs">
-            2.4ms LATENCY
+            2.4ms Latency
           </span>
         </div>
         <div className="flex items-center gap-2">
           <div className="bg-secondary h-2 w-2 rounded-full"></div>
           <span className="text-muted-foreground font-mono text-xs">
-            ENCRYPTED (AES-256)
+            Encrypted (AES-256)
           </span>
         </div>
       </div>
@@ -242,7 +242,7 @@ function Node({
     <div className="relative z-10 flex flex-col items-center">
       <div
         className={cn(
-          'bg-card/80 flex h-20 w-20 items-center justify-center rounded-xl border shadow-lg backdrop-blur-md transition-all hover:scale-105',
+          'bg-card/80 flex h-20 w-20 items-center justify-center rounded-xl border shadow-lg backdrop-blur-md transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:scale-105',
           colorClasses[color]
         )}
       >

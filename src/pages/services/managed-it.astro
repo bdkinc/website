@@ -3,6 +3,7 @@ import { getEntry, getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
+import { iconMap } from '@/lib/icons';
 import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
@@ -30,6 +31,7 @@ if (!service) {
   return new Response(null, { status: 404 });
 }
 const { servicesData, recentPosts } = await getNavigationData();
+const IconComponent = iconMap[service.data.icon];
 const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
@@ -144,41 +146,57 @@ const strategicFeatures = [
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
 
-      <div class="relative z-10 mx-auto max-w-7xl text-center">
-        <!-- Badge -->
-        <div
-          class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
-        >
-          <div class="flex items-center gap-2 text-sm">
-            <span
-              >24x7 Business <span class="text-accent font-semibold"
-                >Support</span
-              ></span
-            >
+      <div class="relative z-10 mx-auto max-w-7xl">
+        <div class="mx-auto max-w-4xl flex flex-col items-center text-center">
+          <!-- Badge -->
+          <div
+            class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+          >
+            <div class="flex items-center gap-2 text-sm">
+              <span
+                >24x7 Business <span class="text-accent font-semibold"
+                  >Support</span
+                ></span
+              >
+            </div>
           </div>
+
+          <div
+            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
+            transition:name={`service-icon-${service.id}`}
+          >
+            <IconComponent
+              className="text-primary h-12 w-12"
+              aria-hidden="true"
+            />
+          </div>
+
+          <!-- Heading -->
+          <h1
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight delay-100 duration-700 md:text-6xl"
+            transition:name={`service-title-${service.id}`}
+            transition:animate="initial"
+          >
+            <span class="text-foreground"
+              >{titleFirst ? `${titleFirst} ` : ''}</span
+            >
+            <span
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+              >{lastTitleWord}</span
+            >
+          </h1>
+
+          <!-- Subtitle -->
+          <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto mb-16 max-w-3xl text-xl leading-relaxed delay-200 duration-700"
+            transition:name={`service-description-${service.id}`}
+            transition:animate="initial"
+          >
+            Technology shouldn't be a bottleneck; it should be an accelerator. We
+            monitor your systems 24/7/365, preventing issues before they disrupt
+            your operations.
+          </p>
         </div>
-
-        <!-- Heading -->
-        <h1
-          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight delay-100 duration-700 md:text-6xl"
-        >
-          <span class="text-foreground"
-            >{titleFirst ? `${titleFirst} ` : ''}</span
-          >
-          <span
-            class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
-            >{lastTitleWord}</span
-          >
-        </h1>
-
-        <!-- Subtitle -->
-        <p
-          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto mb-16 max-w-3xl text-xl leading-relaxed delay-200 duration-700"
-        >
-          Technology shouldn't be a bottleneck; it should be an accelerator. We
-          monitor your systems 24/7/365, preventing issues before they disrupt
-          your operations.
-        </p>
 
         <!-- Visualization -->
         <div
@@ -267,7 +285,7 @@ const strategicFeatures = [
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110"
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
               >
                 <PiHeadphones
                   className="text-primary h-16 w-16"
@@ -294,7 +312,7 @@ const strategicFeatures = [
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110"
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
               >
                 <PiTrendUp
                   className="text-primary h-16 w-16"
@@ -321,7 +339,7 @@ const strategicFeatures = [
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110"
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
               >
                 <PiUsersThree
                   className="text-primary h-16 w-16"

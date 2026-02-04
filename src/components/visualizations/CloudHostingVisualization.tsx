@@ -221,7 +221,7 @@ function Node({
     <div className="relative z-10 flex flex-col items-center">
       <div
         className={cn(
-          'bg-card/80 flex h-20 w-20 items-center justify-center rounded-xl border shadow-lg backdrop-blur-md transition-all hover:scale-105',
+          'bg-card/80 flex h-20 w-20 items-center justify-center rounded-xl border shadow-lg backdrop-blur-md transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:scale-105',
           colorClasses[color]
         )}
       >

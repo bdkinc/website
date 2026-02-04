@@ -116,7 +116,7 @@ export const ConversationContent = ({
   className,
   ...props
 }: ConversationContentProps) => (
-  <div className={cn('p-4', className)} {...props} />
+  <div aria-live="polite" className={cn('p-4', className)} {...props} />
 );
 
 export type ConversationEmptyStateProps = ComponentProps<'div'> & {
@@ -170,6 +170,7 @@ export const ConversationScrollButton = ({
         'absolute bottom-4 left-[50%] translate-x-[-50%] rounded-full shadow-md',
         className
       )}
+      aria-label="Scroll to latest messages"
       onClick={scrollToBottom}
       size="icon"
       type="button"

@@ -35,7 +35,7 @@ export default function InteractiveServiceCard({
         {/* Icon */}
         <div className="service-icon-wrapper mb-6">
           <div
-            className="bg-primary/5 group-hover:bg-primary/10 inline-flex items-center justify-center rounded-lg p-3 transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(0,212,255,0.3)]"
+            className="bg-primary/5 group-hover:bg-primary/10 inline-flex items-center justify-center rounded-lg p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(0,212,255,0.3)]"
             style={{
               viewTransitionName: `service-icon-${id}`,
             }}
@@ -46,7 +46,7 @@ export default function InteractiveServiceCard({
 
         {/* Title */}
         <h2
-          className="text-foreground group-hover:text-primary font-display mb-3 text-2xl font-bold tracking-tight uppercase transition-colors duration-300"
+          className="text-foreground group-hover:text-primary font-display mb-3 text-2xl font-bold tracking-tight transition-colors duration-300"
           style={{
             viewTransitionName: `service-title-${id}`,
           }}
@@ -65,7 +65,7 @@ export default function InteractiveServiceCard({
         </p>
 
         {/* Learn More Link */}
-        <div className="text-primary flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase transition-all duration-300 group-hover:tracking-[0.2em]">
+        <div className="text-primary flex items-center gap-2 font-mono text-[10px] tracking-widest transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 group-hover:tracking-[0.2em]">
           <span>Initialize Analysis</span>
           <PiCaretRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1" />
         </div>

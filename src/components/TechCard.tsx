@@ -81,7 +81,7 @@ export function TechCard({
         interactive={false} // We handle interaction ourselves
         className={cn(
           'relative flex h-full flex-col items-center justify-center overflow-hidden text-center',
-          'bg-card/60 border-border/50 backdrop-blur-xl transition-all duration-300',
+          'bg-card/60 border-border/50 backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
           (variant === 'technical' ||
             variant === 'simple' ||
             variant === 'blog') &&
@@ -125,7 +125,7 @@ export function TechCard({
             <div className="mt-auto flex w-full items-center justify-end gap-2 pt-6">
               <div
                 className={cn(
-                  'bg-primary/20 h-1 w-12 rounded-full transition-all duration-300 ease-out',
+                  'bg-primary/20 h-1 w-12 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out',
                   isInteractive
                     ? 'group-hover:bg-primary/60 group-hover:w-20'
                     : '',
@@ -134,7 +134,7 @@ export function TechCard({
               />
               <div
                 className={cn(
-                  'bg-primary/20 h-2 w-2 rounded-full transition-all duration-300 ease-out',
+                  'bg-primary/20 h-2 w-2 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out',
                   isInteractive ? 'group-hover:bg-primary/60' : '',
                   isHovered && 'bg-primary/60'
                 )}
@@ -147,14 +147,14 @@ export function TechCard({
             <div className="mt-auto flex w-full items-center justify-start gap-2 pt-6">
               <div
                 className={cn(
-                  'bg-secondary/20 h-2 w-2 rounded-full transition-all duration-300 ease-out',
+                  'bg-secondary/20 h-2 w-2 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out',
                   isInteractive ? 'group-hover:bg-secondary/60' : '',
                   isHovered && 'bg-secondary/60'
                 )}
               />
               <div
                 className={cn(
-                  'bg-secondary/20 h-1 w-12 rounded-full transition-all duration-300 ease-out',
+                  'bg-secondary/20 h-1 w-12 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out',
                   isInteractive
                     ? 'group-hover:bg-secondary/60 group-hover:w-20'
                     : '',

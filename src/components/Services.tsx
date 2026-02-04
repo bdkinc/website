@@ -128,7 +128,7 @@ export default function Services({ services }: ServicesProps) {
                     ref={(el) => {
                       titleRefs.current[index] = el;
                     }}
-                    className="font-display group-hover:text-primary mb-2 text-center text-lg tracking-wider uppercase transition-colors"
+                    className="font-display group-hover:text-primary mb-2 text-center text-lg tracking-wider transition-colors"
                   >
                     {service.title}
                   </CardTitle>

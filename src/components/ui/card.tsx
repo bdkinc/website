@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
  * holographic variant for cutting-edge hi-tech aesthetic
  */
 export const cardVariants = cva(
-  'glass rounded-xl border border-border/50 text-card-foreground transition-all duration-300 fill-mode-both',
+  'glass rounded-xl border border-border/50 text-card-foreground transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 fill-mode-both',
   {
     variants: {
       size: {

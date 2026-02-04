@@ -86,7 +86,7 @@ const remainingPosts = postsWithReadTime.slice(1);
       <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <a
           href={`/blog/${featuredPost.slug}`}
-          class="group border-primary/20 bg-card/40 hover:border-primary/40 hover:bg-card/50 relative block overflow-hidden rounded-3xl border backdrop-blur-md transition-all duration-500"
+          class="group border-primary/20 bg-card/40 hover:border-primary/40 hover:bg-card/50 relative block overflow-hidden rounded-3xl border backdrop-blur-md transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500"
         >
           <!-- Background Effects -->
           <div
@@ -94,7 +94,7 @@ const remainingPosts = postsWithReadTime.slice(1);
           >
           </div>
           <div
-            class="bg-primary/10 group-hover:bg-primary/20 absolute -top-20 -right-20 h-96 w-96 rounded-full blur-3xl transition-all duration-700"
+            class="bg-primary/10 group-hover:bg-primary/20 absolute -top-20 -right-20 h-96 w-96 rounded-full blur-3xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-700"
           >
           </div>
 
@@ -137,7 +137,7 @@ const remainingPosts = postsWithReadTime.slice(1);
               <!-- Action -->
               <div class="pt-4">
                 <span
-                  class="text-primary inline-flex items-center gap-2 text-sm font-bold tracking-widest transition-all group-hover:gap-4"
+                  class="text-primary inline-flex items-center gap-2 text-sm font-bold tracking-widest transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] group-hover:gap-4"
                 >
                   Read Analysis
                   <PiArrowRight className="h-4 w-4" />

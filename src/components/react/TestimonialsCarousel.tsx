@@ -339,7 +339,7 @@ export default function TestimonialsCarousel({
                   aria-pressed={index === activeIndex}
                   onClick={() => handleIndicatorClick(index)}
                   className={cn(
-                    'focus-visible:ring-primary/40 focus-visible:ring-offset-background flex h-2.5 items-center justify-center rounded-full border transition-all duration-500 ease-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+                    'focus-visible:ring-primary/40 focus-visible:ring-offset-background flex h-2.5 items-center justify-center rounded-full border transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 ease-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
                     index === activeIndex
                       ? 'border-secondary/70 bg-secondary/70 w-8'
                       : 'border-border/50 bg-border/30 hover:border-secondary/60 hover:bg-secondary/40 w-2.5'

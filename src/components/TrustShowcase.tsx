@@ -79,7 +79,7 @@ export default function TrustShowcase({
         <div
           ref={headerRef as any}
           className={cn(
-            'mb-16 text-center transition-all duration-700 ease-out',
+            'mb-16 text-center transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-700 ease-out',
             headerInView
               ? 'translate-y-0 opacity-100'
               : 'translate-y-8 opacity-0'
@@ -118,7 +118,7 @@ export default function TrustShowcase({
                       alt={partner.name}
                       loading="lazy"
                       className={cn(
-                        'h-8 w-auto max-w-[150px] opacity-80 grayscale transition-all duration-300',
+                        'h-8 w-auto max-w-[150px] opacity-80 grayscale transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
                         'group-hover:opacity-100 group-hover:grayscale-0'
                       )}
                     />
@@ -134,7 +134,7 @@ export default function TrustShowcase({
                 {/* Custom footer decoration (flipped TechCard footer) */}
                 <div className="absolute bottom-6 left-6 flex items-center justify-start gap-2">
                   <div className="bg-secondary/20 group-hover:bg-secondary/50 h-2 w-2 rounded-full transition-colors duration-500" />
-                  <div className="bg-secondary/20 group-hover:bg-secondary/50 h-1 w-12 rounded-full transition-all duration-500 group-hover:w-20" />
+                  <div className="bg-secondary/20 group-hover:bg-secondary/50 h-1 w-12 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:w-20" />
                 </div>
               </div>
             </TechCard>

@@ -63,13 +63,13 @@ export default function WhoThisIsFor({
             metadata={`AUDIENCE_SEGMENT_0${index + 1}`}
           >
             <div className="flex h-full flex-col items-center p-8 text-center">
-              <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-xl border p-4 shadow-[0_0_15px_rgba(0,212,255,0.1)] transition-all duration-500 group-hover:scale-110">
+              <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-xl border p-4 shadow-[0_0_15px_rgba(0,212,255,0.1)] transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
                 <item.icon
                   className="text-primary h-10 w-10"
                   aria-hidden="true"
                 />
               </div>
-              <h4 className="text-foreground font-display group-hover:text-primary mb-3 text-xl font-bold tracking-tight uppercase transition-colors">
+              <h4 className="text-foreground font-display group-hover:text-primary mb-3 text-xl font-bold tracking-tight transition-colors">
                 {item.title}
               </h4>
               <p className="text-muted-foreground text-sm leading-relaxed">

@@ -277,7 +277,7 @@ export function PromptInputAttachment({
       <HoverCardTrigger asChild>
         <div
           className={cn(
-            'group border-border hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 relative flex h-8 cursor-default items-center gap-1.5 rounded-md border px-1.5 text-sm font-medium transition-all select-none',
+            'group border-border hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 relative flex h-8 cursor-default items-center gap-1.5 rounded-md border px-1.5 text-sm font-medium transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] select-none',
             className
           )}
           key={data.id}
@@ -834,7 +834,6 @@ export const PromptInputTextarea = ({
     }
 
     if (files.length > 0) {
-      event.preventDefault();
       attachments.add(files);
     }
   };
@@ -1153,7 +1152,7 @@ export const PromptInputSpeechButton = ({
   return (
     <PromptInputButton
       className={cn(
-        'relative transition-all duration-200',
+        'relative transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-200',
         isListening && 'bg-accent text-accent-foreground animate-pulse',
         className
       )}

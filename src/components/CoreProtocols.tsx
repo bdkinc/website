@@ -537,7 +537,7 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
                   onFocus={() => setActiveIndex(index)}
                   onMouseLeave={() => setActiveIndex(0)}
                   onBlur={() => setActiveIndex(0)}
-                  className="border-border bg-card group focus-visible:ring-primary/30 relative flex w-full cursor-default flex-col items-center gap-4 rounded-2xl border py-6 transition-all duration-300 ease-out focus-visible:ring"
+                  className="border-border bg-card group focus-visible:ring-primary/30 relative flex w-full cursor-default flex-col items-center gap-4 rounded-2xl border py-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out focus-visible:ring"
                 >
                   <div className="text-primary transition-transform duration-300 group-hover:scale-110">
                     <IconComponent className="h-8 w-8" />

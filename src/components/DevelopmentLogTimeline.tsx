@@ -33,7 +33,7 @@ export default function DevelopmentLogTimeline({
             <div
               key={index}
               className={cn(
-                'relative flex flex-col items-center gap-8 transition-all duration-700 ease-out md:flex-row',
+                'relative flex flex-col items-center gap-8 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-700 ease-out md:flex-row',
                 isIntersecting
                   ? 'translate-y-0 opacity-100'
                   : 'translate-y-8 opacity-0'

@@ -41,11 +41,11 @@ export default function PartnerGrid({ partners }: PartnerGridProps) {
             <div className="mt-auto">
               <div className="mb-2 flex items-center gap-2">
                 <div className="bg-primary h-1 w-1 rounded-full" />
-                <span className="text-primary/80 font-mono text-xs tracking-wider uppercase">
+                <span className="text-primary/80 font-mono text-xs tracking-wider">
                   {partner.category}
                 </span>
               </div>
-              <h3 className="text-foreground group-hover:text-primary font-display text-sm font-bold tracking-tight uppercase transition-colors">
+              <h3 className="text-foreground group-hover:text-primary font-display text-sm font-bold tracking-tight transition-colors">
                 {partner.description}
               </h3>
             </div>

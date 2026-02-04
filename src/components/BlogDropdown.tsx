@@ -13,10 +13,7 @@ interface BlogPostDropdownItemProps {
 }
 
 // Blog Dropdown Item with improved tech design
-function BlogPostDropdownItem({
-  post,
-  index,
-}: BlogPostDropdownItemProps) {
+function BlogPostDropdownItem({ post, index }: BlogPostDropdownItemProps) {
   return (
     <li
       className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500"
@@ -25,18 +22,18 @@ function BlogPostDropdownItem({
       <NavigationMenuLink asChild>
         <a
           href={`/blog/${post.slug}`}
-          className="group relative block overflow-hidden rounded-lg border border-border/40 bg-card/30 p-4 transition-all duration-300 hover:border-primary/30 hover:bg-card/60 hover:shadow-[0_4px_20px_-4px_rgba(0,212,255,0.1)] outline-none select-none"
+          className="group border-border/40 bg-card/30 hover:border-primary/30 hover:bg-card/60 focus-visible:ring-primary/40 focus-visible:ring-offset-background relative block overflow-hidden rounded-lg border p-4 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:shadow-[0_4px_20px_-4px_rgba(0,212,255,0.1)] focus-visible:ring-2 focus-visible:ring-offset-2"
         >
           <div className="flex flex-col gap-1.5">
-            <h4 className="text-sm font-bold leading-tight text-foreground transition-colors duration-300 group-hover:text-primary">
+            <h4 className="text-foreground group-hover:text-primary text-sm leading-tight font-bold transition-colors duration-300">
               {post.title}
             </h4>
-            <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+            <p className="text-muted-foreground line-clamp-2 text-xs leading-relaxed">
               {post.description}
             </p>
             <div className="mt-1 flex items-center gap-2">
-              <div className="h-px w-4 bg-border group-hover:bg-primary/30 transition-colors" />
-              <span className="text-[10px] font-medium text-muted-foreground/70 uppercase tracking-wider group-hover:text-primary/60 transition-colors">
+              <div className="bg-border group-hover:bg-primary/30 h-px w-4 transition-colors" />
+              <span className="text-muted-foreground/70 group-hover:text-primary/60 text-[10px] font-medium tracking-wider transition-colors">
                 {formatDate(post.pubDate)}
               </span>
             </div>
@@ -61,13 +58,13 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
     <NavigationMenuItem>
       <NavigationMenuTrigger
         className={cn(
-          'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
+          'hover:text-primary bg-transparent! transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
         )}
       >
         Blog
       </NavigationMenuTrigger>
       <NavigationMenuContent className="bg-background">
-        <ul className="w-[400px] p-4 space-y-3">
+        <ul className="w-[400px] space-y-3 p-4">
           {/* Recent Posts */}
           {blogPosts.length > 0 ? (
             <>
@@ -94,11 +91,11 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
                   <a
                     href="/blog"
                     className={cn(
-                      'group flex flex-row items-center gap-2 rounded-md p-3 text-sm leading-none font-medium text-foreground no-underline transition-all duration-300 hover:gap-3 hover:bg-accent hover:text-primary focus:bg-accent focus:text-primary outline-none select-none'
+                      'group text-foreground hover:bg-accent hover:text-primary focus:bg-accent focus:text-primary focus-visible:ring-primary/40 focus-visible:ring-offset-background flex flex-row items-center gap-2 rounded-md p-3 text-sm leading-none font-medium no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:gap-3 focus-visible:ring-2 focus-visible:ring-offset-2'
                     )}
                   >
                     <span>View All Posts</span>
-                    <PiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
+                    <PiArrowRight className="group-hover:text-primary h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </a>
                 </NavigationMenuLink>
               </li>
@@ -109,12 +106,10 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
                 <a
                   href="/blog"
                   className={cn(
-                    'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block rounded-md p-3 leading-none no-underline transition-all duration-300 outline-none select-none'
+                    'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-primary/40 focus-visible:ring-offset-background block rounded-md p-3 leading-none no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none focus-visible:ring-2 focus-visible:ring-offset-2'
                   )}
                 >
-                  <div className="text-sm font-medium">
-                    Visit Blog
-                  </div>
+                  <div className="text-sm font-medium">Visit Blog</div>
                   <p className="text-muted-foreground mt-1 text-xs">
                     Check out our latest insights
                   </p>

@@ -19,7 +19,7 @@ export default function MissionVision() {
         animated={isIntersecting}
       >
         <div className="relative z-10 flex h-full flex-col items-center justify-center p-8 text-center sm:p-12">
-          <div className="bg-primary/10 border-primary/20 group-hover:bg-primary/20 mb-6 rounded-full border p-4 transition-all duration-500 group-hover:scale-110">
+          <div className="bg-primary/10 border-primary/20 group-hover:bg-primary/20 mb-6 rounded-full border p-4 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
             <PiRocket className="text-primary h-10 w-10" />
           </div>
 
@@ -44,7 +44,7 @@ export default function MissionVision() {
         animated={isIntersecting}
       >
         <div className="relative z-10 flex h-full flex-col items-center justify-center p-8 text-center sm:p-12">
-          <div className="bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20 mb-6 rounded-full border p-4 transition-all duration-500 group-hover:scale-110">
+          <div className="bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20 mb-6 rounded-full border p-4 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
             <PiEye className="text-secondary h-10 w-10" />
           </div>
 

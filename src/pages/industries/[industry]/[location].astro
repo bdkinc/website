@@ -14,6 +14,7 @@ import {
   PiCheckCircle,
   PiShield,
   PiTrendUp,
+  PiBuilding,
 } from 'react-icons/pi';
 import { Card } from '@/components/ui/card';
 import Footer from '@/components/Footer.astro';
@@ -22,6 +23,9 @@ const slugifyLocation = (name: string) =>
   name.toLowerCase().replace(/\s+/g, '-').replace(/,/g, '');
 
 export async function getStaticPaths() {
+  const slugifyLocation = (name: string) =>
+    name.toLowerCase().replace(/\s+/g, '-').replace(/,/g, '');
+
   const industries = await getCollection('pseoIndustries');
   const locations = await getCollection('locations');
   const paths = [];
@@ -61,7 +65,7 @@ if (!industry) {
 }
 
 const { servicesData, recentPosts } = await getNavigationData();
-const IconComponent = iconMap[industry.data.icon];
+const IconComponent = iconMap[industry.data.icon] || PiBuilding;
 
 const locationIntro = `${industry.data.title} for ${locationData.name} teams who need reliable technology and a partner who understands the ${locationData.region} market. We keep daily operations stable while aligning your systems to the goals that drive growth in ${locationData.state}.`;
 

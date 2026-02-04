@@ -16,7 +16,7 @@ export default function LifecycleVisualization() {
       <div className="bg-primary/5 absolute inset-0 -z-10 rounded-3xl blur-3xl"></div>
 
       <div className="mb-16 text-center">
-        <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight uppercase">
+        <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight">
           Complete Lifecycle Ownership
         </h2>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
@@ -29,10 +29,10 @@ export default function LifecycleVisualization() {
         {/* Phase 1: Build */}
         <TechCard variant="technical" interactive metadata="ARCH_BUILD_V1.0">
           <div className="relative flex h-full flex-col items-center p-8 text-center">
-            <div className="bg-primary/10 border-primary/20 group-hover:bg-primary/20 mb-6 flex h-16 w-16 items-center justify-center rounded-xl border shadow-sm transition-all duration-500 group-hover:scale-110">
+            <div className="bg-primary/10 border-primary/20 group-hover:bg-primary/20 mb-6 flex h-16 w-16 items-center justify-center rounded-xl border shadow-sm transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
               <PiCode className="text-primary h-8 w-8" />
             </div>
-            <h3 className="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase">
+            <h3 className="text-foreground font-display mb-3 text-xl font-bold tracking-tight">
               Build
             </h3>
             <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
@@ -40,12 +40,12 @@ export default function LifecycleVisualization() {
               for your specific business logic.
             </p>
             <ul className="mt-auto w-full space-y-3 text-left">
-              <li className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase">
-                <PiLightning className="text-primary h-3 w-3" />{' '}
-                Performance_First
+              <li className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest">
+                <PiLightning className="text-primary h-3 w-3" /> Performance
+                First
               </li>
-              <li className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase">
-                <PiLock className="text-primary h-3 w-3" /> Secure_by_Design
+              <li className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest">
+                <PiLock className="text-primary h-3 w-3" /> Secure by Design
               </li>
             </ul>
           </div>
@@ -64,7 +64,7 @@ export default function LifecycleVisualization() {
             <PiArrowRight className="text-secondary h-6 w-6" />
           </div>
 
-          <div className="bg-secondary/10 border-secondary/30 text-secondary rounded-none border px-4 py-2 font-mono text-[10px] font-bold tracking-[0.2em] uppercase">
+          <div className="bg-secondary/10 border-secondary/30 text-secondary rounded-none border px-4 py-2 font-mono text-[10px] font-bold tracking-[0.2em]">
             CI/CD Pipeline
           </div>
 
@@ -88,10 +88,10 @@ export default function LifecycleVisualization() {
         {/* Phase 2: Host */}
         <TechCard variant="technical" interactive metadata="ARCH_RUN_V1.0">
           <div className="relative flex h-full flex-col items-center p-8 text-center">
-            <div className="bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20 mb-6 flex h-16 w-16 items-center justify-center rounded-xl border shadow-sm transition-all duration-500 group-hover:scale-110">
+            <div className="bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20 mb-6 flex h-16 w-16 items-center justify-center rounded-xl border shadow-sm transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
               <PiCloud className="text-secondary h-8 w-8" />
             </div>
-            <h3 className="text-foreground font-display mb-3 text-xl font-bold tracking-tight uppercase">
+            <h3 className="text-foreground font-display mb-3 text-xl font-bold tracking-tight">
               Run
             </h3>
             <p className="text-muted-foreground mb-6 text-sm leading-relaxed">
@@ -99,13 +99,13 @@ export default function LifecycleVisualization() {
               optimization on our secure infrastructure.
             </p>
             <ul className="mt-auto w-full space-y-3 text-left">
-              <li className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase">
-                <PiShieldCheck className="text-secondary h-3 w-3" />{' '}
-                99.99%_Uptime
+              <li className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest">
+                <PiShieldCheck className="text-secondary h-3 w-3" /> 99.99%
+                Uptime
               </li>
-              <li className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase">
-                <PiArrowsClockwise className="text-secondary h-3 w-3" />{' '}
-                Auto_Scaling
+              <li className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest">
+                <PiArrowsClockwise className="text-secondary h-3 w-3" /> Auto
+                Scaling
               </li>
             </ul>
           </div>
@@ -114,7 +114,7 @@ export default function LifecycleVisualization() {
 
       {/* Unified Benefit */}
       <div className="mt-12 text-center">
-        <div className="border-primary/20 bg-primary/5 text-foreground inline-flex items-center gap-3 rounded-none border px-6 py-3 font-mono text-xs font-bold tracking-widest uppercase">
+        <div className="border-primary/20 bg-primary/5 text-foreground inline-flex items-center gap-3 rounded-none border px-6 py-3 font-mono text-xs font-bold tracking-widest">
           <PiShieldCheck className="text-primary h-5 w-5" />
           <span>Single Point of Accountability // No Finger Pointing</span>
         </div>

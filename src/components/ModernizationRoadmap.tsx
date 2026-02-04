@@ -44,10 +44,10 @@ export function ModernizationRoadmap() {
 
       <div className="relative mx-auto max-w-5xl">
         <div className="mb-16 text-center">
-          <h3 className="font-display text-foreground text-3xl font-bold tracking-tight uppercase">
+          <h3 className="font-display text-foreground text-3xl font-bold tracking-tight">
             Systems Upgrade Flow
           </h3>
-          <p className="text-muted-foreground mt-2 font-mono text-xs tracking-widest uppercase">
+          <p className="text-muted-foreground mt-2 font-mono text-xs tracking-widest">
             The path from legacy stability to digital agility
           </p>
         </div>
@@ -64,7 +64,7 @@ export function ModernizationRoadmap() {
               {/* Step Marker */}
               <div
                 className={cn(
-                  'bg-card border-primary/20 group-hover:border-primary/50 relative mb-8 flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl border shadow-lg transition-all duration-500 group-hover:scale-110',
+                  'bg-card border-primary/20 group-hover:border-primary/50 relative mb-8 flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl border shadow-lg transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110',
                   'glass shadow-[0_0_15px_rgba(0,212,255,0.1)]'
                 )}
               >
@@ -115,7 +115,7 @@ export function ModernizationRoadmap() {
                     0{index + 1}
                   </div>
 
-                  <h4 className="text-foreground font-display group-hover:text-primary mt-4 mb-3 text-lg font-bold tracking-tight uppercase transition-colors">
+                  <h4 className="text-foreground font-display group-hover:text-primary mt-4 mb-3 text-lg font-bold tracking-tight transition-colors">
                     {step.title}
                   </h4>
                   <p className="text-muted-foreground text-sm leading-relaxed">

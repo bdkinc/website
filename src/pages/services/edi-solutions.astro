@@ -9,7 +9,6 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 import EDIFlowVisualization from '@/components/visualizations/EDIFlowVisualization';
-import TransactionConsole from '@/components/TransactionConsole';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
 import TechnicalSection from '@/components/TechnicalSection';
 import Footer from '@/components/Footer.astro';
@@ -91,13 +90,13 @@ const audience = [
   />
   <main id="main-content">
     <!-- Hero Section -->
-    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+    <section class="relative overflow-hidden px-4 pt-32 pb-20 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
        <div class="relative z-10 mx-auto max-w-7xl">
           <div class="mx-auto max-w-4xl flex flex-col items-center text-center">
             <div
-              class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+              class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-8 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
             >
               <span class="text-sm">
                 <span class="text-accent font-semibold">Global</span> Connectivity
@@ -105,7 +104,7 @@ const audience = [
             </div>
 
           <div
-            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
+            class="from-primary/10 to-secondary/10 mb-8 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
           >
             <IconComponent
@@ -114,7 +113,7 @@ const audience = [
             />
           </div>
           <h1
-             class="mb-6 text-5xl font-bold tracking-tight md:text-6xl"
+             class="mb-6 text-5xl font-bold tracking-tight md:text-7xl"
             transition:name={`service-title-${service.id}`}
             transition:animate="initial"
           >
@@ -127,7 +126,7 @@ const audience = [
             >
           </h1>
           <p
-            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
+            class="text-muted-foreground mx-auto mb-16 max-w-3xl text-xl leading-relaxed"
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
@@ -143,261 +142,241 @@ const audience = [
         </div>
       </div>
       <div
-        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-px bg-linear-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
 
-    <!-- Content Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div
-        class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-24 delay-600 duration-700"
-      >
-        <div class="mx-auto max-w-7xl">
-          <div class="service-content-wrapper">
-            <TechnicalSection client:visible id="edi-orchestration" overlayOpacity="opacity-10">
-              <div class="relative z-10 flex flex-col items-center text-center">
-                <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
-                  <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
-                  <span class="text-xs font-bold tracking-widest text-primary font-display">Supply Chain Command Node</span>
-                </div>
-                
-                <h2 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
-                  Enterprise Supply Chain <span class="text-primary">Orchestration.</span>
-                </h2>
-                
-                <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
-                   Modern commerce requires synchronized data exchange. BDK automates trading-partner document flow so orders, invoices, and shipping updates move instantly.
-                </div>
-              </div>
-            </TechnicalSection>
-
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display tracking-tight">
-              Core Capabilities
-            </h3>
-
-            <TechCardGrid client:visible>
-              <TechCard variant="technical" interactive metadata="EDI_PARTNER_01">
-                <div class="p-8 flex flex-col items-center text-center h-full">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
-                    <PiUsers
-                      className="text-primary h-16 w-16"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
-                    Global Partner Integration
-                  </h4>
-                  <div class="text-muted-foreground leading-relaxed text-sm">
-                    Rapidly onboard retailers, suppliers, and 3PLs across any region. We maintain certified maps for thousands of trading partners, ensuring effortless compliance with complex routing requirements and varying standards.
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard variant="technical" interactive metadata="EDI_AUTO_02">
-                <div class="p-8 flex flex-col items-center text-center h-full">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
-                    <PiLightning
-                      className="text-primary h-16 w-16"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
-                    Automated Workflows
-                  </h4>
-                  <div class="text-muted-foreground leading-relaxed text-sm">
-                     Eliminate manual intervention. Automate POs, invoices, and ASNs (850, 810, 856) to reduce manual errors and accelerate order-to-cash cycles.
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard variant="technical" interactive metadata="EDI_NET_03">
-                <div class="p-8 flex flex-col items-center text-center h-full">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
-                    <PiNetwork
-                      className="text-primary h-16 w-16"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
-                    Protocol Agnostic Infrastructure
-                  </h4>
-                  <div class="text-muted-foreground leading-relaxed text-sm">
-                    Secure, reliable transmission across all major protocols including AS2, SFTP, FTPS, and VAN. Our architecture adapts to your partners' technical constraints without requiring changes to your internal systems.
-                  </div>
-                </div>
-              </TechCard>
-            </TechCardGrid>
-
-            {/* Managed Operations Dashboard */}
-            <div class="my-24">
-              <TransactionConsole client:visible />
-            </div>
-
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display tracking-tight">
-              Why Choose BDK for EDI
-            </h3>
-
-            <div class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="EDI_BENEFIT_01"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiShieldCheck
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    99.99% Uptime SLA
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Mission-critical reliability for your most sensitive data streams
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="EDI_BENEFIT_02"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiArrowsLeftRight
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    High-Velocity Processing
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Process thousands of transactions per second with low-latency throughput
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="EDI_BENEFIT_03"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiCheckCircle
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    Proactive Compliance
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Stay ahead of retailer mandate changes with our active compliance monitoring
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="EDI_BENEFIT_04"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiCurrencyDollar
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    Cost Efficiency
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Eliminate VAN fees and reduce operational overhead with direct connections
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="EDI_BENEFIT_05"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiGlobe
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    Global Reach
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Connect with partners in any region with support for international standards
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="EDI_BENEFIT_06"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiEye
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    Total Visibility
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    End-to-end tracking of every document in your supply chain
-                  </div>
-                </div>
-              </TechCard>
-            </div>
-            
-            <div class="mt-24">
-               <WhoThisIsFor
-                 title="Who This Is For"
-                 description="Built for teams moving high-volume EDI across complex partner networks."
-                 items={audience}
-                 client:visible
-               />
-            </div>
-
-             <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display tracking-tight">
-               Frequently Asked Questions
-             </h3>
-            <div class="mb-20">
-              <TechnicalFAQ faqs={faqs} client:idle />
-            </div>
-          </div>
+    <!-- Technical Orchestration Section -->
+    <TechnicalSection client:visible id="edi-orchestration" overlayOpacity="opacity-10">
+      <div class="relative z-10 flex flex-col items-center text-center">
+        <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
+          <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
+          <span class="text-xs font-bold tracking-widest text-primary font-display">Supply Chain Command Node</span>
         </div>
+        
+        <h2 class="mb-6 max-w-3xl text-4xl font-bold text-foreground font-display tracking-tight md:text-5xl">
+          Enterprise Supply Chain <span class="text-primary">Orchestration.</span>
+        </h2>
+        
+        <div class="mx-auto max-w-4xl text-xl leading-relaxed text-muted-foreground font-sans">
+           Modern commerce requires synchronized data exchange. BDK automates trading-partner document flow so orders, invoices, and shipping updates move instantly.
+        </div>
+      </div>
+    </TechnicalSection>
 
-        <ImpactMetricsSection metrics={metrics} />
+    <!-- Core Capabilities Section -->
+    <section class="relative px-4 py-24 sm:px-6 lg:px-8 overflow-hidden">
+      <div class="mx-auto max-w-7xl relative z-10">
+        <h3 class="text-foreground mb-16 text-center text-3xl font-bold font-display tracking-tight">
+          Core Capabilities
+        </h3>
 
-        <CTASection
-          client:visible
-          title="Ready to Scale Your Supply Chain?"
-          description="Deploy an EDI infrastructure that moves as fast as your business. Secure, reliable, and built for the enterprise."
-          primaryAction={{
-            text: 'Schedule a Consultation',
-            href: '/contact#chat',
-            icon: 'sparkles',
-          }}
-        />
+        <TechCardGrid client:visible>
+          <TechCard variant="simple" interactive metadata="EDI_PARTNER_01">
+            <div class="p-8 flex flex-col items-center text-center h-full">
+              <div class="mb-6 p-4 rounded-2xl bg-primary/5 border border-primary/10 group-hover:scale-110 group-hover:bg-primary/10 transition-[transform,background-color] duration-500">
+                <PiUsers
+                  className="text-primary h-12 w-12"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4 class="text-foreground mb-4 text-xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
+                Global Partner Integration
+              </h4>
+              <div class="text-muted-foreground leading-relaxed text-sm">
+                Rapidly onboard retailers, suppliers, and 3PLs across any region. We maintain certified maps for thousands of trading partners, ensuring effortless compliance with complex routing requirements and varying standards.
+              </div>
+            </div>
+          </TechCard>
+
+          <TechCard variant="simple" interactive metadata="EDI_AUTO_02">
+            <div class="p-8 flex flex-col items-center text-center h-full">
+              <div class="mb-6 p-4 rounded-2xl bg-primary/5 border border-primary/10 group-hover:scale-110 group-hover:bg-primary/10 transition-[transform,background-color] duration-500">
+                <PiLightning
+                  className="text-primary h-12 w-12"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4 class="text-foreground mb-4 text-xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
+                Automated Workflows
+              </h4>
+              <div class="text-muted-foreground leading-relaxed text-sm">
+                 Eliminate manual intervention. Automate POs, invoices, and ASNs (850, 810, 856) to reduce manual errors and accelerate order-to-cash cycles.
+              </div>
+            </div>
+          </TechCard>
+
+          <TechCard variant="simple" interactive metadata="EDI_NET_03">
+            <div class="p-8 flex flex-col items-center text-center h-full">
+              <div class="mb-6 p-4 rounded-2xl bg-primary/5 border border-primary/10 group-hover:scale-110 group-hover:bg-primary/10 transition-[transform,background-color] duration-500">
+                <PiNetwork
+                  className="text-primary h-12 w-12"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4 class="text-foreground mb-4 text-xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
+                Protocol Agnostic Infrastructure
+              </h4>
+              <div class="text-muted-foreground leading-relaxed text-sm">
+                Secure, reliable transmission across all major protocols including AS2, SFTP, FTPS, and VAN. Our architecture adapts to your partners' technical constraints without requiring changes to your internal systems.
+              </div>
+            </div>
+          </TechCard>
+        </TechCardGrid>
       </div>
     </section>
+
+    <!-- Why Choose BDK Section -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8 bg-secondary/5 border-y border-border/40">
+      <div class="mx-auto max-w-7xl">
+        <h3 class="text-foreground mb-16 text-center text-3xl font-bold font-display tracking-tight">
+          Why Choose BDK for EDI
+        </h3>
+
+        <div class="not-prose mb-24 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <TechCard
+            variant="simple"
+            interactive={false}
+            metadata="EDI_BENEFIT_01"
+          >
+            <div class="flex flex-col items-center text-center p-8">
+              <div class="mb-4 text-primary opacity-80">
+                <PiShieldCheck className="h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
+                99.99% Uptime SLA
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Mission-critical reliability for your most sensitive data streams
+              </div>
+            </div>
+          </TechCard>
+
+          <TechCard
+            variant="simple"
+            interactive={false}
+            metadata="EDI_BENEFIT_02"
+          >
+            <div class="flex flex-col items-center text-center p-8">
+              <div class="mb-4 text-primary opacity-80">
+                <PiArrowsLeftRight className="h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
+                High-Velocity Processing
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Process thousands of transactions per second with low-latency throughput
+              </div>
+            </div>
+          </TechCard>
+
+          <TechCard
+            variant="simple"
+            interactive={false}
+            metadata="EDI_BENEFIT_03"
+          >
+            <div class="flex flex-col items-center text-center p-8">
+              <div class="mb-4 text-primary opacity-80">
+                <PiCheckCircle className="h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
+                Proactive Compliance
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Stay ahead of retailer mandate changes with our active compliance monitoring
+              </div>
+            </div>
+          </TechCard>
+
+          <TechCard
+            variant="simple"
+            interactive={false}
+            metadata="EDI_BENEFIT_04"
+          >
+            <div class="flex flex-col items-center text-center p-8">
+              <div class="mb-4 text-primary opacity-80">
+                <PiCurrencyDollar className="h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
+                Cost Efficiency
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Eliminate VAN fees and reduce operational overhead with direct connections
+              </div>
+            </div>
+          </TechCard>
+
+          <TechCard
+            variant="simple"
+            interactive={false}
+            metadata="EDI_BENEFIT_05"
+          >
+            <div class="flex flex-col items-center text-center p-8">
+              <div class="mb-4 text-primary opacity-80">
+                <PiGlobe className="h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
+                Global Reach
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Connect with partners in any region with support for international standards
+              </div>
+            </div>
+          </TechCard>
+
+          <TechCard
+            variant="simple"
+            interactive={false}
+            metadata="EDI_BENEFIT_06"
+          >
+            <div class="flex flex-col items-center text-center p-8">
+              <div class="mb-4 text-primary opacity-80">
+                <PiEye className="h-10 w-10" aria-hidden="true" />
+              </div>
+              <h4 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
+                Total Visibility
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                End-to-end tracking of every document in your supply chain
+              </div>
+            </div>
+          </TechCard>
+        </div>
+        
+        <div class="mt-24">
+           <WhoThisIsFor
+             title="Who This Is For"
+             description="Built for teams moving high-volume EDI across complex partner networks."
+             items={audience}
+             client:visible
+           />
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-4xl">
+        <h3 class="text-foreground mb-12 text-center text-3xl font-bold font-display tracking-tight">
+           Frequently Asked Questions
+        </h3>
+        <TechnicalFAQ faqs={faqs} client:idle />
+      </div>
+    </section>
+
+    <ImpactMetricsSection metrics={metrics} />
+
+    <CTASection
+      client:visible
+      title="Ready to Scale Your Supply Chain?"
+      description="Deploy an EDI infrastructure that moves as fast as your business. Secure, reliable, and built for the enterprise."
+      primaryAction={{
+        text: 'Schedule a Consultation',
+        href: '/contact#chat',
+        icon: 'sparkles',
+      }}
+    />
   </main>
 
   <Footer />

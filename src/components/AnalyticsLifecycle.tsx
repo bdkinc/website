@@ -42,7 +42,7 @@ export default function AnalyticsLifecycle() {
   return (
     <section className="py-12">
       <div className="mb-12 text-center">
-        <h3 className="text-foreground font-display mb-4 text-3xl font-bold tracking-tight uppercase">
+        <h3 className="text-foreground font-display mb-4 text-3xl font-bold tracking-tight">
           High-Velocity Data Pipeline
         </h3>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
@@ -73,7 +73,7 @@ export default function AnalyticsLifecycle() {
                   {/* Icon */}
                   <div
                     className={cn(
-                      'bg-background/50 border-primary/20 group-hover:border-primary/40 mb-6 flex h-16 w-16 items-center justify-center rounded-xl border shadow-[0_0_15px_rgba(0,212,255,0.1)] shadow-inner transition-all duration-500 group-hover:scale-110',
+                      'bg-background/50 border-primary/20 group-hover:border-primary/40 mb-6 flex h-16 w-16 items-center justify-center rounded-xl border shadow-[0_0_15px_rgba(0,212,255,0.1)] shadow-inner transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110',
                       step.color
                     )}
                   >
@@ -81,7 +81,7 @@ export default function AnalyticsLifecycle() {
                   </div>
 
                   {/* Content */}
-                  <h4 className="text-foreground font-display group-hover:text-primary mb-2 text-xl font-bold tracking-tight uppercase transition-colors">
+                  <h4 className="text-foreground font-display group-hover:text-primary mb-2 text-xl font-bold tracking-tight transition-colors">
                     {step.title}
                   </h4>
                   <p className="text-muted-foreground mb-6 text-sm leading-relaxed font-medium">
@@ -93,7 +93,7 @@ export default function AnalyticsLifecycle() {
                     {step.details.map((detail, i) => (
                       <li
                         key={i}
-                        className="text-muted-foreground/80 flex items-center font-mono text-[10px] tracking-widest uppercase"
+                        className="text-muted-foreground/80 flex items-center font-mono text-[10px] tracking-widest"
                       >
                         <PiLightning className="text-primary/50 mr-2 h-3 w-3" />
                         {detail}

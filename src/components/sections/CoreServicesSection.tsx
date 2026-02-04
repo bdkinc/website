@@ -11,7 +11,7 @@ export default function CoreServicesSection() {
       <TechCardGrid>
         <TechCard variant="technical" interactive>
           <div className="flex h-full flex-col items-center p-8 text-center">
-            <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110">
+            <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
               <PiHeadphones
                 className="text-primary h-16 w-16"
                 aria-hidden="true"
@@ -32,7 +32,7 @@ export default function CoreServicesSection() {
 
         <TechCard variant="technical" interactive>
           <div className="flex h-full flex-col items-center p-8 text-center">
-            <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110">
+            <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
               <PiShieldCheck
                 className="text-primary h-16 w-16"
                 aria-hidden="true"
@@ -53,7 +53,7 @@ export default function CoreServicesSection() {
 
         <TechCard variant="technical" interactive>
           <div className="flex h-full flex-col items-center p-8 text-center">
-            <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-all duration-500 group-hover:scale-110">
+            <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
               <PiUsersThree
                 className="text-primary h-16 w-16"
                 aria-hidden="true"

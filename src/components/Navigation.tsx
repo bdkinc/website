@@ -50,7 +50,7 @@ export default function Navigation({
   return (
     <nav
       className={cn(
-        'fixed top-0 right-0 left-0 z-50 transition-all duration-300',
+        'fixed top-0 right-0 left-0 z-50 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
         scrolled
           ? 'glass border-primary/10 border-b shadow-lg backdrop-blur-xl'
           : 'bg-transparent shadow-sm backdrop-blur-sm'
@@ -71,7 +71,7 @@ export default function Navigation({
                     href="/"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
+                      'hover:text-primary bg-transparent! transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
                     )}
                   >
                     Home
@@ -84,7 +84,7 @@ export default function Navigation({
                     href="/about"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
+                      'hover:text-primary bg-transparent! transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
                     )}
                   >
                     About
@@ -103,7 +103,7 @@ export default function Navigation({
                     href="/contact"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
+                      'hover:text-primary bg-transparent! transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
                     )}
                   >
                     Contact
@@ -123,7 +123,10 @@ export default function Navigation({
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="hover:bg-accent rounded-md p-2"
+              aria-controls="mobile-navigation"
+              aria-expanded={isOpen}
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              className="hover:bg-accent focus-visible:ring-primary/50 focus-visible:ring-offset-background rounded-md p-2 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               {isOpen ? (
                 <PiX className="text-foreground h-6 w-6" />
@@ -137,7 +140,7 @@ export default function Navigation({
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="glass border-t md:hidden">
+        <div id="mobile-navigation" className="glass border-t md:hidden">
           <div className="space-y-1 px-2 pt-2 pb-3">
             {/* Home */}
             <a

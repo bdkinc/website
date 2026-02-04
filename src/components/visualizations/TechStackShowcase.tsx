@@ -83,7 +83,7 @@ export default function TechStackShowcase() {
   return (
     <div className="mx-auto my-24 w-full max-w-7xl">
       <div className="mb-12 text-center md:text-left">
-        <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight uppercase">
+        <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight">
           Technical Specifications
         </h2>
         <p className="text-muted-foreground max-w-2xl text-lg">
@@ -103,15 +103,16 @@ export default function TechStackShowcase() {
             <div className="relative z-10 flex h-full flex-col text-left">
               {/* Header */}
               <div className="border-primary/10 bg-muted/20 group-hover:bg-primary/5 flex items-center gap-4 border-b p-6 transition-colors">
-                <div className="bg-background border-primary/20 group-hover:border-primary/40 flex h-12 w-12 items-center justify-center rounded-lg border shadow-sm transition-all group-hover:shadow-md">
+                <div className="bg-background border-primary/20 group-hover:border-primary/40 flex h-12 w-12 items-center justify-center rounded-lg border shadow-sm transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] group-hover:shadow-md">
                   <layer.icon className="text-primary h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight uppercase transition-colors">
+                  <h3 className="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors">
                     {layer.name}
                   </h3>
-                  <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {layer.id.toUpperCase()}_CORE_MODULE
+                  <p className="text-muted-foreground font-mono text-[10px] tracking-widest">
+                    {layer.id.charAt(0).toUpperCase() + layer.id.slice(1)} Core
+                    Module
                   </p>
                 </div>
               </div>
@@ -130,11 +131,11 @@ export default function TechStackShowcase() {
                     key={idx}
                     className="bg-card/40 hover:bg-primary/5 border-primary/5 flex flex-col justify-center border-r border-b p-4 transition-colors last:border-r-0"
                   >
-                    <span className="text-foreground mb-1 text-xs font-bold tracking-tight uppercase">
+                    <span className="text-foreground mb-1 text-xs font-bold tracking-tight">
                       {item.name}
                     </span>
                     <div className="flex items-end justify-between">
-                      <span className="text-muted-foreground font-mono text-[9px] tracking-tighter uppercase">
+                      <span className="text-muted-foreground font-mono text-[9px] tracking-tighter">
                         {item.category}
                       </span>
                       {item.version && (

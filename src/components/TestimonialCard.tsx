@@ -21,7 +21,7 @@ export function TestimonialCard({
   return (
     <Card
       className={cn(
-        'group border-border/40 bg-card/30 relative flex h-full flex-col overflow-hidden rounded-3xl border p-6 shadow-[0_20px_45px_rgba(4,12,25,0.45)] backdrop-blur-xl transition-all duration-300 md:p-8',
+        'group border-border/40 bg-card/30 relative flex h-full flex-col overflow-hidden rounded-3xl border p-6 shadow-[0_20px_45px_rgba(4,12,25,0.45)] backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 md:p-8',
         className
       )}
     >
@@ -55,7 +55,7 @@ export function TestimonialCard({
 
         <div className="mt-6 flex w-full items-center justify-start gap-2">
           <div className="bg-secondary/20 group-hover:bg-secondary/50 h-2 w-2 rounded-full transition-colors duration-500" />
-          <div className="bg-secondary/20 group-hover:bg-secondary/50 h-1 w-12 rounded-full transition-all duration-500 group-hover:w-20" />
+          <div className="bg-secondary/20 group-hover:bg-secondary/50 h-1 w-12 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:w-20" />
         </div>
       </div>
     </Card>

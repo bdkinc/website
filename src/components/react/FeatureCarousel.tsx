@@ -136,7 +136,7 @@ export default function FeatureCarousel({
                   />
                   <div
                     className={cn(
-                      'h-1 rounded-full transition-all duration-500',
+                      'h-1 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500',
                       selected
                         ? 'bg-primary/40 w-14'
                         : 'bg-primary/15 group-hover:bg-primary/25 w-10 group-hover:w-12'

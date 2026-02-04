@@ -280,20 +280,21 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
                   suggestion={suggestion}
-                  className="text-muted-foreground hover:text-foreground border-border bg-muted/20 hover:bg-muted shrink-0 rounded-lg border px-4 py-2 text-xs whitespace-nowrap transition-all"
+                  className="text-muted-foreground hover:text-foreground border-border bg-muted/20 hover:bg-muted shrink-0 rounded-lg border px-4 py-2 text-xs whitespace-nowrap transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]"
                 />
               ))}
             </Suggestions>
 
             <PromptInput
               onSubmit={handleSubmit}
-              className="ring-offset-background focus-within:ring-primary/50 border-input bg-muted/50 relative overflow-hidden rounded-xl border transition-all focus-within:ring-2 [&_[data-slot=input-group]]:border-0 [&_[data-slot=input-group]]:bg-transparent [&_[data-slot=input-group]]:shadow-none [&_[data-slot=input-group]]:!ring-0"
+              className="ring-offset-background focus-within:ring-primary/50 border-input bg-muted/50 relative overflow-hidden rounded-xl border transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] focus-within:ring-2 [&_[data-slot=input-group]]:border-0 [&_[data-slot=input-group]]:bg-transparent [&_[data-slot=input-group]]:shadow-none [&_[data-slot=input-group]]:!ring-0"
             >
               <PromptInputBody>
                 <PromptInputTextarea
                   onChange={(event) => setText(event.target.value)}
                   value={text}
-                  placeholder="How can we help?"
+                  aria-label="Message"
+                  placeholder="How can we help… e.g., migrate ERP to cloud"
                   className="placeholder:text-muted-foreground/50 min-h-[50px] bg-transparent px-4 py-3 text-sm focus:outline-none"
                 />
               </PromptInputBody>
@@ -305,7 +306,7 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
                   variant="ghost"
                   size="icon-sm"
                   className={cn(
-                    'h-8 w-8 rounded-full transition-all',
+                    'h-8 w-8 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]',
                     'bg-primary/10 text-primary hover:bg-primary/20',
                     'disabled:text-muted-foreground disabled:bg-transparent'
                   )}

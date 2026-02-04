@@ -59,8 +59,8 @@ export default function CapabilitiesGrid() {
     <div className="mx-auto my-16 w-full max-w-7xl">
       <div className="mb-8 flex items-center gap-2">
         <PiTerminal className="text-primary h-5 w-5" />
-        <h3 className="font-display text-foreground text-xl font-bold tracking-widest uppercase">
-          System_Architecture_Overview
+        <h3 className="font-display text-foreground text-xl font-bold tracking-widest">
+          System Architecture Overview
         </h3>
         <div className="bg-primary/20 ml-4 h-px grow"></div>
       </div>
@@ -81,7 +81,7 @@ export default function CapabilitiesGrid() {
                 </div>
               </div>
 
-              <h4 className="font-display text-foreground group-hover:text-primary mb-6 text-xl font-bold tracking-tight uppercase transition-colors">
+              <h4 className="font-display text-foreground group-hover:text-primary mb-6 text-xl font-bold tracking-tight transition-colors">
                 {cap.title}
               </h4>
 
@@ -89,7 +89,7 @@ export default function CapabilitiesGrid() {
                 {cap.details.map((detail, idx) => (
                   <li
                     key={idx}
-                    className="text-muted-foreground group-hover:text-foreground flex items-center font-mono text-[10px] tracking-widest uppercase transition-colors"
+                    className="text-muted-foreground group-hover:text-foreground flex items-center font-mono text-[10px] tracking-widest transition-colors"
                   >
                     <span className="bg-primary/40 group-hover:bg-primary mr-3 h-1.5 w-1.5 rounded-none transition-colors"></span>
                     {detail}

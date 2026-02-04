@@ -66,7 +66,7 @@ export default function Hero() {
             <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 delay-300 duration-500">
               <CTAButton
                 size="lg"
-                className="pulse-ring transition-all duration-300 hover:scale-105"
+                className="pulse-ring transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 hover:scale-105"
                 href="/contact"
                 icon="click"
               >
@@ -77,7 +77,7 @@ export default function Hero() {
               <CTAButton
                 size="lg"
                 variant="outline"
-                className="hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-105"
+                className="hover:border-primary/50 hover:bg-primary/5 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 hover:scale-105"
                 href="/services"
                 icon="search"
               >
@@ -88,7 +88,7 @@ export default function Hero() {
 
           {/* Stats - clean cards with subtle depth */}
           <div className="mx-auto grid max-w-3xl grid-cols-3 gap-8 pt-12">
-            <div className="fill-mode-both animate-in fade-in zoom-in glass border-primary/10 hover:border-primary/30 space-y-2 rounded-xl border p-6 backdrop-blur-xl transition-all delay-500 duration-600 hover:scale-105">
+            <div className="fill-mode-both animate-in fade-in zoom-in glass border-primary/10 hover:border-primary/30 space-y-2 rounded-xl border p-6 backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] delay-500 duration-600 hover:scale-105">
               <div className="text-primary text-3xl font-bold md:text-4xl">
                 <CountUp
                   from={0}
@@ -101,7 +101,7 @@ export default function Hero() {
                 Years in Business
               </div>
             </div>
-            <div className="fill-mode-both animate-in fade-in zoom-in glass border-primary/10 hover:border-primary/30 space-y-2 rounded-xl border p-6 backdrop-blur-xl transition-all delay-600 duration-600 hover:scale-105">
+            <div className="fill-mode-both animate-in fade-in zoom-in glass border-primary/10 hover:border-primary/30 space-y-2 rounded-xl border p-6 backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] delay-600 duration-600 hover:scale-105">
               <div className="text-primary text-3xl font-bold md:text-4xl">
                 <CountUp from={0} to={500} duration={1.25} />+
               </div>
@@ -109,7 +109,7 @@ export default function Hero() {
                 Clients Served
               </div>
             </div>
-            <div className="fill-mode-both animate-in fade-in zoom-in glass border-primary/10 space-y-2 rounded-xl border p-6 backdrop-blur-xl transition-all delay-700 duration-600 hover:scale-105 hover:border-[--brand-accent]/30">
+            <div className="fill-mode-both animate-in fade-in zoom-in glass border-primary/10 space-y-2 rounded-xl border p-6 backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] delay-700 duration-600 hover:scale-105 hover:border-[--brand-accent]/30">
               <div className="text-accent text-3xl font-bold md:text-4xl">
                 <CountUp from={0} to={24} duration={1.25} />x
                 <CountUp from={0} to={7} duration={1.25} />

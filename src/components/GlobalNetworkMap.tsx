@@ -52,22 +52,18 @@ export function GlobalNetworkMap() {
       <div className="border-primary/10 bg-muted/20 flex items-center justify-between border-b px-6 py-4">
         <div className="flex items-center gap-3">
           <PiGlobe className="text-primary h-5 w-5" />
-          <span className="font-display text-foreground font-bold tracking-wider uppercase">
-            GLOBAL_AVAILABILITY_NET
+          <span className="font-display text-foreground font-bold tracking-wider">
+            Global Availability Net
           </span>
         </div>
         <div className="flex items-center gap-4 font-mono text-[10px]">
           <div className="flex items-center gap-2">
             <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]" />
-            <span className="text-muted-foreground uppercase">
-              STATUS: OPTIMAL
-            </span>
+            <span className="text-muted-foreground">Status: Optimal</span>
           </div>
           <div className="hidden items-center gap-2 md:flex">
             <PiShieldCheck className="text-primary h-4 w-4" />
-            <span className="text-muted-foreground uppercase">
-              SHIELD: ACTIVE
-            </span>
+            <span className="text-muted-foreground">Shield: Active</span>
           </div>
         </div>
       </div>
@@ -97,7 +93,7 @@ export function GlobalNetworkMap() {
             {/* Node Icon */}
             <div
               className={cn(
-                'border-primary/50 bg-background relative flex h-6 w-6 items-center justify-center rounded-none border shadow-[0_0_15px_rgba(0,212,255,0.3)] transition-all duration-300',
+                'border-primary/50 bg-background relative flex h-6 w-6 items-center justify-center rounded-none border shadow-[0_0_15px_rgba(0,212,255,0.3)] transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
                 activeRegion === region.id
                   ? 'border-primary bg-primary/20 scale-125'
                   : ''
@@ -112,25 +108,25 @@ export function GlobalNetworkMap() {
             {/* Tooltip */}
             <div
               className={cn(
-                'border-primary/40 bg-card/95 absolute top-10 left-1/2 z-20 w-48 -translate-x-1/2 rounded-none border p-3 shadow-2xl backdrop-blur-md transition-all duration-300',
+                'border-primary/40 bg-card/95 absolute top-10 left-1/2 z-20 w-48 -translate-x-1/2 rounded-none border p-3 shadow-2xl backdrop-blur-md transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
                 activeRegion === region.id
                   ? 'translate-y-0 opacity-100'
                   : 'pointer-events-none -translate-y-2 opacity-0'
               )}
             >
               <div className="border-primary/20 mb-2 flex items-center justify-between border-b pb-1">
-                <span className="text-primary font-mono text-[10px] font-bold tracking-widest uppercase">
+                <span className="text-primary font-mono text-[10px] font-bold tracking-widest">
                   {region.name}
                 </span>
                 <PiWifiHigh className="h-3 w-3 text-green-500" />
               </div>
               <div className="space-y-1 text-left">
                 <div className="text-muted-foreground flex justify-between font-mono text-[9px]">
-                  <span>LATENCY</span>
+                  <span>Latency</span>
                   <span className="text-foreground">12ms</span>
                 </div>
                 <div className="text-muted-foreground flex justify-between font-mono text-[9px]">
-                  <span>SYSTEM_LOAD</span>
+                  <span>System Load</span>
                   <span className="text-foreground">{region.load}%</span>
                 </div>
                 <div className="bg-primary/10 border-primary/5 mt-1 h-1 w-full overflow-hidden rounded-none border">
@@ -145,23 +141,27 @@ export function GlobalNetworkMap() {
         ))}
 
         {/* Connection Arcs (SVG) */}
-        <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-30">
+        <svg
+          className="pointer-events-none absolute inset-0 h-full w-full opacity-30"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
           <path
-            d="M 25% 30% Q 40% 10% 55% 25%"
+            d="M 25 30 Q 40 10 55 25"
             fill="none"
             stroke="currentColor"
             strokeWidth="1"
             className="text-primary animate-pulse"
           />
           <path
-            d="M 55% 25% Q 70% 40% 85% 35%"
+            d="M 55 25 Q 70 40 85 35"
             fill="none"
             stroke="currentColor"
             strokeWidth="1"
             className="text-primary animate-pulse delay-75"
           />
           <path
-            d="M 15% 35% Q 20% 50% 25% 30%"
+            d="M 15 35 Q 20 50 25 30"
             fill="none"
             stroke="currentColor"
             strokeWidth="1"
@@ -172,7 +172,7 @@ export function GlobalNetworkMap() {
 
       {/* Footer Stats */}
       <div className="divide-primary/10 border-primary/10 bg-muted/20 grid grid-cols-2 divide-x border-t md:grid-cols-4">
-        {['99.999% UPTIME', 'TERABIT BACKBONE', 'ISO 27001', '24/7 NOC'].map(
+        {['99.999% Uptime', 'Terabit Backbone', 'ISO 27001', '24/7 NOC'].map(
           (stat, i) => (
             <div
               key={i}

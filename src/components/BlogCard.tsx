@@ -42,7 +42,7 @@ export function BlogCard({ post, readTime, className, index }: BlogCardProps) {
 
         {/* Body */}
         <div className="flex-1">
-          <h3 className="font-display text-foreground group-hover:text-primary mb-3 line-clamp-2 text-xl leading-snug font-bold tracking-tight uppercase transition-colors">
+          <h3 className="font-display text-foreground group-hover:text-primary mb-3 line-clamp-2 text-xl leading-snug font-bold tracking-tight transition-colors">
             {title}
           </h3>
           <p className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">

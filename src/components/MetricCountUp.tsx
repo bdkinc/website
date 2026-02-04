@@ -21,7 +21,7 @@ export default function MetricCountUp({ value, label }: MetricCountUpProps) {
         <div className="text-primary text-4xl font-bold tracking-tight sm:text-5xl">
           {value}
         </div>
-        <div className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
+        <div className="text-muted-foreground text-sm font-semibold tracking-widest">
           {label}
         </div>
       </div>
@@ -44,7 +44,7 @@ export default function MetricCountUp({ value, label }: MetricCountUpProps) {
         />
         <span className="inline">{suffix}</span>
       </div>
-      <div className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
+      <div className="text-muted-foreground text-sm font-semibold tracking-widest">
         {label}
       </div>
     </div>

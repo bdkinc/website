@@ -14,19 +14,19 @@ export default function TransactionConsole() {
     <div className="w-full space-y-6">
       <div className="border-border/50 flex flex-col items-start justify-between gap-4 border-b pb-4 md:flex-row md:items-center">
         <div className="text-left">
-          <h2 className="font-display text-foreground text-2xl font-bold tracking-tight uppercase">
+          <h2 className="font-display text-foreground text-2xl font-bold tracking-tight">
             Managed Operations Console
           </h2>
           <div className="text-muted-foreground flex items-center gap-2 text-sm">
             <div className="h-2 w-2 animate-pulse rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-            <span className="font-mono text-xs tracking-widest uppercase">
-              LIVE MONITORING ACTIVE
+            <span className="font-mono text-xs tracking-widest">
+              Live Monitoring Active
             </span>
           </div>
         </div>
         <div className="flex gap-2">
-          <Badge label="UPTIME: 99.99%" active />
-          <Badge label="QUEUE: CLEAR" active />
+          <Badge label="Uptime: 99.99%" active />
+          <Badge label="Queue: Clear" active />
         </div>
       </div>
 
@@ -40,8 +40,8 @@ export default function TransactionConsole() {
             className="h-full"
           >
             <div className="border-primary/10 bg-muted/20 flex items-center justify-between border-b px-4 py-2">
-              <span className="text-primary/60 font-mono text-[10px] font-bold tracking-widest uppercase">
-                LIVE_DATA_FEED
+              <span className="text-primary/60 font-mono text-[10px] font-bold tracking-widest">
+                Live Data Feed
               </span>
               <PiArrowsClockwise className="text-primary animate-spin-slow h-3 w-3" />
             </div>
@@ -138,8 +138,8 @@ export default function TransactionConsole() {
             className="bg-muted/10 p-4"
           >
             <div className="p-4 text-left">
-              <h4 className="text-primary/60 mb-4 font-mono text-[10px] font-bold tracking-widest uppercase">
-                ACTIVE PROTOCOLS
+              <h4 className="text-primary/60 mb-4 font-mono text-[10px] font-bold tracking-widest">
+                Active Protocols
               </h4>
               <div className="space-y-3">
                 <ProgressBar label="AS2" percent={85} />
@@ -175,7 +175,7 @@ function TransactionRow({ id, type, partner, status, time, direction }: any) {
       <div className="flex items-center gap-3">
         <div
           className={cn(
-            'flex h-8 w-8 items-center justify-center rounded-none border transition-all duration-300',
+            'flex h-8 w-8 items-center justify-center rounded-none border transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
             direction === 'in'
               ? 'border-secondary/30 text-secondary bg-secondary/5'
               : 'border-primary/30 text-primary bg-primary/5'
@@ -196,7 +196,7 @@ function TransactionRow({ id, type, partner, status, time, direction }: any) {
               {id}
             </span>
           </div>
-          <div className="text-muted-foreground text-[10px] tracking-wider uppercase">
+          <div className="text-muted-foreground text-[10px] tracking-wider">
             {partner}
           </div>
         </div>
@@ -215,7 +215,7 @@ function TransactionRow({ id, type, partner, status, time, direction }: any) {
               status === 'success' ? 'text-green-500' : 'text-blue-500'
             )}
           >
-            {status.toUpperCase()}
+            {status.charAt(0).toUpperCase() + status.slice(1)}
           </span>
         </div>
         <div className="text-muted-foreground w-12 text-right font-mono text-[10px]">
@@ -246,7 +246,7 @@ function MetricCard({
       <div className="p-4 text-left">
         <div className="flex items-start justify-between">
           <div>
-            <div className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+            <div className="text-muted-foreground font-mono text-[10px] tracking-widest">
               {label}
             </div>
             <div className="mt-1 flex items-baseline gap-1">
@@ -269,7 +269,7 @@ function MetricCard({
         </div>
         <div className="mt-2 flex items-center font-mono text-[10px] text-green-500">
           <PiArrowUpRight className="mr-1 h-3 w-3" />
-          {trend} {'// PEAK_STABILITY'}
+          {trend} {'// Peak Stability'}
         </div>
       </div>
     </TechCard>
@@ -285,7 +285,7 @@ function ProgressBar({ label, percent }: { label: string; percent: number }) {
       </div>
       <div className="bg-primary/5 border-primary/10 h-1.5 w-full overflow-hidden rounded-none border">
         <div
-          className="bg-primary group-hover:bg-brand-accent h-full shadow-[0_0_8px_rgba(0,212,255,0.4)] transition-all duration-1000"
+          className="bg-primary group-hover:bg-brand-accent h-full shadow-[0_0_8px_rgba(0,212,255,0.4)] transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-1000"
           style={{ width: `${percent}%` }}
         />
       </div>

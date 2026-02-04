@@ -15,7 +15,7 @@ export default function TechnicalFAQ({ faqs }: TechnicalFAQProps) {
       {faqs.map((faq, index) => (
         <details
           key={index}
-          className="group border-primary/20 bg-card/40 open:bg-card/60 open:border-primary/40 relative overflow-hidden rounded-none border backdrop-blur-md transition-all duration-300 open:shadow-[0_0_20px_rgba(0,212,255,0.1)]"
+          className="group border-primary/20 bg-card/40 open:bg-card/60 open:border-primary/40 relative overflow-hidden rounded-none border backdrop-blur-md transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 open:shadow-[0_0_20px_rgba(0,212,255,0.1)]"
         >
           {/* Scanline overlay */}
           <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03] transition-opacity duration-300 group-hover:opacity-[0.05]" />

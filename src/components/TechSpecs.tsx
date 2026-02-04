@@ -40,7 +40,7 @@ export default function TechSpecs() {
                   aria-hidden="true"
                 />
               </div>
-              <h4 className="font-display text-foreground text-xl font-bold tracking-wide uppercase">
+              <h4 className="font-display text-foreground text-xl font-bold tracking-wide">
                 {column.title}
               </h4>
             </div>

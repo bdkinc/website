@@ -19,12 +19,12 @@ export default function WatsonxSpotlight() {
       <div className="relative z-10 grid gap-12 lg:grid-cols-2 lg:items-center">
         {/* Content Side */}
         <div className="space-y-6">
-          <div className="border-primary/30 bg-primary/5 text-primary inline-flex items-center gap-2 border px-4 py-1.5 font-mono text-xs font-semibold tracking-wider uppercase">
+          <div className="border-primary/30 bg-primary/5 text-primary inline-flex items-center gap-2 border px-4 py-1.5 font-mono text-xs font-semibold tracking-wider">
             <PiCpu className="h-3.5 w-3.5" />
             Premier Toolkit // watsonx
           </div>
 
-          <h2 className="font-display text-foreground text-3xl font-bold tracking-tight uppercase sm:text-4xl">
+          <h2 className="font-display text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
             Powered by <span className="text-primary">IBM watsonx</span>
           </h2>
 
@@ -44,7 +44,7 @@ export default function WatsonxSpotlight() {
             ].map((feature, i) => (
               <div key={i} className="flex items-center gap-3">
                 <PiCheckCircle className="text-primary h-5 w-5 shrink-0" />
-                <span className="text-foreground font-display text-sm font-medium tracking-wide uppercase">
+                <span className="text-foreground font-display text-sm font-medium tracking-wide">
                   {feature}
                 </span>
               </div>
@@ -68,19 +68,19 @@ export default function WatsonxSpotlight() {
                   <div className="bg-muted-foreground/50 h-2 w-2 rounded-full" />
                   <div className="bg-primary/50 h-2 w-2 rounded-full" />
                 </div>
-                <div className="text-primary/60 font-mono text-[10px] tracking-widest uppercase">
-                  NODE_STATUS: OPTIMIZED
+                <div className="text-primary/60 font-mono text-[10px] tracking-widest">
+                  Node Status: Optimized
                 </div>
               </div>
 
               {/* Modules Grid */}
               <div className="grid gap-4">
-                <div className="group border-primary/10 bg-background/50 hover:border-primary/40 hover:bg-primary/5 flex items-center gap-4 border p-4 transition-all">
+                <div className="group border-primary/10 bg-background/50 hover:border-primary/40 hover:bg-primary/5 flex items-center gap-4 border p-4 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
                   <div className="border-primary/20 bg-primary/10 text-primary group-hover:border-primary/40 rounded-md border p-3 transition-colors">
                     <PiBrain className="h-6 w-6" />
                   </div>
                   <div className="text-left">
-                    <div className="text-foreground font-display text-sm font-bold tracking-tight uppercase">
+                    <div className="text-foreground font-display text-sm font-bold tracking-tight">
                       Foundation Models
                     </div>
                     <div className="text-muted-foreground font-mono text-[10px]">
@@ -97,15 +97,15 @@ export default function WatsonxSpotlight() {
                     <PiDatabase className="h-6 w-6" />
                   </div>
                   <div className="text-left">
-                    <div className="text-foreground font-display text-sm font-bold tracking-tight uppercase">
+                    <div className="text-foreground font-display text-sm font-bold tracking-tight">
                       Vector Store
                     </div>
                     <div className="text-muted-foreground font-mono text-[10px]">
-                      RAG_KNOWLEDGE_BASE // SCALE_READY
+                      RAG Knowledge Base // Scale Ready
                     </div>
                   </div>
                   <div className="text-primary/80 ml-auto font-mono text-[10px] tracking-tighter">
-                    SYNCED
+                    Synced
                   </div>
                 </div>
 
@@ -114,15 +114,15 @@ export default function WatsonxSpotlight() {
                     <PiShieldCheck className="h-6 w-6" />
                   </div>
                   <div className="text-left">
-                    <div className="text-foreground font-display text-sm font-bold tracking-tight uppercase">
+                    <div className="text-foreground font-display text-sm font-bold tracking-tight">
                       Governance Layer
                     </div>
                     <div className="text-muted-foreground font-mono text-[10px]">
-                      DRIFT_DETECTION_ACTIVE // COMPLIANT
+                      Drift Detection Active // Compliant
                     </div>
                   </div>
                   <div className="text-primary/80 ml-auto font-mono text-[10px] tracking-tighter">
-                    ACTIVE
+                    Active
                   </div>
                 </div>
               </div>
