@@ -96,6 +96,8 @@ Classify every visual element into one (or more) of these categories.
 
 **Definition:** A small, consistent card footer decoration used across the site as a primary **technical/enterprise cue**. It functions like a UI “signature” (subtle, repeatable, non-neon) and helps unify cards across pages.
 
+**Scope:** This is for **card surfaces** (e.g., `TechCard` in grids). Do **not** wrap single narrative elements (like a leadership pull-quote) in a card just to apply the motif—use an open layout (semantic `blockquote` + branded left rule) instead.
+
 **System logic (layout variants):**
 
 - **Bar + Circle** (right-aligned) — standard service cards

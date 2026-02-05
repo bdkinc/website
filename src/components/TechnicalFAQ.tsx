@@ -1,4 +1,9 @@
-import { PiCaretDown } from 'react-icons/pi';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 interface FAQItem {
   question: string;
@@ -11,37 +16,26 @@ interface TechnicalFAQProps {
 
 export default function TechnicalFAQ({ faqs }: TechnicalFAQProps) {
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
+    <Accordion type="multiple" className="mx-auto max-w-3xl space-y-4">
       {faqs.map((faq, index) => (
-        <details
+        <AccordionItem
           key={index}
-          className="group border-primary/20 bg-card/40 open:bg-card/60 open:border-primary/40 relative overflow-hidden rounded-none border backdrop-blur-md transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 open:shadow-[0_0_20px_rgba(0,212,255,0.1)]"
+          value={`faq-${index + 1}`}
+          className="group border-border bg-card/40 hover:border-primary/30 hover:bg-card/60 data-[state=open]:border-primary/40 data-[state=open]:bg-card/60 relative overflow-hidden rounded-lg border backdrop-blur-md transition-colors duration-200 last:border-b"
         >
           {/* Scanline overlay */}
-          <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03] transition-opacity duration-300 group-hover:opacity-[0.05]" />
+          <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03] transition-opacity duration-200 group-hover:opacity-[0.05]" />
           <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-[0.02]" />
 
-          <summary className="font-display text-foreground group-hover:text-primary focus-visible:ring-primary flex cursor-pointer items-center justify-between p-6 text-lg font-bold transition-colors selection:bg-none focus:outline-none focus-visible:ring-1">
-            <span className="relative z-10">{faq.question}</span>
-            <span className="relative z-10 transition-transform duration-300 group-open:rotate-180">
-              <PiCaretDown className="text-primary h-5 w-5" />
-            </span>
-          </summary>
+          <AccordionTrigger className="text-foreground focus-visible:ring-ring focus-visible:ring-offset-background relative z-10 items-center px-6 py-5 text-base font-semibold hover:no-underline focus-visible:ring-2 focus-visible:ring-offset-2">
+            {faq.question}
+          </AccordionTrigger>
 
-          <div className="text-muted-foreground animate-in fade-in slide-in-from-top-2 relative z-10 px-6 pb-6 font-sans leading-relaxed duration-300">
-            <div className="border-primary/10 border-t pt-4">{faq.answer}</div>
-          </div>
-
-          {/* Technical Accents */}
-          <div className="border-primary/40 absolute top-0 left-0 h-2 w-2 border-t-2 border-l-2 opacity-0 transition-opacity group-open:opacity-100" />
-          <div className="border-primary/40 absolute top-0 right-0 h-2 w-2 border-t-2 border-r-2 opacity-0 transition-opacity group-open:opacity-100" />
-
-          {/* Metadata */}
-          <div className="text-primary/20 pointer-events-none absolute right-2 bottom-1 font-mono text-[8px] tracking-widest">
-            FAQ_BLOCK_0{index + 1}
-          </div>
-        </details>
+          <AccordionContent className="text-muted-foreground border-border/60 relative z-10 border-t px-6 pt-4 pb-6 text-sm leading-relaxed">
+            {faq.answer}
+          </AccordionContent>
+        </AccordionItem>
       ))}
-    </div>
+    </Accordion>
   );
 }

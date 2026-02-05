@@ -7,6 +7,33 @@
 - **Avoid All-Caps:** Do not use all-caps for headings or body text.
 - **Avoid Card Overload:** Balance cards with open grids and whitespace.
 
+## Surfaces & Layout (When to Use Cards)
+Default to **open layouts** (typography + whitespace). Use card-like surfaces intentionally.
+
+**Use `TechCard` when:**
+- Content is part of a **grid/list of comparable items** (capabilities, features, testimonials, blog cards).
+- You want the site’s **technical card signature** (scanlines + footer motif) to unify repeated elements.
+
+**Avoid `TechCard` when:**
+- Content is a **single narrative callout** (pull-quote, leadership principle, section lead-in).
+- The extra chrome (scanlines/footer motif) competes with the message.
+
+**Preferred pull-quote pattern:**
+- Use semantic `figure`/`blockquote` and a branded left rule.
+- Optional decorative Phosphor quote icon in low opacity.
+
+```astro
+<figure class="relative mx-auto max-w-3xl">
+  <PiQuotesFill
+    className="text-secondary/10 pointer-events-none absolute -top-10 right-0 h-16 w-16"
+    aria-hidden="true"
+  />
+  <blockquote class="border-l-2 border-secondary/40 pl-6 text-muted-foreground text-xl font-light leading-relaxed md:text-2xl">
+    ... <span class="text-accent font-semibold">key phrase</span> ...
+  </blockquote>
+</figure>
+```
+
 ## Styling Patterns
 **Semantic Colors:**
 Always use shadcn semantic color utilities (defined in `src/styles/global.css`):
@@ -31,6 +58,17 @@ UI components in `components/ui/` must follow this pattern:
 2. `class-variance-authority` (cva)
 3. Export component + variants
 4. `cn()` utility for merging
+
+## Interactive Components (Prefer ShadCN)
+When you need interactivity (accordions, dialogs, dropdowns, selects, etc.), prefer **ShadCN UI** components (Radix-backed) over bespoke implementations.
+
+Why:
+- **Accessibility**: Radix primitives provide strong a11y defaults (ARIA, keyboard behavior, focus management).
+- **Consistency**: Shared styling + interaction patterns across the site.
+
+Notes:
+- ShadCN interactive components typically require **Astro hydration** (use `client:visible` by default for below-the-fold).
+- If the behavior can be achieved with **native HTML without hydration** (e.g., simple disclosure via `<details>`), that can still be appropriate when performance is paramount.
 
 ## Section Titling Standards
 **H2 (Display):** Bold, tracking-tight.

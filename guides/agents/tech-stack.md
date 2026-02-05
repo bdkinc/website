@@ -8,6 +8,8 @@
 ## Hydration Strategy (Astro Islands)
 **Ship HTML by default.** Only hydrate what is truly interactive.
 
+**Preference:** If a component is interactive, prefer ShadCN UI (Radix-backed) for accessibility; then choose the lightest hydration directive that fits.
+
 **Directives Decision Tree:**
 1. **`client:load`**: Above-the-fold critical interactivity (Navigation).
 2. **`client:visible`**: Below-the-fold interactive components (Carousels, Modals).

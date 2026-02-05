@@ -75,9 +75,11 @@ Typography is defined in `src/styles/global.css`.
 
 ### Surfaces, Effects, and Accents
 
-- Use glassmorphism for floating surfaces: `glass` (cards) and `glass-nav` (navigation)
+- Use glassmorphism for select floating surfaces: `glass` (optional panels) and `glass-nav` (navigation)
 - Use gradients sparingly for emphasis: `gradient-primary` (primary→secondary) and `gradient-mesh` (subtle background wash)
 - Prefer existing glow tokens for emphasis: `shadow-[--shadow-glow]` and `shadow-[--shadow-glow-accent]`
+
+**Guideline:** Open layouts (typography + whitespace) should be the default. Use card-like containers (`Card`, `TechCard`, `glass`) primarily for repeated grid items or when you need a clear surface separation.
 
 ## Technical Details
 

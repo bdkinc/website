@@ -19,6 +19,7 @@ import {
   PiMapPin,
   PiClock,
   PiUsersThree,
+  PiQuotesFill,
   PiShieldCheck,
   PiTrendUp,
   PiLightning,
@@ -214,48 +215,6 @@ const strategicFeatures = [
       </div>
     </section>
 
-    <!-- Strategic Leadership Section -->
-    <section class="relative overflow-hidden py-24">
-      <div
-        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
-      >
-      </div>
-      <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-12 text-center">
-          <h2
-            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
-          >
-            <span class="text-foreground">Strategic </span>
-            <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Leadership</span
-            >
-          </h2>
-        </div>
-
-        <TechCard
-          variant="technical"
-          interactive={false}
-          className="bg-card/30 backdrop-blur-md"
-        >
-          <div class="relative overflow-hidden p-8 md:p-12">
-            <div class="absolute top-0 right-0 p-6 opacity-10">
-              <PiUsersThree className="text-primary h-24 w-24" />
-            </div>
-            <p
-              class="text-muted-foreground relative z-10 text-center text-xl leading-relaxed font-light md:text-2xl"
-            >
-              "True enterprise growth requires more than just keeping the lights
-              on. It demands a technology strategy that <span
-                class="text-accent font-semibold">anticipates challenges</span
-              > and scales with your ambition. We architect, manage, and secure your
-              infrastructure so you can focus on driving your business forward."
-            </p>
-          </div>
-        </TechCard>
-      </div>
-    </section>
-
     <!-- Core Services -->
     <section class="bg-black/20 px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -362,7 +321,50 @@ const strategicFeatures = [
       </div>
     </section>
 
-    <!-- Strategic Advantage -->
+    <!-- Strategic Leadership Section -->
+    <section class="relative overflow-hidden py-24">
+      <div
+        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+      <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Technology </span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Leadership</span
+            >
+          </h2>
+        </div>
+
+        <figure class="relative mx-auto max-w-3xl">
+          <PiQuotesFill
+            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
+            aria-hidden="true"
+          />
+          <blockquote
+            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
+          >
+            "True business growth requires more than keeping the lights on. It
+            demands a technology strategy that
+            <span class="text-accent font-semibold">
+              anticipates challenges</span
+            >
+            and scales with your ambition. We architect, manage, and secure your
+            infrastructure so you can focus on driving your business forward."
+          </blockquote>
+        </figure>
+      </div>
+      <div
+        class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+    </section>
+
+    <!-- Technology Leadership -->
     <section
       class="bg-linear-to-b from-transparent to-black/10 px-4 py-24 sm:px-6 lg:px-8"
     >
@@ -371,7 +373,10 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            The Strategic <span class="text-primary">Advantage</span>
+            The Strategic <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Advantage</span
+            >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
             Move beyond break/fix and operational drag with a partner who builds
@@ -390,7 +395,10 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            Key <span class="text-primary">Benefits</span>
+            Key <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Benefits</span
+            >
           </h2>
         </div>
 
@@ -495,92 +503,14 @@ const strategicFeatures = [
       </div>
     </section>
 
-    <TechnicalSection
-      client:visible
-      id="maturity-scale"
-      overlayOpacity="opacity-10"
-    >
-      <div class="grid items-stretch gap-8 md:grid-cols-2">
-        {/* Approach Image Placeholder */}
-        <div class="group relative order-2 md:order-1">
-          <div
-            class="glass border-primary/20 relative h-full min-h-[400px] overflow-hidden rounded-xl border"
-          >
-            <div
-              class="scanlines pointer-events-none absolute inset-0 opacity-[0.05]"
-            >
-            </div>
-            <div
-              class="from-primary/5 via-secondary/5 to-primary/5 flex h-full items-center justify-center bg-linear-to-br"
-            >
-              <div class="p-4 text-center">
-                <div
-                  class="text-muted-foreground/40 mb-2 font-mono text-sm font-medium tracking-wider"
-                >
-                  ARCHITECTURAL_BLUEPRINT_01
-                </div>
-                <div class="text-muted-foreground/60 text-lg">
-                  Workflow Orchestration Diagram
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Approach Text */}
-        <div class="order-1 flex flex-col md:order-2">
-          <TechCard
-            variant="technical"
-            interactive={false}
-            metadata="APPROACH_INTEL"
-          >
-            <div
-              class="text-muted-foreground space-y-6 p-8 text-lg leading-relaxed"
-            >
-              <p>
-                We reject the "generic" approach to managed services. Your
-                environment is unique, and your support model should be too. We
-                begin with a deep-dive architectural review to align your
-                technology roadmap with your business objectives.
-              </p>
-              <p>
-                Our "Giants in the Toolkit" philosophy leverages the proven
-                reliability of IBM, Microsoft, and Cisco, integrated with our
-                elite service layer. This ensures you benefit from world-class
-                R&D while receiving the personalized attention of a boutique
-                firm.
-              </p>
-              <p>
-                As you scale, we scale. From supporting distributed workforces
-                to managing complex hybrid cloud environments, BDKinc provides
-                the mature operational framework necessary to support an
-                unstoppable enterprise.
-              </p>
-            </div>
-          </TechCard>
-        </div>
-      </div>
-    </TechnicalSection>
-
+    <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <h3
-          class="text-foreground font-display mb-12 text-center text-2xl font-bold tracking-tight"
-        >
-          Service Details
-        </h3>
-
-        <TechSpecs />
-
-        <div class="mt-24">
-          <WhoThisIsFor client:visible />
-        </div>
-
-        <h3 class="text-foreground mt-24 mb-6 text-center text-2xl font-bold">
+      <div class="mx-auto max-w-5xl">
+        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
           Frequently Asked Questions
         </h3>
         <div class="mb-20">
-          <TechnicalFAQ faqs={faqs} client:idle />
+          <TechnicalFAQ client:visible faqs={faqs} />
         </div>
       </div>
     </section>
