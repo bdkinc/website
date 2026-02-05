@@ -1,13 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import TestimonialsCarousel from '@/components/react/TestimonialsCarousel';
+import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 
 const testimonialsCollection = await getCollection('testimonials');
 
 const testimonials = testimonialsCollection
-  .sort(
-    (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
-  )
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
   .map(({ data }) => ({
     quote: data.quote,
     author: data.author,
@@ -16,14 +14,19 @@ const testimonials = testimonialsCollection
   }));
 ---
 
-<section class="bg-background relative overflow-hidden px-4 py-28 sm:px-6 lg:px-8">
-  <div class="absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent via-primary/30 to-transparent" />
+<section
+  class="bg-background relative overflow-hidden px-4 py-28 sm:px-6 lg:px-8"
+>
+  <div
+    class="via-primary/30 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+  >
+  </div>
   <div class="relative z-10 mx-auto max-w-7xl space-y-12">
     <div class="mx-auto max-w-2xl space-y-4 text-center">
       <h2 class="font-display text-4xl font-bold tracking-tight md:text-5xl">
         <span class="text-foreground">Client </span>
         <span
-          class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent font-extrabold"
+          class="from-primary to-secondary bg-linear-to-br bg-clip-text font-extrabold text-transparent"
         >
           Success Stories
         </span>

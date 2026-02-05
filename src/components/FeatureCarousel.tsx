@@ -124,7 +124,6 @@ export default function FeatureCarousel({
                 </div>
 
                 <div className="pointer-events-none mt-5 flex items-center justify-start gap-2">
-                  {/* Left-aligned: Circle + Bar */}
                   <div
                     className={cn(
                       'h-2 w-2 rounded-full transition-colors duration-500',

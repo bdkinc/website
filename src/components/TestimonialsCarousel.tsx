@@ -118,7 +118,6 @@ export default function TestimonialsCarousel({
 
     if (!centerEl) return;
 
-    // First render: set positions, no animation
     if (isFirstRender.current) {
       setHomePositions();
       isFirstRender.current = false;
@@ -126,12 +125,10 @@ export default function TestimonialsCarousel({
       return;
     }
 
-    // No change
     if (prevIndexRef.current === activeIndex) {
       return;
     }
 
-    // Determine direction
     const prevIndex = prevIndexRef.current;
     const diff = activeIndex - prevIndex;
     const isNext =
@@ -147,7 +144,6 @@ export default function TestimonialsCarousel({
       return;
     }
 
-    // Kill existing timeline
     if (timelineRef.current) {
       timelineRef.current.kill();
     }
@@ -158,24 +154,6 @@ export default function TestimonialsCarousel({
     const duration = 0.6;
     const ease = 'power2.out';
 
-    /*
-     * New approach: Don't reset at the end. Instead, animate each slot
-     * to where it needs to END UP (its new home position).
-     *
-     * The trick: before animating, we need to set the STARTING positions
-     * based on where each slot's NEW content was visually located.
-     *
-     * For NEXT:
-     * - leftRef now shows what WAS in center -> start from center, animate to left
-     * - centerRef now shows what WAS in right -> start from right, animate to center
-     * - rightRef now shows what WAS offscreen -> start from offscreen right, animate to right
-     *
-     * For PREV:
-     * - rightRef now shows what WAS in center -> start from center, animate to right
-     * - centerRef now shows what WAS in left -> start from left, animate to center
-     * - leftRef now shows what WAS offscreen -> start from offscreen left, animate to left
-     */
-
     const tl = gsap.timeline({
       onComplete: () => {
         isAnimatingRef.current = false;
@@ -185,15 +163,12 @@ export default function TestimonialsCarousel({
     timelineRef.current = tl;
 
     if (isNext) {
-      // leftRef: was center content, now left content -> animate center -> left
       gsap.set(leftEl, { ...SLOT_TARGETS.center, zIndex: 20 });
       tl.to(leftEl, { ...SLOT_TARGETS.left, duration, ease }, 0);
 
-      // centerRef: was right content, now center content -> animate right -> center
       gsap.set(centerEl, { ...SLOT_TARGETS.right, zIndex: 30 });
       tl.to(centerEl, { ...SLOT_TARGETS.center, duration, ease }, 0);
 
-      // rightRef: was offscreen (new content), now right content -> animate in from offscreen right
       gsap.set(rightEl, {
         xPercent: OFFSCREEN_RIGHT_X,
         yPercent: SLOT_TARGETS.center.yPercent,
@@ -204,15 +179,12 @@ export default function TestimonialsCarousel({
       });
       tl.to(rightEl, { ...SLOT_TARGETS.right, duration, ease }, 0);
     } else {
-      // rightRef: was center content, now right content -> animate center -> right
       gsap.set(rightEl, { ...SLOT_TARGETS.center, zIndex: 20 });
       tl.to(rightEl, { ...SLOT_TARGETS.right, duration, ease }, 0);
 
-      // centerRef: was left content, now center content -> animate left -> center
       gsap.set(centerEl, { ...SLOT_TARGETS.left, zIndex: 30 });
       tl.to(centerEl, { ...SLOT_TARGETS.center, duration, ease }, 0);
 
-      // leftRef: was offscreen (new content), now left content -> animate in from offscreen left
       gsap.set(leftEl, {
         xPercent: OFFSCREEN_LEFT_X,
         yPercent: SLOT_TARGETS.center.yPercent,

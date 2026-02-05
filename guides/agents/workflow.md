@@ -17,7 +17,7 @@ Trust the linter and type-checker for incremental changes.
 3. Ensure dark-mode compatibility.
 
 ### Adding Interactivity
-1. Create isolated component in `src/components/react/`.
+1. Create isolated component in `src/components/`.
 2. Keep state local to the component.
 3. Import in `.astro` file with `client:visible` (default preference).
 

@@ -12,7 +12,7 @@ import TechSpecs from '@/components/TechSpecs';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
 import TechnicalSection from '@/components/TechnicalSection';
 import ManagedITVisualization from '@/components/visualizations/ManagedITVisualization';
-import FeatureCarousel from '@/components/react/FeatureCarousel';
+import FeatureCarousel from '@/components/FeatureCarousel';
 import {
   PiHeadphones,
   PiCheckCircle,
@@ -147,7 +147,7 @@ const strategicFeatures = [
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
 
       <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="mx-auto max-w-4xl flex flex-col items-center text-center">
+        <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
           <!-- Badge -->
           <div
             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
@@ -192,9 +192,9 @@ const strategicFeatures = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            Technology shouldn't be a bottleneck; it should be an accelerator. We
-            monitor your systems 24/7/365, preventing issues before they disrupt
-            your operations.
+            Technology shouldn't be a bottleneck; it should be an accelerator.
+            We monitor your systems 24/7/365, preventing issues before they
+            disrupt your operations.
           </p>
         </div>
 

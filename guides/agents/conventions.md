@@ -2,7 +2,6 @@
 
 ## Directory Structure
 - `src/components/ui/` -> Reusable atomic UI (shadcn)
-- `src/components/react/` -> Interactive React components (stateful)
 - `src/layouts/` -> Astro layouts
 - `src/pages/` -> Route handling
 - `src/lib/` -> Utilities and constants
