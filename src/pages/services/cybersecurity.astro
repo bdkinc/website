@@ -7,6 +7,11 @@ import { iconMap } from '@/lib/icons';
 import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import WhoThisIsFor from '@/components/WhoThisIsFor';
+import TechnicalSection from '@/components/TechnicalSection';
+import CybersecurityVisualization from '@/components/visualizations/CybersecurityVisualization';
+import FeatureCarousel from '@/components/FeatureCarousel';
 import {
   PiArrowsClockwise,
   PiBell,
@@ -19,13 +24,9 @@ import {
   PiShieldCheck,
   PiUsers,
   PiWarning,
+  PiQuotesFill,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
-import TechnicalFAQ from '@/components/TechnicalFAQ';
-import WhoThisIsFor from '@/components/WhoThisIsFor';
-import TechnicalSection from '@/components/TechnicalSection';
-import CybersecurityVisualization from '@/components/visualizations/CybersecurityVisualization';
-
 const service = await getEntry('services', 'cybersecurity');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -36,7 +37,6 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
-
 const _serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -51,7 +51,6 @@ const _serviceSchema = {
   serviceType: 'Managed Cybersecurity Services',
   areaServed: ['National', 'Global'],
 };
-
 const relatedTags = [
   'cybersecurity',
   'security',
@@ -68,14 +67,12 @@ const relatedPosts = (await getCollection('blog'))
     );
   })
   .slice(0, 3);
-
 const metrics = [
   { value: '24/7', label: 'Security Monitoring', icon: PiEye },
   { value: '15 min', label: 'Average Alert Response', icon: PiBell },
   { value: '99.99%', label: 'Uptime Target', icon: PiShieldCheck },
   { value: '100%', label: 'Compliance Readiness', icon: PiFileText },
 ];
-
 const faqs = [
   {
     question: 'How does BDKinc integrate with our existing IT team?',
@@ -93,7 +90,44 @@ const faqs = [
       'Time is the critical factor in containment. Our Security Operations Center (SOC) operates 24/7/365 with aggressive SLAs. For critical severity incidents, we initiate containment protocols immediately upon detection, minimizing dwell time and preventing lateral movement within your network.',
   },
 ];
-
+const strategicFeatures = [
+  {
+    title: 'Adaptive Threat Intelligence',
+    description:
+      'Real-time defense that evolves with the threat landscape.',
+    highlight: 'Real-time defense',
+    icon: 'ShieldCheck',
+    detail:
+      "We don't just react to known threats; we use advanced telemetry and global intelligence feeds to anticipate and block emerging attack vectors before they reach your network.",
+  },
+  {
+    title: 'Zero-Trust Architecture',
+    description:
+      'Verify every user and device, every time, regardless of location.',
+    highlight: 'Verify every user',
+    icon: 'Lock',
+    detail:
+      "Our security models are built on the principle of 'never trust, always verify.' We implement robust identity management and micro-segmentation to prevent lateral movement within your infrastructure.",
+  },
+  {
+    title: 'Compliance Engineering',
+    description:
+      'Automating evidence collection and technical controls for rigorous audits.',
+    highlight: 'Automating evidence collection',
+    icon: 'FileText',
+    detail:
+      "We map your technical controls directly to HIPAA, PCI, and SOC 2 frameworks, turning compliance from a yearly burden into a continuous, automated property of your IT operations.",
+  },
+  {
+    title: 'Resilient Recovery',
+    description:
+      'Immutable backups and rapid containment protocols to neutralize ransomware.',
+    highlight: 'Immutable backups',
+    icon: 'ArrowsClockwise',
+    detail:
+      "In the event of an incident, our rapid-response protocols isolate threats instantly while our immutable backup systems ensure you can restore operations without paying a ransom.",
+  },
+];
 const detailColumns = [
   {
     title: 'Managed Detection & Response',
@@ -115,7 +149,6 @@ const detailColumns = [
   },
 ];
 ---
-
 <Layout
   title={`${service.data.title} & Compliance Services | BDKinc`}
   description="Fortified security for a complex world. Enterprise-grade threat resilience, managed detection and response, and rigorous compliance engineering."
@@ -137,16 +170,16 @@ const detailColumns = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-       <div class="relative z-10 mx-auto max-w-7xl">
-          <div class="mx-auto max-w-4xl flex flex-col items-center text-center">
-            <div
-              class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
-            >
-              <span class="text-sm">
-                <span class="text-accent font-semibold">24/7</span> Threat Protection
-              </span>
+      <div class="relative z-10 mx-auto max-w-7xl">
+        <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
+          <!-- Badge -->
+          <div
+            class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+          >
+            <div class="flex items-center gap-2 text-sm">
+              <span>24/7 Threat <span class="text-accent font-semibold">Protection</span></span>
             </div>
-
+          </div>
           <div
             class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
@@ -156,8 +189,9 @@ const detailColumns = [
               aria-hidden="true"
             />
           </div>
+          <!-- Heading -->
           <h1
-             class="mb-6 text-5xl font-bold tracking-tight md:text-6xl"
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight delay-100 duration-700 md:text-6xl"
             transition:name={`service-title-${service.id}`}
             transition:animate="initial"
           >
@@ -165,20 +199,22 @@ const detailColumns = [
               >{titleFirst ? `${titleFirst} ` : ''}</span
             >
             <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
               >{lastTitleWord}</span
             >
           </h1>
+          <!-- Subtitle -->
           <p
-            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto mb-16 max-w-3xl text-xl leading-relaxed delay-200 duration-700"
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            {service.data.description}
+            Fortified security for a complex world. Enterprise-grade threat resilience, 
+            managed detection and response, and rigorous compliance engineering 
+            for high-stakes environments.
           </p>
         </div>
-
-        {/* Hero Visualization */}
+        <!-- Visualization -->
         <div
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
@@ -192,639 +228,536 @@ const detailColumns = [
       >
       </div>
     </section>
-
-    <!-- Content Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div
-        class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
-      >
-        <div class="mx-auto max-w-7xl">
-          <div class="service-content-wrapper">
-            <div class="not-prose mx-auto max-w-4xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Enterprise-Grade Threat Resilience
-              </h2>
-              <div
-                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-              >
-                In an era of sophisticated state-sponsored attacks and automated ransomware, standard antivirus is no longer sufficient. BDKinc delivers comprehensive, defense-in-depth security architectures designed for high-stakes environments. We operate as your dedicated security partner, navigating the complexities of compliance and threat management so you can focus on innovation.
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Core Security Services
-            </h3>
-
-            <TechCardGrid client:visible>
-              <TechCard variant="technical" interactive metadata="THREAT_DEF_01">
-                <div class="p-8 flex flex-col items-center text-center h-full">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500">
-                    <PiShieldCheck
-                      className="text-primary h-16 w-16"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
-                    Managed Detection & Response
-                  </h4>
-                  <div class="text-muted-foreground leading-relaxed text-sm">
-                    24/7/365 surveillance of your entire digital estate. Our SOC analysts leverage advanced telemetry to detect anomalies, investigate threats, and neutralize attacks before they impact operations.
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard variant="technical" interactive metadata="RANSOM_SHIELD_02">
-                <div class="p-8 flex flex-col items-center text-center h-full">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500">
-                    <PiLock
-                      className="text-primary h-16 w-16"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
-                    Ransomware Defense
-                  </h4>
-                  <div class="text-muted-foreground leading-relaxed text-sm">
-                    Zero-trust architecture combined with immutable backups. We implement rigorous prevention strategies and rapid recovery protocols to ensure business continuity in the face of extortion attempts.
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard variant="technical" interactive metadata="COMPLIANCE_ENG_03">
-                <div class="p-8 flex flex-col items-center text-center h-full">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:scale-110 group-hover:bg-primary/10 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500">
-                    <PiFileText
-                      className="text-primary h-16 w-16"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-4 text-2xl font-bold font-display tracking-tight group-hover:text-primary transition-colors">
-                    Compliance Engineering
-                  </h4>
-                  <div class="text-muted-foreground leading-relaxed text-sm">
-                    We don't just consult on compliance; we engineer it. Our team implements the technical controls required for HIPAA, PCI DSS, SOC 2, and NIST frameworks to prepare you for audits.
-                  </div>
-                </div>
-              </TechCard>
-            </TechCardGrid>
-
-            <h3
-              class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+    <!-- Core Services -->
+    <section class="bg-black/20 px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
+          >
+            <span class="text-foreground">Core </span>
+            <span
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+              >Capabilities</span
             >
-              Comprehensive Security Management
-            </h3>
-
-            <div class="not-prose mb-20">
-              <p class="text-muted-foreground mb-10 text-center text-xl">
-                Protect every layer of your infrastructure with our managed
-                security services
-              </p>
-
-              {/* Feature Image Placeholder */}
-              <div class="mb-10">
-                <div
-                  class="glass border-primary/20 mx-auto max-w-3xl overflow-hidden rounded-xl border relative"
-                >
-                   {/* Scanline overlay */}
-                  <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.05]"></div>
-                  {/* Corner accents */}
-                  <div class="absolute top-0 right-0 h-8 w-8">
-                    <div class="absolute top-2 right-2 h-px w-4 bg-primary/40"></div>
-                    <div class="absolute top-2 right-2 h-4 w-px bg-primary/40"></div>
-                  </div>
-                  <div class="absolute bottom-0 left-0 h-8 w-8">
-                    <div class="absolute bottom-2 left-2 h-px w-4 bg-primary/40"></div>
-                    <div class="absolute bottom-2 left-2 h-4 w-px bg-primary/40"></div>
-                  </div>
-
-                  <div
-                    class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-21/9 items-center justify-center bg-linear-to-br"
-                    aria-hidden="true"
-                  ></div>
-                </div>
-              </div>
-
-              <div class="grid gap-6 md:grid-cols-2">
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Threat Intelligence
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Integrated feeds from global threat networks keep your defenses tuned to the latest attack vectors and zero-day vulnerabilities.
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Vulnerability Management
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Continuous scanning and automated patching to eliminate exposure points before they can be exploited by attackers.
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Endpoint Detection & Response
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Behavior-based analysis to block malicious activity at the device level, even when off-network, preventing lateral movement.
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Identity & Access Management
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Zero-trust principles applied to user access, ensuring least-privilege enforcement and robust authentication across your organization.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our Security Framework
-            </h3>
-
-            <div class="not-prose mb-20">
-              <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
-                  <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
-                  <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
-                    <PiShieldCheck
-                      className="text-primary h-8 w-8"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display">
-                    Prevent
-                  </h4>
-                  <ul class="text-muted-foreground space-y-2 text-sm font-sans">
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Firewall management</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Endpoint protection</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Email security</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>User education</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Access controls</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
-                  <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
-                  <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
-                    <PiEye
-                      className="text-primary h-8 w-8"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display">Detect</h4>
-                  <ul class="text-muted-foreground space-y-2 text-sm font-sans">
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>24/7 monitoring</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Intrusion detection</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Log analysis</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Vulnerability scanning</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Threat intelligence</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
-                  <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
-                  <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
-                    <PiBell
-                      className="text-primary h-8 w-8"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display">
-                    Respond
-                  </h4>
-                  <ul class="text-muted-foreground space-y-2 text-sm font-sans">
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Incident response</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Forensic analysis</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Containment procedures</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Recovery processes</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Post-incident review</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
-                  <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
-                  <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
-                    <PiHardDrives
-                      className="text-primary h-8 w-8"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display">
-                    Recover
-                  </h4>
-                  <ul class="text-muted-foreground space-y-2 text-sm font-sans">
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Backup systems</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Recovery procedures</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Continuity planning</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>Communication protocols</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1">•</span>
-                      <span>System restoration</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold font-display tracking-tight">
-              Key Benefits
-            </h3>
-
-            <div
-              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="SEC_BENEFIT_01"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiWarning
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    Reduce Risk
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Protect against data breaches, ransomware, and other cyber
-                    threats
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="SEC_BENEFIT_02"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiFileText
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    Ensure Compliance
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Meet industry security standards and regulations (HIPAA, PCI
-                    DSS, SOC 2)
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="SEC_BENEFIT_03"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiArrowsClockwise
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    Minimize Downtime
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Quick recovery from incidents keeps your business running
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="SEC_BENEFIT_04"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiShield
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    Protect Reputation
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Prevent data breaches that damage customer trust
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="SEC_BENEFIT_05"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiEye
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    Peace of Mind
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Know your systems are monitored and protected 24/7
-                  </div>
-                </div>
-              </TechCard>
-
-              <TechCard
-                variant="technical"
-                interactive={false}
-                metadata="SEC_BENEFIT_06"
-              >
-                <div class="flex flex-col items-center text-center p-8">
-                  <div class="mb-6 p-3 rounded-lg bg-primary/5 border border-primary/20 group-hover:bg-primary/10 transition-colors">
-                    <PiUsers
-                      className="text-primary h-10 w-10"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 class="text-foreground mb-3 text-xl font-bold font-display tracking-tight">
-                    Expert Guidance
-                  </h4>
-                  <div class="text-muted-foreground text-sm leading-relaxed">
-                    Access to experienced security professionals
-                  </div>
-                </div>
-              </TechCard>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our Approach
-            </h3>
-
-            <div class="not-prose mb-20">
-              <div class="grid items-center gap-8 md:grid-cols-2">
-                {/* Approach Image Placeholder */}
-                <div class="order-2 md:order-1">
-                  <div
-                    class="glass border-primary/20 overflow-hidden rounded-xl border relative"
-                  >
-                     {/* Scanline overlay */}
-                    <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.05]"></div>
-                     {/* Corner accents */}
-                    <div class="absolute top-0 right-0 h-8 w-8">
-                      <div class="absolute top-2 right-2 h-px w-4 bg-primary/40"></div>
-                      <div class="absolute top-2 right-2 h-4 w-px bg-primary/40"></div>
-                    </div>
-                    <div class="absolute bottom-0 left-0 h-8 w-8">
-                      <div class="absolute bottom-2 left-2 h-px w-4 bg-primary/40"></div>
-                      <div class="absolute bottom-2 left-2 h-4 w-px bg-primary/40"></div>
-                    </div>
-
-                    <div
-                      class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-square items-center justify-center bg-linear-to-br"
-                      aria-hidden="true"
-                    ></div>
-                  </div>
-                </div>
-
-                {/* Approach Text */}
-                <div class="order-1 md:order-2">
-                  <div class="glass border-border rounded-xl border p-8">
-                     <div
-                       class="text-muted-foreground space-y-4 text-lg leading-relaxed"
-                     >
-                       <p>
-                         Effective security comes from coordinated monitoring, response, and recovery.
-                       </p>
-                       <p>
-                         We embed with your team to manage telemetry, tune controls, and execute clear
-                         runbooks when incidents occur.
-                       </p>
-                       <p>
-                         The result is a resilient program that reduces risk while keeping operations
-                         moving.
-                       </p>
-                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <TechnicalSection client:visible id="compliance-standards" overlayOpacity="opacity-10">
-              <div class="relative z-10 flex flex-col items-center text-center">
-                <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
-                  <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
-                  <span class="text-xs font-bold tracking-widest text-primary font-display">Compliance Engineering Vault</span>
-                </div>
-                
-                 <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
-                   Rigorous Standards. <span class="text-primary">Zero Compromise.</span>
-                 </h3>
-                
-                <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
-                  We help you meet security requirements for HIPAA (Healthcare),
-                  PCI DSS (Payment cards), SOC 2, industry-specific regulations,
-                  and cyber insurance requirements. Our team stays current with
-                  evolving compliance standards to ensure your security posture
-                  meets all necessary criteria.
-                </div>
-              </div>
-            </TechnicalSection>
-
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold">
-              Security & Compliance Details
-            </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {
-                detailColumns.map((column) => (
-                  <div class="glass border-border rounded-2xl border p-8">
-                    <div class="mb-6 flex items-center gap-3">
-                      <column.icon
-                        className="text-primary h-8 w-8"
-                        aria-hidden="true"
-                      />
-                      <h4 class="text-foreground text-2xl font-bold">
-                        {column.title}
-                      </h4>
-                    </div>
-                    <div class="text-muted-foreground space-y-3">
-                      {column.items.map((item) => (
-                        <div class="flex items-start gap-2">
-                          <PiCheckCircle
-                            className="text-primary mt-1 h-5 w-5 shrink-0"
-                            aria-hidden="true"
-                          />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Why Choose BDK for Cybersecurity?
-            </h3>
-
-            <div class="text-center mb-24">
-               <div
-                 class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
-               >
-                 Enterprise-grade coverage without standing up a full internal SOC. We deliver
-                 24/7 monitoring, rapid response, and compliance-aligned reporting with clear
-                 SLAs and executive visibility.
-               </div>
-               <div class="text-primary text-xl font-semibold">
-                 Let’s build a cybersecurity program tailored to your risk profile and audit
-                 requirements.
-               </div>
-            </div>
-
-            <WhoThisIsFor client:visible />
-
-            <div class="mb-24">
-              <h3 class="text-foreground mb-8 text-center text-3xl font-bold font-display">
-                Common Questions
-              </h3>
-              <TechnicalFAQ client:visible faqs={faqs} />
-            </div>
-          </div>
+          </h2>
+          <p
+            class="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl"
+          >
+            Comprehensive security management designed for the
+            <span class="text-accent font-semibold">modern enterprise</span>.
+          </p>
         </div>
-
-        {
-          relatedPosts.length > 0 && (
-            <section class="mx-auto max-w-5xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Related Resources
-              </h2>
-              <div class="grid gap-6 md:grid-cols-3">
-                {relatedPosts.map((post) => (
-                  <a
-                    href={`/blog/${post.slug}`}
-                    class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
-                  >
-                    <h3 class="text-foreground mb-2 text-lg font-semibold">
-                      {post.data.title}
-                    </h3>
-                    <p class="text-muted-foreground text-sm">
-                      {post.data.description}
-                    </p>
-                    <span class="text-primary mt-4 text-sm font-medium">
-                      Read Article →
-                    </span>
-                  </a>
-                ))}
+        <TechCardGrid client:visible className="md:grid-cols-3">
+          <TechCard
+            variant="technical"
+            interactive={true}
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+              >
+                <PiShieldCheck
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
               </div>
-            </section>
-          )
-        }
-
-        <ImpactMetricsSection metrics={metrics} />
-
-        <CTASection
-          client:visible
-          title="Ready to Transform Your IT?"
-          description={`Let's discuss how ${service.data.title.toLowerCase()} can help your business thrive with reliable, scalable technology solutions.`}
-          buttonText="Get in Touch"
-          buttonHref="/contact#chat"
-        />
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+              >
+                Managed Detection & Response
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                24/7/365 surveillance of your entire digital estate. Our SOC 
+                analysts leverage advanced telemetry to detect anomalies, 
+                investigate threats, and neutralize attacks before they impact operations.
+              </div>
+            </div>
+          </TechCard>
+          <TechCard
+            variant="technical"
+            interactive={true}
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+              >
+                <PiLock
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+              >
+                Ransomware Defense
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Zero-trust architecture combined with immutable backups. We 
+                implement rigorous prevention strategies and rapid recovery 
+                protocols to ensure business continuity in the face of extortion attempts.
+              </div>
+            </div>
+          </TechCard>
+          <TechCard
+            variant="technical"
+            interactive={true}
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+              >
+                <PiFileText
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+              >
+                Compliance Engineering
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                We don't just consult on compliance; we engineer it. Our team 
+                implements the technical controls required for HIPAA, PCI DSS, 
+                SOC 2, and NIST frameworks to prepare you for audits.
+              </div>
+            </div>
+          </TechCard>
+        </TechCardGrid>
       </div>
     </section>
+    <!-- Strategic Leadership Section -->
+    <section class="relative overflow-hidden py-24">
+      <div
+        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+      <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Security </span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Leadership</span
+            >
+          </h2>
+        </div>
+        <figure class="relative mx-auto max-w-3xl">
+          <PiQuotesFill
+            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
+            aria-hidden="true"
+          />
+          <blockquote
+            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
+          >
+            "In an era of sophisticated state-sponsored attacks, reactive security is failure.
+            We architect
+            <span class="text-accent font-semibold">
+              proactive resilience</span
+            >
+            into every layer of your digital estate, ensuring your data is protected 
+            and your operations are audit-ready 24/7."
+          </blockquote>
+        </figure>
+      </div>
+      <div
+        class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+    </section>
+    <!-- Strategic Advantage -->
+    <section
+      class="bg-linear-to-b from-transparent to-black/10 px-4 py-24 sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            The Strategic <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Advantage</span
+            >
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Move beyond antivirus and basic firewalls with a partner who builds 
+            defense-in-depth security architectures.
+          </p>
+        </div>
+        <FeatureCarousel client:visible features={strategicFeatures} />
+      </div>
+    </section>
+    <!-- Security Framework Section -->
+    <section class="bg-black/20 px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Our Security <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Framework</span
+            >
+          </h2>
+        </div>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+            <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
+            <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
+              <PiShieldCheck
+                className="text-primary h-8 w-8"
+                aria-hidden="true"
+              />
+            </div>
+            <h4 class="text-foreground mb-3 text-xl font-bold font-display">
+              Prevent
+            </h4>
+            <ul class="text-muted-foreground space-y-2 text-sm font-sans">
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Firewall management</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Endpoint protection</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Email security</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>User education</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Access controls</span>
+              </li>
+            </ul>
+          </div>
+          <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+            <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
+            <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
+              <PiEye
+                className="text-primary h-8 w-8"
+                aria-hidden="true"
+              />
+            </div>
+            <h4 class="text-foreground mb-3 text-xl font-bold font-display">Detect</h4>
+            <ul class="text-muted-foreground space-y-2 text-sm font-sans">
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>24/7 monitoring</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Intrusion detection</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Log analysis</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Vulnerability scanning</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Threat intelligence</span>
+              </li>
+            </ul>
+          </div>
+          <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+            <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
+            <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
+              <PiBell
+                className="text-primary h-8 w-8"
+                aria-hidden="true"
+              />
+            </div>
+            <h4 class="text-foreground mb-3 text-xl font-bold font-display">
+              Respond
+            </h4>
+            <ul class="text-muted-foreground space-y-2 text-sm font-sans">
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Incident response</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Forensic analysis</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Containment procedures</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Recovery processes</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Post-incident review</span>
+              </li>
+            </ul>
+          </div>
+          <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+            <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
+            <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
+              <PiHardDrives
+                className="text-primary h-8 w-8"
+                aria-hidden="true"
+              />
+            </div>
+            <h4 class="text-foreground mb-3 text-xl font-bold font-display">
+              Recover
+            </h4>
+            <ul class="text-muted-foreground space-y-2 text-sm font-sans">
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Backup systems</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Recovery procedures</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Continuity planning</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>Communication protocols</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary mt-1">•</span>
+                <span>System restoration</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Key Benefits -->
+    <section class="bg-black/10 px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Key <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Benefits</span
+            >
+          </h2>
+        </div>
+        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Benefit 1 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiWarning
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Reduce Risk
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Protect against data breaches, ransomware, and other emerging 
+              cyber threats
+            </p>
+          </div>
+          <!-- Benefit 2 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiFileText
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Ensure Compliance
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Meet industry security standards and regulations including HIPAA, 
+              PCI DSS, and SOC 2
+            </p>
+          </div>
+          <!-- Benefit 3 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiArrowsClockwise
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Minimize Downtime
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Quick incident recovery ensures your business operations continue 
+              without disruption
+            </p>
+          </div>
+          <!-- Benefit 4 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiShield
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Protect Reputation
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Prevent damaging data breaches that erode customer trust and 
+              brand equity
+            </p>
+          </div>
+          <!-- Benefit 5 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiEye
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              24/7 Peace of Mind
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Rest easy knowing your critical systems are monitored and 
+              protected around the clock
+            </p>
+          </div>
+          <!-- Benefit 6 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiUsers
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Expert Guidance
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Direct access to senior security professionals with deep 
+              industry expertise
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Detailed Capabilities Section -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2 class="text-foreground mb-6 text-3xl font-bold font-display tracking-tight md:text-4xl">
+            Technical <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Specifications</span>
+          </h2>
+        </div>
+        <div class="grid gap-8 md:grid-cols-2">
+          {
+            detailColumns.map((column) => (
+              <div class="glass border-border rounded-2xl border p-8">
+                <div class="mb-6 flex items-center gap-3">
+                  <column.icon
+                    className="text-primary h-8 w-8"
+                    aria-hidden="true"
+                  />
+                  <h4 class="text-foreground text-2xl font-bold">
+                    {column.title}
+                  </h4>
+                </div>
+                <div class="text-muted-foreground space-y-3">
+                  {column.items.map((item) => (
+                    <div class="flex items-start gap-2">
+                      <PiCheckCircle
+                        className="text-primary mt-1 h-5 w-5 shrink-0"
+                        aria-hidden="true"
+                      />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+    <TechnicalSection client:visible id="compliance-vault" overlayOpacity="opacity-10">
+      <div class="relative z-10 flex flex-col items-center text-center">
+        <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
+          <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
+          <span class="text-xs font-bold tracking-widest text-primary font-display">Compliance Engineering Vault</span>
+        </div>
+        <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
+          Rigorous Standards. <span class="text-primary">Zero Compromise.</span>
+        </h3>
+        <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
+          We help you meet security requirements for HIPAA, PCI DSS, SOC 2, and 
+          NIST frameworks. Our team engineers technical controls directly into your 
+          infrastructure, automating evidence collection and ensuring you are 
+          prepared for pass rigorous third-party audits.
+        </div>
+      </div>
+    </TechnicalSection>
+    <WhoThisIsFor client:visible />
+    <!-- FAQ -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl">
+        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+          Frequently Asked Questions
+        </h3>
+        <div class="mb-20">
+          <TechnicalFAQ client:visible faqs={faqs} />
+        </div>
+      </div>
+    </section>
+    <!-- Related Resources -->
+    {
+      relatedPosts.length > 0 && (
+        <section class="mx-auto max-w-5xl px-4 py-24">
+          <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
+            Related Resources
+          </h2>
+          <div class="grid gap-6 md:grid-cols-3">
+            {relatedPosts.map((post) => (
+              <a
+                href={`/blog/${post.slug}`}
+                class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
+              >
+                <h3 class="text-foreground mb-2 text-lg font-semibold">
+                  {post.data.title}
+                </h3>
+                <p class="text-muted-foreground text-sm">
+                  {post.data.description}
+                </p>
+                <span class="text-primary mt-4 text-sm font-medium">
+                  Read Article →
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
+    <ImpactMetricsSection metrics={metrics} />
+    <!-- CTA -->
+    <CTASection
+      client:visible
+      title="Secure Your Digital Future"
+      description="Stop settling for standard protection. Partner with the experts who understand enterprise-grade threat resilience."
+      buttonText="Request a Security Audit"
+      buttonHref="/contact#chat"
+    />
   </main>
-
   <Footer />
 </Layout>

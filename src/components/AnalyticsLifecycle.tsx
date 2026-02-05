@@ -7,7 +7,6 @@ import {
 } from 'react-icons/pi';
 import { cn } from '@/lib/utils';
 import { TechCard } from '@/components/TechCard';
-
 export default function AnalyticsLifecycle() {
   const steps = [
     {
@@ -17,7 +16,6 @@ export default function AnalyticsLifecycle() {
       description: 'Multi-source data aggregation & normalization',
       details: ['API Connectors', 'Batch/Stream', 'Schema Validation'],
       color: 'text-primary',
-      metadata: 'SIGNAL_INPUT_01',
     },
     {
       id: '02',
@@ -26,7 +24,6 @@ export default function AnalyticsLifecycle() {
       description: 'Transformation & warehousing architecture',
       details: ['ETL/ELT', 'Data Lake', 'Sanitization'],
       color: 'text-secondary',
-      metadata: 'CORE_COMPUTE_02',
     },
     {
       id: '03',
@@ -35,10 +32,8 @@ export default function AnalyticsLifecycle() {
       description: 'Predictive analytics & visualization layer',
       details: ['ML Models', 'BI Dashboards', 'Decision Logic'],
       color: 'text-primary',
-      metadata: 'INTEL_OUTPUT_03',
     },
   ];
-
   return (
     <section className="py-12">
       <div className="mb-12 text-center">
@@ -50,11 +45,9 @@ export default function AnalyticsLifecycle() {
           ensures data fidelity at every stage.
         </p>
       </div>
-
       <div className="relative mx-auto max-w-6xl">
         {/* Connecting Line (Desktop) */}
         <div className="from-primary/20 via-secondary/20 to-primary/20 absolute top-1/2 left-0 hidden h-px w-full -translate-y-1/2 bg-gradient-to-r md:block" />
-
         <div className="relative z-10 grid gap-8 md:grid-cols-3">
           {steps.map((step, index) => (
             <div key={index} className="group relative">
@@ -62,14 +55,12 @@ export default function AnalyticsLifecycle() {
                 variant="technical"
                 interactive
                 delay={index * 150}
-                metadata={step.metadata}
               >
                 <div className="flex h-full flex-col p-8 text-left">
                   {/* Step Number */}
                   <div className="text-primary/5 group-hover:text-primary/10 absolute top-4 right-4 font-mono text-4xl font-bold transition-colors">
                     {step.id}
                   </div>
-
                   {/* Icon */}
                   <div
                     className={cn(
@@ -79,7 +70,6 @@ export default function AnalyticsLifecycle() {
                   >
                     <step.icon className="h-8 w-8" />
                   </div>
-
                   {/* Content */}
                   <h4 className="text-foreground font-display group-hover:text-primary mb-2 text-xl font-bold tracking-tight transition-colors">
                     {step.title}
@@ -87,7 +77,6 @@ export default function AnalyticsLifecycle() {
                   <p className="text-muted-foreground mb-6 text-sm leading-relaxed font-medium">
                     {step.description}
                   </p>
-
                   {/* Technical Details */}
                   <ul className="mt-auto space-y-3">
                     {step.details.map((detail, i) => (
@@ -102,7 +91,6 @@ export default function AnalyticsLifecycle() {
                   </ul>
                 </div>
               </TechCard>
-
               {/* Arrow (Mobile only) */}
               {index < steps.length - 1 && (
                 <div className="text-primary/20 mt-6 flex justify-center md:hidden">

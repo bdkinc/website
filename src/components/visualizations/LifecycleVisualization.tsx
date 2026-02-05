@@ -9,12 +9,10 @@ import {
 } from 'react-icons/pi';
 import { motion } from 'motion/react';
 import { TechCard } from '@/components/TechCard';
-
 export default function LifecycleVisualization() {
   return (
     <div className="relative mx-auto my-24 w-full max-w-6xl">
       <div className="bg-primary/5 absolute inset-0 -z-10 rounded-3xl blur-3xl"></div>
-
       <div className="mb-16 text-center">
         <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight">
           Complete Lifecycle Ownership
@@ -24,10 +22,9 @@ export default function LifecycleVisualization() {
           gap between development and operations.
         </p>
       </div>
-
       <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-3">
         {/* Phase 1: Build */}
-        <TechCard variant="technical" interactive metadata="ARCH_BUILD_V1.0">
+        <TechCard variant="technical" interactive >
           <div className="relative flex h-full flex-col items-center p-8 text-center">
             <div className="bg-primary/10 border-primary/20 group-hover:bg-primary/20 mb-6 flex h-16 w-16 items-center justify-center rounded-xl border shadow-sm transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
               <PiCode className="text-primary h-8 w-8" />
@@ -50,7 +47,6 @@ export default function LifecycleVisualization() {
             </ul>
           </div>
         </TechCard>
-
         {/* Connection / Animation */}
         <div className="relative flex flex-col items-center justify-center gap-4 py-8 md:py-0">
           {/* Forward Flow */}
@@ -63,11 +59,9 @@ export default function LifecycleVisualization() {
             />
             <PiArrowRight className="text-secondary h-6 w-6" />
           </div>
-
           <div className="bg-secondary/10 border-secondary/30 text-secondary rounded-none border px-4 py-2 font-mono text-[10px] font-bold tracking-[0.2em]">
             CI/CD Pipeline
           </div>
-
           {/* Feedback Loop */}
           <div className="flex rotate-180 items-center gap-2 opacity-50">
             <motion.div
@@ -84,9 +78,8 @@ export default function LifecycleVisualization() {
             <PiArrowsClockwise className="text-primary h-4 w-4" />
           </div>
         </div>
-
         {/* Phase 2: Host */}
-        <TechCard variant="technical" interactive metadata="ARCH_RUN_V1.0">
+        <TechCard variant="technical" interactive >
           <div className="relative flex h-full flex-col items-center p-8 text-center">
             <div className="bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20 mb-6 flex h-16 w-16 items-center justify-center rounded-xl border shadow-sm transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
               <PiCloud className="text-secondary h-8 w-8" />
@@ -111,7 +104,6 @@ export default function LifecycleVisualization() {
           </div>
         </TechCard>
       </div>
-
       {/* Unified Benefit */}
       <div className="mt-12 text-center">
         <div className="border-primary/20 bg-primary/5 text-foreground inline-flex items-center gap-3 rounded-none border px-6 py-3 font-mono text-xs font-bold tracking-widest">

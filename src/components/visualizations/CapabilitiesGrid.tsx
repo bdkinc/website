@@ -6,7 +6,6 @@ import {
   PiTerminal,
 } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-
 export default function CapabilitiesGrid() {
   const capabilities = [
     {
@@ -54,7 +53,6 @@ export default function CapabilitiesGrid() {
       code: 'OPS_PIPE',
     },
   ];
-
   return (
     <div className="mx-auto my-16 w-full max-w-7xl">
       <div className="mb-8 flex items-center gap-2">
@@ -64,7 +62,6 @@ export default function CapabilitiesGrid() {
         </h3>
         <div className="bg-primary/20 ml-4 h-px grow"></div>
       </div>
-
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {capabilities.map((cap, index) => (
           <TechCard
@@ -72,7 +69,6 @@ export default function CapabilitiesGrid() {
             variant="technical"
             interactive
             delay={index * 100}
-            metadata={cap.code}
           >
             <div className="relative z-10 flex h-full flex-col p-8 text-left">
               <div className="mb-8 flex items-start justify-between">
@@ -80,11 +76,9 @@ export default function CapabilitiesGrid() {
                   <cap.icon className="text-primary h-8 w-8" />
                 </div>
               </div>
-
               <h4 className="font-display text-foreground group-hover:text-primary mb-6 text-xl font-bold tracking-tight transition-colors">
                 {cap.title}
               </h4>
-
               <ul className="mt-auto space-y-4">
                 {cap.details.map((detail, idx) => (
                   <li

@@ -1,13 +1,11 @@
 import React from 'react';
 import { PiDatabase, PiDesktop, PiCloud, PiStack } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-
 interface TechItem {
   name: string;
   category: string;
   version?: string;
 }
-
 interface TechLayer {
   id: string;
   name: string;
@@ -15,7 +13,6 @@ interface TechLayer {
   description: string;
   items: TechItem[];
 }
-
 export default function TechStackShowcase() {
   const layers: TechLayer[] = [
     {
@@ -79,7 +76,6 @@ export default function TechStackShowcase() {
       ],
     },
   ];
-
   return (
     <div className="mx-auto my-24 w-full max-w-7xl">
       <div className="mb-12 text-center md:text-left">
@@ -91,14 +87,13 @@ export default function TechStackShowcase() {
           and long-term maintainability.
         </p>
       </div>
-
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {layers.map((layer) => (
           <TechCard
             key={layer.id}
             variant="technical"
             interactive
-            metadata={`${layer.id.toUpperCase()}_STACK_V5.0`}
+            _STACK_V5.0`}
           >
             <div className="relative z-10 flex h-full flex-col text-left">
               {/* Header */}
@@ -116,14 +111,12 @@ export default function TechStackShowcase() {
                   </p>
                 </div>
               </div>
-
               {/* Description */}
               <div className="border-primary/5 border-b px-6 py-4">
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   {layer.description}
                 </p>
               </div>
-
               {/* Grid */}
               <div className="bg-primary/10 grid grid-cols-2 gap-px sm:grid-cols-3">
                 {layer.items.map((item, idx) => (

@@ -7,17 +7,13 @@ import Footer from '@/components/Footer.astro';
 import { TechCard } from '@/components/TechCard';
 import { PiPhone, PiEnvelope, PiMapPin, PiHeadset } from 'react-icons/pi';
 import { actions } from 'astro:actions';
-
 export const prerender = false;
-
 const { servicesData, recentPosts } = await getNavigationData();
-
 // Get referrer-based suggestions using Astro action
 const fromParam = Astro.url.searchParams.get('from');
 const result = await Astro.callAction(actions.getReferrerSuggestions, {
   from: fromParam || undefined,
 });
-
 const initialSuggestions = result?.data?.suggestions || [
   'Schedule a consultation',
   'Request a technical assessment',
@@ -25,7 +21,6 @@ const initialSuggestions = result?.data?.suggestions || [
   'Discuss cloud migration',
 ];
 ---
-
 <Layout title="Contact | BDKinc - Strategic Technical Partner">
   <Navigation
     client:load
@@ -33,14 +28,12 @@ const initialSuggestions = result?.data?.suggestions || [
     blogPosts={recentPosts}
     currentPath={Astro.url.pathname}
   />
-
   <main id="main-content">
     {/* HERO Section: Background + Text + Gradient Border */}
     <section class="relative overflow-visible px-4 pt-24 pb-24 sm:px-6 lg:px-8">
       {/* Background stays inside hero */}
       <div class="circuit-overlay absolute inset-0 opacity-20"></div>
       <div class="gradient-mesh absolute inset-0 opacity-40"></div>
-
       {/* Subtle glow pools */}
       <div
         class="bg-brand-primary/10 absolute -top-24 left-1/4 h-[520px] w-[520px] rounded-full blur-[110px]"
@@ -50,7 +43,6 @@ const initialSuggestions = result?.data?.suggestions || [
         class="bg-brand-secondary/10 absolute right-1/4 -bottom-24 h-[520px] w-[520px] rounded-full blur-[110px]"
       >
       </div>
-
       <div class="relative z-10">
         {/* Text block */}
         <div class="mx-auto max-w-4xl text-center">
@@ -65,7 +57,6 @@ const initialSuggestions = result?.data?.suggestions || [
               </div>
             </div>
           </div>
-
           <h1
             class="mb-5 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
           >
@@ -76,7 +67,6 @@ const initialSuggestions = result?.data?.suggestions || [
               Conversation
             </span>
           </h1>
-
           <p
             class="text-muted-foreground mx-auto max-w-2xl text-xl leading-relaxed"
           >
@@ -84,7 +74,6 @@ const initialSuggestions = result?.data?.suggestions || [
             discovery, while request routing guarantees a leadership response
             within 2 hours.
           </p>
-
           <div
             class="text-muted-foreground mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm"
           >
@@ -110,7 +99,6 @@ const initialSuggestions = result?.data?.suggestions || [
       </div>
     </section>
   </main>
-
   {/* CHAT Section: Mostly below hero, slight overlap at top */}
   <section
     id="chat"
@@ -128,7 +116,6 @@ const initialSuggestions = result?.data?.suggestions || [
       </div>
     </div>
   </section>
-
   {/* Secondary content: Contact cards BELOW chat */}
   <section
     class="bg-muted/5 relative px-4 py-14 sm:px-6 lg:px-8"
@@ -138,7 +125,6 @@ const initialSuggestions = result?.data?.suggestions || [
       class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
     >
     </div>
-
     <div class="mx-auto max-w-7xl">
       <div class="mb-16 text-center">
         <h2 class="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
@@ -152,7 +138,6 @@ const initialSuggestions = result?.data?.suggestions || [
           below.
         </p>
       </div>
-
       <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
         {/* PHONE */}
         <TechCard
@@ -184,7 +169,6 @@ const initialSuggestions = result?.data?.suggestions || [
             >
           </a>
         </TechCard>
-
         {/* EMAIL */}
         <TechCard
           variant="technical"
@@ -215,7 +199,6 @@ const initialSuggestions = result?.data?.suggestions || [
             >
           </a>
         </TechCard>
-
         {/* HEADQUARTERS */}
         <TechCard
           variant="technical"
@@ -251,7 +234,6 @@ const initialSuggestions = result?.data?.suggestions || [
             >
           </a>
         </TechCard>
-
         {/* SUPPORT */}
         <TechCard
           variant="technical"
@@ -281,6 +263,5 @@ const initialSuggestions = result?.data?.suggestions || [
       </div>
     </div>
   </section>
-
   <Footer />
 </Layout>

@@ -97,7 +97,6 @@ const partnersCollection = defineCollection({
     name: z.string(),
     description: z.string(),
     detail: z.string().optional(),
-    metadata: z.string().optional(),
     category: z.string().optional(),
     order: z.number().optional(),
     featured: z.boolean().optional(),

@@ -1,7 +1,6 @@
 import { iconMap } from '@/lib/icons';
 import { PiPackage, PiCaretRight } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-
 interface InteractiveServiceCardProps {
   id: string;
   title: string;
@@ -9,7 +8,6 @@ interface InteractiveServiceCardProps {
   icon: string;
   index: number;
 }
-
 export default function InteractiveServiceCard({
   id,
   title,
@@ -18,14 +16,12 @@ export default function InteractiveServiceCard({
   index,
 }: InteractiveServiceCardProps) {
   const Icon = iconMap[icon] || PiPackage;
-
   return (
     <TechCard
       asChild
       interactive
       variant="technical"
       delay={index * 100}
-      metadata={`SERVICE_NODE_0${index + 1}`}
       className="h-full"
     >
       <a
@@ -43,7 +39,6 @@ export default function InteractiveServiceCard({
             <Icon className="text-primary h-8 w-8" />
           </div>
         </div>
-
         {/* Title */}
         <h2
           className="text-foreground group-hover:text-primary font-display mb-3 text-2xl font-bold tracking-tight transition-colors duration-300"
@@ -53,7 +48,6 @@ export default function InteractiveServiceCard({
         >
           {title}
         </h2>
-
         {/* Description */}
         <p
           className="text-muted-foreground mb-6 grow text-sm leading-relaxed"
@@ -63,7 +57,6 @@ export default function InteractiveServiceCard({
         >
           {description}
         </p>
-
         {/* Learn More Link */}
         <div className="text-primary flex items-center gap-2 font-mono text-[10px] tracking-widest transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 group-hover:tracking-[0.2em]">
           <span>Initialize Analysis</span>

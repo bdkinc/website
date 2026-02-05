@@ -1,6 +1,5 @@
 import { PiCheckCircle, PiHeadphones, PiMonitor } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-
 const detailColumns = [
   {
     title: 'Support Tiers',
@@ -21,17 +20,11 @@ const detailColumns = [
     ],
   },
 ];
-
 export default function TechSpecs() {
   return (
     <div className="not-prose mb-20 grid gap-8 md:grid-cols-2">
       {detailColumns.map((column, index) => (
-        <TechCard
-          key={index}
-          variant="technical"
-          interactive={false}
-          metadata={`SPEC_0${index + 1} // REVISION_A`}
-        >
+        <TechCard key={index} variant="technical" interactive={false}>
           <div className="p-8">
             <div className="border-primary/20 mb-6 flex items-center gap-4 border-b pb-4">
               <div className="bg-primary/10 rounded-md p-2">
@@ -44,7 +37,6 @@ export default function TechSpecs() {
                 {column.title}
               </h4>
             </div>
-
             <ul className="space-y-4">
               {column.items.map((item, idx) => (
                 <li

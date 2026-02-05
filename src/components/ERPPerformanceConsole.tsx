@@ -7,13 +7,11 @@ import {
   PiHeadphones,
 } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-
 const systemStats = [
   { label: 'Infrastructure Health', value: 'Optimal', color: 'text-green-500' },
   { label: 'Resource Allocation', value: 'Dynamic', color: 'text-primary' },
   { label: 'Threat Detection', value: 'Active', color: 'text-primary' },
 ];
-
 export function ERPPerformanceConsole() {
   const capabilities = [
     {
@@ -38,7 +36,6 @@ export function ERPPerformanceConsole() {
       tag: 'Support',
     },
   ];
-
   return (
     <div className="w-full">
       {/* Console Header */}
@@ -60,7 +57,6 @@ export function ERPPerformanceConsole() {
             </div>
           </div>
         </div>
-
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-8">
           {systemStats.map((stat) => (
             <div
@@ -77,7 +73,6 @@ export function ERPPerformanceConsole() {
           ))}
         </div>
       </div>
-
       {/* Capabilities Grid */}
       <div className="grid gap-6 md:grid-cols-3">
         {capabilities.map((item, index) => (
@@ -86,7 +81,6 @@ export function ERPPerformanceConsole() {
             variant="technical"
             interactive
             delay={index * 150}
-            metadata={item.tag}
           >
             <div className="relative z-10 flex h-full flex-col p-6 text-left">
               <div className="mb-6 flex items-start justify-between">
@@ -99,15 +93,12 @@ export function ERPPerformanceConsole() {
                   </span>
                 </div>
               </div>
-
               <h4 className="font-display text-foreground group-hover:text-primary mb-3 text-lg font-bold tracking-tight transition-colors">
                 {item.title}
               </h4>
-
               <p className="text-muted-foreground mb-6 flex-grow text-sm leading-relaxed">
                 {item.desc}
               </p>
-
               <div className="text-primary mt-auto flex items-center font-mono text-[10px] font-bold tracking-widest opacity-0 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 group-hover:translate-x-2 group-hover:opacity-100">
                 Initiate Protocol <PiCaretRight className="ml-1 h-3 w-3" />
               </div>

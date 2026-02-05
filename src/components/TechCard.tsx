@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { Slot } from '@radix-ui/react-slot';
-
 export interface TechCardProps {
   children: React.ReactNode;
   className?: string;
@@ -18,16 +17,13 @@ export interface TechCardProps {
    * - simple: technical chrome but NO footer decoration
    */
   variant?: 'default' | 'technical' | 'simple' | 'blog';
-  metadata?: string;
   key?: React.Key;
   asChild?: boolean;
 }
-
 interface MousePosition {
   x: number;
   y: number;
 }
-
 export function TechCard({
   children,
   className,
@@ -39,18 +35,14 @@ export function TechCard({
   asChild = false,
 }: TechCardProps) {
   const isInteractive = interactive;
-
   // When interactive, CSS `group-hover:` should work (parent has `group`).
   // We also keep an internal hovered state for the mouse-tracking spotlight.
-
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState<MousePosition>({
     x: 50,
     y: 50,
   });
-
   const Component = asChild ? Slot : 'div';
-
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isInteractive) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -58,7 +50,6 @@ export function TechCard({
     const y = ((e.clientY - rect.top) / rect.height) * 100;
     setMousePosition({ x, y });
   };
-
   return (
     <Component
       className={cn(
@@ -94,7 +85,6 @@ export function TechCard({
       >
         {/* Technical Overlays */}
         <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03]" />
-
         {/* Background gradient wash (hover) */}
         {isInteractive && (
           <div
@@ -105,7 +95,6 @@ export function TechCard({
             )}
           />
         )}
-
         {/* Mouse-tracking spotlight */}
         {isInteractive && (
           <div
@@ -116,10 +105,8 @@ export function TechCard({
             }}
           />
         )}
-
         <div className="text-foreground relative z-20 flex h-full w-full flex-col">
           <div className="w-full flex-grow">{children}</div>
-
           {/* Technical Footer Decoration */}
           {variant === 'technical' && (
             <div className="mt-auto flex w-full items-center justify-end gap-2 pt-6">
@@ -141,7 +128,6 @@ export function TechCard({
               />
             </div>
           )}
-
           {/* Blog Footer Decoration (Left-aligned, Secondary) */}
           {variant === 'blog' && (
             <div className="mt-auto flex w-full items-center justify-start gap-2 pt-6">
@@ -168,18 +154,15 @@ export function TechCard({
     </Component>
   );
 }
-
 export interface TechCardGridProps {
   children: React.ReactNode;
   className?: string;
 }
-
 export function TechCardGrid({ children, className }: TechCardGridProps) {
   const gridClass = cn(
     'grid gap-8 not-prose mb-20',
     className || 'md:grid-cols-3 grid-cols-1'
   );
-
   // Add animation delays to children if they're TechCard components
   const childrenWithAnimations = React.Children.map(
     children,
@@ -195,6 +178,5 @@ export function TechCardGrid({ children, className }: TechCardGridProps) {
       return child;
     }
   );
-
   return <div className={gridClass}>{childrenWithAnimations}</div>;
 }

@@ -4,7 +4,6 @@ import { CardTitle, CardDescription } from '@/components/ui/card';
 import { iconMap } from '@/lib/icons';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { TechCard } from '@/components/TechCard';
-
 interface ServicesProps {
   services: Array<{
     slug: string;
@@ -13,12 +12,10 @@ interface ServicesProps {
     icon: string;
   }>;
 }
-
 export default function Services({ services }: ServicesProps) {
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
   const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
   const descriptionRefs = useRef<(HTMLParagraphElement | null)[]>([]);
-
   // Viewport detection for section header
   const { ref: headerRef, isIntersecting: headerInView } =
     useIntersectionObserver({
@@ -26,14 +23,12 @@ export default function Services({ services }: ServicesProps) {
       rootMargin: '0px',
       triggerOnce: true,
     });
-
   // Viewport detection for grid container
   const { ref: gridRef, isIntersecting: gridInView } = useIntersectionObserver({
     threshold: 0.1,
     rootMargin: '50px',
     triggerOnce: true,
   });
-
   useEffect(() => {
     // Apply view-transition names to icons, titles, and descriptions
     iconRefs.current.forEach((icon, index) => {
@@ -42,7 +37,6 @@ export default function Services({ services }: ServicesProps) {
         icon.style.setProperty('view-transition-name', `service-icon-${slug}`);
       }
     });
-
     titleRefs.current.forEach((title, index) => {
       const slug = services[index]?.slug;
       if (title && slug) {
@@ -52,7 +46,6 @@ export default function Services({ services }: ServicesProps) {
         );
       }
     });
-
     descriptionRefs.current.forEach((description, index) => {
       const slug = services[index]?.slug;
       if (description && slug) {
@@ -63,7 +56,6 @@ export default function Services({ services }: ServicesProps) {
       }
     });
   }, [services]);
-
   return (
     <section className="px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -90,7 +82,6 @@ export default function Services({ services }: ServicesProps) {
             tailored for high-growth organizations.
           </p>
         </div>
-
         {/* Services Grid */}
         <div
           ref={gridRef as any}
@@ -99,7 +90,6 @@ export default function Services({ services }: ServicesProps) {
           {services.map((service, index) => {
             const Icon = iconMap[service.icon];
             const delayMs = index * 100;
-
             return (
               <TechCard
                 key={service.slug}

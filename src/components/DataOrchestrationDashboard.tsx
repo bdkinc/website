@@ -1,6 +1,5 @@
 import { PiLayout, PiNetwork, PiBrain } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-
 export default function DataOrchestrationDashboard() {
   const modules = [
     {
@@ -10,7 +9,6 @@ export default function DataOrchestrationDashboard() {
       icon: PiLayout,
       description: 'Real-time visualization layers',
       highlight: '99.9% Uptime',
-      metadata: 'VIS_NODE_01',
     },
     {
       title: 'Data Pipelines',
@@ -19,7 +17,6 @@ export default function DataOrchestrationDashboard() {
       icon: PiNetwork,
       description: 'Automated ETL/ELT workflows',
       highlight: 'High Throughput',
-      metadata: 'PIPE_NODE_02',
     },
     {
       title: 'Predictive Models',
@@ -28,16 +25,13 @@ export default function DataOrchestrationDashboard() {
       icon: PiBrain,
       description: 'ML-driven trend forecasting',
       highlight: 'Adaptive Logic',
-      metadata: 'ML_NODE_03',
     },
   ];
-
   return (
     <div className="mx-auto mb-20 w-full max-w-7xl">
       <h2 className="text-foreground font-display mb-12 text-center text-3xl font-bold tracking-tight">
         Data Command Center
       </h2>
-
       <div className="grid gap-6 lg:grid-cols-3">
         {modules.map((module, index) => (
           <TechCard
@@ -45,7 +39,6 @@ export default function DataOrchestrationDashboard() {
             variant="technical"
             interactive
             delay={index * 150}
-            metadata={module.metadata}
           >
             <div className="relative z-10 flex h-full flex-col p-8 text-left">
               {/* Header with Status */}
@@ -66,7 +59,6 @@ export default function DataOrchestrationDashboard() {
                   </div>
                 </div>
               </div>
-
               {/* Content */}
               <h3 className="text-foreground font-display group-hover:text-primary mb-3 text-xl font-bold tracking-tight transition-colors">
                 {module.title}
@@ -74,7 +66,6 @@ export default function DataOrchestrationDashboard() {
               <p className="text-muted-foreground mb-6 flex-grow text-sm leading-relaxed">
                 {module.description}
               </p>
-
               {/* Footer / Highlight */}
               <div className="border-primary/10 mt-auto flex items-center justify-between border-t pt-4">
                 <span className="text-muted-foreground/60 font-mono text-[9px] tracking-widest">

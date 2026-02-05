@@ -8,9 +8,6 @@ import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
-import TechSpecs from '@/components/TechSpecs';
-import WhoThisIsFor from '@/components/WhoThisIsFor';
-import TechnicalSection from '@/components/TechnicalSection';
 import ManagedITVisualization from '@/components/visualizations/ManagedITVisualization';
 import FeatureCarousel from '@/components/FeatureCarousel';
 import {
@@ -26,7 +23,6 @@ import {
   PiMonitor,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
-
 const service = await getEntry('services', 'managed-it');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -37,7 +33,6 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
-
 const _serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -55,18 +50,15 @@ const _serviceSchema = {
     availability: 'https://schema.org/InStock',
   },
 };
-
 const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .filter((post) => post.data.tags?.includes('managed-services'))
   .slice(0, 3);
-
 const metrics = [
   { value: '10K+', label: 'Tickets Closed', icon: PiHeadphones },
   { value: '98%', label: 'First-Call Resolution', icon: PiCheckCircle },
   { value: '2', label: 'Hour Onsite SLA', icon: PiMapPin },
   { value: '24/7', label: 'Support Coverage', icon: PiClock },
 ];
-
 const faqs = [
   {
     question: 'How does BDKinc integrate with our existing internal IT team?',
@@ -84,7 +76,6 @@ const faqs = [
       'Our infrastructure is built for elasticity. We have extensive experience navigating the technical integration of mergers and acquisitions, standardizing disparate systems, and rapidly onboarding new users to ensure business continuity during critical growth phases.',
   },
 ];
-
 const strategicFeatures = [
   {
     title: 'Operational Resilience',
@@ -124,7 +115,6 @@ const strategicFeatures = [
   },
 ];
 ---
-
 <Layout
   title="Elite Managed IT Services & Strategic Technology Management | BDKinc"
   description="Transform your technology into a competitive advantage. BDKinc provides elite managed IT services, 24/7 enterprise support, and strategic infrastructure leadership for growth-focused organizations."
@@ -146,7 +136,6 @@ const strategicFeatures = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-
       <div class="relative z-10 mx-auto max-w-7xl">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
           <!-- Badge -->
@@ -161,7 +150,6 @@ const strategicFeatures = [
               >
             </div>
           </div>
-
           <div
             class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
@@ -171,7 +159,6 @@ const strategicFeatures = [
               aria-hidden="true"
             />
           </div>
-
           <!-- Heading -->
           <h1
             class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight delay-100 duration-700 md:text-6xl"
@@ -186,7 +173,6 @@ const strategicFeatures = [
               >{lastTitleWord}</span
             >
           </h1>
-
           <!-- Subtitle -->
           <p
             class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto mb-16 max-w-3xl text-xl leading-relaxed delay-200 duration-700"
@@ -198,7 +184,6 @@ const strategicFeatures = [
             disrupt your operations.
           </p>
         </div>
-
         <!-- Visualization -->
         <div
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
@@ -208,13 +193,11 @@ const strategicFeatures = [
           </div>
         </div>
       </div>
-
       <div
         class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
       >
       </div>
     </section>
-
     <!-- Core Services -->
     <section class="bg-black/20 px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -235,12 +218,10 @@ const strategicFeatures = [
             <span class="text-accent font-semibold">modern enterprise</span>.
           </p>
         </div>
-
         <TechCardGrid client:visible className="md:grid-cols-3">
           <TechCard
             variant="technical"
             interactive={true}
-            metadata="IT_SERV_01"
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
@@ -263,11 +244,9 @@ const strategicFeatures = [
               </div>
             </div>
           </TechCard>
-
           <TechCard
             variant="technical"
             interactive={true}
-            metadata="IT_SERV_02"
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
@@ -290,11 +269,9 @@ const strategicFeatures = [
               </div>
             </div>
           </TechCard>
-
           <TechCard
             variant="technical"
             interactive={true}
-            metadata="IT_SERV_03"
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
@@ -320,7 +297,6 @@ const strategicFeatures = [
         </TechCardGrid>
       </div>
     </section>
-
     <!-- Strategic Leadership Section -->
     <section class="relative overflow-hidden py-24">
       <div
@@ -339,7 +315,6 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-
         <figure class="relative mx-auto max-w-3xl">
           <PiQuotesFill
             className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
@@ -363,7 +338,6 @@ const strategicFeatures = [
       >
       </div>
     </section>
-
     <!-- Technology Leadership -->
     <section
       class="bg-linear-to-b from-transparent to-black/10 px-4 py-24 sm:px-6 lg:px-8"
@@ -383,11 +357,9 @@ const strategicFeatures = [
             for the future.
           </p>
         </div>
-
         <FeatureCarousel client:visible features={strategicFeatures} />
       </div>
     </section>
-
     <!-- Key Benefits (Clean Icon Grid) -->
     <section class="bg-black/20 px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -401,7 +373,6 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-
         <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
           <!-- Benefit 1 -->
           <div class="group flex flex-col items-center text-center">
@@ -419,7 +390,6 @@ const strategicFeatures = [
               stops
             </p>
           </div>
-
           <!-- Benefit 2 -->
           <div class="group flex flex-col items-center text-center">
             <PiUsersThree
@@ -435,7 +405,6 @@ const strategicFeatures = [
               Access to experienced technicians with diverse technical expertise
             </p>
           </div>
-
           <!-- Benefit 3 -->
           <div class="group flex flex-col items-center text-center">
             <PiShieldCheck
@@ -451,7 +420,6 @@ const strategicFeatures = [
               Proactive security measures protect your data and systems
             </p>
           </div>
-
           <!-- Benefit 4 -->
           <div class="group flex flex-col items-center text-center">
             <PiTrendUp
@@ -467,7 +435,6 @@ const strategicFeatures = [
               Technology that scales with your business objectives
             </p>
           </div>
-
           <!-- Benefit 5 -->
           <div class="group flex flex-col items-center text-center">
             <PiLightning
@@ -483,7 +450,6 @@ const strategicFeatures = [
               Quick issue resolution minimizes disruption to your operations
             </p>
           </div>
-
           <!-- Benefit 6 -->
           <div class="group flex flex-col items-center text-center">
             <PiMonitor
@@ -502,7 +468,6 @@ const strategicFeatures = [
         </div>
       </div>
     </section>
-
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
@@ -514,7 +479,6 @@ const strategicFeatures = [
         </div>
       </div>
     </section>
-
     <!-- Related Resources -->
     {
       relatedPosts.length > 0 && (
@@ -543,9 +507,7 @@ const strategicFeatures = [
         </section>
       )
     }
-
     <ImpactMetricsSection metrics={metrics} />
-
     <!-- CTA -->
     <CTASection
       client:visible
@@ -555,6 +517,5 @@ const strategicFeatures = [
       buttonHref="/contact#chat"
     />
   </main>
-
   <Footer />
 </Layout>

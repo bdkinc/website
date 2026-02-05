@@ -1,11 +1,9 @@
 import { cn } from '@/lib/utils';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { TechCard } from '@/components/TechCard';
-
 export interface TrustShowcaseProps {
   showAllPartners?: boolean;
 }
-
 const partners = [
   {
     name: 'IBM',
@@ -44,7 +42,6 @@ const partners = [
     detail: 'The foundation of modern hybrid cloud infrastructure.',
   },
 ];
-
 export default function TrustShowcase({
   showAllPartners = false,
 }: TrustShowcaseProps) {
@@ -53,28 +50,23 @@ export default function TrustShowcase({
       threshold: 0.2,
       triggerOnce: true,
     });
-
   const { ref: gridRef, isIntersecting: gridInView } = useIntersectionObserver({
     threshold: 0.1,
     triggerOnce: true,
   });
-
   const visiblePartners = showAllPartners ? partners : partners.slice(0, 4);
-
   const gridColsClass =
     visiblePartners.length === 4
       ? 'lg:grid-cols-4'
       : visiblePartners.length === 6
         ? 'lg:grid-cols-3'
         : 'lg:grid-cols-3';
-
   return (
     <section
       id="trust-showcase"
       className="relative px-4 py-24 sm:px-6 lg:px-8"
     >
       <div className="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent" />
-
       <div className="mx-auto max-w-7xl">
         <div
           ref={headerRef as any}
@@ -97,7 +89,6 @@ export default function TrustShowcase({
             technologies into your ecosystem.
           </p>
         </div>
-
         <div
           ref={gridRef as any}
           className={cn('grid grid-cols-1 gap-6 md:grid-cols-2', gridColsClass)}
@@ -130,7 +121,6 @@ export default function TrustShowcase({
                     {partner.detail}
                   </p>
                 </div>
-
                 {/* Custom footer decoration (flipped TechCard footer) */}
                 <div className="absolute bottom-6 left-6 flex items-center justify-start gap-2">
                   <div className="bg-secondary/20 group-hover:bg-secondary/50 h-2 w-2 rounded-full transition-colors duration-500" />
@@ -140,7 +130,6 @@ export default function TrustShowcase({
             </TechCard>
           ))}
         </div>
-
         {/* Certifications Row */}
         <div className="mt-16 flex flex-wrap justify-center gap-8 opacity-50 grayscale transition-opacity hover:opacity-100">
           {['SOC 2 Compliant', 'HIPAA Ready', 'PCI-DSS Certified'].map(

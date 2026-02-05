@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { PiGlobe, PiDesktop, PiShieldCheck, PiWifiHigh } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-
 const regions = [
   {
     id: 'us-east',
@@ -37,15 +36,12 @@ const regions = [
     load: 51,
   },
 ];
-
 export function GlobalNetworkMap() {
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
-
   return (
     <TechCard
       variant="technical"
       interactive={false}
-      metadata="GLOBAL_AVAILABILITY_NET"
       className="w-full"
     >
       {/* Header */}
@@ -67,17 +63,14 @@ export function GlobalNetworkMap() {
           </div>
         </div>
       </div>
-
       {/* Map Area */}
       <div className="relative aspect-[21/9] w-full overflow-hidden bg-[radial-gradient(circle_at_center,_rgba(0,212,255,0.05)_0%,_transparent_100%)]">
         {/* Abstract Map Grid */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(0,212,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,212,255,0.03)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] bg-[size:40px_40px]" />
-
         {/* World Map Silhouette */}
         <div className="pointer-events-none absolute inset-0 opacity-20">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(0,212,255,0.1)_0%,_transparent_60%)]" />
         </div>
-
         {/* Region Nodes */}
         {regions.map((region) => (
           <div
@@ -89,7 +82,6 @@ export function GlobalNetworkMap() {
           >
             {/* Ping Wave Animation */}
             <div className="border-primary/30 absolute inset-0 -m-4 animate-ping rounded-full border opacity-75 duration-[3s]" />
-
             {/* Node Icon */}
             <div
               className={cn(
@@ -101,10 +93,8 @@ export function GlobalNetworkMap() {
             >
               <PiDesktop className="text-primary h-3 w-3" />
             </div>
-
             {/* Connecting Lines (Decorative) */}
             <div className="from-primary/20 pointer-events-none absolute top-1/2 left-1/2 h-[1px] w-[200px] origin-left -rotate-45 bg-gradient-to-r to-transparent opacity-0 transition-opacity group-hover/node:opacity-100" />
-
             {/* Tooltip */}
             <div
               className={cn(
@@ -139,7 +129,6 @@ export function GlobalNetworkMap() {
             </div>
           </div>
         ))}
-
         {/* Connection Arcs (SVG) */}
         <svg
           className="pointer-events-none absolute inset-0 h-full w-full opacity-30"
@@ -169,7 +158,6 @@ export function GlobalNetworkMap() {
           />
         </svg>
       </div>
-
       {/* Footer Stats */}
       <div className="divide-primary/10 border-primary/10 bg-muted/20 grid grid-cols-2 divide-x border-t md:grid-cols-4">
         {['99.999% Uptime', 'Terabit Backbone', 'ISO 27001', '24/7 NOC'].map(

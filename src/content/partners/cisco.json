@@ -2,10 +2,9 @@
   "name": "Cisco",
   "description": "Networking & Security Infrastructure",
   "detail": "The world's most robust connectivity backbone.",
-  "metadata": "CSCO_PARTNER_NODE_03",
   "category": "Networking",
   "order": 3,
   "featured": true,
-  "showOnAbout": true
-  ,"logo": "/logos/partners/cisco.svg"
+  "showOnAbout": true,
+  "logo": "/logos/partners/cisco.svg"
 }

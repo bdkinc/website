@@ -1,19 +1,16 @@
 import { PiTrendUp, PiShieldCheck, PiGlobe } from 'react-icons/pi';
 import type { IconType } from 'react-icons';
 import { TechCard, TechCardGrid } from '@/components/TechCard';
-
 interface AudienceItem {
   title: string;
   description: string;
   icon: IconType;
 }
-
 interface WhoThisIsForProps {
   title?: string;
   description?: string;
   items?: AudienceItem[];
 }
-
 export default function WhoThisIsFor({
   title = 'Who This Is For',
   description = 'We partner best with organizations that view technology as a strategic asset.',
@@ -39,20 +36,20 @@ export default function WhoThisIsFor({
       icon: PiGlobe,
     },
   ];
-
   const displayItems = items || defaultItems;
-
   return (
-    <section className="mb-24">
-      <div className="mb-12 text-center">
-        <h3 className="text-foreground font-display mb-4 text-3xl font-bold">
-          {title}
+    <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+      <div className="mb-16 text-center">
+        <h3 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+          Who This Is{' '}
+          <span className="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
+            For
+          </span>
         </h3>
-        <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
+        <p className="text-muted-foreground mx-auto max-w-2xl font-sans text-xl">
           {description}
         </p>
       </div>
-
       <TechCardGrid>
         {displayItems.map((item, index) => (
           <TechCard
@@ -60,7 +57,6 @@ export default function WhoThisIsFor({
             variant="technical"
             interactive
             delay={index * 100}
-            metadata={`AUDIENCE_SEGMENT_0${index + 1}`}
           >
             <div className="flex h-full flex-col items-center p-8 text-center">
               <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-xl border p-4 shadow-[0_0_15px_rgba(0,212,255,0.1)] transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">

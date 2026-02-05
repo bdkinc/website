@@ -9,14 +9,12 @@ import {
   PiCaretRight,
 } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-
 const powerStats = [
   { label: 'System Status', value: 'Operational', color: 'text-green-500' },
   { label: 'CPW Utilization', value: '42%', color: 'text-primary' },
   { label: 'Security Level', value: 'High', color: 'text-primary' },
   { label: 'Active LPARs', value: '12', color: 'text-primary' },
 ];
-
 export function PowerSystemsConsole() {
   const services = [
     {
@@ -56,7 +54,6 @@ export function PowerSystemsConsole() {
       tag: 'Scale',
     },
   ];
-
   return (
     <div className="relative w-full py-12">
       {/* Console Header */}
@@ -74,7 +71,6 @@ export function PowerSystemsConsole() {
             </p>
           </div>
         </div>
-
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {powerStats.map((stat) => (
             <div key={stat.label} className="text-left">
@@ -88,7 +84,6 @@ export function PowerSystemsConsole() {
           ))}
         </div>
       </div>
-
       {/* Console Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {services.map((s, i) => (
@@ -97,7 +92,6 @@ export function PowerSystemsConsole() {
             variant="technical"
             interactive
             delay={i * 100}
-            metadata={s.tag}
           >
             <div className="relative z-10 flex h-full flex-col p-6 text-left">
               <div className="mb-4 flex items-center justify-between">
@@ -105,14 +99,12 @@ export function PowerSystemsConsole() {
                   <s.icon className="text-primary h-6 w-6" />
                 </div>
               </div>
-
               <h4 className="font-display group-hover:text-primary mb-2 text-lg font-bold tracking-tight transition-colors">
                 {s.title}
               </h4>
               <p className="text-muted-foreground mb-6 flex-grow text-sm leading-relaxed">
                 {s.desc}
               </p>
-
               <div className="text-primary group-hover:text-primary flex items-center font-mono text-[10px] font-bold tracking-widest opacity-0 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 group-hover:translate-x-1 group-hover:opacity-100">
                 System Access <PiCaretRight className="ml-1 h-3 w-3" />
               </div>

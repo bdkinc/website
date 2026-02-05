@@ -2,23 +2,19 @@
 import type { ComponentType } from 'react';
 import MetricCountUp from '@/components/MetricCountUp';
 import { TechCard } from '@/components/TechCard';
-
 interface Metric {
   value: string;
   label: string;
   icon?: ComponentType<{ className?: string }>;
 }
-
 interface Props {
   metrics: Metric[];
   title?: string;
   eyebrow?: string;
   description?: string;
 }
-
 const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
 ---
-
 {
   metrics.length > 0 && (
     <section class="mb-20 px-4 sm:px-6 lg:px-8">
@@ -39,7 +35,6 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
               </p>
             )}
           </div>
-
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {metrics.map((metric, index) => (
               <TechCard
@@ -56,7 +51,6 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
                       <div class="bg-primary/10 absolute inset-0 animate-pulse rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     </div>
                   )}
-
                   <div class="metric-value flex flex-col items-center gap-2">
                     <MetricCountUp
                       client:visible
@@ -73,20 +67,17 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
     </section>
   )
 }
-
 <script>
   // Ensure the GSAP animation logic is robustly loaded or simplify if it conflicts with client:visible
   // The client:visible in MetricCountUp is likely correct, but let's check if GSAP is firing correctly.
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
   // Only run on client
   if (typeof window !== 'undefined') {
     // We'll attach this setup function to a global event or run it immediately if DOM is ready
     const setupImpactMetrics = () => {
       // Add a slight delay to ensure client:visible components might have mounted their DOM structure if needed
       // Though Astro script tags run after hydration usually.
-
       const cards = document.querySelectorAll<HTMLElement>(
         '.impact-metric-card'
       );
@@ -99,14 +90,11 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
       if (prefersReducedMotion) {
         return;
       }
-
       gsap.registerPlugin(ScrollTrigger);
-
       cards.forEach((card, index) => {
         const delay = Number(card.dataset.delay ?? '0') / 1000;
         const valueEl = card.querySelector('.metric-value');
         const glowEl = card.querySelector('.metric-card-glow');
-
         ScrollTrigger.create({
           trigger: card,
           start: 'top 80%',
@@ -117,14 +105,12 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
               { opacity: 0, y: 32 },
               { opacity: 1, y: 0, delay, duration: 0.8, ease: 'power3.out' }
             );
-
             // Removed separate animation for valueEl to avoid conflict with React's CountUp
             // Let the React component handle the number animation via client:visible
           },
         });
       });
     };
-
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', setupImpactMetrics, {
         once: true,
