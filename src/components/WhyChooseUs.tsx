@@ -97,7 +97,10 @@ export default function WhyChooseUs() {
   const active = reasons[activeIndex];
 
   return (
-    <section id="why-choose-us" className="relative px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      id="why-choose-us"
+      className="bg-muted/30 relative px-4 py-20 sm:px-6 lg:px-8 dark:bg-transparent"
+    >
       <div className="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent" />
 
       <div className="mx-auto max-w-7xl">

@@ -40,12 +40,20 @@ const { servicesData, recentPosts } = await getNavigationData();
     currentPath={Astro.url.pathname}
   />
   <main id="main-content">
-    <Hero client:visible />
+    <Hero client:load />
     <Services client:visible services={servicesData} />
     <WhyChooseUs client:visible />
     <TrustShowcase client:visible />
     <Testimonials />
-    <CTASection client:visible icon="click" />
+    <CTASection
+      client:visible
+      icon="click"
+      secondaryAction={{
+        text: 'Request a Free IT Assessment',
+        href: '/contact?from=assessment',
+        icon: 'sparkles',
+      }}
+    />
   </main>
 
   <Footer />

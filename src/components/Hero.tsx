@@ -10,7 +10,7 @@ export default function Hero() {
   return (
     <section className="relative -mt-16 flex min-h-screen items-center justify-center overflow-hidden pt-16">
       {/* Clean gradient background */}
-      <div className="absolute inset-0 -top-16 opacity-10 dark:opacity-60">
+      <div className="absolute inset-0 -top-16 opacity-30 dark:opacity-60">
         <Aurora
           colorStops={['#00d4ff', '#7c3aed', '#00d4ff']}
           amplitude={1.5}
@@ -19,14 +19,17 @@ export default function Hero() {
         />
       </div>
 
+      {/* Light mode gradient mesh for depth */}
+      <div className="gradient-mesh absolute inset-0 -top-16 opacity-40 dark:opacity-0" />
+
       {/* Circuit board effect */}
       <CircuitBoard className="pointer-events-none -top-16" />
 
       {/* Subtle gradient overlay */}
-      <div className="via-background/50 to-background absolute inset-0 -top-16 bg-linear-to-b from-transparent"></div>
+      <div className="via-background/30 to-background dark:via-background/50 absolute inset-0 -top-16 bg-linear-to-b from-transparent"></div>
 
       {/* Radial gradient spotlight */}
-      <div className="bg-radial-gradient from-primary/5 absolute inset-0 -top-16 via-transparent to-transparent opacity-50"></div>
+      <div className="from-primary/8 dark:from-primary/5 absolute inset-0 -top-16 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-from),transparent_70%)] opacity-60 dark:opacity-50"></div>
 
       {/* Content */}
       <div

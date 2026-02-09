@@ -59,7 +59,7 @@ export default function InteractiveServiceCard({
         </p>
         {/* Learn More Link */}
         <div className="text-primary flex items-center gap-2 font-mono text-[10px] tracking-widest transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 group-hover:tracking-[0.2em]">
-          <span>Initialize Analysis</span>
+          <span>Learn More</span>
           <PiCaretRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1" />
         </div>
       </a>

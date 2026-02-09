@@ -1,6 +1,6 @@
 'use client';
 
-import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
+import { ScrollArea as ScrollAreaPrimitive } from '@base-ui/react/scroll-area';
 import { Button } from '@/components/ui/button';
 import { ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
@@ -15,7 +15,6 @@ export const Suggestions = ({
 }: SuggestionsProps) => (
   <ScrollAreaPrimitive.Root
     className={cn('relative w-full', className)}
-    type="auto"
     {...props}
   >
     <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]">

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ThemeToggle from '@/components/ThemeToggle';
 import Logo from '@/components/Logo';
-import { PiList, PiX } from 'react-icons/pi';
+import { PiList, PiX, PiArrowRight } from 'react-icons/pi';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -113,8 +113,15 @@ export default function Navigation({
             </NavigationMenu>
           </div>
 
-          {/* Theme Toggle - Desktop */}
-          <div className="z-10 hidden items-center md:flex">
+          {/* CTA + Theme Toggle - Desktop */}
+          <div className="z-10 hidden items-center gap-3 md:flex">
+            <a
+              href="/contact"
+              className="border-primary/50 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-1.5 text-sm font-semibold transition-all duration-300"
+            >
+              Get In Touch
+              <PiArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </a>
             <ThemeToggle />
           </div>
 
@@ -241,13 +248,16 @@ export default function Navigation({
               )}
             </div>
 
-            {/* Contact */}
-            <a
-              href="/contact"
-              className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors duration-300"
-            >
-              Contact
-            </a>
+            {/* Contact CTA */}
+            <div className="border-border/40 mt-3 border-t pt-3">
+              <a
+                href="/contact"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors duration-300"
+              >
+                Get In Touch
+                <PiArrowRight className="h-4 w-4" aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </div>
       )}

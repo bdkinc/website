@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
-import { Slot } from '@radix-ui/react-slot';
+import { Slot } from '@/components/ui/slot';
 export interface TechCardProps {
   children: React.ReactNode;
   className?: string;

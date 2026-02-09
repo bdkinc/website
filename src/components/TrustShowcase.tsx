@@ -64,7 +64,7 @@ export default function TrustShowcase({
   return (
     <section
       id="trust-showcase"
-      className="relative px-4 py-24 sm:px-6 lg:px-8"
+      className="relative px-4 py-16 sm:px-6 lg:px-8"
     >
       <div className="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent" />
       <div className="mx-auto max-w-7xl">

@@ -37,29 +37,28 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
           </div>
           <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {metrics.map((metric, index) => (
-              <TechCard
-                client:visible
-                className="impact-metric-card min-h-[220px]"
-                animated={false}
-                variant="blog"
+              <div
+                class="impact-metric-card min-h-[220px]"
                 data-delay={index * 80}
               >
-                <div class="flex h-full flex-col items-center justify-center gap-6 p-4">
-                  {metric.icon && (
-                    <div class="bg-primary/10 text-primary ring-primary/25 group-hover:bg-primary/20 group-hover:ring-primary/50 relative flex h-16 w-16 items-center justify-center rounded-full ring-1 transition-colors duration-500">
-                      <metric.icon className="h-8 w-8" aria-hidden="true" />
-                      <div class="bg-primary/10 absolute inset-0 animate-pulse rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <TechCard client:visible animated={false} variant="blog">
+                  <div class="flex h-full flex-col items-center justify-center gap-6 p-4">
+                    {metric.icon && (
+                      <div class="bg-primary/10 text-primary ring-primary/25 group-hover:bg-primary/20 group-hover:ring-primary/50 relative flex h-16 w-16 items-center justify-center rounded-full ring-1 transition-colors duration-500">
+                        <metric.icon className="h-8 w-8" aria-hidden="true" />
+                        <div class="bg-primary/10 absolute inset-0 animate-pulse rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      </div>
+                    )}
+                    <div class="metric-value flex flex-col items-center gap-2">
+                      <MetricCountUp
+                        client:visible
+                        value={metric.value}
+                        label={metric.label}
+                      />
                     </div>
-                  )}
-                  <div class="metric-value flex flex-col items-center gap-2">
-                    <MetricCountUp
-                      client:visible
-                      value={metric.value}
-                      label={metric.label}
-                    />
                   </div>
-                </div>
-              </TechCard>
+                </TechCard>
+              </div>
             ))}
           </div>
         </div>

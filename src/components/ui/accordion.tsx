@@ -1,13 +1,24 @@
 import * as React from 'react';
-import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import { Accordion as AccordionPrimitive } from '@base-ui/react/accordion';
 import { PiCaretDown } from 'react-icons/pi';
 
 import { cn } from '@/lib/utils';
 
 function Accordion({
+  type,
+  collapsible: _collapsible,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Root>) {
-  return <AccordionPrimitive.Root data-slot="accordion" {...props} />;
+}: Omit<React.ComponentProps<typeof AccordionPrimitive.Root>, 'multiple'> & {
+  type?: 'single' | 'multiple';
+  collapsible?: boolean;
+}) {
+  return (
+    <AccordionPrimitive.Root
+      data-slot="accordion"
+      multiple={type === 'multiple'}
+      {...props}
+    />
+  );
 }
 
 function AccordionItem({
@@ -17,6 +28,9 @@ function AccordionItem({
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
+      render={(props, state) => (
+        <div {...props} data-state={state.open ? 'open' : 'closed'} />
+      )}
       className={cn('border-b last:border-b-0', className)}
       {...props}
     />
@@ -32,8 +46,15 @@ function AccordionTrigger({
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
+        render={(props, state) => (
+          <button
+            {...props}
+            data-state={state.open ? 'open' : 'closed'}
+            type="button"
+          />
+        )}
         className={cn(
-          'focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]_.accordion-caret]:rotate-180',
+          'focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-open]_.accordion-caret]:rotate-180 [&[data-state=open]_.accordion-caret]:rotate-180',
           className
         )}
         {...props}
@@ -52,15 +73,15 @@ function AccordionContent({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Content>) {
+}: React.ComponentProps<typeof AccordionPrimitive.Panel>) {
   return (
-    <AccordionPrimitive.Content
+    <AccordionPrimitive.Panel
       data-slot="accordion-content"
       className="overflow-hidden text-sm"
       {...props}
     >
       <div className={cn('pt-0 pb-4', className)}>{children}</div>
-    </AccordionPrimitive.Content>
+    </AccordionPrimitive.Panel>
   );
 }
 

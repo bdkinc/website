@@ -1,6 +1,4 @@
-import { useEffect, useRef } from 'react';
 import type { HTMLAttributeAnchorTarget } from 'react';
-import { gsap } from 'gsap';
 import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
@@ -33,6 +31,7 @@ export interface CTASectionProps {
   buttonHref?: string;
   icon?: CTAIcon;
   primaryAction?: CTAAction;
+  secondaryAction?: CTAAction;
   /**
    * When true, skip the intersection observer and show immediately.
    * Useful for pages where the component is server-rendered without a client directive.
@@ -47,10 +46,9 @@ export default function CTASection({
   buttonHref = '/contact',
   icon,
   primaryAction,
+  secondaryAction,
   disableObserver = false,
 }: CTASectionProps) {
-  const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
-
   const resolvedPrimaryAction: CTAAction = {
     text: primaryAction?.text ?? buttonText,
     href: primaryAction?.href ?? buttonHref,
@@ -68,58 +66,25 @@ export default function CTASection({
 
   const sectionInView = disableObserver ? true : isIntersecting;
 
-  useEffect(() => {
-    if (!buttonRef.current) return;
-
-    // Skip hover animation if user prefers reduced motion
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    if (prefersReducedMotion) return;
-
-    const button = buttonRef.current;
-
-    // Button hover effect enhancement with GSAP
-    const handleMouseEnter = () => {
-      gsap.to(button, {
-        scale: 1.05,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
-    };
-
-    const handleMouseLeave = () => {
-      gsap.to(button, {
-        scale: 1,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
-    };
-
-    button.addEventListener('mouseenter', handleMouseEnter);
-    button.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-      button.removeEventListener('mouseenter', handleMouseEnter);
-      button.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, []);
-
   return (
-    <section className="px-4 py-24 sm:px-6 lg:px-8">
+    <section className="px-4 py-28 sm:px-6 lg:px-8">
       <div
         ref={sectionRef as any}
         className={cn(
           'mx-auto max-w-4xl text-center',
-          'scale-95 opacity-0 transition-[opacity,transform] duration-500 ease-out',
-          sectionInView && 'scale-100 opacity-100'
+          'translate-y-4 opacity-0 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
+          sectionInView && 'translate-y-0 opacity-100'
         )}
       >
-        <Card size="xl" className="opacity-100">
+        <Card
+          size="xl"
+          interactive={false}
+          className="bg-card/80 dark:bg-card/60 opacity-100 shadow-sm backdrop-blur-xl"
+        >
           <h2
             className={cn(
               'text-foreground mb-4 text-3xl font-bold md:text-4xl',
-              'translate-y-4 opacity-0 transition-[opacity,transform] duration-600 ease-out',
+              'translate-y-5 opacity-0 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]',
               sectionInView && 'translate-y-0 opacity-100'
             )}
             style={{ transitionDelay: sectionInView ? '150ms' : '0ms' }}
@@ -129,7 +94,7 @@ export default function CTASection({
           <p
             className={cn(
               'text-muted-foreground mb-8 text-xl',
-              'translate-y-4 opacity-0 transition-[opacity,transform] duration-600 ease-out',
+              'translate-y-5 opacity-0 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]',
               sectionInView && 'translate-y-0 opacity-100'
             )}
             style={{ transitionDelay: sectionInView ? '300ms' : '0ms' }}
@@ -138,23 +103,37 @@ export default function CTASection({
           </p>
           <div
             className={cn(
-              'translate-y-2 opacity-0 transition-[opacity,transform] duration-400 ease-out',
+              'translate-y-3 opacity-0 transition-[opacity,transform] duration-600 ease-[cubic-bezier(0.22,1,0.36,1)]',
               sectionInView && 'translate-y-0 opacity-100'
             )}
             style={{ transitionDelay: sectionInView ? '450ms' : '0ms' }}
           >
-            <div className="relative inline-block">
-              <CTAButton
-                ref={buttonRef}
-                className="pulse-ring relative z-10 cursor-pointer shadow-lg"
-                icon={resolvedPrimaryAction.icon}
-                href={resolvedPrimaryAction.href}
-                target={resolvedPrimaryAction.target}
-                rel={resolvedPrimaryAction.rel}
-              >
-                {resolvedPrimaryAction.text}
-              </CTAButton>
-              <div className="from-primary via-secondary to-primary group-hover:animate-shimmer absolute inset-0 -z-10 rounded-lg bg-linear-to-r bg-size-[200%_100%] opacity-20" />
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <div className="relative inline-block">
+                <CTAButton
+                  className="relative z-10 cursor-pointer shadow-lg transition-transform duration-200 ease-out hover:scale-[1.02]"
+                  icon={resolvedPrimaryAction.icon}
+                  href={resolvedPrimaryAction.href}
+                  target={resolvedPrimaryAction.target}
+                  rel={resolvedPrimaryAction.rel}
+                >
+                  {resolvedPrimaryAction.text}
+                </CTAButton>
+              </div>
+              {secondaryAction && (
+                <div className="inline-block">
+                  <CTAButton
+                    variant="outline"
+                    className="hover:border-primary/50 hover:bg-primary/5 transition-transform duration-200 ease-out hover:scale-[1.02]"
+                    icon={secondaryAction.icon}
+                    href={secondaryAction.href}
+                    target={secondaryAction.target}
+                    rel={secondaryAction.rel}
+                  >
+                    {secondaryAction.text}
+                  </CTAButton>
+                </div>
+              )}
             </div>
           </div>
         </Card>

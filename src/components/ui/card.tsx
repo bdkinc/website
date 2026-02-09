@@ -31,7 +31,7 @@ export const cardVariants = cva(
     },
     defaultVariants: {
       size: 'default',
-      interactive: true,
+      interactive: false,
       holographic: false,
     },
   }

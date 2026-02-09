@@ -11,7 +11,6 @@ import TechnicalFAQ from '@/components/TechnicalFAQ';
 import { PowerSystemsConsole } from '@/components/PowerSystemsConsole';
 import { ModernizationRoadmap } from '@/components/ModernizationRoadmap';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
-import TechnicalSection from '@/components/TechnicalSection';
 import IBMPowerVisualization from '@/components/visualizations/IBMPowerVisualization';
 import FeatureCarousel from '@/components/FeatureCarousel';
 import {
@@ -167,7 +166,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Core Services -->
-    <section class="bg-black/20 px-4 py-24 sm:px-6 lg:px-8">
+    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -232,7 +231,7 @@ const strategicFeatures = [
     </section>
     <!-- Strategic Advantage -->
     <section
-      class="bg-linear-to-b from-transparent to-black/10 px-4 py-24 sm:px-6 lg:px-8"
+      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
     >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
@@ -253,7 +252,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Roadmap Section -->
-    <section class="bg-black/20 py-24 sm:px-6 lg:px-8">
+    <section class="bg-muted/30 dark:bg-white/[0.02] py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -272,7 +271,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Key Benefits -->
-    <section class="bg-black/10 px-4 py-24 sm:px-6 lg:px-8">
+    <section class="bg-muted/20 dark:bg-white/[0.01] px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -384,24 +383,6 @@ const strategicFeatures = [
         </div>
       </div>
     </section>
-    <!-- Technical Section -->
-    <TechnicalSection client:visible id="power-vault" overlayOpacity="opacity-10">
-      <div class="relative z-10 flex flex-col items-center text-center">
-        <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
-          <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
-          <span class="text-xs font-bold tracking-widest text-primary font-display">IBM Power Command Vault</span>
-        </div>
-        <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
-          Elite Orchestration. <span class="text-primary">Zero Business Failure.</span>
-        </h3>
-        <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
-          Your IBM Power infrastructure is the heartbeat of your enterprise. 
-          We combine disciplined operations with modernization where it 
-          matters—delivering predictable uptime, controlled costs, and a clear 
-          roadmap across IBM i, AIX, VIOS, Red Hat, and Ubuntu.
-        </div>
-      </div>
-    </TechnicalSection>
     <WhoThisIsFor 
       client:visible 
       title="Built for the High-Stakes Enterprise"
