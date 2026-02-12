@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import ThemeToggle from '@/components/ThemeToggle';
 import Logo from '@/components/Logo';
 import { PiList, PiX, PiArrowRight } from 'react-icons/pi';
+import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -59,25 +60,14 @@ export default function Navigation({
       <div className="mx-auto max-w-7xl">
         <div className="relative flex h-20 items-center justify-between">
           {/* Logo */}
-          <Logo />
+          <a href="/" className="flex items-center" aria-label="BDKinc Home">
+            <Logo />
+          </a>
 
           {/* Desktop Navigation - Centered on window */}
           <div className="absolute left-1/2 hidden -translate-x-1/2 items-center justify-center md:flex">
             <NavigationMenu>
               <NavigationMenuList>
-                {/* Home */}
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    href="/"
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      'hover:text-primary bg-transparent! transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
-                    )}
-                  >
-                    Home
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
                 {/* About */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
@@ -96,32 +86,15 @@ export default function Navigation({
 
                 {/* Blog Dropdown */}
                 <BlogDropdown blogPosts={blogPosts} />
-
-                {/* Contact */}
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    href="/contact"
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      'hover:text-primary bg-transparent! transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
-                    )}
-                  >
-                    Contact
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
 
           {/* CTA + Theme Toggle - Desktop */}
           <div className="z-10 hidden items-center gap-3 md:flex">
-            <a
-              href="/contact"
-              className="border-primary/50 bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-1.5 text-sm font-semibold transition-all duration-300"
-            >
-              Get In Touch
-              <PiArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </a>
+            <Button asChild variant="outline">
+              <a href="/contact">Get In Touch</a>
+            </Button>
             <ThemeToggle />
           </div>
 
@@ -250,13 +223,16 @@ export default function Navigation({
 
             {/* Contact CTA */}
             <div className="border-border/40 mt-3 border-t pt-3">
-              <a
-                href="/contact"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors duration-300"
+              <Button
+                asChild
+                variant="outline"
+                className="w-full justify-center"
               >
-                Get In Touch
-                <PiArrowRight className="h-4 w-4" aria-hidden="true" />
-              </a>
+                <a href="/contact">
+                  Get In Touch
+                  <PiArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                </a>
+              </Button>
             </div>
           </div>
         </div>

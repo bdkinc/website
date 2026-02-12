@@ -89,12 +89,7 @@ export default function TechStackShowcase() {
       </div>
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {layers.map((layer) => (
-          <TechCard
-            key={layer.id}
-            variant="technical"
-            interactive
-            _STACK_V5.0`}
-          >
+          <TechCard key={layer.id} variant="technical" interactive>
             <div className="relative z-10 flex h-full flex-col text-left">
               {/* Header */}
               <div className="border-primary/10 bg-muted/20 group-hover:bg-primary/5 flex items-center gap-4 border-b p-6 transition-colors">

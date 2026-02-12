@@ -7,7 +7,6 @@ import { iconMap } from '@/lib/icons';
 import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
-import DataOrchestrationDashboard from '@/components/DataOrchestrationDashboard';
 import AnalyticsLifecycle from '@/components/AnalyticsLifecycle';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 import WhoThisIsFor from '@/components/WhoThisIsFor';
@@ -170,7 +169,7 @@ const strategicFeatures = [
       >
       </div>
     </section>
-    <!-- Core Services -->
+    <!-- Analytics Lifecycle -->
     <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
@@ -180,17 +179,11 @@ const strategicFeatures = [
             <span class="text-foreground">Analytics </span>
             <span
               class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
-              >Command Center</span
+              >Lifecycle</span
             >
           </h2>
-          <p
-            class="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl"
-          >
-            Strategic intelligence designed for the
-            <span class="text-accent font-semibold">modern enterprise</span>.
-          </p>
         </div>
-        <DataOrchestrationDashboard client:visible />
+        <AnalyticsLifecycle client:visible />
       </div>
     </section>
     <!-- Strategic Leadership Section -->
@@ -252,15 +245,6 @@ const strategicFeatures = [
           </p>
         </div>
         <FeatureCarousel client:visible features={strategicFeatures} />
-      </div>
-    </section>
-    <!-- Analytics Lifecycle -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] py-24">
-      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 class="text-foreground mb-12 text-center text-3xl font-bold font-display tracking-tight md:text-4xl">
-          Analytics <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Lifecycle</span>
-        </h2>
-        <AnalyticsLifecycle client:visible />
       </div>
     </section>
     <!-- Key Benefits -->

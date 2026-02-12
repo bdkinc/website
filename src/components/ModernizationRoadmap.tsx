@@ -35,7 +35,7 @@ const steps = [
     description:
       'Full digital agility. Web/Mobile front-ends, real-time analytics, and microservices architecture.',
     icon: PiDeviceMobile,
-    color: 'primary',
+    color: 'accent',
   },
 ] as const;
 
@@ -153,6 +153,7 @@ export function ModernizationRoadmap() {
             const Icon = step.icon;
             const isLast = index === steps.length - 1;
             const isSecondary = step.color === 'secondary';
+            const isAccent = step.color === 'accent';
 
             return (
               <div
@@ -160,7 +161,7 @@ export function ModernizationRoadmap() {
                 ref={(el) => {
                   cardRefs.current[index] = el;
                 }}
-                className="group relative"
+                className="relative"
                 style={{ opacity: 0 }}
               >
                 {!isLast && (
@@ -185,17 +186,18 @@ export function ModernizationRoadmap() {
                   </div>
                 )}
 
-                <div className="border-border bg-card/80 hover:border-primary/50 relative flex h-full flex-col items-center rounded-xl border px-6 pt-8 pb-6 backdrop-blur-md transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.15)]">
+                <div
+                  className="border-border bg-card/80 hover:border-primary/50 relative flex h-full flex-col items-center rounded-xl border px-6 pt-8 pb-6 backdrop-blur-md transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.15)]"
+                  style={
+                    isAccent
+                      ? ({
+                          '--accent': 'var(--brand-accent)',
+                        } as React.CSSProperties)
+                      : undefined
+                  }
+                >
                   {/* Scanline texture */}
                   <div className="scanlines pointer-events-none absolute inset-0 overflow-hidden rounded-xl opacity-[0.03]" />
-
-                  {/* Corner accents */}
-                  <div className="absolute top-0 right-0 p-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <div className="border-primary h-2 w-2 border-t-2 border-r-2" />
-                  </div>
-                  <div className="absolute bottom-0 left-0 p-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <div className="border-primary h-2 w-2 border-b-2 border-l-2" />
-                  </div>
 
                   {/* Step number */}
                   <div
@@ -215,9 +217,11 @@ export function ModernizationRoadmap() {
                     }}
                     className={cn(
                       'mb-6 inline-flex items-center justify-center rounded-2xl p-4 shadow-[0_0_20px_rgba(0,0,0,0.08)] ring-1 ring-white/10 ring-inset',
-                      isSecondary
-                        ? 'bg-secondary/10 text-secondary'
-                        : 'bg-primary/10 text-primary'
+                      isAccent
+                        ? 'bg-accent/10 text-accent'
+                        : isSecondary
+                          ? 'bg-secondary/10 text-secondary'
+                          : 'bg-primary/10 text-primary'
                     )}
                     style={{ opacity: 0 }}
                   >
@@ -239,9 +243,11 @@ export function ModernizationRoadmap() {
                     <div
                       className={cn(
                         'h-1.5 w-1.5 animate-pulse rounded-full shadow-[0_0_8px_currentColor]',
-                        isSecondary
-                          ? 'bg-secondary text-secondary'
-                          : 'bg-primary text-primary'
+                        isAccent
+                          ? 'bg-accent text-accent'
+                          : isSecondary
+                            ? 'bg-secondary text-secondary'
+                            : 'bg-primary text-primary'
                       )}
                     />
                   </div>
