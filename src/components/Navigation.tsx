@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import ThemeToggle from '@/components/ThemeToggle';
 import Logo from '@/components/Logo';
-import { PiList, PiX } from 'react-icons/pi';
+import { PiList, PiX, PiArrowRight } from 'react-icons/pi';
+import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -50,7 +51,7 @@ export default function Navigation({
   return (
     <nav
       className={cn(
-        'fixed top-0 right-0 left-0 z-50 transition-all duration-300',
+        'fixed top-0 right-0 left-0 z-50 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
         scrolled
           ? 'glass border-primary/10 border-b shadow-lg backdrop-blur-xl'
           : 'bg-transparent shadow-sm backdrop-blur-sm'
@@ -59,32 +60,21 @@ export default function Navigation({
       <div className="mx-auto max-w-7xl">
         <div className="relative flex h-20 items-center justify-between">
           {/* Logo */}
-          <Logo />
+          <a href="/" className="flex items-center" aria-label="BDKinc Home">
+            <Logo />
+          </a>
 
           {/* Desktop Navigation - Centered on window */}
           <div className="absolute left-1/2 hidden -translate-x-1/2 items-center justify-center md:flex">
             <NavigationMenu>
               <NavigationMenuList>
-                {/* Home */}
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    href="/"
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
-                    )}
-                  >
-                    Home
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
                 {/* About */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
                     href="/about"
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
+                      'hover:text-primary bg-transparent! transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
                     )}
                   >
                     About
@@ -96,25 +86,15 @@ export default function Navigation({
 
                 {/* Blog Dropdown */}
                 <BlogDropdown blogPosts={blogPosts} />
-
-                {/* Contact */}
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    href="/contact"
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      'hover:text-primary bg-transparent! transition-all hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
-                    )}
-                  >
-                    Contact
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
 
-          {/* Theme Toggle - Desktop */}
-          <div className="z-10 hidden items-center md:flex">
+          {/* CTA + Theme Toggle - Desktop */}
+          <div className="z-10 hidden items-center gap-3 md:flex">
+            <Button asChild variant="outline">
+              <a href="/contact">Get In Touch</a>
+            </Button>
             <ThemeToggle />
           </div>
 
@@ -123,7 +103,10 @@ export default function Navigation({
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="hover:bg-accent rounded-md p-2"
+              aria-controls="mobile-navigation"
+              aria-expanded={isOpen}
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              className="hover:bg-accent focus-visible:ring-primary/50 focus-visible:ring-offset-background rounded-md p-2 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               {isOpen ? (
                 <PiX className="text-foreground h-6 w-6" />
@@ -137,7 +120,7 @@ export default function Navigation({
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="glass border-t md:hidden">
+        <div id="mobile-navigation" className="glass border-t md:hidden">
           <div className="space-y-1 px-2 pt-2 pb-3">
             {/* Home */}
             <a
@@ -238,13 +221,19 @@ export default function Navigation({
               )}
             </div>
 
-            {/* Contact */}
-            <a
-              href="/contact"
-              className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors duration-300"
-            >
-              Contact
-            </a>
+            {/* Contact CTA */}
+            <div className="border-border/40 mt-3 border-t pt-3">
+              <Button
+                asChild
+                variant="outline"
+                className="w-full justify-center"
+              >
+                <a href="/contact">
+                  Get In Touch
+                  <PiArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       )}

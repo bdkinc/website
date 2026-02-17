@@ -1,23 +1,28 @@
 ---
 import { getEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
-import { Card } from '@/components/ui/card';
+import AnalyticsLifecycle from '@/components/AnalyticsLifecycle';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import WhoThisIsFor from '@/components/WhoThisIsFor';
+import TechnicalSection from '@/components/TechnicalSection';
+import BusinessAnalyticsVisualization from '@/components/visualizations/BusinessAnalyticsVisualization';
+import FeatureCarousel from '@/components/FeatureCarousel';
 import {
   PiTrendUp,
   PiClock,
-  PiTarget,
-  PiLightning,
   PiDatabase,
-  PiUsers,
+  PiTarget,
+  PiLayout,
+  PiNetwork,
+  PiShieldCheck,
+  PiQuotesFill,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
-
 const service = await getEntry('services', 'business-analytics');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -28,39 +33,68 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
-
 const metrics = [
-  { value: '300+', label: 'DASHBOARDS BUILT', icon: TrendingUp },
-  { value: '80%', label: 'REPORT TIME SAVED', icon: Clock },
-  { value: '200+', label: 'DATA SOURCES LINKED', icon: Database },
-  { value: '99.9%', label: 'DATA ACCURACY', icon: Target },
+  { value: '300+', label: 'Dashboards Built', icon: PiLayout },
+  { value: '80%', label: 'Report Time Saved', icon: PiClock },
+  { value: '200+', label: 'Data Sources Linked', icon: PiNetwork },
+  { value: '99.9%', label: 'Data Accuracy', icon: PiTarget },
 ];
-
-const detailColumns = [
+const faqs = [
   {
-    title: 'Data Integration',
-    icon: Database,
-    items: [
-      'Unified pipelines combine ERP, CRM, finance, and operational data',
-      'Automated validation keeps analytics accurate and audit-ready',
-      'Scheduled refreshes deliver the latest numbers to every dashboard',
-    ],
+    question: "How do you ensure data security and compliance across distributed systems?",
+    answer: "Security is foundational to our architecture. We implement granular role-based access control (RBAC), end-to-end encryption, and rigorous audit trails to ensure your data ecosystem meets enterprise compliance standards and protects sensitive intelligence."
   },
   {
-    title: 'Reporting Capabilities',
-    icon: PiTrendUp,
-    items: [
-      'Role-based dashboards deliver tailored KPIs for each team',
-      'Scenario modeling highlights opportunities and risks in minutes',
-      'Automated alerts flag anomalies before they impact performance',
-    ],
+    question: "Can your solutions integrate with legacy on-premise infrastructure?",
+    answer: "Yes. Our data engineering capabilities bridge the gap between legacy silos and modern cloud architectures. We design hybrid integration layers that securely extract value from established systems without disrupting critical operations."
+  },
+  {
+    question: "What is the typical latency for real-time analytics dashboards?",
+    answer: "Latency is architected to match operational requirements. For mission-critical streams, we deploy event-driven architectures capable of sub-second processing, while strategic dashboards are optimized for high-performance querying of aggregated datasets."
+  }
+];
+const strategicFeatures = [
+  {
+    title: 'Orchestrated Intelligence',
+    description:
+      'Unifying disparate data sources into a single source of truth.',
+    highlight: 'Single source of truth',
+    icon: 'Database',
+    detail:
+      "We architect data ecosystems that break down operational silos. By orchestrating data from across your enterprise into a unified plane, we ensure that your analytics are based on a consistent, governed, and accurate foundation.",
+  },
+  {
+    title: 'Predictive Foresight',
+    description:
+      'Moving beyond historical reporting to forward-looking insights.',
+    highlight: 'Forward-looking insights',
+    icon: 'ChartLine',
+    detail:
+      "Don't just react to what happened yesterday. Our predictive modeling capabilities identify emerging market trends and operational risks before they manifest, allowing you to navigate complexity with proactive precision.",
+  },
+  {
+    title: 'Real-Time Velocity',
+    description:
+      'High-performance data pipelines for sub-second operational awareness.',
+    highlight: 'Sub-second awareness',
+    icon: 'Lightning',
+    detail:
+      "In high-stakes environments, latency is a liability. We build event-driven architectures that process and visualize critical data streams in real-time, providing your leadership with the velocity required to make split-second decisions.",
+  },
+  {
+    title: 'Strategic Transparency',
+    description:
+      'Objective performance metrics aligned with organizational goals.',
+    highlight: 'Performance alignment',
+    icon: 'Target',
+    detail:
+      "Align your entire team around objective truth. Our strategic dashboards translate complex datasets into clear, actionable KPIs, ensuring that every level of your organization is focused on the metrics that drive actual business value.",
   },
 ];
 ---
-
 <Layout
   title={`${service.data.title} - BDKinc`}
-  description={service.data.description}
+  description="Turn Data into Decisions. Strategic Intelligence at Scale. Transform raw data into competitive advantage with our advanced analytics, predictive modeling, and real-time BI dashboards."
 >
   <Navigation
     client:load
@@ -74,7 +108,15 @@ const detailColumns = [
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="text-center">
+        <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
+          <!-- Badge -->
+          <div
+            class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+          >
+            <div class="flex items-center gap-2 text-sm">
+              <span>Actionable <span class="text-accent font-semibold">Intelligence</span></span>
+            </div>
+          </div>
           <div
             class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
@@ -84,8 +126,9 @@ const detailColumns = [
               aria-hidden="true"
             />
           </div>
+          <!-- Heading -->
           <h1
-            class="mb-6 text-5xl font-bold md:text-6xl"
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight delay-100 duration-700 md:text-6xl"
             transition:name={`service-title-${service.id}`}
             transition:animate="initial"
           >
@@ -93,43 +136,27 @@ const detailColumns = [
               >{titleFirst ? `${titleFirst} ` : ''}</span
             >
             <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
               >{lastTitleWord}</span
             >
           </h1>
+          <!-- Subtitle -->
           <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto mb-16 max-w-3xl text-xl leading-relaxed delay-200 duration-700"
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
-            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
           >
-            {service.data.description}
+            Turn Data into Decisions. Strategic Intelligence at Scale. 
+            We architect robust data ecosystems that unify disparate sources 
+            into a single source of truth.
           </p>
         </div>
-
-        {/* Hero Image Placeholder */}
+        <!-- Visualization -->
         <div
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
-          <div
-            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
-          >
-            <div
-              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
-            >
-              <div class="text-center">
-                <div
-                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                >
-                  Service Hero Image
-                </div>
-                <div class="text-muted-foreground/60 text-lg">
-                  Business Analytics Illustration
-                </div>
-                <div class="text-muted-foreground/40 mt-2 text-xs">
-                  Recommended: 1400x800px
-                </div>
-              </div>
-            </div>
+          <div class="mx-auto max-w-5xl">
+            <BusinessAnalyticsVisualization client:visible />
           </div>
         </div>
       </div>
@@ -138,403 +165,235 @@ const detailColumns = [
       >
       </div>
     </section>
-
-    <!-- Content Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
+    <!-- Analytics Lifecycle -->
+    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
+          >
+            <span class="text-foreground">Analytics </span>
+            <span
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+              >Lifecycle</span
+            >
+          </h2>
+        </div>
+        <AnalyticsLifecycle client:visible />
+      </div>
+    </section>
+    <!-- Strategic Leadership Section -->
+    <section class="relative overflow-hidden py-24">
       <div
-        class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
+        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
       >
-        <div class="mx-auto max-w-7xl">
-          <div class="service-content-wrapper">
-            <div class="not-prose mx-auto max-w-4xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Transform Data into Decisions
-              </h2>
-              <div
-                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-              >
-                Turn your data into actionable insights with custom reporting
-                and real-time analytics. Make data-driven decisions with
-                confidence using our automated reporting solutions that deliver
-                the information you need, when you need it.
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Stop Drowning in Data
-            </h3>
-
-            <ServiceCardGrid client:visible>
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiClock
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Replace Manual Reporting
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Stop spending hours creating reports in spreadsheets. Our
-                  automated analytics solutions pull data from your systems and
-                  generate reports automatically—daily, weekly, or in real-time.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiLightning className="text-primary h-16 w-16" aria-hidden="true" />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Real-Time Visibility
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Don't make decisions based on yesterday's data. Our analytics
-                  platforms provide real-time visibility into your operations
-                  with up-to-the-minute information.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiTarget
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Custom Dashboards
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  We create custom dashboards tailored to your specific needs,
-                  displaying the KPIs and metrics that matter most to your
-                  operation. See your entire business at a glance.
-                </div>
-              </ServiceCard>
-            </ServiceCardGrid>
-
-            <h3
-              class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+      </div>
+      <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Strategic </span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Intelligence</span
             >
-              Key Benefits
-            </h3>
-
-            {/* Feature Image Placeholder */}
-            <div class="not-prose mb-10">
-              <div
-                class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border"
-              >
-                <div
-                  class="from-primary/5 via-secondary/5 to-primary/5 flex items-center justify-center bg-linear-to-br"
-                  style="aspect-ratio: 21/9;"
-                >
-                  <div class="text-center">
-                    <div
-                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                    >
-                      Feature Image
-                    </div>
-                    <div class="text-muted-foreground/60 text-lg">
-                      Analytics Dashboard
-                    </div>
-                    <div class="text-muted-foreground/40 mt-2 text-xs">
-                      Recommended: 1200x500px (21:9)
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          </h2>
+        </div>
+        <figure class="relative mx-auto max-w-3xl">
+          <PiQuotesFill
+            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
+            aria-hidden="true"
+          />
+          <blockquote
+            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
+          >
+            "Data without direction is overhead. We transform raw telemetry into 
+            <span class="text-accent font-semibold">
+              actionable foresight</span
+            >, aligning your entire organization around a single source of 
+            objective truth that drives actual business value."
+          </blockquote>
+        </figure>
+      </div>
+      <div
+        class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+    </section>
+    <!-- Strategic Advantage -->
+    <section
+      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            The Strategic <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Advantage</span
             >
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiClock
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Save Time
-                </h4>
-                <div class="text-muted-foreground">
-                  Eliminate hours of manual report creation
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <CheckCircle2
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Improve Accuracy
-                </h4>
-                <div class="text-muted-foreground">
-                  Automated data collection reduces errors
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiTarget
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Better Decisions
-                </h4>
-                <div class="text-muted-foreground">
-                  Access to real-time information supports informed choices
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <TrendingUp
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Identify Trends
-                </h4>
-                <div class="text-muted-foreground">
-                  Spot patterns and opportunities in your data
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiUsers
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Increase Accountability
-                </h4>
-                <div class="text-muted-foreground">
-                  Clear metrics help track performance
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiDatabase
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Integration
-                </h4>
-                <div class="text-muted-foreground">
-                  Connect data from multiple systems into unified reports
-                </div>
-              </Card>
-            </div>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {
-                detailColumns.map((column) => (
-                  <div class="glass border-border rounded-2xl border p-8">
-                    <div class="mb-6 flex items-center gap-3">
-                      <column.icon
-                        className="text-primary h-8 w-8"
-                        aria-hidden="true"
-                      />
-                      <h4 class="text-foreground text-2xl font-bold">
-                        {column.title}
-                      </h4>
-                    </div>
-                    <div class="text-muted-foreground space-y-3">
-                      {column.items.map((item) => (
-                        <div class="flex items-start gap-2">
-                          <CheckCircle2
-                            className="text-primary mt-1 h-5 w-5 shrink-0"
-                            aria-hidden="true"
-                          />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our Process
-            </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {/* Left: Image Placeholder */}
-              <div
-                class="glass border-primary/20 overflow-hidden rounded-2xl border"
-              >
-                <div
-                  class="from-primary/5 via-secondary/5 to-primary/5 flex h-full min-h-[300px] items-center justify-center bg-linear-to-br"
-                >
-                  <div class="text-center">
-                    <div
-                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                    >
-                      Process Image
-                    </div>
-                    <div class="text-muted-foreground/60 text-lg">
-                      Analytics Implementation
-                    </div>
-                    <div class="text-muted-foreground/40 mt-2 text-xs">
-                      Recommended: 600x400px
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Text Card */}
-              <Card
-                size="default"
-                interactive={false}
-                className="flex items-center"
-              >
-                <div class="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                      aria-hidden="true"
-                    >
-                      1
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Understand Your Needs
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      We start by learning about your business and the decisions
-                      you need to make
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                      aria-hidden="true"
-                    >
-                      2
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Identify Data Sources
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      We locate the data you need across your systems
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                      aria-hidden="true"
-                    >
-                      3
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Design Reports
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      We create custom reports and dashboards tailored to your
-                      requirements
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                      aria-hidden="true"
-                    >
-                      4
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Automate Collection
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      We set up automated data gathering and processing
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                      aria-hidden="true"
-                    >
-                      5
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Deploy & Train
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      We implement the solution and train your team to use it
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                      aria-hidden="true"
-                    >
-                      6
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Optimize
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      We continuously refine reports based on your feedback
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </div>
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Move beyond static reports with a partner who builds high-performance 
+            data ecosystems.
+          </p>
+        </div>
+        <FeatureCarousel client:visible features={strategicFeatures} />
+      </div>
+    </section>
+    <!-- Key Benefits -->
+    <section class="bg-muted/20 dark:bg-white/[0.01] px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Key <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Benefits</span
+            >
+          </h2>
+        </div>
+        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Benefit 1 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiClock
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Operational Velocity
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Eliminate manual reporting latency with automated intelligence 
+              generation and delivery
+            </p>
+          </div>
+          <!-- Benefit 2 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiShieldCheck
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Data Integrity
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Rigorous validation protocols ensuring your decisions are based 
+              on accurate, governed intelligence
+            </p>
+          </div>
+          <!-- Benefit 3 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiTarget
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Strategic Precision
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Real-time dashboards providing high-fidelity visibility for 
+              mission-critical decision making
+            </p>
+          </div>
+          <!-- Benefit 4 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiTrendUp
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Market Advantage
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Identify emerging patterns and capitalize on opportunities 
+              faster than the competition
+            </p>
+          </div>
+          <!-- Benefit 5 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiTrendUp
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Unified Alignment
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Clear objective metrics that align entire teams with 
+              long-term organizational objectives
+            </p>
+          </div>
+          <!-- Benefit 6 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiDatabase
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Unified Ecosystem
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Seamlessly aggregate intelligence from disparate, 
+              heterogeneous data sources across your enterprise
+            </p>
           </div>
         </div>
       </div>
-
-      <ImpactMetricsSection metrics={metrics} />
-
-      <CTASection
-        client:load
-        title="Why Choose BDK for Analytics?"
-        description="We combine technical expertise with business understanding. Our team doesn't just build reports—we help you identify the metrics that matter and design analytics that drive better decisions. We work with your existing systems and data, creating solutions that integrate seamlessly into your operations."
-        primaryAction={{
-          text: 'Transform Your Data',
-          href: '/contact',
-        }}
-        icon="sparkles"
-      />
     </section>
+    <TechnicalSection client:visible id="analytics-vault" overlayOpacity="opacity-10">
+      <div class="relative z-10 flex flex-col items-center text-center">
+        <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
+          <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
+          <span class="text-xs font-bold tracking-widest text-primary font-display">Analytics Insight Vault</span>
+        </div>
+        <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
+          Engineered Clarity. <span class="text-primary">Actionable Foresight.</span>
+        </h3>
+        <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
+          We transform raw data into a competitive asset. From real-time ingestion 
+          to predictive modeling, our solutions empower your organization to 
+          navigate complexity with precision and foresight, ensuring every 
+          decision is backed by objective, governed intelligence.
+        </div>
+      </div>
+    </TechnicalSection>
+    <WhoThisIsFor client:visible />
+    <!-- FAQ -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl">
+        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+          Frequently Asked Questions
+        </h3>
+        <div class="mb-20">
+          <TechnicalFAQ client:visible faqs={faqs} />
+        </div>
+      </div>
+    </section>
+    <ImpactMetricsSection metrics={metrics} />
+    <!-- CTA -->
+    <CTASection
+      client:visible
+      title="Turn Data into Your Greatest Asset"
+      description="Stop guessing and start knowing. Let’s architect an intelligence strategy that drives measurable business outcomes."
+      buttonText="Request an Analytics Audit"
+      buttonHref="/contact#chat"
+    />
   </main>
+  <Footer />
 </Layout>
-
-<Footer />

@@ -94,14 +94,7 @@ const jsxA11yConfig = {
 
 export default [
   {
-    ignores: [
-      'node_modules/',
-      'dist/',
-      '.astro/',
-      '.factory/',
-      '.vscode/',
-      'guides/',
-    ],
+    ignores: ['node_modules/', 'dist/', '.astro/', '.factory/', '.vscode/'],
   },
   jsConfig,
   ...astroConfigs,

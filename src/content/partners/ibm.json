@@ -1,0 +1,10 @@
+{
+  "name": "IBM",
+  "description": "Business Partner & watsonx Specialist",
+  "detail": "Legendary reliability and enterprise AI systems.",
+  "category": "Power & AI",
+  "order": 1,
+  "featured": true,
+  "showOnAbout": true,
+  "logo": "/logos/partners/ibm.svg"
+}

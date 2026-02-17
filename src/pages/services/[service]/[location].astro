@@ -1,7 +1,7 @@
 ---
 import { getEntry, getCollection } from 'astro:content';
-import Layout from '../../../layouts/Layout.astro';
-import Navigation from '../../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
 import { getLocationBySlug } from '@/lib/locations';
@@ -14,11 +14,18 @@ import {
   PiCheckCircle,
   PiShield,
   PiTrendUp,
+  PiBuilding,
 } from 'react-icons/pi';
 import { Card } from '@/components/ui/card';
 import Footer from '@/components/Footer.astro';
 
+const slugifyLocation = (name: string) =>
+  name.toLowerCase().replace(/\s+/g, '-').replace(/,/g, '');
+
 export async function getStaticPaths() {
+  const slugifyLocation = (name: string) =>
+    name.toLowerCase().replace(/\s+/g, '-').replace(/,/g, '');
+
   // Get main services, PSEO services, and locations from collections
   const mainServices = await getCollection('services');
   const pseoServices = await getCollection('pseoServices');
@@ -27,10 +34,7 @@ export async function getStaticPaths() {
 
   for (const svc of mainServices) {
     for (const location of locations) {
-      const locationSlug = location.data.name
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/,/g, '');
+      const locationSlug = slugifyLocation(location.data.name);
 
       paths.push({
         params: {
@@ -48,10 +52,7 @@ export async function getStaticPaths() {
 
   for (const svc of pseoServices) {
     for (const location of locations) {
-      const locationSlug = location.data.name
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/,/g, '');
+      const locationSlug = slugifyLocation(location.data.name);
 
       paths.push({
         params: {
@@ -86,10 +87,10 @@ if (!service) {
 }
 
 const { servicesData, recentPosts } = await getNavigationData();
-const IconComponent = iconMap[service.data.icon];
+const IconComponent = iconMap[service.data.icon] || PiBuilding;
 
 // Location-specific content
-const locationIntro = `As a leading Managed Service Provider serving ${locationData.name}, ${locationData.state}, BDKinc delivers comprehensive ${service.data.title.toLowerCase()} solutions tailored to local businesses. Our team understands the unique technology challenges faced by companies in the ${locationData.region} region.`;
+const locationIntro = `${service.data.title} for ${locationData.name} teams who need reliable technology and a partner who understands the ${locationData.region} market. We keep daily operations stable while aligning your systems to the goals that drive growth in ${locationData.state}.`;
 
 const locationFeatures = [
   {
@@ -143,28 +144,31 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl text-center">
-        <div class="mb-6 inline-flex items-center justify-center gap-2 text-lg">
-          <PiMapPin className="text-primary h-5 w-5" />
+        <div
+          class="glass border-border mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm backdrop-blur-xl"
+        >
+          <PiMapPin className="text-primary h-4 w-4" />
           <span class="text-muted-foreground"
             >{locationData.name}, {locationData.state}</span
           >
         </div>
         <div
-          class="bg-linear-tobr from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl p-4"
+          class="bg-linear-to-br from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl p-4"
         >
           <IconComponent className="text-primary h-12 w-12" />
         </div>
-        <h1 class="mb-6 text-5xl font-bold md:text-6xl">
+        <h1 class="mb-6 text-5xl font-bold tracking-tight md:text-6xl">
           <span class="text-foreground">{service.data.title}</span>
-          <br />
-          <span class="text-primary">{locationData.name}</span>
+          <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
+            {' '}{locationData.name}
+          </span>
         </h1>
         <p class="text-muted-foreground mx-auto max-w-3xl text-xl">
           {locationIntro}
         </p>
         <div class="mt-8 flex flex-col items-center gap-4 sm:flex-row">
           <a
-            href="/contact"
+            href="/contact#chat"
             class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
           >
             Get Started Today
@@ -185,9 +189,10 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2
-          class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl"
+          class="text-foreground mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
         >
-          Local {locationData.name} Advantage
+          <span class="text-foreground">Local </span>
+          <span class="gradient-primary">{locationData.name} Advantage</span>
         </h2>
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {
@@ -216,9 +221,10 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
     <section class="bg-muted/50 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2
-          class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl"
+          class="text-foreground mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
         >
-          Why {locationData.name} Businesses Choose Us
+          <span class="text-foreground">Why </span>
+          <span class="gradient-primary">{locationData.name} Businesses Choose Us</span>
         </h2>
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <div>
@@ -309,7 +315,7 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
                     {nearbyLoc.data.state}
                   </p>
                   <a
-                    href={`/services/${serviceSlug}/${nearbyLoc.data.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    href={`/services/${serviceSlug}/${slugifyLocation(nearbyLoc.data.name)}`}
                     class="text-primary hover:text-primary/80 mt-3 text-sm font-medium"
                   >
                     View Services →
@@ -335,7 +341,7 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
           </p>
           <div class="flex flex-col items-center gap-4 sm:flex-row">
             <a
-              href="/contact"
+              href="/contact#chat"
               class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
             >
               Schedule Consultation

@@ -1,33 +1,30 @@
 ---
 import { getEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
-import { Card } from '@/components/ui/card';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import WhoThisIsFor from '@/components/WhoThisIsFor';
+import TechnicalSection from '@/components/TechnicalSection';
+import { GlobalNetworkMap } from '@/components/GlobalNetworkMap';
+import HostedERPVisualization from '@/components/visualizations/HostedERPVisualization';
+import FeatureCarousel from '@/components/FeatureCarousel';
 import {
-  PiDesktop,
-  PiNetworkX,
-  PiDatabase,
-  PiLock,
-  PiLightning,
-  PiTrendUp,
-  PiHeadphones,
-  PiFileXls,
   PiArrowUp,
+  PiDatabase,
+  PiHeadphones,
+  PiLightning,
   PiStack,
-  PiCalculator,
-  PiFactory,
-  PiTruck,
-  PiCurrencyDollar,
+  PiShieldCheck,
   PiCheckCircle,
-  PiCloudCheck,
+  PiLock,
+  PiCurrencyDollar,
+  PiQuotesFill,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
-
 const service = await getEntry('services', 'hosted-erp');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -38,36 +35,86 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
-
+// Updated Metrics for "Technical Authority"
 const metrics = [
-  { value: '35%', label: 'PROCESS EFFICIENCY', icon: PiTrendUp },
-  { value: '99.9%', label: 'HOSTED UPTIME', icon: PiArrowUp },
-  { value: '180+', label: 'ERP INTEGRATIONS', icon: PiNetworkX },
-  { value: '24/7', label: 'SUPPORT COVERAGE', icon: PiHeadphones },
+  { value: '99.99%', label: 'SLA Uptime', icon: PiArrowUp },
+  { value: 'Sub-ms', label: 'Network Latency', icon: PiLightning },
+  { value: 'Tier-3', label: 'Data Centers', icon: PiDatabase },
+  { value: '24/7', label: 'NOC Monitoring', icon: PiHeadphones },
 ];
-
 const detailColumns = [
   {
-    title: 'Implementation & Migration',
-    icon: PiFileXls,
+    title: 'Migration & Onboarding',
+    icon: PiArrowUp,
     items: [
-      'Fit-gap workshops align ERP modules with manufacturing and distribution goals',
-      'Data migration playbooks cleanse, convert, and reconcile legacy records',
-      'Integration accelerators connect ERP with CRM, MES, WMS, and financial tools',
+      'Comprehensive fit-gap analysis and infrastructure assessment',
+      'Parallel sandbox environments for zero-risk data migration',
+      'Custom integration mapping for EDI, MES, and WMS endpoints',
     ],
   },
   {
     title: 'Managed Operations',
     icon: PiStack,
     items: [
-      '24/7 monitoring covers backups, patching, and performance tuning',
-      'Change management governs updates, tax tables, and regulatory enhancements',
-      'CFO-ready reporting tracks KPIs, compliance deadlines, and audit trails',
+      'Automated patch management and security hardening',
+      'Performance tuning for high-throughput transaction processing',
+      'Real-time compliance auditing and immutable log retention',
     ],
   },
 ];
+const faqs = [
+  {
+    question: "How do you handle migration from legacy on-premise hardware?",
+    answer: "We utilize a phased 'lift-and-shift' or 're-platform' methodology. Our engineers perform full system imaging and data verification in a parallel sandbox environment before cutover, ensuring zero data loss and minimal operational downtime."
+  },
+  {
+    question: "Can you support hybrid environments with both cloud and IBM Power Systems?",
+    answer: "Yes. Our infrastructure seamlessly integrates IBM Power (AS/400, iSeries) with x86 cloud environments. We establish low-latency private interconnects, allowing modern web applications to query legacy databases in real-time without synchronization lag."
+  },
+  {
+    question: "How is compliance and data sovereignty managed for global operations?",
+    answer: "We strictly adhere to GDPR, CCPA, and industry-specific mandates. Data residency controls allow you to lock specific datasets to geographic regions, while our immutable audit logs provide complete transparency for regulatory reporting."
+  }
+];
+const strategicFeatures = [
+  {
+    title: 'Mission-Critical Availability',
+    description:
+      'Tier-3 infrastructure targeting 99.99% uptime for core systems.',
+    highlight: '99.99% uptime target',
+    icon: 'ShieldCheck',
+    detail:
+      "Your ERP is the backbone of your business. We provide precision-engineered hosting environments with redundant power, cooling, and network paths, ensuring that your mission-critical applications are always available when you need them most.",
+  },
+  {
+    title: 'Zero-Risk Migration',
+    description:
+      "Phased 'lift-and-shift' methodology with parallel verification.",
+    highlight: 'Parallel data verification',
+    icon: 'ArrowUp',
+    detail:
+      "Moving your ERP shouldn't be a gamble. Our engineers perform full system imaging and data verification in parallel sandbox environments before cutover, eliminating migration risk and ensuring a seamless transition with minimal downtime.",
+  },
+  {
+    title: 'Cross-Platform Integration',
+    description:
+      'Unified connectivity between IBM Power Systems and x86 cloud.',
+    highlight: 'Unified cross-platform connectivity',
+    icon: 'Stack',
+    detail:
+      "Don't let platform silos fragment your operations. We establish low-latency private interconnects between legacy IBM Power environments and modern x86 cloud stacks, allowing for real-time data flow and unified management across your entire estate.",
+  },
+  {
+    title: 'Continuous Hardening',
+    description:
+      'Proactive patching and security governance for sensitive data.',
+    highlight: 'Automated security hardening',
+    icon: 'Lock',
+    detail:
+      "Security is a process, not a state. We implement automated patch management and continuous vulnerability scanning tailored specifically for complex ERP ecosystems, ensuring your most sensitive business data is protected by enterprise-grade defense.",
+  },
+];
 ---
-
 <Layout
   title={`${service.data.title} - BDKinc`}
   description={service.data.description}
@@ -84,7 +131,15 @@ const detailColumns = [
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="text-center">
+        <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
+          <!-- Badge -->
+          <div
+            class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+          >
+            <div class="flex items-center gap-2 text-sm">
+              <span>Mission-Critical <span class="text-accent font-semibold">Backbone</span></span>
+            </div>
+          </div>
           <div
             class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
@@ -94,8 +149,9 @@ const detailColumns = [
               aria-hidden="true"
             />
           </div>
+          <!-- Heading -->
           <h1
-            class="mb-6 text-5xl font-bold md:text-6xl"
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight delay-100 duration-700 md:text-6xl"
             transition:name={`service-title-${service.id}`}
             transition:animate="initial"
           >
@@ -103,43 +159,26 @@ const detailColumns = [
               {titleFirst ? `${titleFirst} ` : ''}
             </span>
             <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
               >{lastTitleWord}</span
             >
           </h1>
+          <!-- Subtitle -->
           <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto mb-16 max-w-3xl text-xl leading-relaxed delay-200 duration-700"
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
-            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
           >
-            {service.data.description}
+            {service.data.description} Precision-engineered hosting for 
+            high-throughput enterprise ecosystems.
           </p>
         </div>
-
-        {/* Hero Image Placeholder */}
+        <!-- Visualization -->
         <div
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
-          <div
-            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
-          >
-            <div
-              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
-            >
-              <div class="text-center">
-                <div
-                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                >
-                  Service Hero Image
-                </div>
-                <div class="text-muted-foreground/60 text-lg">
-                  Hosted ERP Illustration
-                </div>
-                <div class="text-muted-foreground/40 mt-2 text-xs">
-                  Recommended: 1400x800px
-                </div>
-              </div>
-            </div>
+          <div class="mx-auto max-w-5xl">
+            <HostedERPVisualization client:visible />
           </div>
         </div>
       </div>
@@ -148,405 +187,280 @@ const detailColumns = [
       >
       </div>
     </section>
-
-    <!-- Content Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
+    <!-- Strategic Leadership Section -->
+    <section class="relative overflow-hidden py-24">
       <div
-        class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
+        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
       >
-        <div class="mx-auto max-w-7xl">
-          <div class="service-content-wrapper">
-            <div class="not-prose mx-auto max-w-4xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Streamline Your Business with Hosted ERP
-              </h2>
-              <div
-                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-              >
-                Enterprise resource planning solutions tailored for
-                manufacturing, distribution, and finance. We specialize in
-                hosting and supporting your critical ERP systems, helping you
-                transition from spreadsheet-based management to integrated,
-                efficient business processes.
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Transform Your Operations
-            </h3>
-
-            <ServiceCardGrid client:visible>
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiFileXls
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Leave Spreadsheets Behind
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Stop managing your business with disconnected spreadsheets and
-                  manual processes. Our integrated ERP solutions connect your
-                  entire operation from inventory to accounting.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiCloudCheck
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Fully Hosted & Managed
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  We handle all the infrastructure, maintenance, and updates.
-                  Your ERP runs in our secure environment while you focus on
-                  using it to run your business.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiCalculator
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Finance Integration
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Seamlessly connect your financial systems with operations.
-                  Real-time visibility into costs, revenue, and profitability
-                  helps you make informed decisions.
-                </div>
-              </ServiceCard>
-            </ServiceCardGrid>
-
-            <h3
-              class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+      </div>
+      <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Architectural </span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Authority</span
             >
-              Industry-Focused Solutions
-            </h3>
-
-            <div class="not-prose mb-20">
-              <p class="text-muted-foreground mb-10 text-center text-xl">
-                We specialize in ERP implementations for key industries
-              </p>
-
-              {/* Feature Image Placeholder */}
-              <div class="mb-10">
-                <div
-                  class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border"
-                >
-                  <div
-                    class="from-primary/5 via-secondary/5 to-primary/5 flex items-center justify-center bg-linear-to-br"
-                    style="aspect-ratio: 21/9;"
-                  >
-                    <div class="text-center">
-                      <div
-                        class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                      >
-                        Feature Image
-                      </div>
-                      <div class="text-muted-foreground/60 text-lg">
-                        ERP System Dashboard
-                      </div>
-                      <div class="text-muted-foreground/40 mt-2 text-xs">
-                        Recommended: 1200x500px (21:9)
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="grid gap-6 md:grid-cols-3">
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex flex-col items-center rounded-lg border p-6 text-center transition-colors"
-                >
-                  <PiFactory
-                    className="text-primary mb-4 h-12 w-12"
-                    aria-hidden="true"
-                  />
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Manufacturing
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Production planning, inventory control, quality management
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex flex-col items-center rounded-lg border p-6 text-center transition-colors"
-                >
-                  <PiTruck
-                    className="text-primary mb-4 h-12 w-12"
-                    aria-hidden="true"
-                  />
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Distribution
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Warehouse management, order processing, logistics
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex flex-col items-center rounded-lg border p-6 text-center transition-colors"
-                >
-                  <PiCalculator
-                    className="text-primary mb-4 h-12 w-12"
-                    aria-hidden="true"
-                  />
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Finance
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Accounting, financial reporting, compliance
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Key Benefits
-            </h3>
-
-            <div
-              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiTrendUp
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Real-Time Visibility
-                </h4>
-                <div class="text-muted-foreground">
-                  Access up-to-date information across all business functions
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiLightning
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Improved Efficiency
-                </h4>
-                <div class="text-muted-foreground">
-                  Automate processes and eliminate manual data entry
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiCheckCircle
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Better Decision Making
-                </h4>
-                <div class="text-muted-foreground">
-                  Accurate, timely data supports informed business decisions
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiDatabase
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Scalability
-                </h4>
-                <div class="text-muted-foreground">
-                  Systems that grow with your business
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiCurrencyDollar
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Cost Effective
-                </h4>
-                <div class="text-muted-foreground">
-                  Hosted solutions eliminate expensive infrastructure
-                  investments
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiLock
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Data Security
-                </h4>
-                <div class="text-muted-foreground">
-                  Enterprise-grade security and regular backups protect your
-                  business data
-                </div>
-              </Card>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              How We Run Your ERP
-            </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {
-                detailColumns.map((column) => (
-                  <div class="glass border-border rounded-2xl border p-8">
-                    <div class="mb-6 flex items-center gap-3">
-                      <column.icon
-                        className="text-primary h-8 w-8"
-                        aria-hidden="true"
-                      />
-                      <h4 class="text-foreground text-2xl font-bold">
-                        {column.title}
-                      </h4>
-                    </div>
-                    <div class="text-muted-foreground space-y-3">
-                      {column.items.map((item) => (
-                        <div class="flex items-start gap-2">
-                          <PiCheckCircle
-                            className="text-primary mt-1 h-5 w-5 shrink-0"
-                            aria-hidden="true"
-                          />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our Hosted ERP Services
-            </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {/* Left: Image Placeholder */}
-              <div
-                class="glass border-primary/20 overflow-hidden rounded-2xl border"
-              >
-                <div
-                  class="from-primary/5 via-secondary/5 to-primary/5 flex h-full min-h-[300px] items-center justify-center bg-linear-to-br"
-                >
-                  <div class="text-center">
-                    <div
-                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                    >
-                      Service Image
-                    </div>
-                    <div class="text-muted-foreground/60 text-lg">
-                      ERP Implementation
-                    </div>
-                    <div class="text-muted-foreground/40 mt-2 text-xs">
-                      Recommended: 600x400px
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Text Card */}
-              <Card
-                size="default"
-                interactive={false}
-                className="flex items-center"
-              >
-                <div class="grid gap-8 md:grid-cols-1">
-                  <div>
-                    <h4 class="text-foreground mb-4 text-2xl font-bold">
-                      Implementation & Support
-                    </h4>
-                    <div class="text-foreground leading-relaxed">
-                      From initial setup to ongoing optimization, our team
-                      provides expert guidance. We help you configure the system
-                      to match your business processes and train your team to
-                      use it effectively.
-                    </div>
-                  </div>
-                  <div>
-                    <h4 class="text-foreground mb-4 text-2xl font-bold">
-                      Expert Support
-                    </h4>
-                    <div class="text-foreground leading-relaxed">
-                      Dedicated team with deep ERP and industry knowledge
-                      ensures your system delivers maximum value. We don't just
-                      host your software—we partner with you for success.
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          </div>
+          </h2>
         </div>
-
-        <ImpactMetricsSection metrics={metrics} />
-
-        <CTASection
-          client:load
-          title="Why Choose BDK for Hosted ERP?"
-          description="We combine ERP expertise with managed hosting services, giving you a complete solution. Our team understands both the technical aspects of ERP systems and the business processes they support. We don't just host your software—we partner with you to ensure it delivers maximum value to your business."
-          primaryAction={{
-            text: 'Start Your ERP Journey',
-            href: '/contact',
-            icon: 'arrow',
-          }}
-        />
+        <figure class="relative mx-auto max-w-3xl">
+          <PiQuotesFill
+            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
+            aria-hidden="true"
+          />
+          <blockquote
+            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
+          >
+            "Your ERP is not just an application; it's the nervous system of 
+            your organization. We architect 
+            <span class="text-accent font-semibold">
+              high-availability environments</span
+            >
+            that eliminate latency and ensure your core operations move with 
+            mathematical precision 24/7."
+          </blockquote>
+        </figure>
+      </div>
+      <div
+        class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
       </div>
     </section>
+    <!-- Strategic Advantage -->
+    <section
+      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            The Strategic <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Advantage</span
+            >
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Move beyond standard hosting with a partner who specializes in 
+            the complexity of enterprise ERP ecosystems.
+          </p>
+        </div>
+        <FeatureCarousel client:visible features={strategicFeatures} />
+      </div>
+    </section>
+    <!-- Network Section -->
+    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Global <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Availability</span
+            >
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Low-latency edge nodes and redundant failover regions ensuring 
+            absolute business continuity.
+          </p>
+        </div>
+        <div class="mb-12">
+          <GlobalNetworkMap client:visible />
+        </div>
+      </div>
+    </section>
+    <!-- Key Benefits -->
+    <section class="bg-muted/20 dark:bg-white/[0.01] px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Key <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Benefits</span
+            >
+          </h2>
+        </div>
+        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Benefit 1 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiCheckCircle
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              99.99% Uptime
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Tier-3 infrastructure targeting mission-critical availability 
+              for your most sensitive data
+            </p>
+          </div>
+          <!-- Benefit 2 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiLightning
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Rapid Scalability
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Dynamic resource allocation to handle peak transactional loads 
+              and seasonal business spikes
+            </p>
+          </div>
+          <!-- Benefit 3 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiShieldCheck
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Compliance First
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Native infrastructure alignment with SOC 2, HIPAA, and PCI 
+              DSS regulatory standards
+            </p>
+          </div>
+          <!-- Benefit 4 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiDatabase
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Disaster Recovery
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Automated snapshots and geo-redundant backups ensuring 
+              aggressive RPO/RTO targets
+            </p>
+          </div>
+          <!-- Benefit 5 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiCurrencyDollar
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              OpEx Efficiency
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Shift from volatile CapEx hardware cycles to a predictable, 
+              value-driven monthly operating model
+            </p>
+          </div>
+          <!-- Benefit 6 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiLock
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Zero Trust Security
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Micro-segmentation and real-time threat detection protecting 
+              your proprietary business logic
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Technical Execution Section -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2 class="text-foreground mb-6 text-3xl font-bold font-display tracking-tight md:text-4xl">
+            Technical <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Specifications</span>
+          </h2>
+        </div>
+        <div class="grid gap-8 md:grid-cols-2">
+          {
+            detailColumns.map((column) => (
+              <div class="glass border-border rounded-2xl border p-8">
+                <div class="mb-6 flex items-center gap-3">
+                  <column.icon
+                    className="text-primary h-8 w-8"
+                    aria-hidden="true"
+                  />
+                  <h4 class="text-foreground text-2xl font-bold">
+                    {column.title}
+                  </h4>
+                </div>
+                <div class="text-muted-foreground space-y-3">
+                  {column.items.map((item) => (
+                    <div class="flex items-start gap-2">
+                      <PiCheckCircle
+                        className="text-primary mt-1 h-5 w-5 shrink-0"
+                        aria-hidden="true"
+                      />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+    <TechnicalSection client:visible id="erp-vault" overlayOpacity="opacity-10">
+      <div class="relative z-10 flex flex-col items-center text-center">
+        <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
+          <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
+          <span class="text-xs font-bold tracking-widest text-primary font-display">Enterprise ERP Vault</span>
+        </div>
+        <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
+          Precision Engineering. <span class="text-primary">Absolute Uptime.</span>
+        </h3>
+        <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
+          We deliver mission-critical ERP environments designed for 
+          sub-millisecond latency and global scale. Our engineers manage the 
+          complexities of the infrastructure backbone so your leadership can 
+          focus on the proprietary logic that drives your business forward.
+        </div>
+      </div>
+    </TechnicalSection>
+    <WhoThisIsFor client:visible />
+    <!-- FAQ -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl">
+        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+          Frequently Asked Questions
+        </h3>
+        <div class="mb-20">
+          <TechnicalFAQ client:visible faqs={faqs} />
+        </div>
+      </div>
+    </section>
+    <ImpactMetricsSection metrics={metrics} />
+    <!-- CTA -->
+    <CTASection
+      client:visible
+      title="Secure Your ERP Backbone"
+      description="Stop settling for standard hosting. Partner with the architects who specialize in mission-critical enterprise scale."
+      buttonText="Request an ERP Strategy Session"
+      buttonHref="/contact#chat"
+    />
   </main>
-
   <Footer />
 </Layout>

@@ -1,0 +1,11 @@
+{
+  "name": "Microsoft",
+  "description": "Cloud & Productivity Solutions",
+  "detail": "Seamless Azure and Microsoft 365 integration.",
+  "category": "Software",
+  "order": 2,
+  "featured": true,
+  "showOnAbout": true,
+  "logo": "/logos/partners/microsoft.svg"
+}
+  

@@ -1,6 +1,6 @@
 import { PiMoon, PiSun } from 'react-icons/pi';
 import { useEffect, useState } from 'react';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');

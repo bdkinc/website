@@ -1,32 +1,27 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navigation from '../components/Navigation';
-import ContactChat from '../components/ContactChat';
-import { Card } from '@/components/ui/card';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
+import ContactChat from '@/components/ContactChat';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
-import { PiPhone, PiEnvelope, PiClock, PiMapPin } from 'react-icons/pi';
+import { TechCard } from '@/components/TechCard';
+import { PiPhone, PiEnvelope, PiMapPin, PiHeadset } from 'react-icons/pi';
 import { actions } from 'astro:actions';
-
 export const prerender = false;
-
 const { servicesData, recentPosts } = await getNavigationData();
-
 // Get referrer-based suggestions using Astro action
 const fromParam = Astro.url.searchParams.get('from');
 const result = await Astro.callAction(actions.getReferrerSuggestions, {
-  from: fromParam || undefined
+  from: fromParam || undefined,
 });
-
 const initialSuggestions = result?.data?.suggestions || [
-  'How can I get a quote for IT services?',
-  'I need help with network infrastructure',
-  'What managed IT services do you offer?',
-  'Tell me about your cloud services',
+  'Schedule a consultation',
+  'Request a technical assessment',
+  'Inquire about managed services',
+  'Discuss cloud migration',
 ];
 ---
-
-<Layout title="Contact Us | BDKinc - Get in Touch">
+<Layout title="Contact | BDKinc - Strategic Technical Partner">
   <Navigation
     client:load
     services={servicesData}
@@ -34,150 +29,239 @@ const initialSuggestions = result?.data?.suggestions || [
     currentPath={Astro.url.pathname}
   />
   <main id="main-content">
-    {/* Header Section */}
-    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
-      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
-      <div class="relative z-10 mx-auto max-w-4xl text-center">
-        {/* Badge */}
-        <div
-          class="glass border-primary/20 animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
-        >
-          <span class="text-sm">
-            <span class="font-semibold text-[--brand-accent]">24/7</span> Support
-            Available
-          </span>
-        </div>
-
-        <h1
-          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold delay-100 duration-700 md:text-6xl"
-        >
-          <span class="text-foreground">Get in </span>
-          <span
-            class="from-brand-primary to-brand-secondary bg-linear-to-br bg-clip-text text-transparent"
-          >
-            Touch
-          </span>
-        </h1>
-        <p
-          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
-        >
-          Have a question or need IT support? We're here to help. Reach out to
-          our team and let's discuss how we can transform your technology
-          infrastructure.
-        </p>
-      </div>
+    {/* HERO Section: Background + Text + Gradient Border */}
+    <section class="relative overflow-visible px-4 pt-24 pb-24 sm:px-6 lg:px-8">
+      {/* Background stays inside hero */}
+      <div class="circuit-overlay absolute inset-0 opacity-20"></div>
+      <div class="gradient-mesh absolute inset-0 opacity-40"></div>
+      {/* Subtle glow pools */}
       <div
-        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r to-[--brand-accent]/50"
+        class="bg-brand-primary/10 absolute -top-24 left-1/4 h-[520px] w-[520px] rounded-full blur-[110px]"
       >
       </div>
-    </section>
-
-    {/* Contact Form and Info Section */}
-    <section class="px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-5xl space-y-8">
-        {/* AI Chat Interface - Centered */}
-        <div
-          class="fill-mode-both animate-in fade-in slide-in-from-left-4 delay-300 duration-600"
-        >
-          <h2 class="mb-6 text-center text-2xl font-bold">
-            <span class="text-foreground">Send us a </span>
+      <div
+        class="bg-brand-secondary/10 absolute right-1/4 -bottom-24 h-[520px] w-[520px] rounded-full blur-[110px]"
+      >
+      </div>
+      <div class="relative z-10">
+        {/* Text block */}
+        <div class="mx-auto max-w-4xl text-center">
+          <div
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 duration-700"
+          >
+            <div
+              class="border-primary/20 bg-background/40 text-muted-foreground mb-6 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold tracking-wide backdrop-blur-md"
+            >
+              <div class="text-foreground/80">
+                Premier Technology <span class="text-accent">Partner</span>
+              </div>
+            </div>
+          </div>
+          <h1
+            class="mb-5 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+          >
+            <span class="text-foreground">Start the </span>
             <span
               class="from-brand-primary to-brand-secondary bg-linear-to-br bg-clip-text text-transparent"
             >
-              Message
+              Conversation
             </span>
-          </h2>
-          <ContactChat client:only="react" initialSuggestions={initialSuggestions} />
-        </div>
-
-        {/* Contact Information - Horizontal Layout */}
-        <div
-          class="fill-mode-both animate-in fade-in slide-in-from-right-4 gradient-mesh rounded-lg delay-400 duration-600"
-        >
-          <Card size="lg" interactive={false}>
-            <h3 class="text-foreground mb-10 text-center text-xl font-bold">
-              Other Ways to Reach Us
-            </h3>
-            <div
-              class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8 lg:grid-cols-4"
-            >
-              {/* Phone */}
-              <a
-                href="tel:8003090004"
-                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-500 duration-600"
-              >
-                <div
-                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
-                >
-                  <PiPhone className="text-brand-primary h-6 w-6" />
-                </div>
-                <p class="text-muted-foreground mb-2 text-sm">Phone</p>
-                <span
-                  class="text-brand-primary text-sm font-medium hover:underline"
-                >
-                  (800) 309-0004
-                </span>
-              </a>
-
-              {/* Email */}
-              <a
-                href="mailto:info@bdkinc.com"
-                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-600 duration-600"
-              >
-                <div
-                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
-                >
-                  <PiEnvelope className="text-brand-primary h-6 w-6" />
-                </div>
-                <p class="text-muted-foreground mb-2 text-sm">Email</p>
-                <span
-                  class="text-brand-primary text-sm font-medium break-all hover:underline"
-                >
-                  info@bdkinc.com
-                </span>
-              </a>
-
-              {/* Location */}
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=29515+Canvasback+Drive+Easton+MD+21601"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-700 duration-600"
-              >
-                <div
-                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
-                >
-                  <PiMapPin className="text-brand-primary h-6 w-6" />
-                </div>
-                <p class="text-muted-foreground mb-2 text-sm">Location</p>
-                <span
-                  class="text-brand-primary text-sm font-medium hover:underline"
-                >
-                  Get Directions
-                </span>
-              </a>
-
-              {/* Hours */}
-              <div
-                class="group fill-mode-both animate-in fade-in zoom-in flex flex-col items-center text-center delay-800 duration-600"
-              >
-                <div
-                  class="bg-brand-primary/10 group-hover:bg-brand-primary/20 mb-3 flex h-12 w-12 items-center justify-center rounded-full transition-all duration-300 group-hover:scale-110"
-                >
-                  <PiClock className="text-brand-primary h-6 w-6" />
-                </div>
-                <p class="text-muted-foreground mb-2 text-sm">Hours</p>
-                <p class="text-foreground flex items-center gap-2 text-sm">
-                  <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                  24/7 Support
-                </p>
-              </div>
+          </h1>
+          <p
+            class="text-muted-foreground mx-auto max-w-2xl text-xl leading-relaxed"
+          >
+            Ask anything about our work. Our intelligent assistant handles
+            discovery, while request routing guarantees a leadership response
+            within 2 hours.
+          </p>
+          <div
+            class="text-muted-foreground mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm"
+          >
+            <div class="flex items-center gap-2">
+              <div class="bg-primary/60 h-1.5 w-1.5 rounded-full"></div>
+              <span>2-hour response time</span>
             </div>
-          </Card>
+            <div class="flex items-center gap-2">
+              <div class="bg-secondary/60 h-1.5 w-1.5 rounded-full"></div>
+              <span>Ask us anything</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="h-1.5 w-1.5 rounded-full bg-emerald-500/60"></div>
+              <span>Powered by WatsonX</span>
+            </div>
+          </div>
         </div>
       </div>
+      {/* Gradient border at bottom of hero */}
+      <div
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
+      >
+      </div>
     </section>
-    <Footer />
   </main>
+  {/* CHAT Section: Mostly below hero, slight overlap at top */}
+  <section
+    id="chat"
+    aria-label="AI chat"
+    class="relative z-20 -mt-16 px-4 pb-24 sm:px-6 lg:px-8"
+  >
+    <div class="mx-auto max-w-5xl">
+      <div
+        class="fill-mode-both animate-in fade-in slide-in-from-bottom-6 delay-150 duration-700"
+      >
+        <ContactChat
+          client:only="react"
+          initialSuggestions={initialSuggestions}
+        />
+      </div>
+    </div>
+  </section>
+  {/* Secondary content: Contact cards BELOW chat */}
+  <section
+    class="bg-muted/5 relative px-4 py-14 sm:px-6 lg:px-8"
+  >
+    {/* Faded Border Separator */}
+    <div
+      class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+    >
+    </div>
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-16 text-center">
+        <h2 class="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
+          <span class="text-foreground">Direct </span>
+          <span class="gradient-primary bg-clip-text text-transparent"
+            >Contact</span
+          >
+        </h2>
+        <p class="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg">
+          Prefer a traditional channel? Use phone/email, or find our HQ details
+          below.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+        {/* PHONE */}
+        <TechCard
+          variant="technical"
+          interactive
+          client:visible
+          delay={100}
+          className="h-full"
+          asChild
+        >
+          <a href="tel:8003090004" class="flex h-full flex-col items-center text-center">
+            <div
+              class="bg-primary/10 text-brand-primary mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg"
+            >
+              <PiPhone className="h-6 w-6" />
+            </div>
+            <h3
+              class="text-muted-foreground mb-1 text-xs font-bold tracking-wider"
+            >
+              Phone
+            </h3>
+            <span
+              class="text-foreground group-hover:text-brand-primary text-xl font-bold transition-colors"
+            >
+              (800) 309-0004
+            </span>
+            <span class="text-muted-foreground mt-1 text-sm"
+              >Mon–Fri, 9am–5pm EST</span
+            >
+          </a>
+        </TechCard>
+        {/* EMAIL */}
+        <TechCard
+          variant="technical"
+          interactive
+          client:visible
+          delay={200}
+          className="h-full"
+          asChild
+        >
+          <a href="mailto:info@bdkinc.com" class="flex h-full flex-col items-center text-center">
+            <div
+              class="bg-primary/10 text-brand-primary mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg"
+            >
+              <PiEnvelope className="h-6 w-6" />
+            </div>
+            <h3
+              class="text-muted-foreground mb-1 text-xs font-bold tracking-wider"
+            >
+              Email
+            </h3>
+            <span
+              class="text-foreground group-hover:text-brand-primary text-xl font-bold transition-colors"
+            >
+              info@bdkinc.com
+            </span>
+            <span class="text-muted-foreground mt-1 text-sm"
+              >General inquiries</span
+            >
+          </a>
+        </TechCard>
+        {/* HEADQUARTERS */}
+        <TechCard
+          variant="technical"
+          interactive
+          client:visible
+          delay={300}
+          className="h-full"
+          asChild
+        >
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=29515+Canvasback+Drive+Easton+MD+21601"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex h-full flex-col items-center text-center"
+          >
+            <div
+              class="bg-primary/10 text-brand-primary mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg"
+            >
+              <PiMapPin className="h-6 w-6" />
+            </div>
+            <h3
+              class="text-muted-foreground mb-1 text-xs font-bold tracking-wider"
+            >
+              Headquarters
+            </h3>
+            <span
+              class="text-foreground group-hover:text-brand-primary text-xl font-bold transition-colors"
+            >
+              Easton, MD
+            </span>
+            <span class="text-muted-foreground mt-1 text-sm"
+              >29515 Canvasback Drive</span
+            >
+          </a>
+        </TechCard>
+        {/* SUPPORT */}
+        <TechCard
+          variant="technical"
+          interactive
+          client:visible
+          delay={400}
+          className="h-full"
+        >
+          <div class="flex h-full flex-col items-center text-center">
+            <div
+              class="bg-primary/10 text-brand-primary mb-6 inline-flex h-12 w-12 items-center justify-center rounded-lg"
+            >
+              <PiHeadset className="h-6 w-6" />
+            </div>
+            <h3
+              class="text-muted-foreground mb-1 text-xs font-bold tracking-wider"
+            >
+              Client Support
+            </h3>
+            <div class="text-foreground text-xl font-bold">24/7 NOC Monitoring</div>
+            <div class="text-muted-foreground mt-1 flex items-center gap-2 text-sm">
+              <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
+              <span>System Status: Operational</span>
+            </div>
+          </div>
+        </TechCard>
+      </div>
+    </div>
+  </section>
+  <Footer />
 </Layout>

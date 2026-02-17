@@ -1,20 +1,31 @@
 ---
 import { getEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
-import { Card } from '@/components/ui/card';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import NeuralPipeline from '@/components/NeuralPipeline';
+import WatsonxSpotlight from '@/components/WatsonxSpotlight';
+import WhoThisIsFor from '@/components/WhoThisIsFor';
+import ArtificialIntelligenceVisualization from '@/components/visualizations/ArtificialIntelligenceVisualization';
+import FeatureCarousel from '@/components/FeatureCarousel';
 import {
   PiLightning,
-  PiLock,
-  PiUsers,
+  PiTrendUp,
+  PiShield,
+  PiTarget,
+  PiFileText,
+  PiBrain,
+  PiCpu,
+  PiShieldCheck,
+  PiQuotesFill,
+  PiUsersThree,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
-
 const service = await getEntry('services', 'artificial-intelligence');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -25,36 +36,68 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
-
 const metrics = [
-  { value: '120+', label: 'AI WORKFLOWS LAUNCHED', icon: Sparkles },
-  { value: '6 WEEKS', label: 'AVERAGE PILOT TIMELINE', icon: Zap },
-  { value: '30%', label: 'MANUAL EFFORT REDUCTION', icon: TrendingUp },
-  { value: '24/7', label: 'MODEL MONITORING', icon: Shield },
+  { value: '100+', label: 'Enterprise Models Deployed', icon: PiBrain },
+  { value: '6 weeks', label: 'MVP to Production', icon: PiLightning },
+  { value: '40%', label: 'Ops Efficiency Gain', icon: PiTrendUp },
+  { value: '99.9%', label: 'Inference Uptime', icon: PiShield },
 ];
-
-const detailColumns = [
+const faqs = [
   {
-    title: 'AI Delivery Framework',
-    icon: Target,
-    items: [
-      'Discovery sprints capture use cases, risks, and ROI expectations',
-      'Model prototyping validates datasets and success metrics before scale',
-      'Go-live playbooks cover deployment, retraining, and support',
-    ],
+    question: 'How do you calculate ROI for an AI initiative?',
+    answer:
+      'We focus on measurable outcomes: reduced operational costs, increased throughput, or revenue uplift. Our Discovery Phase establishes clear KPIs, ensuring every model deployed drives tangible business value within 3-6 months.',
   },
   {
-    title: 'Governance & Security',
-    icon: Lock,
-    items: [
-      'Guardrails enforce policy, privacy, and prompt security at every layer',
-      'Human-in-the-loop workflows maintain accountability and transparency',
-      'Monitoring detects drift, bias, and anomalies across production models',
-    ],
+    question: 'Is my proprietary data safe when using Generative AI?',
+    answer:
+      'Absolutely. We utilize private model instances and RAG (Retrieval-Augmented Generation) architectures where your data is used strictly for context retrieval, never for public model training. Your intellectual property remains isolated and secure.',
+  },
+  {
+    question: 'Can you integrate AI into our legacy ERP systems?',
+    answer:
+      "Yes. Our 'API-first' approach allows us to wrap legacy systems with modern AI interfaces. We can inject predictive insights or automated actions directly into your existing screens and workflows.",
+  },
+];
+const strategicFeatures = [
+  {
+    title: 'Neural Orchestration',
+    description:
+      'Secure, governed AI ecosystems powered by IBM watsonx.',
+    highlight: 'Secure AI ecosystems',
+    icon: 'Brain',
+    detail:
+      "We design AI architectures that prioritize security and governance. By utilizing watsonx.governance, we ensure that every model in your ecosystem is transparent, explainable, and aligned with your operational standards.",
+  },
+  {
+    title: 'Retrieval-Augmented Intelligence',
+    description:
+      'Grounding LLMs in your proprietary data for zero hallucination.',
+    highlight: 'Zero hallucination',
+    icon: 'Target',
+    detail:
+      "Your data is your competitive edge. We implement RAG architectures that allow generative models to retrieve context from your secure internal databases, providing highly accurate responses without risking your intellectual property.",
+  },
+  {
+    title: 'Predictive Precision',
+    description:
+      'High-fidelity forecasting using machine learning and time-series analysis.',
+    highlight: 'High-fidelity forecasting',
+    icon: 'ChartLine',
+    detail:
+      "Transform historical drag into future momentum. Our predictive engines identify patterns in supply chain, demand, and risk, allowing you to make decisions based on mathematical certainty rather than intuition.",
+  },
+  {
+    title: 'Operational Cognitive Automation',
+    description:
+      'Embedding intelligence directly into high-volume business workflows.',
+    highlight: 'High-volume workflows',
+    icon: 'Lightning',
+    detail:
+      "AI shouldn't be a separate tool; it should be the engine. We inject cognitive capabilities directly into your ERP and CRM systems, automating complex decision paths and accelerating overall business throughput.",
   },
 ];
 ---
-
 <Layout
   title={`${service.data.title} - BDKinc`}
   description={service.data.description}
@@ -71,9 +114,17 @@ const detailColumns = [
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="text-center">
+        <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
+          <!-- Badge -->
           <div
-            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4"
+            class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+          >
+            <div class="flex items-center gap-2 text-sm">
+              <span>Enterprise <span class="text-accent font-semibold">AI Intelligence</span></span>
+            </div>
+          </div>
+          <div
+            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
           >
             <IconComponent
@@ -81,8 +132,9 @@ const detailColumns = [
               aria-hidden="true"
             />
           </div>
+          <!-- Heading -->
           <h1
-            class="mb-6 text-5xl font-bold md:text-6xl"
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight delay-100 duration-700 md:text-6xl"
             transition:name={`service-title-${service.id}`}
             transition:animate="initial"
           >
@@ -90,43 +142,27 @@ const detailColumns = [
               >{titleFirst ? `${titleFirst} ` : ''}</span
             >
             <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
               >{lastTitleWord}</span
             >
           </h1>
+          <!-- Subtitle -->
           <p
-            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto mb-16 max-w-3xl text-xl leading-relaxed delay-200 duration-700"
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            {service.data.description}
+            BDKinc delivers engineered intelligence using IBM watsonx and 
+            proven ML workflows. We design secure, governed AI ecosystems that 
+            integrate cleanly with your core systems.
           </p>
         </div>
-
-        {/* Hero Image Placeholder */}
+        <!-- Visualization -->
         <div
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
-          <div
-            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
-          >
-            <div
-              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
-            >
-              <div class="text-center">
-                <div
-                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                >
-                  Service Hero Image
-                </div>
-                <div class="text-muted-foreground/60 text-lg">
-                  AI Solutions Illustration
-                </div>
-                <div class="text-muted-foreground/40 mt-2 text-xs">
-                  Recommended: 1400x800px
-                </div>
-              </div>
-            </div>
+          <div class="mx-auto max-w-5xl">
+            <ArtificialIntelligenceVisualization client:visible />
           </div>
         </div>
       </div>
@@ -135,552 +171,391 @@ const detailColumns = [
       >
       </div>
     </section>
-
-    <!-- Content Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
+    <!-- Core Services -->
+    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
+          >
+            <span class="text-foreground">Core </span>
+            <span
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+              >Capabilities</span
+            >
+          </h2>
+          <p
+            class="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl"
+          >
+            Engineered intelligence designed for the
+            <span class="text-accent font-semibold">modern enterprise</span>.
+          </p>
+        </div>
+        <TechCardGrid client:visible className="md:grid-cols-3">
+          <TechCard
+            variant="technical"
+            interactive={true}
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+              >
+                <PiBrain
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+              >
+                Generative AI & LLMs
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Build secure, domain-specific generative models using RAG 
+                architectures. We implement watsonx.ai to ensure your assistants 
+                are grounded in your proprietary data.
+              </div>
+            </div>
+          </TechCard>
+          <TechCard
+            variant="technical"
+            interactive={true}
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+              >
+                <PiTrendUp
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+              >
+                Predictive Analytics
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Transform historical data into future certainty. Our ML models 
+                forecast demand and optimize resource allocation with 
+                high-precision inference engines.
+              </div>
+            </div>
+          </TechCard>
+          <TechCard
+            variant="technical"
+            interactive={true}
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+              >
+                <PiTarget
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+              >
+                Intelligent Automation
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Embed AI into operational workflows. From computer vision for 
+                quality control to NLP for document processing, we automate 
+                complex cognitive tasks.
+              </div>
+            </div>
+          </TechCard>
+        </TechCardGrid>
+      </div>
+    </section>
+    <!-- Strategic Leadership Section -->
+    <section class="relative overflow-hidden py-24">
       <div
-        class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
+        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
       >
-        <div class="mx-auto max-w-7xl">
-          <div class="service-content-wrapper">
-            <div class="not-prose mx-auto max-w-4xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Transform Your Business with AI
-              </h2>
-              <div
-                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-              >
-                We design, build, and securely deploy production-ready AI
-                solutions tailored to your business needs. From generative AI
-                assistants to predictive analytics, our AI services help you
-                automate processes, gain deeper insights, and deliver
-                exceptional customer experiences.
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our AI Services
-            </h3>
-
-            <ServiceCardGrid client:visible>
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <Sparkles
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Generative AI
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Leverage large language models to automate content creation,
-                  enhance customer interactions, and streamline workflows with
-                  intelligent assistants.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <TrendingUp
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Predictive Analytics
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Make data-driven decisions with AI models that forecast
-                  trends, identify patterns, and optimize operations for better
-                  business outcomes.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiLightning className="text-primary h-16 w-16" aria-hidden="true" />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  AI Integration
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Seamlessly integrate AI capabilities into your existing
-                  systems and workflows for automated decision-making and
-                  real-time processing.
-                </div>
-              </ServiceCard>
-            </ServiceCardGrid>
-
-            <h3
-              class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+      </div>
+      <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Cognitive </span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Leadership</span
             >
-              Generative AI Solutions
-            </h3>
-
-            <div class="not-prose mb-20">
-              <p class="text-muted-foreground mb-10 text-center text-xl">
-                Leverage the power of large language models to transform your
-                operations
-              </p>
-
-              {/* Feature Image Placeholder */}
-              <div class="mb-10">
-                <div
-                  class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border"
-                >
-                  <div
-                    class="from-primary/5 via-secondary/5 to-primary/5 flex items-center justify-center bg-linear-to-br"
-                    style="aspect-ratio: 21/9;"
-                  >
-                    <div class="text-center">
-                      <div
-                        class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                      >
-                        Feature Image
-                      </div>
-                      <div class="text-muted-foreground/60 text-lg">
-                        Generative AI Capabilities
-                      </div>
-                      <div class="text-muted-foreground/40 mt-2 text-xs">
-                        Recommended: 1200x500px (21:9)
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="grid gap-6 md:grid-cols-2">
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Custom AI Assistants
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Build intelligent chatbots and virtual assistants that
-                      understand your business context and deliver personalized
-                      experiences
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Document Processing
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Automate document analysis, summarization, and information
-                      extraction to save time and improve accuracy
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Content Generation
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Create marketing copy, technical documentation, and
-                      personalized communications at scale
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Code Assistance
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Accelerate development with AI-powered code generation and
-                      review tools
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Predictive Analytics & Machine Learning
-            </h3>
-
-            <div class="not-prose mb-20">
-              <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <div
-                  class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-                >
-                  <BarChart3
-                    className="text-primary mb-4 h-12 w-12"
-                    aria-hidden="true"
-                  />
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Demand Forecasting
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Predict customer demand to optimize inventory and resource
-                    allocation
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-                >
-                  <PiUsers
-                    className="text-primary mb-4 h-12 w-12"
-                    aria-hidden="true"
-                  />
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Churn Prediction
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Identify at-risk customers before they leave
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-                >
-                  <PiTarget
-                    className="text-primary mb-4 h-12 w-12"
-                    aria-hidden="true"
-                  />
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Anomaly Detection
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Automatically detect unusual patterns in operations,
-                    security, or quality
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border flex flex-col items-center rounded-xl border p-6 text-center"
-                >
-                  <Sparkles
-                    className="text-primary mb-4 h-12 w-12"
-                    aria-hidden="true"
-                  />
-                  <h5 class="text-foreground mb-2 text-lg font-bold">
-                    Recommendation Systems
-                  </h5>
-                  <div class="text-muted-foreground text-sm">
-                    Personalize customer experiences with intelligent
-                    recommendations
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              How We Implement AI
-            </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {
-                detailColumns.map((column) => (
-                  <div class="glass border-border rounded-2xl border p-8">
-                    <div class="mb-6 flex items-center gap-3">
-                      <column.icon
-                        className="text-primary h-8 w-8"
-                        aria-hidden="true"
-                      />
-                      <h4 class="text-foreground text-2xl font-bold">
-                        {column.title}
-                      </h4>
-                    </div>
-                    <div class="text-muted-foreground space-y-3">
-                      {column.items.map((item) => (
-                        <div class="flex items-start gap-2">
-                          <CheckCircle2
-                            className="text-primary mt-1 h-5 w-5 shrink-0"
-                            aria-hidden="true"
-                          />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Why Choose BDK for AI?
-            </h3>
-
-            <div
-              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          </h2>
+        </div>
+        <figure class="relative mx-auto max-w-3xl">
+          <PiQuotesFill
+            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
+            aria-hidden="true"
+          />
+          <blockquote
+            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
+          >
+            "AI is not a separate tool; it's the engine of modern business. We architect 
+            <span class="text-accent font-semibold">
+              intelligent ecosystems</span
             >
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiShield
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Security First
-                </h4>
-                <div class="text-muted-foreground">
-                  Enterprise-grade security controls, data encryption, and
-                  compliance with industry standards
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiLightning className="text-primary h-10 w-10" aria-hidden="true" />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Production-Ready
-                </h4>
-                <div class="text-muted-foreground">
-                  Built for reliability and scale with proper monitoring, error
-                  handling, and performance optimization
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiTarget
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Business-Focused
-                </h4>
-                <div class="text-muted-foreground">
-                  We start with your business objectives and design AI solutions
-                  that deliver measurable ROI
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <FileText
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Transparent & Explainable
-                </h4>
-                <div class="text-muted-foreground">
-                  AI solutions that are interpretable and explainable for
-                  informed decision-making
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiUsers
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Ongoing Support
-                </h4>
-                <div class="text-muted-foreground">
-                  Continuous monitoring and refinement to ensure your AI systems
-                  adapt as your business evolves
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiLock className="text-primary h-10 w-10" aria-hidden="true" />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Responsible AI
-                </h4>
-                <div class="text-muted-foreground">
-                  Committed to ethical AI with privacy protection, bias
-                  mitigation, and human oversight
-                </div>
-              </Card>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our AI Development Process
-            </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {/* Left: Image Placeholder */}
-              <div
-                class="glass border-primary/20 overflow-hidden rounded-2xl border"
-              >
-                <div
-                  class="from-primary/5 via-secondary/5 to-primary/5 flex h-full min-h-[300px] items-center justify-center bg-linear-to-br"
-                >
-                  <div class="text-center">
-                    <div
-                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                    >
-                      Process Image
-                    </div>
-                    <div class="text-muted-foreground/60 text-lg">
-                      AI Development Workflow
-                    </div>
-                    <div class="text-muted-foreground/40 mt-2 text-xs">
-                      Recommended: 600x400px
-                    </div>
-                  </div>
+            that automate complexity and transform your proprietary data into 
+            your most powerful competitive advantage."
+          </blockquote>
+        </figure>
+      </div>
+      <div
+        class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+    </section>
+    <!-- Strategic Advantage -->
+    <section
+      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            The Strategic <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Advantage</span
+            >
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Move beyond experiments with a partner who builds production-ready, 
+            governed AI solutions.
+          </p>
+        </div>
+        <FeatureCarousel client:visible features={strategicFeatures} />
+      </div>
+    </section>
+    <!-- Watsonx Spotlight -->
+    <section class="bg-muted/30 dark:bg-white/[0.02] py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <WatsonxSpotlight client:visible />
+      </div>
+    </section>
+    <!-- Generative AI Grid -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2 class="text-foreground mb-4 text-3xl font-bold font-display tracking-tight md:text-4xl">
+            Generative <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Solutions</span>
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Enterprise-grade LLMs designed for measurable business use cases.
+          </p>
+        </div>
+        <div class="grid gap-6 md:grid-cols-2">
+          <TechCard variant="technical" interactive={false} >
+            <div class="flex items-start gap-4 p-6">
+              <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
+              </div>
+              <div>
+                <h5 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
+                  Custom AI Assistants
+                </h5>
+                <div class="text-muted-foreground text-sm leading-relaxed">
+                  Deploy intelligent agents trained on your documentation, 
+                  ensuring context-aware support for internal teams or customers.
                 </div>
               </div>
-
-              {/* Right: Text Card */}
-              <Card
-                size="default"
-                interactive={false}
-                className="flex items-center"
-              >
-                <div class="grid gap-8 md:grid-cols-1 lg:grid-cols-1">
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      1
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Discovery & Assessment
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Understand your business challenges and identify
-                      high-impact AI opportunities
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      2
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Data Evaluation
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Assess data quality, availability, and compliance
-                      requirements
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      3
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Proof of Concept
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Rapidly prototype solutions to validate feasibility and
-                      business value
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      4
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Development & Training
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Build and train custom AI models with your data
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      5
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Integration & Deployment
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Securely deploy AI into your production environment
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <div
-                      class="bg-primary/20 text-primary mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold"
-                    >
-                      6
-                    </div>
-                    <h5 class="text-foreground mb-2 text-lg font-bold">
-                      Monitoring & Optimization
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Continuously monitor performance and refine models for
-                      better results
-                    </div>
-                  </div>
-                </div>
-              </Card>
             </div>
+          </TechCard>
+          <TechCard variant="technical" interactive={false} >
+            <div class="flex items-start gap-4 p-6">
+              <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
+              </div>
+              <div>
+                <h5 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
+                  Intelligent Document Processing
+                </h5>
+                <div class="text-muted-foreground text-sm leading-relaxed">
+                  Automate the extraction of critical data from contracts, 
+                  invoices, and reports with high-precision NLP models.
+                </div>
+              </div>
+            </div>
+          </TechCard>
+          <TechCard variant="technical" interactive={false} >
+            <div class="flex items-start gap-4 p-6">
+              <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
+              </div>
+              <div>
+                <h5 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
+                  Code Modernization
+                </h5>
+                <div class="text-muted-foreground text-sm leading-relaxed">
+                  Accelerate development cycles using AI to refactor legacy 
+                  codebases, generate tests, and document complex systems.
+                </div>
+              </div>
+            </div>
+          </TechCard>
+          <TechCard variant="technical" interactive={false} >
+            <div class="flex items-start gap-4 p-6">
+              <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full shadow-[0_0_8px_var(--color-primary)]">
+              </div>
+              <div>
+                <h5 class="text-foreground mb-2 text-lg font-bold font-display tracking-tight">
+                  Content Strategy at Scale
+                </h5>
+                <div class="text-muted-foreground text-sm leading-relaxed">
+                  Generate high-fidelity technical documentation and marketing 
+                  copy with consistent brand-voice alignment.
+                </div>
+              </div>
+            </div>
+          </TechCard>
+        </div>
+      </div>
+    </section>
+    <!-- Key Benefits -->
+    <section class="bg-muted/20 dark:bg-white/[0.01] px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Key <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Benefits</span
+            >
+          </h2>
+        </div>
+        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Benefit 1 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiShieldCheck
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Security First
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Enterprise-grade controls and encryption. Your data never trains 
+              public models.
+            </p>
+          </div>
+          <!-- Benefit 2 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiLightning
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Production-Ready
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Built for reliability with MLOps pipelines, drift detection, and 
+              automated retraining.
+            </p>
+          </div>
+          <!-- Benefit 3 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiTarget
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Business-Focused
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              We start with objectives, not tech. Every model is tied to a 
+              measurable business KPI.
+            </p>
+          </div>
+          <!-- Benefit 4 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiFileText
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Explainable AI
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Glass-box models prioritize interpretability for informed 
+              enterprise decision-making.
+            </p>
+          </div>
+          <!-- Benefit 5 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiUsersThree
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Ongoing Support
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Continuous monitoring and refinement as your business and data 
+              landscape evolves.
+            </p>
+          </div>
+          <!-- Benefit 6 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiCpu
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Infra Expertise
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Deep expertise in the underlying compute and storage required 
+              to run AI at scale.
+            </p>
           </div>
         </div>
       </div>
-
-      <ImpactMetricsSection metrics={metrics} />
-
-      <CTASection
-        client:load
-        title="Ready to Transform Your Business with AI?"
-        description="Let's discuss how artificial intelligence can transform your business operations, improve decision-making, and unlock new opportunities."
-        primaryAction={{
-          text: 'Discuss Your AI Strategy',
-          href: '/contact',
-        }}
-      />
     </section>
+    <!-- Pipeline Section -->
+    <section class="bg-muted/30 dark:bg-white/[0.02] py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h2 class="text-foreground mb-12 text-center text-3xl font-bold font-display tracking-tight md:text-4xl">
+          AI Delivery <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Framework</span>
+        </h2>
+        <NeuralPipeline client:visible />
+      </div>
+    </section>
+    <WhoThisIsFor client:visible />
+    <!-- FAQ -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl">
+        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+          Frequently Asked Questions
+        </h3>
+        <div class="mb-20">
+          <TechnicalFAQ client:visible faqs={faqs} />
+        </div>
+      </div>
+    </section>
+    <ImpactMetricsSection metrics={metrics} />
+    <!-- CTA -->
+    <CTASection
+      client:visible
+      title="Plan Your AI Roadmap"
+      description="Define the first 90 days of a governed AI program powered by IBM watsonx."
+      buttonText="Book an AI Strategy Session"
+      buttonHref="/contact#chat"
+    />
   </main>
+  <Footer />
 </Layout>
-
-<Footer />

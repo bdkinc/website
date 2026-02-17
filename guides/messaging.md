@@ -1,0 +1,151 @@
+# BDKinc Messaging
+
+## Overview
+
+Use this skill to rewrite or generate copy that matches BDKinc’s positioning and tone.
+
+**Source of truth:** This skill file (`.opencode/skill/bdkinc-messaging/SKILL.md`).
+
+**Keywords**: copywriting, messaging, positioning, tone of voice, CTA, service descriptions, BDKinc, MSP, CSP, dev shop, enterprise IT
+
+## Brand Voice & Tone
+
+**Core identity:** “Premier Technology Partner with Deep Expertise.”
+
+BDKinc is a sophisticated technology partner (MSP/CSP/Dev Shop) delivering enterprise-grade infrastructure, development, and security solutions—combining global-consultancy-level technical depth with high-touch accountability.
+
+**Tone attributes (required):**
+
+- **Professional & authoritative** (confident, not hype)
+- **Strategic & clear** (translate tech into business value)
+- **Scalable & reliable** (enterprise-ready, built for growth)
+- **Proactive** (prevent issues; build futures)
+
+## Copy Rules (Do / Don’t)
+
+**Capitalization rule (important):**
+
+- Avoid writing headlines/CTAs in ALL CAPS.
+- Prefer Title Case or sentence case; use emphasis via wording, hierarchy, and brand color accents instead of capitalization.
+
+**DO**
+
+- Lead with outcomes: uptime, security, efficiency, growth, risk reduction.
+- Emphasize enterprise capability and “premier” standards without sounding generic.
+- Use concrete capabilities to support claims (e.g., 24/7/365 monitoring, hybrid cloud architecture, governance/security standards).
+
+**DON’T**
+
+- Don’t use vague fluff like “we help businesses” without specifics.
+- Don’t add regional identifiers (“Mid-Atlantic”, “Eastern Shore”) unless explicitly targeting local search.
+- Don’t add overly specific geographic qualifiers (“National”, “Across the United States”). Let capability imply scale.
+
+## Primary Value Proposition (Homepage)
+
+Prefer these canonical options when a homepage-style headline/subheadline is needed.
+
+**Headline (canonical):**
+
+- **IT Made Simple.**
+
+**Subheadline (canonical):**
+
+- The premier partner for Managed IT, Cloud Solutions, and Custom Software. We keep your business running, secure, and innovating with enterprise-grade solutions tailored to your unique scale—delivered with premier expertise.
+
+> Note: When adapting this canonical subheadline, keep the phrasing consistent with **“premier expertise.”**
+
+**Short version:**
+
+- **IT Made Simple.**
+- Empowering businesses with premier IT, Cloud, and Development solutions.
+
+## Service Narratives (Benefit-First Pillars)
+
+When writing a service section, use this structure:
+
+- **Service headline** (strong, enterprise-forward)
+- **Narrative** (problem → approach → outcomes)
+- **Key benefit** (1 sentence, quotable)
+
+### Managed IT (“Keep Me Running”)
+
+- **Headline:** Premier IT Management for Unstoppable Operations.
+- **Narrative cues:** proactive care, 24/7/365 monitoring, co-managed or full-service, prevent disruption.
+- **Key benefit:** “We architect the technology so you can scale your business.”
+
+### Cloud Hosting (“Scale Anywhere”)
+
+- **Headline:** Your Cloud, Your Way—Secure, Fast, and Optimized.
+- **Narrative cues:** hybrid-first, private cloud for control, Azure/AWS for scale, performance + cost optimization.
+- **Key benefit:** “Enterprise-grade hosting with the power to support a distributed workforce.”
+
+### Application Development (“Build My Future”)
+
+- **Headline:** Custom Software Built to Power Your Vision.
+- **Narrative cues:** modernize legacy, web/mobile, AI integrations, streamline operations, create revenue.
+- **Key benefit:** “Transforming your unique business processes into competitive advantages.”
+
+### Artificial Intelligence (“Accelerate My Innovation”)
+
+- **Headline:** Enterprise AI Ready for the Real World.
+- **Narrative cues:** production-ready AI, specific business problems, automation + analytics + genAI, watsonx, governance and security.
+- **Key benefit:** “Transforming your data into actionable intelligence and automated efficiency.”
+
+### Cybersecurity (“Secure My Data”)
+
+- **Headline:** Fortified Security for a Complex World.
+- **Narrative cues:** layered strategy, detection/endpoint/response, compliance (SOC2, HIPAA, PCI), protect reputation.
+- **Key benefit:** “Sleep soundly knowing your digital assets are shielded by premier experts.”
+
+## Partner Positioning
+
+**Concept:** “Giants in our Toolkit.”
+
+Frame partners as: certified expertise + leveraging global R&D to deliver a tailored solution.
+
+- IBM: Business Partner + watsonx specialist; reliability, Power Systems, enterprise AI.
+- Microsoft: Azure + Microsoft 365 integrated into workflow.
+- Cisco: robust networking backbone + security.
+- Lenovo: durable, high-performance hardware for modern business.
+- Cloudflare: edge security, performance, and resilience (DNS, WAF, Zero Trust).
+- VMware: virtualization and hybrid infrastructure foundations.
+
+**Important:** These are examples—BDKinc works with a broad ecosystem of platforms and vendors. Avoid implying this list is complete.
+
+**Canonical line (examples):**
+
+- “We combine the power of IBM, Microsoft, Cisco, Lenovo, Cloudflare, and VMware with the agility and premier service of BDKinc.”
+- “We bring the best of the enterprise ecosystem—paired with BDKinc’s premier execution and accountability.”
+
+## Reach & Expertise
+
+**Concept:** “Your Enterprise Partner.”
+
+**Approved phrases (mix-and-match as needed):**
+
+- “Serving growth-focused organizations with complex technology needs.”
+- “Enterprise capabilities in the cloud, premier expertise on the ground.”
+- “End-to-end IT coverage—from infrastructure and security to cloud, endpoints, and custom development.”
+- “Built to support teams of any size, with solutions that scale as you grow.”
+- “Understanding the unique challenges of complex industries—from manufacturing and logistics to healthcare and finance.”
+- “A 25-year legacy of powering business innovation.”
+
+**Scope rule:** It’s OK to say BDKinc can cover _any_ core IT function (managed IT, cloud, security, development, data/AI). Avoid absolute claims like “any IT need” unless you immediately qualify with capability categories and/or an assessment step.
+
+## Call To Action (CTA)
+
+Prefer CTAs that are direct, confident, and outcome-oriented.
+
+**Canonical CTA:**
+
+- “Stop settling for standard support. Partner with the premier experts who understand your scale. Connect with BDKinc today.”
+
+## Output Checklist
+
+Before finalizing any copy, verify:
+
+- It reads like a premier, enterprise technology partner (not a generic MSP).
+- Claims are supported by a concrete capability or example.
+- Jargon is minimized or explained.
+- No unnecessary geography qualifiers were added.
+- The CTA is crisp and action-oriented.

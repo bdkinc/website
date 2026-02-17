@@ -1,11 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navigation from '../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { getCollection } from 'astro:content';
-import { PiEnvelope } from 'react-icons/pi';
-import { Card } from '@/components/ui/card';
 import InteractiveServiceCard from '@/components/InteractiveServiceCard';
+import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer.astro';
 
 const { servicesData, recentPosts } = await getNavigationData();
@@ -68,14 +67,14 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
     </section>
 
     <!-- Services Grid Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
+    <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         {/* 3x3 Grid Layout */}
         <div
           class="grid auto-rows-fr grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {
-            services.map((service) => {
+            services.map((service, index) => {
               return (
                 <InteractiveServiceCard
                   client:visible
@@ -83,6 +82,7 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
                   title={service.data.title}
                   description={service.data.description}
                   icon={service.data.icon}
+                  index={index}
                 />
               );
             })
@@ -92,30 +92,14 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
     </section>
 
     {/* CTA Section */}
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-4xl">
-        <Card
-          className="fill-mode-both animate-in fade-in zoom-in text-center delay-700 duration-700"
-          size="xl"
-          interactive={false}
-        >
-          <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-            Ready to Get Started?
-          </h2>
-          <p class="text-muted-foreground mb-8 text-xl">
-            Contact us today to discuss how our services can help your business
-            grow.
-          </p>
-          <a
-            href="/contact"
-            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
-          >
-            Contact Us
-            <PiEnvelope className="h-4 w-4" aria-hidden="true" />
-          </a>
-        </Card>
-      </div>
-    </section>
+    <CTASection
+      client:visible
+      title="Ready to Get Started?"
+      description="Contact us today to discuss how our services can help your business grow. We architect, manage, and secure your infrastructure so you can focus on driving your business forward."
+      buttonText="Contact Us"
+      buttonHref="/contact#chat"
+      icon="mail"
+    />
   </main>
 
   <Footer />

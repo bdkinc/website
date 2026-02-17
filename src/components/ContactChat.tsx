@@ -21,9 +21,11 @@ import {
 } from '@/components/ai-elements/prompt-input';
 
 import { Suggestion, Suggestions } from '@/components/ai-elements/suggestion';
+import { cn } from '@/lib/utils';
 
 import { nanoid } from 'nanoid';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { PiSparkle } from 'react-icons/pi';
 
 type MessageType = {
   key: string;
@@ -38,16 +40,35 @@ type MessageType = {
 };
 
 const mockResponses = [
-  'Thanks for reaching out! Our team will respond shortly. You can also call us at (800) 309-0004 for immediate assistance.',
-  "Great question! We'd love to help you with that. One of our experts will get back to you soon, or feel free to call (800) 309-0004.",
-  "Thank you for your interest! We're here to help. Our team will be in touch shortly, or you can reach us directly at (800) 309-0004.",
+  'Thank you for reaching out. A Senior Architect has been notified of your inquiry and will review your requirements shortly.',
+  "We've received your message. Our engineering team is currently reviewing similar projects and will contact you within one business day.",
+  "Thanks for the details. I've routed this to our technical leadership team. You can expect a follow-up email to schedule a consultation.",
 ];
 
 interface ContactChatProps {
   initialSuggestions?: string[];
 }
 
+type AnalyticsParams = Record<string, unknown>;
+
+type Gtag = (...args: unknown[]) => void;
+
+declare global {
+  interface Window {
+    dataLayer?: AnalyticsParams[];
+    gtag?: Gtag;
+  }
+}
+
+function track(event: string, params?: AnalyticsParams) {
+  if (typeof window === 'undefined') return;
+
+  window.dataLayer?.push({ event, ...params });
+  window.gtag?.('event', event, params);
+}
+
 export default function ContactChat({ initialSuggestions }: ContactChatProps) {
+  const hasStartedRef = useRef(false);
   const [text, setText] = useState<string>('');
   const [status, setStatus] = useState<
     'submitted' | 'streaming' | 'ready' | 'error'
@@ -55,10 +76,10 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
 
   const [suggestions] = useState<string[]>(
     initialSuggestions || [
-      'How can I get a quote for IT services?',
-      'I need help with network infrastructure',
-      'What managed IT services do you offer?',
-      'Tell me about your cloud services',
+      'I need a quote for managed services',
+      'We are looking to migrate to the cloud',
+      'Help us with cybersecurity compliance',
+      'Questions about IBM Power systems',
     ]
   );
 
@@ -68,12 +89,23 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
       from: 'assistant',
       version: {
         id: nanoid(),
-        content: 'Hi! How can we help you today?',
+        content:
+          'Hello—tell us what you’re building, what you’re replacing, and what “success” looks like. We’ll route this to the right engineer.',
       },
       avatar: '/favicon.svg',
       name: 'BDKinc',
     },
   ]);
+
+  useEffect(() => {
+    track('contact_chat_view', { component: 'ContactChat' });
+  }, []);
+
+  const ensureStarted = useCallback((source: 'typed' | 'suggestion') => {
+    if (hasStartedRef.current) return;
+    hasStartedRef.current = true;
+    track('contact_chat_started', { source });
+  }, []);
 
   const streamResponse = useCallback(
     async (messageId: string, content: string) => {
@@ -98,7 +130,7 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
         );
 
         await new Promise((resolve) =>
-          setTimeout(resolve, Math.random() * 100 + 50)
+          setTimeout(resolve, Math.random() * 50 + 30)
         );
       }
 
@@ -122,7 +154,7 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
           id: `user-${Date.now()}`,
           content,
         },
-        avatar: 'https://github.com/shadcn.png',
+        avatar: '',
         name: 'You',
       };
 
@@ -147,78 +179,143 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
 
         setMessages((prev) => [...prev, assistantMessage]);
         streamResponse(assistantMessageId, randomResponse);
-      }, 500);
+      }, 600);
     },
     [streamResponse]
   );
 
   const handleSubmit = (message: PromptInputMessage) => {
-    const hasText = Boolean(message.text);
+    const rawText = message.text?.trim() ?? '';
+    if (!rawText) return;
 
-    if (!hasText) {
-      return;
-    }
+    ensureStarted('typed');
+    track('contact_chat_message_sent', {
+      method: 'typed',
+      char_count: rawText.length,
+    });
 
     setStatus('submitted');
-    addUserMessage(message.text || '');
+    addUserMessage(rawText);
     setText('');
   };
 
   const handleSuggestionClick = (suggestion: string) => {
+    ensureStarted('suggestion');
+    track('contact_chat_message_sent', {
+      method: 'suggestion',
+      char_count: suggestion.length,
+    });
+
     setStatus('submitted');
     addUserMessage(suggestion);
   };
 
   return (
-    <div className="bg-background border-input rounded-xl border p-4 shadow-sm">
-      <div>
-        <div className="relative flex h-[500px] flex-col overflow-hidden">
-          <Conversation>
-            <ConversationContent>
+    <section
+      aria-label="BDK Assistant"
+      className="relative mx-auto w-full max-w-3xl"
+    >
+      <div className="glass relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl ring-1 ring-white/5">
+        <div className="gradient-mesh pointer-events-none absolute inset-0 opacity-30" />
+
+        {/* Header bar */}
+        <div className="bg-background/20 relative flex items-center justify-between border-b border-white/5 px-6 py-4 backdrop-blur-sm">
+          <div className="flex items-center gap-3">
+            <div className="bg-primary/10 text-primary flex h-8 w-8 items-center justify-center rounded-lg">
+              <PiSparkle className="h-4 w-4" />
+            </div>
+            <div>
+              <div className="text-foreground text-sm font-medium">
+                BDK Assistant
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Chat area */}
+        <div className="bg-background/5 relative flex h-[600px] flex-col">
+          <Conversation className="flex-1 overflow-y-auto">
+            <ConversationContent className="space-y-6 p-6">
               {messages.map((message) => (
-                <Message from={message.from} key={message.key}>
-                  <div className="max-w-[80%]">
-                    <MessageContent className="relative max-w-none transition-all duration-200 ease-out">
-                      <div className="whitespace-pre-wrap">
-                        {message.version.content}
-                      </div>
-                    </MessageContent>
-                  </div>
-                  <MessageAvatar name={message.name} src={message.avatar} />
+                <Message
+                  from={message.from}
+                  key={message.key}
+                  className={cn(
+                    'items-start gap-0',
+                    message.from === 'assistant'
+                      ? 'flex-row justify-start'
+                      : 'flex-row justify-end'
+                  )}
+                >
+                  <MessageAvatar
+                    name={message.name}
+                    src={message.avatar}
+                    className={cn(
+                      'h-8 w-8 shrink-0 rounded-full border border-white/10 shadow-sm',
+                      message.from === 'assistant' ? 'mr-2' : 'order-last ml-2'
+                    )}
+                  />
+                  <MessageContent
+                    variant={message.from === 'user' ? 'contained' : 'flat'}
+                    className={cn(
+                      'rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm backdrop-blur-sm',
+                      message.from === 'assistant'
+                        ? 'bg-card/50 text-foreground border border-white/5'
+                        : 'bg-primary text-primary-foreground'
+                    )}
+                  >
+                    {message.version.content}
+                  </MessageContent>
                 </Message>
               ))}
             </ConversationContent>
             <ConversationScrollButton />
           </Conversation>
-          <div className="border-input grid shrink-0 gap-4 border-t p-4">
-            <Suggestions>
+
+          {/* Input area */}
+          <div className="bg-background/10 border-t border-white/5 p-4 backdrop-blur-sm">
+            <Suggestions className="mb-4">
               {suggestions.map((suggestion) => (
                 <Suggestion
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
                   suggestion={suggestion}
+                  className="text-muted-foreground hover:text-foreground border-border bg-muted/20 hover:bg-muted shrink-0 rounded-lg border px-4 py-2 text-xs whitespace-nowrap transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]"
                 />
               ))}
             </Suggestions>
-            <PromptInput onSubmit={handleSubmit}>
+
+            <PromptInput
+              onSubmit={handleSubmit}
+              className="ring-offset-background focus-within:ring-primary/50 border-input bg-muted/50 relative overflow-hidden rounded-xl border transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] focus-within:ring-2 [&_[data-slot=input-group]]:border-0 [&_[data-slot=input-group]]:bg-transparent [&_[data-slot=input-group]]:shadow-none [&_[data-slot=input-group]]:!ring-0"
+            >
               <PromptInputBody>
                 <PromptInputTextarea
                   onChange={(event) => setText(event.target.value)}
                   value={text}
-                  placeholder="Type your message..."
+                  aria-label="Message"
+                  placeholder="How can we help… e.g., migrate ERP to cloud"
+                  className="placeholder:text-muted-foreground/50 min-h-[50px] bg-transparent px-4 py-3 text-sm focus:outline-none"
                 />
               </PromptInputBody>
-              <PromptInputFooter>
+              <PromptInputFooter className="flex justify-between px-3 pb-3">
                 <PromptInputTools />
                 <PromptInputSubmit
                   disabled={!text.trim() || status === 'streaming'}
                   status={status}
+                  variant="ghost"
+                  size="icon-sm"
+                  className={cn(
+                    'h-8 w-8 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]',
+                    'bg-primary/10 text-primary hover:bg-primary/20',
+                    'disabled:text-muted-foreground disabled:bg-transparent'
+                  )}
                 />
               </PromptInputFooter>
             </PromptInput>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

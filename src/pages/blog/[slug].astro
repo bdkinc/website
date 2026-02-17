@@ -1,6 +1,6 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import CTASection from '@/components/CTASection';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
@@ -121,7 +121,7 @@ function formatDate(date: Date): string {
           >
             <div class="p-6 text-center">
               <div
-                class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
+                class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider"
               >
                 Featured Image Placeholder
               </div>
@@ -154,7 +154,7 @@ function formatDate(date: Date): string {
       title="Ready to Implement These Solutions?"
       description="Our team can help you apply these best practices to your business infrastructure."
       buttonText="Contact Us"
-      buttonHref="/contact"
+      buttonHref="/contact#chat"
     />
   </main>
 

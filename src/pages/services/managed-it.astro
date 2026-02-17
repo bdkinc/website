@@ -1,26 +1,28 @@
 ---
 import { getEntry, getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
+import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
-import { Card } from '@/components/ui/card';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import ManagedITVisualization from '@/components/visualizations/ManagedITVisualization';
+import FeatureCarousel from '@/components/FeatureCarousel';
 import {
   PiHeadphones,
   PiCheckCircle,
   PiMapPin,
   PiClock,
   PiUsersThree,
+  PiQuotesFill,
   PiShieldCheck,
   PiTrendUp,
   PiLightning,
   PiMonitor,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
-
 const service = await getEntry('services', 'managed-it');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -31,14 +33,12 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
-
 const _serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: service.data.title,
   description:
-    'Managed IT services covering the Mid-Atlantic region with 24/7 support, proactive monitoring, and strategic technology planning from BDKinc.',
-  areaServed: ['Maryland', 'Delaware', 'Mid-Atlantic'],
+    'Elite managed IT services delivering 24/7 enterprise support, proactive infrastructure management, and strategic technology leadership for growth-focused organizations.',
   provider: {
     '@type': 'Organization',
     name: 'BDKinc',
@@ -50,44 +50,75 @@ const _serviceSchema = {
     availability: 'https://schema.org/InStock',
   },
 };
-
 const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
   .filter((post) => post.data.tags?.includes('managed-services'))
   .slice(0, 3);
-
 const metrics = [
-  { value: '10K+', label: 'TICKETS CLOSED', icon: PiHeadphones },
-  { value: '98%', label: 'FIRST-CALL RESOLUTION', icon: PiCheckCircle },
-  { value: '2', label: 'HOUR ONSITE SLA', icon: PiMapPin },
-  { value: '24/7', label: 'SUPPORT COVERAGE', icon: PiClock },
+  { value: '10K+', label: 'Tickets Closed', icon: PiHeadphones },
+  { value: '98%', label: 'First-Call Resolution', icon: PiCheckCircle },
+  { value: '2', label: 'Hour Onsite SLA', icon: PiMapPin },
+  { value: '24/7', label: 'Support Coverage', icon: PiClock },
 ];
-
-const detailColumns = [
+const faqs = [
   {
-    title: 'Support Tiers',
-    icon: PiHeadphones,
-    items: [
-      'Unlimited help desk covers remote and onsite incidents',
-      'Dedicated account managers align roadmaps with leadership goals',
-      'Lifecycle management tracks assets, warranties, and renewals',
-    ],
+    question: 'How does BDKinc integrate with our existing internal IT team?',
+    answer:
+      'We function as a force multiplier for your internal team. Our Co-Managed IT model handles the heavy lifting of monitoring, patching, and Level 1 support, freeing your internal leaders to focus on high-value strategic initiatives and proprietary business applications.',
   },
   {
-    title: 'Technology Operations',
-    icon: PiMonitor,
-    items: [
-      'Proactive monitoring prevents outages with automated remediation',
-      'Quarterly reviews surface optimization and security priorities',
-      'Documented runbooks keep every response consistent and auditable',
-    ],
+    question: 'What industries do you specialize in supporting?',
+    answer:
+      'We specialize in high-complexity, compliance-driven sectors including healthcare, finance, manufacturing, and logistics. Our engineers are well-versed in the regulatory requirements and operational demands of environments where downtime is not an option.',
+  },
+  {
+    question: 'How do you handle rapid organizational scaling or M&A activity?',
+    answer:
+      'Our infrastructure is built for elasticity. We have extensive experience navigating the technical integration of mergers and acquisitions, standardizing disparate systems, and rapidly onboarding new users to ensure business continuity during critical growth phases.',
+  },
+];
+const strategicFeatures = [
+  {
+    title: 'Operational Resilience',
+    description:
+      'Systems designed for 99.99% uptime, ensuring your business never pauses.',
+    highlight: '99.99% uptime',
+    icon: 'CheckCircle',
+    detail:
+      "Our managed infrastructure is built on high-availability clusters and redundant network paths. We don't just aim for uptime; we guarantee it through rigorous architectural standards and automated failover protocols that keep your critical applications running even during hardware failures.",
+  },
+  {
+    title: 'Scalable Architecture',
+    description:
+      'Infrastructure that adapts instantly to mergers, acquisitions, and rapid user growth.',
+    highlight: 'adapts instantly',
+    icon: 'TrendUp',
+    detail:
+      "Growth shouldn't be painful. Whether you're onboarding 50 new employees or integrating a newly acquired branch, our cloud-first architecture allows for rapid resource provisioning. We eliminate the 'wait-and-see' approach to hardware procurement, replacing it with elastic capacity.",
+  },
+  {
+    title: 'Cost Predictability',
+    description:
+      'Shift from volatile capital expenditures to predictable, value-driven operational models.',
+    highlight: 'value-driven operational models',
+    icon: 'Lightning',
+    detail:
+      "Eliminate the 'surprise' IT bill. Our flat-fee managed services model turns your IT spend into a predictable monthly utility. This allows for better financial planning and ensures that our incentives are perfectly aligned with yours: keeping your systems running perfectly.",
+  },
+  {
+    title: 'Security Posture',
+    description:
+      'Enterprise-grade defense mechanisms interwoven into daily operations, not bolted on.',
+    highlight: 'interwoven into daily operations',
+    icon: 'ShieldCheck',
+    detail:
+      "Security is not a separate department; it's a fundamental property of every system we manage. From endpoint protection and multi-factor authentication to continuous vulnerability scanning, we build a 'defense-in-depth' strategy that protects your intellectual property and customer data.",
   },
 ];
 ---
-
 <Layout
-  title={`${service.data.title} for Maryland & Delaware SMBs | BDKinc`}
-  description="Comprehensive managed IT services for small and midsize businesses across Maryland and Delaware, including 24/7 help desk support, proactive monitoring, on-site/remote assistance, and strategic IT planning."
-  ogDescription="Managed IT services in Maryland & Delaware delivering 24/7 support, proactive monitoring, cybersecurity, and strategic technology planning for growth-focused organizations."
+  title="Elite Managed IT Services & Strategic Technology Management | BDKinc"
+  description="Transform your technology into a competitive advantage. BDKinc provides elite managed IT services, 24/7 enterprise support, and strategic infrastructure leadership for growth-focused organizations."
+  ogDescription="Elite managed IT services delivering 24/7 enterprise support, proactive infrastructure management, and strategic technology leadership for growth-focused organizations."
 >
   <script
     type="application/ld+json"
@@ -106,7 +137,19 @@ const detailColumns = [
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="text-center">
+        <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
+          <!-- Badge -->
+          <div
+            class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+          >
+            <div class="flex items-center gap-2 text-sm">
+              <span
+                >24x7 Business <span class="text-accent font-semibold"
+                  >Support</span
+                ></span
+              >
+            </div>
+          </div>
           <div
             class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
@@ -116,8 +159,9 @@ const detailColumns = [
               aria-hidden="true"
             />
           </div>
+          <!-- Heading -->
           <h1
-            class="mb-6 text-5xl font-bold md:text-6xl"
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight delay-100 duration-700 md:text-6xl"
             transition:name={`service-title-${service.id}`}
             transition:animate="initial"
           >
@@ -125,43 +169,27 @@ const detailColumns = [
               >{titleFirst ? `${titleFirst} ` : ''}</span
             >
             <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
               >{lastTitleWord}</span
             >
           </h1>
+          <!-- Subtitle -->
           <p
-            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto mb-16 max-w-3xl text-xl leading-relaxed delay-200 duration-700"
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            {service.data.description}
+            Technology shouldn't be a bottleneck; it should be an accelerator.
+            We monitor your systems 24/7/365, preventing issues before they
+            disrupt your operations.
           </p>
         </div>
-
-        {/* Hero Image Placeholder */}
+        <!-- Visualization -->
         <div
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
-          <div
-            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
-          >
-            <div
-              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
-            >
-              <div class="text-center">
-                <div
-                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                >
-                  Service Hero Image
-                </div>
-                <div class="text-muted-foreground/60 text-lg">
-                  Managed IT Services Illustration
-                </div>
-                <div class="text-muted-foreground/40 mt-2 text-xs">
-                  Recommended: 1400x800px
-                </div>
-              </div>
-            </div>
+          <div class="mx-auto max-w-5xl">
+            <ManagedITVisualization client:load />
           </div>
         </div>
       </div>
@@ -170,471 +198,324 @@ const detailColumns = [
       >
       </div>
     </section>
-
-    <!-- Content Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div
-        class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
-      >
-        <div class="mx-auto max-w-7xl">
-          <div class="service-content-wrapper">
-            <div class="not-prose mx-auto max-w-4xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Comprehensive IT Management for Your Business
-              </h2>
-              <div
-                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-              >
-                Our managed IT services provide comprehensive support for all
-                your technology needs. With unlimited help desk support and both
-                on-site and remote assistance, we ensure your systems run
-                smoothly 24/7. Let our experienced technicians handle your IT
-                infrastructure while you focus on growing your business.
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Core Services
-            </h3>
-
-            <ServiceCardGrid client:visible>
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiHeadphones
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Unlimited Help Desk
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Get immediate assistance whenever you need it. Our dedicated
-                  support team is ready to resolve your IT issues quickly and
-                  efficiently, minimizing downtime.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiMonitor
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Proactive Monitoring
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  We don't wait for problems to occur. Our advanced monitoring
-                  tools track your systems 24/7, identifying and resolving
-                  potential issues before they impact your operations.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiMapPin
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Flexible Support
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Whether you need hands-on assistance or quick remote
-                  troubleshooting, our technicians are equipped to help with
-                  flexible support options that fit your business needs.
-                </div>
-              </ServiceCard>
-            </ServiceCardGrid>
-
-            <h3
-              class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+    <!-- Core Services -->
+    <section class="bg-muted/30 px-4 py-24 dark:bg-white/[0.02] sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
+          >
+            <span class="text-foreground">Core </span>
+            <span
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+              >Capabilities</span
             >
-              Why Choose Managed IT Services?
-            </h3>
-
-            <div class="not-prose mb-20">
-              <p class="text-muted-foreground mb-10 text-center text-xl">
-                Transform your technology from a cost center into a strategic
-                advantage
-              </p>
-
-              {/* Feature Image Placeholder */}
-              <div class="mb-10">
-                <div
-                  class="glass border-primary/20 mx-auto max-w-3xl overflow-hidden rounded-xl border"
-                >
-                  <div
-                    class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-21/9 items-center justify-center bg-linear-to-br"
-                  >
-                    <div class="p-4 text-center">
-                      <div
-                        class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
-                      >
-                        Feature Image
-                      </div>
-                      <div class="text-muted-foreground/60 text-sm">
-                        Benefits Illustration
-                      </div>
-                      <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                        1200x500px
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="grid gap-6 md:grid-cols-2">
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Reduce IT Costs
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Outsource your IT infrastructure and eliminate the expense
-                      of maintaining an in-house IT department
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Improve Efficiency
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Let our experts handle technology so you can focus on core
-                      business operations
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Minimize Downtime
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Proactive monitoring and rapid response keep your systems
-                      running smoothly
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Scalable Solutions
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Our services grow with your business, adapting to your
-                      changing needs
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Key Benefits
-            </h3>
-
-            <div
-              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiClock
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  24/7 Availability
-                </h4>
-                <div class="text-muted-foreground">
-                  Round-the-clock monitoring and support ensures your business
-                  never stops
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiUsersThree
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Expert Support
-                </h4>
-                <div class="text-muted-foreground">
-                  Access to experienced technicians with diverse technical
-                  expertise
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiShieldCheck
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Security First
-                </h4>
-                <div class="text-muted-foreground">
-                  Proactive security measures protect your data and systems
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiTrendUp
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Business Growth
-                </h4>
-                <div class="text-muted-foreground">
-                  Technology that scales with your business objectives
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiLightning
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Rapid Response
-                </h4>
-                <div class="text-muted-foreground">
-                  Quick issue resolution minimizes disruption to your operations
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiMonitor
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Infrastructure Management
-                </h4>
-                <div class="text-muted-foreground">
-                  Complete oversight of your IT infrastructure and assets
-                </div>
-              </Card>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our Approach
-            </h3>
-
-            <div class="not-prose mb-20">
-              <div class="grid items-center gap-8 md:grid-cols-2">
-                {/* Approach Image Placeholder */}
-                <div class="order-2 md:order-1">
-                  <div
-                    class="glass border-primary/20 overflow-hidden rounded-xl border"
-                  >
-                    <div
-                      class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-square items-center justify-center bg-linear-to-br"
-                    >
-                      <div class="p-4 text-center">
-                        <div
-                          class="text-muted-foreground/40 mb-1 text-xs font-medium tracking-wider uppercase"
-                        >
-                          Approach Visual
-                        </div>
-                        <div class="text-muted-foreground/60 text-sm">
-                          Workflow Diagram
-                        </div>
-                        <div class="text-muted-foreground/40 mt-1 text-[10px]">
-                          800x800px
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Approach Text */}
-                <div class="order-1 md:order-2">
-                  <div class="glass border-border rounded-xl border p-8">
-                    <div
-                      class="text-muted-foreground space-y-4 text-lg leading-relaxed"
-                    >
-                      <p>
-                        We take a comprehensive approach to IT management,
-                        covering everything from day-to-day support to strategic
-                        planning.
-                      </p>
-                      <p>
-                        Our team becomes an extension of your business,
-                        understanding your unique challenges and delivering
-                        customized solutions that drive results.
-                      </p>
-                      <p>
-                        Whether you're a small business looking for reliable IT
-                        support or a growing company needing scalable
-                        infrastructure management, we have the expertise and
-                        resources to keep your technology running at peak
-                        performance.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Why Choose BDK for Managed IT?
-            </h3>
-
-            <div class="text-center">
-              <div
-                class="text-muted-foreground mx-auto mb-6 max-w-4xl text-lg leading-relaxed"
-              >
-                With decades of experience in IT management and support, we
-                understand what it takes to keep businesses running smoothly.
-                Our proactive approach means we're solving problems before they
-                affect your operations. We combine technical expertise with
-                excellent customer service to deliver IT support that truly
-                makes a difference.
-              </div>
-              <div class="text-primary text-xl font-semibold">
-                Focus on your business. Let us handle your technology.
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-12 text-center text-2xl font-bold">
-              Service Details
-            </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {
-                detailColumns.map((column) => (
-                  <div class="glass border-border rounded-2xl border p-8">
-                    <div class="mb-6 flex items-center gap-3">
-                      <column.icon
-                        className="text-primary h-8 w-8"
-                        aria-hidden="true"
-                      />
-                      <h4 class="text-foreground text-2xl font-bold">
-                        {column.title}
-                      </h4>
-                    </div>
-                    <div class="text-muted-foreground space-y-3">
-                      {column.items.map((item) => (
-                        <div class="flex items-start gap-2">
-                          <PiCheckCircle
-                            className="text-primary mt-1 h-5 w-5 shrink-0"
-                            aria-hidden="true"
-                          />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-          </div>
+          </h2>
+          <p
+            class="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl"
+          >
+            Comprehensive infrastructure management designed for the
+            <span class="text-accent font-semibold">modern enterprise</span>.
+          </p>
         </div>
-
-        <!-- Related Resources -->
-        {
-          relatedPosts.length > 0 && (
-            <section class="mx-auto max-w-5xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                Related Resources
-              </h2>
-              <div class="grid gap-6 md:grid-cols-3">
-                {relatedPosts.map((post) => (
-                  <a
-                    href={`/blog/${post.slug}`}
-                    class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
-                  >
-                    <h3 class="text-foreground mb-2 text-lg font-semibold">
-                      {post.data.title}
-                    </h3>
-                    <p class="text-muted-foreground text-sm">
-                      {post.data.description}
-                    </p>
-                    <span class="text-primary mt-4 text-sm font-medium">
-                      Read Article →
-                    </span>
-                  </a>
-                ))}
+        <TechCardGrid client:visible className="md:grid-cols-3">
+          <TechCard
+            variant="technical"
+            interactive={true}
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+              >
+                <PiHeadphones
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
               </div>
-            </section>
-          )
-        }
-
-        <ImpactMetricsSection metrics={metrics} />
-
-        <!-- CTA -->
-        <CTASection
-          client:visible
-          title="Ready to Transform Your IT?"
-          description={`Let's discuss how ${service.data.title.toLowerCase()} can help your business thrive with reliable, scalable technology solutions.`}
-          buttonText="Get in Touch"
-          buttonHref="/contact"
-        />
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+              >
+                Enterprise Service Desk
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Beyond basic troubleshooting. Our tiered support structure
+                resolves 98% of incidents on first contact, providing your team
+                with immediate access to senior engineers.
+              </div>
+            </div>
+          </TechCard>
+          <TechCard
+            variant="technical"
+            interactive={true}
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+              >
+                <PiTrendUp
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+              >
+                Predictive Intelligence
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                We don't just react to alerts; we anticipate failures utilizing
+                advanced telemetry and AI-driven analytics to identify anomalies
+                before they impact your users.
+              </div>
+            </div>
+          </TechCard>
+          <TechCard
+            variant="technical"
+            interactive={true}
+          >
+            <div class="flex h-full flex-col items-center p-8 text-center">
+              <div
+                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+              >
+                <PiUsersThree
+                  className="text-primary h-16 w-16"
+                  aria-hidden="true"
+                />
+              </div>
+              <h4
+                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+              >
+                Strategic Co-Management
+              </h4>
+              <div class="text-muted-foreground text-sm leading-relaxed">
+                Whether acting as your entire IT department or augmenting your
+                internal team, we integrate seamlessly with your workflows and
+                provide specialized expertise.
+              </div>
+            </div>
+          </TechCard>
+        </TechCardGrid>
       </div>
     </section>
+    <!-- Strategic Leadership Section -->
+    <section class="relative overflow-hidden py-24">
+      <div
+        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+      <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Technology </span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Leadership</span
+            >
+          </h2>
+        </div>
+        <figure class="relative mx-auto max-w-3xl">
+          <PiQuotesFill
+            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
+            aria-hidden="true"
+          />
+          <blockquote
+            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
+          >
+            "True business growth requires more than keeping the lights on. It
+            demands a technology strategy that
+            <span class="text-accent font-semibold">
+              anticipates challenges</span
+            >
+            and scales with your ambition. We architect, manage, and secure your
+            infrastructure so you can focus on driving your business forward."
+          </blockquote>
+        </figure>
+      </div>
+      <div
+        class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+    </section>
+    <!-- Technology Leadership -->
+    <section
+      class="bg-linear-to-b from-transparent to-muted/20 px-4 py-24 dark:to-white/[0.02] sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            The Strategic <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Advantage</span
+            >
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Move beyond break/fix and operational drag with a partner who builds
+            for the future.
+          </p>
+        </div>
+        <FeatureCarousel client:visible features={strategicFeatures} />
+      </div>
+    </section>
+    <!-- Key Benefits (Clean Icon Grid) -->
+    <section class="bg-muted/30 px-4 py-24 dark:bg-white/[0.02] sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Key <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Benefits</span
+            >
+          </h2>
+        </div>
+        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Benefit 1 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiClock
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              24/7 Availability
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Round-the-clock monitoring and support ensures your business never
+              stops
+            </p>
+          </div>
+          <!-- Benefit 2 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiUsersThree
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Expert Support
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Access to experienced technicians with diverse technical expertise
+            </p>
+          </div>
+          <!-- Benefit 3 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiShieldCheck
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Security First
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Proactive security measures protect your data and systems
+            </p>
+          </div>
+          <!-- Benefit 4 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiTrendUp
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Business Growth
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Technology that scales with your business objectives
+            </p>
+          </div>
+          <!-- Benefit 5 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiLightning
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Rapid Response
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Quick issue resolution minimizes disruption to your operations
+            </p>
+          </div>
+          <!-- Benefit 6 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiMonitor
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Infrastructure Management
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Complete oversight of your IT infrastructure and assets
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- FAQ -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl">
+        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+          Frequently Asked Questions
+        </h3>
+        <div class="mb-20">
+          <TechnicalFAQ client:visible faqs={faqs} />
+        </div>
+      </div>
+    </section>
+    <!-- Related Resources -->
+    {
+      relatedPosts.length > 0 && (
+        <section class="mx-auto max-w-5xl px-4 py-24">
+          <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
+            Related Resources
+          </h2>
+          <div class="grid gap-6 md:grid-cols-3">
+            {relatedPosts.map((post) => (
+              <a
+                href={`/blog/${post.slug}`}
+                class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
+              >
+                <h3 class="text-foreground mb-2 text-lg font-semibold">
+                  {post.data.title}
+                </h3>
+                <p class="text-muted-foreground text-sm">
+                  {post.data.description}
+                </p>
+                <span class="text-primary mt-4 text-sm font-medium">
+                  Read Article →
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
+    <ImpactMetricsSection metrics={metrics} />
+    <!-- CTA -->
+    <CTASection
+      client:visible
+      title="Power Your Growth with Elite IT"
+      description="Stop settling for standard support. Partner with the experts who understand your scale."
+      buttonText="Schedule a Strategy Session"
+      buttonHref="/contact#chat"
+    />
   </main>
-
   <Footer />
 </Layout>

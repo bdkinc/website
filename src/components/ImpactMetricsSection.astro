@@ -1,71 +1,55 @@
 ---
 import type { ComponentType } from 'react';
-import MetricCountUp from './MetricCountUp';
-
+import MetricCountUp from '@/components/MetricCountUp';
+import { TechCard } from '@/components/TechCard';
 interface Metric {
   value: string;
   label: string;
   icon?: ComponentType<{ className?: string }>;
 }
-
 interface Props {
   metrics: Metric[];
   title?: string;
   eyebrow?: string;
   description?: string;
 }
-
 const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
 ---
-
 {
   metrics.length > 0 && (
     <section class="mb-20 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <div class="border-border/60 bg-background/80 relative overflow-hidden rounded-3xl border p-10 shadow-[--shadow-glow-sm] sm:p-12 lg:p-16">
-          <div
-            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,#00d4ff33,transparent_65%)]"
-            aria-hidden="true"
-          />
-          <div
-            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,#7c3aed2b,transparent_60%)]"
-            aria-hidden="true"
-          />
-
-          <div class="relative z-10 flex flex-col gap-10">
-            <div class="text-center">
-              {eyebrow && (
-                <p class="text-primary mb-3 text-xs font-semibold tracking-[0.4em] uppercase">
-                  {eyebrow}
-                </p>
-              )}
-              <h3 class="text-foreground text-3xl font-bold md:text-4xl">
-                {title}
-              </h3>
-              {description && (
-                <p class="text-muted-foreground mx-auto mt-4 max-w-2xl text-base md:text-lg">
-                  {description}
-                </p>
-              )}
-            </div>
-
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-              {metrics.map((metric, index) => (
-                <div
-                  class="impact-metric-card group border-border/60 bg-background/90 relative overflow-hidden rounded-2xl border p-8 text-center transition-transform duration-500 ease-out hover:-translate-y-1"
-                  data-delay={index * 80}
-                >
-                  <div
-                    class="metric-card-glow from-primary/20 pointer-events-none absolute inset-0 bg-linear-to-br via-transparent to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-                    aria-hidden="true"
-                  />
-                  <div class="relative z-10 flex flex-col items-center gap-4">
+        <div class="flex flex-col gap-10">
+          <div class="text-center">
+            {eyebrow && (
+              <p class="text-primary mb-3 text-xs font-semibold tracking-[0.4em]">
+                {eyebrow}
+              </p>
+            )}
+            <h3 class="text-foreground text-3xl font-bold md:text-4xl">
+              {title}
+            </h3>
+            {description && (
+              <p class="text-muted-foreground mx-auto mt-4 max-w-2xl text-base md:text-lg">
+                {description}
+              </p>
+            )}
+          </div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {metrics.map((metric, index) => (
+              <div
+                class="impact-metric-card min-h-[220px]"
+                data-delay={index * 80}
+              >
+                <TechCard client:visible animated={false} variant="blog">
+                  <div class="flex h-full flex-col items-center justify-center gap-6 p-4">
                     {metric.icon && (
-                      <div class="bg-primary/10 text-primary flex h-16 w-16 items-center justify-center rounded-full">
+                      <div class="bg-primary/10 text-primary ring-primary/25 group-hover:bg-primary/20 group-hover:ring-primary/50 relative flex h-16 w-16 items-center justify-center rounded-full ring-1 transition-colors duration-500">
                         <metric.icon className="h-8 w-8" aria-hidden="true" />
+                        <div class="bg-primary/10 absolute inset-0 animate-pulse rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                       </div>
                     )}
-                    <div class="metric-value">
+                    <div class="metric-value flex flex-col items-center gap-2">
                       <MetricCountUp
                         client:visible
                         value={metric.value}
@@ -73,41 +57,41 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
                       />
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                </TechCard>
+              </div>
+            ))}
           </div>
         </div>
       </div>
     </section>
   )
 }
-
 <script>
+  // Ensure the GSAP animation logic is robustly loaded or simplify if it conflicts with client:visible
+  // The client:visible in MetricCountUp is likely correct, but let's check if GSAP is firing correctly.
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+  // Only run on client
   if (typeof window !== 'undefined') {
+    // We'll attach this setup function to a global event or run it immediately if DOM is ready
     const setupImpactMetrics = () => {
-      const cards = document.querySelectorAll('.impact-metric-card');
+      // Add a slight delay to ensure client:visible components might have mounted their DOM structure if needed
+      // Though Astro script tags run after hydration usually.
+      const cards = document.querySelectorAll<HTMLElement>(
+        '.impact-metric-card'
+      );
       if (!cards.length) {
         return;
       }
-
       const prefersReducedMotion = window.matchMedia(
         '(prefers-reduced-motion: reduce)'
       ).matches;
       if (prefersReducedMotion) {
         return;
       }
-
       gsap.registerPlugin(ScrollTrigger);
-
-      cards.forEach((card, index) => {
+      cards.forEach((card) => {
         const delay = Number(card.dataset.delay ?? '0') / 1000;
-        const valueEl = card.querySelector('.metric-value');
-        const glowEl = card.querySelector('.metric-card-glow');
-
         ScrollTrigger.create({
           trigger: card,
           start: 'top 80%',
@@ -118,32 +102,12 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
               { opacity: 0, y: 32 },
               { opacity: 1, y: 0, delay, duration: 0.8, ease: 'power3.out' }
             );
-
-            if (valueEl) {
-              gsap.fromTo(
-                valueEl,
-                { scale: 0.9 },
-                {
-                  scale: 1,
-                  delay: delay + 0.12,
-                  duration: 0.6,
-                  ease: 'back.out(1.7)',
-                }
-              );
-            }
-
-            if (glowEl) {
-              gsap.fromTo(
-                glowEl,
-                { opacity: 0 },
-                { opacity: 0.55, delay, duration: 1.2, ease: 'power2.out' }
-              );
-            }
+            // Removed separate animation for valueEl to avoid conflict with React's CountUp
+            // Let the React component handle the number animation via client:visible
           },
         });
       });
     };
-
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', setupImpactMetrics, {
         once: true,

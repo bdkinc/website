@@ -3,6 +3,7 @@ title: '5 Benefits of Managed IT Services for Small Businesses'
 description: 'Discover how managed IT services can help small businesses reduce costs, improve security, and focus on growth.'
 pubDate: 2025-10-20
 author: 'BDKinc'
+category: 'Infrastructure'
 tags: ['managed-services', 'business', 'productivity']
 draft: false
 ---

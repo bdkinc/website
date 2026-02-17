@@ -1,4 +1,4 @@
-export default () => (
+const Logo = () => (
   <svg
     id="Layer_1"
     data-name="Layer 1"
@@ -103,3 +103,5 @@ export default () => (
     </g>
   </svg>
 );
+
+export default Logo;
