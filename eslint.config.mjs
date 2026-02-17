@@ -37,7 +37,7 @@ const tsConfigs = tsPlugin.configs['flat/recommended'].map((config) => ({
     parser: tsParser,
     parserOptions: {
       ...(config.languageOptions?.parserOptions ?? {}),
-      project: ['./tsconfig.json'],
+      project: ['./apps/bdkinc/tsconfig.json'],
       tsconfigRootDir: __dirname,
       extraFileExtensions: ['.astro'],
       ecmaFeatures: {
@@ -94,7 +94,15 @@ const jsxA11yConfig = {
 
 export default [
   {
-    ignores: ['node_modules/', 'dist/', '.astro/', '.factory/', '.vscode/'],
+    ignores: [
+      'node_modules/',
+      'dist/',
+      '.astro/',
+      '.factory/',
+      '.vscode/',
+      'apps/**/dist/',
+      'apps/**/.astro/',
+    ],
   },
   jsConfig,
   ...astroConfigs,

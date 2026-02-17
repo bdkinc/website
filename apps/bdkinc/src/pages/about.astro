@@ -1,0 +1,308 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
+import CTASection from '@/components/CTASection';
+import { getNavigationData } from '@/lib/navigation-data';
+import { getPageBySlug } from '@/lib/cms';
+import Footer from '@/components/Footer.astro';
+import CoreProtocols from '@/components/CoreProtocols';
+import DevelopmentLogTimeline from '@/components/DevelopmentLogTimeline';
+import MissionVision from '@/components/MissionVision';
+import FoundingStory from '@/components/FoundingStory.astro';
+import TrustShowcase from '@/components/TrustShowcase';
+
+const [{ servicesData, recentPosts }, aboutPage] = await Promise.all([
+  getNavigationData(),
+  getPageBySlug('about'),
+]);
+
+const aboutTitle =
+  aboutPage?.seoTitle || 'About BDKinc | Enterprise Technology Partner';
+const aboutDescription =
+  aboutPage?.seoDescription ||
+  "Discover BDKinc's 25-year evolution into a premier technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth.";
+const aboutHeroHeading = aboutPage?.heroHeading || 'Partners in Your Potential';
+const aboutHeroBody =
+  aboutPage?.heroBody ||
+  'More than a vendor. We are the strategic extension of your team-bringing clarity, discipline, and engineering depth to every decision.';
+const aboutHeadingWords = aboutHeroHeading.trim().split(/\s+/);
+const aboutHeadingAccent = aboutHeadingWords.pop() ?? 'Potential';
+const aboutHeadingLead = aboutHeadingWords.join(' ');
+const aboutValuesHeading = aboutPage?.aboutValuesHeading || 'Our Values';
+const aboutValuesSubheading =
+  aboutPage?.aboutValuesSubheading ||
+  'The principles that guide our premier standards';
+const aboutJourneyHeading = aboutPage?.aboutJourneyHeading || 'Our Journey';
+const aboutJourneySubheading =
+  aboutPage?.aboutJourneySubheading || 'A legacy of innovation and excellence';
+const aboutCTATitle =
+  aboutPage?.aboutCTATitle || 'Partner with Engineers Who Own Outcomes';
+const aboutCTADescription =
+  aboutPage?.aboutCTADescription ||
+  'Bring clarity, resilience, and speed to mission-critical IT. Tap 25+ years of infrastructure, security, and modernization expertise.';
+const aboutCTAButtonText = aboutPage?.aboutCTAButtonText || 'Talk to an Engineer';
+const aboutCTAButtonHref = aboutPage?.aboutCTAButtonHref || '/contact#chat';
+const aboutValuesWords = aboutValuesHeading.trim().split(/\s+/);
+const aboutValuesAccent = aboutValuesWords.pop() ?? 'Values';
+const aboutValuesLead = aboutValuesWords.join(' ');
+const aboutJourneyWords = aboutJourneyHeading.trim().split(/\s+/);
+const aboutJourneyAccent = aboutJourneyWords.pop() ?? 'Journey';
+const aboutJourneyLead = aboutJourneyWords.join(' ');
+
+// Company values data
+const values = [
+  {
+    icon: 'Target',
+    title: 'Client-Focused',
+    description:
+      'Your strategic goals define our technical roadmap. We engineer solutions that directly drive your business outcomes.',
+  },
+  {
+    icon: 'Lightbulb',
+    title: 'Innovation',
+    description:
+      'We constantly evaluate emerging technologies to bring you proven, high-impact advancements.',
+  },
+  {
+    icon: 'Shield',
+    title: 'Reliability',
+    description:
+      '25+ years of steadfast stability. We build systems designed for maximum uptime and resilience.',
+  },
+  {
+    icon: 'Users',
+    title: 'Partnership',
+    description:
+      'We operate as an extension of your leadership team, invested in your long-term success.',
+  },
+  {
+    icon: 'Award',
+    title: 'Excellence',
+    description:
+      'We hold ourselves to premier standards of technical precision and operational discipline.',
+  },
+  {
+    icon: 'Clock',
+    title: '24/7 Support',
+    description:
+      'Unrelenting vigilance. Our expert team ensures your infrastructure never sleeps.',
+  },
+];
+const valuesData = values;
+
+// Milestones data
+const milestones = [
+  {
+    year: '1999',
+    title: 'Foundation of Excellence',
+    description:
+      'Established with a focused commitment to IBM Power Systems and specialized software solutions.',
+  },
+  {
+    year: '2005',
+    title: 'Growth & Expansion',
+    description:
+      'Opened multiple office locations and expanded service offerings to include enterprise Networking and Windows Server support.',
+  },
+  {
+    year: '2010',
+    title: 'Cloud Hosting',
+    description:
+      'Launched comprehensive hosting services for IBM Power, Windows, and Linux environments.',
+  },
+  {
+    year: '2015',
+    title: 'Infrastructure & Analytics',
+    description:
+      'Extended reach to multiple datacenters while enhancing software solutions with advanced analytics and integration capabilities.',
+  },
+  {
+    year: '2018',
+    title: 'Public Cloud Integration',
+    description:
+      'Forged strategic integrations with major public cloud vendors including Azure, Google Cloud, and Cloudflare.',
+  },
+  {
+    year: '2022',
+    title: 'Premier Partnership',
+    description:
+      'Solidified status as a premier IT solutions partner capable of serving businesses of any size with enterprise-grade support.',
+  },
+  {
+    year: '2025',
+    title: 'AI & Innovation',
+    description:
+      'Pioneering the future as a specialized IBM watsonx solutions expert, driving enterprise AI adoption.',
+  },
+];
+const milestonesData = milestones;
+---
+
+<Layout
+  title={aboutTitle}
+  description={aboutDescription}
+  ogDescription={aboutDescription}
+>
+  <!-- AboutPage Schema Markup -->
+  <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "BDKinc",
+        "foundingDate": "1999",
+        "description": "BDKinc is a premier technology partner delivering enterprise-grade managed IT, cloud hosting, cybersecurity, and AI solutions.",
+        "url": "https://www.bdkinc.com",
+        "numberOfEmployees": {
+          "@type": "QuantitativeValue",
+          "value": "50+"
+        },
+        "knowsAbout": [
+          "Managed IT Services",
+          "Cloud Hosting",
+          "Cybersecurity",
+          "IBM Power Systems",
+          "AI Solutions",
+          "Business Applications"
+        ]
+      }
+    }
+  </script>
+  <Navigation
+    client:load
+    services={servicesData}
+    blogPosts={recentPosts}
+    currentPath={Astro.url.pathname}
+  />
+  <main id="main-content">
+    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="relative z-10 mx-auto max-w-4xl text-center">
+        <div
+          class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+        >
+          <div class="text-sm">
+            25+ Years of <span class="text-accent font-semibold"
+              >Client Dedication</span
+            >
+          </div>
+        </div>
+
+        <h1
+          class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold delay-100 duration-700 md:text-6xl"
+        >
+          <span class="text-foreground">{aboutHeadingLead} </span>
+          <span
+            class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+          >
+            {aboutHeadingAccent}
+          </span>
+        </h1>
+        <p
+          class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
+        >
+          {aboutHeroBody}
+        </p>
+
+        <div
+          class="fill-mode-both animate-in fade-in zoom-in group relative mt-12 delay-400 duration-700"
+        >
+          <div
+            class="glass border-primary/20 relative mx-auto max-w-4xl overflow-hidden rounded-xl border shadow-lg"
+          >
+            <div
+              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
+            >
+              <div class="text-center">
+                <div
+                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider"
+                >
+                  Image Placeholder
+                </div>
+                <div class="text-muted-foreground/60 text-lg">
+                  Company Photo / Team Image
+                </div>
+                <div class="text-muted-foreground/40 mt-2 text-xs">
+                  Recommended: 1200x675px
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
+      >
+      </div>
+    </section>
+
+    <FoundingStory />
+
+    <section class="mx-auto max-w-7xl py-24">
+      <MissionVision client:visible />
+    </section>
+
+    <section class="relative overflow-hidden">
+      <div
+        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+      <div class="relative z-10 mx-auto max-w-7xl py-24">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">{aboutValuesLead || 'Our'} </span>
+            <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >{aboutValuesAccent}</span
+            >
+          </h2>
+          <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
+          >
+            {aboutValuesSubheading}
+          </p>
+        </div>
+
+        <CoreProtocols values={valuesData} client:visible />
+      </div>
+    </section>
+
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">{aboutJourneyLead || 'Our'} </span>
+            <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >{aboutJourneyAccent}</span
+            >
+          </h2>
+          <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
+          >
+            {aboutJourneySubheading}
+          </p>
+         </div>
+
+         <DevelopmentLogTimeline milestones={milestonesData} client:visible />
+       </div>
+     </section>
+
+    <TrustShowcase client:visible showAllPartners />
+
+    <CTASection
+      client:visible
+      title={aboutCTATitle}
+      description={aboutCTADescription}
+      buttonText={aboutCTAButtonText}
+      buttonHref={aboutCTAButtonHref}
+    />
+  </main>
+
+  <Footer />
+</Layout>

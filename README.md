@@ -1,115 +1,84 @@
-# <span class="font-display font-extrabold">BDKinc</span> Website
+# BDKinc Monorepo
 
-A modern, technical-themed website for <span class="font-display font-extrabold">BDKinc</span> built with Astro, React, and Tailwind CSS.
+This repository is organized as an npm workspaces monorepo.
 
-## Tech Stack
+## Workspaces
 
-- **Astro 5.x** - Static site generator with islands architecture
-- **React 19** - For interactive components
-- **Tailwind CSS 4** - Utility-first CSS framework
-- **shadcn/ui** - High-quality UI components
-- **React Bits** - Animation library for smooth interactions
-- **TypeScript** - Type safety throughout
-
-## Project Structure
-
-```
-/
-├── src/
-│   ├── components/
-│   │   ├── ui/              # shadcn components (Button, Card, etc.)
-│   │   ├── react/           # React components
-│   │   └── Navigation.tsx   # Main navigation
-│   ├── layouts/
-│   │   └── Layout.astro     # Base layout
-│   ├── lib/
-│   │   └── utils.ts         # Utility functions
-│   ├── pages/
-│   │   ├── index.astro      # Homepage
-│   │   ├── services.astro   # Services page
-│   │   ├── about.astro      # About page
-│   │   └── contact.astro    # Contact page
-│   └── styles/
-│       └── global.css       # Global styles with technical theme
-└── public/                  # Static assets
-```
+- `apps/bdkinc` - Astro marketing site for BDKinc.
+- `apps/cms` - Payload CMS service (headless + admin).
+- `packages/design-system` - Shared UI/design-system package scaffold.
 
 ## Getting Started
 
-### Development
+Install dependencies at repo root:
+
+```bash
+npm install
+```
+
+Start local MongoDB with Docker Compose:
+
+```bash
+npm run db:up
+```
+
+Run the BDKinc website:
 
 ```bash
 npm run dev
 ```
 
-Visit http://localhost:4321
-
-### Build
+Run the CMS service:
 
 ```bash
-npm run build
+npm run dev:cms
 ```
 
-### Preview Production Build
+If port `3001` is already in use, you can run CMS on another port:
 
 ```bash
-npm run preview
+CMS_PORT=3002 npm run dev:cms
 ```
 
-## Design System
+Then set `CMS_URL=http://localhost:3002` in `apps/bdkinc/.env`.
 
-### Colors
+Seed initial CMS content (home/about pages + site settings):
 
-The site uses a dark technical theme inspired by modern dev tools:
+```bash
+npm run seed -w apps/cms
+```
 
-- **Primary**: `#00d4ff` (Cyan blue)
-- **Secondary**: `#7c3aed` (Purple)
-- **Background**: `#0a0e27` (Dark navy)
-- **Surface**: `#111827` (Dark gray)
+Create the first CMS admin user:
 
-### Components
+```bash
+npm run bootstrap:admin -w apps/cms
+```
 
-All UI components are in `/src/components/ui/` and use the `cn()` utility for class merging.
+## Useful Commands
 
-### Animations
+- `npm run dev:site` - Start Astro site (`apps/bdkinc`).
+- `npm run dev:cms` - Start Payload CMS (`apps/cms`).
+- `npm run db:up` - Start MongoDB container for CMS.
+- `npm run db:logs` - Follow MongoDB logs.
+- `npm run db:down` - Stop compose services.
+- `npm run lint` - Run lint across all workspaces with scripts.
+- `npm run format` - Run formatting across all workspaces with scripts.
 
-React Bits is installed and ready to use for advanced animations. Import from `react-bits`.
+## Deployment
 
-## Pages
+- Dokploy + Traefik guide: `guides/deployment/dokploy-traefik.md`
 
-- **Homepage** - Hero section, services overview, testimonials, CTA
-- **Services** - Detailed service descriptions
-- **About** - Company history and mission
-- **Contact** - Contact form and location info
+## CMS Environment
 
-## Customization
+Copy `apps/cms/.env.example` to `apps/cms/.env` and set values:
 
-### Theme
+- `PAYLOAD_SECRET`
+- `DATABASE_URI`
+- `PAYLOAD_PUBLIC_SERVER_URL`
+- `FRONTEND_URL`
 
-Edit `/src/styles/global.css` to customize the color theme and global styles.
+Copy `apps/bdkinc/.env.example` to `apps/bdkinc/.env` and set:
 
-### Navigation
-
-Update `/src/components/Navigation.tsx` to modify navigation items.
-
-### Components
-
-Add new shadcn components by creating them in `/src/components/ui/`.
-
-## Next Steps
-
-1. Replace placeholder content with actual company information
-2. Add real testimonials and case studies
-3. Integrate contact form with backend/email service
-4. Add more React Bits animations for enhanced interactivity
-5. Optimize images and assets
-6. Set up SEO metadata
-7. Configure deployment (Vercel, Netlify, etc.)
-
-## Learn More
-
-- [Astro Documentation](https://docs.astro.build)
-- [React Documentation](https://react.dev)
-- [Tailwind CSS](https://tailwindcss.com)
-- [shadcn/ui](https://ui.shadcn.com)
-- [React Bits](https://react-bits.dev)
+- `CMS_URL` (defaults to `http://localhost:3001`)
+- `SITE_REBUILD_WEBHOOK_SECRET` (must match CMS secret/header setup)
+- `DEPLOY_REBUILD_WEBHOOK_URL` (optional relay target to your host rebuild webhook)

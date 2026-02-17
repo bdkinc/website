@@ -1,0 +1,11 @@
+.git
+.github
+node_modules
+apps/*/node_modules
+apps/*/dist
+apps/*/.astro
+dist
+.astro
+npm-debug.log*
+.env
+**/.env
