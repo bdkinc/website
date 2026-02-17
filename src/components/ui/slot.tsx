@@ -17,14 +17,17 @@ const Slot = React.forwardRef<HTMLElement, SlotProps>(function Slot(
   const child = children as React.ReactElement<{
     className?: string;
     style?: React.CSSProperties;
-    ref?: React.Ref<HTMLElement>;
   }>;
 
+  const childRef = (
+    child as React.ReactElement & { ref?: React.Ref<HTMLElement> }
+  ).ref;
+
   const composedRef = (node: HTMLElement | null) => {
-    if (typeof child.props.ref === 'function') {
-      child.props.ref(node);
-    } else if (child.props.ref && typeof child.props.ref === 'object') {
-      child.props.ref.current = node;
+    if (typeof childRef === 'function') {
+      childRef(node);
+    } else if (childRef && typeof childRef === 'object') {
+      childRef.current = node;
     }
 
     if (typeof forwardedRef === 'function') {
@@ -34,12 +37,17 @@ const Slot = React.forwardRef<HTMLElement, SlotProps>(function Slot(
     }
   };
 
-  return React.cloneElement(child, {
-    ...props,
-    className: cn(className, child.props.className),
-    style: { ...style, ...child.props.style },
-    ref: composedRef,
-  });
+  return React.cloneElement(
+    child as React.ReactElement<
+      React.HTMLAttributes<HTMLElement> & React.RefAttributes<HTMLElement>
+    >,
+    {
+      ...props,
+      className: cn(className, child.props.className),
+      style: { ...style, ...child.props.style },
+      ref: composedRef,
+    }
+  );
 });
 
 export { Slot };

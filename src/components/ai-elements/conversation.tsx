@@ -52,15 +52,23 @@ export const Conversation = ({ className, children }: ConversationProps) => {
 
   // Auto-scroll when children change, if we were already at bottom or close to it
   useEffect(() => {
+    let timeoutId: number | undefined;
+
     // Simple heuristic: if we were at bottom, stay at bottom.
     // In a real chat app you might want smarter logic (e.g. don't scroll if user is reading up history)
     // For now, we'll auto-scroll on new messages for this marketing component.
     if (isAtBottom) {
       // Small timeout to allow layout to update
-      setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
         scrollToBottom();
       }, 100);
     }
+
+    return () => {
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
+    };
   }, [children, isAtBottom, scrollToBottom]);
 
   // Initial scroll

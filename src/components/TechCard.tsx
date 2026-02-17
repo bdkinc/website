@@ -17,7 +17,6 @@ export interface TechCardProps {
    * - simple: technical chrome but NO footer decoration
    */
   variant?: 'default' | 'technical' | 'simple' | 'blog';
-  key?: React.Key;
   asChild?: boolean;
 }
 interface MousePosition {
@@ -172,7 +171,7 @@ export function TechCardGrid({ children, className }: TechCardGridProps) {
           child as React.ReactElement<TechCardProps>,
           {
             delay: 150 + index * 80,
-          } as any
+          } as Partial<TechCardProps>
         );
       }
       return child;
