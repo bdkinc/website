@@ -3,6 +3,7 @@ import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import CTASection from '@/components/CTASection';
 import { getNavigationData } from '@/lib/navigation-data';
+import { getPageBySlug } from '@/lib/cms';
 import Footer from '@/components/Footer.astro';
 import CoreProtocols from '@/components/CoreProtocols';
 import DevelopmentLogTimeline from '@/components/DevelopmentLogTimeline';
@@ -10,7 +11,43 @@ import MissionVision from '@/components/MissionVision';
 import FoundingStory from '@/components/FoundingStory.astro';
 import TrustShowcase from '@/components/TrustShowcase';
 
-const { servicesData, recentPosts } = await getNavigationData();
+const [{ servicesData, recentPosts }, aboutPage] = await Promise.all([
+  getNavigationData(),
+  getPageBySlug('about'),
+]);
+
+const aboutTitle =
+  aboutPage?.seoTitle || 'About BDKinc | Enterprise Technology Partner';
+const aboutDescription =
+  aboutPage?.seoDescription ||
+  "Discover BDKinc's 25-year evolution into a premier technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth.";
+const aboutHeroHeading = aboutPage?.heroHeading || 'Partners in Your Potential';
+const aboutHeroBody =
+  aboutPage?.heroBody ||
+  'More than a vendor. We are the strategic extension of your team-bringing clarity, discipline, and engineering depth to every decision.';
+const aboutHeadingWords = aboutHeroHeading.trim().split(/\s+/);
+const aboutHeadingAccent = aboutHeadingWords.pop() ?? 'Potential';
+const aboutHeadingLead = aboutHeadingWords.join(' ');
+const aboutValuesHeading = aboutPage?.aboutValuesHeading || 'Our Values';
+const aboutValuesSubheading =
+  aboutPage?.aboutValuesSubheading ||
+  'The principles that guide our premier standards';
+const aboutJourneyHeading = aboutPage?.aboutJourneyHeading || 'Our Journey';
+const aboutJourneySubheading =
+  aboutPage?.aboutJourneySubheading || 'A legacy of innovation and excellence';
+const aboutCTATitle =
+  aboutPage?.aboutCTATitle || 'Partner with Engineers Who Own Outcomes';
+const aboutCTADescription =
+  aboutPage?.aboutCTADescription ||
+  'Bring clarity, resilience, and speed to mission-critical IT. Tap 25+ years of infrastructure, security, and modernization expertise.';
+const aboutCTAButtonText = aboutPage?.aboutCTAButtonText || 'Talk to an Engineer';
+const aboutCTAButtonHref = aboutPage?.aboutCTAButtonHref || '/contact#chat';
+const aboutValuesWords = aboutValuesHeading.trim().split(/\s+/);
+const aboutValuesAccent = aboutValuesWords.pop() ?? 'Values';
+const aboutValuesLead = aboutValuesWords.join(' ');
+const aboutJourneyWords = aboutJourneyHeading.trim().split(/\s+/);
+const aboutJourneyAccent = aboutJourneyWords.pop() ?? 'Journey';
+const aboutJourneyLead = aboutJourneyWords.join(' ');
 
 // Company values data
 const values = [
@@ -51,6 +88,7 @@ const values = [
       'Unrelenting vigilance. Our expert team ensures your infrastructure never sleeps.',
   },
 ];
+const valuesData = values;
 
 // Milestones data
 const milestones = [
@@ -97,12 +135,13 @@ const milestones = [
       'Pioneering the future as a specialized IBM watsonx solutions expert, driving enterprise AI adoption.',
   },
 ];
+const milestonesData = milestones;
 ---
 
 <Layout
-  title="About BDKinc | Enterprise Technology Partner"
-  description="Discover BDKinc's 25-year evolution into a premier technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth."
-  ogDescription="Discover BDKinc's 25-year evolution into a premier technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth."
+  title={aboutTitle}
+  description={aboutDescription}
+  ogDescription={aboutDescription}
 >
   <!-- AboutPage Schema Markup -->
   <script type="application/ld+json" is:inline>
@@ -154,19 +193,17 @@ const milestones = [
         <h1
           class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold delay-100 duration-700 md:text-6xl"
         >
-          <span class="text-foreground">Partners in </span>
+          <span class="text-foreground">{aboutHeadingLead} </span>
           <span
             class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
           >
-            Your Potential
+            {aboutHeadingAccent}
           </span>
         </h1>
         <p
           class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 text-xl leading-relaxed delay-200 duration-700 md:text-2xl"
         >
-          More than a vendor. We are the strategic extension of your
-          team—bringing clarity, discipline, and engineering depth to every
-          decision.
+          {aboutHeroBody}
         </p>
 
         <div
@@ -218,22 +255,19 @@ const milestones = [
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
-            <span class="text-foreground">Our </span>
-            <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Values</span
+            <span class="text-foreground">{aboutValuesLead || 'Our'} </span>
+            <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >{aboutValuesAccent}</span
             >
           </h2>
           <p
             class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
           >
-            The principles that guide our <span
-              class="text-accent font-semibold">premier standards</span
-            >
+            {aboutValuesSubheading}
           </p>
         </div>
 
-        <CoreProtocols values={values} client:visible />
+        <CoreProtocols values={valuesData} client:visible />
       </div>
     </section>
 
@@ -243,31 +277,30 @@ const milestones = [
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
-            <span class="text-foreground">Our </span>
-            <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Journey</span
+            <span class="text-foreground">{aboutJourneyLead || 'Our'} </span>
+            <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >{aboutJourneyAccent}</span
             >
           </h2>
           <p
             class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-100 duration-600"
           >
-            A legacy of innovation and <span class="text-accent font-semibold">excellence</span>
+            {aboutJourneySubheading}
           </p>
-        </div>
+         </div>
 
-        <DevelopmentLogTimeline milestones={milestones} client:visible />
-      </div>
-    </section>
+         <DevelopmentLogTimeline milestones={milestonesData} client:visible />
+       </div>
+     </section>
 
     <TrustShowcase client:visible showAllPartners />
 
     <CTASection
       client:visible
-      title="Partner with Engineers Who Own Outcomes"
-      description="Bring clarity, resilience, and speed to mission-critical IT. Tap 25+ years of infrastructure, security, and modernization expertise."
-      buttonText="Talk to an Engineer"
-      buttonHref="/contact#chat"
+      title={aboutCTATitle}
+      description={aboutCTADescription}
+      buttonText={aboutCTAButtonText}
+      buttonHref={aboutCTAButtonHref}
     />
   </main>
 

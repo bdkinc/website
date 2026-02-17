@@ -4,8 +4,23 @@ import Aurora from '@/components/Aurora';
 import CountUp from '@/components/CountUp';
 import CircuitBoard from '@/components/CircuitBoard';
 
-export default function Hero() {
+interface HeroProps {
+  heading?: string;
+  body?: string;
+  primaryCTAText?: string;
+  primaryCTALink?: string;
+}
+
+export default function Hero({
+  heading = 'IT Made Simple',
+  body = 'The premier technology partner for growth-focused organizations. We deliver Managed IT, Cloud Solutions, and Custom Software with enterprise-grade expertise.',
+  primaryCTAText = 'Partner with Us',
+  primaryCTALink = '/contact',
+}: HeroProps) {
   const contentRef = useRef<HTMLDivElement>(null);
+  const words = heading.trim().split(/\s+/);
+  const headingAccent = words.pop() ?? 'Simple';
+  const headingLead = words.join(' ');
 
   return (
     <section className="relative -mt-16 flex min-h-screen items-center justify-center overflow-hidden pt-16">
@@ -50,18 +65,16 @@ export default function Hero() {
           {/* Main heading - clean and bold */}
           <div className="relative inline-block">
             <h1 className="lg:text-10xl animate-in fill-mode-both fade-in slide-in-from-bottom-8 text-6xl font-bold tracking-tight delay-100 duration-700 md:text-8xl">
-              <span className="text-foreground">IT Made </span>
+              <span className="text-foreground">{headingLead} </span>
               <span className="from-primary via-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
-                Simple
+                {headingAccent}
               </span>
             </h1>
           </div>
 
           {/* Subheading */}
           <p className="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto max-w-2xl font-sans text-xl delay-200 duration-700 md:text-2xl">
-            The premier technology partner for growth-focused organizations. We
-            deliver Managed IT, Cloud Solutions, and Custom Software with
-            enterprise-grade expertise.
+            {body}
           </p>
 
           {/* CTAs - clean with subtle animations */}
@@ -70,10 +83,10 @@ export default function Hero() {
               <CTAButton
                 size="lg"
                 className="pulse-ring transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 hover:scale-105"
-                href="/contact"
+                href={primaryCTALink}
                 icon="click"
               >
-                Partner with Us
+                {primaryCTAText}
               </CTAButton>
             </div>
             <div className="fill-mode-both animate-in fade-in slide-in-from-bottom-4 delay-400 duration-500">
