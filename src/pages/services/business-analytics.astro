@@ -4,7 +4,6 @@ import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import AnalyticsLifecycle from '@/components/AnalyticsLifecycle';
@@ -14,7 +13,6 @@ import TechnicalSection from '@/components/TechnicalSection';
 import BusinessAnalyticsVisualization from '@/components/visualizations/BusinessAnalyticsVisualization';
 import FeatureCarousel from '@/components/FeatureCarousel';
 import {
-  PiChartBar,
   PiTrendUp,
   PiClock,
   PiDatabase,
@@ -23,8 +21,6 @@ import {
   PiNetwork,
   PiShieldCheck,
   PiQuotesFill,
-  PiLightning,
-  PiChartLine,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 const service = await getEntry('services', 'business-analytics');

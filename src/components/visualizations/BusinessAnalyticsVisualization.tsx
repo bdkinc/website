@@ -17,9 +17,6 @@ export default function BusinessAnalyticsVisualization() {
 
   useGSAP(
     () => {
-      // Falling particles in the funnel
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const particleTl = gsap.timeline({ repeat: -1 });
       // 3 particles falling with different delays
       ['.falling-1', '.falling-2', '.falling-3'].forEach((target, i) => {
         gsap.fromTo(

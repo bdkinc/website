@@ -90,10 +90,8 @@ const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
         return;
       }
       gsap.registerPlugin(ScrollTrigger);
-      cards.forEach((card, index) => {
+      cards.forEach((card) => {
         const delay = Number(card.dataset.delay ?? '0') / 1000;
-        const valueEl = card.querySelector('.metric-value');
-        const glowEl = card.querySelector('.metric-card-glow');
         ScrollTrigger.create({
           trigger: card,
           start: 'top 80%',

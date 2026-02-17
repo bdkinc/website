@@ -41,10 +41,7 @@ export default function WhoThisIsFor({
     <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
       <div className="mb-16 text-center">
         <h3 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-          Who This Is{' '}
-          <span className="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
-            For
-          </span>
+          {title}
         </h3>
         <p className="text-muted-foreground mx-auto max-w-2xl font-sans text-xl">
           {description}
