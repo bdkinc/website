@@ -4,6 +4,8 @@ import type { UIMessage } from 'ai';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ComponentProps, HTMLAttributes } from 'react';
 
+import { PiUser } from 'react-icons/pi';
+
 export type MessageProps = HTMLAttributes<HTMLDivElement> & {
   from: UIMessage['role'];
 };
@@ -71,6 +73,12 @@ export const MessageAvatar = ({
 }: MessageAvatarProps) => (
   <Avatar className={cn('ring-border size-8 ring-1', className)} {...props}>
     <AvatarImage alt="" className="mt-0 mb-0" src={src} />
-    <AvatarFallback>{name?.slice(0, 2) || 'ME'}</AvatarFallback>
+    <AvatarFallback>
+      {name === 'You' ? (
+        <PiUser className="size-4" />
+      ) : (
+        name?.slice(0, 2) || 'ME'
+      )}
+    </AvatarFallback>
   </Avatar>
 );

@@ -239,7 +239,7 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
     const trailPool: Float32Array[] = [];
 
     const colors = ['#00d4ff', '#7c3aed', '#ff9933'];
-    const BASE_SPEED_PX = 0.3;
+    const BASE_SPEED_PX = 1.0;
     const SPAWN_RATE = 0.25;
     const MAX_SIGNALS = 30;
     const MAX_LIFE = 900;

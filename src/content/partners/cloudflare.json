@@ -1,0 +1,10 @@
+{
+  "name": "Cloudflare",
+  "description": "Web Performance & Security",
+  "detail": "Global edge network for speed and protection.",
+  "category": "Cloud",
+  "order": 5,
+  "featured": true,
+  "showOnAbout": false,
+  "logo": "/logos/partners/cloudflare.svg"
+}

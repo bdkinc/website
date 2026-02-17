@@ -1,40 +1,34 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navigation from '../components/Navigation';
-import Hero from '../components/Hero';
-import Services from '../components/Services';
-import WhyChooseUs from '../components/WhyChooseUs';
-import CTASection from '../components/CTASection';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
+import Hero from '@/components/Hero';
+import Services from '@/components/Services';
+import TrustShowcase from '@/components/TrustShowcase';
+import WhyChooseUs from '@/components/WhyChooseUs';
+import Testimonials from '@/components/Testimonials.astro';
+import CTASection from '@/components/CTASection';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 
 const { servicesData, recentPosts } = await getNavigationData();
 ---
 
-<Layout title="Managed IT Services & Cloud Hosting | BDKinc">
+<Layout title="Premier Managed IT Services & Cloud Hosting | BDKinc">
   <!-- JSON-LD Organization Schema -->
-  <script type="application/ld+json">
+  <script type="application/ld+json" is:inline>
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "BDKinc",
       "url": "https://www.bdkinc.com",
       "logo": "https://www.bdkinc.com/logo.svg",
-      "description": "IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.",
+      "description": "Premier technology partner delivering Managed IT, Cloud Solutions, and Custom Software with enterprise-grade expertise.",
       "sameAs": [],
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "(800) 309-0004",
         "contactType": "Customer Support",
         "email": "info@bdkinc.com"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "29515 Canvasback Drive",
-        "addressLocality": "Easton",
-        "addressRegion": "MD",
-        "postalCode": "21601",
-        "addressCountry": "US"
       }
     }
   </script>
@@ -46,11 +40,20 @@ const { servicesData, recentPosts } = await getNavigationData();
     currentPath={Astro.url.pathname}
   />
   <main id="main-content">
-    <Hero client:visible />
+    <Hero client:load />
     <Services client:visible services={servicesData} />
     <WhyChooseUs client:visible />
-
-    <CTASection client:visible />
+    <TrustShowcase client:visible />
+    <Testimonials />
+    <CTASection
+      client:visible
+      icon="click"
+      secondaryAction={{
+        text: 'Request a Free IT Assessment',
+        href: '/contact?from=assessment',
+        icon: 'sparkles',
+      }}
+    />
   </main>
 
   <Footer />

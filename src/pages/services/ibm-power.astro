@@ -1,26 +1,27 @@
 ---
 import { getEntry } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Navigation from '../../components/Navigation';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { ServiceCard, ServiceCardGrid } from '@/components/ServiceCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
-import { Card } from '@/components/ui/card';
+import TechnicalFAQ from '@/components/TechnicalFAQ';
+import { PowerSystemsConsole } from '@/components/PowerSystemsConsole';
+import { ModernizationRoadmap } from '@/components/ModernizationRoadmap';
+import WhoThisIsFor from '@/components/WhoThisIsFor';
+import IBMPowerVisualization from '@/components/visualizations/IBMPowerVisualization';
+import FeatureCarousel from '@/components/FeatureCarousel';
 import {
-  PiDesktop,
-  PiCloud,
+  PiDesktopTower,
   PiShieldCheck,
   PiUsers,
   PiMedal,
-  PiWrench,
   PiArrowsClockwise,
-  PiCheckCircle,
-  PiTrendUp,
+  PiQuotesFill,
+  PiPulse,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
-
 const service = await getEntry('services', 'ibm-power');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -31,39 +32,68 @@ const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
-
 const metrics = [
-  { value: '500+', label: 'LPARS MANAGED', icon: PiDesktop },
-  { value: '99.99%', label: 'AVAILABILITY TARGET', icon: PiShieldCheck },
-  { value: '24/7', label: 'OPERATIONS COVERAGE', icon: PiArrowsClockwise },
-  { value: '30+', label: 'POWER ENGINEERS', icon: PiUsers },
+  { value: '500+', label: 'LPARs Managed', icon: PiDesktopTower },
+  { value: '99.99%', label: 'Availability Target', icon: PiShieldCheck },
+  { value: '24/7', label: 'Operations Coverage', icon: PiArrowsClockwise },
+  { value: '30+', label: 'Power Engineers', icon: PiUsers },
 ];
-
-const detailColumns = [
+const faqs = [
   {
-    title: 'Power Platform Services',
-    icon: PiWrench,
-    items: [
-      'Lifecycle support covering sizing, installation, and firmware strategy',
-      'PowerVM design delivers HA, performance, and efficient resource sharing',
-      'Storage and network architectures tuned for IBM i, AIX, and Linux workloads',
-    ],
+    question: "Can you host our IBM i / AS/400 applications without rewriting them?", 
+    answer: "Yes. We specialize in 'lift and shift' strategies that move your exact workload to modern hardware without code changes, often improving performance and reliability."
   },
   {
-    title: 'Operations & Compliance',
-    icon: PiShieldCheck,
-    items: [
-      '24/7 monitoring, patching, and backup validation across every partition',
-      'Security hardening satisfies SOX, PCI, HIPAA, and industry mandates',
-      'Runbooks and reporting keep audits, DR tests, and SLAs on schedule',
-    ],
+    question: "What is your approach to modernizing green-screen interfaces?",
+    answer: "We offer multiple paths, from web-facing refacing tools to developing new API layers that allow modern front-ends (React, Mobile) to interact with your rock-solid backend logic."
+  },
+  {
+    question: "How do you handle Disaster Recovery for IBM i?",
+    answer: "We utilize logical replication and hardware-based replication technologies to mirror your system in real-time to our secure datacenters, targeting minute-level RTO/RPOs depending on architecture."
+  }
+];
+const strategicFeatures = [
+  {
+    title: 'Orchestrated Mastery',
+    description:
+      'Decades of engineering expertise across AS/400 and iSeries legacy.',
+    highlight: '25+ years of mastery',
+    icon: 'Medal',
+    detail:
+      "We don't just support IBM Power; we live it. Our deep bench of engineers spans generations of hardware and software evolution, providing you with the expert-level management required for environments that generalist MSPs won't touch.",
+  },
+  {
+    title: 'Modernization Without Friction',
+    description:
+      "Zero-code 'lift and shift' strategies for mission-critical workloads.",
+    highlight: 'Zero-code modernization',
+    icon: 'ArrowsClockwise',
+    detail:
+      "Your legacy is your foundation, not your limit. We specialize in phased modernization paths that move your exact workloads to modern Power10 hardware or secure cloud instances without requiring a single line of code to be rewritten.",
+  },
+  {
+    title: 'Hybrid Resilience',
+    description:
+      'Low-latency interconnects between IBM Power and modern x86 cloud.',
+    highlight: 'Unified hybrid architecture',
+    icon: 'Stack',
+    detail:
+      "Break down the silos between your rock-solid IBM i backend and your modern web frontends. We architect low-latency private interconnects that allow your modern applications to query legacy databases in real-time, creating a unified, resilient ecosystem.",
+  },
+  {
+    title: 'SLA-Backed Operations',
+    description:
+      'High-availability targets aligned strictly with business uptime.',
+    highlight: '99.99% availability target',
+    icon: 'ShieldCheck',
+    detail:
+      "Downtime isn't just an inconvenience; it's a failure. Our operations are driven by aggressive SLAs and proactive monitoring, utilizing logical and hardware-based replication to ensure your core business systems never blink.",
   },
 ];
 ---
-
 <Layout
-  title={`${service.data.title} - BDKinc`}
-  description={service.data.description}
+  title="IBM Power Systems - Managed Hosting & Modernization | BDKinc"
+  description="Maximize your AS/400 and iSeries legacy. Premier IBM Power orchestration, managed hosting, and modernization services for high-availability enterprise environments."
 >
   <Navigation
     client:load
@@ -77,19 +107,27 @@ const detailColumns = [
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="text-center">
+        <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
+          <!-- Badge -->
           <div
-            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4"
+            class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
+          >
+            <div class="flex items-center gap-2 text-sm">
+              <span>Power Systems <span class="text-accent font-semibold">Experts</span></span>
+            </div>
+          </div>
+          <div
+            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4 delay-100 duration-500"
             transition:name={`service-icon-${service.id}`}
-            transition:animate="initial"
           >
             <IconComponent
               className="text-primary h-12 w-12"
               aria-hidden="true"
             />
           </div>
+          <!-- Heading -->
           <h1
-            class="mb-6 text-5xl font-bold md:text-6xl"
+            class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight delay-100 duration-700 md:text-6xl"
             transition:name={`service-title-${service.id}`}
             transition:animate="initial"
           >
@@ -97,43 +135,27 @@ const detailColumns = [
               >{titleFirst ? `${titleFirst} ` : ''}</span
             >
             <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
               >{lastTitleWord}</span
             >
           </h1>
+          <!-- Subtitle -->
           <p
+            class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto mb-16 max-w-3xl text-xl leading-relaxed delay-200 duration-700"
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
-            class="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl"
           >
-            {service.data.description}
+            Maximize your AS/400 and iSeries legacy. Premier IBM Power 
+            orchestration, managed hosting, and modernization services for 
+            high-availability enterprise environments.
           </p>
         </div>
-
-        {/* Hero Image Placeholder */}
+        <!-- Visualization -->
         <div
           class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
         >
-          <div
-            class="glass border-primary/20 mx-auto max-w-5xl overflow-hidden rounded-2xl border shadow-lg"
-          >
-            <div
-              class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
-            >
-              <div class="text-center">
-                <div
-                  class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                >
-                  Service Hero Image
-                </div>
-                <div class="text-muted-foreground/60 text-lg">
-                  IBM Power Systems Illustration
-                </div>
-                <div class="text-muted-foreground/40 mt-2 text-xs">
-                  Recommended: 1400x800px
-                </div>
-              </div>
-            </div>
+          <div class="mx-auto max-w-5xl">
+            <IBMPowerVisualization client:visible />
           </div>
         </div>
       </div>
@@ -142,462 +164,249 @@ const detailColumns = [
       >
       </div>
     </section>
-
-    <!-- Content Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div
-        class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both space-y-12 delay-600 duration-700"
-      >
-        <div class="mx-auto max-w-7xl">
-          <div class="service-content-wrapper">
-            <div class="not-prose mx-auto max-w-4xl">
-              <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-                IBM Power Systems Hardware Support
-              </h2>
-              <div
-                class="text-muted-foreground mb-10 text-center text-lg leading-relaxed"
-              >
-                BDKinc delivers end-to-end support for IBM Power hardware. As an <strong
-                  class="text-primary">IBM Partner Plus Silver Partner</strong
-                >, we manage, optimize, and protect mission-critical IBM Power
-                systems running IBM i (IBMi), AIX, VIOS, and enterprise Linux
-                (Red Hat, Ubuntu)—on-premises or in hybrid cloud.
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              What We Manage on IBM Power
-            </h3>
-
-            <ServiceCardGrid client:visible className="lg:grid-cols-3">
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiWrench
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Hardware Lifecycle
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Installation, configuration, microcode planning, and
-                  maintenance for Power Systems racks, frames, and peripherals.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiDesktop
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  PowerVM, LPARs & VIOS
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Partitioning, virtual I/O, networking, and storage
-                  mapping—built for high availability and performance.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiArrowsClockwise
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  OS Administration
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  PTFs and patching for IBM i (IBMi), AIX, Red Hat, and Ubuntu;
-                  security hardening, user and access controls, backup and
-                  recovery.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiTrendUp
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Performance & Capacity
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Monitoring, tuning, and capacity planning to reduce risk,
-                  control cost, and meet SLAs for mixed-OS estates.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiShieldCheck
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Resilience & DR
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  HA/DR architectures for IBM i, AIX, and Linux on Power; backup
-                  strategy, testing, and incident response.
-                </div>
-              </ServiceCard>
-
-              <ServiceCard client:visible>
-                <div class="mb-6">
-                  <PiCloud
-                    className="text-primary h-16 w-16"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-4 text-2xl font-bold">
-                  Hybrid & Cloud Integration
-                </h4>
-                <div class="text-foreground leading-relaxed">
-                  Connect Power workloads with cloud services, shared storage,
-                  and enterprise tooling without compromising security.
-                </div>
-              </ServiceCard>
-            </ServiceCardGrid>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              How We Support IBM Power
-            </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {
-                detailColumns.map((column) => (
-                  <div class="glass border-border rounded-2xl border p-8">
-                    <div class="mb-6 flex items-center gap-3">
-                      <column.icon
-                        className="text-primary h-8 w-8"
-                        aria-hidden="true"
-                      />
-                      <h4 class="text-foreground text-2xl font-bold">
-                        {column.title}
-                      </h4>
-                    </div>
-                    <div class="text-muted-foreground space-y-3">
-                      {column.items.map((item) => (
-                        <div class="flex items-start gap-2">
-                          <PiCheckCircle
-                            className="text-primary mt-1 h-5 w-5 shrink-0"
-                            aria-hidden="true"
-                          />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-
-            <h3
-              class="text-foreground mt-12 mb-6 text-center text-2xl font-bold"
+    <!-- Core Services -->
+    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
+          >
+            <span class="text-foreground">Infrastructure </span>
+            <span
+              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
+              >Control</span
             >
-              Why IBM Power for the Enterprise?
-            </h3>
-
-            <div class="not-prose mb-20">
-              <p class="text-muted-foreground mb-10 text-center text-xl">
-                IBM Power delivers the reliability, security, and scalability
-                enterprises require for core business systems across IBM i, AIX,
-                and Linux.
-              </p>
-
-              {/* Feature Image Placeholder */}
-              <div class="mb-10">
-                <div
-                  class="glass border-primary/20 mx-auto max-w-4xl overflow-hidden rounded-2xl border"
-                >
-                  <div
-                    class="from-primary/5 via-secondary/5 to-primary/5 flex items-center justify-center bg-linear-to-br"
-                    style="aspect-ratio: 21/9;"
-                  >
-                    <div class="text-center">
-                      <div
-                        class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                      >
-                        Feature Image
-                      </div>
-                      <div class="text-muted-foreground/60 text-lg">
-                        IBM Power Infrastructure
-                      </div>
-                      <div class="text-muted-foreground/40 mt-2 text-xs">
-                        Recommended: 1200x500px (21:9)
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="grid gap-6 md:grid-cols-2">
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Defense-Grade Security
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Power architecture and OS controls reduce attack surface
-                      while enabling compliant operations across regulated
-                      industries.
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Rock-Solid Uptime
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Proven availability for mission-critical ERP, EDI, and
-                      analytics workloads with built-in redundancy options.
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Multi-OS Flexibility
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Run IBM i (IBMi), AIX, and enterprise Linux (Red Hat,
-                      Ubuntu) side-by-side, optimized on a single platform.
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="bg-background/50 border-border hover:border-primary flex items-start gap-4 rounded-lg border p-4 transition-colors"
-                >
-                  <div class="bg-primary mt-2 h-2 w-2 shrink-0 rounded-full">
-                  </div>
-                  <div>
-                    <h5 class="text-foreground mb-1 text-lg font-bold">
-                      Future-Ready
-                    </h5>
-                    <div class="text-muted-foreground text-sm">
-                      Modern capabilities and backward compatibility keep core
-                      systems stable while you innovate.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Why <span class="font-display font-extrabold">BDKinc</span> for IBM
-              Power Support
-            </h3>
-
-            <div
-              class="not-prose mb-20 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiUsers
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  40+ Years on Power
-                </h4>
-                <div class="text-muted-foreground">
-                  Decades of hands-on experience with IBM i (IBMi), AIX, VIOS,
-                  and Linux on Power.
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiMedal
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  IBM Silver Partner
-                </h4>
-                <div class="text-muted-foreground">
-                  Certified expertise backed by IBM resources and support
-                  channels.
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiShieldCheck
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Enterprise-Grade Security
-                </h4>
-                <div class="text-muted-foreground">
-                  Hardening, identity, and compliance across IBM i, AIX, and
-                  Linux on Power.
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiTrendUp
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  SLA-Driven Operations
-                </h4>
-                <div class="text-muted-foreground">
-                  24×7 monitoring, incident response, and capacity planning
-                  aligned to your SLAs.
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiDesktop
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Single Partner, Multi-OS
-                </h4>
-                <div class="text-muted-foreground">
-                  One MSP for IBM i, AIX, VIOS, Red Hat, and Ubuntu—simplifying
-                  operations and reducing cost.
-                </div>
-              </Card>
-
-              <Card
-                size="default"
-                interactive={false}
-                className="flex flex-col items-center text-center"
-              >
-                <div class="mb-4">
-                  <PiArrowsClockwise
-                    className="text-primary h-10 w-10"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h4 class="text-foreground mb-2 text-xl font-bold">
-                  Cost & Risk Optimization
-                </h4>
-                <div class="text-muted-foreground">
-                  Right-sizing, firmware cadence, and DR testing to minimize
-                  downtime and spend.
-                </div>
-              </Card>
-            </div>
-
-            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-              Our Approach
-            </h3>
-
-            <div class="not-prose mb-20 grid gap-8 md:grid-cols-2">
-              {/* Left: Image Placeholder */}
-              <div
-                class="glass border-primary/20 overflow-hidden rounded-2xl border"
-              >
-                <div
-                  class="from-primary/5 via-secondary/5 to-primary/5 flex h-full min-h-[300px] items-center justify-center bg-linear-to-br"
-                >
-                  <div class="text-center">
-                    <div
-                      class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider uppercase"
-                    >
-                      Approach Image
-                    </div>
-                    <div class="text-muted-foreground/60 text-lg">
-                      IBM Power Management
-                    </div>
-                    <div class="text-muted-foreground/40 mt-2 text-xs">
-                      Recommended: 600x400px
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Text Card */}
-              <Card
-                size="default"
-                interactive={false}
-                className="flex items-center"
-              >
-                <div class="text-muted-foreground text-lg leading-relaxed">
-                  Your IBM Power environment is the backbone of the business. We
-                  combine disciplined operations with modernization where it
-                  matters—delivering predictable uptime, controlled costs, and a
-                  clear roadmap across IBM i (IBMi), AIX, VIOS, Red Hat, and
-                  Ubuntu.
-                </div>
-              </Card>
-            </div>
-          </div>
+          </h2>
+          <p
+            class="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl"
+          >
+            Expert-level Power Systems management designed for
+            <span class="text-accent font-semibold">critical uptime</span>.
+          </p>
         </div>
-
-        <ImpactMetricsSection metrics={metrics} />
-
-        <CTASection
-          client:load
-          title="Ready to Stabilize and Modernize Your IBM Power Estate?"
-          description="Partner with a team that runs IBM i (IBMi), AIX, VIOS, Red Hat, and Ubuntu on Power every day. Backed by 40+ years of experience and IBM Silver Partner credentials, we keep critical systems online while guiding your next steps."
-          primaryAction={{
-            text: 'Talk to an IBM Power Specialist',
-            href: '/contact',
-            icon: 'phone',
-          }}
-        />
+        <PowerSystemsConsole client:load />
       </div>
     </section>
+    <!-- Strategic Leadership Section -->
+    <section class="relative overflow-hidden py-24">
+      <div
+        class="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+      <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-12 text-center">
+          <h2
+            class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
+          >
+            <span class="text-foreground">Architectural </span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Legacy</span
+            >
+          </h2>
+        </div>
+        <figure class="relative mx-auto max-w-3xl">
+          <PiQuotesFill
+            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
+            aria-hidden="true"
+          />
+          <blockquote
+            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
+          >
+            "IBM Power is the heartbeat of the enterprise. We don't just host 
+            legacy systems; we architect
+            <span class="text-accent font-semibold">
+              modernized foundations</span
+            >
+            that preserve your rock-solid logic while empowering your next 
+            decade of business innovation."
+          </blockquote>
+        </figure>
+      </div>
+      <div
+        class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+    </section>
+    <!-- Strategic Advantage -->
+    <section
+      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            The Strategic <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Advantage</span
+            >
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Move beyond standard support with a partner who speaks the 
+            language of Power Systems.
+          </p>
+        </div>
+        <FeatureCarousel client:visible features={strategicFeatures} />
+      </div>
+    </section>
+    <!-- Roadmap Section -->
+    <section class="bg-muted/30 dark:bg-white/[0.02] py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Modernization <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Roadmap</span
+            >
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Phased strategies to evolve your core systems without business disruption.
+          </p>
+        </div>
+        <ModernizationRoadmap client:load />
+      </div>
+    </section>
+    <!-- Key Benefits -->
+    <section class="bg-muted/20 dark:bg-white/[0.01] px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="mb-16 text-center">
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Key <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Benefits</span
+            >
+          </h2>
+        </div>
+        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Benefit 1 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiMedal
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              25+ Years Mastery
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Decades of deep engineering expertise across IBM hardware and 
+              software evolution
+            </p>
+          </div>
+          <!-- Benefit 2 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiShieldCheck
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Certified Partner
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              IBM Silver Partner status providing direct access to IBM labs 
+              and tier-3 global support
+            </p>
+          </div>
+          <!-- Benefit 3 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiShieldCheck
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              'Black Box' Expertise
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              We thrive in complex, legacy environments that generalist MSPs 
+              simply won't touch
+            </p>
+          </div>
+          <!-- Benefit 4 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiShieldCheck
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Enterprise Security
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Hardening and continuous compliance for your most sensitive 
+              legacy and modern datasets
+            </p>
+          </div>
+          <!-- Benefit 5 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiDesktopTower
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              Single Partner
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Unified premier support for IBM i, AIX, and Linux, 
+              simplifying your operational complexity
+            </p>
+          </div>
+          <!-- Benefit 6 -->
+          <div class="group flex flex-col items-center text-center">
+            <PiPulse
+              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+            />
+            <h4
+              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
+            >
+              SLA-Driven
+            </h4>
+            <p class="text-muted-foreground leading-relaxed">
+              Operations aligned strictly to business uptime with 
+              aggressive resolution targets
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <WhoThisIsFor 
+      client:visible 
+      title="Built for the High-Stakes Enterprise"
+      description="Our Power Systems services are engineered for organizations where downtime is not just an inconvenience—it's a critical failure."
+    />
+    <!-- FAQ -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-5xl">
+        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+          Frequently Asked Questions
+        </h3>
+        <div class="mb-20">
+          <TechnicalFAQ client:visible faqs={faqs} />
+        </div>
+      </div>
+    </section>
+    <ImpactMetricsSection metrics={metrics} />
+    <!-- CTA -->
+    <CTASection
+      client:visible
+      title="Your Power Systems Deserve Expert Hands"
+      description="Don't let your legacy become a liability. Secure, optimize, and modernize your IBM investment with a team that knows it best."
+      buttonText="Schedule a Power Assessment"
+      buttonHref="/contact#chat"
+    />
   </main>
-
   <Footer />
 </Layout>

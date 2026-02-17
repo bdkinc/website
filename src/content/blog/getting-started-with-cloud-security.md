@@ -3,6 +3,7 @@ title: 'Getting Started with Cloud Security Best Practices'
 description: 'Learn essential cloud security practices to protect your business data and infrastructure in the modern cloud environment.'
 pubDate: 2025-10-15
 author: 'BDKinc'
+category: 'Security'
 tags: ['cloud', 'security', 'best-practices']
 draft: false
 ---

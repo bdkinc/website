@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
  * holographic variant for cutting-edge hi-tech aesthetic
  */
 export const cardVariants = cva(
-  'glass rounded-xl border border-border/50 text-card-foreground transition-all duration-300 fill-mode-both',
+  'glass rounded-xl border border-border/50 text-card-foreground transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 fill-mode-both',
   {
     variants: {
       size: {
@@ -21,7 +21,7 @@ export const cardVariants = cva(
         xl: 'p-10',
       },
       interactive: {
-        true: 'hover:border-primary/50 hover:scale-105 hover:shadow-[--shadow-glow-sm] focus-visible:border-primary/50 focus-visible:scale-105 focus-visible:shadow-[--shadow-glow-sm] focus-visible:outline-none',
+        true: 'hover:border-primary/50 hover:scale-105 focus-visible:border-primary/50 focus-visible:scale-105 focus-visible:outline-none',
         false: '',
       },
       holographic: {
@@ -31,7 +31,7 @@ export const cardVariants = cva(
     },
     defaultVariants: {
       size: 'default',
-      interactive: true,
+      interactive: false,
       holographic: false,
     },
   }

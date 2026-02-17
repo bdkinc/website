@@ -1,0 +1,10 @@
+{
+  "name": "Cisco",
+  "description": "Networking & Security Infrastructure",
+  "detail": "The world's most robust connectivity backbone.",
+  "category": "Networking",
+  "order": 3,
+  "featured": true,
+  "showOnAbout": true,
+  "logo": "/logos/partners/cisco.svg"
+}
