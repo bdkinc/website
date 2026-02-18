@@ -1,5 +1,8 @@
 # Code Conventions
 
+This guide focuses on the Astro marketing site in `apps/bdkinc`.
+The CMS in `apps/cms` is a separate Next.js/Payload app and may use different conventions within that workspace.
+
 ## Directory Structure
 - `src/components/ui/` -> Reusable atomic UI (shadcn)
 - `src/layouts/` -> Astro layouts

@@ -2,8 +2,10 @@ import { cn } from '@/lib/utils';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import CircuitBoard from '@/components/CircuitBoard';
 import type React from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { PiLightning, PiShieldCheck, PiUsers } from 'react-icons/pi';
+
+const AUTOPLAY_DURATION = 8000; // ms per slide
 
 interface Reason {
   icon: React.ComponentType<{ className?: string; 'aria-hidden'?: boolean }>;
@@ -63,6 +65,14 @@ export default function WhyChooseUs() {
   );
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Reset progress when active slide changes
+  const goTo = useCallback((index: number) => {
+    setActiveIndex(index);
+    setProgress(0);
+  }, []);
 
   useEffect(() => {
     if (!consoleInView) return;
@@ -72,24 +82,39 @@ export default function WhyChooseUs() {
     ).matches;
 
     if (prefersReducedMotion) return;
+    if (isPaused) return;
 
-    const interval = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % reasons.length);
-    }, 8000);
+    setProgress(0);
+    const startTime = performance.now();
 
-    return () => window.clearInterval(interval);
-  }, [consoleInView, reasons.length]);
+    let rafId: number;
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const pct = Math.min((elapsed / AUTOPLAY_DURATION) * 100, 100);
+      setProgress(pct);
+
+      if (pct < 100) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        setActiveIndex((prev) => (prev + 1) % reasons.length);
+        setProgress(0);
+      }
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [consoleInView, activeIndex, reasons.length, isPaused]);
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
       e.preventDefault();
-      setActiveIndex((index + 1) % reasons.length);
+      goTo((index + 1) % reasons.length);
       return;
     }
 
     if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
       e.preventDefault();
-      setActiveIndex((index - 1 + reasons.length) % reasons.length);
+      goTo((index - 1 + reasons.length) % reasons.length);
       return;
     }
   };
@@ -101,7 +126,7 @@ export default function WhyChooseUs() {
       id="why-choose-us"
       className="bg-muted/30 relative px-4 py-20 sm:px-6 lg:px-8 dark:bg-transparent"
     >
-      <div className="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent" />
+      <div className="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent" />
 
       <div className="mx-auto max-w-7xl">
         <div
@@ -142,21 +167,30 @@ export default function WhyChooseUs() {
                 const Icon = reason.icon;
 
                 return (
-                  <button
+                   <button
                     key={reason.title}
                     type="button"
                     className={cn(
-                      'group focus-visible:ring-primary/40 focus-visible:ring-offset-background relative min-h-[140px] w-full rounded-xl border px-5 py-5 text-left transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden',
+                      'group focus-visible:ring-primary/40 focus-visible:ring-offset-background relative min-h-[140px] w-full rounded-xl border px-5 py-5 text-left transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden overflow-hidden',
                       selected
                         ? 'border-primary/40 bg-primary/10'
                         : 'border-border/60 bg-card/20 hover:border-primary/30 hover:bg-card/40'
                     )}
                     aria-pressed={selected}
-                    onMouseEnter={() => setActiveIndex(index)}
-                    onFocus={() => setActiveIndex(index)}
-                    onClick={() => setActiveIndex(index)}
+                    onMouseEnter={() => { goTo(index); setIsPaused(true); }}
+                    onMouseLeave={() => setIsPaused(false)}
+                    onFocus={() => goTo(index)}
+                    onClick={() => goTo(index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
                   >
+                    {/* Progress bar at bottom of active card */}
+                    {selected && (
+                      <div
+                        className="from-primary to-secondary absolute bottom-0 left-0 h-0.5 bg-linear-to-r transition-none"
+                        style={{ width: `${progress}%` }}
+                        aria-hidden
+                      />
+                    )}
                     <div className="flex items-start gap-4">
                       <div
                         className={cn(
@@ -255,23 +289,32 @@ export default function WhyChooseUs() {
                 </p>
               </div>
 
-              <div className="mt-10 flex items-center justify-between gap-6">
-                <div className="flex items-center gap-2">
+              <div className="mt-10 flex items-center gap-3">
                   {reasons.map((reason, index) => (
                     <button
                       key={reason.title}
                       type="button"
                       aria-label={`Select ${reason.title}`}
                       className={cn(
-                        'focus-visible:ring-primary/40 focus-visible:ring-offset-background h-2.5 w-2.5 rounded-full border transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden',
+                        'focus-visible:ring-primary/40 focus-visible:ring-offset-background flex items-center gap-2 rounded-full border px-3 py-1.5 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden',
                         index === activeIndex
-                          ? 'border-primary/50 bg-primary/40'
-                          : 'border-border/60 bg-card/30 hover:border-primary/30'
+                          ? 'border-primary/50 bg-primary/10 text-primary'
+                          : 'border-border/60 bg-card/30 text-muted-foreground hover:border-primary/30 hover:text-foreground'
                       )}
-                      onClick={() => setActiveIndex(index)}
-                    />
+                      onClick={() => goTo(index)}
+                    >
+                      <span
+                        className={cn(
+                          'h-2 w-2 rounded-full transition-colors duration-300',
+                          index === activeIndex ? 'bg-primary' : 'bg-current opacity-40'
+                        )}
+                        aria-hidden
+                      />
+                      <span className="font-display text-xs font-semibold tracking-wide">
+                        {reason.title}
+                      </span>
+                    </button>
                   ))}
-                </div>
               </div>
             </div>
           </div>

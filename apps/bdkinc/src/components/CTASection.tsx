@@ -67,7 +67,7 @@ export default function CTASection({
   const sectionInView = disableObserver ? true : isIntersecting;
 
   return (
-    <section className="px-4 py-28 sm:px-6 lg:px-8">
+    <section className="px-4 py-32 sm:px-6 lg:px-8">
       <div
         ref={sectionRef as any}
         className={cn(

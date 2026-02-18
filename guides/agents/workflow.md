@@ -1,5 +1,19 @@
 # Development Workflow
 
+## Monorepo Layout
+
+This repo is an npm workspaces monorepo:
+
+- `apps/bdkinc`: Astro marketing site (Astro + React islands)
+- `apps/cms`: Payload CMS (Next.js)
+- `apps/bdkcloud`: (Planned) Separate Astro site for BDK Cloud
+
+Common root commands:
+
+- `npm run dev` runs both site + CMS
+- `npm run dev:site` runs only `apps/bdkinc`
+- `npm run dev:cms` runs only `apps/cms`
+
 ## Build Protocol
 **DO NOT** run `npm run build` unless explicitly instructed.
 Trust the linter and type-checker for incremental changes.

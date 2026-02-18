@@ -6,6 +6,7 @@ This repository is organized as an npm workspaces monorepo.
 
 - `apps/bdkinc` - Astro marketing site for BDKinc.
 - `apps/cms` - Payload CMS service (headless + admin).
+- `apps/bdkcloud` - (Planned) Separate Astro site for BDK Cloud.
 - `packages/design-system` - Shared UI/design-system package scaffold.
 
 ## Getting Started

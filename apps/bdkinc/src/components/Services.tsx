@@ -57,7 +57,7 @@ export default function Services({ services }: ServicesProps) {
     });
   }, [services]);
   return (
-    <section className="px-4 py-20 sm:px-6 lg:px-8">
+    <section className="px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         {/* Section Header */}
         <div
@@ -90,6 +90,25 @@ export default function Services({ services }: ServicesProps) {
           {services.map((service, index) => {
             const Icon = iconMap[service.icon];
             const delayMs = index * 100;
+            // Rotate icon accent colors: primary → secondary → brand-accent
+            const iconColors = [
+              {
+                bg: 'from-primary/10 to-primary/5',
+                border: 'border-primary/20 group-hover:border-primary/50',
+                icon: 'text-primary',
+              },
+              {
+                bg: 'from-secondary/10 to-secondary/5',
+                border: 'border-secondary/20 group-hover:border-secondary/50',
+                icon: 'text-secondary',
+              },
+              {
+                bg: 'from-brand-accent/20 to-brand-accent/10',
+                border: 'border-brand-accent/30 group-hover:border-brand-accent/60',
+                icon: 'text-accent',
+              },
+            ];
+            const color = iconColors[index % iconColors.length];
             return (
               <TechCard
                 key={service.slug}
@@ -101,18 +120,20 @@ export default function Services({ services }: ServicesProps) {
               >
                 <a
                   href={`/services/${service.slug}`}
-                  className="relative z-20 flex h-full flex-col items-center justify-center p-8 text-center"
+                  className="relative z-20 flex h-full flex-col items-center justify-start p-8 text-center"
                 >
                   <div
                     ref={(el) => {
                       iconRefs.current[index] = el;
                     }}
                     className={cn(
-                      'from-primary/10 to-secondary/10 mx-auto mb-6 w-fit rounded-xl bg-linear-to-br p-4',
-                      'border-primary/20 group-hover:border-primary/50 flex items-center justify-center border transition-colors'
+                      'mx-auto mb-6 w-fit rounded-xl bg-linear-to-br p-5',
+                      'flex items-center justify-center border transition-colors',
+                      color.bg,
+                      color.border
                     )}
                   >
-                    {Icon && <Icon className="text-primary h-8 w-8" />}
+                    {Icon && <Icon className={cn('h-10 w-10', color.icon)} />}
                   </div>
                   <CardTitle
                     ref={(el) => {

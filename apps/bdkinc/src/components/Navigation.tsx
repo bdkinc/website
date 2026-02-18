@@ -92,7 +92,7 @@ export default function Navigation({
 
           {/* CTA + Theme Toggle - Desktop */}
           <div className="z-10 hidden items-center gap-3 md:flex">
-            <Button asChild variant="outline">
+            <Button asChild>
               <a href="/contact">Get In Touch</a>
             </Button>
             <ThemeToggle />
@@ -120,7 +120,10 @@ export default function Navigation({
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div id="mobile-navigation" className="glass border-t md:hidden">
+        <div
+          id="mobile-navigation"
+          className="glass animate-in slide-in-from-top-2 fade-in fill-mode-both border-t duration-200 md:hidden"
+        >
           <div className="space-y-1 px-2 pt-2 pb-3">
             {/* Home */}
             <a
