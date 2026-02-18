@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { PiCpu, PiDatabase, PiShieldCheck } from 'react-icons/pi';
-import { cn } from '@/lib/utils';
+import { cn } from '@bdkinc/design-system';
 
 gsap.registerPlugin(useGSAP);
 

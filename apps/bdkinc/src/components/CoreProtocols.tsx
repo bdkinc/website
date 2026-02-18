@@ -11,7 +11,7 @@ import {
   PiPackage,
 } from 'react-icons/pi';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
-import { cn } from '@/lib/utils';
+import { cn } from '@bdkinc/design-system';
 
 interface ValueItem {
   icon: string;

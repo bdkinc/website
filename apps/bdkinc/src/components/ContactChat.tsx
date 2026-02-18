@@ -21,7 +21,7 @@ import {
 } from '@/components/ai-elements/prompt-input';
 
 import { Suggestion, Suggestions } from '@/components/ai-elements/suggestion';
-import { cn } from '@/lib/utils';
+import { cn } from '@bdkinc/design-system';
 
 import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useRef, useState } from 'react';

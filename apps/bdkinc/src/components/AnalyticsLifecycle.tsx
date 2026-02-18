@@ -5,7 +5,7 @@ import {
   PiArrowRight,
   PiLightning,
 } from 'react-icons/pi';
-import { cn } from '@/lib/utils';
+import { cn } from '@bdkinc/design-system';
 import { TechCard } from '@/components/TechCard';
 export default function AnalyticsLifecycle() {
   const steps = [

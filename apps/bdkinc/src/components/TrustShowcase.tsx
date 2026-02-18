@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@bdkinc/design-system';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { TechCard } from '@/components/TechCard';
 export interface TrustShowcaseProps {

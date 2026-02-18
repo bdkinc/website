@@ -1,6 +1,5 @@
 import type { HTMLAttributeAnchorTarget } from 'react';
-import { cn } from '@/lib/utils';
-import { Card } from '@/components/ui/card';
+import { Card, cn } from '@bdkinc/design-system';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import CTAButton from '@/components/CTAButton.tsx';
 

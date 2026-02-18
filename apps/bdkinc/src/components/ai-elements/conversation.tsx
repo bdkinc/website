@@ -1,8 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
+import { Button, ScrollArea, ScrollBar, cn } from '@bdkinc/design-system';
 import { PiArrowDown } from 'react-icons/pi';
 import {
   createContext,
@@ -92,7 +90,6 @@ export const Conversation = ({ className, children }: ConversationProps) => {
 };
 
 import { ScrollArea as ScrollAreaPrimitive } from '@base-ui/react/scroll-area';
-import { ScrollBar } from '@/components/ui/scroll-area';
 
 const CustomScrollArea = ({
   children,

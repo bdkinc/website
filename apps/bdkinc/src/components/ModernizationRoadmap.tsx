@@ -8,7 +8,7 @@ import {
   PiStack,
 } from 'react-icons/pi';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
-import { cn } from '@/lib/utils';
+import { cn } from '@bdkinc/design-system';
 
 gsap.registerPlugin(useGSAP);
 

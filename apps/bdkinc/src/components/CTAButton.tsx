@@ -1,6 +1,5 @@
 import React from 'react';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { buttonVariants, cn } from '@bdkinc/design-system';
 import {
   PiEnvelope,
   PiPhone,
