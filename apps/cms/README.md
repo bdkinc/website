@@ -2,6 +2,8 @@
 
 Payload CMS service for editable marketing content.
 
+Agent guidance: see [AGENTS.md](./AGENTS.md) for `apps/cms`-scoped implementation instructions.
+
 ## Local setup
 
 1. Copy `.env.example` to `.env`.
