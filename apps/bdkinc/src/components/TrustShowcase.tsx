@@ -64,9 +64,9 @@ export default function TrustShowcase({
   return (
     <section
       id="trust-showcase"
-      className="relative px-4 py-16 sm:px-6 lg:px-8"
+      className="relative px-4 py-20 sm:px-6 lg:px-8"
     >
-      <div className="via-primary/20 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent" />
+      <div className="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent" />
       <div className="mx-auto max-w-7xl">
         <div
           ref={headerRef as any}
@@ -109,8 +109,8 @@ export default function TrustShowcase({
                       alt={partner.name}
                       loading="lazy"
                       className={cn(
-                        'h-8 w-auto max-w-[150px] opacity-80 grayscale transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
-                        'group-hover:opacity-100 group-hover:grayscale-0'
+                        'h-8 w-auto max-w-[150px] opacity-100 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
+                        'group-hover:scale-105'
                       )}
                     />
                   </div>
@@ -130,20 +130,7 @@ export default function TrustShowcase({
             </TechCard>
           ))}
         </div>
-        {/* Certifications Row */}
-        <div className="mt-16 flex flex-wrap justify-center gap-8 opacity-50 grayscale transition-opacity hover:opacity-100">
-          {['SOC 2 Compliant', 'HIPAA Ready', 'PCI-DSS Certified'].map(
-            (cert) => (
-              <div
-                key={cert}
-                className="font-display flex items-center gap-2 text-[10px] font-bold tracking-[0.2em]"
-              >
-                <div className="bg-primary h-1 w-1 rounded-full" />
-                {cert}
-              </div>
-            )
-          )}
-        </div>
+
       </div>
     </section>
   );

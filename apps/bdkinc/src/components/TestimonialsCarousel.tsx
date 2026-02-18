@@ -243,7 +243,13 @@ export default function TestimonialsCarousel({
         <div className="relative mx-auto w-full px-0 py-6 sm:py-8">
           <div
             ref={containerRef}
-            className="relative mx-auto h-[520px] w-full max-w-7xl overflow-hidden sm:h-[480px]"
+            className="relative mx-auto h-[520px] w-full max-w-7xl sm:h-[480px]"
+            style={{
+              maskImage:
+                'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
+              WebkitMaskImage:
+                'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
+            }}
           >
             <div className="relative h-full w-full">
               {showSides && (

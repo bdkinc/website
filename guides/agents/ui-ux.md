@@ -1,5 +1,7 @@
 # UI & UX Guidelines
 
+This guide focuses on the Astro marketing site in `apps/bdkinc`.
+
 ## Visual Identity
 **Aesthetic:** Professional, clean, and technical (Computers, Networking, Cloud Hosting).
 **Design System:** ShadCN.

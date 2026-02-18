@@ -82,8 +82,14 @@ export function TechCard({
               : 'hover:border-primary/35 hover:shadow-[--shadow-glow-sm]')
         )}
       >
-        {/* Technical Overlays */}
-        <div className="scanlines pointer-events-none absolute inset-0 opacity-[0.03]" />
+        {/* Technical Overlays - static line texture (no animation) */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, oklch(0.7 0.18 210) 2px, oklch(0.7 0.18 210) 4px)',
+          }}
+        />
         {/* Background gradient wash (hover) */}
         {isInteractive && (
           <div

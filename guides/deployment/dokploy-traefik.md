@@ -1,11 +1,13 @@
 # Dokploy + Traefik Deployment
 
-This repo is set up to run as two services:
+This repo is currently set up to run as two services:
 
 - `apps/cms` (Payload) on port `3001`
 - `apps/bdkinc` (Astro Node server) on port `4321`
 
 Use separate Dokploy apps/services so each can redeploy independently.
+
+Note: a third app, `apps/bdkcloud` (Astro), is planned and can be deployed following the same pattern as `apps/bdkinc`.
 
 ## Build setup
 

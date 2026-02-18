@@ -59,7 +59,7 @@
   --secondary: oklch(0.65 0.22 280); /* Purple - UPDATED for consistency */
   --secondary-foreground: oklch(1 0 0); /* White text on secondary */
   --muted: oklch(0.92 0 0); /* Light gray muted */
-  --muted-foreground: oklch(0.45 0 0); /* Medium gray text */
+  --muted-foreground: oklch(0.38 0 0); /* Medium gray text - improved contrast for WCAG AA */
   --accent: oklch(0.95 0 0); /* Very light accent bg */
   --accent-foreground: oklch(0.2 0 0); /* Dark accent text */
   --destructive: oklch(0.55 0.22 25); /* Red destructive */

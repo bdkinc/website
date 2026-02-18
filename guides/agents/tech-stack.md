@@ -1,5 +1,8 @@
 # Tech Stack Strategy
 
+This guide is for the Astro marketing site in `apps/bdkinc`.
+For the CMS in `apps/cms` (Payload + Next.js), follow Next.js/Payload conventions and keep changes isolated to that app.
+
 ## Core Technologies
 - **Framework:** Astro (Static generation preferred)
 - **Interactive UI:** React (Selective hydration)
