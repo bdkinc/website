@@ -1,7 +1,7 @@
 import { PiCalendar, PiClock } from 'react-icons/pi';
 import type { CollectionEntry } from 'astro:content';
 import { TechCard } from '@/components/TechCard';
-import { cn } from '@/lib/utils';
+import { cn } from '@bdkinc/design-system';
 interface BlogCardProps {
   post: CollectionEntry<'blog'>;
   readTime: string;

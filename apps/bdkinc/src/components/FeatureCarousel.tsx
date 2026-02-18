@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@bdkinc/design-system';
 import CircuitBoard from '@/components/CircuitBoard';
 import React, { useEffect, useState } from 'react';
 import { iconMap } from '@/lib/icons';

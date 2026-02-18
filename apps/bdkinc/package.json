@@ -15,6 +15,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@bdkinc/design-system": "file:../../packages/design-system",
     "@astrojs/mdx": "^4.3.9",
     "@astrojs/node": "^9.5.1",
     "@astrojs/react": "^4.4.1",
@@ -27,7 +28,6 @@
     "ai": "^5.0.86",
     "astro": "^5.15.2",
     "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "gsap": "^3.13.0",
     "motion": "^12.23.24",
@@ -39,7 +39,6 @@
     "react-icons": "^5.5.0",
     "sonner": "^2.0.7",
     "streamdown": "^1.4.0",
-    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.16",
     "use-stick-to-bottom": "^1.1.1"
   },

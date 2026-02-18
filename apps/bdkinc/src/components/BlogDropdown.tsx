@@ -4,8 +4,9 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
   NavigationMenuLink,
-} from '@/components/ui/navigation-menu';
-import { cn, formatDate } from '@/lib/utils';
+  cn,
+} from '@bdkinc/design-system';
+import { formatDate } from '@/lib/utils';
 
 interface BlogPostDropdownItemProps {
   post: { slug: string; title: string; description: string; pubDate: Date };

@@ -1,5 +1,4 @@
-import { cn } from '@/lib/utils';
-import { Card } from '@/components/ui/card';
+import { Card, cn } from '@bdkinc/design-system';
 import { PiQuotesFill } from 'react-icons/pi';
 
 export interface Testimonial {

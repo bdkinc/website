@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@bdkinc/design-system';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import CircuitBoard from '@/components/CircuitBoard';
 import type React from 'react';

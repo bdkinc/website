@@ -8,7 +8,7 @@ import {
   PiGitMerge,
   PiRocket,
 } from 'react-icons/pi';
-import { cn } from '@/lib/utils';
+import { cn } from '@bdkinc/design-system';
 
 gsap.registerPlugin(useGSAP);
 

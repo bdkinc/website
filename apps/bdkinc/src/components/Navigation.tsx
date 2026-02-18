@@ -2,15 +2,16 @@ import { useState, useEffect } from 'react';
 import ThemeToggle from '@/components/ThemeToggle';
 import Logo from '@/components/Logo';
 import { PiList, PiX, PiArrowRight } from 'react-icons/pi';
-import { Button } from '@/components/ui/button';
 import {
+  Button,
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuLink,
   navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
-import { cn, formatDate } from '@/lib/utils';
+  cn,
+} from '@bdkinc/design-system';
+import { formatDate } from '@/lib/utils';
 import { iconMap } from '@/lib/icons';
 import { ServicesDropdown } from '@/components/ServicesDropdown';
 import { BlogDropdown } from '@/components/BlogDropdown';

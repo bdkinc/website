@@ -4,12 +4,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { PiArrowLeft, PiArrowRight } from 'react-icons/pi';
 
-import { Button } from '@/components/ui/button';
+import { Button, cn } from '@bdkinc/design-system';
 import {
   TestimonialCard,
   type Testimonial,
 } from '@/components/TestimonialCard';
-import { cn } from '@/lib/utils';
 
 export type TestimonialItem = Testimonial;
 

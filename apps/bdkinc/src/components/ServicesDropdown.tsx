@@ -6,8 +6,8 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
   NavigationMenuLink,
-} from '@/components/ui/navigation-menu';
-import { cn } from '@/lib/utils';
+  cn,
+} from '@bdkinc/design-system';
 import { iconMap } from '@/lib/icons';
 
 function shouldClientNavigate(e: MouseEvent<HTMLAnchorElement>) {

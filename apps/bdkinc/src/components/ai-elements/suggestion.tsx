@@ -1,9 +1,7 @@
 'use client';
 
 import { ScrollArea as ScrollAreaPrimitive } from '@base-ui/react/scroll-area';
-import { Button } from '@/components/ui/button';
-import { ScrollBar } from '@/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
+import { Button, ScrollBar, cn } from '@bdkinc/design-system';
 import type { ComponentProps } from 'react';
 
 export type SuggestionsProps = ComponentProps<typeof ScrollAreaPrimitive.Root>;

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { Card } from '@/components/ui/card';
-import { Slot } from '@/components/ui/slot';
+import { Card, Slot, cn } from '@bdkinc/design-system';
 export interface TechCardProps {
   children: React.ReactNode;
   className?: string;
