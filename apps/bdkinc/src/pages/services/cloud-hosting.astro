@@ -23,6 +23,7 @@ import {
   PiStack,
   PiCurrencyDollar,
   PiQuotesFill,
+  PiArrowRight,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 const service = await getEntry('services', 'cloud-hosting');
@@ -332,13 +333,13 @@ const providers = [
           <blockquote
             class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
           >
-            "Cloud is not a destination; it's an operating model. We don't just 
+            &ldquo;Cloud is not a destination; it&rsquo;s an operating model. We don&rsquo;t just 
             host your data; we architect
             <span class="text-accent font-semibold">
               intelligent ecosystems</span
             >
             that balance security, performance, and cost, ensuring your 
-            infrastructure never blinks."
+            infrastructure never blinks.&rdquo;
           </blockquote>
         </figure>
       </div>
@@ -397,10 +398,12 @@ const providers = [
                 <div class="mb-8 flex h-20 flex-col items-center justify-center">
                   <div class="relative">
                     <div class="absolute -inset-4 rounded-full bg-primary/5 opacity-0 blur-xl transition-opacity duration-500 group-hover/provider:opacity-100"></div>
-                    <img 
+                     <img 
                       src={provider.logo} 
                       alt={provider.name}
-                      class="relative h-16 w-auto max-w-[180px] object-contain transition-all duration-500 group-hover/provider:scale-110"
+                      width="180"
+                      height="64"
+                      class="relative h-16 w-auto max-w-[180px] object-contain transition-[filter,transform] duration-500 group-hover/provider:scale-110 grayscale brightness-75 group-hover/provider:grayscale-0 group-hover/provider:brightness-100"
                     />
                   </div>
                 </div>
@@ -565,8 +568,8 @@ const providers = [
                 <p class="text-muted-foreground text-sm">
                   {post.data.description}
                 </p>
-                <span class="text-primary mt-4 text-sm font-medium">
-                  Read Article →
+                <span class="text-primary mt-4 text-sm font-medium flex items-center gap-1">
+                  Read Article <PiArrowRight className="h-3 w-3" aria-hidden="true" />
                 </span>
               </a>
             ))}

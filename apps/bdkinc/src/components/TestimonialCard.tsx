@@ -11,11 +11,14 @@ export interface Testimonial {
 interface TestimonialCardProps {
   testimonial: Testimonial;
   className?: string;
+  /** 0–100 progress value for the autoplay bar. Only rendered on the active card. */
+  progress?: number;
 }
 
 export function TestimonialCard({
   testimonial,
   className,
+  progress,
 }: TestimonialCardProps) {
   return (
     <Card
@@ -24,6 +27,14 @@ export function TestimonialCard({
         className
       )}
     >
+      {/* Autoplay progress bar — only shown on active card */}
+      {progress !== undefined && (
+        <div
+          className="from-primary to-secondary absolute bottom-0 left-0 h-0.5 bg-linear-to-r transition-none"
+          style={{ width: `${progress}%` }}
+          aria-hidden
+        />
+      )}
       <div className="border-border/40 relative mb-6 flex items-center justify-between border-b pb-4 md:mb-8">
         <div className="text-muted-foreground/90 flex items-center font-mono text-xs">
           <PiQuotesFill className="text-primary" />

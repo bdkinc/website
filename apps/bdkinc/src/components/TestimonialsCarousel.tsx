@@ -1,10 +1,17 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { gsap } from 'gsap';
 import { PiArrowLeft, PiArrowRight } from 'react-icons/pi';
 
-import { Button, cn } from '@bdkinc/design-system';
+
+import { cn } from '@bdkinc/design-system';
 import {
   TestimonialCard,
   type Testimonial,
@@ -56,12 +63,15 @@ const SLOT_TARGETS: Record<SlotName, SlotTarget> = {
 
 const OFFSCREEN_LEFT_X = -250;
 const OFFSCREEN_RIGHT_X = 150;
+const AUTOPLAY_DURATION = 7000;
 
 export default function TestimonialsCarousel({
   testimonials,
 }: TestimonialsCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const leftRef = useRef<HTMLButtonElement | null>(null);
@@ -77,24 +87,45 @@ export default function TestimonialsCarousel({
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     const handler = () => setReduceMotion(mq.matches);
-
     handler();
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
   }, []);
 
+  // Autoplay with RAF-driven progress bar
+  useEffect(() => {
+    if (reduceMotion || isPaused || length <= 1) return;
+
+    setProgress(0);
+    const startTime = performance.now();
+    let rafId: number;
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const pct = Math.min((elapsed / AUTOPLAY_DURATION) * 100, 100);
+      setProgress(pct);
+
+      if (pct < 100) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        setActiveIndex((prev) => (prev + 1) % length);
+        setProgress(0);
+      }
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [activeIndex, reduceMotion, isPaused, length]);
+
   const showSides = length > 2;
 
   const indices = useMemo(() => {
     if (length === 0) return { left: 0, center: 0, right: 0 };
-
     const center = ((activeIndex % length) + length) % length;
     const left = (center - 1 + length) % length;
     const right = (center + 1) % length;
-
     return { left, center, right };
   }, [activeIndex, length]);
 
@@ -102,7 +133,6 @@ export default function TestimonialsCarousel({
     const leftEl = leftRef.current;
     const centerEl = centerRef.current;
     const rightEl = rightRef.current;
-
     if (centerEl) gsap.set(centerEl, { ...SLOT_TARGETS.center });
     if (showSides && leftEl) gsap.set(leftEl, { ...SLOT_TARGETS.left });
     if (showSides && rightEl) gsap.set(rightEl, { ...SLOT_TARGETS.right });
@@ -124,9 +154,7 @@ export default function TestimonialsCarousel({
       return;
     }
 
-    if (prevIndexRef.current === activeIndex) {
-      return;
-    }
+    if (prevIndexRef.current === activeIndex) return;
 
     const prevIndex = prevIndexRef.current;
     const diff = activeIndex - prevIndex;
@@ -143,9 +171,7 @@ export default function TestimonialsCarousel({
       return;
     }
 
-    if (timelineRef.current) {
-      timelineRef.current.kill();
-    }
+    if (timelineRef.current) timelineRef.current.kill();
     gsap.killTweensOf([leftEl, centerEl, rightEl]);
 
     isAnimatingRef.current = true;
@@ -196,38 +222,39 @@ export default function TestimonialsCarousel({
     }
 
     return () => {
-      if (timelineRef.current) {
-        timelineRef.current.kill();
-      }
+      if (timelineRef.current) timelineRef.current.kill();
       isAnimatingRef.current = false;
     };
   }, [activeIndex, length, reduceMotion, setHomePositions, showSides]);
 
   if (length === 0) return null;
 
+  const goTo = (index: number) => {
+    if (index === activeIndex || isAnimatingRef.current) return;
+    setActiveIndex(index);
+    setProgress(0);
+  };
+
   const handlePrev = () => {
     if (isAnimatingRef.current) return;
     setActiveIndex((prev) => (prev - 1 + length) % length);
+    setProgress(0);
   };
 
   const handleNext = () => {
     if (isAnimatingRef.current) return;
     setActiveIndex((prev) => (prev + 1) % length);
-  };
-
-  const handleIndicatorClick = (index: number) => {
-    if (index === activeIndex || isAnimatingRef.current) return;
-    setActiveIndex(index);
+    setProgress(0);
   };
 
   const handleLeftClick = () => {
     if (isAnimatingRef.current) return;
-    setActiveIndex(indices.left);
+    goTo(indices.left);
   };
 
   const handleRightClick = () => {
     if (isAnimatingRef.current) return;
-    setActiveIndex(indices.right);
+    goTo(indices.right);
   };
 
   const slotBaseClasses =
@@ -237,9 +264,12 @@ export default function TestimonialsCarousel({
     <section
       aria-label="Client success stories carousel"
       className="mx-auto w-full"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
       <div className="mx-auto w-full">
         <div className="relative mx-auto w-full px-0 py-6 sm:py-8">
+          {/* Card stage */}
           <div
             ref={containerRef}
             className="relative mx-auto h-[520px] w-full max-w-7xl sm:h-[480px]"
@@ -268,7 +298,10 @@ export default function TestimonialsCarousel({
                 aria-label={`Currently highlighted testimonial from ${testimonials[indices.center].author}`}
                 className={cn(slotBaseClasses, 'cursor-default')}
               >
-                <TestimonialCard testimonial={testimonials[indices.center]} />
+                <TestimonialCard
+                  testimonial={testimonials[indices.center]}
+                  progress={progress}
+                />
               </div>
 
               {showSides && (
@@ -285,47 +318,46 @@ export default function TestimonialsCarousel({
             </div>
           </div>
 
-          <div className="mt-4 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-            <div className="flex items-center gap-3">
-              <Button
-                variant="ghost"
-                size="icon"
+          {/* Controls */}
+          <div className="mt-6 flex items-center justify-between gap-4">
+            {/* Prev / Next */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
                 aria-label="Show previous testimonial"
                 onClick={handlePrev}
-                className="border-border/40 bg-background/60 text-foreground hover:border-primary/60 border transition-colors duration-300"
+                className="border-border/50 text-muted-foreground hover:border-primary/40 hover:text-primary focus-visible:ring-primary/40 focus-visible:ring-offset-background flex h-9 w-9 items-center justify-center rounded-xl border bg-transparent transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               >
-                <PiArrowLeft className="h-5 w-5" aria-hidden />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
+                <PiArrowLeft className="h-4 w-4" aria-hidden />
+              </button>
+              <button
+                type="button"
                 aria-label="Show next testimonial"
                 onClick={handleNext}
-                className="border-border/40 bg-background/60 text-foreground hover:border-primary/60 border transition-colors duration-300"
+                className="border-border/50 text-muted-foreground hover:border-primary/40 hover:text-primary focus-visible:ring-primary/40 focus-visible:ring-offset-background flex h-9 w-9 items-center justify-center rounded-xl border bg-transparent transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               >
-                <PiArrowRight className="h-5 w-5" aria-hidden />
-              </Button>
+                <PiArrowRight className="h-4 w-4" aria-hidden />
+              </button>
             </div>
 
+            {/* Dot indicators */}
             <div className="flex items-center gap-2">
-              {testimonials.map((_, index) => (
+              {testimonials.map((t, index) => (
                 <button
                   key={`indicator-${index}`}
                   type="button"
                   aria-label={`Jump to testimonial ${index + 1}`}
                   aria-pressed={index === activeIndex}
-                  onClick={() => handleIndicatorClick(index)}
+                  onClick={() => goTo(index)}
                   className={cn(
-                    'focus-visible:ring-primary/40 focus-visible:ring-offset-background flex h-2.5 items-center justify-center rounded-full border transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 ease-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+                    'focus-visible:ring-primary/40 focus-visible:ring-offset-background h-2.5 rounded-full border transition-[width,background-color,border-color] duration-500 ease-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
                     index === activeIndex
-                      ? 'border-secondary/70 bg-secondary/70 w-8'
-                      : 'border-border/50 bg-border/30 hover:border-secondary/60 hover:bg-secondary/40 w-2.5'
+                      ? 'border-secondary/60 bg-secondary/70 w-8'
+                      : 'border-border/50 bg-border/30 hover:border-secondary/50 hover:bg-secondary/40 w-2.5'
                   )}
                 >
                   <span className="sr-only">
-                    {index === activeIndex
-                      ? 'Active testimonial'
-                      : 'Inactive testimonial'}
+                    {index === activeIndex ? 'Active' : `Go to ${t.author}`}
                   </span>
                 </button>
               ))}

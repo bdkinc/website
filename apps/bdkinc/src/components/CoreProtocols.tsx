@@ -53,10 +53,15 @@ const connections: Array<[number, number]> = [
 ];
 
 export default function CoreProtocols({ values }: CoreProtocolsProps) {
-  const { ref: containerRef, isIntersecting } = useIntersectionObserver({
+  const { ref: containerRef, isIntersecting } = useIntersectionObserver<HTMLElement>({
     threshold: 0.1,
     triggerOnce: true,
   });
+
+  const prefersReducedMotion =
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false;
 
   const [isDesktopLayout, setIsDesktopLayout] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -173,18 +178,22 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
         zIndex: isHub ? 30 : 20,
       });
 
-      // Entry animation
-      gsap.fromTo(
-        node,
-        { opacity: 0, scale: 0 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.6,
-          delay: index * 0.1,
-          ease: 'back.out(1.7)',
-        }
-      );
+      if (!prefersReducedMotion) {
+        // Entry animation
+        gsap.fromTo(
+          node,
+          { opacity: 0, scale: 0 },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            delay: index * 0.1,
+            ease: 'back.out(1.7)',
+          }
+        );
+      } else {
+        gsap.set(node, { opacity: 1, scale: 1 });
+      }
 
       // Ensure content is hidden initially
       const content = node.querySelector<HTMLElement>('.node-content');
@@ -242,74 +251,94 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
       const label = wrapper?.querySelector<HTMLElement>('.node-label');
 
       if (wantsActive) {
-        // Expansion animation - smooth and coordinated
-        gsap.to(node, {
-          ...expanded,
-          duration: 0.4,
-          ease: 'back.out(0.6)', // Slight overshoot for organic feel
-          overwrite: 'auto',
-        });
-        // Fade out external label quickly at the start
-        if (label) {
-          gsap.to(label, {
-            opacity: 0,
-            y: -8,
-            scale: 0.95,
-            duration: 0.2,
-            ease: 'power2.in',
+        if (!prefersReducedMotion) {
+          // Expansion animation - smooth and coordinated
+          gsap.to(node, {
+            ...expanded,
+            duration: 0.4,
+            ease: 'back.out(0.6)', // Slight overshoot for organic feel
             overwrite: 'auto',
           });
-        }
-        // Fade in internal content after node starts expanding
-        if (content) {
-          content.style.display = 'block';
-          gsap.fromTo(
-            content,
-            { opacity: 0, x: -15 },
-            {
-              opacity: 1,
-              x: 0,
-              duration: 0.3,
-              delay: 0.1, // Reduced delay for snappier feel
-              ease: 'power2.out',
+          // Fade out external label quickly at the start
+          if (label) {
+            gsap.to(label, {
+              opacity: 0,
+              y: -8,
+              scale: 0.95,
+              duration: 0.2,
+              ease: 'power2.in',
               overwrite: 'auto',
-            }
-          );
+            });
+          }
+          // Fade in internal content after node starts expanding
+          if (content) {
+            content.style.display = 'block';
+            gsap.fromTo(
+              content,
+              { opacity: 0, x: -15 },
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.3,
+                delay: 0.1,
+                ease: 'power2.out',
+                overwrite: 'auto',
+              }
+            );
+          }
+        } else {
+          // Reduced motion: instant expand, no transitions
+          gsap.set(node, { ...expanded });
+          if (label) gsap.set(label, { opacity: 0 });
+          if (content) {
+            content.style.display = 'block';
+            gsap.set(content, { opacity: 1, x: 0 });
+          }
         }
       } else {
         // Collapse animation - coordinated reverse
-        // Fade out content first
-        if (content) {
-          gsap.to(content, {
-            opacity: 0,
-            x: -10,
-            duration: 0.15,
-            ease: 'power2.in',
-            overwrite: 'auto',
-            onComplete: () => {
-              if (content) content.style.display = 'none';
-            },
-          });
-        }
-        // Collapse node
-        gsap.to(node, {
-          ...collapsed,
-          duration: 0.35,
-          delay: 0.05,
-          ease: 'power2.inOut', // Keep standard smooth ease for collapse
-          overwrite: 'auto',
-        });
-        // Fade in external label as node finishes collapsing
-        if (label) {
-          gsap.to(label, {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.25,
-            delay: 0.2,
-            ease: 'power2.out',
+        if (!prefersReducedMotion) {
+          // Fade out content first
+          if (content) {
+            gsap.to(content, {
+              opacity: 0,
+              x: -10,
+              duration: 0.15,
+              ease: 'power2.in',
+              overwrite: 'auto',
+              onComplete: () => {
+                if (content) content.style.display = 'none';
+              },
+            });
+          }
+          // Collapse node
+          gsap.to(node, {
+            ...collapsed,
+            duration: 0.35,
+            delay: 0.05,
+            ease: 'power2.inOut',
             overwrite: 'auto',
           });
+          // Fade in external label as node finishes collapsing
+          if (label) {
+            gsap.to(label, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.25,
+              delay: 0.2,
+              ease: 'power2.out',
+              overwrite: 'auto',
+            });
+          }
+        } else {
+          // Reduced motion: instant collapse
+          if (content) {
+            content.style.display = 'none';
+            gsap.set(content, { opacity: 0 });
+          }
+          gsap.set(node, { ...collapsed });
+          if (label) gsap.set(label, { opacity: 1, y: 0, scale: 1 });
         }
       }
     });
@@ -322,16 +351,17 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
       const targetNodeIndex = index + 1;
       const isActive = activeIndex === 0 || activeIndex === targetNodeIndex;
 
-      // Ensure we don't kill the animation if it's already running for the correct state
-      // But since we use fromTo, we might need to be careful.
-      // Let's just always animate but use overwrite to handle conflicts.
+      if (prefersReducedMotion) {
+        // Reduced motion: show lines as static, no pulsing
+        gsap.set(line, {
+          strokeDasharray: 'none',
+          strokeDashoffset: 0,
+          opacity: isActive ? 0.5 : 0.1,
+        });
+        return;
+      }
 
       if (isActive) {
-        // Only trigger pulse if not already pulsing or if we need to restart?
-        // Actually, let's let GSAP handle the overwrite.
-        // Adding a small random delay to avoid synchronization artifacts?
-        // Or maybe just ensure line 0 works.
-
         gsap.to(line, {
           strokeDasharray: length,
           strokeDashoffset: length,
@@ -349,8 +379,8 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
             duration: 2,
             repeat: -1,
             ease: 'power1.inOut',
-            delay: index * 0.15 + 0.1, // Adjusted delay to ensure first line works
-            overwrite: true, // Explicit overwrite
+            delay: index * 0.15 + 0.1,
+            overwrite: true,
           }
         );
       } else {
@@ -368,17 +398,9 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
 
   return (
     <section
-      ref={containerRef as any}
+      ref={containerRef}
       className="relative isolate overflow-visible"
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-40"
-        aria-hidden="true"
-        style={{
-          background:
-            'radial-gradient(circle at 50% 50%, oklch(0.65 0.22 280 / 0.15), transparent 70%)',
-        }}
-      />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-10 md:px-10">
         <div
@@ -477,6 +499,12 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
                       onFocus={() => setActiveIndex(index)}
                       onMouseLeave={() => setActiveIndex(0)}
                       onBlur={() => setActiveIndex(0)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setActiveIndex(activeIndex === index ? 0 : index);
+                        }
+                      }}
                       className={cn(
                         'group focus-visible:ring-primary/30 cursor-default transition-colors duration-300 ease-out focus-visible:ring',
                         'border-border bg-card hover:border-primary/60 flex items-center overflow-hidden border shadow-[0_0_30px_-10px_rgba(var(--color-primary),0.25)]',
@@ -487,6 +515,7 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
                       <div className="node-inner flex items-center gap-4">
                         <div className="node-icon text-primary flex shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-110">
                           <IconComponent
+                            aria-hidden="true"
                             className={cn(
                               index === 0 ? 'h-10 w-10' : 'h-7 w-7'
                             )}
@@ -537,10 +566,16 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
                   onFocus={() => setActiveIndex(index)}
                   onMouseLeave={() => setActiveIndex(0)}
                   onBlur={() => setActiveIndex(0)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setActiveIndex(activeIndex === index ? 0 : index);
+                    }
+                  }}
                   className="border-border bg-card group focus-visible:ring-primary/30 relative flex w-full cursor-default flex-col items-center gap-4 rounded-2xl border py-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out focus-visible:ring"
                 >
                   <div className="text-primary transition-transform duration-300 group-hover:scale-110">
-                    <IconComponent className="h-8 w-8" />
+                    <IconComponent aria-hidden="true" className="h-8 w-8" />
                   </div>
 
                   <h3 className="font-display text-foreground text-center text-xs leading-tight font-bold">

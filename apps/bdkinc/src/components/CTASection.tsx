@@ -57,7 +57,7 @@ export default function CTASection({
   };
 
   // Viewport detection for CTA section
-  const { ref: sectionRef, isIntersecting } = useIntersectionObserver({
+  const { ref: sectionRef, isIntersecting } = useIntersectionObserver<HTMLDivElement>({
     threshold: 0.2,
     rootMargin: '0px',
     triggerOnce: true,
@@ -68,7 +68,7 @@ export default function CTASection({
   return (
     <section className="px-4 py-32 sm:px-6 lg:px-8">
       <div
-        ref={sectionRef as any}
+        ref={sectionRef}
         className={cn(
           'mx-auto max-w-4xl text-center',
           'translate-y-4 opacity-0 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
@@ -78,7 +78,7 @@ export default function CTASection({
         <Card
           size="xl"
           interactive={false}
-          className="bg-card/80 dark:bg-card/60 opacity-100 shadow-sm backdrop-blur-xl"
+          className="bg-card/80 dark:bg-card/60 p-10 opacity-100 shadow-sm backdrop-blur-xl"
         >
           <h2
             className={cn(

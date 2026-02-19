@@ -144,31 +144,34 @@ const milestonesData = milestones;
   ogDescription={aboutDescription}
 >
   <!-- AboutPage Schema Markup -->
-  <script type="application/ld+json" is:inline>
-    {
-      "@context": "https://schema.org",
-      "@type": "AboutPage",
-      "mainEntity": {
-        "@type": "Organization",
-        "name": "BDKinc",
-        "foundingDate": "1999",
-        "description": "BDKinc is a premier technology partner delivering enterprise-grade managed IT, cloud hosting, cybersecurity, and AI solutions.",
-        "url": "https://www.bdkinc.com",
-        "numberOfEmployees": {
-          "@type": "QuantitativeValue",
-          "value": "50+"
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      mainEntity: {
+        '@type': 'Organization',
+        name: 'BDKinc',
+        foundingDate: '1999',
+        description:
+          aboutPage?.seoDescription ||
+          'BDKinc is a premier technology partner delivering enterprise-grade managed IT, cloud hosting, cybersecurity, and AI solutions.',
+        url: 'https://www.bdkinc.com',
+        numberOfEmployees: {
+          '@type': 'QuantitativeValue',
+          value: '50+',
         },
-        "knowsAbout": [
-          "Managed IT Services",
-          "Cloud Hosting",
-          "Cybersecurity",
-          "IBM Power Systems",
-          "AI Solutions",
-          "Business Applications"
-        ]
-      }
-    }
-  </script>
+        knowsAbout: [
+          'Managed IT Services',
+          'Cloud Hosting',
+          'Cybersecurity',
+          'IBM Power Systems',
+          'AI Solutions',
+          'Business Applications',
+        ],
+      },
+    })}
+  />
   <Navigation
     client:load
     services={servicesData}
@@ -271,7 +274,11 @@ const milestonesData = milestones;
       </div>
     </section>
 
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
+    <section class="relative px-4 py-24 sm:px-6 lg:px-8">
+      <div
+        class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
       <div class="mx-auto max-w-5xl">
         <div class="mb-16 text-center">
           <h2
