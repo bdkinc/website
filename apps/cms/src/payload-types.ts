@@ -69,6 +69,8 @@ export interface Config {
   collections: {
     users: User;
     pages: Page;
+    'blog-posts': BlogPost;
+    testimonials: Testimonial;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +80,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -185,6 +189,49 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts".
+ */
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  author: string;
+  publishedAt: string;
+  category: 'Infrastructure' | 'Security' | 'Development' | 'AI';
+  tags?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  image?: string | null;
+  /**
+   * Markdown content for the post body.
+   */
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: string;
+  slug: string;
+  quote: string;
+  author: string;
+  company: string;
+  industry: string;
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -214,6 +261,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: string | Page;
+      } | null)
+    | ({
+        relationTo: 'blog-posts';
+        value: string | BlogPost;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: string | Testimonial;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -314,6 +369,44 @@ export interface PagesSelect<T extends boolean = true> {
   aboutCTADescription?: T;
   aboutCTAButtonText?: T;
   aboutCTAButtonHref?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts_select".
+ */
+export interface BlogPostsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  author?: T;
+  publishedAt?: T;
+  category?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  image?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  slug?: T;
+  quote?: T;
+  author?: T;
+  company?: T;
+  industry?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

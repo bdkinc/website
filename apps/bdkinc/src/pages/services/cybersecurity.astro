@@ -1,14 +1,15 @@
 ---
-import { getEntry, getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
+import { getBlogPosts } from '@/lib/blog';
 import { iconMap } from '@/lib/icons';
 import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
-import WhoThisIsFor from '@/components/WhoThisIsFor';
+
 import TechnicalSection from '@/components/TechnicalSection';
 import CybersecurityVisualization from '@/components/visualizations/CybersecurityVisualization';
 import FeatureCarousel from '@/components/FeatureCarousel';
@@ -58,13 +59,11 @@ const relatedTags = [
   'compliance',
   'incident-response',
 ];
-const relatedPosts = (await getCollection('blog'))
+const relatedPosts = (await getBlogPosts())
   .filter((post) => {
-    const data = post.data as unknown as { tags?: string[]; draft?: boolean };
-    if (data.draft) return false;
     return (
-      Array.isArray(data.tags) &&
-      data.tags.some((tag) => relatedTags.includes(tag))
+      Array.isArray(post.tags) &&
+      post.tags.some((tag) => relatedTags.includes(tag))
     );
   })
   .slice(0, 3);
@@ -225,7 +224,7 @@ const detailColumns = [
         </div>
       </div>
       <div
-        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
       >
       </div>
     </section>
@@ -335,7 +334,7 @@ const detailColumns = [
       >
       </div>
       <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-12 text-center">
+        <div class="mb-16 text-center">
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
@@ -346,23 +345,36 @@ const detailColumns = [
             >
           </h2>
         </div>
-        <figure class="relative mx-auto max-w-3xl">
-          <PiQuotesFill
-            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
-            aria-hidden="true"
-          />
-          <blockquote
-            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
-          >
-            &ldquo;In an era of sophisticated attacks, reactive security is failure.
-            We architect
-            <span class="text-accent font-semibold">
-              proactive resilience</span
-            >
-            into every layer of your digital estate, ensuring your data is protected 
-            and your operations are audit-ready 24/7.&rdquo;
-          </blockquote>
-        </figure>
+        
+        <!-- Glass Quote Container -->
+        <div class="relative mx-auto max-w-4xl">
+          <!-- Floating Icon -->
+          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
+            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          </div>
+          
+          <!-- Glass Card -->
+          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+            <!-- Ambient Glow -->
+            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
+            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
+            
+            <!-- Background Watermark -->
+            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
+               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            </div>
+
+            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
+              &ldquo;In an era of sophisticated attacks, reactive security is failure.
+              We architect
+              <span class="text-accent">
+                proactive resilience</span
+              >
+              into every layer of your digital estate, ensuring your data is protected 
+              and your operations are audit-ready 24/7.&rdquo;
+            </blockquote>
+          </div>
+        </div>
       </div>
       <div
         class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -405,140 +417,51 @@ const detailColumns = [
           </h2>
         </div>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
-            <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
-            <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
-              <PiShieldCheck
-                className="text-primary h-8 w-8"
-                aria-hidden="true"
-              />
+          {[
+            {
+              num: "01",
+              label: "Prevent",
+              Icon: PiShieldCheck,
+              items: ["Firewall management", "Endpoint protection", "Email security", "User education", "Access controls"],
+            },
+            {
+              num: "02",
+              label: "Detect",
+              Icon: PiEye,
+              items: ["24/7 monitoring", "Intrusion detection", "Log analysis", "Vulnerability scanning", "Threat intelligence"],
+            },
+            {
+              num: "03",
+              label: "Respond",
+              Icon: PiBell,
+              items: ["Incident response", "Forensic analysis", "Containment procedures", "Recovery processes", "Post-incident review"],
+            },
+            {
+              num: "04",
+              label: "Recover",
+              Icon: PiHardDrives,
+              items: ["Backup systems", "Recovery procedures", "Continuity planning", "Communication protocols", "System restoration"],
+            },
+          ].map(({ num, label, Icon, items }) => (
+            <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity] duration-300 hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+              <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
+              <div class="mb-4 flex items-center justify-between">
+                <div class="inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 transition-[background-color,box-shadow] duration-300 group-hover:bg-primary/20 group-hover:ring-primary/40">
+                  <Icon className="text-primary h-8 w-8" aria-hidden="true" />
+                </div>
+                <span class="font-mono text-4xl font-bold text-primary/15 group-hover:text-primary/25 transition-colors duration-300 leading-none">{num}</span>
+              </div>
+              <h4 class="text-foreground mb-3 text-xl font-bold font-display">{label}</h4>
+              <ul class="text-muted-foreground space-y-2 text-sm font-sans">
+                {items.map((item) => (
+                  <li class="flex items-start gap-2">
+                    <span class="text-primary mt-1" aria-hidden="true">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <h4 class="text-foreground mb-3 text-xl font-bold font-display">
-              Prevent
-            </h4>
-            <ul class="text-muted-foreground space-y-2 text-sm font-sans">
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Firewall management</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Endpoint protection</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Email security</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>User education</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Access controls</span>
-              </li>
-            </ul>
-          </div>
-          <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
-            <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
-            <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
-              <PiEye
-                className="text-primary h-8 w-8"
-                aria-hidden="true"
-              />
-            </div>
-            <h4 class="text-foreground mb-3 text-xl font-bold font-display">Detect</h4>
-            <ul class="text-muted-foreground space-y-2 text-sm font-sans">
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>24/7 monitoring</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Intrusion detection</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Log analysis</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Vulnerability scanning</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Threat intelligence</span>
-              </li>
-            </ul>
-          </div>
-          <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
-            <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
-            <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
-              <PiBell
-                className="text-primary h-8 w-8"
-                aria-hidden="true"
-              />
-            </div>
-            <h4 class="text-foreground mb-3 text-xl font-bold font-display">
-              Respond
-            </h4>
-            <ul class="text-muted-foreground space-y-2 text-sm font-sans">
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Incident response</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Forensic analysis</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Containment procedures</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Recovery processes</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Post-incident review</span>
-              </li>
-            </ul>
-          </div>
-          <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
-            <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
-            <div class="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
-              <PiHardDrives
-                className="text-primary h-8 w-8"
-                aria-hidden="true"
-              />
-            </div>
-            <h4 class="text-foreground mb-3 text-xl font-bold font-display">
-              Recover
-            </h4>
-            <ul class="text-muted-foreground space-y-2 text-sm font-sans">
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Backup systems</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Recovery procedures</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Continuity planning</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>Communication protocols</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-primary mt-1">•</span>
-                <span>System restoration</span>
-              </li>
-            </ul>
-          </div>
+          ))}
         </div>
       </div>
     </section>
@@ -555,101 +478,96 @@ const detailColumns = [
             >
           </h2>
         </div>
-        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Swiss Grid Layout -->
+        <div class="grid gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-2 lg:grid-cols-3">
           <!-- Benefit 1 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiWarning
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Reduce Risk
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiWarning className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Reduce Risk
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Protect against data breaches, ransomware, and other emerging 
-              cyber threats
+              cyber threats.
             </p>
           </div>
           <!-- Benefit 2 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiFileText
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Ensure Compliance
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiFileText className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Ensure Compliance
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Meet industry security standards and regulations including HIPAA, 
-              PCI DSS, and SOC 2
+              PCI DSS, and SOC 2.
             </p>
           </div>
           <!-- Benefit 3 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiArrowsClockwise
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Minimize Downtime
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiArrowsClockwise className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Minimize Downtime
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Quick incident recovery ensures your business operations continue 
-              without disruption
+              without disruption.
             </p>
           </div>
           <!-- Benefit 4 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiShield
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Protect Reputation
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiShield className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Protect Reputation
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Prevent damaging data breaches that erode customer trust and 
-              brand equity
+              brand equity.
             </p>
           </div>
           <!-- Benefit 5 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiEye
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              24/7 Peace of Mind
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiEye className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                24/7 Peace of Mind
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Rest easy knowing your critical systems are monitored and 
-              protected around the clock
+              protected around the clock.
             </p>
           </div>
           <!-- Benefit 6 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiUsers
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Expert Guidance
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiUsers className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Expert Guidance
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Direct access to senior security professionals with deep 
-              industry expertise
+              industry expertise.
             </p>
           </div>
         </div>
@@ -710,7 +628,7 @@ const detailColumns = [
         </div>
       </div>
     </TechnicalSection>
-    <WhoThisIsFor client:visible />
+
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
@@ -736,10 +654,10 @@ const detailColumns = [
                 class="border-border hover:border-primary group flex flex-col rounded-xl border p-6 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
               >
                 <h3 class="text-foreground group-hover:text-primary mb-2 text-lg font-semibold transition-colors">
-                  {post.data.title}
+                  {post.title}
                 </h3>
                 <p class="text-muted-foreground text-sm line-clamp-3">
-                  {post.data.description}
+                  {post.description}
                 </p>
                 <span class="text-primary mt-4 text-sm font-medium flex items-center gap-1">
                   Read Article <PiArrowRight className="h-3 w-3" aria-hidden="true" />

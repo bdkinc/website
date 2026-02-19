@@ -40,6 +40,12 @@ npm run bootstrap:admin -w apps/cms
 
 The Astro site uses this content on `/` and on `/cms/[slug]`.
 
+### Additional content now managed in CMS
+
+- `blog-posts` collection powers `/blog`, `/blog/[slug]`, and related post blocks.
+- `testimonials` collection powers homepage testimonial carousel.
+- Run `npm run seed -w apps/cms` to backfill initial blog posts and testimonials.
+
 ## Rebuild triggers
 
 - Automatic: when a `pages` doc is published/updated, or `site-settings` changes.

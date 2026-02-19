@@ -31,8 +31,6 @@
   --color-ring: var(--ring);
   --color-brand-primary: var(--brand-primary);
   --color-brand-secondary: var(--brand-secondary);
-  --color-brand-accent: var(--brand-accent);
-  --color-border-accent: var(--brand-accent);
 }
 
 :root {
@@ -60,8 +58,8 @@
   --secondary-foreground: oklch(1 0 0); /* White text on secondary */
   --muted: oklch(0.92 0 0); /* Light gray muted */
   --muted-foreground: oklch(0.38 0 0); /* Medium gray text - improved contrast for WCAG AA */
-  --accent: oklch(0.95 0 0); /* Very light accent bg */
-  --accent-foreground: oklch(0.2 0 0); /* Dark accent text */
+  --accent: oklch(0.7 0.18 45); /* Orange/amber accent */
+  --accent-foreground: oklch(1 0 0); /* White accent text */
   --destructive: oklch(0.55 0.22 25); /* Red destructive */
   --destructive-foreground: oklch(1 0 0); /* White on destructive */
   --border: oklch(0.88 0 0); /* Light border */
@@ -71,7 +69,6 @@
   /* Brand colors - updated for consistency */
   --brand-primary: oklch(0.65 0.18 210); /* Cyan blue */
   --brand-secondary: oklch(0.65 0.22 280); /* Purple */
-  --brand-accent: oklch(0.7 0.18 45); /* Orange/amber accent */
 
   /* Shadows */
   --shadow-glow: 0 0 20px oklch(0.65 0.18 210 / 0.3);
@@ -94,8 +91,8 @@
   --secondary-foreground: oklch(0.05 0 0); /* Near black on secondary */
   --muted: oklch(0.25 0 0); /* Dark gray muted */
   --muted-foreground: oklch(0.869 0.022 252.894); /* Tailwind slate-300 */
-  --accent: oklch(0.18 0 0); /* Dark accent bg */
-  --accent-foreground: oklch(0.95 0 0); /* Light accent text */
+  --accent: oklch(0.75 0.18 45); /* Brighter orange/amber for dark mode */
+  --accent-foreground: oklch(1 0 0); /* White accent text */
   --destructive: oklch(0.6 0.22 25); /* Brighter red for dark */
   --destructive-foreground: oklch(0.98 0 0); /* Light on destructive */
   --border: oklch(0.2 0 0); /* Dark border */
@@ -103,7 +100,6 @@
   --ring: oklch(0.7 0.18 210); /* Bright primary ring */
 
   /* Brand colors for dark mode */
-  --brand-accent: oklch(0.75 0.18 45); /* Brighter orange/amber for dark mode */
 
   /* Shadows for dark mode */
   --shadow-glow: 0 0 20px oklch(0.7 0.18 210 / 0.4);
@@ -264,12 +260,6 @@
   @apply text-[0.875rem];
 } /* 14px */
 
-.text-accent {
-  color: var(--color-brand-accent);
-}
-.border-accent {
-  border-color: var(--color-brand-accent);
-}
 .text-base {
   @apply text-[1rem];
 } /* 16px */

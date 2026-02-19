@@ -45,6 +45,7 @@ import {
   PiRocket,
   PiCurrencyDollar,
   PiCloudArrowUp,
+  PiUsers,
 } from 'react-icons/pi';
 import type { ComponentType } from 'react';
 
@@ -102,4 +103,5 @@ export const iconMap: Record<string, ComponentType<{ className?: string }>> = {
   CloudArrowUp: PiCloudArrowUp,
   ArrowsClockwise: PiArrowsClockwise,
   NetworkX: PiNetworkX,
+  Users: PiUsers,
 };

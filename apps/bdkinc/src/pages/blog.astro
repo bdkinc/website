@@ -2,24 +2,20 @@
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import CTASection from '@/components/CTASection';
-import { getCollection } from 'astro:content';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 import { BlogList } from '@/components/BlogList';
 import { PiArrowRight, PiCpu } from 'react-icons/pi';
+import { getBlogPosts } from '@/lib/blog';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
-// Get all blog posts, sorted by date (newest first), exclude drafts
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const sortedPosts = allPosts.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const sortedPosts = await getBlogPosts();
 
 // Calculate read time
 const postsWithReadTime = sortedPosts.map((post) => {
   const wordsPerMinute = 200;
-  const words = post.body ? post.body.trim().split(/\s+/).length : 0;
+  const words = post.content ? post.content.trim().split(/\s+/).length : 0;
   const minutes = Math.ceil(words / wordsPerMinute);
   return {
     ...post,
@@ -76,7 +72,7 @@ const remainingPosts = postsWithReadTime.slice(1);
 
       <!-- Bottom Ticker Border (Visual only) -->
       <div
-        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
       >
       </div>
     </section>
@@ -115,7 +111,7 @@ const remainingPosts = postsWithReadTime.slice(1);
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
-                    }).format(featuredPost.data.pubDate)
+                    }).format(featuredPost.pubDate)
                   }
                 </span>
               </div>
@@ -124,14 +120,14 @@ const remainingPosts = postsWithReadTime.slice(1);
               <h2
                 class="font-display text-foreground text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl lg:leading-tight"
               >
-                {featuredPost.data.title}
+                {featuredPost.title}
               </h2>
 
               <!-- Description -->
               <p
                 class="text-muted-foreground text-lg leading-relaxed md:text-xl"
               >
-                {featuredPost.data.description}
+                {featuredPost.description}
               </p>
 
               <!-- Action -->

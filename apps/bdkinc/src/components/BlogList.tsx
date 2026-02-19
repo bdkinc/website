@@ -1,8 +1,8 @@
-import type { CollectionEntry } from 'astro:content';
 import { BlogCard } from '@/components/BlogCard';
+import type { BlogPostContent } from '@/lib/cms';
 
 // Extended type to include pre-calculated readTime
-export type BlogPostWithReadTime = CollectionEntry<'blog'> & {
+export type BlogPostWithReadTime = BlogPostContent & {
   readTime: string;
 };
 

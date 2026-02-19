@@ -7,7 +7,7 @@ import { iconMap } from '@/lib/icons';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
-import WhoThisIsFor from '@/components/WhoThisIsFor';
+
 import TechnicalSection from '@/components/TechnicalSection';
 import { GlobalNetworkMap } from '@/components/GlobalNetworkMap';
 import HostedERPVisualization from '@/components/visualizations/HostedERPVisualization';
@@ -183,7 +183,7 @@ const strategicFeatures = [
         </div>
       </div>
       <div
-        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
       >
       </div>
     </section>
@@ -194,7 +194,7 @@ const strategicFeatures = [
       >
       </div>
       <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-12 text-center">
+        <div class="mb-16 text-center">
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
@@ -205,23 +205,36 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        <figure class="relative mx-auto max-w-3xl">
-          <PiQuotesFill
-            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
-            aria-hidden="true"
-          />
-          <blockquote
-            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
-          >
-            &ldquo;Your ERP is not just an application; it&rsquo;s the nervous system of 
-            your organization. We architect 
-            <span class="text-accent font-semibold">
-              high-availability environments</span
-            >
-            that eliminate latency and ensure your core operations move with 
-            mathematical precision 24/7.&rdquo;
-          </blockquote>
-        </figure>
+        
+        <!-- Glass Quote Container -->
+        <div class="relative mx-auto max-w-4xl">
+          <!-- Floating Icon -->
+          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
+            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          </div>
+          
+          <!-- Glass Card -->
+          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+            <!-- Ambient Glow -->
+            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
+            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
+            
+            <!-- Background Watermark -->
+            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
+               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            </div>
+
+            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
+              &ldquo;Your ERP is not just an application; it&rsquo;s the nervous system of 
+              your organization. We architect 
+              <span class="text-accent">
+                high-availability environments</span
+              >
+              that eliminate latency and ensure your core operations move with 
+              mathematical precision 24/7.&rdquo;
+            </blockquote>
+          </div>
+        </div>
       </div>
       <div
         class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -285,101 +298,96 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Swiss Grid Layout -->
+        <div class="grid gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-2 lg:grid-cols-3">
           <!-- Benefit 1 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiCheckCircle
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              99.99% Uptime
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiCheckCircle className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                99.99% Uptime
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Tier-3 infrastructure targeting mission-critical availability 
-              for your most sensitive data
+              for your most sensitive data.
             </p>
           </div>
           <!-- Benefit 2 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiLightning
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Rapid Scalability
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiLightning className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Rapid Scalability
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Dynamic resource allocation to handle peak transactional loads 
-              and seasonal business spikes
+              and seasonal business spikes.
             </p>
           </div>
           <!-- Benefit 3 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiShieldCheck
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Compliance First
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
-              Native infrastructure alignment with SOC 2, HIPAA, and PCI 
-              DSS regulatory standards
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiShieldCheck className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                IBM Power Native
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
+              Seamless support for AS/400 and iSeries alongside modern 
+              x86 cloud environments — no translation layer required.
             </p>
           </div>
           <!-- Benefit 4 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiDatabase
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Disaster Recovery
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiDatabase className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Disaster Recovery
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Automated snapshots and geo-redundant backups ensuring 
-              aggressive RPO/RTO targets
+              aggressive RPO/RTO targets.
             </p>
           </div>
           <!-- Benefit 5 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiCurrencyDollar
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              OpEx Efficiency
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiCurrencyDollar className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                OpEx Efficiency
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Shift from volatile CapEx hardware cycles to a predictable, 
-              value-driven monthly operating model
+              value-driven monthly operating model.
             </p>
           </div>
           <!-- Benefit 6 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiLock
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Zero Trust Security
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiLock className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Zero Trust Security
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Micro-segmentation and real-time threat detection protecting 
-              your proprietary business logic
+              your proprietary business logic.
             </p>
           </div>
         </div>
@@ -395,11 +403,14 @@ const strategicFeatures = [
         </div>
         <div class="grid gap-8 md:grid-cols-2">
           {
-            detailColumns.map((column) => (
-              <div class="glass border-border rounded-2xl border p-8">
+            detailColumns.map((column, idx) => (
+              <div class={`rounded-2xl border p-8 ${idx === 0 ? 'border-primary/20 bg-primary/5 dark:bg-primary/10' : 'border-secondary/20 bg-secondary/5 dark:bg-secondary/10'}`}>
+                <div class="mb-2">
+                  <span class={`font-mono text-[10px] font-bold tracking-widest ${idx === 0 ? 'text-primary' : 'text-secondary'} uppercase`}>{idx === 0 ? 'Phase 1 — Setup' : 'Phase 2 — Ongoing'}</span>
+                </div>
                 <div class="mb-6 flex items-center gap-3">
                   <column.icon
-                    className="text-primary h-8 w-8"
+                    className={`h-8 w-8 ${idx === 0 ? 'text-primary' : 'text-secondary'}`}
                     aria-hidden="true"
                   />
                   <h4 class="text-foreground text-2xl font-bold">
@@ -410,7 +421,7 @@ const strategicFeatures = [
                   {column.items.map((item) => (
                     <div class="flex items-start gap-2">
                       <PiCheckCircle
-                        className="text-primary mt-1 h-5 w-5 shrink-0"
+                        className={`mt-1 h-5 w-5 shrink-0 ${idx === 0 ? 'text-primary' : 'text-secondary'}`}
                         aria-hidden="true"
                       />
                       <span>{item}</span>
@@ -423,6 +434,7 @@ const strategicFeatures = [
         </div>
       </div>
     </section>
+
     <TechnicalSection client:visible id="erp-vault" overlayOpacity="opacity-10">
       <div class="relative z-10 flex flex-col items-center text-center">
         <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
@@ -440,7 +452,6 @@ const strategicFeatures = [
         </div>
       </div>
     </TechnicalSection>
-    <WhoThisIsFor client:visible />
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">

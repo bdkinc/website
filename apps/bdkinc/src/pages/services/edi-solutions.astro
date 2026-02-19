@@ -9,7 +9,7 @@ import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 import EDIFlowVisualization from '@/components/visualizations/EDIFlowVisualization';
-import WhoThisIsFor from '@/components/WhoThisIsFor';
+
 import TechnicalSection from '@/components/TechnicalSection';
 import FeatureCarousel from '@/components/FeatureCarousel';
 import {
@@ -22,7 +22,7 @@ import {
   PiGlobe,
   PiShieldCheck,
   PiNetwork,
-  PiPulse,
+
   PiQuotesFill,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
@@ -59,26 +59,7 @@ const faqs = [
       'Yes. Our solution acts as a universal middleware layer, integrating seamlessly with major ERPs (SAP, Oracle, NetSuite, Microsoft Dynamics) as well as custom legacy systems. We map data directly to your internal formats, preserving your existing workflows.',
   },
 ];
-const audience = [
-  {
-    title: 'Enterprise Retail Suppliers',
-    description:
-      'High-volume suppliers connecting with major retailers like Walmart, Target, and Amazon who need SLA-backed uptime and compliance.',
-    icon: PiShoppingCart,
-  },
-  {
-    title: 'Logistics & 3PL Providers',
-    description:
-      'Logistics firms managing complex EDI flows (204, 214, 210) across a fragmented carrier network.',
-    icon: PiNetwork,
-  },
-  {
-    title: 'Manufacturing Hubs',
-    description:
-      'Manufacturers requiring JIT inventory synchronization via 846/940/945 transactions with zero latency.',
-    icon: PiPulse,
-  },
-];
+
 const strategicFeatures = [
   {
     title: 'Supply Chain Orchestration',
@@ -140,7 +121,8 @@ const strategicFeatures = [
             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
           >
             <div class="flex items-center gap-2 text-sm">
-              <span>Global <span class="text-accent font-semibold">Connectivity</span></span>
+              <div class="h-2 w-2 animate-pulse rounded-full bg-primary" aria-hidden="true"></div>
+              <span>Trading Partner Network &mdash; <span class="text-accent font-semibold">Live</span></span>
             </div>
           </div>
           <div
@@ -186,7 +168,7 @@ const strategicFeatures = [
         </div>
       </div>
       <div
-        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
       >
       </div>
     </section>
@@ -296,7 +278,7 @@ const strategicFeatures = [
       >
       </div>
       <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-12 text-center">
+        <div class="mb-16 text-center">
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
@@ -307,23 +289,36 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        <figure class="relative mx-auto max-w-3xl">
-          <PiQuotesFill
-            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
-            aria-hidden="true"
-          />
-          <blockquote
-            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
-          >
-            &ldquo;Commerce moves at the speed of data. We don&rsquo;t just connect systems; 
-            we architect
-            <span class="text-accent font-semibold">
-              zero-friction, real-time document orchestration</span
-            >
-            that ensures compliance and powers your global 
-            supply chain with 24/7 visibility.&rdquo;
-          </blockquote>
-        </figure>
+        
+        <!-- Glass Quote Container -->
+        <div class="relative mx-auto max-w-4xl">
+          <!-- Floating Icon -->
+          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
+            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          </div>
+          
+          <!-- Glass Card -->
+          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+            <!-- Ambient Glow -->
+            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
+            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
+            
+            <!-- Background Watermark -->
+            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
+               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            </div>
+
+            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
+              &ldquo;Commerce moves at the speed of data. We don&rsquo;t just connect systems; 
+              we architect
+              <span class="text-accent">
+                zero-friction, real-time document orchestration</span
+              >
+              that ensures compliance and powers your global 
+              supply chain with 24/7 visibility.&rdquo;
+            </blockquote>
+          </div>
+        </div>
       </div>
       <div
         class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -365,102 +360,181 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Swiss Grid Layout -->
+        <div class="grid gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-2 lg:grid-cols-3">
           <!-- Benefit 1 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiCheckCircle
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              99.99% Uptime
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiCheckCircle className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                99.99% Uptime
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Mission-critical reliability for your most sensitive supply 
-              chain data streams
+              chain data streams.
             </p>
           </div>
           <!-- Benefit 2 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiLightning
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              High-Velocity
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiLightning className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                High-Velocity
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Process thousands of transactions per second with low-latency 
-              enterprise throughput
+              enterprise throughput.
             </p>
           </div>
           <!-- Benefit 3 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiShieldCheck
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Active Compliance
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiShieldCheck className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Active Compliance
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Stay ahead of retailer mandate changes with our continuous 
-              compliance monitoring
+              compliance monitoring.
             </p>
           </div>
           <!-- Benefit 4 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiCurrencyDollar
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Cost Optimization
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiCurrencyDollar className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Cost Optimization
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Eliminate expensive VAN fees and reduce overhead with direct 
-              protocol connections
+              protocol connections.
             </p>
           </div>
           <!-- Benefit 5 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiGlobe
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Global Reach
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiGlobe className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Global Reach
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Connect with partners in any region with support for all major 
-              international standards
+              international standards.
             </p>
           </div>
           <!-- Benefit 6 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiEye
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Total Visibility
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiEye className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Total Visibility
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               End-to-end real-time tracking of every single document in your 
-              supply chain
+              supply chain.
             </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Standards, Protocols & Transaction Reference -->
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-6xl">
+        <div class="mb-16 text-center">
+          <h2 class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+            Standards &amp; <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Protocol Support</span>
+          </h2>
+          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
+            Every format, every protocol, every trading partner — handled.
+          </p>
+        </div>
+        <div class="grid gap-6 md:grid-cols-2 mb-16">
+          <!-- Standards table -->
+          <div class="rounded-xl border border-border bg-card/30 overflow-hidden">
+            <div class="bg-muted/60 dark:bg-white/[0.03] border-b border-border px-6 py-4">
+              <h3 class="font-display text-sm font-bold tracking-widest text-foreground">Document Standards</h3>
+            </div>
+            <div class="divide-y divide-border">
+              {[
+                { std: "ANSI X12", desc: "North American retail & logistics standard", regions: "US / CA" },
+                { std: "EDIFACT", desc: "International UN standard for global trade", regions: "Global" },
+                { std: "TRADACOMS", desc: "UK grocery and retail EDI standard", regions: "UK" },
+                { std: "XML / JSON", desc: "Modern structured data exchange formats", regions: "Universal" },
+                { std: "Flat File", desc: "Custom delimited formats for legacy systems", regions: "Legacy" },
+              ].map(({ std, desc, regions }) => (
+                <div class="flex items-center gap-4 px-6 py-3">
+                  <span class="font-mono text-xs font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shrink-0 min-w-[90px] text-center">{std}</span>
+                  <span class="text-muted-foreground text-sm flex-1">{desc}</span>
+                  <span class="font-mono text-[10px] text-muted-foreground/60 shrink-0">{regions}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <!-- Protocol table -->
+          <div class="rounded-xl border border-border bg-card/30 overflow-hidden">
+            <div class="bg-muted/60 dark:bg-white/[0.03] border-b border-border px-6 py-4">
+              <h3 class="font-display text-sm font-bold tracking-widest text-foreground">Transmission Protocols</h3>
+            </div>
+            <div class="divide-y divide-border">
+              {[
+                { proto: "AS2", desc: "Encrypted HTTP/S with MDN acknowledgments", security: "TLS 1.3" },
+                { proto: "SFTP", desc: "Secure file transfer over SSH", security: "SSH" },
+                { proto: "FTPS", desc: "FTP over explicit/implicit TLS", security: "TLS" },
+                { proto: "HTTPS API", desc: "RESTful webhook-based partner connections", security: "OAuth 2.0" },
+                { proto: "VAN", desc: "Value-added network relay (legacy)", security: "Encrypted" },
+              ].map(({ proto, desc, security }) => (
+                <div class="flex items-center gap-4 px-6 py-3">
+                  <span class="font-mono text-xs font-bold text-secondary bg-secondary/10 border border-secondary/20 px-2 py-0.5 rounded shrink-0 min-w-[72px] text-center">{proto}</span>
+                  <span class="text-muted-foreground text-sm flex-1">{desc}</span>
+                  <span class="font-mono text-[10px] text-muted-foreground/60 shrink-0">{security}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <!-- Transaction Type Pills -->
+        <div>
+          <h3 class="font-display mb-6 text-center text-sm font-bold tracking-widest text-muted-foreground">Common Transaction Sets Supported</h3>
+          <div class="flex flex-wrap justify-center gap-2">
+            {[
+              { code: "810", label: "Invoice" },
+              { code: "850", label: "Purchase Order" },
+              { code: "856", label: "Ship Notice / ASN" },
+              { code: "846", label: "Inventory Inquiry" },
+              { code: "204", label: "Motor Carrier Load" },
+              { code: "210", label: "Freight Invoice" },
+              { code: "214", label: "Shipment Status" },
+              { code: "820", label: "Payment Order" },
+              { code: "940", label: "Warehouse Shipping" },
+              { code: "945", label: "Warehouse Shipping Advice" },
+              { code: "997", label: "Functional Acknowledgment" },
+              { code: "832", label: "Price / Sales Catalog" },
+              { code: "855", label: "PO Acknowledgment" },
+              { code: "860", label: "PO Change" },
+            ].map(({ code, label }) => (
+              <div class="group flex items-center gap-2 rounded-lg border border-border bg-card/30 px-3 py-2 transition-[border-color,background-color] duration-200 hover:border-primary/30 hover:bg-primary/5">
+                <span class="font-mono text-xs font-bold text-primary">{code}</span>
+                <span class="text-muted-foreground text-xs">{label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -483,12 +557,7 @@ const strategicFeatures = [
         </div>
       </div>
     </TechnicalSection>
-    <WhoThisIsFor
-      title="Who This Is For"
-      description="Built for teams moving high-volume EDI across complex partner networks."
-      items={audience}
-      client:visible
-    />
+
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">

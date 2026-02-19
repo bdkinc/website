@@ -1,7 +1,10 @@
 import { cn } from '@bdkinc/design-system';
+import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import CircuitBoard from '@/components/CircuitBoard';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { iconMap } from '@/lib/icons';
+
+const AUTOPLAY_DURATION = 8000; // ms per slide
 
 export interface Feature {
   icon: keyof typeof iconMap;
@@ -20,32 +23,62 @@ export default function FeatureCarousel({
   features,
   className,
 }: FeatureCarouselProps) {
+  const { ref: carouselRef, isIntersecting: inView } = useIntersectionObserver({
+    threshold: 0.1,
+    rootMargin: '50px',
+    triggerOnce: true,
+  });
+
   const [activeIndex, setActiveIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const goTo = useCallback((index: number) => {
+    setActiveIndex(index);
+    setProgress(0);
+  }, []);
 
   useEffect(() => {
+    if (!inView) return;
+
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
 
     if (prefersReducedMotion) return;
+    if (isPaused) return;
 
-    const interval = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % features.length);
-    }, 8000);
+    setProgress(0);
+    const startTime = performance.now();
 
-    return () => window.clearInterval(interval);
-  }, [features.length]);
+    let rafId: number;
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const pct = Math.min((elapsed / AUTOPLAY_DURATION) * 100, 100);
+      setProgress(pct);
+
+      if (pct < 100) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        setActiveIndex((prev) => (prev + 1) % features.length);
+        setProgress(0);
+      }
+    };
+
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
+  }, [inView, activeIndex, features.length, isPaused]);
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
       e.preventDefault();
-      setActiveIndex((index + 1) % features.length);
+      goTo((index + 1) % features.length);
       return;
     }
 
     if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
       e.preventDefault();
-      setActiveIndex((index - 1 + features.length) % features.length);
+      goTo((index - 1 + features.length) % features.length);
       return;
     }
   };
@@ -54,6 +87,7 @@ export default function FeatureCarousel({
 
   return (
     <div
+      ref={carouselRef as any}
       className={cn(
         'animate-in fade-in slide-in-from-bottom-8 flex flex-col gap-10 duration-700 lg:flex-row lg:items-stretch lg:justify-between',
         className
@@ -70,17 +104,26 @@ export default function FeatureCarousel({
                 key={feature.title}
                 type="button"
                 className={cn(
-                  'group focus-visible:ring-primary/40 focus-visible:ring-offset-background relative min-h-[140px] w-full rounded-xl border px-5 py-5 text-left transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden',
+                  'group focus-visible:ring-primary/40 focus-visible:ring-offset-background relative min-h-[140px] w-full rounded-xl border px-5 py-5 text-left transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden overflow-hidden',
                   selected
                     ? 'border-primary/40 bg-primary/10'
                     : 'border-border/60 bg-card/20 hover:border-primary/30 hover:bg-card/40'
                 )}
                 aria-pressed={selected}
-                onMouseEnter={() => setActiveIndex(index)}
-                onFocus={() => setActiveIndex(index)}
-                onClick={() => setActiveIndex(index)}
+                onMouseEnter={() => { goTo(index); setIsPaused(true); }}
+                onMouseLeave={() => setIsPaused(false)}
+                onFocus={() => goTo(index)}
+                onClick={() => goTo(index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
               >
+                {/* Progress bar at bottom of active card */}
+                {selected && (
+                  <div
+                    className="from-primary to-secondary absolute bottom-0 left-0 h-0.5 bg-linear-to-r transition-none"
+                    style={{ width: `${progress}%` }}
+                    aria-hidden
+                  />
+                )}
                 <div className="flex items-start gap-4">
                   <div
                     className={cn(
@@ -179,23 +222,21 @@ export default function FeatureCarousel({
             </p>
           </div>
 
-          <div className="mt-10 flex items-center justify-between gap-6">
-            <div className="flex items-center gap-2">
-              {features.map((feature, index) => (
-                <button
-                  key={feature.title}
-                  type="button"
-                  aria-label={`Select ${feature.title}`}
-                  className={cn(
-                    'focus-visible:ring-primary/40 focus-visible:ring-offset-background h-2.5 w-2.5 rounded-full border transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden',
-                    index === activeIndex
-                      ? 'border-primary/50 bg-primary/40'
-                      : 'border-border/60 bg-card/30 hover:border-primary/30'
-                  )}
-                  onClick={() => setActiveIndex(index)}
-                />
-              ))}
-            </div>
+          <div className="mt-10 flex items-center gap-2">
+            {features.map((feature, index) => (
+              <button
+                key={feature.title}
+                type="button"
+                aria-label={`Select ${feature.title}`}
+                className={cn(
+                  'focus-visible:ring-primary/40 focus-visible:ring-offset-background h-2.5 w-2.5 rounded-full border transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden',
+                  index === activeIndex
+                    ? 'border-primary/50 bg-primary/40'
+                    : 'border-border/60 bg-card/30 hover:border-primary/30'
+                )}
+                onClick={() => goTo(index)}
+              />
+            ))}
           </div>
         </div>
       </div>
