@@ -14,13 +14,13 @@ interface DevelopmentLogTimelineProps {
 export default function DevelopmentLogTimeline({
   milestones,
 }: DevelopmentLogTimelineProps) {
-  const { ref: containerRef, isIntersecting } = useIntersectionObserver({
+  const { ref: containerRef, isIntersecting } = useIntersectionObserver<HTMLDivElement>({
     threshold: 0.1,
     triggerOnce: true,
   });
 
   return (
-    <div ref={containerRef as any} className="relative py-12">
+    <div ref={containerRef} className="relative py-12">
       {/* Central Axis Line */}
       <div className="bg-border/40 absolute top-0 bottom-0 left-8 w-px -translate-x-1/2 md:left-1/2">
         <div className="via-primary/50 absolute inset-0 bg-linear-to-b from-transparent to-transparent" />
@@ -31,7 +31,7 @@ export default function DevelopmentLogTimeline({
           const isEven = index % 2 === 0;
           return (
             <div
-              key={index}
+              key={milestone.year}
               className={cn(
                 'relative flex flex-col items-center gap-8 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-700 ease-out md:flex-row',
                 isIntersecting

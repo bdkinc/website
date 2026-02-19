@@ -46,11 +46,11 @@ export default function TrustShowcase({
   showAllPartners = false,
 }: TrustShowcaseProps) {
   const { ref: headerRef, isIntersecting: headerInView } =
-    useIntersectionObserver({
+    useIntersectionObserver<HTMLDivElement>({
       threshold: 0.2,
       triggerOnce: true,
     });
-  const { ref: gridRef, isIntersecting: gridInView } = useIntersectionObserver({
+  const { ref: gridRef, isIntersecting: gridInView } = useIntersectionObserver<HTMLDivElement>({
     threshold: 0.1,
     triggerOnce: true,
   });
@@ -69,7 +69,7 @@ export default function TrustShowcase({
       <div className="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent" />
       <div className="mx-auto max-w-7xl">
         <div
-          ref={headerRef as any}
+          ref={headerRef}
           className={cn(
             'mb-16 text-center transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-700 ease-out',
             headerInView
@@ -90,7 +90,7 @@ export default function TrustShowcase({
           </p>
         </div>
         <div
-          ref={gridRef as any}
+          ref={gridRef}
           className={cn('grid grid-cols-1 gap-6 md:grid-cols-2', gridColsClass)}
         >
           {visiblePartners.map((partner, index) => (
@@ -108,6 +108,8 @@ export default function TrustShowcase({
                       src={partner.logo}
                       alt={partner.name}
                       loading="lazy"
+                      width={150}
+                      height={32}
                       className={cn(
                         'h-8 w-auto max-w-[150px] opacity-100 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
                         'group-hover:scale-105'

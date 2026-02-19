@@ -21,6 +21,7 @@ import {
   PiTrendUp,
   PiLightning,
   PiMonitor,
+  PiArrowRight,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 const service = await getEntry('services', 'managed-it');
@@ -323,13 +324,13 @@ const strategicFeatures = [
           <blockquote
             class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
           >
-            "True business growth requires more than keeping the lights on. It
+            &ldquo;True business growth requires more than keeping the lights on. It
             demands a technology strategy that
             <span class="text-accent font-semibold">
               anticipates challenges</span
             >
             and scales with your ambition. We architect, manage, and secure your
-            infrastructure so you can focus on driving your business forward."
+            infrastructure so you can focus on driving your business forward.&rdquo;
           </blockquote>
         </figure>
       </div>
@@ -490,16 +491,16 @@ const strategicFeatures = [
             {relatedPosts.map((post) => (
               <a
                 href={`/blog/${post.slug}`}
-                class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
+                class="border-border hover:border-primary group flex flex-col rounded-xl border p-6 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
               >
-                <h3 class="text-foreground mb-2 text-lg font-semibold">
+                <h3 class="text-foreground group-hover:text-primary mb-2 text-lg font-semibold transition-colors">
                   {post.data.title}
                 </h3>
-                <p class="text-muted-foreground text-sm">
+                <p class="text-muted-foreground text-sm line-clamp-3">
                   {post.data.description}
                 </p>
-                <span class="text-primary mt-4 text-sm font-medium">
-                  Read Article →
+                <span class="text-primary mt-4 text-sm font-medium flex items-center gap-1">
+                  Read Article <PiArrowRight className="h-3 w-3" aria-hidden="true" />
                 </span>
               </a>
             ))}

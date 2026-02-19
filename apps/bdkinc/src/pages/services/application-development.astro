@@ -333,13 +333,13 @@ const strategicFeatures = [
           <blockquote
             class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
           >
-            "Great software isn't just about features; it's about architecture 
+            &ldquo;Great software isn&rsquo;t just about features; it&rsquo;s about architecture 
             that empowers growth. We build
             <span class="text-accent font-semibold">
               resilient digital foundations</span
             >
             that automate complexity and transform your technology from a 
-            cost center into a competitive advantage."
+            cost center into a competitive advantage.&rdquo;
           </blockquote>
         </figure>
       </div>
@@ -536,16 +536,16 @@ const strategicFeatures = [
             {relatedPosts.map((post) => (
               <a
                 href={`/blog/${post.slug}`}
-                class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors group"
+                class="border-border hover:border-primary group flex flex-col rounded-xl border p-6 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
               >
-                <h3 class="text-foreground mb-2 text-lg font-semibold group-hover:text-primary transition-colors">
+                <h3 class="text-foreground group-hover:text-primary mb-2 text-lg font-semibold transition-colors">
                   {post.data.title}
                 </h3>
                 <p class="text-muted-foreground text-sm line-clamp-3">
                   {post.data.description}
                 </p>
                 <span class="text-primary mt-4 text-sm font-medium flex items-center gap-1">
-                  Read Article <PiTrendUp className="h-3 w-3" aria-hidden="true" />
+                  Read Article <PiArrowRight className="h-3 w-3" aria-hidden="true" />
                 </span>
               </a>
             ))}

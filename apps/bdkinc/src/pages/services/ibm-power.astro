@@ -20,6 +20,8 @@ import {
   PiArrowsClockwise,
   PiQuotesFill,
   PiPulse,
+  PiCode,
+  PiTerminalWindow,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 const service = await getEntry('services', 'ibm-power');
@@ -213,13 +215,13 @@ const strategicFeatures = [
           <blockquote
             class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
           >
-            "IBM Power is the heartbeat of the enterprise. We don't just host 
+            &ldquo;IBM Power is the heartbeat of the enterprise. We don&rsquo;t just host 
             legacy systems; we architect
             <span class="text-accent font-semibold">
-              modernized foundations</span
+              battle-hardened foundations</span
             >
             that preserve your rock-solid logic while empowering your next 
-            decade of business innovation."
+            decade of business innovation.&rdquo;
           </blockquote>
         </figure>
       </div>
@@ -301,7 +303,7 @@ const strategicFeatures = [
           </div>
           <!-- Benefit 2 -->
           <div class="group flex flex-col items-center text-center">
-            <PiShieldCheck
+            <PiMedal
               className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
               aria-hidden="true"
             />
@@ -317,18 +319,18 @@ const strategicFeatures = [
           </div>
           <!-- Benefit 3 -->
           <div class="group flex flex-col items-center text-center">
-            <PiShieldCheck
+            <PiTerminalWindow
               className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
               aria-hidden="true"
             />
             <h4
               class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
             >
-              'Black Box' Expertise
+              &lsquo;Black Box&rsquo; Expertise
             </h4>
             <p class="text-muted-foreground leading-relaxed">
               We thrive in complex, legacy environments that generalist MSPs 
-              simply won't touch
+              simply won&rsquo;t touch
             </p>
           </div>
           <!-- Benefit 4 -->

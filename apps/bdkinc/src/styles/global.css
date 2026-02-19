@@ -308,6 +308,12 @@ h6 {
   line-height: 1.2;
 }
 
+/* Prevent widows in headings */
+h1,
+h2 {
+  text-wrap: balance;
+}
+
 /* Body and paragraph line heights */
 p,
 li {

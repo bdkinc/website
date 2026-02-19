@@ -10,12 +10,12 @@ interface UseIntersectionObserverOptions {
  * Custom hook to detect when an element enters the viewport
  * Useful for triggering entrance animations on scroll
  */
-export function useIntersectionObserver(
+export function useIntersectionObserver<T extends HTMLElement = HTMLElement>(
   options: UseIntersectionObserverOptions = {}
 ) {
   const { threshold = 0.1, rootMargin = '0px', triggerOnce = true } = options;
   const [isIntersecting, setIsIntersecting] = useState(false);
-  const ref = useRef<HTMLElement | null>(null);
+  const ref = useRef<T | null>(null);
 
   useEffect(() => {
     const element = ref.current;

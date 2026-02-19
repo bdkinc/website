@@ -25,6 +25,7 @@ import {
   PiUsers,
   PiWarning,
   PiQuotesFill,
+  PiArrowRight,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 const service = await getEntry('services', 'cybersecurity');
@@ -353,13 +354,13 @@ const detailColumns = [
           <blockquote
             class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
           >
-            "In an era of sophisticated state-sponsored attacks, reactive security is failure.
+            &ldquo;In an era of sophisticated attacks, reactive security is failure.
             We architect
             <span class="text-accent font-semibold">
               proactive resilience</span
             >
             into every layer of your digital estate, ensuring your data is protected 
-            and your operations are audit-ready 24/7."
+            and your operations are audit-ready 24/7.&rdquo;
           </blockquote>
         </figure>
       </div>
@@ -732,16 +733,16 @@ const detailColumns = [
             {relatedPosts.map((post) => (
               <a
                 href={`/blog/${post.slug}`}
-                class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
+                class="border-border hover:border-primary group flex flex-col rounded-xl border p-6 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
               >
-                <h3 class="text-foreground mb-2 text-lg font-semibold">
+                <h3 class="text-foreground group-hover:text-primary mb-2 text-lg font-semibold transition-colors">
                   {post.data.title}
                 </h3>
-                <p class="text-muted-foreground text-sm">
+                <p class="text-muted-foreground text-sm line-clamp-3">
                   {post.data.description}
                 </p>
-                <span class="text-primary mt-4 text-sm font-medium">
-                  Read Article →
+                <span class="text-primary mt-4 text-sm font-medium flex items-center gap-1">
+                  Read Article <PiArrowRight className="h-3 w-3" aria-hidden="true" />
                 </span>
               </a>
             ))}

@@ -21,6 +21,7 @@ import {
   PiNetwork,
   PiShieldCheck,
   PiQuotesFill,
+  PiUsersThree,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 const service = await getEntry('services', 'business-analytics');
@@ -208,11 +209,11 @@ const strategicFeatures = [
           <blockquote
             class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
           >
-            "Data without direction is overhead. We transform raw telemetry into 
+            &ldquo;Data without direction is overhead. We transform raw telemetry into 
             <span class="text-accent font-semibold">
               actionable foresight</span
             >, aligning your entire organization around a single source of 
-            objective truth that drives actual business value."
+            objective truth that drives actual business value.&rdquo;
           </blockquote>
         </figure>
       </div>
@@ -323,7 +324,7 @@ const strategicFeatures = [
           </div>
           <!-- Benefit 5 -->
           <div class="group flex flex-col items-center text-center">
-            <PiTrendUp
+            <PiUsersThree
               className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
               aria-hidden="true"
             />
