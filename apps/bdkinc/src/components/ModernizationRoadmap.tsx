@@ -191,7 +191,7 @@ export function ModernizationRoadmap() {
                   style={
                     isAccent
                       ? ({
-                          '--accent': 'var(--brand-accent)',
+                          '--accent': 'var(--accent)',
                         } as React.CSSProperties)
                       : undefined
                   }

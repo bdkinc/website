@@ -1,6 +1,11 @@
 import type { PayloadRequest } from 'payload';
 
-type RebuildEntity = 'pages' | 'site-settings' | 'manual';
+type RebuildEntity =
+  | 'pages'
+  | 'blog-posts'
+  | 'testimonials'
+  | 'site-settings'
+  | 'manual';
 
 interface TriggerRebuildWebhookArgs {
   req: PayloadRequest;

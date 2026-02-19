@@ -1,14 +1,15 @@
 ---
-import { getEntry, getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
+import { getBlogPosts } from '@/lib/blog';
 import { iconMap } from '@/lib/icons';
 import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
-import WhoThisIsFor from '@/components/WhoThisIsFor';
+
 import CloudHostingVisualization from '@/components/visualizations/CloudHostingVisualization';
 import FeatureCarousel from '@/components/FeatureCarousel';
 import {
@@ -50,8 +51,8 @@ const _serviceSchema = {
   serviceType: 'Cloud Hosting & Migration',
 };
 const relatedTags = ['cloud', 'security', 'infrastructure'];
-const relatedPosts = (await getCollection('blog', ({ data }) => !data.draft))
-  .filter((post) => post.data.tags?.some((tag) => relatedTags.includes(tag)))
+const relatedPosts = (await getBlogPosts())
+  .filter((post) => post.tags?.some((tag) => relatedTags.includes(tag)))
   .slice(0, 3);
 const metrics = [
   { value: '99.99%', label: 'Uptime SLA', icon: PiShield },
@@ -195,7 +196,7 @@ const providers = [
         </div>
       </div>
       <div
-        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
       >
       </div>
     </section>
@@ -226,7 +227,7 @@ const providers = [
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+                class="bg-linear-to-br from-primary/10 to-primary/5 border-primary/20 group-hover:from-primary/20 group-hover:to-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
               >
                 <PiLock
                   className="text-primary h-16 w-16"
@@ -243,9 +244,6 @@ const providers = [
                 resources in our secure datacenters, ensuring absolute data 
                 sovereignty, predictable performance, and compliance for sensitive workloads.
               </div>
-              <div class="text-primary text-[10px] font-mono mt-auto tracking-widest bg-primary/5 px-2 py-1 border border-primary/10">
-                Target: Healthcare, Finance, Gov
-              </div>
             </div>
           </TechCard>
           <TechCard
@@ -254,15 +252,15 @@ const providers = [
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+                class="bg-linear-to-br from-secondary/10 to-secondary/5 border-secondary/20 group-hover:from-secondary/20 group-hover:to-secondary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
               >
                 <PiStack
-                  className="text-primary h-16 w-16"
+                  className="text-secondary h-16 w-16"
                   aria-hidden="true"
                 />
               </div>
               <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+                class="text-foreground font-display group-hover:text-secondary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
                 Hybrid Cloud
               </h4>
@@ -271,9 +269,6 @@ const providers = [
                 systems and modern cloud agility. Our hybrid architectures 
                 allow you to scale securely, keeping sensitive data close while leveraging public cloud power.
               </div>
-              <div class="text-primary text-[10px] font-mono mt-auto tracking-widest bg-primary/5 px-2 py-1 border border-primary/10">
-                Target: Enterprise, Mixed Workloads
-              </div>
             </div>
           </TechCard>
           <TechCard
@@ -282,15 +277,15 @@ const providers = [
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+                class="bg-linear-to-br from-accent/20 to-accent/10 border-accent/20 group-hover:from-accent/30 group-hover:to-accent/20 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
               >
                 <PiGlobe
-                  className="text-primary h-16 w-16"
+                  className="text-accent h-16 w-16"
                   aria-hidden="true"
                 />
               </div>
               <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+                class="text-foreground font-display group-hover:text-accent mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
                 Public Cloud
               </h4>
@@ -298,9 +293,6 @@ const providers = [
                 Infinite Scalability. Leverage the massive global reach of AWS, 
                 Azure, and IBM Cloud. We manage the complexity, optimizing your 
                 deployment for cost-efficiency, security, and performance at scale.
-              </div>
-              <div class="text-primary text-[10px] font-mono mt-auto tracking-widest bg-primary/5 px-2 py-1 border border-primary/10">
-                Target: Startups, AI/ML, Big Data
               </div>
             </div>
           </TechCard>
@@ -314,7 +306,7 @@ const providers = [
       >
       </div>
       <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-12 text-center">
+        <div class="mb-16 text-center">
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
@@ -325,23 +317,36 @@ const providers = [
             >
           </h2>
         </div>
-        <figure class="relative mx-auto max-w-3xl">
-          <PiQuotesFill
-            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
-            aria-hidden="true"
-          />
-          <blockquote
-            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
-          >
-            &ldquo;Cloud is not a destination; it&rsquo;s an operating model. We don&rsquo;t just 
-            host your data; we architect
-            <span class="text-accent font-semibold">
-              intelligent ecosystems</span
-            >
-            that balance security, performance, and cost, ensuring your 
-            infrastructure never blinks.&rdquo;
-          </blockquote>
-        </figure>
+        
+        <!-- Glass Quote Container -->
+        <div class="relative mx-auto max-w-4xl">
+          <!-- Floating Icon -->
+          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
+            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          </div>
+          
+          <!-- Glass Card -->
+          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+            <!-- Ambient Glow -->
+            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
+            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
+            
+            <!-- Background Watermark -->
+            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
+               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            </div>
+
+            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
+              &ldquo;Cloud is not a destination; it&rsquo;s an operating model. We don&rsquo;t just 
+              host your data; we architect
+              <span class="text-accent">
+                intelligent ecosystems</span
+              >
+              that balance security, performance, and cost, ensuring your 
+              infrastructure never blinks.&rdquo;
+            </blockquote>
+          </div>
+        </div>
       </div>
       <div
         class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -436,107 +441,102 @@ const providers = [
             >
           </h2>
         </div>
-        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Swiss Grid Layout -->
+        <div class="grid gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-2 lg:grid-cols-3">
           <!-- Benefit 1 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiShield
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Enhanced Reliability
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiShield className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Enhanced Reliability
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Multi-region redundancy and high-availability clusters protect 
-              your critical business data
+              your critical business data.
             </p>
           </div>
           <!-- Benefit 2 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiCurrencyDollar
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Cost Efficiency
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiCurrencyDollar className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Cost Efficiency
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Shift from volatile capital expenses to predictable, 
-              value-driven operational models
+              value-driven operational models.
             </p>
           </div>
           <!-- Benefit 3 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiArrowsClockwise
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Business Continuity
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiArrowsClockwise className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Business Continuity
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Built-in disaster recovery and immutable backup solutions keep 
-              your business running
+              your business running.
             </p>
           </div>
           <!-- Benefit 4 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiUsersThree
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Architectural Expertise
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiUsersThree className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Architectural Expertise
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Direct access to senior cloud architects with decades of 
-              enterprise migration experience
+              enterprise migration experience.
             </p>
           </div>
           <!-- Benefit 5 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiLock
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Security First
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiLock className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Security First
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Unified security plane across all environments ensures consistent 
-              policy enforcement
+              policy enforcement.
             </p>
           </div>
           <!-- Benefit 6 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiLightning
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Infinite Flexibility
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiLightning className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Infinite Flexibility
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Elastic capacity that adapts instantly to rapid growth, mergers, 
-              and acquisitions
+              and acquisitions.
             </p>
           </div>
         </div>
       </div>
     </section>
-    <WhoThisIsFor client:visible />
+
 
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
@@ -563,10 +563,10 @@ const providers = [
                 class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
               >
                 <h3 class="text-foreground mb-2 text-lg font-semibold">
-                  {post.data.title}
+                  {post.title}
                 </h3>
                 <p class="text-muted-foreground text-sm">
-                  {post.data.description}
+                  {post.description}
                 </p>
                 <span class="text-primary mt-4 text-sm font-medium flex items-center gap-1">
                   Read Article <PiArrowRight className="h-3 w-3" aria-hidden="true" />

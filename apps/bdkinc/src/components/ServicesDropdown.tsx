@@ -125,7 +125,7 @@ function ServiceDropdownItem({
       <NavigationMenuLink asChild>
         <a
           href={`/services/${service.slug}`}
-          className="group border-border/30 bg-card/40 hover:border-primary/30 hover:shadow-primary/5 focus-visible:ring-primary/40 focus-visible:ring-offset-background relative flex h-full flex-col overflow-hidden rounded-lg border p-5 no-underline backdrop-blur-sm transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:shadow-lg focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="group border-border/50 bg-card/60 hover:bg-card/60 focus:bg-card/60 hover:text-foreground focus:text-foreground hover:border-primary/35 hover:shadow-[--shadow-glow-sm] focus-visible:ring-primary/40 focus-visible:ring-offset-background relative flex h-full flex-col overflow-hidden rounded-lg border p-5 no-underline backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none focus-visible:ring-2 focus-visible:ring-offset-2"
           onClick={navOnClick(`/services/${service.slug}`, () =>
             prepareServiceViewTransition(
               {
@@ -145,16 +145,25 @@ function ServiceDropdownItem({
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
+          {/* Background gradient wash (hover) */}
+          <div
+            className={cn(
+              'pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-300',
+              'from-primary/10 via-secondary/10 bg-linear-to-br to-transparent',
+              'group-hover:opacity-100'
+            )}
+          />
+
           {/* Mouse-tracking spotlight effect */}
           <div
-            className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
+            className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
             style={{
               opacity: isHovered ? 1 : 0,
-              background: `radial-gradient(400px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.12), rgba(124, 58, 237, 0.08) 40%, transparent 60%)`,
+              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.12), rgba(124, 58, 237, 0.08) 40%, transparent 60%)`,
             }}
           />
 
-          <div className="relative z-10 flex flex-col items-center space-y-3 text-center">
+          <div className="relative z-20 flex flex-col items-center space-y-3 text-center">
             {/* Icon */}
             {Icon && (
               <div
@@ -170,7 +179,7 @@ function ServiceDropdownItem({
             {/* Title */}
             <div
               ref={titleRef}
-              className="text-foreground group-hover:text-primary text-base leading-tight font-bold transition-colors duration-300"
+              className="text-foreground text-base leading-tight font-bold transition-colors duration-300"
             >
               {service.title}
             </div>

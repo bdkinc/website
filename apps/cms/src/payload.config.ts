@@ -7,7 +7,9 @@ import dotenv from 'dotenv';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
 
+import { BlogPosts } from './collections/BlogPosts';
 import { Pages } from './collections/Pages';
+import { Testimonials } from './collections/Testimonials';
 import { healthEndpoint } from './endpoints/health';
 import { triggerRebuildEndpoint } from './endpoints/triggerRebuild';
 import { Users } from './collections/Users';
@@ -48,7 +50,7 @@ export default buildConfig({
       handler: triggerRebuildEndpoint,
     },
   ],
-  collections: [Users, Pages],
+  collections: [Users, Pages, BlogPosts, Testimonials],
   globals: [SiteSettings],
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

@@ -35,6 +35,28 @@ interface CMSSiteSettings {
   primaryCTALink?: string;
 }
 
+interface CMSBlogPost {
+  title?: string;
+  slug?: string;
+  description?: string;
+  author?: string;
+  publishedAt?: string;
+  category?: 'Infrastructure' | 'Security' | 'Development' | 'AI';
+  tags?: Array<{
+    tag?: string;
+  }>;
+  image?: string;
+  content?: string;
+}
+
+interface CMSTestimonial {
+  quote?: string;
+  author?: string;
+  company?: string;
+  industry?: string;
+  order?: number;
+}
+
 export interface HomePageContent {
   heroHeading?: string;
   heroBody?: string;
@@ -73,6 +95,26 @@ export interface SiteSettingsContent {
   siteName: string;
   primaryCTA: string;
   primaryCTALink: string;
+}
+
+export interface BlogPostContent {
+  slug: string;
+  title: string;
+  description: string;
+  author: string;
+  pubDate: Date;
+  category: 'Infrastructure' | 'Security' | 'Development' | 'AI';
+  tags: string[];
+  image?: string;
+  content: string;
+}
+
+export interface TestimonialContent {
+  quote: string;
+  author: string;
+  company: string;
+  industry: string;
+  order: number;
 }
 
 const CMS_URL = (process.env.CMS_URL ?? 'http://localhost:3001').replace(
@@ -165,4 +207,80 @@ export async function getPageBySlug(
     aboutCTAButtonText: page.aboutCTAButtonText,
     aboutCTAButtonHref: page.aboutCTAButtonHref,
   };
+}
+
+export async function getBlogPostsContent(): Promise<BlogPostContent[]> {
+  const response = await fetchCMS<CMSPaginatedResponse<CMSBlogPost>>(
+    '/blog-posts?limit=100&sort=-publishedAt&depth=0'
+  );
+
+  if (!response?.docs?.length) {
+    return [];
+  }
+
+  return response.docs
+    .filter((post) => post.slug && post.title && post.description)
+    .map((post) => ({
+      slug: post.slug || '',
+      title: post.title || '',
+      description: post.description || '',
+      author: post.author || 'BDKinc',
+      pubDate: post.publishedAt ? new Date(post.publishedAt) : new Date(),
+      category: post.category || 'Infrastructure',
+      tags: (post.tags || [])
+        .map((item) => item?.tag)
+        .filter((tag): tag is string => Boolean(tag)),
+      image: post.image,
+      content: post.content || '',
+    }));
+}
+
+export async function getBlogPostBySlugContent(
+  slug: string
+): Promise<BlogPostContent | null> {
+  const response = await fetchCMS<CMSPaginatedResponse<CMSBlogPost>>(
+    `/blog-posts?where[slug][equals]=${encodeURIComponent(slug)}&limit=1&depth=0`
+  );
+
+  const post = response?.docs?.[0];
+
+  if (!post?.slug || !post.title || !post.description) {
+    return null;
+  }
+
+  return {
+    slug: post.slug,
+    title: post.title,
+    description: post.description,
+    author: post.author || 'BDKinc',
+    pubDate: post.publishedAt ? new Date(post.publishedAt) : new Date(),
+    category: post.category || 'Infrastructure',
+    tags: (post.tags || [])
+      .map((item) => item?.tag)
+      .filter((tag): tag is string => Boolean(tag)),
+    image: post.image,
+    content: post.content || '',
+  };
+}
+
+export async function getTestimonialsContent(): Promise<TestimonialContent[]> {
+  const response = await fetchCMS<CMSPaginatedResponse<CMSTestimonial>>(
+    '/testimonials?limit=100&sort=order&depth=0'
+  );
+
+  if (!response?.docs?.length) {
+    return [];
+  }
+
+  return response.docs
+    .filter(
+      (item) => item.quote && item.author && item.company && item.industry
+    )
+    .map((item) => ({
+      quote: item.quote || '',
+      author: item.author || '',
+      company: item.company || '',
+      industry: item.industry || '',
+      order: item.order ?? 0,
+    }));
 }

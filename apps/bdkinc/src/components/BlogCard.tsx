@@ -1,15 +1,16 @@
 import { PiCalendar, PiClock } from 'react-icons/pi';
-import type { CollectionEntry } from 'astro:content';
 import { TechCard } from '@/components/TechCard';
 import { cn } from '@bdkinc/design-system';
+import type { BlogPostContent } from '@/lib/cms';
+
 interface BlogCardProps {
-  post: CollectionEntry<'blog'>;
+  post: BlogPostContent;
   readTime: string;
   className?: string;
   index: number;
 }
 export function BlogCard({ post, readTime, className, index }: BlogCardProps) {
-  const { title, description, pubDate } = post.data;
+  const { title, description, pubDate } = post;
   const formattedDate = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'short',

@@ -89,7 +89,7 @@ export default function Services({ services }: ServicesProps) {
           {services.map((service, index) => {
             const Icon = iconMap[service.icon];
             const delayMs = index * 100;
-            // Rotate icon accent colors: primary → secondary → brand-accent
+            // Rotate icon accent colors: primary → secondary → accent
             const iconColors = [
               {
                 bg: 'from-primary/10 to-primary/5',
@@ -102,8 +102,8 @@ export default function Services({ services }: ServicesProps) {
                 icon: 'text-secondary',
               },
               {
-                bg: 'from-brand-accent/20 to-brand-accent/10',
-                border: 'border-brand-accent/30 group-hover:border-brand-accent/60',
+                bg: 'from-accent/20 to-accent/10',
+                border: 'border-accent/30 group-hover:border-accent/60',
                 icon: 'text-accent',
               },
             ];

@@ -26,9 +26,9 @@ export default function NeuralPipeline() {
       title: 'Production Deployment',
       description: 'Scalable inference on OpenShift / Power Systems',
       icon: PiRocket,
-      color: 'text-[--brand-accent]',
-      bg: 'bg-[--brand-accent]/10',
-      border: 'border-[--brand-accent]/20',
+      color: 'text-[--accent]',
+      bg: 'bg-[--accent]/10',
+      border: 'border-[--accent]/20',
     },
   ];
 

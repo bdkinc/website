@@ -2,28 +2,36 @@
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import CTASection from '@/components/CTASection';
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
 import { PiCalendar, PiUser, PiTag, PiArrowLeft } from 'react-icons/pi';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
+import { getBlogPosts } from '@/lib/blog';
+import { renderMarkdownToHtml } from '@/lib/markdown';
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection('blog', ({ data }) => !data.draft);
-  return blogEntries.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
+  const blogPosts = await getBlogPosts();
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
   }));
 }
 
 export const prerender = true;
 
 interface Props {
-  entry: CollectionEntry<'blog'>;
+  post: {
+    slug: string;
+    title: string;
+    description: string;
+    author: string;
+    pubDate: Date;
+    tags: string[];
+    content: string;
+  };
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { post } = Astro.props;
+const contentHtml = renderMarkdownToHtml(post.content);
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -37,7 +45,7 @@ function formatDate(date: Date): string {
 }
 ---
 
-<Layout title={`${entry.data.title} - BDKinc Blog`}>
+<Layout title={`${post.title} - BDKinc Blog`}>
   <Navigation
     client:load
     services={servicesData}
@@ -59,11 +67,11 @@ function formatDate(date: Date): string {
         </a>
 
         <h1
-          transition:name={`blog-title-${entry.slug}`}
+          transition:name={`blog-title-${post.slug}`}
           transition:animate="initial"
           class="text-foreground mb-6 text-4xl font-bold md:text-5xl lg:text-6xl"
         >
-          {entry.data.title}
+          {post.title}
         </h1>
 
         <div
@@ -71,20 +79,20 @@ function formatDate(date: Date): string {
         >
           <div class="flex items-center gap-2">
             <PiCalendar className="h-5 w-5" />
-            <time datetime={entry.data.pubDate.toISOString()}>
-              {formatDate(entry.data.pubDate)}
+            <time datetime={post.pubDate.toISOString()}>
+              {formatDate(post.pubDate)}
             </time>
           </div>
           <div class="flex items-center gap-2">
             <PiUser className="h-5 w-5" />
-            <span>{entry.data.author}</span>
+            <span>{post.author}</span>
           </div>
         </div>
 
         {
-          entry.data.tags && entry.data.tags.length > 0 && (
+          post.tags && post.tags.length > 0 && (
             <div class="animate-in fade-in slide-in-from-bottom-2 fill-mode-both mb-8 flex flex-wrap gap-2 delay-500 duration-500">
-              {entry.data.tags.map((tag) => (
+              {post.tags.map((tag: string) => (
                 <span class="text-primary/70 inline-flex items-center gap-1 px-3 py-1 text-sm">
                   <PiTag className="w-3 h-3" />
                   {tag}
@@ -95,11 +103,11 @@ function formatDate(date: Date): string {
         }
 
         <p
-          transition:name={`blog-description-${entry.slug}`}
+          transition:name={`blog-description-${post.slug}`}
           transition:animate="initial"
           class="text-muted-foreground text-xl"
         >
-          {entry.data.description}
+          {post.description}
         </p>
       </div>
       <div
@@ -143,7 +151,7 @@ function formatDate(date: Date): string {
         class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both mx-auto max-w-4xl delay-200 duration-700"
       >
         <div class="prose prose-neutral prose-lg dark:prose-invert max-w-none">
-          <Content />
+          <Fragment set:html={contentHtml} />
         </div>
       </div>
     </article>

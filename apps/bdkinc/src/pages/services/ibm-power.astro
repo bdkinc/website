@@ -9,7 +9,7 @@ import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 import { PowerSystemsConsole } from '@/components/PowerSystemsConsole';
 import { ModernizationRoadmap } from '@/components/ModernizationRoadmap';
-import WhoThisIsFor from '@/components/WhoThisIsFor';
+
 import IBMPowerVisualization from '@/components/visualizations/IBMPowerVisualization';
 import FeatureCarousel from '@/components/FeatureCarousel';
 import {
@@ -20,7 +20,6 @@ import {
   PiArrowsClockwise,
   PiQuotesFill,
   PiPulse,
-  PiCode,
   PiTerminalWindow,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
@@ -162,7 +161,7 @@ const strategicFeatures = [
         </div>
       </div>
       <div
-        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--brand-accent]/50"
+        class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
       >
       </div>
     </section>
@@ -196,7 +195,7 @@ const strategicFeatures = [
       >
       </div>
       <div class="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div class="mb-12 text-center">
+        <div class="mb-16 text-center">
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
@@ -207,23 +206,36 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        <figure class="relative mx-auto max-w-3xl">
-          <PiQuotesFill
-            className="text-primary/25 pointer-events-none absolute -top-10 right-0 h-16 w-16"
-            aria-hidden="true"
-          />
-          <blockquote
-            class="border-secondary/50 text-muted-foreground border-l-4 pl-6 text-xl leading-relaxed font-light md:text-2xl"
-          >
-            &ldquo;IBM Power is the heartbeat of the enterprise. We don&rsquo;t just host 
-            legacy systems; we architect
-            <span class="text-accent font-semibold">
-              battle-hardened foundations</span
-            >
-            that preserve your rock-solid logic while empowering your next 
-            decade of business innovation.&rdquo;
-          </blockquote>
-        </figure>
+        
+        <!-- Glass Quote Container -->
+        <div class="relative mx-auto max-w-4xl">
+          <!-- Floating Icon -->
+          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
+            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          </div>
+          
+          <!-- Glass Card -->
+          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+            <!-- Ambient Glow -->
+            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
+            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
+            
+            <!-- Background Watermark -->
+            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
+               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            </div>
+
+            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
+              &ldquo;IBM Power is the heartbeat of the enterprise. We don&rsquo;t just host 
+              legacy systems; we architect
+              <span class="text-accent">
+                battle-hardened foundations</span
+              >
+              that preserve your rock-solid logic while empowering your next 
+              decade of business innovation.&rdquo;
+            </blockquote>
+          </div>
+        </div>
       </div>
       <div
         class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -284,111 +296,102 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        <div class="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Swiss Grid Layout -->
+        <div class="grid gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-2 lg:grid-cols-3">
           <!-- Benefit 1 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiMedal
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              25+ Years Mastery
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiMedal className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                25+ Years Mastery
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Decades of deep engineering expertise across IBM hardware and 
-              software evolution
+              software evolution.
             </p>
           </div>
           <!-- Benefit 2 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiMedal
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Certified Partner
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiMedal className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Certified Partner
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               IBM Silver Partner status providing direct access to IBM labs 
-              and tier-3 global support
+              and tier-3 global support.
             </p>
           </div>
           <!-- Benefit 3 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiTerminalWindow
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              &lsquo;Black Box&rsquo; Expertise
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiTerminalWindow className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                &lsquo;Black Box&rsquo; Expertise
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               We thrive in complex, legacy environments that generalist MSPs 
-              simply won&rsquo;t touch
+              simply won&rsquo;t touch.
             </p>
           </div>
           <!-- Benefit 4 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiShieldCheck
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Enterprise Security
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiShieldCheck className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Enterprise Security
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Hardening and continuous compliance for your most sensitive 
-              legacy and modern datasets
+              legacy and modern datasets.
             </p>
           </div>
           <!-- Benefit 5 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiDesktopTower
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              Single Partner
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiDesktopTower className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                Single Partner
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Unified premier support for IBM i, AIX, and Linux, 
-              simplifying your operational complexity
+              simplifying your operational complexity.
             </p>
           </div>
           <!-- Benefit 6 -->
-          <div class="group flex flex-col items-center text-center">
-            <PiPulse
-              className="text-primary mb-6 h-10 w-10 transition-transform duration-300 group-hover:scale-110"
-              aria-hidden="true"
-            />
-            <h4
-              class="text-foreground font-display mb-3 text-xl font-bold tracking-tight"
-            >
-              SLA-Driven
-            </h4>
-            <p class="text-muted-foreground leading-relaxed">
+          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+            <div class="mb-4 flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PiPulse className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                SLA-Driven
+              </h4>
+            </div>
+            <p class="text-sm leading-relaxed text-muted-foreground">
               Operations aligned strictly to business uptime with 
-              aggressive resolution targets
+              aggressive resolution targets.
             </p>
           </div>
         </div>
       </div>
     </section>
-    <WhoThisIsFor 
-      client:visible 
-      title="Built for the High-Stakes Enterprise"
-      description="Our Power Systems services are engineered for organizations where downtime is not just an inconvenience—it's a critical failure."
-    />
+
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
