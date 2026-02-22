@@ -14,10 +14,11 @@ interface DevelopmentLogTimelineProps {
 export default function DevelopmentLogTimeline({
   milestones,
 }: DevelopmentLogTimelineProps) {
-  const { ref: containerRef, isIntersecting } = useIntersectionObserver<HTMLDivElement>({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
+  const { ref: containerRef, isIntersecting } =
+    useIntersectionObserver<HTMLDivElement>({
+      threshold: 0.1,
+      triggerOnce: true,
+    });
 
   return (
     <div ref={containerRef} className="relative py-12">

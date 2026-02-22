@@ -40,7 +40,8 @@ const aboutCTATitle =
 const aboutCTADescription =
   aboutPage?.aboutCTADescription ||
   'Bring clarity, resilience, and speed to mission-critical IT. Tap 25+ years of infrastructure, security, and modernization expertise.';
-const aboutCTAButtonText = aboutPage?.aboutCTAButtonText || 'Talk to an Engineer';
+const aboutCTAButtonText =
+  aboutPage?.aboutCTAButtonText || 'Talk to an Engineer';
 const aboutCTAButtonHref = aboutPage?.aboutCTAButtonHref || '/contact#chat';
 const aboutValuesWords = aboutValuesHeading.trim().split(/\s+/);
 const aboutValuesAccent = aboutValuesWords.pop() ?? 'Values';
@@ -259,7 +260,8 @@ const milestonesData = milestones;
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
             <span class="text-foreground">{aboutValuesLead || 'Our'} </span>
-            <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
               >{aboutValuesAccent}</span
             >
           </h2>
@@ -285,7 +287,8 @@ const milestonesData = milestones;
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
             <span class="text-foreground">{aboutJourneyLead || 'Our'} </span>
-            <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
               >{aboutJourneyAccent}</span
             >
           </h2>
@@ -294,11 +297,11 @@ const milestonesData = milestones;
           >
             {aboutJourneySubheading}
           </p>
-         </div>
+        </div>
 
-         <DevelopmentLogTimeline milestones={milestonesData} client:visible />
-       </div>
-     </section>
+        <DevelopmentLogTimeline milestones={milestonesData} client:visible />
+      </div>
+    </section>
 
     <TrustShowcase client:visible showAllPartners />
 

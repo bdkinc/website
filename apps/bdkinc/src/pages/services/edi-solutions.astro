@@ -22,7 +22,6 @@ import {
   PiGlobe,
   PiShieldCheck,
   PiNetwork,
-
   PiQuotesFill,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
@@ -63,12 +62,11 @@ const faqs = [
 const strategicFeatures = [
   {
     title: 'Supply Chain Orchestration',
-    description:
-      'Synchronized document flow across global partner networks.',
+    description: 'Synchronized document flow across global partner networks.',
     highlight: 'Synchronized document flow',
     icon: 'Network',
     detail:
-      "Modern commerce is a precision game. We orchestrate your entire supply chain data flow, ensuring that orders, invoices, and shipping updates move instantly between you and your trading partners with zero manual friction.",
+      'Modern commerce is a precision game. We orchestrate your entire supply chain data flow, ensuring that orders, invoices, and shipping updates move instantly between you and your trading partners with zero manual friction.',
   },
   {
     title: 'Protocol Agnostic Integration',
@@ -95,10 +93,11 @@ const strategicFeatures = [
     highlight: 'Certified partner maps',
     icon: 'ShieldCheck',
     detail:
-      "We maintain a massive library of certified trading partner maps and actively monitor for mandate changes. This means you stay compliant with major retailers like Walmart, Amazon, and Target without ever touching a line of code.",
+      'We maintain a massive library of certified trading partner maps and actively monitor for mandate changes. This means you stay compliant with major retailers like Walmart, Amazon, and Target without ever touching a line of code.',
   },
 ];
 ---
+
 <Layout
   title={`${service.data.title} - BDKinc`}
   description={service.data.description}
@@ -121,8 +120,16 @@ const strategicFeatures = [
             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
           >
             <div class="flex items-center gap-2 text-sm">
-              <div class="h-2 w-2 animate-pulse rounded-full bg-primary" aria-hidden="true"></div>
-              <span>Trading Partner Network &mdash; <span class="text-accent font-semibold">Live</span></span>
+              <div
+                class="bg-primary h-2 w-2 animate-pulse rounded-full"
+                aria-hidden="true"
+              >
+              </div>
+              <span
+                >Trading Partner Network &mdash; <span
+                  class="text-accent font-semibold">Live</span
+                ></span
+              >
             </div>
           </div>
           <div
@@ -154,7 +161,7 @@ const strategicFeatures = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            Orchestrate global EDI with a managed platform that keeps partners 
+            Orchestrate global EDI with a managed platform that keeps partners
             connected, documents flowing, and transactions visible in real time.
           </p>
         </div>
@@ -173,7 +180,9 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Core Services -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -193,10 +202,7 @@ const strategicFeatures = [
           </p>
         </div>
         <TechCardGrid client:visible className="md:grid-cols-3">
-          <TechCard
-            variant="technical"
-            interactive={true}
-          >
+          <TechCard variant="technical" interactive={true}>
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -212,16 +218,13 @@ const strategicFeatures = [
                 Global Integration
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Rapidly onboard retailers, suppliers, and 3PLs across any 
-                region. We maintain certified maps for thousands of trading 
+                Rapidly onboard retailers, suppliers, and 3PLs across any
+                region. We maintain certified maps for thousands of trading
                 partners, ensuring effortless compliance.
               </div>
             </div>
           </TechCard>
-          <TechCard
-            variant="technical"
-            interactive={true}
-          >
+          <TechCard variant="technical" interactive={true}>
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -237,16 +240,13 @@ const strategicFeatures = [
                 Automated Workflows
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Eliminate manual intervention. Automate POs, invoices, and ASNs 
-                to reduce manual errors and accelerate your 
-                order-to-cash cycles.
+                Eliminate manual intervention. Automate POs, invoices, and ASNs
+                to reduce manual errors and accelerate your order-to-cash
+                cycles.
               </div>
             </div>
           </TechCard>
-          <TechCard
-            variant="technical"
-            interactive={true}
-          >
+          <TechCard variant="technical" interactive={true}>
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -262,8 +262,8 @@ const strategicFeatures = [
                 Agnostic Protocol
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Secure transmission across AS2, SFTP, FTPS, and VAN. Our 
-                architecture adapts to your partners' technical constraints 
+                Secure transmission across AS2, SFTP, FTPS, and VAN. Our
+                architecture adapts to your partners' technical constraints
                 seamlessly.
               </div>
             </div>
@@ -289,33 +289,51 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        
+
         <!-- Glass Quote Container -->
         <div class="relative mx-auto max-w-4xl">
           <!-- Floating Icon -->
-          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
-            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
+            <PiQuotesFill
+              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
+              aria-hidden="true"
+            />
           </div>
-          
+
           <!-- Glass Card -->
-          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+          <div
+            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
+          >
             <!-- Ambient Glow -->
-            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
-            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
-            
-            <!-- Background Watermark -->
-            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
-               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            <div
+              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
+            </div>
+            <div
+              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
             </div>
 
-            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
-              &ldquo;Commerce moves at the speed of data. We don&rsquo;t just connect systems; 
-              we architect
+            <!-- Background Watermark -->
+            <div
+              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
+            >
+              <PiQuotesFill
+                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
+                aria-hidden="true"
+              />
+            </div>
+
+            <blockquote
+              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
+            >
+              &ldquo;Commerce moves at the speed of data. We don&rsquo;t just
+              connect systems; we architect
               <span class="text-accent">
                 zero-friction, real-time document orchestration</span
               >
-              that ensures compliance and powers your global 
-              supply chain with 24/7 visibility.&rdquo;
+              that ensures compliance and powers your global supply chain with 24/7
+              visibility.&rdquo;
             </blockquote>
           </div>
         </div>
@@ -327,7 +345,7 @@ const strategicFeatures = [
     </section>
     <!-- Strategic Advantage -->
     <section
-      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
+      class="to-muted/20 bg-linear-to-b from-transparent px-4 py-24 sm:px-6 lg:px-8 dark:to-white/[0.02]"
     >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
@@ -340,7 +358,7 @@ const strategicFeatures = [
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond simple connections with a partner who orchestrates 
+            Move beyond simple connections with a partner who orchestrates
             enterprise-grade supply chain intelligence.
           </p>
         </div>
@@ -348,7 +366,9 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Key Benefits -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -361,94 +381,132 @@ const strategicFeatures = [
           </h2>
         </div>
         <!-- Swiss Grid Layout -->
-        <div class="grid gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          class="bg-border grid gap-px overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-3"
+        >
           <!-- Benefit 1 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiCheckCircle className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 99.99% Uptime
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Mission-critical reliability for your most sensitive supply 
-              chain data streams.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Mission-critical reliability for your most sensitive supply chain
+              data streams.
             </p>
           </div>
           <!-- Benefit 2 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiLightning className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 High-Velocity
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Process thousands of transactions per second with low-latency 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Process thousands of transactions per second with low-latency
               enterprise throughput.
             </p>
           </div>
           <!-- Benefit 3 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiShieldCheck className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Active Compliance
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Stay ahead of retailer mandate changes with our continuous 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Stay ahead of retailer mandate changes with our continuous
               compliance monitoring.
             </p>
           </div>
           <!-- Benefit 4 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiCurrencyDollar className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Cost Optimization
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Eliminate expensive VAN fees and reduce overhead with direct 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Eliminate expensive VAN fees and reduce overhead with direct
               protocol connections.
             </p>
           </div>
           <!-- Benefit 5 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiGlobe className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Global Reach
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Connect with partners in any region with support for all major 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Connect with partners in any region with support for all major
               international standards.
             </p>
           </div>
           <!-- Benefit 6 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiEye className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Total Visibility
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              End-to-end real-time tracking of every single document in your 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              End-to-end real-time tracking of every single document in your
               supply chain.
             </p>
           </div>
@@ -459,82 +517,167 @@ const strategicFeatures = [
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <h2 class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-            Standards &amp; <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Protocol Support</span>
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Standards &amp; <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Protocol Support</span
+            >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
             Every format, every protocol, every trading partner — handled.
           </p>
         </div>
-        <div class="grid gap-6 md:grid-cols-2 mb-16">
+        <div class="mb-16 grid gap-6 md:grid-cols-2">
           <!-- Standards table -->
-          <div class="rounded-xl border border-border bg-card/30 overflow-hidden">
-            <div class="bg-muted/60 dark:bg-white/[0.03] border-b border-border px-6 py-4">
-              <h3 class="font-display text-sm font-bold tracking-widest text-foreground">Document Standards</h3>
+          <div
+            class="border-border bg-card/30 overflow-hidden rounded-xl border"
+          >
+            <div
+              class="bg-muted/60 border-border border-b px-6 py-4 dark:bg-white/[0.03]"
+            >
+              <h3
+                class="font-display text-foreground text-sm font-bold tracking-widest"
+              >
+                Document Standards
+              </h3>
             </div>
-            <div class="divide-y divide-border">
-              {[
-                { std: "ANSI X12", desc: "North American retail & logistics standard", regions: "US / CA" },
-                { std: "EDIFACT", desc: "International UN standard for global trade", regions: "Global" },
-                { std: "TRADACOMS", desc: "UK grocery and retail EDI standard", regions: "UK" },
-                { std: "XML / JSON", desc: "Modern structured data exchange formats", regions: "Universal" },
-                { std: "Flat File", desc: "Custom delimited formats for legacy systems", regions: "Legacy" },
-              ].map(({ std, desc, regions }) => (
-                <div class="flex items-center gap-4 px-6 py-3">
-                  <span class="font-mono text-xs font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded shrink-0 min-w-[90px] text-center">{std}</span>
-                  <span class="text-muted-foreground text-sm flex-1">{desc}</span>
-                  <span class="font-mono text-[10px] text-muted-foreground/60 shrink-0">{regions}</span>
-                </div>
-              ))}
+            <div class="divide-border divide-y">
+              {
+                [
+                  {
+                    std: 'ANSI X12',
+                    desc: 'North American retail & logistics standard',
+                    regions: 'US / CA',
+                  },
+                  {
+                    std: 'EDIFACT',
+                    desc: 'International UN standard for global trade',
+                    regions: 'Global',
+                  },
+                  {
+                    std: 'TRADACOMS',
+                    desc: 'UK grocery and retail EDI standard',
+                    regions: 'UK',
+                  },
+                  {
+                    std: 'XML / JSON',
+                    desc: 'Modern structured data exchange formats',
+                    regions: 'Universal',
+                  },
+                  {
+                    std: 'Flat File',
+                    desc: 'Custom delimited formats for legacy systems',
+                    regions: 'Legacy',
+                  },
+                ].map(({ std, desc, regions }) => (
+                  <div class="flex items-center gap-4 px-6 py-3">
+                    <span class="text-primary bg-primary/10 border-primary/20 min-w-[90px] shrink-0 rounded border px-2 py-0.5 text-center font-mono text-xs font-bold">
+                      {std}
+                    </span>
+                    <span class="text-muted-foreground flex-1 text-sm">
+                      {desc}
+                    </span>
+                    <span class="text-muted-foreground/60 shrink-0 font-mono text-[10px]">
+                      {regions}
+                    </span>
+                  </div>
+                ))
+              }
             </div>
           </div>
           <!-- Protocol table -->
-          <div class="rounded-xl border border-border bg-card/30 overflow-hidden">
-            <div class="bg-muted/60 dark:bg-white/[0.03] border-b border-border px-6 py-4">
-              <h3 class="font-display text-sm font-bold tracking-widest text-foreground">Transmission Protocols</h3>
+          <div
+            class="border-border bg-card/30 overflow-hidden rounded-xl border"
+          >
+            <div
+              class="bg-muted/60 border-border border-b px-6 py-4 dark:bg-white/[0.03]"
+            >
+              <h3
+                class="font-display text-foreground text-sm font-bold tracking-widest"
+              >
+                Transmission Protocols
+              </h3>
             </div>
-            <div class="divide-y divide-border">
-              {[
-                { proto: "AS2", desc: "Encrypted HTTP/S with MDN acknowledgments", security: "TLS 1.3" },
-                { proto: "SFTP", desc: "Secure file transfer over SSH", security: "SSH" },
-                { proto: "FTPS", desc: "FTP over explicit/implicit TLS", security: "TLS" },
-                { proto: "HTTPS API", desc: "RESTful webhook-based partner connections", security: "OAuth 2.0" },
-                { proto: "VAN", desc: "Value-added network relay (legacy)", security: "Encrypted" },
-              ].map(({ proto, desc, security }) => (
-                <div class="flex items-center gap-4 px-6 py-3">
-                  <span class="font-mono text-xs font-bold text-secondary bg-secondary/10 border border-secondary/20 px-2 py-0.5 rounded shrink-0 min-w-[72px] text-center">{proto}</span>
-                  <span class="text-muted-foreground text-sm flex-1">{desc}</span>
-                  <span class="font-mono text-[10px] text-muted-foreground/60 shrink-0">{security}</span>
-                </div>
-              ))}
+            <div class="divide-border divide-y">
+              {
+                [
+                  {
+                    proto: 'AS2',
+                    desc: 'Encrypted HTTP/S with MDN acknowledgments',
+                    security: 'TLS 1.3',
+                  },
+                  {
+                    proto: 'SFTP',
+                    desc: 'Secure file transfer over SSH',
+                    security: 'SSH',
+                  },
+                  {
+                    proto: 'FTPS',
+                    desc: 'FTP over explicit/implicit TLS',
+                    security: 'TLS',
+                  },
+                  {
+                    proto: 'HTTPS API',
+                    desc: 'RESTful webhook-based partner connections',
+                    security: 'OAuth 2.0',
+                  },
+                  {
+                    proto: 'VAN',
+                    desc: 'Value-added network relay (legacy)',
+                    security: 'Encrypted',
+                  },
+                ].map(({ proto, desc, security }) => (
+                  <div class="flex items-center gap-4 px-6 py-3">
+                    <span class="text-secondary bg-secondary/10 border-secondary/20 min-w-[72px] shrink-0 rounded border px-2 py-0.5 text-center font-mono text-xs font-bold">
+                      {proto}
+                    </span>
+                    <span class="text-muted-foreground flex-1 text-sm">
+                      {desc}
+                    </span>
+                    <span class="text-muted-foreground/60 shrink-0 font-mono text-[10px]">
+                      {security}
+                    </span>
+                  </div>
+                ))
+              }
             </div>
           </div>
         </div>
         <!-- Transaction Type Pills -->
         <div>
-          <h3 class="font-display mb-6 text-center text-sm font-bold tracking-widest text-muted-foreground">Common Transaction Sets Supported</h3>
+          <h3
+            class="font-display text-muted-foreground mb-6 text-center text-sm font-bold tracking-widest"
+          >
+            Common Transaction Sets Supported
+          </h3>
           <div class="flex flex-wrap justify-center gap-2">
-            {[
-              { code: "810", label: "Invoice" },
-              { code: "850", label: "Purchase Order" },
-              { code: "856", label: "Ship Notice / ASN" },
-              { code: "846", label: "Inventory Inquiry" },
-              { code: "204", label: "Motor Carrier Load" },
-              { code: "210", label: "Freight Invoice" },
-              { code: "214", label: "Shipment Status" },
-              { code: "820", label: "Payment Order" },
-              { code: "940", label: "Warehouse Shipping" },
-              { code: "945", label: "Warehouse Shipping Advice" },
-              { code: "997", label: "Functional Acknowledgment" },
-              { code: "832", label: "Price / Sales Catalog" },
-              { code: "855", label: "PO Acknowledgment" },
-              { code: "860", label: "PO Change" },
-            ].map(({ code, label }) => (
-              <div class="group flex items-center gap-2 rounded-lg border border-border bg-card/30 px-3 py-2 transition-[border-color,background-color] duration-200 hover:border-primary/30 hover:bg-primary/5">
-                <span class="font-mono text-xs font-bold text-primary">{code}</span>
-                <span class="text-muted-foreground text-xs">{label}</span>
-              </div>
-            ))}
+            {
+              [
+                { code: '810', label: 'Invoice' },
+                { code: '850', label: 'Purchase Order' },
+                { code: '856', label: 'Ship Notice / ASN' },
+                { code: '846', label: 'Inventory Inquiry' },
+                { code: '204', label: 'Motor Carrier Load' },
+                { code: '210', label: 'Freight Invoice' },
+                { code: '214', label: 'Shipment Status' },
+                { code: '820', label: 'Payment Order' },
+                { code: '940', label: 'Warehouse Shipping' },
+                { code: '945', label: 'Warehouse Shipping Advice' },
+                { code: '997', label: 'Functional Acknowledgment' },
+                { code: '832', label: 'Price / Sales Catalog' },
+                { code: '855', label: 'PO Acknowledgment' },
+                { code: '860', label: 'PO Change' },
+              ].map(({ code, label }) => (
+                <div class="group border-border bg-card/30 hover:border-primary/30 hover:bg-primary/5 flex items-center gap-2 rounded-lg border px-3 py-2 transition-[border-color,background-color] duration-200">
+                  <span class="text-primary font-mono text-xs font-bold">
+                    {code}
+                  </span>
+                  <span class="text-muted-foreground text-xs">{label}</span>
+                </div>
+              ))
+            }
           </div>
         </div>
       </div>
@@ -542,18 +685,30 @@ const strategicFeatures = [
     <!-- Detailed Section -->
     <TechnicalSection client:visible id="edi-vault" overlayOpacity="opacity-10">
       <div class="relative z-10 flex flex-col items-center text-center">
-        <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
-          <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
-          <span class="text-xs font-bold tracking-widest text-primary font-display">Supply Chain Insight Vault</span>
+        <div
+          class="border-primary/30 bg-primary/10 mb-6 flex items-center gap-2 rounded-full border px-4 py-1"
+        >
+          <div class="bg-primary h-2 w-2 animate-pulse rounded-full"></div>
+          <span
+            class="text-primary font-display text-xs font-bold tracking-widest"
+            >Supply Chain Insight Vault</span
+          >
         </div>
-        <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
-          Synchronized Data. <span class="text-primary">Zero Legacy Friction.</span>
+        <h3
+          class="text-foreground font-display mb-6 max-w-2xl text-3xl font-bold tracking-tight"
+        >
+          Synchronized Data. <span class="text-primary"
+            >Zero Legacy Friction.</span
+          >
         </h3>
-        <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
-          We transform fragmented document flow into a synchronized enterprise asset. 
-          By orchestrating data across your trading partner network, our platform 
-          ensures that your supply chain moves with mathematical precision, 
-          providing the visibility and velocity required for global competition.
+        <div
+          class="text-muted-foreground mx-auto max-w-4xl font-sans text-lg leading-relaxed"
+        >
+          We transform fragmented document flow into a synchronized enterprise
+          asset. By orchestrating data across your trading partner network, our
+          platform ensures that your supply chain moves with mathematical
+          precision, providing the visibility and velocity required for global
+          competition.
         </div>
       </div>
     </TechnicalSection>

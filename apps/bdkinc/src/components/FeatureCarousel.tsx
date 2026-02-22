@@ -104,13 +104,16 @@ export default function FeatureCarousel({
                 key={feature.title}
                 type="button"
                 className={cn(
-                  'group focus-visible:ring-primary/40 focus-visible:ring-offset-background relative min-h-[140px] w-full rounded-xl border px-5 py-5 text-left transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden overflow-hidden',
+                  'group focus-visible:ring-primary/40 focus-visible:ring-offset-background relative min-h-[140px] w-full overflow-hidden rounded-xl border px-5 py-5 text-left transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden',
                   selected
-                    ? 'border-primary/40 bg-primary/10'
+                    ? 'border-primary/40 from-primary/10 to-secondary/10 bg-linear-to-br via-transparent'
                     : 'border-border/60 bg-card/20 hover:border-primary/30 hover:bg-card/40'
                 )}
                 aria-pressed={selected}
-                onMouseEnter={() => { goTo(index); setIsPaused(true); }}
+                onMouseEnter={() => {
+                  goTo(index);
+                  setIsPaused(true);
+                }}
                 onMouseLeave={() => setIsPaused(false)}
                 onFocus={() => goTo(index)}
                 onClick={() => goTo(index)}
@@ -129,8 +132,8 @@ export default function FeatureCarousel({
                     className={cn(
                       'mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border transition-colors duration-300',
                       selected
-                        ? 'border-primary/40 from-primary/20 to-secondary/10 bg-linear-to-br'
-                        : 'border-border/60 bg-card/30 group-hover:border-primary/25'
+                        ? 'border-secondary/40 from-secondary/20 to-secondary/10 bg-linear-to-br'
+                        : 'border-border/60 bg-card/30 group-hover:border-secondary/25'
                     )}
                     aria-hidden
                   >
@@ -138,8 +141,8 @@ export default function FeatureCarousel({
                       className={cn(
                         'h-5 w-5',
                         selected
-                          ? 'text-primary'
-                          : 'text-muted-foreground group-hover:text-primary'
+                          ? 'text-secondary'
+                          : 'text-muted-foreground group-hover:text-secondary'
                       )}
                       aria-hidden
                     />
@@ -158,7 +161,7 @@ export default function FeatureCarousel({
                     </div>
                     <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
                       {feature.description.split(feature.highlight)[0]}
-                      <span className="text-primary font-semibold">
+                      <span className="text-accent font-semibold">
                         {feature.highlight}
                       </span>
                       {feature.description.split(feature.highlight)[1]}
@@ -203,13 +206,13 @@ export default function FeatureCarousel({
             <div
               className={cn(
                 'mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl border bg-linear-to-br transition-colors duration-300',
-                'from-primary/10 to-secondary/5 border-primary/20'
+                'from-secondary/10 to-secondary/5 border-secondary/20'
               )}
               aria-hidden
             >
               {(() => {
                 const ActiveIcon = iconMap[active.icon];
-                return <ActiveIcon className="text-primary h-8 w-8" />;
+                return <ActiveIcon className="text-secondary h-8 w-8" />;
               })()}
             </div>
 

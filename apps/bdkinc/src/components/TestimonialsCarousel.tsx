@@ -1,15 +1,8 @@
 'use client';
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { PiArrowLeft, PiArrowRight } from 'react-icons/pi';
-
 
 import { cn } from '@bdkinc/design-system';
 import {

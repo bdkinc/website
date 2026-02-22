@@ -39,11 +39,7 @@ const regions = [
 export function GlobalNetworkMap() {
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
   return (
-    <TechCard
-      variant="technical"
-      interactive={false}
-      className="w-full"
-    >
+    <TechCard variant="technical" interactive={false} className="w-full">
       {/* Header */}
       <div className="border-primary/10 bg-muted/20 flex items-center justify-between border-b px-6 py-4">
         <div className="flex items-center gap-3">

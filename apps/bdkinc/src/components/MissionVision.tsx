@@ -2,10 +2,11 @@ import { useIntersectionObserver } from '@/components/hooks/useIntersectionObser
 import { PiRocket, PiEye } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
 export default function MissionVision() {
-  const { ref: containerRef, isIntersecting } = useIntersectionObserver<HTMLDivElement>({
-    threshold: 0.2,
-    triggerOnce: true,
-  });
+  const { ref: containerRef, isIntersecting } =
+    useIntersectionObserver<HTMLDivElement>({
+      threshold: 0.2,
+      triggerOnce: true,
+    });
   return (
     <div ref={containerRef} className="grid gap-8 md:grid-cols-2">
       {/* Mission Card */}

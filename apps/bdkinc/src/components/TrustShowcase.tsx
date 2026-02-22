@@ -50,10 +50,11 @@ export default function TrustShowcase({
       threshold: 0.2,
       triggerOnce: true,
     });
-  const { ref: gridRef, isIntersecting: gridInView } = useIntersectionObserver<HTMLDivElement>({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
+  const { ref: gridRef, isIntersecting: gridInView } =
+    useIntersectionObserver<HTMLDivElement>({
+      threshold: 0.1,
+      triggerOnce: true,
+    });
   const visiblePartners = showAllPartners ? partners : partners.slice(0, 4);
   const gridColsClass =
     visiblePartners.length === 4
@@ -132,7 +133,6 @@ export default function TrustShowcase({
             </TechCard>
           ))}
         </div>
-
       </div>
     </section>
   );

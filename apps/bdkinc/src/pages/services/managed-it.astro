@@ -3,15 +3,13 @@ import { getEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
-import { getBlogPosts } from '@/lib/blog';
 import { iconMap } from '@/lib/icons';
 import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
-import ManagedITVisualization from '@/components/visualizations/ManagedITVisualization';
+import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
 import FeatureCarousel from '@/components/FeatureCarousel';
-import TechnicalSection from '@/components/TechnicalSection';
 
 import {
   PiHeadphones,
@@ -54,9 +52,6 @@ const _serviceSchema = {
     availability: 'https://schema.org/InStock',
   },
 };
-const relatedPosts = (await getBlogPosts())
-  .filter((post) => post.tags?.includes('managed-services'))
-  .slice(0, 3);
 const metrics = [
   { value: '10K+', label: 'Tickets Closed', icon: PiHeadphones },
   { value: '98%', label: 'First-Call Resolution', icon: PiCheckCircle },
@@ -119,6 +114,7 @@ const strategicFeatures = [
   },
 ];
 ---
+
 <Layout
   title="Elite Managed IT Services & Strategic Technology Management | BDKinc"
   description="Transform your technology into a competitive advantage. BDKinc provides elite managed IT services, 24/7 enterprise support, and strategic infrastructure leadership for growth-focused organizations."
@@ -137,17 +133,33 @@ const strategicFeatures = [
   />
   <main id="main-content">
     <!-- Hero Section -->
-    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+    <section
+      class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 md:pt-32 md:pb-24 lg:px-8"
+    >
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+
+      <!-- Visualization -->
+      <div
+        class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
+      >
+        <CohesiveOrbit client:load />
+      </div>
+
       <div class="relative z-10 mx-auto max-w-7xl">
-        <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
+        <div
+          class="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center"
+        >
           <!-- Badge -->
           <div
             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
           >
             <div class="flex items-center gap-2 text-sm">
-              <span>24/7 Business <span class="text-accent font-semibold">Support</span></span>
+              <span
+                >24/7 Business <span class="text-accent font-semibold"
+                  >Support</span
+                ></span
+              >
             </div>
           </div>
           <div
@@ -179,18 +191,10 @@ const strategicFeatures = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            Technology shouldn&rsquo;t be a bottleneck; it should be an accelerator.
-            We monitor your systems 24/7, preventing issues before they
-            disrupt your operations.
+            Technology shouldn&rsquo;t be a bottleneck; it should be an
+            accelerator. We monitor your systems 24/7, preventing issues before
+            they disrupt your operations.
           </p>
-        </div>
-        <!-- Visualization -->
-        <div
-          class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
-        >
-          <div class="mx-auto max-w-5xl">
-            <ManagedITVisualization client:load />
-          </div>
         </div>
       </div>
       <div
@@ -199,7 +203,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Core Services -->
-    <section class="bg-muted/30 px-4 py-24 dark:bg-white/[0.02] sm:px-6 lg:px-8">
+    <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -222,13 +226,14 @@ const strategicFeatures = [
           <TechCard
             variant="technical"
             interactive={true}
+            trackingColor={'primary'}
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+                class="from-primary/10 to-primary/5 border-primary/20 group-hover:border-primary/50 mx-auto mb-6 flex w-fit items-center justify-center rounded-xl border bg-linear-to-br p-5 transition-colors duration-500 group-hover:scale-110"
               >
                 <PiHeadphones
-                  className="text-primary h-16 w-16"
+                  className="text-primary h-10 w-10"
                   aria-hidden="true"
                 />
               </div>
@@ -247,18 +252,19 @@ const strategicFeatures = [
           <TechCard
             variant="technical"
             interactive={true}
+            trackingColor={'secondary'}
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+                class="from-secondary/10 to-secondary/5 border-secondary/20 group-hover:border-secondary/50 mx-auto mb-6 flex w-fit items-center justify-center rounded-xl border bg-linear-to-br p-5 transition-colors duration-500 group-hover:scale-110"
               >
                 <PiTrendUp
-                  className="text-primary h-16 w-16"
+                  className="text-secondary h-10 w-10"
                   aria-hidden="true"
                 />
               </div>
               <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+                class="text-foreground font-display group-hover:text-secondary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
                 Predictive Intelligence
               </h4>
@@ -272,18 +278,19 @@ const strategicFeatures = [
           <TechCard
             variant="technical"
             interactive={true}
+            trackingColor={'accent'}
           >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+                class="from-accent/20 to-accent/10 border-accent/30 group-hover:border-accent/60 mx-auto mb-6 flex w-fit items-center justify-center rounded-xl border bg-linear-to-br p-5 transition-colors duration-500 group-hover:scale-110"
               >
                 <PiUsersThree
-                  className="text-primary h-16 w-16"
+                  className="text-accent h-10 w-10"
                   aria-hidden="true"
                 />
               </div>
               <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+                class="text-foreground font-display group-hover:text-accent mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
                 Strategic Co-Management
               </h4>
@@ -298,7 +305,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Strategic Leadership Section -->
-    <section class="relative overflow-hidden py-24">
+    <section class="relative overflow-hidden py-24 md:py-32">
       <div
         class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
       >
@@ -315,31 +322,47 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        
+
         <!-- Glass Quote Container -->
         <div class="relative mx-auto max-w-4xl">
           <!-- Floating Icon -->
-          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
-            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
+            <PiQuotesFill
+              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
+              aria-hidden="true"
+            />
           </div>
-          
+
           <!-- Glass Card -->
-          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+          <div
+            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
+          >
             <!-- Ambient Glow -->
-            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
-            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
-            
-            <!-- Background Watermark -->
-            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
-               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            <div
+              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
+            </div>
+            <div
+              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
             </div>
 
-            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
-              &ldquo;True business growth requires more than keeping the lights on. It
-              demands a technology strategy that
-              <span class="text-accent">
-                anticipates challenges</span
-              >
+            <!-- Background Watermark -->
+            <div
+              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
+            >
+              <PiQuotesFill
+                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
+                aria-hidden="true"
+              />
+            </div>
+
+            <blockquote
+              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
+            >
+              &ldquo;True business growth requires more than keeping the lights
+              on. It demands a technology strategy that
+              <span class="text-accent"> anticipates challenges</span>
               and scales with your ambition. We architect, manage, and secure your
               infrastructure so you can focus on driving your business forward.&rdquo;
             </blockquote>
@@ -352,9 +375,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Technology Leadership -->
-    <section
-      class="bg-linear-to-b from-transparent to-muted/20 px-4 py-24 dark:to-white/[0.02] sm:px-6 lg:px-8"
-    >
+    <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -374,141 +395,235 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- The Shift: Before/After Contrast Section -->
-    <section class="bg-muted/30 px-4 py-24 dark:bg-white/[0.02] sm:px-6 lg:px-8">
+    <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <div
+        class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <h2 class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-            Stop Managing IT. <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Start Leading It.</span>
+          <h2
+            class="font-display mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl lg:text-6xl"
+          >
+            Stop Managing IT.{' '}
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Start Leading It.</span
+            >
           </h2>
-          <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Here&rsquo;s what changes when BDK takes ownership of your infrastructure.
+          <p
+            class="text-muted-foreground mx-auto max-w-2xl text-xl text-balance"
+          >
+            Here&rsquo;s what changes when BDK takes ownership of your
+            infrastructure.
           </p>
         </div>
-        <div class="grid gap-0 overflow-hidden rounded-2xl border border-border md:grid-cols-2">
-          <!-- Left: What You Stop Worrying About -->
-          <div class="bg-muted/60 dark:bg-white/[0.03] p-8 md:p-10">
-            <div class="mb-8 flex items-center gap-3">
-              <div class="rounded-lg bg-destructive/10 p-2">
-                <PiMonitor className="h-5 w-5 text-destructive" aria-hidden="true" />
+        <div
+          class="border-border/50 bg-background/40 relative grid gap-0 overflow-hidden rounded-3xl border shadow-2xl backdrop-blur-xl md:grid-cols-2"
+        >
+          <!-- Center Arrow (Desktop) -->
+          <div
+            class="absolute top-1/2 left-1/2 z-20 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex"
+          >
+            <div
+              class="border-border/50 bg-background relative flex h-14 w-14 items-center justify-center rounded-full border shadow-xl"
+            >
+              <div
+                class="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-full"
+              >
+                <PiArrowRight
+                  className="text-primary h-5 w-5"
+                  aria-hidden="true"
+                />
               </div>
-              <h3 class="font-display text-lg font-bold tracking-tight text-muted-foreground">What You Stop Worrying About</h3>
             </div>
-            <ul class="space-y-5">
-              {[
-                { icon: PiClock, text: "3am alerts waking your team for server issues" },
-                { icon: PiShieldCheck, text: "Patch cycles slipping and creating security gaps" },
-                { icon: PiLightning, text: "Unexpected hardware failures disrupting operations" },
-                { icon: PiMonitor, text: "Shadow IT and unmanaged endpoints" },
-                { icon: PiUsersThree, text: "Recruiting and retaining specialized IT talent" },
-                { icon: PiTrendUp, text: "Unpredictable capital expenses for infrastructure" },
-              ].map(({ icon: Icon, text }) => (
-                <li class="flex items-start gap-3">
-                  <div class="mt-0.5 rounded-full bg-destructive/10 p-1 shrink-0">
-                    <Icon className="h-3.5 w-3.5 text-destructive/70" aria-hidden="true" />
-                  </div>
-                  <span class="text-muted-foreground text-sm leading-relaxed">{text}</span>
-                </li>
-              ))}
-            </ul>
           </div>
-          <!-- Right: What You Gain -->
-          <div class="bg-primary/5 dark:bg-primary/10 border-t border-border md:border-t-0 md:border-l p-8 md:p-10">
-            <div class="mb-8 flex items-center gap-3">
-              <div class="rounded-lg bg-primary/15 p-2">
-                <PiCheckCircle className="h-5 w-5 text-primary" aria-hidden="true" />
-              </div>
-              <h3 class="font-display text-lg font-bold tracking-tight text-foreground">What You Gain</h3>
+          <!-- Left: What You Stop Worrying About -->
+          <div class="bg-muted/30 relative p-8 md:p-12 dark:bg-white/[0.02]">
+            <div
+              class="from-destructive/10 pointer-events-none absolute inset-0 bg-linear-to-br via-transparent to-transparent"
+            >
             </div>
-            <ul class="space-y-5">
-              {[
-                { text: "24/7 NOC coverage with sub-15 minute response SLAs", stat: "15 min SLA" },
-                { text: "Automated patch management with 99%+ compliance rates", stat: "99% compliant" },
-                { text: "Predictive failure detection before impact occurs", stat: "Proactive" },
-                { text: "Complete asset visibility across every endpoint", stat: "Full coverage" },
-                { text: "Dedicated senior engineers who know your environment", stat: "Expert team" },
-                { text: "Flat-fee model: predictable monthly IT spend", stat: "OpEx model" },
-              ].map(({ text, stat }) => (
-                <li class="flex items-start gap-3">
-                  <div class="mt-0.5 shrink-0">
-                    <PiCheckCircle className="h-4 w-4 text-primary" aria-hidden="true" />
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <span class="text-foreground text-sm leading-relaxed">{text}</span>
-                  </div>
-                  <span class="font-mono text-[10px] font-bold tracking-widest text-primary bg-primary/10 px-2 py-0.5 rounded shrink-0 self-center">{stat}</span>
-                </li>
-              ))}
-            </ul>
+            <div
+              class="pointer-events-none absolute inset-0 opacity-[0.02]"
+              style="background-image: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%); background-size: 10px 10px;"
+            >
+            </div>
+            <div class="relative z-10">
+              <div class="mb-10 flex items-center gap-4">
+                <div
+                  class="bg-destructive/10 border-destructive/20 flex h-12 w-12 items-center justify-center rounded-xl border"
+                >
+                  <PiMonitor
+                    className="text-destructive h-6 w-6"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h3
+                  class="font-display text-foreground/80 text-2xl font-bold tracking-tight"
+                >
+                  The Old Way
+                </h3>
+              </div>
+              <ul class="space-y-6">
+                {
+                  [
+                    {
+                      icon: PiClock,
+                      text: '3am alerts waking your team for server issues',
+                    },
+                    {
+                      icon: PiShieldCheck,
+                      text: 'Patch cycles slipping and creating security gaps',
+                    },
+                    {
+                      icon: PiLightning,
+                      text: 'Unexpected hardware failures disrupting operations',
+                    },
+                    {
+                      icon: PiMonitor,
+                      text: 'Shadow IT and unmanaged endpoints',
+                    },
+                    {
+                      icon: PiUsersThree,
+                      text: 'Recruiting and retaining specialized IT talent',
+                    },
+                    {
+                      icon: PiTrendUp,
+                      text: 'Unpredictable capital expenses for infrastructure',
+                    },
+                  ].map(({ icon: Icon, text }) => (
+                    <li class="group flex items-start gap-4 transition-all duration-300 hover:translate-x-1">
+                      <div class="bg-destructive/10 border-destructive/20 group-hover:bg-destructive/20 mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-colors">
+                        <Icon
+                          className="text-destructive/80 h-3.5 w-3.5"
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <span class="text-muted-foreground group-hover:text-foreground leading-relaxed transition-colors">
+                        {text}
+                      </span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+          <!-- Right: The BDK Way -->
+          <div
+            class="bg-card border-border/50 relative overflow-hidden border-t p-8 md:border-t-0 md:border-l md:p-12"
+          >
+            <div
+              class="from-primary/10 pointer-events-none absolute inset-0 bg-linear-to-br via-transparent to-transparent"
+            >
+            </div>
+            <div
+              class="bg-primary/20 pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
+            </div>
+            <div class="relative z-10">
+              <div class="mb-10 flex items-center gap-4">
+                <div
+                  class="bg-primary/20 border-primary/30 flex h-12 w-12 items-center justify-center rounded-xl border shadow-[0_0_15px_rgba(var(--color-primary),0.3)]"
+                >
+                  <PiCheckCircle
+                    className="text-primary h-6 w-6"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h3
+                  class="font-display text-foreground text-2xl font-bold tracking-tight"
+                >
+                  The BDK Way
+                </h3>
+              </div>
+              <ul class="space-y-6">
+                {
+                  [
+                    {
+                      icon: PiHeadphones,
+                      text: '24/7 NOC coverage with sub-15 minute response SLAs',
+                    },
+                    {
+                      icon: PiShieldCheck,
+                      text: 'Automated patch management with 99%+ compliance',
+                    },
+                    {
+                      icon: PiLightning,
+                      text: 'Predictive failure detection before impact occurs',
+                    },
+                    {
+                      icon: PiMonitor,
+                      text: 'Complete asset visibility across every endpoint',
+                    },
+                    {
+                      icon: PiUsersThree,
+                      text: 'Dedicated senior engineers who know your environment',
+                    },
+                    {
+                      icon: PiTrendUp,
+                      text: 'Flat-fee model: predictable monthly IT spend',
+                    },
+                  ].map(({ icon: Icon, text }) => (
+                    <li class="group flex items-start gap-4 transition-all duration-300 hover:translate-x-1">
+                      <div class="bg-primary/15 border-primary/30 group-hover:bg-primary/25 mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border shadow-none transition-all group-hover:shadow-[0_0_10px_rgba(var(--color-primary),0.2)]">
+                        <Icon
+                          className="text-primary h-3.5 w-3.5"
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <span class="text-foreground leading-relaxed font-medium">
+                          {text}
+                        </span>
+                      </div>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <TechnicalSection client:visible id="managed-it-vault" overlayOpacity="opacity-10">
-      <div class="relative z-10 flex flex-col items-center text-center">
-        <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
-          <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
-          <span class="text-xs font-bold tracking-widest text-primary font-display">BDK Operations Center</span>
-        </div>
-        <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
-          Proactive Infrastructure. <span class="text-primary">Zero Surprises.</span>
-        </h3>
-        <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
-          We don&rsquo;t wait for your systems to fail. Our NOC monitors your entire 
-          infrastructure 24/7, applying predictive telemetry and automated remediation 
-          to neutralize issues before they become incidents. Your team stays focused 
-          on business priorities. We handle the infrastructure.
-        </div>
+    <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <div
+        class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
       </div>
-    </TechnicalSection>
-    <!-- FAQ -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
-        <h2 class="text-foreground mb-6 text-center text-2xl font-bold">
+        <h2 class="text-foreground mb-12 text-center text-3xl font-bold">
           Frequently Asked Questions
         </h2>
-        <div class="mb-20">
+        <div>
           <TechnicalFAQ client:visible faqs={faqs} />
         </div>
       </div>
     </section>
-    <!-- Related Resources -->
-    {
-      relatedPosts.length > 0 && (
-        <section class="mx-auto max-w-5xl px-4 py-24">
-          <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-            Related Resources
-          </h2>
-          <div class="grid gap-6 md:grid-cols-3">
-            {relatedPosts.map((post) => (
-              <a
-                href={`/blog/${post.slug}`}
-                class="border-border hover:border-primary group flex flex-col rounded-xl border p-6 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
-              >
-                <h3 class="text-foreground group-hover:text-primary mb-2 text-lg font-semibold transition-colors">
-                  {post.title}
-                </h3>
-                <p class="text-muted-foreground text-sm line-clamp-3">
-                  {post.description}
-                </p>
-                <span class="text-primary mt-4 text-sm font-medium flex items-center gap-1">
-                  Read Article <PiArrowRight className="h-3 w-3" aria-hidden="true" />
-                </span>
-              </a>
-            ))}
-          </div>
-        </section>
-      )
-    }
-    <ImpactMetricsSection metrics={metrics} />
+
+    <div class="relative">
+      <div
+        class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+      <ImpactMetricsSection metrics={metrics} />
+    </div>
+
     <!-- CTA -->
-    <CTASection
-      client:visible
-      title="Stop Managing IT. Start Leading It."
-      description="Your team deserves to focus on strategy, not servers. Let BDK own the infrastructure so you can own the future."
-      buttonText="Schedule a Strategy Session"
-      buttonHref="/contact#chat"
-    />
+    <div class="relative">
+      <div
+        class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+      >
+      </div>
+      <CTASection
+        client:visible
+        title="Stop Managing IT. Start Leading It."
+        description="Your team deserves to focus on strategy, not servers. Let BDK own the infrastructure so you can own the future."
+        buttonText="Schedule a Strategy Session"
+        buttonHref="/contact#chat"
+      />
+    </div>
   </main>
   <Footer />
 </Layout>
