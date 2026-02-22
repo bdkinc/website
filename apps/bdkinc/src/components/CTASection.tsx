@@ -57,11 +57,12 @@ export default function CTASection({
   };
 
   // Viewport detection for CTA section
-  const { ref: sectionRef, isIntersecting } = useIntersectionObserver<HTMLDivElement>({
-    threshold: 0.2,
-    rootMargin: '0px',
-    triggerOnce: true,
-  });
+  const { ref: sectionRef, isIntersecting } =
+    useIntersectionObserver<HTMLDivElement>({
+      threshold: 0.2,
+      rootMargin: '0px',
+      triggerOnce: true,
+    });
 
   const sectionInView = disableObserver ? true : isIntersecting;
 

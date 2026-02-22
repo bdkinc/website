@@ -93,8 +93,7 @@ const faqs = [
 const strategicFeatures = [
   {
     title: 'Adaptive Threat Intelligence',
-    description:
-      'Real-time defense that evolves with the threat landscape.',
+    description: 'Real-time defense that evolves with the threat landscape.',
     highlight: 'Real-time defense',
     icon: 'ShieldCheck',
     detail:
@@ -116,7 +115,7 @@ const strategicFeatures = [
     highlight: 'Automating evidence collection',
     icon: 'FileText',
     detail:
-      "We map your technical controls directly to HIPAA, PCI, and SOC 2 frameworks, turning compliance from a yearly burden into a continuous, automated property of your IT operations.",
+      'We map your technical controls directly to HIPAA, PCI, and SOC 2 frameworks, turning compliance from a yearly burden into a continuous, automated property of your IT operations.',
   },
   {
     title: 'Resilient Recovery',
@@ -125,7 +124,7 @@ const strategicFeatures = [
     highlight: 'Immutable backups',
     icon: 'ArrowsClockwise',
     detail:
-      "In the event of an incident, our rapid-response protocols isolate threats instantly while our immutable backup systems ensure you can restore operations without paying a ransom.",
+      'In the event of an incident, our rapid-response protocols isolate threats instantly while our immutable backup systems ensure you can restore operations without paying a ransom.',
   },
 ];
 const detailColumns = [
@@ -149,6 +148,7 @@ const detailColumns = [
   },
 ];
 ---
+
 <Layout
   title={`${service.data.title} & Compliance Services | BDKinc`}
   description="Fortified security for a complex world. Enterprise-grade threat resilience, managed detection and response, and rigorous compliance engineering."
@@ -177,7 +177,11 @@ const detailColumns = [
             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
           >
             <div class="flex items-center gap-2 text-sm">
-              <span>24/7 Threat <span class="text-accent font-semibold">Protection</span></span>
+              <span
+                >24/7 Threat <span class="text-accent font-semibold"
+                  >Protection</span
+                ></span
+              >
             </div>
           </div>
           <div
@@ -209,9 +213,9 @@ const detailColumns = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            Fortified security for a complex world. Enterprise-grade threat resilience, 
-            managed detection and response, and rigorous compliance engineering 
-            for high-stakes environments.
+            Fortified security for a complex world. Enterprise-grade threat
+            resilience, managed detection and response, and rigorous compliance
+            engineering for high-stakes environments.
           </p>
         </div>
         <!-- Visualization -->
@@ -229,7 +233,9 @@ const detailColumns = [
       </div>
     </section>
     <!-- Core Services -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -249,10 +255,7 @@ const detailColumns = [
           </p>
         </div>
         <TechCardGrid client:visible className="md:grid-cols-3">
-          <TechCard
-            variant="technical"
-            interactive={true}
-          >
+          <TechCard variant="technical" interactive={true}>
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -268,24 +271,19 @@ const detailColumns = [
                 Managed Detection & Response
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                24/7/365 surveillance of your entire digital estate. Our SOC 
-                analysts leverage advanced telemetry to detect anomalies, 
-                investigate threats, and neutralize attacks before they impact operations.
+                24/7/365 surveillance of your entire digital estate. Our SOC
+                analysts leverage advanced telemetry to detect anomalies,
+                investigate threats, and neutralize attacks before they impact
+                operations.
               </div>
             </div>
           </TechCard>
-          <TechCard
-            variant="technical"
-            interactive={true}
-          >
+          <TechCard variant="technical" interactive={true}>
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
               >
-                <PiLock
-                  className="text-primary h-16 w-16"
-                  aria-hidden="true"
-                />
+                <PiLock className="text-primary h-16 w-16" aria-hidden="true" />
               </div>
               <h4
                 class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
@@ -293,16 +291,14 @@ const detailColumns = [
                 Ransomware Defense
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Zero-trust architecture combined with immutable backups. We 
-                implement rigorous prevention strategies and rapid recovery 
-                protocols to ensure business continuity in the face of extortion attempts.
+                Zero-trust architecture combined with immutable backups. We
+                implement rigorous prevention strategies and rapid recovery
+                protocols to ensure business continuity in the face of extortion
+                attempts.
               </div>
             </div>
           </TechCard>
-          <TechCard
-            variant="technical"
-            interactive={true}
-          >
+          <TechCard variant="technical" interactive={true}>
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -318,8 +314,8 @@ const detailColumns = [
                 Compliance Engineering
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                We don't just consult on compliance; we engineer it. Our team 
-                implements the technical controls required for HIPAA, PCI DSS, 
+                We don't just consult on compliance; we engineer it. Our team
+                implements the technical controls required for HIPAA, PCI DSS,
                 SOC 2, and NIST frameworks to prepare you for audits.
               </div>
             </div>
@@ -345,32 +341,48 @@ const detailColumns = [
             >
           </h2>
         </div>
-        
+
         <!-- Glass Quote Container -->
         <div class="relative mx-auto max-w-4xl">
           <!-- Floating Icon -->
-          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
-            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
+            <PiQuotesFill
+              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
+              aria-hidden="true"
+            />
           </div>
-          
+
           <!-- Glass Card -->
-          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+          <div
+            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
+          >
             <!-- Ambient Glow -->
-            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
-            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
-            
-            <!-- Background Watermark -->
-            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
-               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            <div
+              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
+            </div>
+            <div
+              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
             </div>
 
-            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
-              &ldquo;In an era of sophisticated attacks, reactive security is failure.
-              We architect
-              <span class="text-accent">
-                proactive resilience</span
-              >
-              into every layer of your digital estate, ensuring your data is protected 
+            <!-- Background Watermark -->
+            <div
+              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
+            >
+              <PiQuotesFill
+                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
+                aria-hidden="true"
+              />
+            </div>
+
+            <blockquote
+              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
+            >
+              &ldquo;In an era of sophisticated attacks, reactive security is
+              failure. We architect
+              <span class="text-accent"> proactive resilience</span>
+              into every layer of your digital estate, ensuring your data is protected
               and your operations are audit-ready 24/7.&rdquo;
             </blockquote>
           </div>
@@ -383,7 +395,7 @@ const detailColumns = [
     </section>
     <!-- Strategic Advantage -->
     <section
-      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
+      class="to-muted/20 bg-linear-to-b from-transparent px-4 py-24 sm:px-6 lg:px-8 dark:to-white/[0.02]"
     >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
@@ -396,7 +408,7 @@ const detailColumns = [
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond antivirus and basic firewalls with a partner who builds 
+            Move beyond antivirus and basic firewalls with a partner who builds
             defense-in-depth security architectures.
           </p>
         </div>
@@ -404,7 +416,9 @@ const detailColumns = [
       </div>
     </section>
     <!-- Security Framework Section -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -417,56 +431,90 @@ const detailColumns = [
           </h2>
         </div>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {[
-            {
-              num: "01",
-              label: "Prevent",
-              Icon: PiShieldCheck,
-              items: ["Firewall management", "Endpoint protection", "Email security", "User education", "Access controls"],
-            },
-            {
-              num: "02",
-              label: "Detect",
-              Icon: PiEye,
-              items: ["24/7 monitoring", "Intrusion detection", "Log analysis", "Vulnerability scanning", "Threat intelligence"],
-            },
-            {
-              num: "03",
-              label: "Respond",
-              Icon: PiBell,
-              items: ["Incident response", "Forensic analysis", "Containment procedures", "Recovery processes", "Post-incident review"],
-            },
-            {
-              num: "04",
-              label: "Recover",
-              Icon: PiHardDrives,
-              items: ["Backup systems", "Recovery procedures", "Continuity planning", "Communication protocols", "System restoration"],
-            },
-          ].map(({ num, label, Icon, items }) => (
-            <div class="group relative overflow-hidden rounded-xl border border-primary/20 bg-card/30 p-6 transition-[color,background-color,border-color,box-shadow,opacity] duration-300 hover:border-primary/50 hover:bg-card/50 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
-              <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]"></div>
-              <div class="mb-4 flex items-center justify-between">
-                <div class="inline-flex h-14 w-14 items-center justify-center rounded-lg bg-primary/10 ring-1 ring-primary/20 transition-[background-color,box-shadow] duration-300 group-hover:bg-primary/20 group-hover:ring-primary/40">
-                  <Icon className="text-primary h-8 w-8" aria-hidden="true" />
+          {
+            [
+              {
+                num: '01',
+                label: 'Prevent',
+                Icon: PiShieldCheck,
+                items: [
+                  'Firewall management',
+                  'Endpoint protection',
+                  'Email security',
+                  'User education',
+                  'Access controls',
+                ],
+              },
+              {
+                num: '02',
+                label: 'Detect',
+                Icon: PiEye,
+                items: [
+                  '24/7 monitoring',
+                  'Intrusion detection',
+                  'Log analysis',
+                  'Vulnerability scanning',
+                  'Threat intelligence',
+                ],
+              },
+              {
+                num: '03',
+                label: 'Respond',
+                Icon: PiBell,
+                items: [
+                  'Incident response',
+                  'Forensic analysis',
+                  'Containment procedures',
+                  'Recovery processes',
+                  'Post-incident review',
+                ],
+              },
+              {
+                num: '04',
+                label: 'Recover',
+                Icon: PiHardDrives,
+                items: [
+                  'Backup systems',
+                  'Recovery procedures',
+                  'Continuity planning',
+                  'Communication protocols',
+                  'System restoration',
+                ],
+              },
+            ].map(({ num, label, Icon, items }) => (
+              <div class="group border-primary/20 bg-card/30 hover:border-primary/50 hover:bg-card/50 relative overflow-hidden rounded-xl border p-6 transition-[color,background-color,border-color,box-shadow,opacity] duration-300 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
+                <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]" />
+                <div class="mb-4 flex items-center justify-between">
+                  <div class="bg-primary/10 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 inline-flex h-14 w-14 items-center justify-center rounded-lg ring-1 transition-[background-color,box-shadow] duration-300">
+                    <Icon className="text-primary h-8 w-8" aria-hidden="true" />
+                  </div>
+                  <span class="text-primary/15 group-hover:text-primary/25 font-mono text-4xl leading-none font-bold transition-colors duration-300">
+                    {num}
+                  </span>
                 </div>
-                <span class="font-mono text-4xl font-bold text-primary/15 group-hover:text-primary/25 transition-colors duration-300 leading-none">{num}</span>
+                <h4 class="text-foreground font-display mb-3 text-xl font-bold">
+                  {label}
+                </h4>
+                <ul class="text-muted-foreground space-y-2 font-sans text-sm">
+                  {items.map((item) => (
+                    <li class="flex items-start gap-2">
+                      <span class="text-primary mt-1" aria-hidden="true">
+                        •
+                      </span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <h4 class="text-foreground mb-3 text-xl font-bold font-display">{label}</h4>
-              <ul class="text-muted-foreground space-y-2 text-sm font-sans">
-                {items.map((item) => (
-                  <li class="flex items-start gap-2">
-                    <span class="text-primary mt-1" aria-hidden="true">•</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </div>
     </section>
     <!-- Key Benefits -->
-    <section class="bg-muted/20 dark:bg-white/[0.01] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.01]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -479,95 +527,133 @@ const detailColumns = [
           </h2>
         </div>
         <!-- Swiss Grid Layout -->
-        <div class="grid gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          class="bg-border grid gap-px overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-3"
+        >
           <!-- Benefit 1 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiWarning className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Reduce Risk
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Protect against data breaches, ransomware, and other emerging 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Protect against data breaches, ransomware, and other emerging
               cyber threats.
             </p>
           </div>
           <!-- Benefit 2 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiFileText className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Ensure Compliance
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Meet industry security standards and regulations including HIPAA, 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Meet industry security standards and regulations including HIPAA,
               PCI DSS, and SOC 2.
             </p>
           </div>
           <!-- Benefit 3 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiArrowsClockwise className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Minimize Downtime
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Quick incident recovery ensures your business operations continue 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Quick incident recovery ensures your business operations continue
               without disruption.
             </p>
           </div>
           <!-- Benefit 4 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiShield className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Protect Reputation
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Prevent damaging data breaches that erode customer trust and 
-              brand equity.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Prevent damaging data breaches that erode customer trust and brand
+              equity.
             </p>
           </div>
           <!-- Benefit 5 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiEye className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 24/7 Peace of Mind
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Rest easy knowing your critical systems are monitored and 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Rest easy knowing your critical systems are monitored and
               protected around the clock.
             </p>
           </div>
           <!-- Benefit 6 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiUsers className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Expert Guidance
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Direct access to senior security professionals with deep 
-              industry expertise.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Direct access to senior security professionals with deep industry
+              expertise.
             </p>
           </div>
         </div>
@@ -577,8 +663,13 @@ const detailColumns = [
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
-          <h2 class="text-foreground mb-6 text-3xl font-bold font-display tracking-tight md:text-4xl">
-            Technical <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Specifications</span>
+          <h2
+            class="text-foreground font-display mb-6 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Technical <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Specifications</span
+            >
           </h2>
         </div>
         <div class="grid gap-8 md:grid-cols-2">
@@ -611,20 +702,33 @@ const detailColumns = [
         </div>
       </div>
     </section>
-    <TechnicalSection client:visible id="compliance-vault" overlayOpacity="opacity-10">
+    <TechnicalSection
+      client:visible
+      id="compliance-vault"
+      overlayOpacity="opacity-10"
+    >
       <div class="relative z-10 flex flex-col items-center text-center">
-        <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
-          <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
-          <span class="text-xs font-bold tracking-widest text-primary font-display">Compliance Engineering Vault</span>
+        <div
+          class="border-primary/30 bg-primary/10 mb-6 flex items-center gap-2 rounded-full border px-4 py-1"
+        >
+          <div class="bg-primary h-2 w-2 animate-pulse rounded-full"></div>
+          <span
+            class="text-primary font-display text-xs font-bold tracking-widest"
+            >Compliance Engineering Vault</span
+          >
         </div>
-        <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
+        <h3
+          class="text-foreground font-display mb-6 max-w-2xl text-3xl font-bold tracking-tight"
+        >
           Rigorous Standards. <span class="text-primary">Zero Compromise.</span>
         </h3>
-        <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
-          We help you meet security requirements for HIPAA, PCI DSS, SOC 2, and 
-          NIST frameworks. Our team engineers technical controls directly into your 
-          infrastructure, automating evidence collection and ensuring you are 
-          prepared for pass rigorous third-party audits.
+        <div
+          class="text-muted-foreground mx-auto max-w-4xl font-sans text-lg leading-relaxed"
+        >
+          We help you meet security requirements for HIPAA, PCI DSS, SOC 2, and
+          NIST frameworks. Our team engineers technical controls directly into
+          your infrastructure, automating evidence collection and ensuring you
+          are prepared for pass rigorous third-party audits.
         </div>
       </div>
     </TechnicalSection>
@@ -651,16 +755,17 @@ const detailColumns = [
             {relatedPosts.map((post) => (
               <a
                 href={`/blog/${post.slug}`}
-                class="border-border hover:border-primary group flex flex-col rounded-xl border p-6 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                class="border-border hover:border-primary group focus-visible:ring-primary flex flex-col rounded-xl border p-6 transition-colors focus-visible:ring-2 focus-visible:outline-none"
               >
                 <h3 class="text-foreground group-hover:text-primary mb-2 text-lg font-semibold transition-colors">
                   {post.title}
                 </h3>
-                <p class="text-muted-foreground text-sm line-clamp-3">
+                <p class="text-muted-foreground line-clamp-3 text-sm">
                   {post.description}
                 </p>
-                <span class="text-primary mt-4 text-sm font-medium flex items-center gap-1">
-                  Read Article <PiArrowRight className="h-3 w-3" aria-hidden="true" />
+                <span class="text-primary mt-4 flex items-center gap-1 text-sm font-medium">
+                  Read Article{' '}
+                  <PiArrowRight className="h-3 w-3" aria-hidden="true" />
                 </span>
               </a>
             ))}

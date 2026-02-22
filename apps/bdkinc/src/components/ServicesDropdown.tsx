@@ -125,7 +125,7 @@ function ServiceDropdownItem({
       <NavigationMenuLink asChild>
         <a
           href={`/services/${service.slug}`}
-          className="group border-border/50 bg-card/60 hover:bg-card/60 focus:bg-card/60 hover:text-foreground focus:text-foreground hover:border-primary/35 hover:shadow-[--shadow-glow-sm] focus-visible:ring-primary/40 focus-visible:ring-offset-background relative flex h-full flex-col overflow-hidden rounded-lg border p-5 no-underline backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="group border-border/50 bg-card/60 hover:bg-card/60 focus:bg-card/60 hover:text-foreground focus:text-foreground hover:border-primary/35 focus-visible:ring-primary/40 focus-visible:ring-offset-background relative flex h-full flex-col overflow-hidden rounded-lg border p-5 no-underline backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:shadow-[--shadow-glow-sm] focus-visible:ring-2 focus-visible:ring-offset-2"
           onClick={navOnClick(`/services/${service.slug}`, () =>
             prepareServiceViewTransition(
               {
@@ -168,7 +168,7 @@ function ServiceDropdownItem({
             {Icon && (
               <div
                 ref={iconRef}
-                className="flex justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
+                className="flex justify-center transition-transform duration-300 group-hover:scale-110"
               >
                 <div className="bg-primary/10 rounded-lg p-2.5">
                   <Icon className="text-primary h-10 w-10" />

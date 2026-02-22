@@ -60,12 +60,11 @@ const faqs = [
 const strategicFeatures = [
   {
     title: 'Neural Orchestration',
-    description:
-      'Secure, governed AI ecosystems powered by IBM watsonx.',
+    description: 'Secure, governed AI ecosystems powered by IBM watsonx.',
     highlight: 'Secure AI ecosystems',
     icon: 'Brain',
     detail:
-      "We design AI architectures that prioritize security and governance. By utilizing watsonx.governance, we ensure that every model in your ecosystem is transparent, explainable, and aligned with your operational standards.",
+      'We design AI architectures that prioritize security and governance. By utilizing watsonx.governance, we ensure that every model in your ecosystem is transparent, explainable, and aligned with your operational standards.',
   },
   {
     title: 'Retrieval-Augmented Intelligence',
@@ -74,7 +73,7 @@ const strategicFeatures = [
     highlight: 'Zero hallucination',
     icon: 'Target',
     detail:
-      "Your data is your competitive edge. We implement RAG architectures that allow generative models to retrieve context from your secure internal databases, providing highly accurate responses without risking your intellectual property.",
+      'Your data is your competitive edge. We implement RAG architectures that allow generative models to retrieve context from your secure internal databases, providing highly accurate responses without risking your intellectual property.',
   },
   {
     title: 'Predictive Precision',
@@ -83,7 +82,7 @@ const strategicFeatures = [
     highlight: 'High-fidelity forecasting',
     icon: 'ChartLine',
     detail:
-      "Transform historical drag into future momentum. Our predictive engines identify patterns in supply chain, demand, and risk, allowing you to make decisions based on mathematical certainty rather than intuition.",
+      'Transform historical drag into future momentum. Our predictive engines identify patterns in supply chain, demand, and risk, allowing you to make decisions based on mathematical certainty rather than intuition.',
   },
   {
     title: 'Operational Cognitive Automation',
@@ -96,6 +95,7 @@ const strategicFeatures = [
   },
 ];
 ---
+
 <Layout
   title={`${service.data.title} - BDKinc`}
   description={service.data.description}
@@ -111,7 +111,11 @@ const strategicFeatures = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <!-- AI-specific: extra purple radial glow -->
-      <div class="pointer-events-none absolute inset-0" style="background: radial-gradient(ellipse 80% 50% at 50% 0%, oklch(0.65 0.22 280 / 0.12) 0%, transparent 70%);"></div>
+      <div
+        class="pointer-events-none absolute inset-0"
+        style="background: radial-gradient(ellipse 80% 50% at 50% 0%, oklch(0.65 0.22 280 / 0.12) 0%, transparent 70%);"
+      >
+      </div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
@@ -120,7 +124,11 @@ const strategicFeatures = [
             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
           >
             <div class="flex items-center gap-2 text-sm">
-              <span>Enterprise <span class="text-accent font-semibold">AI Intelligence</span></span>
+              <span
+                >Enterprise <span class="text-accent font-semibold"
+                  >AI Intelligence</span
+                ></span
+              >
             </div>
           </div>
           <div
@@ -152,8 +160,8 @@ const strategicFeatures = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            BDKinc delivers engineered intelligence using IBM watsonx and 
-            proven ML workflows. We design secure, governed AI ecosystems that 
+            BDKinc delivers engineered intelligence using IBM watsonx and proven
+            ML workflows. We design secure, governed AI ecosystems that
             integrate cleanly with your core systems.
           </p>
         </div>
@@ -172,7 +180,9 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Core Services -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -192,10 +202,7 @@ const strategicFeatures = [
           </p>
         </div>
         <TechCardGrid client:visible className="md:grid-cols-3">
-          <TechCard
-            variant="technical"
-            interactive={true}
-          >
+          <TechCard variant="technical" interactive={true}>
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -211,16 +218,13 @@ const strategicFeatures = [
                 Generative AI & LLMs
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Build secure, domain-specific generative models using RAG 
-                architectures. We implement watsonx.ai to ensure your assistants 
+                Build secure, domain-specific generative models using RAG
+                architectures. We implement watsonx.ai to ensure your assistants
                 are grounded in your proprietary data.
               </div>
             </div>
           </TechCard>
-          <TechCard
-            variant="technical"
-            interactive={true}
-          >
+          <TechCard variant="technical" interactive={true}>
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -236,16 +240,13 @@ const strategicFeatures = [
                 Predictive Analytics
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Transform historical data into future certainty. Our ML models 
-                forecast demand and optimize resource allocation with 
+                Transform historical data into future certainty. Our ML models
+                forecast demand and optimize resource allocation with
                 high-precision inference engines.
               </div>
             </div>
           </TechCard>
-          <TechCard
-            variant="technical"
-            interactive={true}
-          >
+          <TechCard variant="technical" interactive={true}>
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -261,8 +262,8 @@ const strategicFeatures = [
                 Intelligent Automation
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Embed AI into operational workflows. From computer vision for 
-                quality control to NLP for document processing, we automate 
+                Embed AI into operational workflows. From computer vision for
+                quality control to NLP for document processing, we automate
                 complex cognitive tasks.
               </div>
             </div>
@@ -288,32 +289,49 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        
+
         <!-- Glass Quote Container -->
         <div class="relative mx-auto max-w-4xl">
           <!-- Floating Icon -->
-          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
-            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
+            <PiQuotesFill
+              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
+              aria-hidden="true"
+            />
           </div>
-          
+
           <!-- Glass Card -->
-          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+          <div
+            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
+          >
             <!-- Ambient Glow -->
-            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
-            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
-            
-            <!-- Background Watermark -->
-            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
-               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            <div
+              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
+            </div>
+            <div
+              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
             </div>
 
-            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
-              &ldquo;AI is not a separate tool; it&rsquo;s the engine of modern business. We architect 
-              <span class="text-accent">
-                intelligent ecosystems</span
-              >
-              that automate complexity and transform your proprietary data into 
-              your most powerful competitive advantage.&rdquo;
+            <!-- Background Watermark -->
+            <div
+              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
+            >
+              <PiQuotesFill
+                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
+                aria-hidden="true"
+              />
+            </div>
+
+            <blockquote
+              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
+            >
+              &ldquo;AI is not a separate tool; it&rsquo;s the engine of modern
+              business. We architect
+              <span class="text-accent"> intelligent ecosystems</span>
+              that automate complexity and transform your proprietary data into your
+              most powerful competitive advantage.&rdquo;
             </blockquote>
           </div>
         </div>
@@ -325,7 +343,7 @@ const strategicFeatures = [
     </section>
     <!-- Strategic Advantage -->
     <section
-      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
+      class="to-muted/20 bg-linear-to-b from-transparent px-4 py-24 sm:px-6 lg:px-8 dark:to-white/[0.02]"
     >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
@@ -338,7 +356,7 @@ const strategicFeatures = [
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond experiments with a partner who builds production-ready, 
+            Move beyond experiments with a partner who builds production-ready,
             governed AI solutions.
           </p>
         </div>
@@ -346,7 +364,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Watsonx Spotlight -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] py-24">
+    <section class="bg-muted/30 py-24 dark:bg-white/[0.02]">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <WatsonxSpotlight client:visible />
       </div>
@@ -355,8 +373,13 @@ const strategicFeatures = [
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
         <div class="mb-16 text-center">
-          <h2 class="text-foreground mb-4 text-3xl font-bold font-display tracking-tight md:text-4xl">
-            Generative <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Solutions</span>
+          <h2
+            class="text-foreground font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Generative <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Solutions</span
+            >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
             Enterprise-grade LLMs designed for measurable business use cases.
@@ -364,128 +387,201 @@ const strategicFeatures = [
         </div>
         <div class="relative">
           <!-- Vertical connecting line -->
-          <div class="absolute left-6 top-8 bottom-8 w-px bg-linear-to-b from-primary/60 via-secondary/40 to-transparent hidden md:block" aria-hidden="true"></div>
+          <div
+            class="from-primary/60 via-secondary/40 absolute top-8 bottom-8 left-6 hidden w-px bg-linear-to-b to-transparent md:block"
+            aria-hidden="true"
+          >
+          </div>
           <div class="space-y-6">
-            {[
-              {
-                num: "01",
-                title: "Custom AI Assistants",
-                desc: "Deploy intelligent agents trained on your documentation, ensuring context-aware support for internal teams or customers. Grounded in your proprietary data via RAG — zero hallucination.",
-                tag: "Conversational AI",
-              },
-              {
-                num: "02",
-                title: "Intelligent Document Processing",
-                desc: "Automate the extraction of critical data from contracts, invoices, and reports with high-precision NLP models. Reduce manual review time by up to 80%.",
-                tag: "NLP / OCR",
-              },
-              {
-                num: "03",
-                title: "Code Modernization",
-                desc: "Accelerate development cycles using AI to refactor legacy codebases, generate comprehensive test suites, and auto-document complex systems at scale.",
-                tag: "Dev Acceleration",
-              },
-              {
-                num: "04",
-                title: "Content Strategy at Scale",
-                desc: "Generate high-fidelity technical documentation and on-brand marketing copy with consistent brand-voice alignment across all channels and formats.",
-                tag: "Content AI",
-              },
-            ].map(({ num, title, desc, tag }) => (
-              <div class="group relative flex gap-6 md:gap-8">
-                <!-- Number bubble -->
-                <div class="relative shrink-0 z-10">
-                  <div class="flex h-12 w-12 items-center justify-center rounded-full border border-primary/40 bg-background group-hover:border-primary group-hover:bg-primary/10 transition-[background-color,border-color] duration-300">
-                    <span class="font-mono text-xs font-bold text-primary">{num}</span>
+            {
+              [
+                {
+                  num: '01',
+                  title: 'Custom AI Assistants',
+                  desc: 'Deploy intelligent agents trained on your documentation, ensuring context-aware support for internal teams or customers. Grounded in your proprietary data via RAG — zero hallucination.',
+                  tag: 'Conversational AI',
+                },
+                {
+                  num: '02',
+                  title: 'Intelligent Document Processing',
+                  desc: 'Automate the extraction of critical data from contracts, invoices, and reports with high-precision NLP models. Reduce manual review time by up to 80%.',
+                  tag: 'NLP / OCR',
+                },
+                {
+                  num: '03',
+                  title: 'Code Modernization',
+                  desc: 'Accelerate development cycles using AI to refactor legacy codebases, generate comprehensive test suites, and auto-document complex systems at scale.',
+                  tag: 'Dev Acceleration',
+                },
+                {
+                  num: '04',
+                  title: 'Content Strategy at Scale',
+                  desc: 'Generate high-fidelity technical documentation and on-brand marketing copy with consistent brand-voice alignment across all channels and formats.',
+                  tag: 'Content AI',
+                },
+              ].map(({ num, title, desc, tag }) => (
+                <div class="group relative flex gap-6 md:gap-8">
+                  {/* Number bubble */}
+                  <div class="relative z-10 shrink-0">
+                    <div class="border-primary/40 bg-background group-hover:border-primary group-hover:bg-primary/10 flex h-12 w-12 items-center justify-center rounded-full border transition-[background-color,border-color] duration-300">
+                      <span class="text-primary font-mono text-xs font-bold">
+                        {num}
+                      </span>
+                    </div>
+                  </div>
+                  {/* Content */}
+                  <div class="border-border bg-card/30 group-hover:border-primary/30 flex-1 rounded-xl border p-6 transition-[border-color,box-shadow] duration-300 group-hover:shadow-[0_0_20px_oklch(0.7_0.18_210_/_0.08)]">
+                    <div class="mb-3 flex flex-wrap items-center gap-3">
+                      <h3 class="font-display text-foreground group-hover:text-primary text-lg font-bold transition-colors duration-300">
+                        {title}
+                      </h3>
+                      <span class="text-secondary bg-secondary/10 border-secondary/20 rounded border px-2 py-0.5 font-mono text-[10px] font-bold tracking-widest">
+                        {tag}
+                      </span>
+                    </div>
+                    <p class="text-muted-foreground text-sm leading-relaxed">
+                      {desc}
+                    </p>
                   </div>
                 </div>
-                <!-- Content -->
-                <div class="flex-1 rounded-xl border border-border bg-card/30 p-6 transition-[border-color,box-shadow] duration-300 group-hover:border-primary/30 group-hover:shadow-[0_0_20px_oklch(0.7_0.18_210_/_0.08)]">
-                  <div class="mb-3 flex flex-wrap items-center gap-3">
-                    <h3 class="font-display text-lg font-bold text-foreground group-hover:text-primary transition-colors duration-300">{title}</h3>
-                    <span class="font-mono text-[10px] font-bold tracking-widest text-secondary bg-secondary/10 border border-secondary/20 px-2 py-0.5 rounded">{tag}</span>
-                  </div>
-                  <p class="text-muted-foreground text-sm leading-relaxed">{desc}</p>
-                </div>
-              </div>
-            ))}
+              ))
+            }
           </div>
         </div>
       </div>
     </section>
     <!-- Before AI / After AI Contrast Section -->
-    <section class="bg-muted/20 dark:bg-white/[0.01] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.01]"
+    >
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <h2 class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-            Before AI. <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">After BDK.</span>
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Before AI. <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >After BDK.</span
+            >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            What changes when governed enterprise AI is embedded in your operations.
+            What changes when governed enterprise AI is embedded in your
+            operations.
           </p>
         </div>
-        <div class="grid gap-0 overflow-hidden rounded-2xl border border-border md:grid-cols-2">
+        <div
+          class="border-border grid gap-0 overflow-hidden rounded-2xl border md:grid-cols-2"
+        >
           <!-- Before -->
-          <div class="bg-muted/60 dark:bg-white/[0.03] p-8 md:p-10">
+          <div class="bg-muted/60 p-8 md:p-10 dark:bg-white/[0.03]">
             <div class="mb-8 flex items-center gap-3">
-              <div class="rounded-lg bg-destructive/10 p-2">
-                <PiCpu className="h-5 w-5 text-destructive" aria-hidden="true" />
+              <div class="bg-destructive/10 rounded-lg p-2">
+                <PiCpu
+                  className="text-destructive h-5 w-5"
+                  aria-hidden="true"
+                />
               </div>
-              <h3 class="font-display text-lg font-bold tracking-tight text-muted-foreground">Before AI Integration</h3>
+              <h3
+                class="font-display text-muted-foreground text-lg font-bold tracking-tight"
+              >
+                Before AI Integration
+              </h3>
             </div>
             <ul class="space-y-5">
-              {[
-                "Manual review of hundreds of documents daily",
-                "Decisions based on lagging historical reports",
-                "Generic public AI tools handling sensitive data",
-                "Engineers buried in repetitive code documentation",
-                "Customer support queues with long resolution times",
-                "Demand forecasting based on intuition and spreadsheets",
-              ].map((text) => (
-                <li class="flex items-start gap-3">
-                  <div class="mt-1 h-4 w-4 shrink-0 rounded-full border border-destructive/30 bg-destructive/10"></div>
-                  <span class="text-muted-foreground text-sm leading-relaxed">{text}</span>
-                </li>
-              ))}
+              {
+                [
+                  'Manual review of hundreds of documents daily',
+                  'Decisions based on lagging historical reports',
+                  'Generic public AI tools handling sensitive data',
+                  'Engineers buried in repetitive code documentation',
+                  'Customer support queues with long resolution times',
+                  'Demand forecasting based on intuition and spreadsheets',
+                ].map((text) => (
+                  <li class="flex items-start gap-3">
+                    <div class="border-destructive/30 bg-destructive/10 mt-1 h-4 w-4 shrink-0 rounded-full border" />
+                    <span class="text-muted-foreground text-sm leading-relaxed">
+                      {text}
+                    </span>
+                  </li>
+                ))
+              }
             </ul>
           </div>
           <!-- After -->
-          <div class="bg-secondary/5 dark:bg-secondary/10 border-t border-border md:border-t-0 md:border-l p-8 md:p-10">
+          <div
+            class="bg-secondary/5 dark:bg-secondary/10 border-border border-t p-8 md:border-t-0 md:border-l md:p-10"
+          >
             <div class="mb-8 flex items-center gap-3">
-              <div class="rounded-lg bg-primary/15 p-2">
-                <PiBrain className="h-5 w-5 text-primary" aria-hidden="true" />
+              <div class="bg-primary/15 rounded-lg p-2">
+                <PiBrain className="text-primary h-5 w-5" aria-hidden="true" />
               </div>
-              <h3 class="font-display text-lg font-bold tracking-tight text-foreground">After BDK AI Deployment</h3>
+              <h3
+                class="font-display text-foreground text-lg font-bold tracking-tight"
+              >
+                After BDK AI Deployment
+              </h3>
             </div>
             <ul class="space-y-5">
-              {[
-                { text: "Automated document extraction at 10× human speed", stat: "10×" },
-                { text: "Predictive models surfacing insights 30–90 days ahead", stat: "90-day foresight" },
-                { text: "Private model instances — your data never trains public LLMs", stat: "Air-gapped" },
-                { text: "AI-assisted refactoring and test generation in CI/CD", stat: "Dev velocity" },
-                { text: "Context-aware AI assistants resolving 70%+ of tier-1 tickets", stat: "70% deflection" },
-                { text: "ML-powered demand forecasting with measurable accuracy gains", stat: "High-fidelity" },
-              ].map(({ text, stat }) => (
-                <li class="flex items-start gap-3">
-                  <div class="mt-0.5 shrink-0">
-                    <PiShieldCheck className="h-4 w-4 text-primary" aria-hidden="true" />
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <span class="text-foreground text-sm leading-relaxed">{text}</span>
-                  </div>
-                  <span class="font-mono text-[10px] font-bold tracking-widest text-primary bg-primary/10 px-2 py-0.5 rounded shrink-0 self-center">{stat}</span>
-                </li>
-              ))}
+              {
+                [
+                  {
+                    text: 'Automated document extraction at 10× human speed',
+                    stat: '10×',
+                  },
+                  {
+                    text: 'Predictive models surfacing insights 30–90 days ahead',
+                    stat: '90-day foresight',
+                  },
+                  {
+                    text: 'Private model instances — your data never trains public LLMs',
+                    stat: 'Air-gapped',
+                  },
+                  {
+                    text: 'AI-assisted refactoring and test generation in CI/CD',
+                    stat: 'Dev velocity',
+                  },
+                  {
+                    text: 'Context-aware AI assistants resolving 70%+ of tier-1 tickets',
+                    stat: '70% deflection',
+                  },
+                  {
+                    text: 'ML-powered demand forecasting with measurable accuracy gains',
+                    stat: 'High-fidelity',
+                  },
+                ].map(({ text, stat }) => (
+                  <li class="flex items-start gap-3">
+                    <div class="mt-0.5 shrink-0">
+                      <PiShieldCheck
+                        className="h-4 w-4 text-primary"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <span class="text-foreground text-sm leading-relaxed">
+                        {text}
+                      </span>
+                    </div>
+                    <span class="text-primary bg-primary/10 shrink-0 self-center rounded px-2 py-0.5 font-mono text-[10px] font-bold tracking-widest">
+                      {stat}
+                    </span>
+                  </li>
+                ))
+              }
             </ul>
           </div>
         </div>
       </div>
     </section>
     <!-- Pipeline Section -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] py-24">
+    <section class="bg-muted/30 py-24 dark:bg-white/[0.02]">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 class="text-foreground mb-12 text-center text-3xl font-bold font-display tracking-tight md:text-4xl">
-          AI Delivery <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Framework</span>
+        <h2
+          class="text-foreground font-display mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
+        >
+          AI Delivery <span
+            class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+            >Framework</span
+          >
         </h2>
         <NeuralPipeline client:visible />
       </div>

@@ -88,7 +88,8 @@ const locationFeatures = [
   {
     icon: PiUsers,
     title: 'Dedicated Team',
-    description: 'Assigned technician who knows your business and infrastructure',
+    description:
+      'Assigned technician who knows your business and infrastructure',
   },
 ];
 
@@ -128,13 +129,15 @@ const pageDescription = `${industry.data.title} in ${locationData.name}, ${locat
           >
         </div>
         <div
-          class="bg-linear-to-br from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl p-4"
+          class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4"
         >
           <IconComponent className="text-primary h-12 w-12" />
         </div>
         <h1 class="mb-6 text-5xl font-bold tracking-tight md:text-6xl">
           <span class="text-foreground">{industry.data.title}</span>
-          <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
+          <span
+            class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+          >
             {' '}{locationData.name}
           </span>
         </h1>
@@ -197,7 +200,9 @@ const pageDescription = `${industry.data.title} in ${locationData.name}, ${locat
           class="text-foreground mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
         >
           <span class="text-foreground">Why </span>
-          <span class="gradient-primary">{locationData.name} Businesses Choose Us</span>
+          <span class="gradient-primary"
+            >{locationData.name} Businesses Choose Us</span
+          >
         </h2>
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <div>

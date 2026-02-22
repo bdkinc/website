@@ -64,17 +64,22 @@ const detailColumns = [
 ];
 const faqs = [
   {
-    question: "How do you handle migration from legacy on-premise hardware?",
-    answer: "We utilize a phased 'lift-and-shift' or 're-platform' methodology. Our engineers perform full system imaging and data verification in a parallel sandbox environment before cutover, ensuring zero data loss and minimal operational downtime."
+    question: 'How do you handle migration from legacy on-premise hardware?',
+    answer:
+      "We utilize a phased 'lift-and-shift' or 're-platform' methodology. Our engineers perform full system imaging and data verification in a parallel sandbox environment before cutover, ensuring zero data loss and minimal operational downtime.",
   },
   {
-    question: "Can you support hybrid environments with both cloud and IBM Power Systems?",
-    answer: "Yes. Our infrastructure seamlessly integrates IBM Power (AS/400, iSeries) with x86 cloud environments. We establish low-latency private interconnects, allowing modern web applications to query legacy databases in real-time without synchronization lag."
+    question:
+      'Can you support hybrid environments with both cloud and IBM Power Systems?',
+    answer:
+      'Yes. Our infrastructure seamlessly integrates IBM Power (AS/400, iSeries) with x86 cloud environments. We establish low-latency private interconnects, allowing modern web applications to query legacy databases in real-time without synchronization lag.',
   },
   {
-    question: "How is compliance and data sovereignty managed for global operations?",
-    answer: "We strictly adhere to GDPR, CCPA, and industry-specific mandates. Data residency controls allow you to lock specific datasets to geographic regions, while our immutable audit logs provide complete transparency for regulatory reporting."
-  }
+    question:
+      'How is compliance and data sovereignty managed for global operations?',
+    answer:
+      'We strictly adhere to GDPR, CCPA, and industry-specific mandates. Data residency controls allow you to lock specific datasets to geographic regions, while our immutable audit logs provide complete transparency for regulatory reporting.',
+  },
 ];
 const strategicFeatures = [
   {
@@ -84,7 +89,7 @@ const strategicFeatures = [
     highlight: '99.99% uptime target',
     icon: 'ShieldCheck',
     detail:
-      "Your ERP is the backbone of your business. We provide precision-engineered hosting environments with redundant power, cooling, and network paths, ensuring that your mission-critical applications are always available when you need them most.",
+      'Your ERP is the backbone of your business. We provide precision-engineered hosting environments with redundant power, cooling, and network paths, ensuring that your mission-critical applications are always available when you need them most.',
   },
   {
     title: 'Zero-Risk Migration',
@@ -111,10 +116,11 @@ const strategicFeatures = [
     highlight: 'Automated security hardening',
     icon: 'Lock',
     detail:
-      "Security is a process, not a state. We implement automated patch management and continuous vulnerability scanning tailored specifically for complex ERP ecosystems, ensuring your most sensitive business data is protected by enterprise-grade defense.",
+      'Security is a process, not a state. We implement automated patch management and continuous vulnerability scanning tailored specifically for complex ERP ecosystems, ensuring your most sensitive business data is protected by enterprise-grade defense.',
   },
 ];
 ---
+
 <Layout
   title={`${service.data.title} - BDKinc`}
   description={service.data.description}
@@ -137,7 +143,11 @@ const strategicFeatures = [
             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
           >
             <div class="flex items-center gap-2 text-sm">
-              <span>Mission-Critical <span class="text-accent font-semibold">Backbone</span></span>
+              <span
+                >Mission-Critical <span class="text-accent font-semibold"
+                  >Backbone</span
+                ></span
+              >
             </div>
           </div>
           <div
@@ -169,8 +179,8 @@ const strategicFeatures = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            {service.data.description} Precision-engineered hosting for 
-            high-throughput enterprise ecosystems.
+            {service.data.description} Precision-engineered hosting for high-throughput
+            enterprise ecosystems.
           </p>
         </div>
         <!-- Visualization -->
@@ -205,33 +215,49 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        
+
         <!-- Glass Quote Container -->
         <div class="relative mx-auto max-w-4xl">
           <!-- Floating Icon -->
-          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
-            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
+            <PiQuotesFill
+              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
+              aria-hidden="true"
+            />
           </div>
-          
+
           <!-- Glass Card -->
-          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+          <div
+            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
+          >
             <!-- Ambient Glow -->
-            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
-            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
-            
-            <!-- Background Watermark -->
-            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
-               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            <div
+              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
+            </div>
+            <div
+              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
             </div>
 
-            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
-              &ldquo;Your ERP is not just an application; it&rsquo;s the nervous system of 
-              your organization. We architect 
-              <span class="text-accent">
-                high-availability environments</span
-              >
-              that eliminate latency and ensure your core operations move with 
-              mathematical precision 24/7.&rdquo;
+            <!-- Background Watermark -->
+            <div
+              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
+            >
+              <PiQuotesFill
+                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
+                aria-hidden="true"
+              />
+            </div>
+
+            <blockquote
+              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
+            >
+              &ldquo;Your ERP is not just an application; it&rsquo;s the nervous
+              system of your organization. We architect
+              <span class="text-accent"> high-availability environments</span>
+              that eliminate latency and ensure your core operations move with mathematical
+              precision 24/7.&rdquo;
             </blockquote>
           </div>
         </div>
@@ -243,7 +269,7 @@ const strategicFeatures = [
     </section>
     <!-- Strategic Advantage -->
     <section
-      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
+      class="to-muted/20 bg-linear-to-b from-transparent px-4 py-24 sm:px-6 lg:px-8 dark:to-white/[0.02]"
     >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
@@ -256,15 +282,17 @@ const strategicFeatures = [
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond standard hosting with a partner who specializes in 
-            the complexity of enterprise ERP ecosystems.
+            Move beyond standard hosting with a partner who specializes in the
+            complexity of enterprise ERP ecosystems.
           </p>
         </div>
         <FeatureCarousel client:visible features={strategicFeatures} />
       </div>
     </section>
     <!-- Network Section -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -276,7 +304,7 @@ const strategicFeatures = [
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Low-latency edge nodes and redundant failover regions ensuring 
+            Low-latency edge nodes and redundant failover regions ensuring
             absolute business continuity.
           </p>
         </div>
@@ -286,7 +314,9 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Key Benefits -->
-    <section class="bg-muted/20 dark:bg-white/[0.01] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.01]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -299,95 +329,133 @@ const strategicFeatures = [
           </h2>
         </div>
         <!-- Swiss Grid Layout -->
-        <div class="grid gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          class="bg-border grid gap-px overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-3"
+        >
           <!-- Benefit 1 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiCheckCircle className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 99.99% Uptime
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Tier-3 infrastructure targeting mission-critical availability 
-              for your most sensitive data.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Tier-3 infrastructure targeting mission-critical availability for
+              your most sensitive data.
             </p>
           </div>
           <!-- Benefit 2 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiLightning className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Rapid Scalability
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Dynamic resource allocation to handle peak transactional loads 
-              and seasonal business spikes.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Dynamic resource allocation to handle peak transactional loads and
+              seasonal business spikes.
             </p>
           </div>
           <!-- Benefit 3 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiShieldCheck className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 IBM Power Native
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Seamless support for AS/400 and iSeries alongside modern 
-              x86 cloud environments — no translation layer required.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Seamless support for AS/400 and iSeries alongside modern x86 cloud
+              environments — no translation layer required.
             </p>
           </div>
           <!-- Benefit 4 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiDatabase className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Disaster Recovery
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Automated snapshots and geo-redundant backups ensuring 
-              aggressive RPO/RTO targets.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Automated snapshots and geo-redundant backups ensuring aggressive
+              RPO/RTO targets.
             </p>
           </div>
           <!-- Benefit 5 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiCurrencyDollar className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 OpEx Efficiency
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Shift from volatile CapEx hardware cycles to a predictable, 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Shift from volatile CapEx hardware cycles to a predictable,
               value-driven monthly operating model.
             </p>
           </div>
           <!-- Benefit 6 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiLock className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Zero Trust Security
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Micro-segmentation and real-time threat detection protecting 
-              your proprietary business logic.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Micro-segmentation and real-time threat detection protecting your
+              proprietary business logic.
             </p>
           </div>
         </div>
@@ -397,16 +465,27 @@ const strategicFeatures = [
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
-          <h2 class="text-foreground mb-6 text-3xl font-bold font-display tracking-tight md:text-4xl">
-            Technical <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Specifications</span>
+          <h2
+            class="text-foreground font-display mb-6 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Technical <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Specifications</span
+            >
           </h2>
         </div>
         <div class="grid gap-8 md:grid-cols-2">
           {
             detailColumns.map((column, idx) => (
-              <div class={`rounded-2xl border p-8 ${idx === 0 ? 'border-primary/20 bg-primary/5 dark:bg-primary/10' : 'border-secondary/20 bg-secondary/5 dark:bg-secondary/10'}`}>
+              <div
+                class={`rounded-2xl border p-8 ${idx === 0 ? 'border-primary/20 bg-primary/5 dark:bg-primary/10' : 'border-secondary/20 bg-secondary/5 dark:bg-secondary/10'}`}
+              >
                 <div class="mb-2">
-                  <span class={`font-mono text-[10px] font-bold tracking-widest ${idx === 0 ? 'text-primary' : 'text-secondary'} uppercase`}>{idx === 0 ? 'Phase 1 — Setup' : 'Phase 2 — Ongoing'}</span>
+                  <span
+                    class={`font-mono text-[10px] font-bold tracking-widest ${idx === 0 ? 'text-primary' : 'text-secondary'} uppercase`}
+                  >
+                    {idx === 0 ? 'Phase 1 — Setup' : 'Phase 2 — Ongoing'}
+                  </span>
                 </div>
                 <div class="mb-6 flex items-center gap-3">
                   <column.icon
@@ -437,17 +516,28 @@ const strategicFeatures = [
 
     <TechnicalSection client:visible id="erp-vault" overlayOpacity="opacity-10">
       <div class="relative z-10 flex flex-col items-center text-center">
-        <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
-          <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
-          <span class="text-xs font-bold tracking-widest text-primary font-display">Enterprise ERP Vault</span>
+        <div
+          class="border-primary/30 bg-primary/10 mb-6 flex items-center gap-2 rounded-full border px-4 py-1"
+        >
+          <div class="bg-primary h-2 w-2 animate-pulse rounded-full"></div>
+          <span
+            class="text-primary font-display text-xs font-bold tracking-widest"
+            >Enterprise ERP Vault</span
+          >
         </div>
-        <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
-          Precision Engineering. <span class="text-primary">Absolute Uptime.</span>
+        <h3
+          class="text-foreground font-display mb-6 max-w-2xl text-3xl font-bold tracking-tight"
+        >
+          Precision Engineering. <span class="text-primary"
+            >Absolute Uptime.</span
+          >
         </h3>
-        <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
-          We deliver mission-critical ERP environments designed for 
-          sub-millisecond latency and global scale. Our engineers manage the 
-          complexities of the infrastructure backbone so your leadership can 
+        <div
+          class="text-muted-foreground mx-auto max-w-4xl font-sans text-lg leading-relaxed"
+        >
+          We deliver mission-critical ERP environments designed for
+          sub-millisecond latency and global scale. Our engineers manage the
+          complexities of the infrastructure backbone so your leadership can
           focus on the proprietary logic that drives your business forward.
         </div>
       </div>

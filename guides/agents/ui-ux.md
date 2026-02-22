@@ -12,6 +12,25 @@ This guide focuses on the Astro marketing site in `apps/bdkinc`.
 ## Surfaces & Layout (When to Use Cards)
 Default to **open layouts** (typography + whitespace). Use card-like surfaces intentionally.
 
+**Section Spacing & Backgrounds:**
+- Keep main section backgrounds transparent (relying on the global `bg-background` for consistency).
+- Avoid alternating background colors for sections (e.g. `bg-muted/30`).
+- Separate sections using a standard horizontal divider:
+  ```html
+  <div class="relative">
+    <div class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"></div>
+    <section class="px-4 py-24 md:py-32 sm:px-6 lg:px-8">
+      <!-- Section Content -->
+    </section>
+  </div>
+  ```
+- Use generous vertical padding (`py-24 md:py-32`) to allow the design to breathe.
+
+**Contrast/Comparison Grids (e.g. "The Old Way" vs "The BDK Way"):**
+- Use unified, floating, rounded glass-morphism cards with sophisticated layers (`bg-background/40 border-border/50 shadow-2xl backdrop-blur-xl rounded-3xl`).
+- Utilize subtle gradient overlays and background textures (`repeating-linear-gradient` overlays) to differentiate the "bad" side from the "good" side without losing premium feel.
+- Bridge the two sides visually (e.g., a glowing arrow in the center on desktop).
+
 **Use `TechCard` when:**
 - Content is part of a **grid/list of comparable items** (capabilities, features, testimonials, blog cards).
 - You want the site’s **technical card signature** (scanlines + footer motif) to unify repeated elements.
@@ -40,7 +59,13 @@ Default to **open layouts** (typography + whitespace). Use card-like surfaces in
 **Semantic Colors:**
 Always use shadcn semantic color utilities (defined in `src/styles/global.css`):
 - `bg-card`, `text-foreground`, `border-border`
-- `text-brand-primary`, `gradient-primary`
+- `text-primary`, `text-secondary`, `text-accent`
+
+**Icon Containers & Gradients:**
+- For premium feature icons or tech cards, enclose the icon in a gradient wash border.
+- The gradient background should match the border color (e.g. `primary`, `secondary`, `accent`).
+- Formula: `from-[color]/10 to-[color]/5 border-[color]/20 flex h-10 w-10 items-center justify-center rounded-xl border bg-linear-to-br`.
+- E.g.: `<div class="from-secondary/10 to-secondary/5 border-secondary/20 bg-linear-to-br..."><PiIcon class="text-secondary h-5 w-5"/></div>`
 
 **Class Management:**
 Use the `cn()` utility for all conditional classes:

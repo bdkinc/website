@@ -41,17 +41,21 @@ const metrics = [
 ];
 const faqs = [
   {
-    question: "Can you host our IBM i / AS/400 applications without rewriting them?", 
-    answer: "Yes. We specialize in 'lift and shift' strategies that move your exact workload to modern hardware without code changes, often improving performance and reliability."
+    question:
+      'Can you host our IBM i / AS/400 applications without rewriting them?',
+    answer:
+      "Yes. We specialize in 'lift and shift' strategies that move your exact workload to modern hardware without code changes, often improving performance and reliability.",
   },
   {
-    question: "What is your approach to modernizing green-screen interfaces?",
-    answer: "We offer multiple paths, from web-facing refacing tools to developing new API layers that allow modern front-ends (React, Mobile) to interact with your rock-solid backend logic."
+    question: 'What is your approach to modernizing green-screen interfaces?',
+    answer:
+      'We offer multiple paths, from web-facing refacing tools to developing new API layers that allow modern front-ends (React, Mobile) to interact with your rock-solid backend logic.',
   },
   {
-    question: "How do you handle Disaster Recovery for IBM i?",
-    answer: "We utilize logical replication and hardware-based replication technologies to mirror your system in real-time to our secure datacenters, targeting minute-level RTO/RPOs depending on architecture."
-  }
+    question: 'How do you handle Disaster Recovery for IBM i?',
+    answer:
+      'We utilize logical replication and hardware-based replication technologies to mirror your system in real-time to our secure datacenters, targeting minute-level RTO/RPOs depending on architecture.',
+  },
 ];
 const strategicFeatures = [
   {
@@ -70,7 +74,7 @@ const strategicFeatures = [
     highlight: 'Zero-code modernization',
     icon: 'ArrowsClockwise',
     detail:
-      "Your legacy is your foundation, not your limit. We specialize in phased modernization paths that move your exact workloads to modern Power10 hardware or secure cloud instances without requiring a single line of code to be rewritten.",
+      'Your legacy is your foundation, not your limit. We specialize in phased modernization paths that move your exact workloads to modern Power10 hardware or secure cloud instances without requiring a single line of code to be rewritten.',
   },
   {
     title: 'Hybrid Resilience',
@@ -79,7 +83,7 @@ const strategicFeatures = [
     highlight: 'Unified hybrid architecture',
     icon: 'Stack',
     detail:
-      "Break down the silos between your rock-solid IBM i backend and your modern web frontends. We architect low-latency private interconnects that allow your modern applications to query legacy databases in real-time, creating a unified, resilient ecosystem.",
+      'Break down the silos between your rock-solid IBM i backend and your modern web frontends. We architect low-latency private interconnects that allow your modern applications to query legacy databases in real-time, creating a unified, resilient ecosystem.',
   },
   {
     title: 'SLA-Backed Operations',
@@ -92,6 +96,7 @@ const strategicFeatures = [
   },
 ];
 ---
+
 <Layout
   title="IBM Power Systems - Managed Hosting & Modernization | BDKinc"
   description="Maximize your AS/400 and iSeries legacy. Premier IBM Power orchestration, managed hosting, and modernization services for high-availability enterprise environments."
@@ -114,7 +119,11 @@ const strategicFeatures = [
             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
           >
             <div class="flex items-center gap-2 text-sm">
-              <span>Power Systems <span class="text-accent font-semibold">Experts</span></span>
+              <span
+                >Power Systems <span class="text-accent font-semibold"
+                  >Experts</span
+                ></span
+              >
             </div>
           </div>
           <div
@@ -146,8 +155,8 @@ const strategicFeatures = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            Maximize your AS/400 and iSeries legacy. Premier IBM Power 
-            orchestration, managed hosting, and modernization services for 
+            Maximize your AS/400 and iSeries legacy. Premier IBM Power
+            orchestration, managed hosting, and modernization services for
             high-availability enterprise environments.
           </p>
         </div>
@@ -166,7 +175,9 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Core Services -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -206,33 +217,49 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        
+
         <!-- Glass Quote Container -->
         <div class="relative mx-auto max-w-4xl">
           <!-- Floating Icon -->
-          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
-            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
+            <PiQuotesFill
+              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
+              aria-hidden="true"
+            />
           </div>
-          
+
           <!-- Glass Card -->
-          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+          <div
+            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
+          >
             <!-- Ambient Glow -->
-            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
-            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
-            
-            <!-- Background Watermark -->
-            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
-               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            <div
+              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
+            </div>
+            <div
+              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
             </div>
 
-            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
-              &ldquo;IBM Power is the heartbeat of the enterprise. We don&rsquo;t just host 
-              legacy systems; we architect
-              <span class="text-accent">
-                battle-hardened foundations</span
-              >
-              that preserve your rock-solid logic while empowering your next 
-              decade of business innovation.&rdquo;
+            <!-- Background Watermark -->
+            <div
+              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
+            >
+              <PiQuotesFill
+                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
+                aria-hidden="true"
+              />
+            </div>
+
+            <blockquote
+              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
+            >
+              &ldquo;IBM Power is the heartbeat of the enterprise. We
+              don&rsquo;t just host legacy systems; we architect
+              <span class="text-accent"> battle-hardened foundations</span>
+              that preserve your rock-solid logic while empowering your next decade
+              of business innovation.&rdquo;
             </blockquote>
           </div>
         </div>
@@ -244,7 +271,7 @@ const strategicFeatures = [
     </section>
     <!-- Strategic Advantage -->
     <section
-      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
+      class="to-muted/20 bg-linear-to-b from-transparent px-4 py-24 sm:px-6 lg:px-8 dark:to-white/[0.02]"
     >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
@@ -257,15 +284,15 @@ const strategicFeatures = [
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond standard support with a partner who speaks the 
-            language of Power Systems.
+            Move beyond standard support with a partner who speaks the language
+            of Power Systems.
           </p>
         </div>
         <FeatureCarousel client:visible features={strategicFeatures} />
       </div>
     </section>
     <!-- Roadmap Section -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] py-24 sm:px-6 lg:px-8">
+    <section class="bg-muted/30 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -277,14 +304,17 @@ const strategicFeatures = [
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Phased strategies to evolve your core systems without business disruption.
+            Phased strategies to evolve your core systems without business
+            disruption.
           </p>
         </div>
         <ModernizationRoadmap client:load />
       </div>
     </section>
     <!-- Key Benefits -->
-    <section class="bg-muted/20 dark:bg-white/[0.01] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.01]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -297,95 +327,133 @@ const strategicFeatures = [
           </h2>
         </div>
         <!-- Swiss Grid Layout -->
-        <div class="grid gap-px overflow-hidden rounded-2xl bg-border sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          class="bg-border grid gap-px overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-3"
+        >
           <!-- Benefit 1 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiMedal className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 25+ Years Mastery
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Decades of deep engineering expertise across IBM hardware and 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Decades of deep engineering expertise across IBM hardware and
               software evolution.
             </p>
           </div>
           <!-- Benefit 2 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiMedal className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Certified Partner
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              IBM Silver Partner status providing direct access to IBM labs 
-              and tier-3 global support.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              IBM Silver Partner status providing direct access to IBM labs and
+              tier-3 global support.
             </p>
           </div>
           <!-- Benefit 3 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiTerminalWindow className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 &lsquo;Black Box&rsquo; Expertise
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              We thrive in complex, legacy environments that generalist MSPs 
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              We thrive in complex, legacy environments that generalist MSPs
               simply won&rsquo;t touch.
             </p>
           </div>
           <!-- Benefit 4 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiShieldCheck className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Enterprise Security
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Hardening and continuous compliance for your most sensitive 
-              legacy and modern datasets.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Hardening and continuous compliance for your most sensitive legacy
+              and modern datasets.
             </p>
           </div>
           <!-- Benefit 5 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiDesktopTower className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 Single Partner
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Unified premier support for IBM i, AIX, and Linux, 
-              simplifying your operational complexity.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Unified premier support for IBM i, AIX, and Linux, simplifying
+              your operational complexity.
             </p>
           </div>
           <!-- Benefit 6 -->
-          <div class="group relative bg-card p-8 transition-colors hover:bg-primary/5">
+          <div
+            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
+          >
             <div class="mb-4 flex items-center gap-4">
-              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <div
+                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
+              >
                 <PiPulse className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 class="font-display text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+              <h4
+                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
+              >
                 SLA-Driven
               </h4>
             </div>
-            <p class="text-sm leading-relaxed text-muted-foreground">
-              Operations aligned strictly to business uptime with 
-              aggressive resolution targets.
+            <p class="text-muted-foreground text-sm leading-relaxed">
+              Operations aligned strictly to business uptime with aggressive
+              resolution targets.
             </p>
           </div>
         </div>

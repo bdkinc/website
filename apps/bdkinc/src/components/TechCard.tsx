@@ -16,6 +16,7 @@ export interface TechCardProps {
    */
   variant?: 'default' | 'technical' | 'simple' | 'blog';
   asChild?: boolean;
+  trackingColor?: 'primary' | 'secondary' | 'accent' | string;
 }
 interface MousePosition {
   x: number;
@@ -30,6 +31,7 @@ export function TechCard({
   interactive = true,
   variant = 'technical',
   asChild = false,
+  trackingColor = 'primary',
 }: TechCardProps) {
   const isInteractive = interactive;
   // When interactive, CSS `group-hover:` should work (parent has `group`).
@@ -57,7 +59,17 @@ export function TechCard({
           : '',
         className
       )}
-      style={animated ? { animationDelay: `${delay}ms` } : undefined}
+      style={
+        {
+          ...(animated ? { animationDelay: `${delay}ms` } : {}),
+          ...(isInteractive
+            ? {
+                '--mouse-x': `${mousePosition.x}%`,
+                '--mouse-y': `${mousePosition.y}%`,
+              }
+            : {}),
+        } as React.CSSProperties
+      }
       onMouseMove={handleMouseMove}
       onMouseEnter={() => isInteractive && setIsHovered(true)}
       onMouseLeave={() => isInteractive && setIsHovered(false)}
@@ -73,11 +85,26 @@ export function TechCard({
           (variant === 'technical' ||
             variant === 'simple' ||
             variant === 'blog') &&
-            'border-primary/20',
+            {
+              primary: 'border-primary/20',
+              secondary: 'border-secondary/20',
+              accent: 'border-accent/20',
+            }[trackingColor],
           isInteractive &&
             (isHovered
-              ? 'border-primary/40 shadow-[--shadow-glow-sm]'
-              : 'hover:border-primary/35 hover:shadow-[--shadow-glow-sm]')
+              ? {
+                  primary: 'border-primary/40 shadow-[--shadow-glow-sm]',
+                  secondary: 'border-secondary/40 shadow-[--shadow-glow-sm]',
+                  accent: 'border-accent/40 shadow-[--shadow-glow-sm]',
+                }[trackingColor]
+              : {
+                  primary:
+                    'hover:border-primary/35 hover:shadow-[--shadow-glow-sm]',
+                  secondary:
+                    'hover:border-secondary/35 hover:shadow-[--shadow-glow-sm]',
+                  accent:
+                    'hover:border-accent/35 hover:shadow-[--shadow-glow-sm]',
+                }[trackingColor])
         )}
       >
         {/* Technical Overlays - static line texture (no animation) */}
@@ -104,7 +131,13 @@ export function TechCard({
             className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
             style={{
               opacity: isHovered ? 1 : 0,
-              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.12), rgba(124, 58, 237, 0.08) 40%, transparent 60%)`,
+              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, ${
+                trackingColor === 'primary'
+                  ? 'rgba(0, 212, 255, 0.12), rgba(124, 58, 237, 0.08)'
+                  : trackingColor === 'secondary'
+                    ? 'rgba(124, 58, 237, 0.12), rgba(0, 212, 255, 0.08)'
+                    : 'rgba(255, 107, 107, 0.12), rgba(124, 58, 237, 0.08)'
+              } 40%, transparent 60%)`,
             }}
           />
         )}
@@ -115,18 +148,49 @@ export function TechCard({
             <div className="mt-auto flex w-full items-center justify-end gap-2 pt-6">
               <div
                 className={cn(
-                  'bg-primary/20 h-1 w-12 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out',
+                  'h-1 w-12 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out',
+                  {
+                    primary: 'bg-primary/20',
+                    secondary: 'bg-secondary/20',
+                    accent: 'bg-accent/20',
+                  }[trackingColor],
                   isInteractive
-                    ? 'group-hover:bg-primary/60 group-hover:w-20'
+                    ? {
+                        primary: 'group-hover:bg-primary/60 group-hover:w-20',
+                        secondary:
+                          'group-hover:bg-secondary/60 group-hover:w-20',
+                        accent: 'group-hover:bg-accent/60 group-hover:w-20',
+                      }[trackingColor]
                     : '',
-                  isHovered && 'bg-primary/60 w-20'
+                  isHovered &&
+                    {
+                      primary: 'bg-primary/60 w-20',
+                      secondary: 'bg-secondary/60 w-20',
+                      accent: 'bg-accent/60 w-20',
+                    }[trackingColor]
                 )}
               />
               <div
                 className={cn(
-                  'bg-primary/20 h-2 w-2 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out',
-                  isInteractive ? 'group-hover:bg-primary/60' : '',
-                  isHovered && 'bg-primary/60'
+                  'h-2 w-2 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out',
+                  {
+                    primary: 'bg-primary/20',
+                    secondary: 'bg-secondary/20',
+                    accent: 'bg-accent/20',
+                  }[trackingColor],
+                  isInteractive
+                    ? {
+                        primary: 'group-hover:bg-primary/60',
+                        secondary: 'group-hover:bg-secondary/60',
+                        accent: 'group-hover:bg-accent/60',
+                      }[trackingColor]
+                    : '',
+                  isHovered &&
+                    {
+                      primary: 'bg-primary/60',
+                      secondary: 'bg-secondary/60',
+                      accent: 'bg-accent/60',
+                    }[trackingColor]
                 )}
               />
             </div>

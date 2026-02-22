@@ -129,7 +129,7 @@ export default function Navigation({
             {/* Home */}
             <a
               href="/"
-              className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors duration-300"
+              className="text-muted-foreground hover:text-primary block rounded-md px-3 py-2 transition-colors duration-300"
             >
               Home
             </a>
@@ -137,7 +137,7 @@ export default function Navigation({
             {/* About */}
             <a
               href="/about"
-              className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors duration-300"
+              className="text-muted-foreground hover:text-primary block rounded-md px-3 py-2 transition-colors duration-300"
             >
               About
             </a>
@@ -153,7 +153,7 @@ export default function Navigation({
                   <a
                     key={service.slug}
                     href={`/services/${service.slug}`}
-                    className="text-muted-foreground hover:text-primary hover:bg-accent flex items-start gap-2 rounded-md px-3 py-2 transition-colors duration-300"
+                    className="text-muted-foreground hover:text-primary flex items-start gap-2 rounded-md px-3 py-2 transition-colors duration-300"
                   >
                     {Icon && (
                       <div
@@ -198,7 +198,7 @@ export default function Navigation({
                     <a
                       key={post.slug}
                       href={`/blog/${post.slug}`}
-                      className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors"
+                      className="text-muted-foreground hover:text-primary block rounded-md px-3 py-2 transition-colors"
                     >
                       <div className="line-clamp-2 text-sm font-medium">
                         {post.title}
@@ -210,7 +210,7 @@ export default function Navigation({
                   ))}
                   <a
                     href="/blog"
-                    className="text-primary hover:bg-accent block rounded-md px-3 py-2 text-sm font-medium transition-colors"
+                    className="text-primary block rounded-md px-3 py-2 text-sm font-medium transition-colors"
                   >
                     View All Posts →
                   </a>
@@ -218,7 +218,7 @@ export default function Navigation({
               ) : (
                 <a
                   href="/blog"
-                  className="text-muted-foreground hover:text-primary hover:bg-accent block rounded-md px-3 py-2 transition-colors"
+                  className="text-muted-foreground hover:text-primary block rounded-md px-3 py-2 transition-colors"
                 >
                   Visit Blog
                 </a>

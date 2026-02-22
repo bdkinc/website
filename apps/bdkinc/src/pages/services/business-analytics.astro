@@ -43,17 +43,22 @@ const metrics = [
 ];
 const faqs = [
   {
-    question: "How do you ensure data security and compliance across distributed systems?",
-    answer: "Security is foundational to our architecture. We implement granular role-based access control (RBAC), end-to-end encryption, and rigorous audit trails to ensure your data ecosystem meets enterprise compliance standards and protects sensitive intelligence."
+    question:
+      'How do you ensure data security and compliance across distributed systems?',
+    answer:
+      'Security is foundational to our architecture. We implement granular role-based access control (RBAC), end-to-end encryption, and rigorous audit trails to ensure your data ecosystem meets enterprise compliance standards and protects sensitive intelligence.',
   },
   {
-    question: "Can your solutions integrate with legacy on-premise infrastructure?",
-    answer: "Yes. Our data engineering capabilities bridge the gap between legacy silos and modern cloud architectures. We design hybrid integration layers that securely extract value from established systems without disrupting critical operations."
+    question:
+      'Can your solutions integrate with legacy on-premise infrastructure?',
+    answer:
+      'Yes. Our data engineering capabilities bridge the gap between legacy silos and modern cloud architectures. We design hybrid integration layers that securely extract value from established systems without disrupting critical operations.',
   },
   {
-    question: "What is the typical latency for real-time analytics dashboards?",
-    answer: "Latency is architected to match operational requirements. For mission-critical streams, we deploy event-driven architectures capable of sub-second processing, while strategic dashboards are optimized for high-performance querying of aggregated datasets."
-  }
+    question: 'What is the typical latency for real-time analytics dashboards?',
+    answer:
+      'Latency is architected to match operational requirements. For mission-critical streams, we deploy event-driven architectures capable of sub-second processing, while strategic dashboards are optimized for high-performance querying of aggregated datasets.',
+  },
 ];
 const strategicFeatures = [
   {
@@ -63,7 +68,7 @@ const strategicFeatures = [
     highlight: 'Single source of truth',
     icon: 'Database',
     detail:
-      "We architect data ecosystems that break down operational silos. By orchestrating data from across your enterprise into a unified plane, we ensure that your analytics are based on a consistent, governed, and accurate foundation.",
+      'We architect data ecosystems that break down operational silos. By orchestrating data from across your enterprise into a unified plane, we ensure that your analytics are based on a consistent, governed, and accurate foundation.',
   },
   {
     title: 'Predictive Foresight',
@@ -81,7 +86,7 @@ const strategicFeatures = [
     highlight: 'Sub-second awareness',
     icon: 'Lightning',
     detail:
-      "In high-stakes environments, latency is a liability. We build event-driven architectures that process and visualize critical data streams in real-time, providing your leadership with the velocity required to make split-second decisions.",
+      'In high-stakes environments, latency is a liability. We build event-driven architectures that process and visualize critical data streams in real-time, providing your leadership with the velocity required to make split-second decisions.',
   },
   {
     title: 'Strategic Transparency',
@@ -90,10 +95,11 @@ const strategicFeatures = [
     highlight: 'Performance alignment',
     icon: 'Target',
     detail:
-      "Align your entire team around objective truth. Our strategic dashboards translate complex datasets into clear, actionable KPIs, ensuring that every level of your organization is focused on the metrics that drive actual business value.",
+      'Align your entire team around objective truth. Our strategic dashboards translate complex datasets into clear, actionable KPIs, ensuring that every level of your organization is focused on the metrics that drive actual business value.',
   },
 ];
 ---
+
 <Layout
   title={`${service.data.title} - BDKinc`}
   description="Turn Data into Decisions. Strategic Intelligence at Scale. Transform raw data into competitive advantage with our advanced analytics, predictive modeling, and real-time BI dashboards."
@@ -109,7 +115,12 @@ const strategicFeatures = [
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <!-- Analytics-specific: data-grid table row overlay -->
-      <div class="pointer-events-none absolute inset-0 opacity-[0.035]" style="background-image: repeating-linear-gradient(0deg, oklch(0.65 0.18 210) 0px, oklch(0.65 0.18 210) 1px, transparent 1px, transparent 32px), repeating-linear-gradient(90deg, oklch(0.65 0.18 210) 0px, oklch(0.65 0.18 210) 1px, transparent 1px, transparent 120px); background-size: 120px 32px;" aria-hidden="true"></div>
+      <div
+        class="pointer-events-none absolute inset-0 opacity-[0.035]"
+        style="background-image: repeating-linear-gradient(0deg, oklch(0.65 0.18 210) 0px, oklch(0.65 0.18 210) 1px, transparent 1px, transparent 32px), repeating-linear-gradient(90deg, oklch(0.65 0.18 210) 0px, oklch(0.65 0.18 210) 1px, transparent 1px, transparent 120px); background-size: 120px 32px;"
+        aria-hidden="true"
+      >
+      </div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
       <div class="relative z-10 mx-auto max-w-7xl">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
@@ -118,7 +129,11 @@ const strategicFeatures = [
             class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
           >
             <div class="flex items-center gap-2 text-sm">
-              <span>Actionable <span class="text-accent font-semibold">Intelligence</span></span>
+              <span
+                >Actionable <span class="text-accent font-semibold"
+                  >Intelligence</span
+                ></span
+              >
             </div>
           </div>
           <div
@@ -150,9 +165,9 @@ const strategicFeatures = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            Turn Data into Decisions. Strategic Intelligence at Scale. 
-            We architect robust data ecosystems that unify disparate sources 
-            into a single source of truth.
+            Turn Data into Decisions. Strategic Intelligence at Scale. We
+            architect robust data ecosystems that unify disparate sources into a
+            single source of truth.
           </p>
         </div>
         <!-- Visualization -->
@@ -170,7 +185,9 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Analytics Lifecycle -->
-    <section class="bg-muted/30 dark:bg-white/[0.02] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -204,31 +221,49 @@ const strategicFeatures = [
             >
           </h2>
         </div>
-        
+
         <!-- Glass Quote Container -->
         <div class="relative mx-auto max-w-4xl">
           <!-- Floating Icon -->
-          <div class="absolute -top-10 -left-6 z-20 text-primary md:-left-10">
-            <PiQuotesFill className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter" aria-hidden="true" />
+          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
+            <PiQuotesFill
+              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
+              aria-hidden="true"
+            />
           </div>
-          
+
           <!-- Glass Card -->
-          <div class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:bg-white/[0.03] dark:border-white/[0.05]">
+          <div
+            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
+          >
             <!-- Ambient Glow -->
-            <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/20 blur-3xl opacity-50"></div>
-            <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-secondary/20 blur-3xl opacity-50"></div>
-            
-            <!-- Background Watermark -->
-            <div class="absolute top-0 right-0 z-0 opacity-[0.03] pointer-events-none">
-               <PiQuotesFill className="h-64 w-64 -rotate-12 translate-x-1/4 -translate-y-1/4" aria-hidden="true" />
+            <div
+              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
+            </div>
+            <div
+              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            >
             </div>
 
-            <blockquote class="relative z-10 font-display text-2xl font-medium leading-relaxed text-foreground md:text-3xl text-center">
-              &ldquo;Data without direction is overhead. We transform raw telemetry into 
-              <span class="text-accent">
-                actionable foresight</span
-              >, aligning your entire organization around a single source of 
-              objective truth that drives actual business value.&rdquo;
+            <!-- Background Watermark -->
+            <div
+              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
+            >
+              <PiQuotesFill
+                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
+                aria-hidden="true"
+              />
+            </div>
+
+            <blockquote
+              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
+            >
+              &ldquo;Data without direction is overhead. We transform raw
+              telemetry into
+              <span class="text-accent"> actionable foresight</span>, aligning
+              your entire organization around a single source of objective truth
+              that drives actual business value.&rdquo;
             </blockquote>
           </div>
         </div>
@@ -242,8 +277,13 @@ const strategicFeatures = [
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <h2 class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-            Your Data <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Maturity Journey</span>
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Your Data <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Maturity Journey</span
+            >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
             Where are you today — and where do we take you?
@@ -251,66 +291,84 @@ const strategicFeatures = [
         </div>
         <div class="relative">
           <!-- Horizontal progress bar -->
-          <div class="absolute top-8 left-[3rem] right-[3rem] h-px bg-linear-to-r from-border via-primary/40 to-primary hidden md:block" aria-hidden="true"></div>
+          <div
+            class="from-border via-primary/40 to-primary absolute top-8 right-[3rem] left-[3rem] hidden h-px bg-linear-to-r md:block"
+            aria-hidden="true"
+          >
+          </div>
           <div class="grid gap-8 md:grid-cols-4">
-            {[
-              {
-                stage: "01",
-                label: "Ad-Hoc",
-                tone: "text-muted-foreground",
-                borderTone: "border-border",
-                bgTone: "bg-muted/30",
-                desc: "Siloed spreadsheets, manual pull requests, no single source of truth. Decisions based on gut feel.",
-                current: false,
-              },
-              {
-                stage: "02",
-                label: "Descriptive",
-                tone: "text-muted-foreground",
-                borderTone: "border-border",
-                bgTone: "bg-muted/30",
-                desc: "Basic BI dashboards showing what happened. Historical reporting, monthly cadence.",
-                current: false,
-              },
-              {
-                stage: "03",
-                label: "Predictive",
-                tone: "text-primary",
-                borderTone: "border-primary/40",
-                bgTone: "bg-primary/5",
-                desc: "ML models forecast what will happen. Proactive decisions on demand, risk, and resource allocation.",
-                current: true,
-              },
-              {
-                stage: "04",
-                label: "Prescriptive",
-                tone: "text-secondary",
-                borderTone: "border-secondary/40",
-                bgTone: "bg-secondary/5",
-                desc: "AI recommends specific actions. Real-time optimization and automated decision pathways.",
-                current: false,
-              },
-            ].map(({ stage, label, tone, borderTone, bgTone, desc, current }) => (
-              <div class={`relative rounded-xl border ${borderTone} ${bgTone} p-6`}>
-                {current && (
-                  <div class="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span class="font-mono text-[10px] font-bold tracking-widest text-primary bg-primary/15 border border-primary/30 px-3 py-1 rounded-full whitespace-nowrap">BDK Target</span>
+            {
+              [
+                {
+                  stage: '01',
+                  label: 'Ad-Hoc',
+                  tone: 'text-muted-foreground',
+                  borderTone: 'border-border',
+                  bgTone: 'bg-muted/30',
+                  desc: 'Siloed spreadsheets, manual pull requests, no single source of truth. Decisions based on gut feel.',
+                  current: false,
+                },
+                {
+                  stage: '02',
+                  label: 'Descriptive',
+                  tone: 'text-muted-foreground',
+                  borderTone: 'border-border',
+                  bgTone: 'bg-muted/30',
+                  desc: 'Basic BI dashboards showing what happened. Historical reporting, monthly cadence.',
+                  current: false,
+                },
+                {
+                  stage: '03',
+                  label: 'Predictive',
+                  tone: 'text-primary',
+                  borderTone: 'border-primary/40',
+                  bgTone: 'bg-primary/5',
+                  desc: 'ML models forecast what will happen. Proactive decisions on demand, risk, and resource allocation.',
+                  current: true,
+                },
+                {
+                  stage: '04',
+                  label: 'Prescriptive',
+                  tone: 'text-secondary',
+                  borderTone: 'border-secondary/40',
+                  bgTone: 'bg-secondary/5',
+                  desc: 'AI recommends specific actions. Real-time optimization and automated decision pathways.',
+                  current: false,
+                },
+              ].map(
+                ({ stage, label, tone, borderTone, bgTone, desc, current }) => (
+                  <div
+                    class={`relative rounded-xl border ${borderTone} ${bgTone} p-6`}
+                  >
+                    {current && (
+                      <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                        <span class="text-primary bg-primary/15 border-primary/30 rounded-full border px-3 py-1 font-mono text-[10px] font-bold tracking-widest whitespace-nowrap">
+                          BDK Target
+                        </span>
+                      </div>
+                    )}
+                    <div class="bg-background mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-current/30">
+                      <span class={`font-mono text-sm font-bold ${tone}`}>
+                        {stage}
+                      </span>
+                    </div>
+                    <h3 class={`font-display mb-3 text-lg font-bold ${tone}`}>
+                      {label}
+                    </h3>
+                    <p class="text-muted-foreground text-sm leading-relaxed">
+                      {desc}
+                    </p>
                   </div>
-                )}
-                <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-current/30 bg-background">
-                  <span class={`font-mono text-sm font-bold ${tone}`}>{stage}</span>
-                </div>
-                <h3 class={`font-display mb-3 text-lg font-bold ${tone}`}>{label}</h3>
-                <p class="text-muted-foreground text-sm leading-relaxed">{desc}</p>
-              </div>
-            ))}
+                )
+              )
+            }
           </div>
         </div>
       </div>
     </section>
     <!-- Strategic Advantage -->
     <section
-      class="bg-linear-to-b from-transparent to-muted/20 dark:to-white/[0.02] px-4 py-24 sm:px-6 lg:px-8"
+      class="to-muted/20 bg-linear-to-b from-transparent px-4 py-24 sm:px-6 lg:px-8 dark:to-white/[0.02]"
     >
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
@@ -323,95 +381,128 @@ const strategicFeatures = [
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond static reports with a partner who builds high-performance 
-            data ecosystems.
+            Move beyond static reports with a partner who builds
+            high-performance data ecosystems.
           </p>
         </div>
         <FeatureCarousel client:visible features={strategicFeatures} />
       </div>
     </section>
     <!-- Role-Based Benefits: Who Gets Value -->
-    <section class="bg-muted/20 dark:bg-white/[0.01] px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.01]"
+    >
       <div class="mx-auto max-w-6xl">
         <div class="mb-16 text-center">
-          <h2 class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-            Built for <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Decision-Makers</span>
+          <h2
+            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Built for <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+              >Decision-Makers</span
+            >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Every role in your organization gets a direct line to the intelligence they need.
+            Every role in your organization gets a direct line to the
+            intelligence they need.
           </p>
         </div>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {[
-            {
-              Icon: PiBriefcase,
-              role: "CFO",
-              pain: "Spending hours consolidating financial reports from 6 systems",
-              gain: "One live dashboard — P&L, cash flow, and variance analysis in real time",
-            },
-            {
-              Icon: PiGear,
-              role: "COO",
-              pain: "Operational bottlenecks visible only after they&rsquo;ve already caused delays",
-              gain: "Predictive alerts surface inefficiencies 2–3 weeks before they escalate",
-            },
-            {
-              Icon: PiChartBar,
-              role: "VP Sales",
-              pain: "Pipeline reporting that&rsquo;s 2 weeks stale and manually assembled",
-              gain: "Real-time revenue intelligence with forecast accuracy models",
-            },
-            {
-              Icon: PiDatabase,
-              role: "Data / IT Team",
-              pain: "Fielding ad-hoc data requests that consume 40% of sprint capacity",
-              gain: "Self-serve analytics layer so business teams answer their own questions",
-            },
-            {
-              Icon: PiBuildings,
-              role: "CEO / Board",
-              pain: "Strategic decisions made on incomplete or conflicting data signals",
-              gain: "Executive scorecard aligned to OKRs with drill-down to source data",
-            },
-            {
-              Icon: PiNetwork,
-              role: "Supply Chain",
-              pain: "Demand planning based on last quarter&rsquo;s numbers and gut instinct",
-              gain: "ML-driven demand forecasting reducing inventory over/under by up to 35%",
-            },
-          ].map(({ Icon, role, pain, gain }) => (
-            <div class="group relative overflow-hidden rounded-xl border border-border bg-card/30 p-6 transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-[0_0_20px_oklch(0.65_0.18_210_/_0.06)]">
-              <div class="mb-4 flex items-center gap-3">
-                <div class="rounded-lg bg-primary/10 p-2 transition-[background-color] duration-300 group-hover:bg-primary/20">
-                  <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
+          {
+            [
+              {
+                Icon: PiBriefcase,
+                role: 'CFO',
+                pain: 'Spending hours consolidating financial reports from 6 systems',
+                gain: 'One live dashboard — P&L, cash flow, and variance analysis in real time',
+              },
+              {
+                Icon: PiGear,
+                role: 'COO',
+                pain: 'Operational bottlenecks visible only after they&rsquo;ve already caused delays',
+                gain: 'Predictive alerts surface inefficiencies 2–3 weeks before they escalate',
+              },
+              {
+                Icon: PiChartBar,
+                role: 'VP Sales',
+                pain: 'Pipeline reporting that&rsquo;s 2 weeks stale and manually assembled',
+                gain: 'Real-time revenue intelligence with forecast accuracy models',
+              },
+              {
+                Icon: PiDatabase,
+                role: 'Data / IT Team',
+                pain: 'Fielding ad-hoc data requests that consume 40% of sprint capacity',
+                gain: 'Self-serve analytics layer so business teams answer their own questions',
+              },
+              {
+                Icon: PiBuildings,
+                role: 'CEO / Board',
+                pain: 'Strategic decisions made on incomplete or conflicting data signals',
+                gain: 'Executive scorecard aligned to OKRs with drill-down to source data',
+              },
+              {
+                Icon: PiNetwork,
+                role: 'Supply Chain',
+                pain: 'Demand planning based on last quarter&rsquo;s numbers and gut instinct',
+                gain: 'ML-driven demand forecasting reducing inventory over/under by up to 35%',
+              },
+            ].map(({ Icon, role, pain, gain }) => (
+              <div class="group border-border bg-card/30 hover:border-primary/30 relative overflow-hidden rounded-xl border p-6 transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_20px_oklch(0.65_0.18_210_/_0.06)]">
+                <div class="mb-4 flex items-center gap-3">
+                  <div class="bg-primary/10 group-hover:bg-primary/20 rounded-lg p-2 transition-[background-color] duration-300">
+                    <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
+                  </div>
+                  <span class="font-display text-foreground text-sm font-bold">
+                    {role}
+                  </span>
                 </div>
-                <span class="font-display text-sm font-bold text-foreground">{role}</span>
+                <div class="mb-3">
+                  <p
+                    class="text-muted-foreground/70 decoration-destructive/40 text-xs leading-relaxed line-through"
+                    set:html={pain}
+                  />
+                </div>
+                <div class="border-primary/10 border-t pt-3">
+                  <p
+                    class="text-foreground text-sm leading-relaxed"
+                    set:html={gain}
+                  />
+                </div>
               </div>
-              <div class="mb-3">
-                <p class="text-muted-foreground/70 text-xs leading-relaxed line-through decoration-destructive/40" set:html={pain}></p>
-              </div>
-              <div class="border-t border-primary/10 pt-3">
-                <p class="text-foreground text-sm leading-relaxed" set:html={gain}></p>
-              </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </div>
     </section>
-    <TechnicalSection client:visible id="analytics-vault" overlayOpacity="opacity-10">
+    <TechnicalSection
+      client:visible
+      id="analytics-vault"
+      overlayOpacity="opacity-10"
+    >
       <div class="relative z-10 flex flex-col items-center text-center">
-        <div class="mb-6 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1">
-          <div class="h-2 w-2 animate-pulse rounded-full bg-primary"></div>
-          <span class="text-xs font-bold tracking-widest text-primary font-display">Analytics Insight Vault</span>
+        <div
+          class="border-primary/30 bg-primary/10 mb-6 flex items-center gap-2 rounded-full border px-4 py-1"
+        >
+          <div class="bg-primary h-2 w-2 animate-pulse rounded-full"></div>
+          <span
+            class="text-primary font-display text-xs font-bold tracking-widest"
+            >Analytics Insight Vault</span
+          >
         </div>
-        <h3 class="mb-6 max-w-2xl text-3xl font-bold text-foreground font-display tracking-tight">
-          Engineered Clarity. <span class="text-primary">Actionable Foresight.</span>
+        <h3
+          class="text-foreground font-display mb-6 max-w-2xl text-3xl font-bold tracking-tight"
+        >
+          Engineered Clarity. <span class="text-primary"
+            >Actionable Foresight.</span
+          >
         </h3>
-        <div class="mx-auto max-w-4xl text-lg leading-relaxed text-muted-foreground font-sans">
-          We transform raw data into a competitive asset. From real-time ingestion 
-          to predictive modeling, our solutions empower your organization to 
-          navigate complexity with precision and foresight, ensuring every 
-          decision is backed by objective, governed intelligence.
+        <div
+          class="text-muted-foreground mx-auto max-w-4xl font-sans text-lg leading-relaxed"
+        >
+          We transform raw data into a competitive asset. From real-time
+          ingestion to predictive modeling, our solutions empower your
+          organization to navigate complexity with precision and foresight,
+          ensuring every decision is backed by objective, governed intelligence.
         </div>
       </div>
     </TechnicalSection>

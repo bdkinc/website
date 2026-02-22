@@ -24,7 +24,7 @@ export default function LifecycleVisualization() {
       </div>
       <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-3">
         {/* Phase 1: Build */}
-        <TechCard variant="technical" interactive >
+        <TechCard variant="technical" interactive>
           <div className="relative flex h-full flex-col items-center p-8 text-center">
             <div className="bg-primary/10 border-primary/20 group-hover:bg-primary/20 mb-6 flex h-16 w-16 items-center justify-center rounded-xl border shadow-sm transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
               <PiCode className="text-primary h-8 w-8" />
@@ -79,7 +79,7 @@ export default function LifecycleVisualization() {
           </div>
         </div>
         {/* Phase 2: Host */}
-        <TechCard variant="technical" interactive >
+        <TechCard variant="technical" interactive>
           <div className="relative flex h-full flex-col items-center p-8 text-center">
             <div className="bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20 mb-6 flex h-16 w-16 items-center justify-center rounded-xl border shadow-sm transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
               <PiCloud className="text-secondary h-8 w-8" />

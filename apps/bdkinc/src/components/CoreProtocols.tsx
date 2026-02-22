@@ -53,10 +53,11 @@ const connections: Array<[number, number]> = [
 ];
 
 export default function CoreProtocols({ values }: CoreProtocolsProps) {
-  const { ref: containerRef, isIntersecting } = useIntersectionObserver<HTMLElement>({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
+  const { ref: containerRef, isIntersecting } =
+    useIntersectionObserver<HTMLElement>({
+      threshold: 0.1,
+      triggerOnce: true,
+    });
 
   const prefersReducedMotion =
     typeof window !== 'undefined'
@@ -397,11 +398,7 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
   const svgHeight = Math.max(layoutSize.height, 1);
 
   return (
-    <section
-      ref={containerRef}
-      className="relative isolate overflow-visible"
-    >
-
+    <section ref={containerRef} className="relative isolate overflow-visible">
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-10 md:px-10">
         <div
           ref={layoutRef}

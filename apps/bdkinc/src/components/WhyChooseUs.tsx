@@ -6,7 +6,8 @@ const reasons = [
   {
     icon: 'Lightning' as const,
     title: 'Fast Response',
-    description: 'Quick turnaround times with dedicated support staff available 24/7.',
+    description:
+      'Quick turnaround times with dedicated support staff available 24/7.',
     highlight: 'support',
     detail:
       'When incidents happen, minutes matter. We route alerts, triage fast, and keep you operational—with clear communication at every step.',
@@ -14,7 +15,8 @@ const reasons = [
   {
     icon: 'ShieldCheck' as const,
     title: 'Proven Expertise',
-    description: 'Over 25 years of experience delivering reliable IT solutions.',
+    description:
+      'Over 25 years of experience delivering reliable IT solutions.',
     highlight: 'experience',
     detail:
       'We build and run production systems across infrastructure, cloud, and security. You get battle-tested processes—not guesswork.',
@@ -30,11 +32,12 @@ const reasons = [
 ];
 
 export default function WhyChooseUs() {
-  const { ref: headerRef, isIntersecting: headerInView } = useIntersectionObserver({
-    threshold: 0.2,
-    rootMargin: '0px',
-    triggerOnce: true,
-  });
+  const { ref: headerRef, isIntersecting: headerInView } =
+    useIntersectionObserver({
+      threshold: 0.2,
+      rootMargin: '0px',
+      triggerOnce: true,
+    });
 
   return (
     <section
@@ -60,7 +63,10 @@ export default function WhyChooseUs() {
           </h2>
           <p className="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl">
             Technical authority{' '}
-            <span className="text-accent font-semibold">refined over decades</span>.
+            <span className="text-accent font-semibold">
+              refined over decades
+            </span>
+            .
           </p>
         </div>
 

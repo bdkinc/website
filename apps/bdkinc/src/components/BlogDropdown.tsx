@@ -92,7 +92,7 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
                   <a
                     href="/blog"
                     className={cn(
-                      'group text-foreground hover:bg-accent hover:text-primary focus:bg-accent focus:text-primary focus-visible:ring-primary/40 focus-visible:ring-offset-background flex flex-row items-center gap-2 rounded-md p-3 text-sm leading-none font-medium no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:gap-3 focus-visible:ring-2 focus-visible:ring-offset-2'
+                      'group text-foreground hover:text-primary focus:text-primary focus-visible:ring-primary/40 focus-visible:ring-offset-background flex flex-row items-center gap-2 rounded-md p-3 text-sm leading-none font-medium no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:gap-3 focus-visible:ring-2 focus-visible:ring-offset-2'
                     )}
                   >
                     <span>View All Posts</span>
@@ -107,7 +107,7 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
                 <a
                   href="/blog"
                   className={cn(
-                    'hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-primary/40 focus-visible:ring-offset-background block rounded-md p-3 leading-none no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none focus-visible:ring-2 focus-visible:ring-offset-2'
+                    'hover:text-accent-foreground focus:text-accent-foreground focus-visible:ring-primary/40 focus-visible:ring-offset-background block rounded-md p-3 leading-none no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none focus-visible:ring-2 focus-visible:ring-offset-2'
                   )}
                 >
                   <div className="text-sm font-medium">Visit Blog</div>

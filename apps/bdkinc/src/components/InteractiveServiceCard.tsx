@@ -1,5 +1,5 @@
 import { iconMap } from '@/lib/icons';
-import { PiPackage, PiCaretRight } from 'react-icons/pi';
+import { PiPackage } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
 interface InteractiveServiceCardProps {
   id: string;
@@ -57,11 +57,6 @@ export default function InteractiveServiceCard({
         >
           {description}
         </p>
-        {/* Learn More Link */}
-        <div className="text-primary flex items-center gap-2 font-mono text-[10px] tracking-widest transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 group-hover:tracking-[0.2em]">
-          <span>Learn More</span>
-          <PiCaretRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1" />
-        </div>
       </a>
     </TechCard>
   );

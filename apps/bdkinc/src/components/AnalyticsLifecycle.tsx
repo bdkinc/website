@@ -51,11 +51,7 @@ export default function AnalyticsLifecycle() {
         <div className="relative z-10 grid gap-8 md:grid-cols-3">
           {steps.map((step, index) => (
             <div key={index} className="group relative">
-              <TechCard
-                variant="technical"
-                interactive
-                delay={index * 150}
-              >
+              <TechCard variant="technical" interactive delay={index * 150}>
                 <div className="flex h-full flex-col p-8 text-left">
                   {/* Step Number */}
                   <div className="text-primary/5 group-hover:text-primary/10 absolute top-4 right-4 font-mono text-4xl font-bold transition-colors">
