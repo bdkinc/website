@@ -79,7 +79,7 @@ export default function CTASection({
         <Card
           size="xl"
           interactive={false}
-          className="bg-card/80 dark:bg-card/60 p-10 opacity-100 shadow-sm backdrop-blur-xl"
+          className="from-primary/10 to-secondary/10 border-border border bg-transparent! bg-linear-to-br! via-transparent p-10 opacity-100 shadow-sm backdrop-blur-xl"
         >
           <h2
             className={cn(

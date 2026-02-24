@@ -5,7 +5,6 @@ import {
   PiLightning,
   PiPulse,
   PiArrowsClockwise,
-  PiCaretRight,
 } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
 
@@ -52,26 +51,56 @@ export function PowerSystemsConsole() {
     <div className="relative w-full py-12">
       {/* Console Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {services.map((s, i) => (
-          <TechCard key={i} variant="technical" interactive delay={i * 100}>
-            <div className="relative z-10 flex h-full flex-col p-6 text-center">
-              <div className="mb-4 flex items-center justify-center">
-                <div className="bg-primary/5 border-primary/20 group-hover:bg-primary/10 rounded border p-2 transition-colors">
-                  <s.icon className="text-primary h-6 w-6" />
+        {services.map((s, i) => {
+          const trackingColor =
+            i % 3 === 1 ? 'secondary' : i % 3 === 2 ? 'accent' : 'primary';
+          const iconContainerClass =
+            trackingColor === 'secondary'
+              ? 'bg-secondary/5 border-secondary/20 group-hover:bg-secondary/10'
+              : trackingColor === 'accent'
+                ? 'bg-accent/5 border-accent/20 group-hover:bg-accent/10'
+                : 'bg-primary/5 border-primary/20 group-hover:bg-primary/10';
+          const iconClass =
+            trackingColor === 'secondary'
+              ? 'text-secondary h-6 w-6'
+              : trackingColor === 'accent'
+                ? 'text-accent h-6 w-6'
+                : 'text-primary h-6 w-6';
+          const titleHoverClass =
+            trackingColor === 'secondary'
+              ? 'group-hover:text-secondary'
+              : trackingColor === 'accent'
+                ? 'group-hover:text-accent'
+                : 'group-hover:text-primary';
+
+          return (
+            <TechCard
+              key={i}
+              variant="technical"
+              interactive
+              delay={i * 100}
+              trackingColor={trackingColor}
+            >
+              <div className="relative z-10 flex h-full flex-col p-6 text-center">
+                <div className="mb-4 flex items-center justify-center">
+                  <div
+                    className={`${iconContainerClass} rounded border p-2 transition-colors`}
+                  >
+                    <s.icon className={iconClass} />
+                  </div>
                 </div>
+                <h4
+                  className={`font-display mb-2 text-lg font-bold tracking-tight transition-colors ${titleHoverClass}`}
+                >
+                  {s.title}
+                </h4>
+                <p className="text-muted-foreground mb-6 flex-grow text-sm leading-relaxed">
+                  {s.desc}
+                </p>
               </div>
-              <h4 className="font-display group-hover:text-primary mb-2 text-lg font-bold tracking-tight transition-colors">
-                {s.title}
-              </h4>
-              <p className="text-muted-foreground mb-6 flex-grow text-sm leading-relaxed">
-                {s.desc}
-              </p>
-              <div className="text-primary group-hover:text-primary flex items-center justify-center font-mono text-[10px] font-bold tracking-widest opacity-0 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 group-hover:translate-x-1 group-hover:opacity-100">
-                System Access <PiCaretRight className="ml-1 h-3 w-3" />
-              </div>
-            </div>
-          </TechCard>
-        ))}
+            </TechCard>
+          );
+        })}
       </div>
     </div>
   );

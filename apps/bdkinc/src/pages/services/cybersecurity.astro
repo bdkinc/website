@@ -11,8 +11,10 @@ import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 
 import TechnicalSection from '@/components/TechnicalSection';
-import CybersecurityVisualization from '@/components/visualizations/CybersecurityVisualization';
+import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
 import FeatureCarousel from '@/components/FeatureCarousel';
+import BenefitGrid from '@/components/BenefitGrid.astro';
+import ServiceBlockquote from '@/components/ServiceBlockquote.astro';
 import {
   PiArrowsClockwise,
   PiBell,
@@ -25,7 +27,6 @@ import {
   PiShieldCheck,
   PiUsers,
   PiWarning,
-  PiQuotesFill,
   PiArrowRight,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
@@ -147,6 +148,45 @@ const detailColumns = [
     ],
   },
 ];
+
+const keyBenefits = [
+  {
+    title: 'Reduce Risk',
+    description:
+      'Protect against data breaches, ransomware, and other emerging cyber threats.',
+    icon: PiWarning,
+  },
+  {
+    title: 'Ensure Compliance',
+    description:
+      'Meet industry security standards and regulations including HIPAA, PCI DSS, and SOC 2.',
+    icon: PiFileText,
+  },
+  {
+    title: 'Minimize Downtime',
+    description:
+      'Quick incident recovery ensures your business operations continue without disruption.',
+    icon: PiArrowsClockwise,
+  },
+  {
+    title: 'Protect Reputation',
+    description:
+      'Prevent damaging data breaches that erode customer trust and brand equity.',
+    icon: PiShield,
+  },
+  {
+    title: '24/7 Peace of Mind',
+    description:
+      'Rest easy knowing your critical systems are monitored and protected around the clock.',
+    icon: PiEye,
+  },
+  {
+    title: 'Expert Guidance',
+    description:
+      'Direct access to senior security professionals with deep industry expertise.',
+    icon: PiUsers,
+  },
+];
 ---
 
 <Layout
@@ -169,7 +209,13 @@ const detailColumns = [
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="scanlines pointer-events-none absolute inset-0 opacity-50">
+      </div>
+      <div
+        class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
+      >
+        <CohesiveOrbit client:load />
+      </div>
       <div class="relative z-10 mx-auto max-w-7xl">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
           <!-- Badge -->
@@ -218,14 +264,6 @@ const detailColumns = [
             engineering for high-stakes environments.
           </p>
         </div>
-        <!-- Visualization -->
-        <div
-          class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
-        >
-          <div class="mx-auto max-w-5xl">
-            <CybersecurityVisualization client:visible />
-          </div>
-        </div>
       </div>
       <div
         class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
@@ -233,9 +271,7 @@ const detailColumns = [
       </div>
     </section>
     <!-- Core Services -->
-    <section
-      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
-    >
+    <section class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/2">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -255,10 +291,14 @@ const detailColumns = [
           </p>
         </div>
         <TechCardGrid client:visible className="md:grid-cols-3">
-          <TechCard variant="technical" interactive={true}>
+          <TechCard
+            variant="technical"
+            interactive={true}
+            trackingColor={'primary'}
+          >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+                class="from-primary/10 to-primary/5 border-primary/20 group-hover:border-primary/50 mx-auto mb-6 flex w-fit items-center justify-center rounded-xl border bg-linear-to-br p-5 transition-colors duration-500 group-hover:scale-110"
               >
                 <PiShieldCheck
                   className="text-primary h-16 w-16"
@@ -278,15 +318,22 @@ const detailColumns = [
               </div>
             </div>
           </TechCard>
-          <TechCard variant="technical" interactive={true}>
+          <TechCard
+            variant="technical"
+            interactive={true}
+            trackingColor={'secondary'}
+          >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+                class="from-secondary/10 to-secondary/5 border-secondary/20 group-hover:border-secondary/50 mx-auto mb-6 flex w-fit items-center justify-center rounded-xl border bg-linear-to-br p-5 transition-colors duration-500 group-hover:scale-110"
               >
-                <PiLock className="text-primary h-16 w-16" aria-hidden="true" />
+                <PiLock
+                  className="text-secondary h-16 w-16"
+                  aria-hidden="true"
+                />
               </div>
               <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+                class="text-foreground font-display group-hover:text-secondary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
                 Ransomware Defense
               </h4>
@@ -298,18 +345,22 @@ const detailColumns = [
               </div>
             </div>
           </TechCard>
-          <TechCard variant="technical" interactive={true}>
+          <TechCard
+            variant="technical"
+            interactive={true}
+            trackingColor={'accent'}
+          >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
+                class="from-accent/20 to-accent/10 border-accent/30 group-hover:border-accent/60 mx-auto mb-6 flex w-fit items-center justify-center rounded-xl border bg-linear-to-br p-5 transition-colors duration-500 group-hover:scale-110"
               >
                 <PiFileText
-                  className="text-primary h-16 w-16"
+                  className="text-accent h-16 w-16"
                   aria-hidden="true"
                 />
               </div>
               <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
+                class="text-foreground font-display group-hover:text-accent mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
                 Compliance Engineering
               </h4>
@@ -342,51 +393,13 @@ const detailColumns = [
           </h2>
         </div>
 
-        <!-- Glass Quote Container -->
-        <div class="relative mx-auto max-w-4xl">
-          <!-- Floating Icon -->
-          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
-            <PiQuotesFill
-              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
-              aria-hidden="true"
-            />
-          </div>
-
-          <!-- Glass Card -->
-          <div
-            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
-          >
-            <!-- Ambient Glow -->
-            <div
-              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            >
-            </div>
-            <div
-              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            >
-            </div>
-
-            <!-- Background Watermark -->
-            <div
-              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
-            >
-              <PiQuotesFill
-                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
-                aria-hidden="true"
-              />
-            </div>
-
-            <blockquote
-              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
-            >
-              &ldquo;In an era of sophisticated attacks, reactive security is
-              failure. We architect
-              <span class="text-accent"> proactive resilience</span>
-              into every layer of your digital estate, ensuring your data is protected
-              and your operations are audit-ready 24/7.&rdquo;
-            </blockquote>
-          </div>
-        </div>
+        <ServiceBlockquote>
+          &ldquo;In an era of sophisticated attacks, reactive security is
+          failure. We architect
+          <span class="text-accent"> proactive resilience</span>
+          into every layer of your digital estate, ensuring your data is protected
+          and your operations are audit-ready 24/7.&rdquo;
+        </ServiceBlockquote>
       </div>
       <div
         class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -430,308 +443,245 @@ const detailColumns = [
             >
           </h2>
         </div>
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {
-            [
-              {
-                num: '01',
-                label: 'Prevent',
-                Icon: PiShieldCheck,
-                items: [
-                  'Firewall management',
-                  'Endpoint protection',
-                  'Email security',
-                  'User education',
-                  'Access controls',
-                ],
-              },
-              {
-                num: '02',
-                label: 'Detect',
-                Icon: PiEye,
-                items: [
-                  '24/7 monitoring',
-                  'Intrusion detection',
-                  'Log analysis',
-                  'Vulnerability scanning',
-                  'Threat intelligence',
-                ],
-              },
-              {
-                num: '03',
-                label: 'Respond',
-                Icon: PiBell,
-                items: [
-                  'Incident response',
-                  'Forensic analysis',
-                  'Containment procedures',
-                  'Recovery processes',
-                  'Post-incident review',
-                ],
-              },
-              {
-                num: '04',
-                label: 'Recover',
-                Icon: PiHardDrives,
-                items: [
-                  'Backup systems',
-                  'Recovery procedures',
-                  'Continuity planning',
-                  'Communication protocols',
-                  'System restoration',
-                ],
-              },
-            ].map(({ num, label, Icon, items }) => (
-              <div class="group border-primary/20 bg-card/30 hover:border-primary/50 hover:bg-card/50 relative overflow-hidden rounded-xl border p-6 transition-[color,background-color,border-color,box-shadow,opacity] duration-300 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]">
-                <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]" />
-                <div class="mb-4 flex items-center justify-between">
-                  <div class="bg-primary/10 ring-primary/20 group-hover:bg-primary/20 group-hover:ring-primary/40 inline-flex h-14 w-14 items-center justify-center rounded-lg ring-1 transition-[background-color,box-shadow] duration-300">
-                    <Icon className="text-primary h-8 w-8" aria-hidden="true" />
+        <div class="relative">
+          <!-- Connecting Path (Desktop) -->
+          <div class="absolute top-8 left-[10%] right-[10%] hidden h-0.5 md:block overflow-hidden rounded-full">
+            <!-- Base Line -->
+            <div class="absolute inset-0 bg-muted/30"></div>
+            <!-- Steady Gradient Background -->
+            <div class="absolute inset-0 bg-linear-to-r from-muted-foreground via-primary to-accent opacity-20"></div>
+            <!-- Animated Progress Beam -->
+            <div class="absolute top-0 bottom-0 left-0 w-1/2 bg-linear-to-r from-transparent via-primary to-transparent opacity-80 blur-sm animate-[shimmer_3s_linear_infinite]" style="animation-name: slide-right; animation-duration: 3s; animation-iteration-count: infinite;"></div>
+            <!-- Add keyframes for this specific local animation if not global -->
+            <style>
+              @keyframes slide-right {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(200%); }
+              }
+            </style>
+          </div>
+
+          <div class="grid gap-6 md:grid-cols-4">
+            {
+              [
+                {
+                  num: '01',
+                  label: 'Prevent',
+                  Icon: PiShieldCheck,
+                  color: 'foreground',
+                  items: [
+                    'Firewall management',
+                    'Endpoint protection',
+                    'Email security',
+                    'User education',
+                    'Access controls',
+                  ],
+                },
+                {
+                  num: '02',
+                  label: 'Detect',
+                  Icon: PiEye,
+                  color: 'primary',
+                  items: [
+                    '24/7 monitoring',
+                    'Intrusion detection',
+                    'Log analysis',
+                    'Vulnerability scanning',
+                    'Threat intelligence',
+                  ],
+                },
+                {
+                  num: '03',
+                  label: 'Respond',
+                  Icon: PiBell,
+                  color: 'secondary',
+                  items: [
+                    'Incident response',
+                    'Forensic analysis',
+                    'Containment procedures',
+                    'Recovery processes',
+                    'Post-incident review',
+                  ],
+                },
+                {
+                  num: '04',
+                  label: 'Recover',
+                  Icon: PiHardDrives,
+                  color: 'accent',
+                  items: [
+                    'Backup systems',
+                    'Recovery procedures',
+                    'Continuity planning',
+                    'Communication protocols',
+                    'System restoration',
+                  ],
+                },
+              ].map(({ num, label, Icon, items, color }) => {
+                 // Map color names to Tailwind classes
+                 const colorScales = {
+                    primary: {
+                        border: 'border-primary/30 hover:border-primary',
+                        bg: 'bg-primary/5',
+                        text: 'text-primary',
+                        marker: 'bg-primary',
+                        connector: 'from-primary'
+                    },
+                    secondary: {
+                        border: 'border-secondary/30 hover:border-secondary',
+                        bg: 'bg-secondary/5',
+                        text: 'text-secondary',
+                        marker: 'bg-secondary',
+                        connector: 'from-secondary'
+                    },
+                    accent: {
+                        border: 'border-accent/30 hover:border-accent',
+                        bg: 'bg-accent/5',
+                        text: 'text-accent',
+                        marker: 'bg-accent',
+                        connector: 'from-accent'
+                    },
+                    foreground: {
+                        border: 'border-foreground/30 hover:border-foreground',
+                        bg: 'bg-foreground/5',
+                        text: 'text-foreground',
+                        marker: 'bg-foreground',
+                        connector: 'from-foreground'
+                    }
+                };
+                
+                const theme = colorScales[color as keyof typeof colorScales];
+
+                return (
+                  <div class="group relative flex flex-col h-full pt-16">
+                    <!-- Node on the path -->
+                    <div class="absolute top-8 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block z-20">
+                      <div class={`h-4 w-4 rounded-full border-2 bg-background transition-transform duration-300 group-hover:scale-150 ${theme.border.split(' ')[0]} ${theme.text}`}></div>
+                    </div>
+
+                    <!-- Vertical connector line -->
+                    <div class={`absolute top-8 left-1/2 hidden w-px -translate-x-1/2 md:block h-8 bg-linear-to-b to-transparent ${theme.connector}`}></div>
+
+                    <div class={`relative z-10 flex h-full flex-col rounded-xl border p-6 backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity] duration-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] ${theme.border} ${theme.bg}`}>
+                      <div class="scanlines pointer-events-none absolute inset-0 opacity-[0.02]" />
+                      
+                      <!-- Subtle gradient overlay -->
+                      <div class="pointer-events-none absolute inset-0 rounded-xl bg-linear-to-br from-white/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 dark:from-white/5"></div>
+
+                      <div class="mb-4 flex items-center justify-between">
+                        <div class={`inline-flex h-14 w-14 items-center justify-center rounded-lg ring-1 transition-[background-color,box-shadow] duration-300 ${theme.bg} ${theme.border.split(' ')[0]} ${theme.text}`}>
+                          <Icon className={`h-8 w-8 ${theme.text}`} aria-hidden="true" />
+                        </div>
+                        <span class={`font-mono text-4xl leading-none font-bold transition-colors duration-300 opacity-20 group-hover:opacity-40 ${theme.text}`}>
+                          {num}
+                        </span>
+                      </div>
+                      <h4 class={`font-display mb-3 text-xl font-bold ${theme.text}`}>
+                        {label}
+                      </h4>
+                      <ul class="text-muted-foreground space-y-2 font-sans text-sm">
+                        {items.map((item) => (
+                          <li class="flex items-start gap-2">
+                            <span class={`mt-1 ${theme.text}`} aria-hidden="true">
+                              •
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                  <span class="text-primary/15 group-hover:text-primary/25 font-mono text-4xl leading-none font-bold transition-colors duration-300">
-                    {num}
-                  </span>
-                </div>
-                <h4 class="text-foreground font-display mb-3 text-xl font-bold">
-                  {label}
-                </h4>
-                <ul class="text-muted-foreground space-y-2 font-sans text-sm">
-                  {items.map((item) => (
-                    <li class="flex items-start gap-2">
-                      <span class="text-primary mt-1" aria-hidden="true">
-                        •
-                      </span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          }
+                );
+              })
+            }
+          </div>
         </div>
       </div>
     </section>
     <!-- Key Benefits -->
     <section
-      class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.01]"
+      class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/1"
     >
       <div class="mx-auto max-w-7xl">
-        <div class="mb-16 text-center">
-          <h2
-            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
-          >
-            Key <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Benefits</span
-            >
-          </h2>
-        </div>
-        <!-- Swiss Grid Layout -->
-        <div
-          class="bg-border grid gap-px overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-3"
-        >
-          <!-- Benefit 1 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiWarning className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Reduce Risk
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Protect against data breaches, ransomware, and other emerging
-              cyber threats.
-            </p>
-          </div>
-          <!-- Benefit 2 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiFileText className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Ensure Compliance
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Meet industry security standards and regulations including HIPAA,
-              PCI DSS, and SOC 2.
-            </p>
-          </div>
-          <!-- Benefit 3 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiArrowsClockwise className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Minimize Downtime
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Quick incident recovery ensures your business operations continue
-              without disruption.
-            </p>
-          </div>
-          <!-- Benefit 4 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiShield className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Protect Reputation
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Prevent damaging data breaches that erode customer trust and brand
-              equity.
-            </p>
-          </div>
-          <!-- Benefit 5 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiEye className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                24/7 Peace of Mind
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Rest easy knowing your critical systems are monitored and
-              protected around the clock.
-            </p>
-          </div>
-          <!-- Benefit 6 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiUsers className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Expert Guidance
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Direct access to senior security professionals with deep industry
-              expertise.
-            </p>
-          </div>
-        </div>
+        <BenefitGrid benefits={keyBenefits} />
       </div>
     </section>
     <!-- Detailed Capabilities Section -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-16 text-center">
-          <h2
-            class="text-foreground font-display mb-6 text-3xl font-bold tracking-tight md:text-4xl"
-          >
-            Technical <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Specifications</span
-            >
-          </h2>
-        </div>
-        <div class="grid gap-8 md:grid-cols-2">
-          {
-            detailColumns.map((column) => (
-              <div class="glass border-border rounded-2xl border p-8">
-                <div class="mb-6 flex items-center gap-3">
-                  <column.icon
-                    className="text-primary h-8 w-8"
-                    aria-hidden="true"
-                  />
-                  <h4 class="text-foreground text-2xl font-bold">
-                    {column.title}
-                  </h4>
-                </div>
-                <div class="text-muted-foreground space-y-3">
-                  {column.items.map((item) => (
-                    <div class="flex items-start gap-2">
-                      <PiCheckCircle
-                        className="text-primary mt-1 h-5 w-5 shrink-0"
-                        aria-hidden="true"
-                      />
-                      <span>{item}</span>
+    <div class="relative">
+      <div class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"></div>
+      <section class="px-4 py-24 md:py-32 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <div class="mb-16 md:mb-24 text-center">
+            <h2 class="text-foreground font-display mb-6 text-3xl font-bold tracking-tight md:text-5xl">
+              Technical <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">Specifications</span>
+            </h2>
+            <p class="text-muted-foreground mx-auto max-w-2xl text-lg md:text-xl leading-relaxed">
+              Rigorous defense protocols engineered for zero-tolerance environments. We build defense-in-depth architectures that protect your most critical assets.
+            </p>
+          </div>
+
+          <div class="grid gap-16 md:grid-cols-2 md:gap-24">
+            {
+              detailColumns.map((column, idx) => {
+                const theme = idx === 0 
+                  ? {
+                      glow: 'bg-primary/5',
+                      iconBg: 'from-primary/10 to-primary/5',
+                      iconBorder: 'border-primary/20',
+                      text: 'text-primary',
+                      line: 'from-primary/50',
+                      bulletGlow: 'group-hover:shadow-[0_0_15px_rgba(var(--color-primary),0.3)]',
+                    }
+                  : {
+                      glow: 'bg-secondary/5',
+                      iconBg: 'from-secondary/10 to-secondary/5',
+                      iconBorder: 'border-secondary/20',
+                      text: 'text-secondary',
+                      line: 'from-secondary/50',
+                      bulletGlow: 'group-hover:shadow-[0_0_15px_rgba(var(--color-secondary),0.3)]',
+                    };
+
+                return (
+                  <div class="relative">
+                    <div class={`absolute -left-8 -top-8 h-64 w-64 rounded-full ${theme.glow} blur-3xl`}></div>
+                    
+                    <div class="relative">
+                      <div class="mb-10 flex items-center gap-6">
+                        <div class={`inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border ${theme.iconBorder} ${theme.iconBg} shadow-sm`}>
+                          <column.icon className={`h-8 w-8 ${theme.text}`} aria-hidden="true" />
+                        </div>
+                        <h4 class="text-foreground font-display text-2xl font-bold tracking-tight md:text-3xl">
+                          {column.title}
+                        </h4>
+                      </div>
+                      
+                      <div class="relative pl-8">
+                        {/* Connecting vertical line */}
+                        <div class={`absolute left-[15px] top-2 bottom-6 w-px bg-linear-to-b ${theme.line} to-transparent opacity-30`}></div>
+                        
+                        <ul class="space-y-10">
+                          {column.items.map((item) => (
+                            <li class="group relative">
+                              {/* Custom bullet point on the line */}
+                              <div class={`absolute -left-[37px] top-1.5 h-2 w-2 rounded-full bg-background ring-2 ring-muted-foreground/30 transition-all duration-300 group-hover:scale-150 group-hover:ring-${theme.text.split('-')[1]} ${theme.bulletGlow}`}></div>
+                              
+                              <div class="flex items-start gap-4">
+                                <span class="text-muted-foreground text-lg leading-relaxed transition-colors duration-300 group-hover:text-foreground">
+                                  {item}
+                                </span>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            ))
-          }
+                  </div>
+                );
+              })
+            }
+          </div>
         </div>
-      </div>
-    </section>
-    <TechnicalSection
-      client:visible
-      id="compliance-vault"
-      overlayOpacity="opacity-10"
-    >
-      <div class="relative z-10 flex flex-col items-center text-center">
-        <div
-          class="border-primary/30 bg-primary/10 mb-6 flex items-center gap-2 rounded-full border px-4 py-1"
-        >
-          <div class="bg-primary h-2 w-2 animate-pulse rounded-full"></div>
-          <span
-            class="text-primary font-display text-xs font-bold tracking-widest"
-            >Compliance Engineering Vault</span
-          >
-        </div>
-        <h3
-          class="text-foreground font-display mb-6 max-w-2xl text-3xl font-bold tracking-tight"
-        >
-          Rigorous Standards. <span class="text-primary">Zero Compromise.</span>
-        </h3>
-        <div
-          class="text-muted-foreground mx-auto max-w-4xl font-sans text-lg leading-relaxed"
-        >
-          We help you meet security requirements for HIPAA, PCI DSS, SOC 2, and
-          NIST frameworks. Our team engineers technical controls directly into
-          your infrastructure, automating evidence collection and ensuring you
-          are prepared for pass rigorous third-party audits.
-        </div>
-      </div>
-    </TechnicalSection>
+      </section>
+    </div>
 
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">

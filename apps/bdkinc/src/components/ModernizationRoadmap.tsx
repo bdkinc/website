@@ -6,6 +6,7 @@ import {
   PiDesktop,
   PiDeviceMobile,
   PiStack,
+  PiArrowRight,
 } from 'react-icons/pi';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { cn } from '@bdkinc/design-system';
@@ -46,7 +47,6 @@ export function ModernizationRoadmap() {
   const numberRefs = useRef<(HTMLDivElement | null)[]>([]);
   const desktopShimmerRefs = useRef<(HTMLDivElement | null)[]>([]);
   const mobileShimmerRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const hasAnimated = useRef(false);
 
   const { ref: observerRef, isIntersecting } = useIntersectionObserver({
     threshold: 0.2,
@@ -55,9 +55,7 @@ export function ModernizationRoadmap() {
 
   useGSAP(
     () => {
-      if (!isIntersecting || hasAnimated.current) return;
-
-      hasAnimated.current = true;
+      if (!isIntersecting) return;
 
       cardRefs.current.forEach((card, index) => {
         if (!card) return;
@@ -142,12 +140,6 @@ export function ModernizationRoadmap() {
       <div className="bg-grid-slate-900/[0.04] dark:bg-grid-slate-400/[0.05] absolute inset-0 [mask-image:linear-gradient(0deg,transparent,black)] bg-[bottom_1px_center]" />
 
       <div className="relative mx-auto max-w-5xl">
-        <div className="mb-16 text-center">
-          <h3 className="text-foreground font-display text-3xl font-bold tracking-tight">
-            Systems Upgrade Flow
-          </h3>
-        </div>
-
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {steps.map((step, index) => {
             const Icon = step.icon;
@@ -186,29 +178,9 @@ export function ModernizationRoadmap() {
                   </div>
                 )}
 
-                <div
-                  className="border-border bg-card/80 hover:border-primary/50 relative flex h-full flex-col items-center rounded-xl border px-6 pt-8 pb-6 backdrop-blur-md transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.15)]"
-                  style={
-                    isAccent
-                      ? ({
-                          '--accent': 'var(--accent)',
-                        } as React.CSSProperties)
-                      : undefined
-                  }
-                >
+                <div className="border-border bg-card/80 hover:border-primary/50 relative flex h-full flex-col items-center rounded-xl border px-6 pt-8 pb-6 backdrop-blur-md transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.15)]">
                   {/* Scanline texture */}
                   <div className="scanlines pointer-events-none absolute inset-0 overflow-hidden rounded-xl opacity-[0.03]" />
-
-                  {/* Step number */}
-                  <div
-                    ref={(el) => {
-                      numberRefs.current[index] = el;
-                    }}
-                    className="bg-background border-primary/20 text-primary mb-5 inline-flex h-6 w-9 items-center justify-center rounded border font-mono text-[10px] font-bold shadow-[0_0_10px_rgba(0,212,255,0.15)]"
-                    style={{ opacity: 0 }}
-                  >
-                    {`0${index + 1}`}
-                  </div>
 
                   {/* Icon */}
                   <div
@@ -261,6 +233,21 @@ export function ModernizationRoadmap() {
               </div>
             );
           })}
+        </div>
+
+        <div className="mt-16 flex items-center justify-center">
+          <div className="group relative flex items-center gap-4">
+            <div className="to-primary/50 group-hover:to-primary h-[1px] w-12 bg-gradient-to-r from-transparent transition-all duration-500 group-hover:w-24" />
+            <h3 className="text-foreground font-display flex items-center gap-3 text-xl font-bold tracking-tight">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
+                <span className="bg-primary relative inline-flex h-2.5 w-2.5 rounded-full"></span>
+              </span>
+              Systems Upgrade Flow
+              <PiArrowRight className="text-primary h-5 w-5 transition-transform duration-300 group-hover:translate-x-2" />
+            </h3>
+            <div className="to-primary/50 group-hover:from-primary h-[1px] w-12 bg-gradient-to-l from-transparent transition-all duration-500 group-hover:w-24" />
+          </div>
         </div>
       </div>
     </div>

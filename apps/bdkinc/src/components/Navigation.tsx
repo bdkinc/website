@@ -52,9 +52,9 @@ export default function Navigation({
   return (
     <nav
       className={cn(
-        'fixed top-0 right-0 left-0 z-50 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
+        'fixed top-0 right-0 left-0 z-50 shadow-lg transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
         scrolled
-          ? 'glass border-primary/10 border-b shadow-lg backdrop-blur-xl'
+          ? 'glass border-primary/10 border-b backdrop-blur-xl'
           : 'bg-transparent shadow-sm backdrop-blur-sm'
       )}
     >

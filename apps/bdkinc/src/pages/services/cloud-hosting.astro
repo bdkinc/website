@@ -3,15 +3,17 @@ import { getEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
-import { getBlogPosts } from '@/lib/blog';
 import { iconMap } from '@/lib/icons';
 import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
+import Logo from '@/components/Logo';
 
-import CloudHostingVisualization from '@/components/visualizations/CloudHostingVisualization';
+import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
 import FeatureCarousel from '@/components/FeatureCarousel';
+import BenefitGrid from '@/components/BenefitGrid.astro';
+import ServiceBlockquote from '@/components/ServiceBlockquote.astro';
 import {
   PiLock,
   PiLightning,
@@ -23,8 +25,6 @@ import {
   PiGlobe,
   PiStack,
   PiCurrencyDollar,
-  PiQuotesFill,
-  PiArrowRight,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 const service = await getEntry('services', 'cloud-hosting');
@@ -50,10 +50,6 @@ const _serviceSchema = {
   },
   serviceType: 'Cloud Hosting & Migration',
 };
-const relatedTags = ['cloud', 'security', 'infrastructure'];
-const relatedPosts = (await getBlogPosts())
-  .filter((post) => post.tags?.some((tag) => relatedTags.includes(tag)))
-  .slice(0, 3);
 const metrics = [
   { value: '99.99%', label: 'Uptime SLA', icon: PiShield },
   { value: '75+', label: 'Cloud Migrations', icon: PiArrowsClockwise },
@@ -134,14 +130,53 @@ const providers = [
     desc: 'Advanced data analytics and AI capabilities',
   },
   {
-    name: 'Digital Ocean',
-    logo: '/logos/partners/digital-ocean.svg',
-    desc: 'Simple, scalable cloud computing for modern apps',
+    name: 'BDKcloud',
+    logo: null,
+    desc: 'Private cloud infrastructure powered by the BDK platform',
   },
   {
     name: 'Cloudflare',
     logo: '/logos/partners/cloudflare.svg',
     desc: 'Global edge network for security and performance',
+  },
+];
+
+const keyBenefits = [
+  {
+    title: 'Enhanced Reliability',
+    description:
+      'Multi-region redundancy and high-availability clusters protect your critical business data.',
+    icon: PiShield,
+  },
+  {
+    title: 'Cost Efficiency',
+    description:
+      'Shift from volatile capital expenses to predictable, value-driven operational models.',
+    icon: PiCurrencyDollar,
+  },
+  {
+    title: 'Business Continuity',
+    description:
+      'Built-in disaster recovery and immutable backup solutions keep your business running.',
+    icon: PiArrowsClockwise,
+  },
+  {
+    title: 'Architectural Expertise',
+    description:
+      'Direct access to senior cloud architects with decades of enterprise migration experience.',
+    icon: PiUsersThree,
+  },
+  {
+    title: 'Security First',
+    description:
+      'Unified security plane across all environments ensures consistent policy enforcement.',
+    icon: PiLock,
+  },
+  {
+    title: 'Infinite Flexibility',
+    description:
+      'Elastic capacity that adapts instantly to rapid growth, mergers, and acquisitions.',
+    icon: PiLightning,
   },
 ];
 ---
@@ -166,7 +201,13 @@ const providers = [
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="scanlines pointer-events-none absolute inset-0 opacity-50">
+      </div>
+      <div
+        class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
+      >
+        <CohesiveOrbit client:load />
+      </div>
       <div class="relative z-10 mx-auto max-w-7xl">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
           <!-- Badge -->
@@ -214,14 +255,6 @@ const providers = [
             environments with premier management and 24/7 support.
           </p>
         </div>
-        <!-- Visualization -->
-        <div
-          class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
-        >
-          <div class="mx-auto max-w-5xl">
-            <CloudHostingVisualization client:visible />
-          </div>
-        </div>
       </div>
       <div
         class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
@@ -251,7 +284,11 @@ const providers = [
           </p>
         </div>
         <TechCardGrid client:visible className="md:grid-cols-3">
-          <TechCard variant="technical" interactive={true}>
+          <TechCard
+            variant="technical"
+            interactive={true}
+            trackingColor={'primary'}
+          >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="from-primary/10 to-primary/5 border-primary/20 group-hover:from-primary/20 group-hover:to-primary/10 mb-6 rounded-lg border bg-linear-to-br p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -271,7 +308,11 @@ const providers = [
               </div>
             </div>
           </TechCard>
-          <TechCard variant="technical" interactive={true}>
+          <TechCard
+            variant="technical"
+            interactive={true}
+            trackingColor={'secondary'}
+          >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="from-secondary/10 to-secondary/5 border-secondary/20 group-hover:from-secondary/20 group-hover:to-secondary/10 mb-6 rounded-lg border bg-linear-to-br p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -294,7 +335,11 @@ const providers = [
               </div>
             </div>
           </TechCard>
-          <TechCard variant="technical" interactive={true}>
+          <TechCard
+            variant="technical"
+            interactive={true}
+            trackingColor={'accent'}
+          >
             <div class="flex h-full flex-col items-center p-8 text-center">
               <div
                 class="from-accent/20 to-accent/10 border-accent/20 group-hover:from-accent/30 group-hover:to-accent/20 mb-6 rounded-lg border bg-linear-to-br p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
@@ -336,51 +381,13 @@ const providers = [
           </h2>
         </div>
 
-        <!-- Glass Quote Container -->
-        <div class="relative mx-auto max-w-4xl">
-          <!-- Floating Icon -->
-          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
-            <PiQuotesFill
-              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
-              aria-hidden="true"
-            />
-          </div>
-
-          <!-- Glass Card -->
-          <div
-            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
-          >
-            <!-- Ambient Glow -->
-            <div
-              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            >
-            </div>
-            <div
-              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            >
-            </div>
-
-            <!-- Background Watermark -->
-            <div
-              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
-            >
-              <PiQuotesFill
-                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
-                aria-hidden="true"
-              />
-            </div>
-
-            <blockquote
-              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
-            >
-              &ldquo;Cloud is not a destination; it&rsquo;s an operating model.
-              We don&rsquo;t just host your data; we architect
-              <span class="text-accent"> intelligent ecosystems</span>
-              that balance security, performance, and cost, ensuring your infrastructure
-              never blinks.&rdquo;
-            </blockquote>
-          </div>
-        </div>
+        <ServiceBlockquote>
+          &ldquo;Cloud is not a destination; it&rsquo;s an operating model. We
+          don&rsquo;t just host your data; we architect
+          <span class="text-accent"> intelligent ecosystems</span>
+          that balance security, performance, and cost, ensuring your
+          infrastructure never blinks.&rdquo;
+        </ServiceBlockquote>
       </div>
       <div
         class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -434,24 +441,34 @@ const providers = [
         >
           {
             providers.map((provider) => (
-              <TechCard variant="technical" interactive={true}>
+              <TechCard
+                variant="blog"
+                interactive={true}
+                trackingColor={'secondary'}
+              >
                 <div class="group/provider flex h-full flex-col p-8 text-center">
                   {/* Visual Header */}
                   <div class="mb-8 flex h-20 flex-col items-center justify-center">
                     <div class="relative">
                       <div class="bg-primary/5 absolute -inset-4 rounded-full opacity-0 blur-xl transition-opacity duration-500 group-hover/provider:opacity-100" />
-                      <img
-                        src={provider.logo}
-                        alt={provider.name}
-                        width="180"
-                        height="64"
-                        class="relative h-16 w-auto max-w-[180px] object-contain brightness-75 grayscale transition-[filter,transform] duration-500 group-hover/provider:scale-110 group-hover/provider:brightness-100 group-hover/provider:grayscale-0"
-                      />
+                      {provider.logo ? (
+                        <img
+                          src={provider.logo}
+                          alt={provider.name}
+                          width="180"
+                          height="64"
+                          class="relative h-16 w-auto max-w-[180px] object-contain transition-transform duration-500 group-hover/provider:scale-110"
+                        />
+                      ) : (
+                        <div class="relative flex h-16 w-[180px] items-center justify-center transition-transform duration-500 group-hover/provider:scale-110">
+                          <Logo />
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div class="flex-grow">
+                  <div class="grow">
                     <h5 class="font-display text-foreground group-hover/provider:text-primary mb-3 text-xl font-bold tracking-tight transition-colors duration-300">
                       {provider.name}
                     </h5>
@@ -467,151 +484,9 @@ const providers = [
       </div>
     </section>
     <!-- Key Benefits -->
-    <section
-      class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.01]"
-    >
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <div class="mb-16 text-center">
-          <h2
-            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
-          >
-            Key <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Benefits</span
-            >
-          </h2>
-        </div>
-        <!-- Swiss Grid Layout -->
-        <div
-          class="bg-border grid gap-px overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-3"
-        >
-          <!-- Benefit 1 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiShield className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Enhanced Reliability
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Multi-region redundancy and high-availability clusters protect
-              your critical business data.
-            </p>
-          </div>
-          <!-- Benefit 2 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiCurrencyDollar className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Cost Efficiency
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Shift from volatile capital expenses to predictable, value-driven
-              operational models.
-            </p>
-          </div>
-          <!-- Benefit 3 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiArrowsClockwise className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Business Continuity
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Built-in disaster recovery and immutable backup solutions keep
-              your business running.
-            </p>
-          </div>
-          <!-- Benefit 4 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiUsersThree className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Architectural Expertise
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Direct access to senior cloud architects with decades of
-              enterprise migration experience.
-            </p>
-          </div>
-          <!-- Benefit 5 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiLock className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Security First
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Unified security plane across all environments ensures consistent
-              policy enforcement.
-            </p>
-          </div>
-          <!-- Benefit 6 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiLightning className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Infinite Flexibility
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Elastic capacity that adapts instantly to rapid growth, mergers,
-              and acquisitions.
-            </p>
-          </div>
-        </div>
+        <BenefitGrid benefits={keyBenefits} />
       </div>
     </section>
 
@@ -626,33 +501,6 @@ const providers = [
         </div>
       </div>
     </section>
-    <!-- Related Resources -->
-    {
-      relatedPosts.length > 0 && (
-        <section class="mx-auto max-w-5xl px-4 py-24">
-          <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-            Related Resources
-          </h2>
-          <div class="grid gap-6 md:grid-cols-3">
-            {relatedPosts.map((post) => (
-              <a
-                href={`/blog/${post.slug}`}
-                class="border-border hover:border-primary flex flex-col rounded-xl border p-6 transition-colors"
-              >
-                <h3 class="text-foreground mb-2 text-lg font-semibold">
-                  {post.title}
-                </h3>
-                <p class="text-muted-foreground text-sm">{post.description}</p>
-                <span class="text-primary mt-4 flex items-center gap-1 text-sm font-medium">
-                  Read Article{' '}
-                  <PiArrowRight className="h-3 w-3" aria-hidden="true" />
-                </span>
-              </a>
-            ))}
-          </div>
-        </section>
-      )
-    }
     <ImpactMetricsSection metrics={metrics} />
     <!-- CTA -->
     <CTASection

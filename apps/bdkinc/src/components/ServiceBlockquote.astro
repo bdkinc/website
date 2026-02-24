@@ -1,0 +1,38 @@
+---
+import { PiQuotesFill } from 'react-icons/pi';
+---
+
+<div class="relative mx-auto max-w-4xl">
+  <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
+    <PiQuotesFill
+      className="h-20 w-20 -rotate-12 drop-shadow-xl filter"
+      aria-hidden="true"
+    />
+  </div>
+
+  <div
+    class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
+  >
+    <div
+      class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+    >
+    </div>
+    <div
+      class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
+    >
+    </div>
+
+    <div class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]">
+      <PiQuotesFill
+        className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
+        aria-hidden="true"
+      />
+    </div>
+
+    <blockquote
+      class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
+    >
+      <slot />
+    </blockquote>
+  </div>
+</div>

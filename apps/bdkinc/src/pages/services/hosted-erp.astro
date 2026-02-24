@@ -10,8 +10,10 @@ import TechnicalFAQ from '@/components/TechnicalFAQ';
 
 import TechnicalSection from '@/components/TechnicalSection';
 import { GlobalNetworkMap } from '@/components/GlobalNetworkMap';
-import HostedERPVisualization from '@/components/visualizations/HostedERPVisualization';
+import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
 import FeatureCarousel from '@/components/FeatureCarousel';
+import BenefitGrid from '@/components/BenefitGrid.astro';
+import ServiceBlockquote from '@/components/ServiceBlockquote.astro';
 import {
   PiArrowUp,
   PiDatabase,
@@ -22,7 +24,6 @@ import {
   PiCheckCircle,
   PiLock,
   PiCurrencyDollar,
-  PiQuotesFill,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 const service = await getEntry('services', 'hosted-erp');
@@ -119,6 +120,45 @@ const strategicFeatures = [
       'Security is a process, not a state. We implement automated patch management and continuous vulnerability scanning tailored specifically for complex ERP ecosystems, ensuring your most sensitive business data is protected by enterprise-grade defense.',
   },
 ];
+
+const keyBenefits = [
+  {
+    title: '99.99% Uptime',
+    description:
+      'Tier-3 infrastructure targeting mission-critical availability for your most sensitive data.',
+    icon: PiCheckCircle,
+  },
+  {
+    title: 'Rapid Scalability',
+    description:
+      'Dynamic resource allocation to handle peak transactional loads and seasonal business spikes.',
+    icon: PiLightning,
+  },
+  {
+    title: 'IBM Power Native',
+    description:
+      'Seamless support for AS/400 and iSeries alongside modern x86 cloud environments - no translation layer required.',
+    icon: PiShieldCheck,
+  },
+  {
+    title: 'Disaster Recovery',
+    description:
+      'Automated snapshots and geo-redundant backups ensuring aggressive RPO/RTO targets.',
+    icon: PiDatabase,
+  },
+  {
+    title: 'OpEx Efficiency',
+    description:
+      'Shift from volatile CapEx hardware cycles to a predictable, value-driven monthly operating model.',
+    icon: PiCurrencyDollar,
+  },
+  {
+    title: 'Zero Trust Security',
+    description:
+      'Micro-segmentation and real-time threat detection protecting your proprietary business logic.',
+    icon: PiLock,
+  },
+];
 ---
 
 <Layout
@@ -135,7 +175,10 @@ const strategicFeatures = [
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="scanlines pointer-events-none absolute inset-0 opacity-50"></div>
+      <div class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100">
+        <CohesiveOrbit client:load />
+      </div>
       <div class="relative z-10 mx-auto max-w-7xl">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
           <!-- Badge -->
@@ -183,14 +226,7 @@ const strategicFeatures = [
             enterprise ecosystems.
           </p>
         </div>
-        <!-- Visualization -->
-        <div
-          class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
-        >
-          <div class="mx-auto max-w-5xl">
-            <HostedERPVisualization client:visible />
-          </div>
-        </div>
+
       </div>
       <div
         class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
@@ -216,51 +252,13 @@ const strategicFeatures = [
           </h2>
         </div>
 
-        <!-- Glass Quote Container -->
-        <div class="relative mx-auto max-w-4xl">
-          <!-- Floating Icon -->
-          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
-            <PiQuotesFill
-              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
-              aria-hidden="true"
-            />
-          </div>
-
-          <!-- Glass Card -->
-          <div
-            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
-          >
-            <!-- Ambient Glow -->
-            <div
-              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            >
-            </div>
-            <div
-              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            >
-            </div>
-
-            <!-- Background Watermark -->
-            <div
-              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
-            >
-              <PiQuotesFill
-                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
-                aria-hidden="true"
-              />
-            </div>
-
-            <blockquote
-              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
-            >
-              &ldquo;Your ERP is not just an application; it&rsquo;s the nervous
-              system of your organization. We architect
-              <span class="text-accent"> high-availability environments</span>
-              that eliminate latency and ensure your core operations move with mathematical
-              precision 24/7.&rdquo;
-            </blockquote>
-          </div>
-        </div>
+        <ServiceBlockquote>
+          &ldquo;Your ERP is not just an application; it&rsquo;s the nervous
+          system of your organization. We architect
+          <span class="text-accent"> high-availability environments</span>
+          that eliminate latency and ensure your core operations move with
+          mathematical precision 24/7.&rdquo;
+        </ServiceBlockquote>
       </div>
       <div
         class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -318,147 +316,7 @@ const strategicFeatures = [
       class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.01]"
     >
       <div class="mx-auto max-w-7xl">
-        <div class="mb-16 text-center">
-          <h2
-            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
-          >
-            Key <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Benefits</span
-            >
-          </h2>
-        </div>
-        <!-- Swiss Grid Layout -->
-        <div
-          class="bg-border grid gap-px overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-3"
-        >
-          <!-- Benefit 1 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiCheckCircle className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                99.99% Uptime
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Tier-3 infrastructure targeting mission-critical availability for
-              your most sensitive data.
-            </p>
-          </div>
-          <!-- Benefit 2 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiLightning className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Rapid Scalability
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Dynamic resource allocation to handle peak transactional loads and
-              seasonal business spikes.
-            </p>
-          </div>
-          <!-- Benefit 3 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiShieldCheck className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                IBM Power Native
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Seamless support for AS/400 and iSeries alongside modern x86 cloud
-              environments — no translation layer required.
-            </p>
-          </div>
-          <!-- Benefit 4 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiDatabase className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Disaster Recovery
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Automated snapshots and geo-redundant backups ensuring aggressive
-              RPO/RTO targets.
-            </p>
-          </div>
-          <!-- Benefit 5 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiCurrencyDollar className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                OpEx Efficiency
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Shift from volatile CapEx hardware cycles to a predictable,
-              value-driven monthly operating model.
-            </p>
-          </div>
-          <!-- Benefit 6 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiLock className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Zero Trust Security
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Micro-segmentation and real-time threat detection protecting your
-              proprietary business logic.
-            </p>
-          </div>
-        </div>
+        <BenefitGrid benefits={keyBenefits} />
       </div>
     </section>
     <!-- Technical Execution Section -->
