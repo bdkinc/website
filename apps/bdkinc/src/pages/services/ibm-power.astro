@@ -10,15 +10,16 @@ import TechnicalFAQ from '@/components/TechnicalFAQ';
 import { PowerSystemsConsole } from '@/components/PowerSystemsConsole';
 import { ModernizationRoadmap } from '@/components/ModernizationRoadmap';
 
-import IBMPowerVisualization from '@/components/visualizations/IBMPowerVisualization';
+import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
 import FeatureCarousel from '@/components/FeatureCarousel';
+import BenefitGrid from '@/components/BenefitGrid.astro';
+import ServiceBlockquote from '@/components/ServiceBlockquote.astro';
 import {
   PiDesktopTower,
   PiShieldCheck,
   PiUsers,
   PiMedal,
   PiArrowsClockwise,
-  PiQuotesFill,
   PiPulse,
   PiTerminalWindow,
 } from 'react-icons/pi';
@@ -95,6 +96,45 @@ const strategicFeatures = [
       "Downtime isn't just an inconvenience; it's a failure. Our operations are driven by aggressive SLAs and proactive monitoring, utilizing logical and hardware-based replication to ensure your core business systems never blink.",
   },
 ];
+
+const keyBenefits = [
+  {
+    title: '25+ Years Mastery',
+    description:
+      'Decades of deep engineering expertise across IBM hardware and software evolution.',
+    icon: PiMedal,
+  },
+  {
+    title: 'Certified Partner',
+    description:
+      'IBM Silver Partner status providing direct access to IBM labs and tier-3 global support.',
+    icon: PiMedal,
+  },
+  {
+    title: "'Black Box' Expertise",
+    description:
+      "We thrive in complex, legacy environments that generalist MSPs simply won't touch.",
+    icon: PiTerminalWindow,
+  },
+  {
+    title: 'Enterprise Security',
+    description:
+      'Hardening and continuous compliance for your most sensitive legacy and modern datasets.',
+    icon: PiShieldCheck,
+  },
+  {
+    title: 'Single Partner',
+    description:
+      'Unified premier support for IBM i, AIX, and Linux, simplifying your operational complexity.',
+    icon: PiDesktopTower,
+  },
+  {
+    title: 'SLA-Driven',
+    description:
+      'Operations aligned strictly to business uptime with aggressive resolution targets.',
+    icon: PiPulse,
+  },
+];
 ---
 
 <Layout
@@ -111,7 +151,26 @@ const strategicFeatures = [
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="scanlines pointer-events-none absolute inset-0 opacity-50">
+      </div>
+
+      <!-- Background IBM Logo -->
+      <div
+        class="pointer-events-none absolute -top-12 left-4 z-0 opacity-30 md:-top-24 md:left-12"
+      >
+        <img
+          src="/logos/partners/ibm.svg"
+          alt=""
+          class="h-[600px] w-[600px] object-contain grayscale filter md:h-[1000px] md:w-[1000px]"
+          aria-hidden="true"
+        />
+      </div>
+
+      <div
+        class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
+      >
+        <CohesiveOrbit client:load />
+      </div>
       <div class="relative z-10 mx-auto max-w-7xl">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
           <!-- Badge -->
@@ -160,14 +219,6 @@ const strategicFeatures = [
             high-availability enterprise environments.
           </p>
         </div>
-        <!-- Visualization -->
-        <div
-          class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
-        >
-          <div class="mx-auto max-w-5xl">
-            <IBMPowerVisualization client:visible />
-          </div>
-        </div>
       </div>
       <div
         class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
@@ -175,9 +226,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Core Services -->
-    <section
-      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
-    >
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -218,51 +267,13 @@ const strategicFeatures = [
           </h2>
         </div>
 
-        <!-- Glass Quote Container -->
-        <div class="relative mx-auto max-w-4xl">
-          <!-- Floating Icon -->
-          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
-            <PiQuotesFill
-              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
-              aria-hidden="true"
-            />
-          </div>
-
-          <!-- Glass Card -->
-          <div
-            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
-          >
-            <!-- Ambient Glow -->
-            <div
-              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            >
-            </div>
-            <div
-              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            >
-            </div>
-
-            <!-- Background Watermark -->
-            <div
-              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
-            >
-              <PiQuotesFill
-                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
-                aria-hidden="true"
-              />
-            </div>
-
-            <blockquote
-              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
-            >
-              &ldquo;IBM Power is the heartbeat of the enterprise. We
-              don&rsquo;t just host legacy systems; we architect
-              <span class="text-accent"> battle-hardened foundations</span>
-              that preserve your rock-solid logic while empowering your next decade
-              of business innovation.&rdquo;
-            </blockquote>
-          </div>
-        </div>
+        <ServiceBlockquote>
+          &ldquo;IBM Power is the heartbeat of the enterprise. We don&rsquo;t just
+          host legacy systems; we architect
+          <span class="text-accent"> battle-hardened foundations</span>
+          that preserve your rock-solid logic while empowering your next decade
+          of business innovation.&rdquo;
+        </ServiceBlockquote>
       </div>
       <div
         class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -292,7 +303,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Roadmap Section -->
-    <section class="bg-muted/30 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]">
+    <section class="bg-muted/30 py-24 sm:px-6 lg:px-8 dark:bg-white/2">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -312,151 +323,9 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Key Benefits -->
-    <section
-      class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.01]"
-    >
+    <section class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/1">
       <div class="mx-auto max-w-7xl">
-        <div class="mb-16 text-center">
-          <h2
-            class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
-          >
-            Key <span
-              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Benefits</span
-            >
-          </h2>
-        </div>
-        <!-- Swiss Grid Layout -->
-        <div
-          class="bg-border grid gap-px overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-3"
-        >
-          <!-- Benefit 1 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiMedal className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                25+ Years Mastery
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Decades of deep engineering expertise across IBM hardware and
-              software evolution.
-            </p>
-          </div>
-          <!-- Benefit 2 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiMedal className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Certified Partner
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              IBM Silver Partner status providing direct access to IBM labs and
-              tier-3 global support.
-            </p>
-          </div>
-          <!-- Benefit 3 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiTerminalWindow className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                &lsquo;Black Box&rsquo; Expertise
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              We thrive in complex, legacy environments that generalist MSPs
-              simply won&rsquo;t touch.
-            </p>
-          </div>
-          <!-- Benefit 4 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiShieldCheck className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Enterprise Security
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Hardening and continuous compliance for your most sensitive legacy
-              and modern datasets.
-            </p>
-          </div>
-          <!-- Benefit 5 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiDesktopTower className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                Single Partner
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Unified premier support for IBM i, AIX, and Linux, simplifying
-              your operational complexity.
-            </p>
-          </div>
-          <!-- Benefit 6 -->
-          <div
-            class="group bg-card hover:bg-primary/5 relative p-8 transition-colors"
-          >
-            <div class="mb-4 flex items-center gap-4">
-              <div
-                class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
-              >
-                <PiPulse className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <h4
-                class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors"
-              >
-                SLA-Driven
-              </h4>
-            </div>
-            <p class="text-muted-foreground text-sm leading-relaxed">
-              Operations aligned strictly to business uptime with aggressive
-              resolution targets.
-            </p>
-          </div>
-        </div>
+        <BenefitGrid benefits={keyBenefits} />
       </div>
     </section>
 

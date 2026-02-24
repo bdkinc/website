@@ -24,6 +24,7 @@ Shared packages:
 - **`packages/design-system` work:** Treat as shared package code; preserve stable exports and avoid app-specific coupling.
 
 ## Developer Guides
+Do not rebuild the page for every change. We are actively using Dev mode. 
 For specific instructions, refer to the relevant guide (these guides primarily target `apps/bdkinc` unless stated otherwise):
 
 - **[UI & UX Guidelines](guides/agents/ui-ux.md)**

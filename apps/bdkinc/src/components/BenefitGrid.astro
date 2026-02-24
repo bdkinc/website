@@ -1,0 +1,83 @@
+---
+import type { ComponentType } from 'react';
+
+interface Benefit {
+  title: string;
+  description?: string;
+  pain?: string;
+  gain?: string;
+  icon: ComponentType<{ className?: string }>;
+}
+
+interface Props {
+  benefits: Benefit[];
+  title?: string;
+  subtitle?: string;
+}
+
+const { benefits, title = 'Key Benefits', subtitle }: Props = Astro.props;
+
+const titleWords = title.split(' ');
+const lastTitleWord = titleWords.pop();
+const titleFirst = titleWords.join(' ');
+
+const gridClass =
+  'from-primary/10 via-border/80 to-secondary/10 border-border grid overflow-hidden rounded-2xl border bg-linear-to-br sm:grid-cols-2 lg:grid-cols-3';
+
+const itemClass =
+  'border-border group hover:bg-primary/5 relative border bg-transparent p-8 transition-colors';
+---
+
+<div class="mb-16 text-center">
+  <h2 class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+    {titleFirst && <span class="text-foreground">{titleFirst} </span>}
+    <span
+      class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+    >
+      {lastTitleWord}
+    </span>
+  </h2>
+  {
+    subtitle && (
+      <p class="text-muted-foreground mx-auto max-w-2xl text-xl">{subtitle}</p>
+    )
+  }
+</div>
+
+<div class={gridClass}>
+  {
+    benefits.map((benefit) => (
+      <div class={itemClass}>
+        <div class="mb-4 flex items-center gap-4">
+          <div class="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg">
+            <benefit.icon className="h-5 w-5" />
+          </div>
+          <h4 class="font-display text-foreground group-hover:text-primary text-lg font-bold tracking-tight transition-colors">
+            {benefit.title}
+          </h4>
+        </div>
+        {benefit.description && (
+          <p class="text-muted-foreground text-sm leading-relaxed">
+            {benefit.description}
+          </p>
+        )}
+        {benefit.pain && (
+          <div class="mb-3">
+            <p
+              class="text-muted-foreground/70 decoration-destructive/40 text-xs leading-relaxed line-through"
+              set:html={benefit.pain}
+            />
+          </div>
+        )}
+        {benefit.gain && (
+          <div class="border-primary/10 border-t pt-3">
+            <p
+              class="text-foreground text-sm leading-relaxed"
+              set:html={benefit.gain}
+            />
+          </div>
+        )}
+      </div>
+    ))
+  }
+</div>

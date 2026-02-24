@@ -11,8 +11,9 @@ import TechnicalFAQ from '@/components/TechnicalFAQ';
 import NeuralPipeline from '@/components/NeuralPipeline';
 import WatsonxSpotlight from '@/components/WatsonxSpotlight';
 
-import ArtificialIntelligenceVisualization from '@/components/visualizations/ArtificialIntelligenceVisualization';
+import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
 import FeatureCarousel from '@/components/FeatureCarousel';
+import ServiceBlockquote from '@/components/ServiceBlockquote.astro';
 import {
   PiLightning,
   PiTrendUp,
@@ -21,7 +22,6 @@ import {
   PiBrain,
   PiCpu,
   PiShieldCheck,
-  PiQuotesFill,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 const service = await getEntry('services', 'artificial-intelligence');
@@ -116,7 +116,15 @@ const strategicFeatures = [
         style="background: radial-gradient(ellipse 80% 50% at 50% 0%, oklch(0.65 0.22 280 / 0.12) 0%, transparent 70%);"
       >
       </div>
-      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <div class="scanlines pointer-events-none absolute inset-0 opacity-50"></div>
+
+      <!-- Visualization -->
+      <div
+        class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
+      >
+        <CohesiveOrbit client:load />
+      </div>
+
       <div class="relative z-10 mx-auto max-w-7xl">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
           <!-- Badge -->
@@ -164,14 +172,6 @@ const strategicFeatures = [
             ML workflows. We design secure, governed AI ecosystems that
             integrate cleanly with your core systems.
           </p>
-        </div>
-        <!-- Visualization -->
-        <div
-          class="fill-mode-both animate-in fade-in zoom-in delay-300 duration-700"
-        >
-          <div class="mx-auto max-w-5xl">
-            <ArtificialIntelligenceVisualization client:visible />
-          </div>
         </div>
       </div>
       <div
@@ -290,51 +290,13 @@ const strategicFeatures = [
           </h2>
         </div>
 
-        <!-- Glass Quote Container -->
-        <div class="relative mx-auto max-w-4xl">
-          <!-- Floating Icon -->
-          <div class="text-primary absolute -top-10 -left-6 z-20 md:-left-10">
-            <PiQuotesFill
-              className="h-20 w-20 rotate-[-12deg] drop-shadow-xl filter"
-              aria-hidden="true"
-            />
-          </div>
-
-          <!-- Glass Card -->
-          <div
-            class="relative z-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-xl md:p-14 dark:border-white/[0.05] dark:bg-white/[0.03]"
-          >
-            <!-- Ambient Glow -->
-            <div
-              class="bg-primary/20 absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            >
-            </div>
-            <div
-              class="bg-secondary/20 absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            >
-            </div>
-
-            <!-- Background Watermark -->
-            <div
-              class="pointer-events-none absolute top-0 right-0 z-0 opacity-[0.03]"
-            >
-              <PiQuotesFill
-                className="h-64 w-64 translate-x-1/4 -translate-y-1/4 -rotate-12"
-                aria-hidden="true"
-              />
-            </div>
-
-            <blockquote
-              class="font-display text-foreground relative z-10 text-center text-2xl leading-relaxed font-medium md:text-3xl"
-            >
-              &ldquo;AI is not a separate tool; it&rsquo;s the engine of modern
-              business. We architect
-              <span class="text-accent"> intelligent ecosystems</span>
-              that automate complexity and transform your proprietary data into your
-              most powerful competitive advantage.&rdquo;
-            </blockquote>
-          </div>
-        </div>
+        <ServiceBlockquote>
+          &ldquo;AI is not a separate tool; it&rsquo;s the engine of modern
+          business. We architect
+          <span class="text-accent"> intelligent ecosystems</span>
+          that automate complexity and transform your proprietary data into your
+          most powerful competitive advantage.&rdquo;
+        </ServiceBlockquote>
       </div>
       <div
         class="via-primary/20 absolute bottom-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
