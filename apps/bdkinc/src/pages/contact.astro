@@ -7,6 +7,7 @@ import Footer from '@/components/Footer.astro';
 import { TechCard } from '@/components/TechCard';
 import { PiPhone, PiEnvelope, PiMapPin, PiHeadset } from 'react-icons/pi';
 import { actions } from 'astro:actions';
+import PageHeroEffects from '@/components/PageHeroEffects';
 export const prerender = false;
 const { servicesData, recentPosts } = await getNavigationData();
 // Get referrer-based suggestions using Astro action
@@ -31,19 +32,8 @@ const initialSuggestions = result?.data?.suggestions || [
   />
   <main id="main-content">
     {/* HERO Section: Background + Text + Gradient Border */}
-    <section class="relative overflow-visible px-4 pt-24 pb-24 sm:px-6 lg:px-8">
-      {/* Background stays inside hero */}
-      <div class="circuit-overlay absolute inset-0 opacity-20"></div>
-      <div class="gradient-mesh absolute inset-0 opacity-40"></div>
-      {/* Subtle glow pools */}
-      <div
-        class="bg-brand-primary/10 absolute -top-24 left-1/4 h-[520px] w-[520px] rounded-full blur-[110px]"
-      >
-      </div>
-      <div
-        class="bg-brand-secondary/10 absolute right-1/4 -bottom-24 h-[520px] w-[520px] rounded-full blur-[110px]"
-      >
-      </div>
+    <section class="relative overflow-hidden px-4 pt-24 pb-24 sm:px-6 lg:px-8">
+      <PageHeroEffects client:load />
       <div class="relative z-10">
         {/* Text block */}
         <div class="mx-auto max-w-4xl text-center">

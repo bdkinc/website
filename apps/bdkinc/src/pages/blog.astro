@@ -7,6 +7,7 @@ import Footer from '@/components/Footer.astro';
 import { BlogList } from '@/components/BlogList';
 import { PiArrowRight, PiCpu } from 'react-icons/pi';
 import { getBlogPosts } from '@/lib/blog';
+import PageHeroEffects from '@/components/PageHeroEffects';
 
 const { servicesData, recentPosts } = await getNavigationData();
 
@@ -38,8 +39,7 @@ const remainingPosts = postsWithReadTime.slice(1);
   <main id="main-content">
     <!-- Hero Section -->
     <section class="relative overflow-hidden pt-32 pb-20">
-      <div class="gradient-mesh absolute inset-0 opacity-20"></div>
-      <div class="circuit-overlay absolute inset-0 opacity-30"></div>
+      <PageHeroEffects client:load />
 
       <div class="relative z-10 mx-auto max-w-7xl px-4 text-center">
         <!-- Badge -->
