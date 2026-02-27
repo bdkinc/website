@@ -10,6 +10,7 @@ import DevelopmentLogTimeline from '@/components/DevelopmentLogTimeline';
 import MissionVision from '@/components/MissionVision';
 import FoundingStory from '@/components/FoundingStory.astro';
 import TrustShowcase from '@/components/TrustShowcase';
+import PageHeroEffects from '@/components/PageHeroEffects';
 
 const [{ servicesData, recentPosts }, aboutPage] = await Promise.all([
   getNavigationData(),
@@ -181,8 +182,7 @@ const milestonesData = milestones;
   />
   <main id="main-content">
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
-      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+      <PageHeroEffects client:load />
       <div class="relative z-10 mx-auto max-w-4xl text-center">
         <div
           class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"

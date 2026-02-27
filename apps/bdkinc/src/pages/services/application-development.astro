@@ -146,11 +146,12 @@ const strategicFeatures = [
     blogPosts={recentPosts}
     currentPath={Astro.url.pathname}
   />
-  <main id="main-content">
+  <main id="main-content" class="services-page-shell">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="scanlines pointer-events-none absolute inset-0 opacity-50"></div>
+      <div class="scanlines pointer-events-none absolute inset-0 opacity-50">
+      </div>
 
       <!-- Visualization -->
       <div
@@ -214,94 +215,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Core Services -->
-    <section
-      class="bg-muted/30 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.02]"
-    >
-      <div class="mx-auto max-w-7xl">
-        <div class="mb-16 text-center">
-          <h2
-            class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
-          >
-            <span class="text-foreground">Core </span>
-            <span
-              class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
-              >Capabilities</span
-            >
-          </h2>
-          <p
-            class="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl"
-          >
-            Engineering enterprise systems designed for the
-            <span class="text-accent font-semibold">modern business</span>.
-          </p>
-        </div>
-        <TechCardGrid client:visible className="md:grid-cols-3">
-          <TechCard variant="technical" interactive={true}>
-            <div class="flex h-full flex-col items-center p-8 text-center">
-              <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
-              >
-                <PiCode className="text-primary h-16 w-16" aria-hidden="true" />
-              </div>
-              <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
-              >
-                Custom Applications
-              </h4>
-              <div class="text-muted-foreground text-sm leading-relaxed">
-                Purpose-built software tailored to your workflows, with
-                automation and reporting that reduce manual steps for teams and
-                improve operational efficiency.
-              </div>
-            </div>
-          </TechCard>
-          <TechCard variant="technical" interactive={true}>
-            <div class="flex h-full flex-col items-center p-8 text-center">
-              <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
-              >
-                <PiNetworkX
-                  className="text-primary h-16 w-16"
-                  aria-hidden="true"
-                />
-              </div>
-              <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
-              >
-                Enterprise Integration
-              </h4>
-              <div class="text-muted-foreground text-sm leading-relaxed">
-                Secure integrations that connect legacy platforms, cloud
-                services, and third-party APIs, ensuring your data moves
-                reliably across your entire ecosystem.
-              </div>
-            </div>
-          </TechCard>
-          <TechCard variant="technical" interactive={true}>
-            <div class="flex h-full flex-col items-center p-8 text-center">
-              <div
-                class="bg-primary/5 border-primary/20 group-hover:bg-primary/10 mb-6 rounded-lg border p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110"
-              >
-                <PiArrowsClockwise
-                  className="text-primary h-16 w-16"
-                  aria-hidden="true"
-                />
-              </div>
-              <h4
-                class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
-              >
-                Application Modernization
-              </h4>
-              <div class="text-muted-foreground text-sm leading-relaxed">
-                Modernize legacy apps with phased upgrades, performance tuning,
-                and security improvements while preserving the core business
-                logic that powers your organization.
-              </div>
-            </div>
-          </TechCard>
-        </TechCardGrid>
-      </div>
-    </section>
+
     <!-- Strategic Leadership Section -->
     <section class="relative overflow-hidden py-24">
       <div
@@ -322,11 +236,11 @@ const strategicFeatures = [
         </div>
 
         <ServiceBlockquote>
-          &ldquo;Great software isn&rsquo;t just about features; it&rsquo;s about
-          architecture that empowers growth. We build
+          &ldquo;Great software isn&rsquo;t just about features; it&rsquo;s
+          about architecture that empowers growth. We build
           <span class="text-accent"> resilient digital foundations</span>
-          that automate complexity and transform your technology from a cost
-          center into a competitive advantage.&rdquo;
+          that automate complexity and transform your technology from a cost center
+          into a competitive advantage.&rdquo;
         </ServiceBlockquote>
       </div>
       <div
@@ -335,9 +249,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Strategic Advantage -->
-    <section
-      class="to-muted/20 bg-linear-to-b from-transparent px-4 py-24 sm:px-6 lg:px-8 dark:to-white/[0.02]"
-    >
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -357,7 +269,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Capabilities & Stack Section (split into two focused sections) -->
-    <section class="bg-muted/30 py-24 dark:bg-white/[0.02]">
+    <section class="py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <CapabilitiesGrid client:visible />
         <div class="mt-24">
@@ -366,9 +278,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Key Benefits with stats -->
-    <section
-      class="bg-muted/20 px-4 py-24 sm:px-6 lg:px-8 dark:bg-white/[0.01]"
-    >
+    <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="mb-16 text-center">
           <h2
@@ -445,7 +355,7 @@ const strategicFeatures = [
       </div>
     </section>
     <!-- Lifecycle Visualization (standalone section) -->
-    <section class="bg-muted/30 py-24 dark:bg-white/[0.02]">
+    <section class="py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mb-16 text-center">
           <h2

@@ -92,7 +92,7 @@ export default function Navigation({
           </div>
 
           {/* CTA + Theme Toggle - Desktop */}
-          <div className="z-10 hidden items-center gap-3 md:flex">
+          <div className="z-10 hidden items-center gap-6 md:flex">
             <Button asChild>
               <a href="/contact">Get In Touch</a>
             </Button>

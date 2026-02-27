@@ -523,6 +523,35 @@ li {
   width: 100%;
 }
 
+.services-page-shell > section,
+.services-page-shell > div {
+  background-color: var(--background) !important;
+  background-image: none !important;
+}
+
+.services-page-shell > * + * {
+  position: relative;
+}
+
+.services-page-shell > * + *::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(100%, 84rem);
+  height: 1px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(from var(--border) l c h / 0.18) 15%,
+    oklch(from var(--border) l c h / 0.5) 50%,
+    oklch(from var(--border) l c h / 0.18) 85%,
+    transparent 100%
+  );
+}
+
 /* Pulse Glow Effect for CTA Button - Subtle Breathing Glow */
 @keyframes pulse-glow {
   0%,

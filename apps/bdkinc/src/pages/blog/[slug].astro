@@ -54,9 +54,22 @@ function formatDate(date: Date): string {
   />
   <main id="main-content">
     <!-- Blog Post Header -->
-    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
-      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+    <section class="relative overflow-hidden bg-background px-4 pt-24 pb-12 sm:px-6 lg:px-8">
+      <!-- Fade overlays (Base) -->
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-background/10 to-background/65"></div>
+      <div class="radial-vignette pointer-events-none absolute inset-0"></div>
+      <div class="noise-texture pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay"></div>
+
+      <!-- Grid -->
+      <div class="blog-hero-dots pointer-events-none absolute inset-0"></div>
+
+      <!-- Orbs (Top Layer, immediately behind text) -->
+      <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="blog-orb blog-orb-1 absolute"></div>
+        <div class="blog-orb blog-orb-2 absolute"></div>
+        <div class="blog-orb blog-orb-3 absolute"></div>
+      </div>
+
       <div class="relative z-10 mx-auto max-w-4xl">
         <a
           href="/blog"
@@ -115,6 +128,133 @@ function formatDate(date: Date): string {
       >
       </div>
     </section>
+
+    <style>
+      .blog-orb {
+        filter: blur(60px);
+        border-radius: 9999px;
+        opacity: 0.95;
+        animation-duration: 25s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        will-change: transform;
+      }
+
+      .blog-orb-1 {
+        top: -10%;
+        left: -5%;
+        width: 55%;
+        height: 65%;
+        background: radial-gradient(
+          circle at 40% 40%,
+          oklch(0.65 0.18 210 / 0.52) 0%,
+          oklch(0.65 0.18 210 / 0.2) 45%,
+          transparent 75%
+        );
+        animation-name: orb-float-1;
+      }
+
+      .blog-orb-2 {
+        right: -5%;
+        bottom: -10%;
+        width: 55%;
+        height: 65%;
+        background: radial-gradient(
+          circle at 60% 60%,
+          oklch(0.65 0.22 280 / 0.46) 0%,
+          oklch(0.65 0.22 280 / 0.18) 45%,
+          transparent 75%
+        );
+        animation-name: orb-float-2;
+        animation-delay: -7s;
+      }
+
+      .blog-orb-3 {
+        top: 20%;
+        left: 25%;
+        width: 45%;
+        height: 55%;
+        background: radial-gradient(
+          circle at 50% 50%,
+          oklch(0.7 0.18 45 / 0.38) 0%,
+          oklch(0.7 0.18 45 / 0.14) 45%,
+          transparent 75%
+        );
+        animation-name: orb-float-3;
+        animation-delay: -14s;
+      }
+
+      :global(.dark) .blog-orb-1 {
+        background: radial-gradient(
+          circle at 40% 40%,
+          oklch(0.7 0.18 210 / 0.56) 0%,
+          oklch(0.7 0.18 210 / 0.22) 45%,
+          transparent 75%
+        );
+      }
+
+      :global(.dark) .blog-orb-2 {
+        background: radial-gradient(
+          circle at 60% 60%,
+          oklch(0.7 0.22 280 / 0.5) 0%,
+          oklch(0.7 0.22 280 / 0.22) 45%,
+          transparent 75%
+        );
+      }
+
+      :global(.dark) .blog-orb-3 {
+        background: radial-gradient(
+          circle at 50% 50%,
+          oklch(0.75 0.18 45 / 0.42) 0%,
+          oklch(0.75 0.18 45 / 0.18) 45%,
+          transparent 75%
+        );
+      }
+
+      .blog-hero-dots {
+        background-image: radial-gradient(oklch(0.4 0 0 / 0.1) 1.5px, transparent 1.5px);
+        background-size: 28px 28px;
+        background-position: center;
+        mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+      }
+
+      :global(.dark) .blog-hero-dots {
+        background-image: radial-gradient(oklch(0.9 0 0 / 0.1) 1.5px, transparent 1.5px);
+      }
+
+      .radial-vignette {
+        background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.05) 100%);
+      }
+
+      :global(.dark) .radial-vignette {
+        background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.4) 100%);
+      }
+
+      @keyframes orb-float-1 {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(8%, 12%) scale(1.1); }
+      }
+
+      @keyframes orb-float-2 {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(-12%, -8%) scale(1.05); }
+      }
+
+      @keyframes orb-float-3 {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(10%, -15%) scale(1.15); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .blog-orb { animation: none !important; }
+      }
+
+      @media (max-width: 768px) {
+        .blog-orb { filter: blur(42px); }
+        .blog-hero-dots { background-size: 20px 20px; }
+      }
+    </style>
 
     <!-- Featured Image Placeholder -->
     <section class="px-4 py-12 sm:px-6 lg:px-8">
