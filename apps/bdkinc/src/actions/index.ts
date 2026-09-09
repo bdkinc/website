@@ -1,5 +1,5 @@
 import { defineAction } from 'astro:actions';
-import { z } from 'astro:schema';
+import { z } from 'astro/zod';
 
 /**
  * Action to get referrer information from the request headers

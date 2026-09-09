@@ -143,9 +143,12 @@ const pageDescription = `${service.data.title} in ${locationData.name}, ${locati
     <!-- Hero Section with Location -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="scanlines pointer-events-none absolute inset-0 opacity-50"></div>
-      <div class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100">
-        <CohesiveOrbit client:load />
+      <div class="scanlines pointer-events-none absolute inset-0 opacity-50">
+      </div>
+      <div
+        class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
+      >
+        <CohesiveOrbit client:idle />
       </div>
       <div class="relative z-10 mx-auto max-w-7xl text-center">
         <div

@@ -39,7 +39,7 @@ const remainingPosts = postsWithReadTime.slice(1);
   <main id="main-content">
     <!-- Hero Section -->
     <section class="relative overflow-hidden pt-32 pb-20">
-      <PageHeroEffects client:load />
+      <PageHeroEffects client:idle />
 
       <div class="relative z-10 mx-auto max-w-7xl px-4 text-center">
         <!-- Badge -->
@@ -170,7 +170,7 @@ const remainingPosts = postsWithReadTime.slice(1);
     <!-- Blog Posts List -->
     <section>
       <div class="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-        <BlogList client:load posts={remainingPosts} />
+        <BlogList client:visible posts={remainingPosts} />
       </div>
     </section>
 

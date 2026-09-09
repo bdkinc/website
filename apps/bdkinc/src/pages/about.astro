@@ -3,7 +3,6 @@ import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import CTASection from '@/components/CTASection';
 import { getNavigationData } from '@/lib/navigation-data';
-import { getPageBySlug } from '@/lib/cms';
 import Footer from '@/components/Footer.astro';
 import CoreProtocols from '@/components/CoreProtocols';
 import DevelopmentLogTimeline from '@/components/DevelopmentLogTimeline';
@@ -12,38 +11,26 @@ import FoundingStory from '@/components/FoundingStory.astro';
 import TrustShowcase from '@/components/TrustShowcase';
 import PageHeroEffects from '@/components/PageHeroEffects';
 
-const [{ servicesData, recentPosts }, aboutPage] = await Promise.all([
-  getNavigationData(),
-  getPageBySlug('about'),
-]);
+const { servicesData, recentPosts } = await getNavigationData();
 
-const aboutTitle =
-  aboutPage?.seoTitle || 'About BDKinc | Enterprise Technology Partner';
+const aboutTitle = 'About BDKinc | Enterprise Technology Partner';
 const aboutDescription =
-  aboutPage?.seoDescription ||
   "Discover BDKinc's 25-year evolution into a premier technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth.";
-const aboutHeroHeading = aboutPage?.heroHeading || 'Partners in Your Potential';
+const aboutHeroHeading = 'Partners in Your Potential';
 const aboutHeroBody =
-  aboutPage?.heroBody ||
   'More than a vendor. We are the strategic extension of your team-bringing clarity, discipline, and engineering depth to every decision.';
 const aboutHeadingWords = aboutHeroHeading.trim().split(/\s+/);
 const aboutHeadingAccent = aboutHeadingWords.pop() ?? 'Potential';
 const aboutHeadingLead = aboutHeadingWords.join(' ');
-const aboutValuesHeading = aboutPage?.aboutValuesHeading || 'Our Values';
-const aboutValuesSubheading =
-  aboutPage?.aboutValuesSubheading ||
-  'The principles that guide our premier standards';
-const aboutJourneyHeading = aboutPage?.aboutJourneyHeading || 'Our Journey';
-const aboutJourneySubheading =
-  aboutPage?.aboutJourneySubheading || 'A legacy of innovation and excellence';
-const aboutCTATitle =
-  aboutPage?.aboutCTATitle || 'Partner with Engineers Who Own Outcomes';
+const aboutValuesHeading = 'Our Values';
+const aboutValuesSubheading = 'The principles that guide our premier standards';
+const aboutJourneyHeading = 'Our Journey';
+const aboutJourneySubheading = 'A legacy of innovation and excellence';
+const aboutCTATitle = 'Partner with Engineers Who Own Outcomes';
 const aboutCTADescription =
-  aboutPage?.aboutCTADescription ||
   'Bring clarity, resilience, and speed to mission-critical IT. Tap 25+ years of infrastructure, security, and modernization expertise.';
-const aboutCTAButtonText =
-  aboutPage?.aboutCTAButtonText || 'Talk to an Engineer';
-const aboutCTAButtonHref = aboutPage?.aboutCTAButtonHref || '/contact#chat';
+const aboutCTAButtonText = 'Talk to an Engineer';
+const aboutCTAButtonHref = '/contact#chat';
 const aboutValuesWords = aboutValuesHeading.trim().split(/\s+/);
 const aboutValuesAccent = aboutValuesWords.pop() ?? 'Values';
 const aboutValuesLead = aboutValuesWords.join(' ');
@@ -156,7 +143,6 @@ const milestonesData = milestones;
         name: 'BDKinc',
         foundingDate: '1999',
         description:
-          aboutPage?.seoDescription ||
           'BDKinc is a premier technology partner delivering enterprise-grade managed IT, cloud hosting, cybersecurity, and AI solutions.',
         url: 'https://www.bdkinc.com',
         numberOfEmployees: {
@@ -182,7 +168,7 @@ const milestonesData = milestones;
   />
   <main id="main-content">
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
-      <PageHeroEffects client:load />
+      <PageHeroEffects client:idle />
       <div class="relative z-10 mx-auto max-w-4xl text-center">
         <div
           class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"

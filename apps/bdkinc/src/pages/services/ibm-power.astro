@@ -24,6 +24,7 @@ import {
   PiTerminalWindow,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import { servicePageSchemas } from '@/lib/schema';
 const service = await getEntry('services', 'ibm-power');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -58,6 +59,11 @@ const faqs = [
       'We utilize logical replication and hardware-based replication technologies to mirror your system in real-time to our secure datacenters, targeting minute-level RTO/RPOs depending on architecture.',
   },
 ];
+const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
+  serviceName: service.data.title,
+  servicePath: `/services/${service.id}`,
+  faqs,
+});
 const strategicFeatures = [
   {
     title: 'Orchestrated Mastery',
@@ -141,6 +147,16 @@ const keyBenefits = [
   title="IBM Power Systems - Managed Hosting & Modernization | BDKinc"
   description="Maximize your AS/400 and iSeries legacy. Premier IBM Power orchestration, managed hosting, and modernization services for high-availability enterprise environments."
 >
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(faqSchema)}
+  />
   <Navigation
     client:load
     services={servicesData}
@@ -169,7 +185,7 @@ const keyBenefits = [
       <div
         class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
       >
-        <CohesiveOrbit client:load />
+        <CohesiveOrbit client:idle />
       </div>
       <div class="relative z-10 mx-auto max-w-7xl">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
@@ -245,7 +261,7 @@ const keyBenefits = [
             <span class="text-accent font-semibold">critical uptime</span>.
           </p>
         </div>
-        <PowerSystemsConsole client:load />
+        <PowerSystemsConsole client:visible />
       </div>
     </section>
     <!-- Strategic Leadership Section -->
@@ -268,11 +284,11 @@ const keyBenefits = [
         </div>
 
         <ServiceBlockquote>
-          &ldquo;IBM Power is the heartbeat of the enterprise. We don&rsquo;t just
-          host legacy systems; we architect
+          &ldquo;IBM Power is the heartbeat of the enterprise. We don&rsquo;t
+          just host legacy systems; we architect
           <span class="text-accent"> battle-hardened foundations</span>
-          that preserve your rock-solid logic while empowering your next decade
-          of business innovation.&rdquo;
+          that preserve your rock-solid logic while empowering your next decade of
+          business innovation.&rdquo;
         </ServiceBlockquote>
       </div>
       <div
@@ -317,7 +333,7 @@ const keyBenefits = [
             disruption.
           </p>
         </div>
-        <ModernizationRoadmap client:load />
+        <ModernizationRoadmap client:visible />
       </div>
     </section>
     <!-- Key Benefits -->

@@ -125,7 +125,7 @@ function ServiceDropdownItem({
       <NavigationMenuLink asChild>
         <a
           href={`/services/${service.slug}`}
-          className="group border-border/50 bg-card/60 hover:bg-card/60 focus:bg-card/60 hover:text-foreground focus:text-foreground hover:border-primary/35 focus-visible:ring-primary/40 focus-visible:ring-offset-background relative flex h-full flex-col overflow-hidden rounded-lg border p-5 no-underline backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:shadow-[--shadow-glow-sm] focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="group border-border/50 bg-card/70 hover:bg-card/80 focus:bg-card/80 hover:text-foreground focus:text-foreground hover:border-primary/35 focus-visible:ring-ring focus-visible:ring-offset-background relative flex h-full flex-col overflow-hidden rounded-lg border p-5 no-underline backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:shadow-[--shadow-glow-sm] focus-visible:ring-2 focus-visible:ring-offset-2"
           onClick={navOnClick(`/services/${service.slug}`, () =>
             prepareServiceViewTransition(
               {
@@ -171,7 +171,7 @@ function ServiceDropdownItem({
                 className="flex justify-center transition-transform duration-300 group-hover:scale-110"
               >
                 <div className="bg-primary/10 rounded-lg p-2.5">
-                  <Icon className="text-primary h-10 w-10" />
+                  <Icon className="text-primary h-10 w-10" aria-hidden="true" />
                 </div>
               </div>
             )}
@@ -238,11 +238,11 @@ export function ServicesDropdown({ services }: ServicesDropdownProps) {
             <NavigationMenuLink asChild>
               <a
                 href="/services"
-                className="group text-foreground hover:text-primary focus-visible:ring-primary/40 focus-visible:ring-offset-background flex flex-row items-center gap-2 rounded-lg p-3 text-base font-semibold tracking-wide no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:gap-3 focus-visible:ring-2 focus-visible:ring-offset-2"
+                className="group text-foreground hover:text-primary focus-visible:ring-ring focus-visible:ring-offset-background flex min-h-11 flex-row items-center gap-2 rounded-lg p-3 text-base font-semibold tracking-wide no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:gap-3 focus-visible:ring-2 focus-visible:ring-offset-2"
                 onClick={navOnClick('/services')}
               >
                 <span>View All Services</span>
-                <span>
+                <span aria-hidden="true">
                   <PiArrowRight className="text-current transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               </a>

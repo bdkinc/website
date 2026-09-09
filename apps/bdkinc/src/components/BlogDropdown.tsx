@@ -23,7 +23,7 @@ function BlogPostDropdownItem({ post, index }: BlogPostDropdownItemProps) {
       <NavigationMenuLink asChild>
         <a
           href={`/blog/${post.slug}`}
-          className="group border-border/40 bg-card/30 hover:border-primary/30 hover:bg-card/60 focus-visible:ring-primary/40 focus-visible:ring-offset-background relative block overflow-hidden rounded-lg border p-4 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:shadow-[0_4px_20px_-4px_rgba(0,212,255,0.1)] focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="group border-border/40 bg-card/60 hover:border-primary/30 hover:bg-card/80 focus-visible:ring-ring focus-visible:ring-offset-background relative block overflow-hidden rounded-lg border p-4 backdrop-blur-xl transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:shadow-[0_4px_20px_-4px_rgba(0,212,255,0.1)] focus-visible:ring-2 focus-visible:ring-offset-2"
         >
           <div className="flex flex-col gap-1.5">
             <h4 className="text-foreground group-hover:text-primary text-sm leading-tight font-bold transition-colors duration-300">
@@ -33,8 +33,11 @@ function BlogPostDropdownItem({ post, index }: BlogPostDropdownItemProps) {
               {post.description}
             </p>
             <div className="mt-1 flex items-center gap-2">
-              <div className="bg-border group-hover:bg-primary/30 h-px w-4 transition-colors" />
-              <span className="text-muted-foreground/70 group-hover:text-primary/60 text-[10px] font-medium tracking-wider transition-colors">
+              <div
+                className="bg-border group-hover:bg-primary/30 h-px w-4 transition-colors"
+                aria-hidden="true"
+              />
+              <span className="text-muted-foreground group-hover:text-primary text-[11px] font-medium tracking-wider transition-colors">
                 {formatDate(post.pubDate)}
               </span>
             </div>
@@ -64,7 +67,7 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
       >
         Blog
       </NavigationMenuTrigger>
-      <NavigationMenuContent className="bg-background">
+      <NavigationMenuContent className="bg-background/95 border-border/50 border backdrop-blur-xl">
         <ul className="w-[400px] space-y-3 p-4">
           {/* Recent Posts */}
           {blogPosts.length > 0 ? (
@@ -92,11 +95,14 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
                   <a
                     href="/blog"
                     className={cn(
-                      'group text-foreground hover:text-primary focus:text-primary focus-visible:ring-primary/40 focus-visible:ring-offset-background flex flex-row items-center gap-2 rounded-md p-3 text-sm leading-none font-medium no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:gap-3 focus-visible:ring-2 focus-visible:ring-offset-2'
+                      'group text-foreground hover:text-primary focus:text-primary focus-visible:ring-ring focus-visible:ring-offset-background flex min-h-11 flex-row items-center gap-2 rounded-md p-3 text-sm leading-none font-medium no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none hover:gap-3 focus-visible:ring-2 focus-visible:ring-offset-2'
                     )}
                   >
                     <span>View All Posts</span>
-                    <PiArrowRight className="group-hover:text-primary h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    <PiArrowRight
+                      className="group-hover:text-primary h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                      aria-hidden="true"
+                    />
                   </a>
                 </NavigationMenuLink>
               </li>
@@ -107,7 +113,7 @@ export function BlogDropdown({ blogPosts }: BlogDropdownProps) {
                 <a
                   href="/blog"
                   className={cn(
-                    'hover:text-accent-foreground focus:text-accent-foreground focus-visible:ring-primary/40 focus-visible:ring-offset-background block rounded-md p-3 leading-none no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none focus-visible:ring-2 focus-visible:ring-offset-2'
+                    'text-foreground hover:text-primary focus:text-primary focus-visible:ring-ring focus-visible:ring-offset-background block rounded-md p-3 leading-none no-underline transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 outline-none select-none focus-visible:ring-2 focus-visible:ring-offset-2'
                   )}
                 >
                   <div className="text-sm font-medium">Visit Blog</div>

@@ -18,6 +18,7 @@ import TechnicalSection from '@/components/TechnicalSection';
 import FeatureCarousel from '@/components/FeatureCarousel';
 import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
 import ServiceBlockquote from '@/components/ServiceBlockquote.astro';
+import { servicePageSchemas } from '@/lib/schema';
 import {
   PiArrowsClockwise,
   PiNetworkX,
@@ -92,6 +93,11 @@ const faqs = [
       "Absolutely. As a full-service partner, we offer comprehensive post-deployment support, including monitoring, security updates, and feature enhancements. Because we can also host what we build, we have full visibility into the application's performance, allowing us to proactively address issues before they impact your business.",
   },
 ];
+const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
+  serviceName: service.data.title,
+  servicePath: `/services/${service.id}`,
+  faqs,
+});
 const strategicFeatures = [
   {
     title: 'Architecture-First Mindset',
@@ -140,6 +146,16 @@ const strategicFeatures = [
     is:inline
     set:html={JSON.stringify(_serviceSchema)}
   />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(faqSchema)}
+  />
   <Navigation
     client:load
     services={servicesData}
@@ -157,7 +173,7 @@ const strategicFeatures = [
       <div
         class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
       >
-        <CohesiveOrbit client:load />
+        <CohesiveOrbit client:idle />
       </div>
 
       <div class="relative z-10 mx-auto max-w-7xl">

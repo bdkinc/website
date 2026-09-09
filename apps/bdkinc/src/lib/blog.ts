@@ -1,66 +1,65 @@
 import { getCollection, getEntry } from 'astro:content';
 
-import {
-  getBlogPostBySlugContent,
-  getBlogPostsContent,
-  type BlogPostContent,
-} from '@/lib/cms';
+export interface BlogPostContent {
+  slug: string;
+  title: string;
+  description: string;
+  author: string;
+  pubDate: Date;
+  category: 'Infrastructure' | 'Security' | 'Development' | 'AI';
+  tags: string[];
+  image?: string;
+  content: string;
+}
 
 function sortByDateDesc(posts: BlogPostContent[]): BlogPostContent[] {
   return posts.sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf());
 }
 
-async function getLocalBlogPosts(): Promise<BlogPostContent[]> {
-  const localEntries = await getCollection('blog', ({ data }) => !data.draft);
-
-  return localEntries.map((entry) => ({
-    slug: entry.slug,
-    title: entry.data.title,
-    description: entry.data.description,
-    author: entry.data.author,
-    pubDate: entry.data.pubDate,
-    category: entry.data.category,
-    tags: entry.data.tags || [],
-    image: entry.data.image,
-    content: entry.body || '',
-  }));
+function toBlogPost(
+  slug: string,
+  data: {
+    title: string;
+    description: string;
+    author: string;
+    pubDate: Date;
+    category: 'Infrastructure' | 'Security' | 'Development' | 'AI';
+    tags?: string[];
+    image?: string;
+  },
+  content: string
+): BlogPostContent {
+  return {
+    slug,
+    title: data.title,
+    description: data.description,
+    author: data.author,
+    pubDate: data.pubDate,
+    category: data.category,
+    tags: data.tags || [],
+    image: data.image,
+    content,
+  };
 }
 
 export async function getBlogPosts(): Promise<BlogPostContent[]> {
-  const cmsPosts = await getBlogPostsContent();
+  const localEntries = await getCollection('blog', ({ data }) => !data.draft);
 
-  if (cmsPosts.length > 0) {
-    return sortByDateDesc(cmsPosts);
-  }
-
-  const localPosts = await getLocalBlogPosts();
-  return sortByDateDesc(localPosts);
+  return sortByDateDesc(
+    localEntries.map((entry) =>
+      toBlogPost(entry.id, entry.data, entry.body || '')
+    )
+  );
 }
 
 export async function getBlogPostBySlug(
   slug: string
 ): Promise<BlogPostContent | null> {
-  const cmsPost = await getBlogPostBySlugContent(slug);
-
-  if (cmsPost) {
-    return cmsPost;
-  }
-
   const localEntry = await getEntry('blog', slug);
 
   if (!localEntry || localEntry.data.draft) {
     return null;
   }
 
-  return {
-    slug: localEntry.slug,
-    title: localEntry.data.title,
-    description: localEntry.data.description,
-    author: localEntry.data.author,
-    pubDate: localEntry.data.pubDate,
-    category: localEntry.data.category,
-    tags: localEntry.data.tags || [],
-    image: localEntry.data.image,
-    content: localEntry.body || '',
-  };
+  return toBlogPost(localEntry.id, localEntry.data, localEntry.body || '');
 }

@@ -11,6 +11,7 @@ interface Props {
   ogImage?: string;
   ogImageAlt?: string;
   twitterCard?: string;
+  ogType?: string;
   robots?: string | null;
 }
 
@@ -20,9 +21,10 @@ const {
   canonical = Astro.url.pathname,
   ogTitle = title,
   ogDescription = description,
-  ogImage = '/og-image.jpg',
-  ogImageAlt,
+  ogImage = '/favicon.svg',
+  ogImageAlt = 'BDKinc — Premier managed IT, cloud hosting, and cybersecurity partner',
   twitterCard = 'summary_large_image',
+  ogType = 'website',
   robots = 'index,follow',
 } = Astro.props;
 
@@ -43,31 +45,27 @@ const ogImageUrl = ogImage.startsWith('http')
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {robots && <meta name="robots" content={robots} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Open Graph Meta Tags -->
+    <meta property="og:site_name" content="BDKinc" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
     <meta property="og:image" content={ogImageUrl} />
-    {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content={twitterCard} />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImageUrl} />
-    {ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <title>{title}</title>
 

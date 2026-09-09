@@ -2,6 +2,17 @@
 @plugin '@tailwindcss/typography';
 @import 'tw-animate-css';
 
+/* Self-hosted fonts (subset of weights previously loaded from Google Fonts) */
+@import '@fontsource/open-sans/400.css';
+@import '@fontsource/open-sans/500.css';
+@import '@fontsource/open-sans/600.css';
+@import '@fontsource/open-sans/700.css';
+@import '@fontsource/montserrat/400.css';
+@import '@fontsource/montserrat/500.css';
+@import '@fontsource/montserrat/600.css';
+@import '@fontsource/montserrat/700.css';
+@import '@fontsource/montserrat/800.css';
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

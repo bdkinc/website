@@ -1,7 +1,9 @@
-import { z, defineCollection } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const servicesCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/[^_]*.json', base: './src/content/services' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -11,7 +13,10 @@ const servicesCollection = defineCollection({
 });
 
 const blogCollection = defineCollection({
-  type: 'content',
+  loader: glob({
+    pattern: '**/[^_]*.{md,mdx}',
+    base: './src/content/blog',
+  }),
   schema: z.object({
     title: z.string(),
     pubDate: z.date(),
@@ -27,7 +32,10 @@ const blogCollection = defineCollection({
 });
 
 const locationsCollection = defineCollection({
-  type: 'content',
+  loader: glob({
+    pattern: '**/[^_]*.{md,mdx}',
+    base: './src/content/locations',
+  }),
   schema: z.object({
     name: z.string(),
     state: z.string(),
@@ -42,7 +50,10 @@ const locationsCollection = defineCollection({
 });
 
 const testimonialsCollection = defineCollection({
-  type: 'data',
+  loader: glob({
+    pattern: '**/[^_]*.json',
+    base: './src/content/testimonials',
+  }),
   schema: z.object({
     quote: z.string(),
     author: z.string(),
@@ -53,7 +64,10 @@ const testimonialsCollection = defineCollection({
 });
 
 const pseoServicesCollection = defineCollection({
-  type: 'data',
+  loader: glob({
+    pattern: '**/[^_]*.json',
+    base: './src/content/pseoServices',
+  }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -74,7 +88,10 @@ const pseoServicesCollection = defineCollection({
 });
 
 const pseoIndustriesCollection = defineCollection({
-  type: 'data',
+  loader: glob({
+    pattern: '**/[^_]*.json',
+    base: './src/content/pseoIndustries',
+  }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -92,7 +109,10 @@ const pseoIndustriesCollection = defineCollection({
 });
 
 const partnersCollection = defineCollection({
-  type: 'data',
+  loader: glob({
+    pattern: '**/[^_]*.json',
+    base: './src/content/partners',
+  }),
   schema: z.object({
     name: z.string(),
     description: z.string(),

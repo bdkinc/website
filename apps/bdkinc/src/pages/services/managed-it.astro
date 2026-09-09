@@ -25,6 +25,7 @@ import {
   PiArrowRight,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import { servicePageSchemas } from '@/lib/schema';
 const service = await getEntry('services', 'managed-it');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -75,6 +76,11 @@ const faqs = [
       'Our infrastructure is built for elasticity. We have extensive experience navigating the technical integration of mergers and acquisitions, standardizing disparate systems, and rapidly onboarding new users to ensure business continuity during critical growth phases.',
   },
 ];
+const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
+  serviceName: service.data.title,
+  servicePath: `/services/${service.id}`,
+  faqs,
+});
 const strategicFeatures = [
   {
     title: 'Operational Resilience',
@@ -125,6 +131,16 @@ const strategicFeatures = [
     is:inline
     set:html={JSON.stringify(_serviceSchema)}
   />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(faqSchema)}
+  />
   <Navigation
     client:load
     services={servicesData}
@@ -137,13 +153,14 @@ const strategicFeatures = [
       class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 md:pt-32 md:pb-24 lg:px-8"
     >
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="scanlines pointer-events-none absolute inset-0 opacity-50"></div>
+      <div class="scanlines pointer-events-none absolute inset-0 opacity-50">
+      </div>
 
       <!-- Visualization -->
       <div
         class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
       >
-        <CohesiveOrbit client:load />
+        <CohesiveOrbit client:idle />
       </div>
 
       <div class="relative z-10 mx-auto max-w-7xl">
@@ -327,8 +344,8 @@ const strategicFeatures = [
           &ldquo;True business growth requires more than keeping the lights on.
           It demands a technology strategy that
           <span class="text-accent"> anticipates challenges</span>
-          and scales with your ambition. We architect, manage, and secure your
-          infrastructure so you can focus on driving your business forward.&rdquo;
+          and scales with your ambition. We architect, manage, and secure your infrastructure
+          so you can focus on driving your business forward.&rdquo;
         </ServiceBlockquote>
       </div>
       <div

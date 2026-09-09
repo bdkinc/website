@@ -8,38 +8,64 @@ import WhyChooseUs from '@/components/WhyChooseUs';
 import Testimonials from '@/components/Testimonials.astro';
 import CTASection from '@/components/CTASection';
 import { getNavigationData } from '@/lib/navigation-data';
-import { getHomePageContent, getSiteSettingsContent } from '@/lib/cms';
 import Footer from '@/components/Footer.astro';
 
-const [{ servicesData, recentPosts }, homePageContent, siteSettings] =
-  await Promise.all([
-    getNavigationData(),
-    getHomePageContent(),
-    getSiteSettingsContent(),
-  ]);
+const { servicesData, recentPosts } = await getNavigationData();
 
-const pageTitle =
-  homePageContent.seoTitle ||
-  'Premier Managed IT Services & Cloud Hosting | BDKinc';
+const pageTitle = 'Premier Managed IT Services & Cloud Hosting | BDKinc';
 const pageDescription =
-  homePageContent.seoDescription ||
   'IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.';
 
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: siteSettings.siteName,
+  name: 'BDKinc',
+  legalName: 'BDK Inc',
   url: 'https://www.bdkinc.com',
-  logo: 'https://www.bdkinc.com/logo.svg',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://www.bdkinc.com/favicon.svg',
+  },
+  image: 'https://www.bdkinc.com/favicon.svg',
   description:
     'Premier technology partner delivering Managed IT, Cloud Solutions, and Custom Software with enterprise-grade expertise.',
-  sameAs: [],
-  contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: '(800) 309-0004',
-    contactType: 'Customer Support',
-    email: 'info@bdkinc.com',
+  foundingDate: '1999',
+  sameAs: [
+    'https://www.linkedin.com/company/bdk-inc./',
+    'https://www.facebook.com/bdkinctech',
+    'https://www.instagram.com/bdkinctech/',
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '29515 Canvasback Drive',
+    addressLocality: 'Easton',
+    addressRegion: 'MD',
+    postalCode: '21601',
+    addressCountry: 'US',
   },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 38.7846,
+    longitude: -76.0756,
+  },
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      telephone: '+1-800-309-0004',
+      contactType: 'customer support',
+      email: 'info@bdkinc.com',
+      areaServed: 'US',
+      availableLanguage: ['English'],
+    },
+    {
+      '@type': 'ContactPoint',
+      telephone: '+1-800-309-0004',
+      contactType: 'sales',
+      email: 'info@bdkinc.com',
+      areaServed: 'US',
+      availableLanguage: ['English'],
+    },
+  ],
 };
 ---
 
@@ -58,13 +84,7 @@ const organizationSchema = {
     currentPath={Astro.url.pathname}
   />
   <main id="main-content">
-    <Hero
-      client:load
-      heading={homePageContent.heroHeading}
-      body={homePageContent.heroBody}
-      primaryCTAText={siteSettings.primaryCTA}
-      primaryCTALink={siteSettings.primaryCTALink}
-    />
+    <Hero client:load />
     <Services client:visible services={servicesData} />
     <WhyChooseUs client:visible />
     <TrustShowcase client:visible />

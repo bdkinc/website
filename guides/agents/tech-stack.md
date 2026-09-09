@@ -1,7 +1,7 @@
 # Tech Stack Strategy
 
 This guide is for the Astro marketing site in `apps/bdkinc`.
-For the CMS in `apps/cms` (Payload + Next.js), follow Next.js/Payload conventions and keep changes isolated to that app.
+For the CMS in `apps/wp-cms` (headless WordPress via Docker Compose), keep PHP/WP-CLI work inside containers and isolate content-model changes to that app.
 
 ## Core Technologies
 - **Framework:** Astro (Static generation preferred)

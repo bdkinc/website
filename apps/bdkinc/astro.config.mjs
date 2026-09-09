@@ -8,17 +8,19 @@ import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
+import markdoc from '@astrojs/markdoc';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
+// Static by default; Node adapter kept for contact SSR/actions and API routes.
 export default defineConfig({
   site: 'https://www.bdkinc.com',
-  output: 'server',
+  output: 'static',
   adapter: node({
     mode: 'standalone',
   }),
-  integrations: [react(), mdx(), sitemap()],
+  integrations: [react(), mdx(), sitemap(), markdoc()],
 
   vite: {
     plugins: [tailwindcss()],

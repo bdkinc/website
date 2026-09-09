@@ -32,6 +32,7 @@ import {
   PiArrowsLeftRight,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import { servicePageSchemas } from '@/lib/schema';
 const service = await getEntry('services', 'edi-solutions');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -65,6 +66,11 @@ const faqs = [
       'Yes. Our solution acts as a universal middleware layer, integrating seamlessly with major ERPs (SAP, Oracle, NetSuite, Microsoft Dynamics) as well as custom legacy systems. We map data directly to your internal formats, preserving your existing workflows.',
   },
 ];
+const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
+  serviceName: service.data.title,
+  servicePath: `/services/${service.id}`,
+  faqs,
+});
 
 const strategicFeatures = [
   {
@@ -148,6 +154,16 @@ const keyBenefits = [
   title={`${service.data.title} - BDKinc`}
   description={service.data.description}
 >
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(faqSchema)}
+  />
   <Navigation
     client:load
     services={servicesData}
@@ -165,7 +181,7 @@ const keyBenefits = [
       <div
         class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
       >
-        <CohesiveOrbit client:load />
+        <CohesiveOrbit client:idle />
       </div>
 
       <div class="relative z-10 mx-auto max-w-7xl">
@@ -338,13 +354,12 @@ const keyBenefits = [
         </div>
 
         <ServiceBlockquote>
-          &ldquo;Commerce moves at the speed of data. We don&rsquo;t just connect
-          systems; we architect
+          &ldquo;Commerce moves at the speed of data. We don&rsquo;t just
+          connect systems; we architect
           <span class="text-accent">
             zero-friction, real-time document orchestration</span
           >
-          that ensures compliance and powers your global supply chain with 24/7
-          visibility.&rdquo;
+          that ensures compliance and powers your global supply chain with 24/7 visibility.&rdquo;
         </ServiceBlockquote>
       </div>
       <div

@@ -1,0 +1,11 @@
+{
+  "name": "wp-cms",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "wp:up": "docker compose up -d",
+    "wp:down": "docker compose down",
+    "wp:cli": "docker compose run --rm cli wp",
+    "wp:seed": "node scripts/seed.mjs"
+  }
+}

@@ -15,12 +15,7 @@ import {
 } from 'react-icons/pi';
 
 type CTAVariant =
-  | 'default'
-  | 'outline'
-  | 'ghost'
-  | 'secondary'
-  | 'destructive'
-  | 'link';
+  'default' | 'outline' | 'ghost' | 'secondary' | 'destructive' | 'link';
 type CTASize = 'default' | 'sm' | 'lg' | 'cta' | 'icon' | 'icon-sm' | 'icon-lg';
 
 interface CTAButtonBaseProps {
@@ -175,26 +170,32 @@ export const CTAButton = React.forwardRef<
     if (href) {
       const { target, rel, ...anchorProps } =
         props as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+      const isExternal = target === '_blank';
 
       return (
         <a
           ref={ref as React.Ref<HTMLAnchorElement>}
           href={href}
           target={target}
-          rel={rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined)}
+          rel={rel ?? (isExternal ? 'noopener noreferrer' : undefined)}
           className={cn(buttonVariants({ variant, size }), className)}
           {...anchorProps}
         >
           {content}
+          {isExternal && <span className="sr-only"> (opens in a new tab)</span>}
         </a>
       );
     }
 
+    const { type, ...buttonProps } =
+      props as React.ButtonHTMLAttributes<HTMLButtonElement>;
+
     return (
       <button
         ref={ref as React.Ref<HTMLButtonElement>}
+        type={type ?? 'button'}
         className={cn(buttonVariants({ variant, size }), className)}
-        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+        {...buttonProps}
       >
         {content}
       </button>
