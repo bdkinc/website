@@ -7,24 +7,18 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently -k -n web,cms -c cyan,magenta \"npm run dev:site\" \"npm run dev:cms\"",
+    "dev": "npm run dev -w apps/bdkinc",
     "dev:site": "npm run dev -w apps/bdkinc",
-    "dev:cms": "npm run dev -w apps/cms",
-    "db:up": "docker compose up -d mongo",
-    "db:down": "docker compose down",
-    "db:logs": "docker compose logs -f mongo",
     "build": "npm run build -w apps/bdkinc",
     "preview": "npm run preview -w apps/bdkinc",
     "lint": "npm run lint --workspaces --if-present",
     "lint:fix": "npm run lint:fix --workspaces --if-present",
+    "check": "npm run check --workspaces --if-present",
     "format": "npm run format --workspaces --if-present",
     "format:check": "npm run format:check --workspaces --if-present"
   },
   "engines": {
-    "node": ">=20.9.0",
+    "node": ">=22.12.0",
     "npm": ">=10"
-  },
-  "devDependencies": {
-    "concurrently": "^9.2.1"
   }
 }

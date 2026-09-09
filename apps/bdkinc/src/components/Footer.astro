@@ -1,5 +1,47 @@
 ---
 import Logo from '@/components/Logo';
+import {
+  PiLinkedinLogo,
+  PiFacebookLogo,
+  PiInstagramLogo,
+} from 'react-icons/pi';
+
+const currentYear = new Date().getFullYear();
+
+const linkClass =
+  'hover:text-primary focus-visible:ring-ring focus-visible:ring-offset-background inline-flex min-h-11 items-center rounded-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none';
+
+const socialLinks = [
+  {
+    label: 'BDKinc on LinkedIn',
+    href: 'https://www.linkedin.com/company/bdk-inc./',
+    Icon: PiLinkedinLogo,
+  },
+  {
+    label: 'BDKinc on Facebook',
+    href: 'https://www.facebook.com/bdkinctech',
+    Icon: PiFacebookLogo,
+  },
+  {
+    label: 'BDKinc on Instagram',
+    href: 'https://www.instagram.com/bdkinctech/',
+    Icon: PiInstagramLogo,
+  },
+];
+
+const companyLinks = [
+  { href: '/about', label: 'About' },
+  { href: '/services', label: 'Services' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const expertiseLinks = [
+  { href: '/services/cybersecurity', label: 'Cyber Security' },
+  { href: '/services/managed-it', label: 'Managed IT Services' },
+  { href: '/services/cloud-hosting', label: 'Cloud Hosting' },
+  { href: '/services/ibm-power', label: 'IBM Power' },
+];
 ---
 
 <footer
@@ -8,6 +50,7 @@ import Logo from '@/components/Logo';
   {/* Tri-color gradient bar at top */}
   <div
     class="from-primary/50 via-secondary/50 absolute top-0 right-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
+    aria-hidden="true"
   >
   </div>
 
@@ -34,127 +77,133 @@ import Logo from '@/components/Logo';
       <div
         class="flex flex-col items-center gap-3 md:items-start md:self-start"
       >
-        <div class="mb-4 origin-top-left scale-[1.15] sm:scale-[1.25]">
+        <a
+          href="/"
+          class="focus-visible:ring-ring focus-visible:ring-offset-background mb-4 origin-top-left scale-[1.15] rounded-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:scale-[1.25]"
+          aria-label="BDKinc home"
+        >
           <Logo />
-        </div>
+        </a>
         <p
-          class="text-muted-foreground/80 max-w-md text-[0.8rem] sm:text-[0.9rem]"
+          class="text-muted-foreground max-w-md text-[0.8rem] sm:text-[0.9rem]"
         >
           Proactive, security-first managed IT and cloud services for businesses
           all sizes.
         </p>
+
+        <ul class="flex items-center gap-1" aria-label="BDKinc social media">
+          {
+            socialLinks.map(({ label, href, Icon }) => (
+              <li>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${label} (opens in a new tab)`}
+                  class="text-muted-foreground hover:text-primary hover:border-primary/40 border-border/60 focus-visible:ring-ring focus-visible:ring-offset-background flex h-11 w-11 items-center justify-center rounded-full border transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                >
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
 
       <div
         class="grid w-full max-w-xl grid-cols-2 gap-8 text-[0.8rem] sm:text-[0.9rem] md:grid-cols-3"
       >
-        <div class="space-y-2">
-          <h3
+        <nav aria-labelledby="footer-company-heading" class="space-y-2">
+          <h2
+            id="footer-company-heading"
             class="text-foreground text-[0.75rem] font-semibold tracking-[0.18em] sm:text-xs"
           >
             Company
-          </h3>
-          <ul class="text-muted-foreground/80 space-y-1.5">
-            <li>
-              <a href="/about" class="hover:text-primary transition-colors"
-                >About</a
-              >
-            </li>
-            <li>
-              <a href="/services" class="hover:text-primary transition-colors"
-                >Services</a
-              >
-            </li>
-            <li>
-              <a href="/blog" class="hover:text-primary transition-colors"
-                >Blog</a
-              >
-            </li>
-            <li>
-              <a href="/contact" class="hover:text-primary transition-colors"
-                >Contact</a
-              >
-            </li>
+          </h2>
+          <ul class="text-muted-foreground space-y-1.5">
+            {
+              companyLinks.map(({ href, label }) => (
+                <li>
+                  <a href={href} class={linkClass}>
+                    {label}
+                  </a>
+                </li>
+              ))
+            }
           </ul>
-        </div>
+        </nav>
 
-        <div class="space-y-2">
-          <h3
+        <nav aria-labelledby="footer-expertise-heading" class="space-y-2">
+          <h2
+            id="footer-expertise-heading"
             class="text-foreground text-[0.75rem] font-semibold tracking-[0.18em] sm:text-xs"
           >
             Expertise
-          </h3>
-          <ul class="text-muted-foreground/80 space-y-1.5">
-            <li>
-              <a
-                href="/services/cybersecurity"
-                class="hover:text-primary transition-colors">Cyber Security</a
-              >
-            </li>
-            <li>
-              <a
-                href="/services/managed-it"
-                class="hover:text-primary transition-colors"
-                >Managed IT Services</a
-              >
-            </li>
-            <li>
-              <a
-                href="/services/cloud-hosting"
-                class="hover:text-primary transition-colors">Cloud Hosting</a
-              >
-            </li>
-            <li>
-              <a
-                href="/services/ibm-power"
-                class="hover:text-primary transition-colors">IBM Power</a
-              >
-            </li>
+          </h2>
+          <ul class="text-muted-foreground space-y-1.5">
+            {
+              expertiseLinks.map(({ href, label }) => (
+                <li>
+                  <a href={href} class={linkClass}>
+                    {label}
+                  </a>
+                </li>
+              ))
+            }
           </ul>
-        </div>
+        </nav>
 
         <div class="space-y-2">
-          <h3
+          <h2
+            id="footer-contact-heading"
             class="text-foreground text-[0.75rem] font-semibold tracking-[0.18em] sm:text-xs"
           >
             Contact
-          </h3>
-          <ul class="text-muted-foreground/80 space-y-1.5">
-            <li>
+          </h2>
+          <address
+            class="text-muted-foreground space-y-1.5 not-italic"
+            aria-labelledby="footer-contact-heading"
+          >
+            <div>
               <a
                 href="tel:+18003090004"
-                class="hover:text-primary transition-colors"
-                >+1 (800) 309-0004</a
+                class={linkClass}
+                aria-label="Call BDKinc at 1 800 309 0004"
               >
-            </li>
-            <li>
+                +1 (800) 309-0004
+              </a>
+            </div>
+            <div>
               <a
                 href="mailto:info@bdkinc.com"
-                class="hover:text-primary transition-colors">info@bdkinc.com</a
+                class={linkClass}
+                aria-label="Email BDKinc at info@bdkinc.com"
               >
-            </li>
-          </ul>
+                info@bdkinc.com
+              </a>
+            </div>
+          </address>
         </div>
       </div>
     </div>
 
     <div
-      class="border-border/40 text-muted-foreground/70 flex flex-col items-center justify-between gap-3 border-t pt-4 text-[0.8rem] sm:flex-row sm:text-[0.85rem]"
+      class="border-border/40 text-muted-foreground flex flex-col items-center justify-between gap-3 border-t pt-4 text-[0.8rem] sm:flex-row sm:text-[0.85rem]"
     >
       <p>
-        &copy; {new Date().getFullYear()}
+        &copy; <time datetime={String(currentYear)}>{currentYear}</time>
         <span class="font-display font-semibold">BDKinc</span>. All rights
         reserved.
       </p>
-      <div class="flex flex-wrap items-center gap-4">
-        <a href="/privacy" class="hover:text-primary transition-colors"
-          >Privacy</a
-        >
-        <a href="/terms" class="hover:text-primary transition-colors">Terms</a>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <nav aria-label="Legal" class="flex items-center gap-4">
+          <a href="/privacy" class={linkClass}>Privacy</a>
+          <a href="/terms" class={linkClass}>Terms</a>
+        </nav>
         <span
           class="bg-border/60 hidden h-3 w-px sm:inline-block"
           aria-hidden="true"></span>
-        <span>Security-first. Compliance-ready. Human support.</span>
+        <p>Security-first. Compliance-ready. Human support.</p>
       </div>
     </div>
   </div>

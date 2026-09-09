@@ -26,6 +26,7 @@ import {
   PiCurrencyDollar,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import { servicePageSchemas } from '@/lib/schema';
 const service = await getEntry('services', 'hosted-erp');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -82,6 +83,11 @@ const faqs = [
       'We strictly adhere to GDPR, CCPA, and industry-specific mandates. Data residency controls allow you to lock specific datasets to geographic regions, while our immutable audit logs provide complete transparency for regulatory reporting.',
   },
 ];
+const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
+  serviceName: service.data.title,
+  servicePath: `/services/${service.id}`,
+  faqs,
+});
 const strategicFeatures = [
   {
     title: 'Mission-Critical Availability',
@@ -165,6 +171,16 @@ const keyBenefits = [
   title={`${service.data.title} - BDKinc`}
   description={service.data.description}
 >
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(faqSchema)}
+  />
   <Navigation
     client:load
     services={servicesData}
@@ -175,9 +191,12 @@ const keyBenefits = [
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="scanlines pointer-events-none absolute inset-0 opacity-50"></div>
-      <div class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100">
-        <CohesiveOrbit client:load />
+      <div class="scanlines pointer-events-none absolute inset-0 opacity-50">
+      </div>
+      <div
+        class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
+      >
+        <CohesiveOrbit client:idle />
       </div>
       <div class="relative z-10 mx-auto max-w-7xl">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
@@ -226,7 +245,6 @@ const keyBenefits = [
             enterprise ecosystems.
           </p>
         </div>
-
       </div>
       <div
         class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"
@@ -256,8 +274,8 @@ const keyBenefits = [
           &ldquo;Your ERP is not just an application; it&rsquo;s the nervous
           system of your organization. We architect
           <span class="text-accent"> high-availability environments</span>
-          that eliminate latency and ensure your core operations move with
-          mathematical precision 24/7.&rdquo;
+          that eliminate latency and ensure your core operations move with mathematical
+          precision 24/7.&rdquo;
         </ServiceBlockquote>
       </div>
       <div

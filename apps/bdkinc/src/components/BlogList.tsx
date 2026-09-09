@@ -1,5 +1,5 @@
 import { BlogCard } from '@/components/BlogCard';
-import type { BlogPostContent } from '@/lib/cms';
+import type { BlogPostContent } from '@/lib/blog';
 
 // Extended type to include pre-calculated readTime
 export type BlogPostWithReadTime = BlogPostContent & {

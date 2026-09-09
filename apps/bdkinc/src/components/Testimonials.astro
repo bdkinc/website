@@ -1,22 +1,16 @@
 ---
 import { getCollection } from 'astro:content';
 import TestimonialsCarousel from '@/components/TestimonialsCarousel';
-import { getTestimonialsContent } from '@/lib/cms';
 
-const cmsTestimonials = await getTestimonialsContent();
-
-const testimonials =
-  cmsTestimonials.length > 0
-    ? cmsTestimonials
-    : (await getCollection('testimonials'))
-        .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
-        .map(({ data }) => ({
-          quote: data.quote,
-          author: data.author,
-          company: data.company,
-          industry: data.industry,
-          order: data.order ?? 0,
-        }));
+const testimonials = (await getCollection('testimonials'))
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+  .map(({ data }) => ({
+    quote: data.quote,
+    author: data.author,
+    company: data.company,
+    industry: data.industry,
+    order: data.order ?? 0,
+  }));
 ---
 
 <section

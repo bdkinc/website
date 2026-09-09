@@ -24,6 +24,7 @@ import {
   PiShieldCheck,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import { servicePageSchemas } from '@/lib/schema';
 const service = await getEntry('services', 'artificial-intelligence');
 if (!service) {
   return new Response(null, { status: 404 });
@@ -57,6 +58,11 @@ const faqs = [
       "Yes. Our 'API-first' approach allows us to wrap legacy systems with modern AI interfaces. We can inject predictive insights or automated actions directly into your existing screens and workflows.",
   },
 ];
+const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
+  serviceName: service.data.title,
+  servicePath: `/services/${service.id}`,
+  faqs,
+});
 const strategicFeatures = [
   {
     title: 'Neural Orchestration',
@@ -100,6 +106,16 @@ const strategicFeatures = [
   title={`${service.data.title} - BDKinc`}
   description={service.data.description}
 >
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(faqSchema)}
+  />
   <Navigation
     client:load
     services={servicesData}
@@ -116,13 +132,14 @@ const strategicFeatures = [
         style="background: radial-gradient(ellipse 80% 50% at 50% 0%, oklch(0.65 0.22 280 / 0.12) 0%, transparent 70%);"
       >
       </div>
-      <div class="scanlines pointer-events-none absolute inset-0 opacity-50"></div>
+      <div class="scanlines pointer-events-none absolute inset-0 opacity-50">
+      </div>
 
       <!-- Visualization -->
       <div
         class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
       >
-        <CohesiveOrbit client:load />
+        <CohesiveOrbit client:idle />
       </div>
 
       <div class="relative z-10 mx-auto max-w-7xl">
@@ -292,8 +309,8 @@ const strategicFeatures = [
           &ldquo;AI is not a separate tool; it&rsquo;s the engine of modern
           business. We architect
           <span class="text-accent"> intelligent ecosystems</span>
-          that automate complexity and transform your proprietary data into your
-          most powerful competitive advantage.&rdquo;
+          that automate complexity and transform your proprietary data into your most
+          powerful competitive advantage.&rdquo;
         </ServiceBlockquote>
       </div>
       <div

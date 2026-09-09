@@ -5,14 +5,14 @@
 This repo is an npm workspaces monorepo:
 
 - `apps/bdkinc`: Astro marketing site (Astro + React islands)
-- `apps/cms`: Payload CMS (Next.js)
+- `apps/wp-cms`: Headless WordPress CMS (Docker Compose)
 - `apps/bdkcloud`: (Planned) Separate Astro site for BDK Cloud
 
 Common root commands:
 
-- `npm run dev` runs both site + CMS
 - `npm run dev:site` runs only `apps/bdkinc`
-- `npm run dev:cms` runs only `apps/cms`
+- `npm run wp:up -w apps/wp-cms` starts WordPress (Docker Compose)
+- `npm run wp:cli -w apps/wp-cms` runs WP-CLI in the tools profile
 
 ## Build Protocol
 **DO NOT** run `npm run build` unless explicitly instructed.

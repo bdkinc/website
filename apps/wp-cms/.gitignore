@@ -1,0 +1,11 @@
+.env
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/plugins/*
+!wp-content/plugins/bdk-content/
+!wp-content/plugins/bdk-content/**
+wp-content/cache/
+*.sql
+*.sql.gz
+data/
+db/

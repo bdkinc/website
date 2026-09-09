@@ -1,7 +1,7 @@
 import { PiCalendar, PiClock } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
 import { cn } from '@bdkinc/design-system';
-import type { BlogPostContent } from '@/lib/cms';
+import type { BlogPostContent } from '@/lib/blog';
 
 interface BlogCardProps {
   post: BlogPostContent;
