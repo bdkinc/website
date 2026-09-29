@@ -34,6 +34,12 @@ const groups = practices.map((practice, index) => ({
   <head>
     {import.meta.env.DEV && <link rel="stylesheet" href="/virtual:stylex.css" />}
     {import.meta.env.DEV && <script is:inline type="module" src="/@id/virtual:stylex:runtime"></script>}
+    {!import.meta.env.DEV && (
+      <link
+        rel="stylesheet"
+        href={`${import.meta.env.BASE_URL}assets/stylex.css`}
+      />
+    )}
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width" />
     <title>{title}</title><meta name="description" content={description} />
     <meta name="robots" content="noindex,nofollow" /><meta name="referrer" content="no-referrer" />

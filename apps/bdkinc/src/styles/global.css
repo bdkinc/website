@@ -165,6 +165,15 @@
   --toggle-moon-transform: scale(1) rotate(calc(-15deg * var(--toggle-hover)));
 }
 
+/* Base UI hoists this rule as a React <style precedence> into <head>. ClientRouter
+   swaps drop it and React never re-inserts it, so own it here (unlayered, like the original). */
+.base-ui-disable-scrollbar {
+  scrollbar-width: none;
+}
+.base-ui-disable-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @layer base {
   * {
     @apply border-border;

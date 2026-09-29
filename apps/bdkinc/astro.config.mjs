@@ -24,6 +24,18 @@ export default defineConfig({
   integrations: [react({ compiler: true }), mdx(), sitemap(), markdoc()],
 
   vite: {
+    // Imported only via the React compiler transform and astro:transitions/client,
+    // so Vite's startup scan misses them; late discovery 504s client:only islands.
+    optimizeDeps: {
+      include: [
+        'react/compiler-runtime',
+        'astro/virtual-modules/transitions.js',
+        'astro/virtual-modules/transitions-router.js',
+        'astro/virtual-modules/transitions-types.js',
+        'astro/virtual-modules/transitions-events.js',
+        'astro/virtual-modules/transitions-swap-functions.js',
+      ],
+    },
     build: {
       // Required for the StyleX fallback stylesheet linked by Layout.astro.
       cssCodeSplit: false,

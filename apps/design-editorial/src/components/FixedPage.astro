@@ -6,7 +6,8 @@ import EditorialIcon from '@/components/EditorialIcon.astro';
 import { serviceIcons } from '@/lib/service-icons';
 import { object, text, heading, body, records, type Copy } from '@/lib/copy';
 import type { content } from '@/lib/content';
-import type { SiteSettings } from '@bdkinc/content';
+import type { PageData, SiteSettings } from '@bdkinc/content';
+import ContactChat from '@bdkinc/design-system/contact-chat';
 interface Props { pageKey: string; copy: Copy; source: ReturnType<typeof content>; settings: SiteSettings }
 const { pageKey, copy, source, settings } = Astro.props;
 const hero = object(copy.hero);
@@ -18,6 +19,8 @@ const locations = pageKey.startsWith('location-') ? (await source.collection('lo
 const contact = object(copy.directContact);
 const story = object(copy.foundingStory);
 const aboutPartners = pageKey === 'about' ? await source.collection('partners') : [];
+const chat = object(copy.chat);
+const chatSuggestions = pageKey === 'contact' ? Object.values(object(chat.pageFallbackSuggestions)).map(text) : [];
 const notFound = object(copy.error);
 const featuredCities = object(copy.featuredCities);
 ---
@@ -26,7 +29,8 @@ const featuredCities = object(copy.featuredCities);
 {pageKey === 'not-found' && <div class="wrap recovery"><a class="button" href="/">{text(notFound.homeText)}</a><a class="text-link" href="/services">{settings.navigation.services}</a></div>}
 {pageKey === 'services' && <section class="wrap service-index"><p class="section-label"><span>01</span>Services</p><div class="service-rows has-icons">{services.sort((a,b)=>a.data.order-b.data.order).map((service,i)=>{const icon = serviceIcons[service.id];return <a href={`/services/${service.id}`}><span class="item-number">{String(i+1).padStart(2,'0')}</span><h2>{icon && <span class="service-icon"><EditorialIcon name={icon} /></span>}{service.data.title}</h2><p>{service.data.description}</p><span class="row-arrow" aria-hidden="true">›</span></a>})}</div></section>}
 {pageKey === 'blog' && <section class="wrap article-index"><p class="section-label"><span>01</span>Articles</p>{posts.sort((a,b)=>b.data.pubDate.getTime()-a.data.pubDate.getTime()).map(post=><article><div class="article-date"><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</time><span>{post.data.category}</span></div><div>{post.data.image && <img src={post.data.image} alt="" width="960" height="540" loading="lazy" />}<h2><a href={`/blog/${post.id}`}>{post.data.title}</a></h2><p>{post.data.description}</p><a class="text-link" href={`/blog/${post.id}`}>{text(object(copy.posts).readAction)} <span class="more-arrow" aria-hidden="true">›</span></a></div></article>)}</section>}
-{pageKey === 'contact' && <section class="wrap contact-directory" id="chat"><p class="section-label"><span>01</span>Directory</p><h2>{heading(contact)}</h2><div>{['phone','email','headquarters'].map(key=>{const item=object(contact[key]);return <article><p class="field-label">{text(item.label)}</p><h3><a href={text(item.linkUrl || item.mapUrl)}>{text(item.value || item.location)}</a></h3><p>{text(item.availability || item.description || item.address)}</p></article>})}</div></section>}
+{pageKey === 'contact' && <section class="wrap contact-chat-section" id="chat" aria-label={text(chat.sectionLabel)}><p class="section-label"><span>01</span>Assistant</p><div class="contact-chat-scope"><div class="contact-chat"><ContactChat client:only="react" initialSuggestions={chatSuggestions} copy={copy.chat as PageData<'contact'>['chat']} /></div></div></section>}
+{pageKey === 'contact' && <section class="wrap contact-directory"><p class="section-label"><span>02</span>Directory</p><h2>{heading(contact)}</h2><div>{['phone','email','headquarters'].map(key=>{const item=object(contact[key]);return <article><p class="field-label">{text(item.label)}</p><h3><a href={text(item.linkUrl || item.mapUrl)}>{text(item.value || item.location)}</a></h3><p>{text(item.availability || item.description || item.address)}</p></article>})}</div></section>}
 {legal && <div class="wrap legal-layout"><nav aria-label={text(object(copy.contents).heading)}><h2>{text(object(copy.contents).heading)}</h2>{sections.map(([key,value])=><a href={`#${key}`}>{heading(value)}</a>)}</nav><div class="prose">{sections.map(([key,value])=>{const section=object(value);return <section id={key}><h2>{heading(section)}</h2>{Object.entries(section).filter(([k,v])=>typeof v==='string'&&!['heading','organization','email','phone','emailUrl','phoneUrl','emailLabel','phoneLabel'].includes(k)).map(([,v])=><p>{text(v)}</p>)}{section.organization && <p>{text(section.organization)}</p>}{section.emailUrl && <p><a href={text(section.emailUrl)}>{text(section.emailLabel)} {text(section.email)}</a></p>}{section.phoneUrl && <p><a href={text(section.phoneUrl)}>{text(section.phoneLabel)} {text(section.phone)}</a></p>}</section>})}</div></div>}
 {pageKey === 'about' && <>
   {hero.image && <figure class="wrap feature-image"><img src={text(hero.image)} alt={text(hero.imageAlt)} width="1200" height="675" /></figure>}

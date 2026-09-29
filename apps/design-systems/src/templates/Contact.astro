@@ -1,12 +1,14 @@
 ---
 import Icon from '@/components/Icon.astro';
 import type { Reader } from '@/lib/content';
+import ContactChat from '@bdkinc/design-system/contact-chat';
 interface Props {
   content: Reader;
 }
 const { content } = Astro.props;
 const c = await content.getPage('contact');
 const d = c.directContact;
+const chatSuggestions = Object.values(c.chat.pageFallbackSuggestions);
 ---
 
 <div class="wrap">
@@ -15,9 +17,13 @@ const d = c.directContact;
       {c.hero.headingLead}
       <em>{c.hero.headingAccent}</em>
     </h1><p class="intro">{d.description}</p>
-  </section><section class="section" id="chat">
+  </section><section class="section" id="chat" aria-label={c.chat.sectionLabel}>
     <header class="section-head">
-      <span class="section-index">01 /</span><h2>
+      <span class="section-index">01 /</span><h2>{c.hero.invitation}</h2>
+    </header><div class="section-body contact-chat-scope"><div class="contact-chat"><ContactChat client:only="react" initialSuggestions={chatSuggestions} copy={c.chat} /></div></div>
+  </section><section class="section">
+    <header class="section-head">
+      <span class="section-index">02 /</span><h2>
         {d.headingLead}
         <em>{d.headingAccent}</em>
       </h2>

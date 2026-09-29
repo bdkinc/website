@@ -1003,3 +1003,17 @@ details.faq {
   .capability-directory, .capability-directory:popover-open { transform: none; }
   @starting-style { .capability-directory:popover-open { transform: none; } }
 }
+
+/* Shared ContactChat theming. The scope wrapper captures the site's text-colour --muted before the inner wrapper redefines --muted as a surface. */
+.contact-chat-scope { --chat-muted-text: var(--muted); }
+.contact-chat {
+  --muted: color-mix(in oklab, var(--foreground) 8%, var(--background));
+  --muted-foreground: var(--chat-muted-text);
+  --input: var(--border);
+  --primary-foreground: var(--background);
+  --accent-foreground: var(--background);
+  --radius: 0.25rem;
+  --button-ghost-hover: color-mix(in oklab, var(--accent) 35%, transparent);
+  --button-ring: color-mix(in oklab, var(--primary) 40%, transparent);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+}

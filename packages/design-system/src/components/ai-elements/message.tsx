@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import type { StyleXStyles } from '@stylexjs/stylex';
-import { Avatar, AvatarFallback, AvatarImage, cn } from '@bdkinc/design-system';
+import { cn } from '../../lib/cn';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import type { UIMessage } from 'ai';
 import {
   createContext,

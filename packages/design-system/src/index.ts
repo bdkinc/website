@@ -15,3 +15,8 @@ export * from './components/ui/scroll-area';
 export * from './components/ui/select';
 export * from './components/ui/slot';
 export * from './components/ui/textarea';
+export * from './components/ai-elements/conversation';
+export * from './components/ai-elements/message';
+export * from './components/ai-elements/prompt-input';
+export * from './components/ai-elements/suggestion';
+export { default as ContactChat } from './components/contact-chat';

@@ -11,7 +11,7 @@ All marketing copy comes from the shared WordPress client: page catalogs, publis
 - `src/pages/[...path].astro` consumes `getSiteRoutes()` from `@bdkinc/content/routes`. Its static paths plus the explicit `404.astro` cover the shared canonical route set (587 at verification).
 - `src/components/RouteView.astro` selects this concept's home, service, fixed-page, article, and generated regional templates.
 - `CopySection.astro` renders defined editorial structures as narrative, ordered service entries, comparisons, lists, specifications, and FAQs in the surrounding service template—not JSON dumps.
-- Legal pages retain their authored prose. Contact uses real CMS phone/email/map links; it does not simulate chat, submissions, or notifications.
+- Legal pages retain their authored prose. Contact leads with the shared `ContactChat` from `@bdkinc/design-system` (simulated replies, same as bdkinc), themed via the `.contact-chat` variable map in `editorial.css`, above the real CMS phone/email/map directory. It does not simulate submissions or notifications.
 - All concept pages are noindex/nofollow; `public/robots.txt` disallows crawling. Canonical URLs point to `https://www.bdkinc.com`.
 
 ## Local configuration
