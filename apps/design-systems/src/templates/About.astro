@@ -1,6 +1,5 @@
 ---
 import type { Reader } from '@/lib/content';
-import { asset } from '@/lib/content';
 import EditorialGroup from '@/components/EditorialGroup.astro';
 import CTA from '@/components/CTA.astro';
 interface Props {
@@ -21,7 +20,7 @@ const [c, s] = await Promise.all([
       c.hero.image && (
         <img
           class="hero-image"
-          src={asset(c.hero.image)}
+          src={c.hero.image}
           alt={c.hero.imageAlt}
         />
       )
@@ -49,7 +48,7 @@ const [c, s] = await Promise.all([
           <figure>
             <>
               <img
-                src={asset(c.foundingStory.image)}
+                src={c.foundingStory.image}
                 alt={c.foundingStory.imageAlt}
                 loading="lazy"
               />

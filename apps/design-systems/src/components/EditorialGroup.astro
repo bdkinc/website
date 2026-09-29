@@ -7,7 +7,6 @@ import {
   entries,
   type Group,
 } from '@/lib/editorial';
-import { asset } from '@/lib/content';
 interface Props {
   data: Group;
   depth?: number;
@@ -70,7 +69,7 @@ const image = text(g.image || g.logo);
   {
     image && (
       <img
-        src={asset(image)}
+        src={image}
         alt={text(g.imageAlt || g.name || g.title)}
         loading="lazy"
         width="140"

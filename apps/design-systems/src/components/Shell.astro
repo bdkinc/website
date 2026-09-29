@@ -1,7 +1,6 @@
 ---
 import '@/styles/site.css';
 import type { SiteSettings, ContentEntry } from '@bdkinc/content';
-import { asset } from '@/lib/content';
 import BrandLogo from '@/components/BrandLogo.astro';
 import Icon from '@/components/Icon.astro';
 import Navigation from './Navigation.astro';
@@ -54,7 +53,7 @@ const canonical = new URL(path, 'https://www.bdkinc.com').href;
     /><meta property="og:description" content={description} /><meta
       property="og:url"
       content={canonical}
-    /><meta property="og:image" content={asset(image)} /><meta
+    /><meta property="og:image" content={new URL(image, Astro.site).href} /><meta
       property="og:image:alt"
       content={imageAlt}
     />
@@ -111,7 +110,7 @@ const canonical = new URL(path, 'https://www.bdkinc.com').href;
         <a class="brand" href="/" aria-label={s.navigation.homeLabel}
           >{
             s.brand.logo ? (
-              <img src={asset(s.brand.logo)} alt={s.brand.logoAlt} />
+              <img src={s.brand.logo} alt={s.brand.logoAlt} />
             ) : (
               <BrandLogo label={s.brand.logoAlt} />
             )
