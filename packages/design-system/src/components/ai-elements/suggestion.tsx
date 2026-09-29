@@ -3,7 +3,9 @@
 import * as stylex from '@stylexjs/stylex';
 import type { StyleXStyles } from '@stylexjs/stylex';
 import { ScrollArea as ScrollAreaPrimitive } from '@base-ui/react/scroll-area';
-import { Button, ScrollBar, cn } from '@bdkinc/design-system';
+import { cn } from '../../lib/cn';
+import { Button } from '../ui/button';
+import { ScrollBar } from '../ui/scroll-area';
 import type { ComponentProps } from 'react';
 
 const styles = stylex.create({

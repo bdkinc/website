@@ -15,7 +15,17 @@ const styles = stylex.create({
     display: 'flex',
     width: '100%',
     minWidth: 0,
-    height: 36,
+    height: {
+      default: 36,
+      ':has(> textarea)': 'auto',
+      ':has(> [data-align="block-start"])': 'auto',
+      ':has(> [data-align="block-end"])': 'auto',
+    },
+    flexDirection: {
+      default: null,
+      ':has(> [data-align="block-start"])': 'column',
+      ':has(> [data-align="block-end"])': 'column',
+    },
     alignItems: 'center',
     borderRadius: 'calc(var(--radius) - 2px)',
     borderWidth: 1,

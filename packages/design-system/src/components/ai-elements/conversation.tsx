@@ -2,7 +2,9 @@
 
 import * as stylex from '@stylexjs/stylex';
 import type { StyleXStyles } from '@stylexjs/stylex';
-import { Button, ScrollArea, ScrollBar, cn } from '@bdkinc/design-system';
+import { cn } from '../../lib/cn';
+import { Button } from '../ui/button';
+import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import { PiArrowDown } from 'react-icons/pi';
 import {
   createContext,

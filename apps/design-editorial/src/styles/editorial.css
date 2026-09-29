@@ -69,3 +69,8 @@ dl.metrics>div+div{border-left:1px solid var(--line);padding-left:2rem}
 .field-label{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:block;margin:0 0 .5rem}
 .contact-directory article:last-child{border-bottom:1px solid var(--line)}
 @media(max-width:680px){dl.metrics>div+div{border-left:0;padding-left:0}.transactions{grid-template-columns:1fr}}
+
+/* Shared ContactChat theming. The scope wrapper captures editorial's text-colour --muted before the inner wrapper redefines --muted as a surface. */
+.contact-chat-scope{--chat-muted-text:var(--muted)}
+.contact-chat{--background:var(--paper);--foreground:var(--ink);--card:var(--paper);--muted:color-mix(in srgb,var(--ink) 6%,var(--paper));--muted-foreground:var(--chat-muted-text);--border:var(--line);--input:var(--line);--primary:var(--cyan);--primary-foreground:var(--paper);--secondary:var(--purple);--accent:var(--cyan-light);--accent-foreground:var(--ink);--radius:.25rem;--button-ghost-hover:var(--cyan-light);--button-ring:color-mix(in srgb,var(--cyan) 40%,transparent);--font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;--chat-frame:var(--line);--chat-divider:var(--line);color:var(--ink)}
+.contact-chat-section{padding-bottom:70px}

@@ -15,7 +15,7 @@ Black-canvas architecture-led concept, served at **http://127.0.0.1:4323**. Word
 
 The service renderer recognizes catalog narrative, heading, quote, comparison, specification, lifecycle, FAQ and list structures. It does not flatten arbitrary scalars or print JSON. Service ordering is code-owned. Legal sections retain all current paragraphs, lists and contact links. Articles render the shared package's WordPress-sanitized HTML.
 
-Contact intentionally uses real direct phone/email/map links rather than the source catalog's simulated chat replies, routing promises or simulated operational status. Generated-location pages use global real contact settings instead of the catalogs' placeholder 555 phone numbers. Simulated console/telemetry fields and empty image placeholders are not displayed. Existing non-upload brand asset paths resolve against the canonical public site; actual WP uploads resolve through this app's media proxy. No production/Editorial renderer imports, iframe or page proxy.
+Contact leads with the shared `ContactChat` from `@bdkinc/design-system` (simulated replies, themed through the `.contact-chat` variable map in `site.css`), followed by real direct phone/email/map links; simulated routing promises and operational status are still not displayed. Generated-location pages use global real contact settings instead of the catalogs' placeholder 555 phone numbers. Simulated console/telemetry fields and empty image placeholders are not displayed. Existing non-upload brand asset paths resolve against the canonical public site; actual WP uploads resolve through this app's media proxy. No production/Editorial renderer imports, iframe or page proxy.
 
 ## Run
 

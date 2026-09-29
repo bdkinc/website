@@ -13,6 +13,7 @@
     "@astrojs/node": "^11.0.3",
     "@astrojs/react": "7.0.0",
     "@bdkinc/content": "file:../../packages/content",
+    "@bdkinc/design-system": "file:../../packages/design-system",
     "@fontsource/montserrat": "^5.3.0",
     "@fontsource/open-sans": "^5.3.0",
     "@stylexjs/stylex": "0.19.1",

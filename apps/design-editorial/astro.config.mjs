@@ -8,6 +8,11 @@ export default defineConfig({
   adapter: node({ mode: 'standalone' }),
   integrations: [react({ compiler: true })],
   vite: {
+    optimizeDeps: { include: ['react/compiler-runtime'] },
+    build: {
+      // Required for the StyleX fallback stylesheet linked by Shell.astro.
+      cssCodeSplit: false,
+    },
     plugins: [stylex.vite({ useCSSLayers: { prefix: 'stylex' } })],
   },
   server: { host: '127.0.0.1', port: 4322 },

@@ -52,6 +52,15 @@ const ogImageUrl = ogImage.startsWith('http')
     }
     {
       import.meta.env.DEV && (
+        <style
+          is:inline
+          id="__stylex_virtual__"
+          transition:persist="stylex-dev-css"
+        />
+      )
+    }
+    {
+      import.meta.env.DEV && (
         <script is:inline type="module" src="/@id/virtual:stylex:runtime" />
       )
     }

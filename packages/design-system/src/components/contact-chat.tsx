@@ -5,12 +5,12 @@ import {
   Conversation,
   ConversationContent,
   ConversationScrollButton,
-} from '@/components/ai-elements/conversation';
+} from './ai-elements/conversation';
 import {
   Message,
   MessageAvatar,
   MessageContent,
-} from '@/components/ai-elements/message';
+} from './ai-elements/message';
 import {
   PromptInput,
   PromptInputBody,
@@ -19,10 +19,10 @@ import {
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputTools,
-} from '@/components/ai-elements/prompt-input';
+} from './ai-elements/prompt-input';
 
-import { Suggestion, Suggestions } from '@/components/ai-elements/suggestion';
-import { cn } from '@bdkinc/design-system';
+import { Suggestion, Suggestions } from './ai-elements/suggestion';
+import { cn } from '../lib/cn';
 
 import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -69,10 +69,13 @@ const hoverMedia = '@media (hover: hover)';
 const transitionInteractive =
   'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing';
 const shadowSm = '0 1px 2px 0 rgb(0 0 0 / .05)';
+// Hairlines default to white overlays tuned for dark surfaces; light themes
+// override them with --chat-frame / --chat-divider.
+const frameColor = 'var(--chat-frame, rgb(255 255 255 / .1))';
+const dividerColor = 'var(--chat-divider, rgb(255 255 255 / .05))';
 // `shadow-2xl` stacked with the `ring-1 ring-white/5` outline, resolved to
 // the box-shadow Tailwind emits for that combination.
-const shadowCard =
-  '0 0 0 1px rgb(255 255 255 / .05), 0 25px 50px -12px rgb(0 0 0 / .25)';
+const shadowCard = `0 0 0 1px ${dividerColor}, 0 25px 50px -12px rgb(0 0 0 / .25)`;
 
 const styles = stylex.create({
   section: {
@@ -87,7 +90,7 @@ const styles = stylex.create({
     borderRadius: '1rem',
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: 'rgb(255 255 255 / .1)',
+    borderColor: frameColor,
     boxShadow: shadowCard,
   },
   // Marker: `glass` supplies its CSS rule.
@@ -105,7 +108,7 @@ const styles = stylex.create({
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomStyle: 'solid',
-    borderBottomColor: 'rgb(255 255 255 / .05)',
+    borderBottomColor: dividerColor,
     backgroundColor: 'color-mix(in oklab, var(--background) 20%, transparent)',
     paddingInline: '1.5rem',
     paddingBlock: '1rem',
@@ -158,7 +161,7 @@ const styles = stylex.create({
   avatar: {
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: 'rgb(255 255 255 / .1)',
+    borderColor: frameColor,
     '--tw-shadow': shadowSm,
   },
   avatarAssistant: { marginRight: '.5rem' },
@@ -176,7 +179,7 @@ const styles = stylex.create({
   bubbleAssistant: {
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: 'rgb(255 255 255 / .05)',
+    borderColor: dividerColor,
     backgroundColor: 'color-mix(in oklab, var(--card) 50%, transparent)',
     color: 'var(--foreground)',
   },
@@ -188,7 +191,7 @@ const styles = stylex.create({
     backgroundColor: 'color-mix(in oklab, var(--background) 10%, transparent)',
     borderTopWidth: 1,
     borderTopStyle: 'solid',
-    borderTopColor: 'rgb(255 255 255 / .05)',
+    borderTopColor: dividerColor,
     padding: 16,
     backdropFilter: 'blur(4px)',
   },
