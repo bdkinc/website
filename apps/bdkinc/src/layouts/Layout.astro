@@ -1,10 +1,12 @@
 ---
 import '@/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import { getSettings, type ContentProps } from '@/lib/content';
+import type { ContentProps, ContentReader } from '@/lib/content';
 import PreviewEditor from '@/components/preview/PreviewEditor.astro';
+import { themeBootstrap } from '@/lib/theme';
 
 interface Props extends ContentProps {
+  reader: ContentReader;
   title: string;
   description?: string;
   canonical?: string;
@@ -17,8 +19,8 @@ interface Props extends ContentProps {
   robots?: string | null;
 }
 
-const { contentContext } = Astro.props;
-const settings = await getSettings(contentContext);
+const { contentContext, reader } = Astro.props;
+const settings = await reader.getSettings();
 const {
   title,
   description = settings.defaultDescription,
@@ -111,27 +113,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- View Transitions -->
     {!contentContext && <ClientRouter />}
 
-    <script is:inline>
-      // Apply theme function - used on initial load and after swaps
-      function applyTheme() {
-        const theme =
-          localStorage.getItem('theme') ||
-          (window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light');
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      }
-
-      // Apply theme immediately on initial page load
-      applyTheme();
-
-      // Apply theme after each page transition to prevent flash
-      document.addEventListener('astro:after-swap', applyTheme);
-    </script>
+    <script is:inline set:html={themeBootstrap} />
   </head>
   <body>
     <!-- Skip to main content link -->

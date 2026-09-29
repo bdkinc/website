@@ -4,11 +4,11 @@ import HeroGeometry from '@/components/HeroGeometry';
 import CallToAction from '@/components/CallToAction.astro';
 import EditorialIcon, { type IconName } from '@/components/EditorialIcon.astro';
 import { serviceIcons } from '@/lib/service-icons';
-import type { content } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
 import type { SiteSettings } from '@bdkinc/content';
-interface Props { source: ReturnType<typeof content>; settings: SiteSettings }
+interface Props { source: ContentReader; settings: SiteSettings }
 const { source, settings } = Astro.props;
-const [copy, services, partners, testimonials, posts] = await Promise.all([source.page('home'), source.collection('services'), source.collection('partners'), source.collection('testimonials'), source.collection('blog')]);
+const [copy, services, partners, testimonials, posts] = await Promise.all([source.getPage('home'), source.getCollection('services'), source.getCollection('partners'), source.getCollection('testimonials'), source.getCollection('blog')]);
 services.sort((a,b) => a.data.order-b.data.order);
 const why = [
   { copy: copy.whyUs.response, icon: 'lightning' },

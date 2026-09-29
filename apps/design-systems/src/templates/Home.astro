@@ -1,11 +1,11 @@
 ---
-import type { Reader } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
 import ServiceIndex from '@/components/ServiceIndex.astro';
 import CTA from '@/components/CTA.astro';
 import Icon from '@/components/Icon.astro';
 import HeroMotion from '../components/HeroMotion.astro';
 interface Props {
-  content: Reader;
+  content: ContentReader;
 }
 const { content } = Astro.props;
 const [c, s, services, partners, testimonials] = await Promise.all([

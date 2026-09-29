@@ -1,6 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
-import { getContentEntry, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+import { getSiteRoutes } from '@bdkinc/content/routes';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 import { interpolateCopy } from '@/lib/copy';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
@@ -24,50 +24,15 @@ import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
 
 export async function getStaticPaths() {
-
-  // Get main services, PSEO services, and locations from collections
-  const mainServices = await getCollection('services');
-  const pseoServices = await getCollection('pseoServices');
-  const locations = await getCollection('locations');
-  const paths = [];
-
-  for (const svc of mainServices) {
-    for (const location of locations) {
-      const locationSlug = location.id;
-
-      paths.push({
-        params: {
-          service: svc.id,
-          location: locationSlug,
-        },
-        props: {
-          serviceSlug: svc.id,
-          locationSlug,
-          collectionKey: 'services' as const,
-        },
-      });
-    }
-  }
-
-  for (const svc of pseoServices) {
-    for (const location of locations) {
-      const locationSlug = location.id;
-
-      paths.push({
-        params: {
-          service: svc.id,
-          location: locationSlug,
-        },
-        props: {
-          serviceSlug: svc.id,
-          locationSlug,
-          collectionKey: 'pseoServices' as const,
-        },
-      });
-    }
-  }
-
-  return paths;
+  const routes = await getSiteRoutes(createAppContentReader());
+  return routes.filter((route) => route.template === 'service-location').map((route) => ({
+    params: { service: route.serviceSlug, location: route.locationSlug },
+    props: {
+      serviceSlug: route.serviceSlug,
+      locationSlug: route.locationSlug,
+      collectionKey: route.collectionKey,
+    },
+  }));
 }
 
 export const prerender = true;
@@ -77,22 +42,23 @@ interface Props extends ContentProps {
   locationSlug: string;
   collectionKey: 'services' | 'pseoServices';
 }
-const { serviceSlug, locationSlug, collectionKey, contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const { serviceSlug, locationSlug, collectionKey, contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
 
-const locationData = await getLocationBySlug(locationSlug, contentContext);
+const locationData = await getLocationBySlug(locationSlug, reader);
 if (!locationData) {
   return new Response(null, { status: 404 });
 }
 
 // Get service data from the correct collection to avoid warnings
-const service = await getContentEntry(collectionKey, serviceSlug, contentContext);
+const service = (await reader.getCollection(collectionKey)).find((entry) => entry.id === serviceSlug);
 if (!service) {
   return new Response(null, { status: 404 });
 }
 
-const { servicesData, recentPosts } = await getNavigationData(contentContext);
-const copy = await getPageCopy('service-location', contentContext);
-const settings = await getSettings(contentContext);
+const { servicesData, recentPosts } = await getNavigationData(reader);
+const copy = await reader.getPage('service-location');
+const settings = await reader.getSettings();
 const text = (value: string) => interpolateCopy(value, {
   serviceTitle: service.data.title, locationName: locationData.name,
   state: locationData.state, region: locationData.region,
@@ -126,11 +92,11 @@ const locationFeatures = [
   },
 ];
 
-const nearbyLocations = await getNearbyLocations(locationSlug, contentContext);
+const nearbyLocations = await getNearbyLocations(locationSlug, reader);
 const pageDescription = text(copy.metadata.description);
 ---
 
-<Layout
+<Layout reader={reader}
   contentContext={contentContext}
   publicPath={publicPath}
   title={text(copy.metadata.title)}
@@ -386,5 +352,5 @@ const pageDescription = text(copy.metadata.description);
   </main>
 
   <!-- Footer -->
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>

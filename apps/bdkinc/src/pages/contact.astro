@@ -6,32 +6,34 @@ import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 import { TechCard } from '@/components/TechCard';
 import { PiPhone, PiEnvelope, PiMapPin, PiHeadset } from 'react-icons/pi';
-import { actions } from 'astro:actions';
 import { referrerSuggestions } from '@/actions';
 import PageHeroEffects from '@/components/PageHeroEffects';
 import EditSection from '@/components/preview/EditSection.astro';
-import { getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 interface Props extends ContentProps {}
-const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
 export const prerender = false;
-const [copy, settings] = await Promise.all([getPageCopy('contact', contentContext), getSettings(contentContext)]);
-const { servicesData, recentPosts } = await getNavigationData(contentContext);
-// Get referrer-based suggestions using Astro action
+const [copy, settings] = await Promise.all([reader.getPage('contact'), reader.getSettings()]);
+const { servicesData, recentPosts } = await getNavigationData(reader);
+// Reuse this render's copy with the same query-param/referer precedence.
 const fromParam = Astro.url.searchParams.get('from');
-const result = contentContext ? undefined : await Astro.callAction(actions.getReferrerSuggestions, {
-  from: fromParam || undefined,
-});
-const initialSuggestions = contentContext
-  ? referrerSuggestions(copy.referrerSuggestions, fromParam || Astro.request.headers.get('referer'))
-  : result?.data?.suggestions || [
-  copy.chat.pageFallbackSuggestions.consultation,
-  copy.chat.pageFallbackSuggestions.assessment,
-  copy.chat.pageFallbackSuggestions.managedServices,
-  copy.chat.pageFallbackSuggestions.cloud,
-];
+let initialSuggestions;
+try {
+  initialSuggestions = referrerSuggestions(copy.referrerSuggestions, fromParam || Astro.request.headers.get('referer'));
+} catch (error) {
+  // The former public action reported handler errors and used these page suggestions.
+  if (contentContext) throw error;
+  initialSuggestions = [
+    copy.chat.pageFallbackSuggestions.consultation,
+    copy.chat.pageFallbackSuggestions.assessment,
+    copy.chat.pageFallbackSuggestions.managedServices,
+    copy.chat.pageFallbackSuggestions.cloud,
+  ];
+}
 ---
 
-<Layout title={copy.metadata.title} contentContext={contentContext} publicPath={publicPath}>
+<Layout reader={reader} title={copy.metadata.title} contentContext={contentContext} publicPath={publicPath}>
   <EditSection record="settings" section="navigation">
     <Navigation
       client:load
@@ -280,5 +282,5 @@ const initialSuggestions = contentContext
     </div>
   </section>
   </EditSection>
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>

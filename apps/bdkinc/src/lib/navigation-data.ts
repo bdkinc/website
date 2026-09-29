@@ -1,10 +1,10 @@
-import { getContentCollection, type ContentContext } from '@/lib/content';
+import type { ContentReader } from '@/lib/content';
 
 import { getBlogPosts } from '@/lib/blog';
 
-export async function getNavigationData(context?: ContentContext) {
+export async function getNavigationData(reader: ContentReader) {
   // Resolve published services, or the single authorized preview overlay.
-  const servicesEntries = await getContentCollection('services', context);
+  const servicesEntries = await reader.getCollection('services');
   const servicesData = servicesEntries
     .sort((a, b) => a.data.order - b.data.order)
     .map((entry) => ({
@@ -15,7 +15,7 @@ export async function getNavigationData(context?: ContentContext) {
     }));
 
   // Get recent blog posts
-  const blogEntries = await getBlogPosts(context);
+  const blogEntries = await getBlogPosts(reader);
   const recentPosts = blogEntries
     .sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf())
     .slice(0, 3)

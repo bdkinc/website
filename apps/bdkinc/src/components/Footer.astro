@@ -6,11 +6,13 @@ import {
   PiInstagramLogo,
 } from 'react-icons/pi';
 
-import { getSettings, type ContentProps } from '@/lib/content';
+import type { ContentProps, ContentReader } from '@/lib/content';
 import EditSection from '@/components/preview/EditSection.astro';
-interface Props extends ContentProps {}
-const { contentContext } = Astro.props;
-const settings = await getSettings(contentContext);
+interface Props extends ContentProps {
+  reader: ContentReader;
+}
+const { reader } = Astro.props;
+const settings = await reader.getSettings();
 const { footer: copy, contact } = settings;
 const currentYear = new Date().getFullYear();
 

@@ -31,13 +31,13 @@ The preview audience must match WordPress's configured Editorial target exactly,
 From the repository root, with dependencies already installed:
 
 ```sh
-npm run dev -w @bdkinc/design-editorial
+npm run dev:editorial
 npm run check -w @bdkinc/design-editorial
 ```
 
 Public pages are statically prerendered by default. Publishing changed copy requires a rebuild. The existing `build`, `start`, and `preview` scripts support the Astro/Node workflow, but a build or deployment must be separately authorized; none was performed for this review implementation. Development reads current published WordPress data.
 
-Do not start a second listener if the lead already owns port 4322. On Windows, if a Bash npm shim fails, invoke the installed Windows `node.exe` and npm CLI directly rather than changing dependencies.
+Reuse an existing listener on port 4322. The root dev script delegates through project-local Vite+ to Astro. Follow [Development Workflow](../../guides/agents/workflow.md) for normal startup, failure diagnosis and background-job ownership.
 
 ## Private previews
 
@@ -51,7 +51,7 @@ In WordPress, select **Editorial concept** and create a preview. `/api/preview?t
 
 A real temporary PNG attachment was uploaded for acceptance, successfully served byte-for-byte through this endpoint, then permanently deleted. Only the probe attachment was removed; both its attachment endpoint and source file returned 404 afterward.
 
-## Verification record
+## Historical verification record
 
 - Final app-scoped diagnostics: **16 files, 0 errors, 0 warnings, 0 hints** after the renderer refinements.
 - The actual catchall static-path function plus explicit `/404` matches the shared manifest exactly: **587 routes, zero missing, zero extra**.

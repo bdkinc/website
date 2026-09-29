@@ -1,12 +1,13 @@
 ---
 import '@/styles/site.css';
-import type { SiteSettings, ContentEntry } from '@bdkinc/content';
+import type { SiteSettings } from '@bdkinc/content';
+import type { ContentRecord } from '@bdkinc/content/reader';
 import BrandLogo from '@/components/BrandLogo.astro';
 import Icon from '@/components/Icon.astro';
 import Navigation from './Navigation.astro';
 interface Props {
   settings: SiteSettings;
-  services: ContentEntry<'services'>[];
+  services: ContentRecord<'services'>[];
   title: string;
   description: string;
   path: string;

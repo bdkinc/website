@@ -6,27 +6,33 @@ import {
   ConversationContent,
   ConversationScrollButton,
 } from './ai-elements/conversation';
+import { Message, MessageAvatar, MessageContent } from './ai-elements/message';
 import {
-  Message,
-  MessageAvatar,
-  MessageContent,
-} from './ai-elements/message';
-import {
-  PromptInput,
-  PromptInputBody,
-  PromptInputFooter,
-  type PromptInputMessage,
-  PromptInputSubmit,
-  PromptInputTextarea,
-  PromptInputTools,
-} from './ai-elements/prompt-input';
+  InputGroup,
+  InputGroupButton,
+  InputGroupTextarea,
+} from './ui/input-group';
 
 import { Suggestion, Suggestions } from './ai-elements/suggestion';
 import { cn } from '../lib/cn';
 
 import { nanoid } from 'nanoid';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { PiSparkle } from 'react-icons/pi';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type KeyboardEvent,
+} from 'react';
+import {
+  PiPaperPlaneRight,
+  PiSparkle,
+  PiSpinner,
+  PiSquare,
+} from 'react-icons/pi';
+
+type ChatStatus = 'submitted' | 'streaming' | 'ready';
 
 type MessageType = {
   key: string;
@@ -76,6 +82,11 @@ const dividerColor = 'var(--chat-divider, rgb(255 255 255 / .05))';
 // `shadow-2xl` stacked with the `ring-1 ring-white/5` outline, resolved to
 // the box-shadow Tailwind emits for that combination.
 const shadowCard = `0 0 0 1px ${dividerColor}, 0 25px 50px -12px rgb(0 0 0 / .25)`;
+
+const spinKeyframes = stylex.keyframes({
+  from: { transform: 'rotate(0deg)' },
+  to: { transform: 'rotate(360deg)' },
+});
 
 const styles = stylex.create({
   section: {
@@ -226,9 +237,10 @@ const styles = stylex.create({
     transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
   },
   // The form owns the visible border/background/ring; the inner InputGroup
-  // is zeroed via `groupXstyle` (see promptGroup) because StyleX cannot
+  // is zeroed via `xstyle` (see promptGroup) because StyleX cannot
   // express the old `[&_[data-slot=input-group]]:*` ancestor selectors.
   promptForm: {
+    width: '100%',
     position: 'relative',
     overflow: 'hidden',
     borderWidth: 1,
@@ -258,6 +270,7 @@ const styles = stylex.create({
   // here. `.875rem` / `1.25rem` are the rem equivalents of `text-sm`.
   promptTextarea: {
     minHeight: 50,
+    maxHeight: '12rem',
     paddingInline: 16,
     fontSize: '.875rem',
     lineHeight: '1.25rem',
@@ -268,9 +281,25 @@ const styles = stylex.create({
         'color-mix(in oklab, var(--muted-foreground) 50%, transparent)',
     },
   },
-  // Inline/block padding match the block-end InputGroupAddon base; only the
-  // justification override lives here.
-  promptFooter: { justifyContent: 'space-between' },
+  // Match the former block-end addon without its redundant button semantics.
+  promptFooter: {
+    display: 'flex',
+    width: '100%',
+    order: 9999,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 4,
+    paddingInline: 12,
+    paddingTop: 6,
+    paddingBottom: 12,
+  },
+  icon: { width: 16, height: 16 },
+  spin: {
+    animationName: spinKeyframes,
+    animationDuration: '1s',
+    animationTimingFunction: 'linear',
+    animationIterationCount: 'infinite',
+  },
   // `h-8 w-8` matches the `icon-sm` InputGroupButton size; radius, tinted
   // colors and disabled colors are overridden on the ghost variant.
   submit: {
@@ -301,9 +330,13 @@ export default function ContactChat({
 }: ContactChatProps) {
   const hasStartedRef = useRef(false);
   const [text, setText] = useState<string>('');
-  const [status, setStatus] = useState<
-    'submitted' | 'streaming' | 'ready' | 'error'
-  >('ready');
+  const [status, setStatus] = useState<ChatStatus>('ready');
+  // The ref closes the gap before React renders disabled controls.
+  const statusRef = useRef<ChatStatus>('ready');
+  const mountedRef = useRef(true);
+  const replyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const composingRef = useRef(false);
+  const busy = status === 'submitted' || status === 'streaming';
 
   const [suggestions] = useState<string[]>(
     initialSuggestions || [
@@ -328,7 +361,15 @@ export default function ContactChat({
   ]);
 
   useEffect(() => {
+    mountedRef.current = true;
     track('contact_chat_view', { component: 'ContactChat' });
+    return () => {
+      mountedRef.current = false;
+      if (replyTimerRef.current !== null) {
+        clearTimeout(replyTimerRef.current);
+        replyTimerRef.current = null;
+      }
+    };
   }, []);
 
   const ensureStarted = useCallback((source: 'typed' | 'suggestion') => {
@@ -337,112 +378,123 @@ export default function ContactChat({
     track('contact_chat_started', { source });
   }, []);
 
-  const streamResponse = useCallback(
-    async (messageId: string, content: string) => {
-      setStatus('streaming');
-
-      const words = content.split(' ');
-      let currentContent = '';
-
-      for (let i = 0; i < words.length; i++) {
-        currentContent += (i > 0 ? ' ' : '') + words[i];
-
-        setMessages((prev) =>
-          prev.map((msg) => {
-            if (msg.version.id === messageId) {
-              return {
-                ...msg,
-                version: { ...msg.version, content: currentContent },
-              };
-            }
-            return msg;
-          })
-        );
-
-        await new Promise((resolve) =>
-          setTimeout(resolve, Math.random() * 50 + 30)
-        );
+  const acceptMessage = useCallback(
+    (value: string, source: 'typed' | 'suggestion') => {
+      const content = value.trim();
+      if (!content || !mountedRef.current || statusRef.current !== 'ready') {
+        return false;
       }
 
-      setMessages((prev) =>
-        prev.map((msg) =>
-          msg.version.id === messageId ? { ...msg, isStreaming: false } : msg
-        )
-      );
+      statusRef.current = 'submitted';
+      setStatus('submitted');
+      ensureStarted(source);
+      track('contact_chat_message_sent', {
+        method: source,
+        char_count: content.length,
+      });
 
-      setStatus('ready');
-    },
-    []
-  );
-
-  const addUserMessage = useCallback(
-    (content: string) => {
-      const userMessage: MessageType = {
-        key: `user-${Date.now()}`,
-        from: 'user',
-        version: {
-          id: `user-${Date.now()}`,
-          content,
+      const userId = nanoid();
+      setMessages((prev) => [
+        ...prev,
+        {
+          key: userId,
+          from: 'user',
+          version: { id: userId, content },
+          avatar: '',
+          name: copy.userName,
         },
-        avatar: '',
-        name: copy.userName,
-      };
+      ]);
 
-      setMessages((prev) => [...prev, userMessage]);
-
-      setTimeout(() => {
-        const assistantMessageId = `assistant-${Date.now()}`;
+      // Only one reply can be active, and every delay has the same cleanup owner.
+      replyTimerRef.current = setTimeout(() => {
+        if (!mountedRef.current) return;
+        statusRef.current = 'streaming';
+        setStatus('streaming');
+        const assistantId = nanoid();
         const mockResponses = [
           copy.simulatedReplies.architect,
           copy.simulatedReplies.engineering,
           copy.simulatedReplies.leadership,
         ];
-        const randomResponse =
-          mockResponses[Math.floor(Math.random() * mockResponses.length)];
-
-        const assistantMessage: MessageType = {
-          key: `assistant-${Date.now()}`,
-          from: 'assistant',
-          version: {
-            id: assistantMessageId,
-            content: '',
+        const words =
+          mockResponses[Math.floor(Math.random() * mockResponses.length)].split(
+            ' '
+          );
+        setMessages((prev) => [
+          ...prev,
+          {
+            key: assistantId,
+            from: 'assistant',
+            version: { id: assistantId, content: '' },
+            avatar: copy.avatar,
+            name: copy.assistantName,
+            isStreaming: true,
           },
-          avatar: copy.avatar,
-          name: copy.assistantName,
-          isStreaming: true,
-        };
+        ]);
 
-        setMessages((prev) => [...prev, assistantMessage]);
-        streamResponse(assistantMessageId, randomResponse);
+        let wordIndex = 0;
+        let currentContent = '';
+        const streamNextWord = () => {
+          if (!mountedRef.current) return;
+          if (wordIndex === words.length) {
+            replyTimerRef.current = null;
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.version.id === assistantId
+                  ? { ...msg, isStreaming: false }
+                  : msg
+              )
+            );
+            statusRef.current = 'ready';
+            setStatus('ready');
+            return;
+          }
+
+          currentContent += (wordIndex > 0 ? ' ' : '') + words[wordIndex++];
+          // Capture each word snapshot before React runs the updater.
+          const streamedContent = currentContent;
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.version.id === assistantId
+                ? {
+                    ...msg,
+                    version: { ...msg.version, content: streamedContent },
+                  }
+                : msg
+            )
+          );
+          replyTimerRef.current = setTimeout(
+            streamNextWord,
+            Math.random() * 50 + 30
+          );
+        };
+        streamNextWord();
       }, 600);
+      return true;
     },
-    [streamResponse, copy]
+    [copy, ensureStarted]
   );
 
-  const handleSubmit = (message: PromptInputMessage) => {
-    const rawText = message.text?.trim() ?? '';
-    if (!rawText) return;
-
-    ensureStarted('typed');
-    track('contact_chat_message_sent', {
-      method: 'typed',
-      char_count: rawText.length,
-    });
-
-    setStatus('submitted');
-    addUserMessage(rawText);
-    setText('');
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (acceptMessage(text, 'typed')) setText('');
   };
 
   const handleSuggestionClick = (suggestion: string) => {
-    ensureStarted('suggestion');
-    track('contact_chat_message_sent', {
-      method: 'suggestion',
-      char_count: suggestion.length,
-    });
+    acceptMessage(suggestion, 'suggestion');
+  };
 
-    setStatus('submitted');
-    addUserMessage(suggestion);
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (
+      event.key !== 'Enter' ||
+      event.shiftKey ||
+      composingRef.current ||
+      event.nativeEvent.isComposing
+    ) {
+      return;
+    }
+    event.preventDefault();
+    event.currentTarget.form?.requestSubmit();
   };
 
   return (
@@ -514,37 +566,62 @@ export default function ContactChat({
                 <Suggestion
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
+                  disabled={busy}
                   suggestion={suggestion}
                   xstyle={styles.suggestion}
                 />
               ))}
             </Suggestions>
 
-            <PromptInput
-              onSubmit={handleSubmit}
-              xstyle={styles.promptForm}
-              groupXstyle={styles.promptGroup}
-            >
-              <PromptInputBody>
-                <PromptInputTextarea
+            <form onSubmit={handleSubmit} {...stylex.props(styles.promptForm)}>
+              <InputGroup xstyle={styles.promptGroup}>
+                <InputGroupTextarea
+                  name="message"
                   onChange={(event) => setText(event.target.value)}
+                  onCompositionStart={() => {
+                    composingRef.current = true;
+                  }}
+                  onCompositionEnd={() => {
+                    composingRef.current = false;
+                  }}
+                  onKeyDown={handleKeyDown}
                   value={text}
                   aria-label={copy.messageLabel}
                   placeholder={copy.placeholder}
                   xstyle={styles.promptTextarea}
                 />
-              </PromptInputBody>
-              <PromptInputFooter xstyle={styles.promptFooter}>
-                <PromptInputTools />
-                <PromptInputSubmit
-                  disabled={!text.trim() || status === 'streaming'}
-                  status={status}
-                  variant="ghost"
-                  size="icon-sm"
-                  xstyle={styles.submit}
-                />
-              </PromptInputFooter>
-            </PromptInput>
+                <div
+                  data-align="block-end"
+                  {...stylex.props(styles.promptFooter)}
+                >
+                  <InputGroupButton
+                    type="submit"
+                    aria-label="Submit"
+                    disabled={!text.trim() || busy}
+                    variant="ghost"
+                    size="icon-sm"
+                    xstyle={styles.submit}
+                  >
+                    {status === 'submitted' ? (
+                      <PiSpinner
+                        aria-hidden="true"
+                        {...stylex.props(styles.icon, styles.spin)}
+                      />
+                    ) : status === 'streaming' ? (
+                      <PiSquare
+                        aria-hidden="true"
+                        {...stylex.props(styles.icon)}
+                      />
+                    ) : (
+                      <PiPaperPlaneRight
+                        aria-hidden="true"
+                        {...stylex.props(styles.icon)}
+                      />
+                    )}
+                  </InputGroupButton>
+                </div>
+              </InputGroup>
+            </form>
           </div>
         </div>
       </div>

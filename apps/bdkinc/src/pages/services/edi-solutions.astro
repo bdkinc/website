@@ -1,5 +1,5 @@
 ---
-import { getContentEntry, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -35,16 +35,17 @@ import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
 import { servicePageSchemas } from '@/lib/schema';
 interface Props extends ContentProps {}
-const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
 const [service, copy, settings] = await Promise.all([
-  getContentEntry('services', 'edi-solutions', contentContext),
-  getPageCopy('service-edi-solutions', contentContext),
-  getSettings(contentContext),
+  reader.getCollection('services').then((entries) => entries.find((entry) => entry.id === 'edi-solutions')),
+  reader.getPage('service-edi-solutions'),
+  reader.getSettings(),
 ]);
 if (!service) {
   return new Response(null, { status: 404 });
 }
-const { servicesData, recentPosts } = await getNavigationData(contentContext);
+const { servicesData, recentPosts } = await getNavigationData(reader);
 const IconComponent = iconMap[service.data.icon];
 const title = service.data.title;
 const titleWords = title.split(' ');
@@ -102,7 +103,7 @@ const transactions = [
 ];
 ---
 
-<Layout
+<Layout reader={reader}
   contentContext={contentContext}
   publicPath={publicPath}
   title={`${service.data.title} - ${settings.siteName}`}
@@ -584,5 +585,5 @@ const transactions = [
     />
     </EditSection>
   </main>
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>

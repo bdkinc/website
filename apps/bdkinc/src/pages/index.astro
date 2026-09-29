@@ -10,14 +10,15 @@ import CTASection from '@/components/CTASection';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
-import { getPageCopy, getSettings, getContentCollection, type ContentProps } from '@/lib/content';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 interface Props extends ContentProps {}
-const { contentContext, publicPath = '/' } = Astro.props;
+const { contentContext, publicPath = '/', reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
 const [copy, settings, navigation, partnerEntries] = await Promise.all([
-  getPageCopy('home', contentContext),
-  getSettings(contentContext),
-  getNavigationData(contentContext),
-  getContentCollection('partners', contentContext),
+  reader.getPage('home'),
+  reader.getSettings(),
+  getNavigationData(reader),
+  reader.getCollection('partners'),
 ]);
 const { servicesData, recentPosts } = navigation;
 // The showcase's slots/order remain code-owned; names, media and details are live records.
@@ -65,7 +66,7 @@ const organizationSchema = {
 };
 ---
 
-<Layout
+<Layout reader={reader}
   title={copy.seo.title}
   description={copy.seo.description}
   ogImage={copy.seo.image}
@@ -104,12 +105,12 @@ const organizationSchema = {
       <TrustShowcase client:visible partners={partners} copy={copy.trust} />
     </EditSection>
     <EditSection record="home" section="testimonials">
-      <Testimonials contentContext={contentContext} copy={copy.testimonials} />
+      <Testimonials reader={reader} contentContext={contentContext} copy={copy.testimonials} />
     </EditSection>
     <EditSection record="settings" section="cta">
       <CTASection client:visible icon="click" copy={settings.cta} />
     </EditSection>
   </main>
 
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>

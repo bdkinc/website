@@ -9,14 +9,15 @@ import { PiArrowRight } from 'react-icons/pi';
 import { getBlogPosts } from '@/lib/blog';
 import PageHeroEffects from '@/components/PageHeroEffects';
 import EditSection from '@/components/preview/EditSection.astro';
-import { getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 interface Props extends ContentProps {}
-const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
 
-const [copy, settings] = await Promise.all([getPageCopy('blog', contentContext), getSettings(contentContext)]);
-const { servicesData, recentPosts } = await getNavigationData(contentContext);
+const [copy, settings] = await Promise.all([reader.getPage('blog'), reader.getSettings()]);
+const { servicesData, recentPosts } = await getNavigationData(reader);
 
-const sortedPosts = await getBlogPosts(contentContext);
+const sortedPosts = await getBlogPosts(reader);
 
 // Calculate read time
 const postsWithReadTime = sortedPosts.map((post) => {
@@ -34,7 +35,7 @@ const featuredPost = postsWithReadTime[0];
 const remainingPosts = postsWithReadTime.slice(1);
 ---
 
-<Layout
+<Layout reader={reader}
   title={copy.metadata.title}
   contentContext={contentContext}
   publicPath={publicPath}
@@ -197,5 +198,5 @@ const remainingPosts = postsWithReadTime.slice(1);
     </EditSection>
   </main>
 
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>

@@ -1,8 +1,4 @@
-import {
-  getContentCollection,
-  getContentEntry,
-  type ContentContext,
-} from '@/lib/content';
+import type { ContentReader } from '@/lib/content';
 
 export interface BlogPostContent {
   slug: string;
@@ -49,9 +45,9 @@ function toBlogPost(
 }
 
 export async function getBlogPosts(
-  context?: ContentContext
+  reader: ContentReader
 ): Promise<BlogPostContent[]> {
-  const localEntries = await getContentCollection('blog', context);
+  const localEntries = await reader.getCollection('blog');
 
   return sortByDateDesc(
     localEntries.map((entry) =>
@@ -62,9 +58,9 @@ export async function getBlogPosts(
 
 export async function getBlogPostBySlug(
   slug: string,
-  context?: ContentContext
+  reader: ContentReader
 ): Promise<BlogPostContent | null> {
-  const localEntry = await getContentEntry('blog', slug, context);
+  const localEntry = (await reader.getCollection('blog')).find((entry) => entry.id === slug);
 
   if (!localEntry) {
     return null;

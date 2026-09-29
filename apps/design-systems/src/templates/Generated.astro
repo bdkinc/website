@@ -1,11 +1,11 @@
 ---
-import type { Reader } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
 import type { SiteRoute } from '@bdkinc/content/routes';
 import { substitute } from '@/lib/editorial';
 import CTA from '@/components/CTA.astro';
 import Icon from '@/components/Icon.astro';
 interface Props {
-  content: Reader;
+  content: ContentReader;
   route: Extract<
     SiteRoute,
     { template: 'service-location' | 'industry-location' }

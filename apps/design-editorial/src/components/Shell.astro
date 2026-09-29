@@ -2,20 +2,19 @@
 import type { SiteSettings } from '@bdkinc/content';
 import '@/styles/editorial.css';
 import BrandLogo from '@/components/BrandLogo.astro';
-import { content } from '@/lib/content';
-interface Props { settings: SiteSettings; title: string; description?: string; path: string; preview?: boolean }
-const { settings: s, title, description = s.defaultDescription, path, preview } = Astro.props;
+import type { ContentReader } from '@bdkinc/content/reader';
+interface Props { source: ContentReader; settings: SiteSettings; title: string; description?: string; path: string; preview?: boolean }
+const { source, settings: s, title, description = s.defaultDescription, path, preview } = Astro.props;
 const isServices = path === '/services' || path.startsWith('/services/');
 const isBlog = path === '/blog' || path.startsWith('/blog/');
-const svcSource = content();
-const svcEntries = (await svcSource.collection('services')).sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+const svcEntries = (await source.getCollection('services')).sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 const practices = [
   { key: 'infrastructure', title: 'Infrastructure & Operations', ids: ['managed-it', 'cybersecurity', 'cloud-hosting'] },
   { key: 'platforms', title: 'Business Platforms', ids: ['ibm-power', 'hosted-erp', 'edi-solutions'] },
   { key: 'software', title: 'Software & Data', ids: ['application-development', 'business-analytics', 'artificial-intelligence'] },
 ];
 const svcById = new Map(svcEntries.map((service) => [service.id, service]));
-const recentPosts = (await svcSource.collection('blog')).sort((a, b) => {
+const recentPosts = (await source.getCollection('blog')).sort((a, b) => {
   const ta = a.data.pubDate instanceof Date ? a.data.pubDate.getTime() : 0;
   const tb = b.data.pubDate instanceof Date ? b.data.pubDate.getTime() : 0;
   return tb - ta;

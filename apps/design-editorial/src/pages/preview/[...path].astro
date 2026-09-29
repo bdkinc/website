@@ -7,4 +7,4 @@ let authorized;
 try { authorized = await authorize(Astro.url.searchParams.get('token') || '', '/'+(Astro.params.path || '')); }
 catch { return new Response('Preview authorization failed or expired.', {status:401,headers:previewHeaders}); }
 ---
-<RouteView route={authorized.route} context={authorized.context} />
+<RouteView route={authorized.route} context={authorized.context} reader={authorized.reader} />

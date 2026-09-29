@@ -1,9 +1,9 @@
 ---
 import Icon from '@/components/Icon.astro';
 import { serviceIcons } from '@/lib/service-presentation';
-import type { ContentEntry } from '@bdkinc/content';
+import type { ContentRecord } from '@bdkinc/content/reader';
 interface Props {
-  services: ContentEntry<'services'>[];
+  services: ContentRecord<'services'>[];
 }
 const { services } = Astro.props;
 

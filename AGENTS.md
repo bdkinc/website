@@ -18,6 +18,7 @@ Shared packages:
 
 ## Quick Start
 - **Package Manager:** `npm`
+- **Development:** Use normal repository-root scripts in the current default environment; frontend scripts delegate through project-local Vite+. Diagnose and fix failures in that path rather than bypassing the runtime, framework or task runner. See [Development Workflow](guides/agents/workflow.md) for commands and server ownership.
 - **Builds:** Do **NOT** run full builds (`npm run build`) without explicit user instruction.
 - **Branding:** Adhere strictly to rules in `guides/`.
 

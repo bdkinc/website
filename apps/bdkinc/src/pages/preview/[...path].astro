@@ -21,8 +21,9 @@ import ManagedIt from '@/pages/services/managed-it.astro';
 import BlogPost from '@/pages/blog/[slug].astro';
 import ServiceLocation from '@/pages/services/[service]/[location].astro';
 import IndustryLocation from '@/pages/industries/[industry]/[location].astro';
-import { resolvePreviewContext, previewHeaders, previewTemplate } from '@/lib/preview';
+import { resolvePreview, previewHeaders } from '@/lib/preview';
 import { getBlogPostBySlug } from '@/lib/blog';
+import type { ContentReader } from '@/lib/content';
 
 export const prerender = false;
 for (const [name, value] of Object.entries(previewHeaders)) Astro.response.headers.set(name, value);
@@ -39,12 +40,14 @@ const pages = {
 let contentContext;
 let route;
 let post;
+let reader: ContentReader;
 try {
-  contentContext = await resolvePreviewContext(Astro.url.searchParams.get('token') || '', publicPath);
-  route = await previewTemplate(contentContext);
-  if (!route) throw new Error('Unregistered route.');
+  const resolved = await resolvePreview(Astro.url.searchParams.get('token') || '', publicPath);
+  contentContext = resolved.context;
+  route = resolved.route;
+  reader = resolved.reader;
   if (route.template === 'blog-post') {
-    post = await getBlogPostBySlug(route.slug, contentContext);
+    post = await getBlogPostBySlug(route.slug, reader);
     if (!post) throw new Error('Post unavailable.');
   }
 } catch {
@@ -52,13 +55,13 @@ try {
 }
 const PageTemplate = route.template === 'page' ? pages[route.pageKey] : undefined;
 ---
-{PageTemplate && <PageTemplate contentContext={contentContext} publicPath={publicPath} />}
+{PageTemplate && <PageTemplate reader={reader} contentContext={contentContext} publicPath={publicPath} />}
 {route.template === 'blog-post' && post && (
-  <BlogPost post={post} contentContext={contentContext} publicPath={publicPath} />
+  <BlogPost reader={reader} post={post} contentContext={contentContext} publicPath={publicPath} />
 )}
 {route.template === 'service-location' && (
-  <ServiceLocation {...route} contentContext={contentContext} publicPath={publicPath} />
+  <ServiceLocation reader={reader} {...route} contentContext={contentContext} publicPath={publicPath} />
 )}
 {route.template === 'industry-location' && (
-  <IndustryLocation {...route} contentContext={contentContext} publicPath={publicPath} />
+  <IndustryLocation reader={reader} {...route} contentContext={contentContext} publicPath={publicPath} />
 )}

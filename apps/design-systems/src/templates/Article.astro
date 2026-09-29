@@ -1,9 +1,9 @@
 ---
-import type { Reader } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
 import CTA from '@/components/CTA.astro';
 import Icon from '@/components/Icon.astro';
 interface Props {
-  content: Reader;
+  content: ContentReader;
   slug: string;
 }
 const { content, slug } = Astro.props;

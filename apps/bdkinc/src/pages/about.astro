@@ -12,18 +12,19 @@ import TrustShowcase from '@/components/TrustShowcase';
 import PageHeroEffects from '@/components/PageHeroEffects';
 import EditSection from '@/components/preview/EditSection.astro';
 
-import { getPageCopy, getSettings, getContentCollection, type ContentProps } from '@/lib/content';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 interface Props extends ContentProps {}
-const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
 const [copy, settings, home, partnerEntries] = await Promise.all([
-  getPageCopy('about', contentContext), getSettings(contentContext),
-  getPageCopy('home', contentContext), getContentCollection('partners', contentContext),
+  reader.getPage('about'), reader.getSettings(),
+  reader.getPage('home'), reader.getCollection('partners'),
 ]);
 const partners = partnerEntries
   .filter((partner) => partner.data.showOnAbout)
   .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
   .map((partner) => ({ id: partner.id, ...partner.data }));
-const { servicesData, recentPosts } = await getNavigationData(contentContext);
+const { servicesData, recentPosts } = await getNavigationData(reader);
 
 const aboutTitle = copy.metadata.title;
 const aboutDescription = copy.metadata.description;
@@ -61,7 +62,7 @@ const milestonesData = [copy.journey.foundation, copy.journey.expansion,
   copy.journey.premierPartnership, copy.journey.artificialIntelligence];
 ---
 
-<Layout
+<Layout reader={reader}
   contentContext={contentContext}
   publicPath={publicPath}
   title={aboutTitle}
@@ -261,5 +262,5 @@ const milestonesData = [copy.journey.foundation, copy.journey.expansion,
     </EditSection>
   </main>
 
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>

@@ -1,6 +1,6 @@
 # Local headless WordPress
 
-PHP and WP-CLI run **only in Docker**. Requires Docker Desktop and Node 22.12+ (Node 24 recommended). No public WordPress theme or page builder is used.
+PHP and WP-CLI run **only in Docker**. Requires Docker Desktop and the current default Node/npm environment supported by root `package.json` `engines`. No public WordPress theme or page builder is used.
 
 ```sh
 npm run wp:init -w apps/wp-cms

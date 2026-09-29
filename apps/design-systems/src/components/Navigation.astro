@@ -1,10 +1,11 @@
 ---
-import type { ContentEntry, SiteSettings } from '@bdkinc/content';
+import type { SiteSettings } from '@bdkinc/content';
+import type { ContentRecord } from '@bdkinc/content/reader';
 import Icon from '@/components/Icon.astro';
 import { serviceIcons, serviceImages } from '@/lib/service-presentation';
 interface Props {
   settings: SiteSettings;
-  services: ContentEntry<'services'>[];
+  services: ContentRecord<'services'>[];
   path: string;
 }
 const { settings: s, services, path } = Astro.props;

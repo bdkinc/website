@@ -1,5 +1,5 @@
 import fixedPaths from '../editorial/routes.json' with { type: 'json' };
-import type { createContentClient } from './client.ts';
+import type { ContentSource } from './reader.ts';
 
 export const pagePaths = fixedPaths;
 export type FixedPageKey = keyof typeof pagePaths;
@@ -8,7 +8,7 @@ export type SiteRoute =
   | { path: string; template: 'blog-post'; slug: string }
   | { path: string; template: 'service-location'; serviceSlug: string; locationSlug: string; locationId: string; collectionKey: 'services' | 'pseoServices' }
   | { path: string; template: 'industry-location'; industrySlug: string; locationSlug: string; locationId: string };
-type Client = Pick<ReturnType<typeof createContentClient>, 'getCollection'>;
+type Client = Pick<ContentSource, 'getCollection'>;
 
 /** Published routes only. Main services win a duplicate service/PSEO slug, as in source order. */
 export async function getSiteRoutes(client: Client): Promise<SiteRoute[]> {

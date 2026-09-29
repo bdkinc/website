@@ -1,6 +1,6 @@
 import { defineAction } from 'astro:actions';
 import { z } from 'astro/zod';
-import { getPageCopy } from '@/lib/content';
+import { createAppContentReader } from '@/lib/content';
 import type { PageData } from '@bdkinc/content';
 
 /** Resolve the existing referrer routing using server-resolved editorial copy. */
@@ -40,7 +40,8 @@ export const server = {
   getReferrerSuggestions: defineAction({
     input: z.object({ from: z.string().optional() }),
     handler: async (input, context) => {
-      const copy = (await getPageCopy('contact')).referrerSuggestions;
+      const reader = createAppContentReader();
+      const copy = (await reader.getPage('contact')).referrerSuggestions;
       const from = input.from || context.request.headers.get('referer');
       return { suggestions: referrerSuggestions(copy, from) };
     },

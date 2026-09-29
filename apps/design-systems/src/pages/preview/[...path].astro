@@ -1,12 +1,12 @@
 ---
-import { resolve, previewHeaders } from '@/lib/content';
+import { authorize, previewHeaders } from '@/lib/content';
 import Page from '@/components/Page.astro';
 export const prerender = false;
 for (const [name, value] of Object.entries(previewHeaders))
   Astro.response.headers.set(name, value);
 let resolved;
 try {
-  resolved = await resolve(
+  resolved = await authorize(
     Astro.url.searchParams.get('token') || '',
     '/' + (Astro.params.path || '')
   );
@@ -18,4 +18,4 @@ try {
 }
 ---
 
-<Page route={resolved.route} context={resolved.context} />
+<Page route={resolved.route} context={resolved.context} reader={resolved.reader} />
