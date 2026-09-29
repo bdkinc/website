@@ -1,0 +1,26 @@
+---
+import Hero from '@/components/Hero.astro';
+import CopySection from '@/components/CopySection.astro';
+import CallToAction from '@/components/CallToAction.astro';
+import type { content } from '@/lib/content';
+import { heading, interpolate } from '@/lib/copy';
+import type { SiteRoute } from '@bdkinc/content/routes';
+import type { SiteSettings } from '@bdkinc/content';
+interface Props { route: Extract<SiteRoute, { template: 'service-location' | 'industry-location' }>; source: ReturnType<typeof content>; settings: SiteSettings }
+const { route, source, settings } = Astro.props;
+const locations = await source.collection('locations');
+const location = locations.find(l=>l.id===route.locationId);
+const entries = route.template==='service-location' ? await source.collection(route.collectionKey) : await source.collection('pseoIndustries');
+const entry = entries.find(e=>e.id===(route.template==='service-location'?route.serviceSlug:route.industrySlug));
+if (!location || !entry) throw new Error('Published route is missing its content.');
+const raw = await source.page(route.template);
+const copy = interpolate(raw, {serviceTitle:entry.data.title,industryTitle:entry.data.title,locationName:location.data.name,state:location.data.state,region:location.data.region,counties:location.data.counties?.join(raw.benefits.regional.countySeparator)||raw.benefits.regional.countyFallback});
+const nearby = locations.filter(l=>l.data.state===location.data.state&&l.id!==location.id);
+const prefix=route.template==='service-location'?`/services/${route.serviceSlug}`:`/industries/${route.industrySlug}`;
+---
+<Hero title={`${copy.hero.headingLead} · ${copy.hero.headingAccent}`} description={copy.hero.description} eyebrow={copy.hero.badge}><a class="button" href="/contact#chat">{copy.hero.buttonText}</a></Hero>
+<section class="wrap regional-intro"><p class="lead">{entry.data.description}</p><a class="text-link" href={settings.contact.phoneHref}>{settings.contact.phoneDisplay}</a></section>
+<CopySection copy={copy.localAdvantages} />
+<section class="copy-section wrap"><h2>{heading(copy.benefits)}</h2><div class="two-col">{[copy.benefits.comprehensive,copy.benefits.regional].map(group=><article><h3>{group.heading}</h3><ul>{Object.entries(group).filter(([key])=>!['heading','countyFallback','countySeparator'].includes(key)).map(([,value])=><li>{value}</li>)}</ul></article>)}</div></section>
+<section class="copy-section wrap"><h2>{copy.nearbyLocations.heading}</h2><div class="location-index">{nearby.map(l=><a href={`${prefix}/${l.id}`}><h3>{l.data.name}</h3><span>{copy.nearbyLocations.linkText}</span></a>)}</div></section>
+<CallToAction copy={copy.cta} settings={settings} />

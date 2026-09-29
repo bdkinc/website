@@ -1,0 +1,66 @@
+---
+import type { Reader } from '@/lib/content';
+import { heading, group, text } from '@/lib/editorial';
+import ServiceIndex from '@/components/ServiceIndex.astro';
+import CTA from '@/components/CTA.astro';
+import Icon from '@/components/Icon.astro';
+interface Props {
+  content: Reader;
+  pageKey: 'services' | 'blog';
+}
+const { content, pageKey } = Astro.props;
+const [c, s] = await Promise.all([
+  content.getPage(pageKey),
+  content.getSettings(),
+]);
+const hero = group(c.hero);
+const services =
+  pageKey === 'services' ? await content.getCollection('services') : [];
+const posts =
+  pageKey === 'blog'
+    ? (await content.getCollection('blog')).sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+      )
+    : [];
+---
+
+<div class="wrap">
+  <section class="hero">
+    <p class="eyebrow">
+      {text(hero.badgeLead)}
+      {text(hero.badgeAccent)}
+      {text(hero.badgeEnd)}
+    </p><h1>{heading(hero)}</h1><p class="intro">{text(hero.description)}</p>
+  </section><section class="section">
+    {
+      pageKey === 'services' ? (
+        <ServiceIndex services={services} />
+      ) : (
+        <div class="article-list">
+          {posts.map((post) => (
+            <a class="article-row" href={'/blog/' + post.id}>
+              <time datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                  timeZone: 'UTC',
+                })}
+              </time>
+              <div>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
+                <p>
+                  {post.data.category} · {post.data.author}
+                </p>
+              </div>
+              <span class="arrow" aria-hidden="true">
+                <Icon name="article" />
+              </span>
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </section><CTA copy={c.cta} settings={s} />
+</div>

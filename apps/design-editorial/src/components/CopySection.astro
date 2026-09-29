@@ -1,0 +1,45 @@
+---
+import { object, records, text, heading, body, strings, listText } from '@/lib/copy';
+interface Props { copy: unknown; fallbackHeading?: string; label?: { number: string; text: string } }
+const copy = object(Astro.props.copy);
+const title = heading(copy) || Astro.props.fallbackHeading;
+// Render authored editorial structures, not arbitrary scalar values or field names.
+const group = copy.features || copy.items || copy.steps || copy.stages || copy.columns || copy.services || copy.roles || copy.layers;
+const groupedEntries = records(group);
+const entries = groupedEntries.length ? groupedEntries : Object.values(copy).map(object).filter(v => v.title && (v.description || v.desc || v.body));
+const visualization = object(copy.visualization);
+const map = object(copy.map);
+const comparison = copy.before && copy.after;
+const narrative = copy.quoteBefore ? [copy.quoteBefore, copy.quoteAccent, copy.quoteAfter].map(text).join(' ') : '';
+---
+<section class:list={["copy-section", "wrap", Astro.props.label && "copy-section--labelled"]}>
+  {Astro.props.label && <p class="section-label"><span>{Astro.props.label.number}</span>{Astro.props.label.text}</p>}
+  <div class="section-intro">{title && <h2>{title}</h2>}{body(copy) && <p>{body(copy)}</p>}</div>
+  {narrative && <blockquote class="pullquote">{narrative}</blockquote>}
+  {entries.length > 0 && <div class="editorial-list">{entries.map((entry, i) => <article><span class="item-number">{String(i + 1).padStart(2, '0')}</span><div>{entry.logo && <img src={text(entry.logo)} alt={heading(entry)} width="140" height="64" loading="lazy" />}<h3>{heading(entry) || text(entry.label)}</h3><p>{body(entry) || text(entry.desc)}</p>{entry.detail && <p>{text(entry.detail)}</p>}{entry.pain && <p class="muted">{text(entry.pain)}</p>}{entry.gain && <p>{text(entry.gain)}</p>}{entry.highlight && <p class="accent-note">{text(entry.highlight)}</p>}{entry.items && <ul>{listText(entry.items).map(item => <li>{item}</li>)}</ul>}</div></article>)}</div>}
+  {comparison && <div class="two-col">{[['beforeHeading', 'before'], ['afterHeading', 'after']].map(([label, key]) => <div><h3>{text(copy[label])}</h3><ul>{listText(copy[key]).map(item => <li>{item}</li>)}</ul></div>)}</div>}
+  {copy.documents && <div class="two-col"><div><h3>{text(copy.documentHeading)}</h3><dl class="specs">{records(copy.documents).map(v => <div><dt>{text(v.std)}</dt><dd>{text(v.desc)} · {text(v.regions)}</dd></div>)}</dl></div><div><h3>{text(copy.protocolHeading)}</h3><dl class="specs">{records(copy.protocols).map(v => <div><dt>{text(v.proto)}</dt><dd>{text(v.desc)} · {text(v.security)}</dd></div>)}</dl></div></div>}
+  {copy.transactions && <><h3>{text(copy.transactionHeading)}</h3><p>{text(copy.transactionBody)}</p><dl class="transactions">{records(copy.transactions).map(v => <div><dt>{text(v.code)}</dt><dd>{text(v.label)}</dd></div>)}</dl></>}
+  {map.title && <div class="network-note"><h3>{text(map.title)}</h3><p>{text(map.status)} · {text(map.shieldStatus)}</p><div class="two-col">{records(map.regions).map(v => <div><h4>{text(v.name)}</h4><p>{text(map.loadLabel)}: {String(v.load)}% · {text(map.latencyLabel)}: {text(map.latencyValue)}</p></div>)}</div><p>{strings(map.assurances).join(' · ')}</p></div>}
+  {strings(group).length > 0 && <ul>{strings(group).map(item => <li>{item}</li>)}</ul>}
+  {visualization.heading && <div><h3>{heading(visualization)}</h3><p>{body(visualization)}</p><div class="two-col">{['build','run'].map(key => {const item = object(visualization[key]);return <article><h4>{heading(item)}</h4><p>{body(item)}</p><p class="accent-note">{[item.performanceBadge,item.securityBadge,item.uptimeBadge,item.scalingBadge].map(text).filter(Boolean).join(' · ')}</p></article>})}</div><p>{text(visualization.pipelineLabel)} · {text(visualization.accountability)}</p></div>}
+  {copy.flowLabel && <p class="accent-note">{text(copy.flowLabel)}</p>}
+</section>
+
+<style>
+  /* Constrain the pullquote to the section-intro text axis (second column),
+     only in labelled sections; unlabelled use keeps the base .pullquote margin. */
+  .copy-section--labelled .pullquote {
+    margin-left: calc(50% + 2.5rem);
+  }
+  @media (max-width: 1000px) {
+    .copy-section--labelled .pullquote {
+      margin-left: calc(50% + 1rem);
+    }
+  }
+  @media (max-width: 680px) {
+    .copy-section--labelled .pullquote {
+      margin-left: 0;
+    }
+  }
+</style>

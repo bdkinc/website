@@ -1,0 +1,982 @@
+{
+  "key": "service-artificial-intelligence",
+  "kind": "page",
+  "title": "Artificial Intelligence page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "badgePrefix": {
+          "type": "text",
+          "label": "Badge — opening text"
+        },
+        "badgeAccent": {
+          "type": "text",
+          "label": "Badge — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "capabilities": {
+      "type": "group",
+      "label": "Core capabilities",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "bodyBefore": {
+          "type": "textarea",
+          "label": "Introduction — before emphasis"
+        },
+        "bodyAccent": {
+          "type": "textarea",
+          "label": "Introduction — emphasized text"
+        },
+        "bodyAfter": {
+          "type": "textarea",
+          "label": "Introduction — after emphasis"
+        },
+        "generativeAi": {
+          "type": "group",
+          "label": "Generative AI & LLMs",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "predictiveAnalytics": {
+          "type": "group",
+          "label": "Predictive Analytics",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "intelligentAutomation": {
+          "type": "group",
+          "label": "Intelligent Automation",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        }
+      }
+    },
+    "leadership": {
+      "type": "group",
+      "label": "Leadership narrative",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "quoteBefore": {
+          "type": "textarea",
+          "label": "Quotation — before emphasis"
+        },
+        "quoteAccent": {
+          "type": "textarea",
+          "label": "Quotation — emphasized text"
+        },
+        "quoteAfter": {
+          "type": "textarea",
+          "label": "Quotation — after emphasis"
+        }
+      }
+    },
+    "strategy": {
+      "type": "group",
+      "label": "Strategic advantage",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "features": {
+          "type": "group",
+          "label": "Features",
+          "fields": {
+            "neuralOrchestration": {
+              "type": "group",
+              "label": "Neural Orchestration",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "retrievalAugmentedIntelligence": {
+              "type": "group",
+              "label": "Retrieval-Augmented Intelligence",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "predictivePrecision": {
+              "type": "group",
+              "label": "Predictive Precision",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "operationalCognitiveAutomation": {
+              "type": "group",
+              "label": "Operational Cognitive Automation",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "watsonx": {
+      "type": "group",
+      "label": "IBM watsonx spotlight",
+      "fields": {
+        "eyebrow": {
+          "type": "text",
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "features": {
+          "type": "group",
+          "label": "Features",
+          "fields": {
+            "watsonxAiForGenerativeModels": {
+              "type": "text",
+              "label": "Watsonx Ai For Generative Models"
+            },
+            "watsonxDataForLakehouseScale": {
+              "type": "text",
+              "label": "Watsonx Data For Lakehouse Scale"
+            },
+            "watsonxGovernanceForCompliance": {
+              "type": "text",
+              "label": "Watsonx Governance For Compliance"
+            },
+            "openshiftContainerization": {
+              "type": "text",
+              "label": "Openshift Containerization"
+            }
+          }
+        },
+        "nodeStatus": {
+          "type": "text",
+          "label": "Node Status"
+        },
+        "foundationModels": {
+          "type": "group",
+          "label": "Foundation Models",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "vectorStore": {
+          "type": "group",
+          "label": "Vector Store",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            },
+            "status": {
+              "type": "text",
+              "label": "Status"
+            }
+          }
+        },
+        "governance": {
+          "type": "group",
+          "label": "Governance Layer",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            },
+            "status": {
+              "type": "text",
+              "label": "Status"
+            }
+          }
+        }
+      }
+    },
+    "solutions": {
+      "type": "group",
+      "label": "Generative solutions",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "items": {
+          "type": "group",
+          "label": "Offerings",
+          "fields": {
+            "customAiAssistants": {
+              "type": "group",
+              "label": "Custom AI Assistants",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "tag": {
+                  "type": "text",
+                  "label": "Tag"
+                }
+              }
+            },
+            "intelligentDocumentProcessing": {
+              "type": "group",
+              "label": "Intelligent Document Processing",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "tag": {
+                  "type": "text",
+                  "label": "Tag"
+                }
+              }
+            },
+            "codeModernization": {
+              "type": "group",
+              "label": "Code Modernization",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "tag": {
+                  "type": "text",
+                  "label": "Tag"
+                }
+              }
+            },
+            "contentStrategyAtScale": {
+              "type": "group",
+              "label": "Content Strategy at Scale",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "tag": {
+                  "type": "text",
+                  "label": "Tag"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "comparison": {
+      "type": "group",
+      "label": "Before and after",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "beforeHeading": {
+          "type": "text",
+          "label": "Before Heading"
+        },
+        "afterHeading": {
+          "type": "text",
+          "label": "After Heading"
+        },
+        "before": {
+          "type": "group",
+          "label": "Before",
+          "fields": {
+            "manualReviewOfHundredsOfDocumentsDaily": {
+              "type": "text",
+              "label": "Manual Review Of Hundreds Of Documents Daily"
+            },
+            "decisionsBasedOnLaggingHistoricalReports": {
+              "type": "text",
+              "label": "Decisions Based On Lagging Historical Reports"
+            },
+            "genericPublicAiToolsHandlingSensitiveData": {
+              "type": "text",
+              "label": "Generic Public Ai Tools Handling Sensitive Data"
+            },
+            "engineersBuriedInRepetitiveCodeDocumentation": {
+              "type": "text",
+              "label": "Engineers Buried In Repetitive Code Documentation"
+            },
+            "customerSupportQueuesWithLongResolutionTimes": {
+              "type": "text",
+              "label": "Customer Support Queues With Long Resolution Times"
+            },
+            "demandForecastingBasedOnIntuitionAndSpreadsheets": {
+              "type": "text",
+              "label": "Demand Forecasting Based On Intuition And Spreadsheets"
+            }
+          }
+        },
+        "after": {
+          "type": "group",
+          "label": "After",
+          "fields": {
+            "automatedDocumentExtractionAt10HumanSpeed": {
+              "type": "group",
+              "label": "Automated Document Extraction At10 Human Speed",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                }
+              }
+            },
+            "predictiveModelsSurfacingInsights3090Days": {
+              "type": "group",
+              "label": "Predictive Models Surfacing Insights3090 Days",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                }
+              }
+            },
+            "privateModelInstancesYourDataNeverTrains": {
+              "type": "group",
+              "label": "Private Model Instances Your Data Never Trains",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                }
+              }
+            },
+            "aiAssistedRefactoringAndTestGenerationIn": {
+              "type": "group",
+              "label": "Ai Assisted Refactoring And Test Generation In",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                }
+              }
+            },
+            "contextAwareAiAssistantsResolving70Of": {
+              "type": "group",
+              "label": "Context Aware Ai Assistants Resolving70 Of",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                }
+              }
+            },
+            "mlPoweredDemandForecastingWithMeasurableAccuracy": {
+              "type": "group",
+              "label": "Ml Powered Demand Forecasting With Measurable Accuracy",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "pipeline": {
+      "type": "group",
+      "label": "AI delivery framework",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "steps": {
+          "type": "group",
+          "label": "Steps",
+          "fields": {
+            "discoveryFeasibility": {
+              "type": "group",
+              "label": "Discovery & Feasibility",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "modelEngineering": {
+              "type": "group",
+              "label": "Model Engineering",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "productionDeployment": {
+              "type": "group",
+              "label": "Production Deployment",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "faqHeading": { "type": "text", "label": "FAQ heading" },
+    "faqs": {
+      "type": "group",
+      "label": "Frequently asked questions",
+      "fields": {
+        "howDoYouCalculateRoiForAn": {
+          "type": "group",
+          "label": "How do you calculate ROI for an AI initiative?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "isMyProprietaryDataSafeWhenUsing": {
+          "type": "group",
+          "label": "Is my proprietary data safe when using Generative AI?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "canYouIntegrateAiIntoOurLegacy": {
+          "type": "group",
+          "label": "Can you integrate AI into our legacy ERP systems?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "group",
+      "label": "Impact metrics",
+      "fields": {
+        "enterpriseModelsDeployed": {
+          "type": "group",
+          "label": "Enterprise Models Deployed",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "mvpToProduction": {
+          "type": "group",
+          "label": "MVP to Production",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "opsEfficiencyGain": {
+          "type": "group",
+          "label": "Ops Efficiency Gain",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "inferenceUptime": {
+          "type": "group",
+          "label": "Inference Uptime",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "faqHeading": "Frequently Asked Questions",
+    "hero": {
+      "badgePrefix": "Enterprise",
+      "badgeAccent": "AI Intelligence",
+      "body": "BDKinc delivers engineered intelligence using IBM watsonx and proven ML workflows. We design secure, governed AI ecosystems that integrate cleanly with your core systems."
+    },
+    "capabilities": {
+      "heading": "Core",
+      "headingAccent": "Capabilities",
+      "bodyBefore": "Engineered intelligence designed for the",
+      "bodyAccent": "modern enterprise",
+      "bodyAfter": ".",
+      "generativeAi": {
+        "title": "Generative AI & LLMs",
+        "description": "Build secure, domain-specific generative models using RAG architectures. We implement watsonx.ai to ensure your assistants are grounded in your proprietary data."
+      },
+      "predictiveAnalytics": {
+        "title": "Predictive Analytics",
+        "description": "Transform historical data into future certainty. Our ML models forecast demand and optimize resource allocation with high-precision inference engines."
+      },
+      "intelligentAutomation": {
+        "title": "Intelligent Automation",
+        "description": "Embed AI into operational workflows. From computer vision for quality control to NLP for document processing, we automate complex cognitive tasks."
+      }
+    },
+    "leadership": {
+      "heading": "Cognitive",
+      "headingAccent": "Leadership",
+      "quoteBefore": "“AI is not a separate tool; it’s the engine of modern business. We architect",
+      "quoteAccent": "intelligent ecosystems",
+      "quoteAfter": "that automate complexity and transform your proprietary data into your most powerful competitive advantage.”"
+    },
+    "strategy": {
+      "heading": "The Strategic",
+      "headingAccent": "Advantage",
+      "body": "Move beyond experiments with a partner who builds production-ready, governed AI solutions.",
+      "features": {
+        "neuralOrchestration": {
+          "title": "Neural Orchestration",
+          "description": "Secure, governed AI ecosystems powered by IBM watsonx.",
+          "highlight": "Secure AI ecosystems",
+          "detail": "We design AI architectures that prioritize security and governance. By utilizing watsonx.governance, we ensure that every model in your ecosystem is transparent, explainable, and aligned with your operational standards."
+        },
+        "retrievalAugmentedIntelligence": {
+          "title": "Retrieval-Augmented Intelligence",
+          "description": "Grounding LLMs in your proprietary data for zero hallucination.",
+          "highlight": "Zero hallucination",
+          "detail": "Your data is your competitive edge. We implement RAG architectures that allow generative models to retrieve context from your secure internal databases, providing highly accurate responses without risking your intellectual property."
+        },
+        "predictivePrecision": {
+          "title": "Predictive Precision",
+          "description": "High-fidelity forecasting using machine learning and time-series analysis.",
+          "highlight": "High-fidelity forecasting",
+          "detail": "Transform historical drag into future momentum. Our predictive engines identify patterns in supply chain, demand, and risk, allowing you to make decisions based on mathematical certainty rather than intuition."
+        },
+        "operationalCognitiveAutomation": {
+          "title": "Operational Cognitive Automation",
+          "description": "Embedding intelligence directly into high-volume business workflows.",
+          "highlight": "High-volume workflows",
+          "detail": "AI shouldn't be a separate tool; it should be the engine. We inject cognitive capabilities directly into your ERP and CRM systems, automating complex decision paths and accelerating overall business throughput."
+        }
+      }
+    },
+    "solutions": {
+      "heading": "Generative",
+      "headingAccent": "Solutions",
+      "body": "Enterprise-grade LLMs designed for measurable business use cases.",
+      "items": {
+        "customAiAssistants": {
+          "title": "Custom AI Assistants",
+          "desc": "Deploy intelligent agents trained on your documentation, ensuring context-aware support for internal teams or customers. Grounded in your proprietary data via RAG — zero hallucination.",
+          "tag": "Conversational AI"
+        },
+        "intelligentDocumentProcessing": {
+          "title": "Intelligent Document Processing",
+          "desc": "Automate the extraction of critical data from contracts, invoices, and reports with high-precision NLP models. Reduce manual review time by up to 80%.",
+          "tag": "NLP / OCR"
+        },
+        "codeModernization": {
+          "title": "Code Modernization",
+          "desc": "Accelerate development cycles using AI to refactor legacy codebases, generate comprehensive test suites, and auto-document complex systems at scale.",
+          "tag": "Dev Acceleration"
+        },
+        "contentStrategyAtScale": {
+          "title": "Content Strategy at Scale",
+          "desc": "Generate high-fidelity technical documentation and on-brand marketing copy with consistent brand-voice alignment across all channels and formats.",
+          "tag": "Content AI"
+        }
+      }
+    },
+    "comparison": {
+      "heading": "Before AI.",
+      "headingAccent": "After BDK.",
+      "body": "What changes when governed enterprise AI is embedded in your operations.",
+      "beforeHeading": "Before AI Integration",
+      "afterHeading": "After BDK AI Deployment",
+      "before": {
+        "manualReviewOfHundredsOfDocumentsDaily": "Manual review of hundreds of documents daily",
+        "decisionsBasedOnLaggingHistoricalReports": "Decisions based on lagging historical reports",
+        "genericPublicAiToolsHandlingSensitiveData": "Generic public AI tools handling sensitive data",
+        "engineersBuriedInRepetitiveCodeDocumentation": "Engineers buried in repetitive code documentation",
+        "customerSupportQueuesWithLongResolutionTimes": "Customer support queues with long resolution times",
+        "demandForecastingBasedOnIntuitionAndSpreadsheets": "Demand forecasting based on intuition and spreadsheets"
+      },
+      "after": {
+        "automatedDocumentExtractionAt10HumanSpeed": {
+          "text": "Automated document extraction at 10× human speed",
+          "stat": "10×"
+        },
+        "predictiveModelsSurfacingInsights3090Days": {
+          "text": "Predictive models surfacing insights 30–90 days ahead",
+          "stat": "90-day foresight"
+        },
+        "privateModelInstancesYourDataNeverTrains": {
+          "text": "Private model instances — your data never trains public LLMs",
+          "stat": "Air-gapped"
+        },
+        "aiAssistedRefactoringAndTestGenerationIn": {
+          "text": "AI-assisted refactoring and test generation in CI/CD",
+          "stat": "Dev velocity"
+        },
+        "contextAwareAiAssistantsResolving70Of": {
+          "text": "Context-aware AI assistants resolving 70%+ of tier-1 tickets",
+          "stat": "70% deflection"
+        },
+        "mlPoweredDemandForecastingWithMeasurableAccuracy": {
+          "text": "ML-powered demand forecasting with measurable accuracy gains",
+          "stat": "High-fidelity"
+        }
+      }
+    },
+    "pipeline": {
+      "heading": "AI Delivery",
+      "headingAccent": "Framework",
+      "steps": {
+        "discoveryFeasibility": {
+          "title": "Discovery & Feasibility",
+          "description": "Data readiness assessment & ROI modeling"
+        },
+        "modelEngineering": {
+          "title": "Model Engineering",
+          "description": "Custom training & fine-tuning with watsonx"
+        },
+        "productionDeployment": {
+          "title": "Production Deployment",
+          "description": "Scalable inference on OpenShift / Power Systems"
+        }
+      }
+    },
+    "metrics": {
+      "enterpriseModelsDeployed": {
+        "value": "100+",
+        "label": "Enterprise Models Deployed"
+      },
+      "mvpToProduction": {
+        "value": "6 weeks",
+        "label": "MVP to Production"
+      },
+      "opsEfficiencyGain": {
+        "value": "40%",
+        "label": "Ops Efficiency Gain"
+      },
+      "inferenceUptime": {
+        "value": "99.9%",
+        "label": "Inference Uptime"
+      }
+    },
+    "faqs": {
+      "howDoYouCalculateRoiForAn": {
+        "question": "How do you calculate ROI for an AI initiative?",
+        "answer": "We focus on measurable outcomes: reduced operational costs, increased throughput, or revenue uplift. Our Discovery Phase establishes clear KPIs, ensuring every model deployed drives tangible business value within 3-6 months."
+      },
+      "isMyProprietaryDataSafeWhenUsing": {
+        "question": "Is my proprietary data safe when using Generative AI?",
+        "answer": "Absolutely. We utilize private model instances and RAG (Retrieval-Augmented Generation) architectures where your data is used strictly for context retrieval, never for public model training. Your intellectual property remains isolated and secure."
+      },
+      "canYouIntegrateAiIntoOurLegacy": {
+        "question": "Can you integrate AI into our legacy ERP systems?",
+        "answer": "Yes. Our 'API-first' approach allows us to wrap legacy systems with modern AI interfaces. We can inject predictive insights or automated actions directly into your existing screens and workflows."
+      }
+    },
+    "cta": {
+      "title": "Plan Your AI Roadmap",
+      "description": "Define the first 90 days of a governed AI program powered by IBM watsonx.",
+      "buttonText": "Book an AI Strategy Session",
+      "buttonHref": "/contact#chat"
+    },
+    "watsonx": {
+      "eyebrow": "Premier Toolkit // watsonx",
+      "heading": "Powered by",
+      "headingAccent": "IBM watsonx",
+      "body": "We don't just use AI APIs; we engineer enterprise-grade AI platforms. Leveraging the watsonx stack, we deliver models that are transparent, governable, and trained on your proprietary data—not the public internet.",
+      "features": {
+        "watsonxAiForGenerativeModels": "watsonx.ai for Generative Models",
+        "watsonxDataForLakehouseScale": "watsonx.data for Lakehouse Scale",
+        "watsonxGovernanceForCompliance": "watsonx.governance for Compliance",
+        "openshiftContainerization": "OpenShift Containerization"
+      },
+      "nodeStatus": "Node Status: Optimized",
+      "foundationModels": {
+        "title": "Foundation Models",
+        "description": "GRANITE-13B, LLAMA-3, FALCON-180B"
+      },
+      "vectorStore": {
+        "title": "Vector Store",
+        "description": "RAG Knowledge Base // Scale Ready",
+        "status": "Synced"
+      },
+      "governance": {
+        "title": "Governance Layer",
+        "description": "Drift Detection Active // Compliant",
+        "status": "Active"
+      }
+    }
+  }
+}

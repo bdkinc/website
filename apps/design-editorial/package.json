@@ -1,0 +1,32 @@
+{
+  "name": "@bdkinc/design-editorial",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1 --port 4322",
+    "build": "astro build",
+    "start": "node ./dist/server/entry.mjs",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.0.3",
+    "@astrojs/react": "7.0.0",
+    "@bdkinc/content": "file:../../packages/content",
+    "@fontsource/montserrat": "^5.3.0",
+    "@fontsource/open-sans": "^5.3.0",
+    "@stylexjs/stylex": "0.19.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "astro": "^7.1.6",
+    "cookie": "^2.0.1",
+    "motion": "^12.23.24",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@stylexjs/unplugin": "0.19.1",
+    "oxc-transform-react": "0.145.0",
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0"
+  }
+}

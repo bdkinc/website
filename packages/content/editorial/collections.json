@@ -1,0 +1,256 @@
+{
+  "services": {
+    "postType": "service",
+    "endpoint": "services",
+    "fields": {
+      "title": {
+        "type": "text",
+        "label": "Title"
+      },
+      "description": {
+        "type": "textarea",
+        "label": "Description"
+      },
+      "icon": {
+        "type": "text",
+        "label": "Icon",
+        "locked": true
+      },
+      "order": {
+        "type": "number",
+        "label": "Order",
+        "locked": true
+      }
+    }
+  },
+  "blog": {
+    "postType": "post",
+    "endpoint": "posts",
+    "fields": {
+      "title": {
+        "type": "text",
+        "label": "Title",
+        "locked": true
+      },
+      "description": {
+        "type": "textarea",
+        "label": "Summary"
+      },
+      "author": {
+        "type": "text",
+        "label": "Author byline"
+      },
+      "pubDate": {
+        "type": "date",
+        "label": "Publication date",
+        "locked": true
+      },
+      "image": {
+        "type": "media",
+        "label": "Featured image"
+      },
+      "tags": {
+        "type": "strings",
+        "label": "Tags (one per line)"
+      },
+      "category": {
+        "type": "select",
+        "label": "Category",
+        "choices": [
+          "Infrastructure",
+          "Security",
+          "Development",
+          "AI"
+        ]
+      },
+      "draft": {
+        "type": "boolean",
+        "label": "Draft",
+        "locked": true
+      }
+    }
+  },
+  "locations": {
+    "postType": "location",
+    "endpoint": "locations",
+    "fields": {
+      "name": {
+        "type": "text",
+        "label": "Location name"
+      },
+      "state": {
+        "type": "text",
+        "label": "State"
+      },
+      "region": {
+        "type": "text",
+        "label": "Region"
+      },
+      "population": {
+        "type": "number",
+        "label": "Population"
+      },
+      "counties": {
+        "type": "strings",
+        "label": "Counties (one per line)"
+      },
+      "coordinates": {
+        "type": "group",
+        "label": "Coordinates",
+        "fields": {
+          "lat": {
+            "type": "number",
+            "label": "Latitude"
+          },
+          "lng": {
+            "type": "number",
+            "label": "Longitude"
+          }
+        }
+      }
+    }
+  },
+  "testimonials": {
+    "postType": "testimonial",
+    "endpoint": "testimonials",
+    "fields": {
+      "quote": {
+        "type": "textarea",
+        "label": "Quote"
+      },
+      "author": {
+        "type": "text",
+        "label": "Author"
+      },
+      "company": {
+        "type": "text",
+        "label": "Company"
+      },
+      "industry": {
+        "type": "text",
+        "label": "Industry"
+      },
+      "order": {
+        "type": "number",
+        "label": "Order",
+        "locked": true
+      }
+    }
+  },
+  "partners": {
+    "postType": "partner",
+    "endpoint": "partners",
+    "fields": {
+      "name": {
+        "type": "text",
+        "label": "Partner name"
+      },
+      "description": {
+        "type": "textarea",
+        "label": "Description"
+      },
+      "detail": {
+        "type": "textarea",
+        "label": "Detail"
+      },
+      "category": {
+        "type": "text",
+        "label": "Category"
+      },
+      "order": {
+        "type": "number",
+        "label": "Order",
+        "locked": true
+      },
+      "featured": {
+        "type": "boolean",
+        "label": "Featured",
+        "locked": true
+      },
+      "showOnAbout": {
+        "type": "boolean",
+        "label": "Show on About",
+        "locked": true
+      },
+      "logo": {
+        "type": "media",
+        "label": "Logo"
+      }
+    }
+  },
+  "pseoServices": {
+    "postType": "pseo_service",
+    "endpoint": "pseo-services",
+    "fields": {
+      "title": {
+        "type": "text",
+        "label": "Title"
+      },
+      "description": {
+        "type": "textarea",
+        "label": "Description"
+      },
+      "icon": {
+        "type": "text",
+        "label": "Icon",
+        "locked": true
+      },
+      "order": {
+        "type": "number",
+        "label": "Order",
+        "locked": true
+      },
+      "category": {
+        "type": "select",
+        "label": "Category",
+        "choices": [
+          "hardware",
+          "os",
+          "cloud",
+          "specialized",
+          "software",
+          "security",
+          "communication",
+          "support",
+          "infrastructure"
+        ]
+      }
+    }
+  },
+  "pseoIndustries": {
+    "postType": "pseo_industry",
+    "endpoint": "pseo-industries",
+    "fields": {
+      "title": {
+        "type": "text",
+        "label": "Title"
+      },
+      "description": {
+        "type": "textarea",
+        "label": "Description"
+      },
+      "icon": {
+        "type": "text",
+        "label": "Icon",
+        "locked": true
+      },
+      "order": {
+        "type": "number",
+        "label": "Order",
+        "locked": true
+      },
+      "category": {
+        "type": "select",
+        "label": "Category",
+        "choices": [
+          "operations",
+          "regulated",
+          "service",
+          "production",
+          "logistics",
+          "community"
+        ]
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 ---
 import type { ComponentType } from 'react';
+import type { SiteSettings } from '@bdkinc/content';
 import MetricCountUp from '@/components/MetricCountUp';
 import { TechCard } from '@/components/TechCard';
 interface Metric {
@@ -8,12 +9,13 @@ interface Metric {
   icon?: ComponentType<{ className?: string }>;
 }
 interface Props {
+  copy: SiteSettings['metrics'];
   metrics: Metric[];
   title?: string;
   eyebrow?: string;
   description?: string;
 }
-const { metrics, title = 'Impact Metrics', eyebrow, description } = Astro.props;
+const { metrics, copy, title = copy.title, eyebrow, description } = Astro.props;
 ---
 
 {

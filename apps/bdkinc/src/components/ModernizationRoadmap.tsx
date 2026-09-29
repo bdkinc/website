@@ -1,3 +1,5 @@
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -13,34 +15,370 @@ import { cn } from '@bdkinc/design-system';
 
 gsap.registerPlugin(useGSAP);
 
-const steps = [
-  {
-    id: 'legacy',
-    title: 'Legacy Foundation',
-    description:
-      'Stabilize AS/400 & iSeries workloads. Hardware refresh, OS upgrades, and security hardening.',
-    icon: PiDesktop,
-    color: 'primary',
-  },
-  {
-    id: 'hybrid',
-    title: 'Hybrid Integration',
-    description:
-      'Connect legacy data to modern workflows. REST APIs, cloud connectors, and bi-directional sync.',
-    icon: PiStack,
-    color: 'secondary',
-  },
-  {
-    id: 'future',
-    title: 'Future State',
-    description:
-      'Full digital agility. Web/Mobile front-ends, real-time analytics, and microservices architecture.',
-    icon: PiDeviceMobile,
-    color: 'accent',
-  },
-] as const;
+const hover = '@media (hover: hover)';
+const md = '@media (min-width: 48rem)';
+const motionOK = '@media (prefers-reduced-motion: no-preference)';
+const timing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+// Footer lines brighten when the footer cluster is hovered, preserving the
+// original group-hover styling via the ancestor-hover pattern.
 
-export function ModernizationRoadmap() {
+// Tailwind `animate-ping`: scale 1 -> 2 while fading out.
+const ping = stylex.keyframes({
+  '0%': { transform: 'scale(1)', opacity: 0.75 },
+  '75%': { transform: 'scale(2)', opacity: 0 },
+  '100%': { transform: 'scale(2)', opacity: 0 },
+});
+
+// Tailwind `animate-pulse`: opacity 1 -> 0.5.
+const pulse = stylex.keyframes({
+  '0%': { opacity: 1 },
+  '50%': { opacity: 0.5 },
+  '100%': { opacity: 1 },
+});
+
+const styles = stylex.create({
+  root: {
+    position: 'relative',
+    width: '100%',
+    paddingBlock: '3rem',
+  },
+  // NOTE: the legacy `bg-grid-slate-900/[0.04]` / `dark:bg-grid-slate-400/[0.05]`
+  // utilities have no generated rule; only the mask and position rendered.
+  gridLayer: {
+    position: 'absolute',
+    inset: 0,
+    maskImage: 'linear-gradient(0deg, transparent, black)',
+    backgroundPosition: 'bottom 1px center',
+  },
+  container: {
+    position: 'relative',
+    maxWidth: '64rem',
+    marginInline: 'auto',
+  },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
+    gap: '2rem',
+  },
+  gridCols: {
+    gridTemplateColumns: { [md]: 'repeat(3, minmax(0, 1fr))' },
+  },
+  step: {
+    position: 'relative',
+  },
+  linkDesktop: {
+    position: 'absolute',
+    top: '50%',
+    left: '100%',
+    display: { default: 'none', [md]: 'block' },
+    height: 2,
+    width: '100%',
+    transform: 'translateY(-50%)',
+    overflow: 'hidden',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--muted)',
+  },
+  // GSAP drives x/y inline on shimmers; no transform here so it wins.
+  shimmerX: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    width: '33.333333%',
+    backgroundImage:
+      'linear-gradient(to right in oklab, transparent, var(--primary), transparent)',
+  },
+  linkMobile: {
+    position: 'absolute',
+    top: '100%',
+    left: '50%',
+    display: { default: 'block', [md]: 'none' },
+    height: '2rem',
+    width: 2,
+    transform: 'translateX(-50%)',
+    overflow: 'hidden',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--muted)',
+  },
+  shimmerY: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '33.333333%',
+    width: '100%',
+    backgroundImage:
+      'linear-gradient(to bottom in oklab, transparent, var(--primary), transparent)',
+  },
+  card: {
+    position: 'relative',
+    display: 'flex',
+    height: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    borderRadius: '0.75rem',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: {
+      default: 'var(--border)',
+      [hover]: {
+        default: 'var(--border)',
+        ':hover': 'color-mix(in oklab, var(--primary) 50%, transparent)',
+      },
+    },
+    backgroundColor: 'color-mix(in oklab, var(--card) 80%, transparent)',
+    boxShadow: {
+      default: null,
+      [hover]: {
+        default: null,
+        ':hover': '0 0 30px rgba(0, 0, 0, 0.15)',
+      },
+    },
+    paddingInline: '1.5rem',
+    paddingTop: '2rem',
+    paddingBottom: '1.5rem',
+    backdropFilter: 'blur(12px)',
+    transitionProperty: 'border-color, box-shadow',
+    transitionDuration: '300ms',
+    transitionTimingFunction: timing,
+  },
+  // `scanlines` supplies its CSS rule; positioning comes from StyleX.
+  cardTexture: {
+    position: 'absolute',
+    inset: 0,
+    overflow: 'hidden',
+    borderRadius: '0.75rem',
+    opacity: 0.03,
+    pointerEvents: 'none',
+  },
+  // GSAP drives scale/opacity inline on icon badges; none here so it wins.
+  iconBadge: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '1rem',
+    padding: '1rem',
+    marginBottom: '1.5rem',
+    boxShadow:
+      'inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 20px rgba(0, 0, 0, 0.08)',
+  },
+  iconBadgePrimary: {
+    backgroundColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+    color: 'var(--primary)',
+  },
+  iconBadgeSecondary: {
+    backgroundColor: 'color-mix(in oklab, var(--secondary) 10%, transparent)',
+    color: 'var(--secondary)',
+  },
+  iconBadgeAccent: {
+    backgroundColor: 'color-mix(in oklab, var(--accent) 10%, transparent)',
+    color: 'var(--accent)',
+  },
+  iconGlyph: {
+    height: '2.25rem',
+    width: '2.25rem',
+  },
+  stepTitle: {
+    fontFamily: 'var(--font-display)',
+    color: 'var(--foreground)',
+    fontSize: '1.125rem',
+    lineHeight: '1.75rem',
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+    marginBottom: '0.5rem',
+  },
+  stepDesc: {
+    color: 'var(--muted-foreground)',
+    maxWidth: '26ch',
+    fontSize: '0.875rem',
+    lineHeight: 1.625,
+    marginBottom: 'auto',
+  },
+  statusWrap: {
+    marginTop: '1.5rem',
+  },
+  statusPrimary: {
+    height: '0.375rem',
+    width: '0.375rem',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--primary)',
+    color: 'var(--primary)',
+    boxShadow: '0 0 8px currentColor',
+    animationName: { default: 'none', [motionOK]: pulse },
+    animationDuration: '2s',
+    animationTimingFunction: 'cubic-bezier(0.4, 0, 0.6, 1)',
+    animationIterationCount: 'infinite',
+  },
+  statusSecondary: {
+    height: '0.375rem',
+    width: '0.375rem',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--secondary)',
+    color: 'var(--secondary)',
+    boxShadow: '0 0 8px currentColor',
+    animationName: { default: 'none', [motionOK]: pulse },
+    animationDuration: '2s',
+    animationTimingFunction: 'cubic-bezier(0.4, 0, 0.6, 1)',
+    animationIterationCount: 'infinite',
+  },
+  statusAccent: {
+    height: '0.375rem',
+    width: '0.375rem',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--accent)',
+    color: 'var(--accent)',
+    boxShadow: '0 0 8px currentColor',
+    animationName: { default: 'none', [motionOK]: pulse },
+    animationDuration: '2s',
+    animationTimingFunction: 'cubic-bezier(0.4, 0, 0.6, 1)',
+    animationIterationCount: 'infinite',
+  },
+  caretRow: {
+    display: { default: 'flex', [md]: 'none' },
+    justifyContent: 'center',
+    color: 'color-mix(in oklab, var(--primary) 40%, transparent)',
+    marginTop: '0.5rem',
+  },
+  caret: {
+    height: '1.25rem',
+    width: '1.25rem',
+  },
+  footer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '4rem',
+  },
+  footerCluster: {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+  },
+  lineLeft: {
+    height: 1,
+    width: {
+      default: '3rem',
+      [hover]: { default: '3rem', [stylex.when.ancestor(':hover')]: '6rem' },
+    },
+    backgroundImage: {
+      default:
+        'linear-gradient(to right in oklab, transparent, color-mix(in oklab, var(--primary) 50%, transparent))',
+      [hover]: {
+        default:
+          'linear-gradient(to right in oklab, transparent, color-mix(in oklab, var(--primary) 50%, transparent))',
+        [stylex.when.ancestor(':hover')]:
+          'linear-gradient(to right in oklab, transparent, var(--primary))',
+      },
+    },
+    transitionProperty: 'all',
+    transitionDuration: '500ms',
+    transitionTimingFunction: timing,
+  },
+  lineRight: {
+    height: 1,
+    width: {
+      default: '3rem',
+      [hover]: { default: '3rem', [stylex.when.ancestor(':hover')]: '6rem' },
+    },
+    backgroundImage: {
+      default:
+        'linear-gradient(to left in oklab, transparent, color-mix(in oklab, var(--primary) 50%, transparent))',
+      [hover]: {
+        default:
+          'linear-gradient(to left in oklab, transparent, color-mix(in oklab, var(--primary) 50%, transparent))',
+        [stylex.when.ancestor(':hover')]:
+          'linear-gradient(to left in oklab, transparent, var(--primary))',
+      },
+    },
+    transitionProperty: 'all',
+    transitionDuration: '500ms',
+    transitionTimingFunction: timing,
+  },
+  footerLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+    fontFamily: 'var(--font-display)',
+    color: 'var(--foreground)',
+    fontSize: '1.25rem',
+    lineHeight: '1.75rem',
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+  },
+  pingWrap: {
+    position: 'relative',
+    display: 'flex',
+    height: '0.625rem',
+    width: '0.625rem',
+  },
+  pingWave: {
+    position: 'absolute',
+    display: 'inline-flex',
+    height: '100%',
+    width: '100%',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--primary)',
+    opacity: 0.75,
+    animationName: { default: 'none', [motionOK]: ping },
+    animationDuration: '1s',
+    animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+    animationIterationCount: 'infinite',
+  },
+  pingCore: {
+    position: 'relative',
+    display: 'inline-flex',
+    height: '0.625rem',
+    width: '0.625rem',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--primary)',
+  },
+  footerArrow: {
+    height: '1.25rem',
+    width: '1.25rem',
+    color: 'var(--primary)',
+    transform: {
+      default: 'translateX(0)',
+      [hover]: {
+        default: 'translateX(0)',
+        [stylex.when.ancestor(':hover')]: 'translateX(0.5rem)',
+      },
+    },
+    transitionProperty: 'transform',
+    transitionDuration: '300ms',
+    transitionTimingFunction: timing,
+  },
+});
+
+interface Props {
+  copy: Pick<
+    import('@bdkinc/content').PageData<'service-ibm-power'>['roadmap'],
+    'steps' | 'flowLabel'
+  >;
+  className?: string;
+  xstyle?: StyleXStyles;
+}
+
+export function ModernizationRoadmap({ copy, className, xstyle }: Props) {
+  const steps = [
+    {
+      ...copy.steps.legacyFoundation,
+      id: 'legacy',
+      icon: PiDesktop,
+      color: 'primary',
+    },
+    {
+      ...copy.steps.hybridIntegration,
+      id: 'hybrid',
+      icon: PiStack,
+      color: 'secondary',
+    },
+    {
+      ...copy.steps.futureState,
+      id: 'future',
+      icon: PiDeviceMobile,
+      color: 'accent',
+    },
+  ] as const;
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -129,18 +467,21 @@ export function ModernizationRoadmap() {
     { scope: containerRef, dependencies: [isIntersecting] }
   );
 
+  const root = stylex.props(styles.root, xstyle);
+  const cardTexture = stylex.props(styles.cardTexture);
   return (
     <div
       ref={(el) => {
         containerRef.current = el;
         observerRef.current = el;
       }}
-      className="relative w-full py-12"
+      {...root}
+      className={cn(root.className, className)}
     >
-      <div className="bg-grid-slate-900/[0.04] dark:bg-grid-slate-400/[0.05] absolute inset-0 [mask-image:linear-gradient(0deg,transparent,black)] bg-[bottom_1px_center]" />
+      <div {...stylex.props(styles.gridLayer)} />
 
-      <div className="relative mx-auto max-w-5xl">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+      <div {...stylex.props(styles.container)}>
+        <div {...stylex.props(styles.grid, styles.gridCols)}>
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isLast = index === steps.length - 1;
@@ -153,81 +494,79 @@ export function ModernizationRoadmap() {
                 ref={(el) => {
                   cardRefs.current[index] = el;
                 }}
-                className="relative"
+                {...stylex.props(styles.step)}
                 style={{ opacity: 0 }}
               >
                 {!isLast && (
-                  <div className="bg-muted absolute top-1/2 left-full hidden h-[2px] w-full -translate-y-1/2 overflow-hidden rounded-full md:block">
+                  <div {...stylex.props(styles.linkDesktop)}>
                     <div
                       ref={(el) => {
                         desktopShimmerRefs.current[index] = el;
                       }}
-                      className="via-primary absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent to-transparent"
+                      {...stylex.props(styles.shimmerX)}
                     />
                   </div>
                 )}
 
                 {!isLast && (
-                  <div className="bg-muted absolute top-full left-1/2 h-8 w-[2px] -translate-x-1/2 overflow-hidden rounded-full md:hidden">
+                  <div {...stylex.props(styles.linkMobile)}>
                     <div
                       ref={(el) => {
                         mobileShimmerRefs.current[index] = el;
                       }}
-                      className="via-primary absolute top-0 left-0 h-1/3 w-full bg-gradient-to-b from-transparent to-transparent"
+                      {...stylex.props(styles.shimmerY)}
                     />
                   </div>
                 )}
 
-                <div className="border-border bg-card/80 hover:border-primary/50 relative flex h-full flex-col items-center rounded-xl border px-6 pt-8 pb-6 backdrop-blur-md transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.15)]">
+                <div {...stylex.props(styles.card)}>
                   {/* Scanline texture */}
-                  <div className="scanlines pointer-events-none absolute inset-0 overflow-hidden rounded-xl opacity-[0.03]" />
+                  <div
+                    {...cardTexture}
+                    className={cn(cardTexture.className, 'scanlines')}
+                  />
 
                   {/* Icon */}
                   <div
                     ref={(el) => {
                       iconRefs.current[index] = el;
                     }}
-                    className={cn(
-                      'mb-6 inline-flex items-center justify-center rounded-2xl p-4 shadow-[0_0_20px_rgba(0,0,0,0.08)] ring-1 ring-white/10 ring-inset',
+                    {...stylex.props(
+                      styles.iconBadge,
                       isAccent
-                        ? 'bg-accent/10 text-accent'
+                        ? styles.iconBadgeAccent
                         : isSecondary
-                          ? 'bg-secondary/10 text-secondary'
-                          : 'bg-primary/10 text-primary'
+                          ? styles.iconBadgeSecondary
+                          : styles.iconBadgePrimary
                     )}
                     style={{ opacity: 0 }}
                   >
-                    <Icon className="h-9 w-9" />
+                    <Icon {...stylex.props(styles.iconGlyph)} />
                   </div>
 
                   {/* Title */}
-                  <h4 className="text-foreground font-display mb-2 text-lg font-bold tracking-tight">
-                    {step.title}
-                  </h4>
+                  <h4 {...stylex.props(styles.stepTitle)}>{step.title}</h4>
 
                   {/* Description */}
-                  <p className="text-muted-foreground mb-auto max-w-[26ch] text-sm leading-relaxed">
-                    {step.description}
-                  </p>
+                  <p {...stylex.props(styles.stepDesc)}>{step.description}</p>
 
                   {/* Status indicator */}
-                  <div className="mt-6">
+                  <div {...stylex.props(styles.statusWrap)}>
                     <div
-                      className={cn(
-                        'h-1.5 w-1.5 animate-pulse rounded-full shadow-[0_0_8px_currentColor]',
+                      {...stylex.props(
                         isAccent
-                          ? 'bg-accent text-accent'
+                          ? styles.statusAccent
                           : isSecondary
-                            ? 'bg-secondary text-secondary'
-                            : 'bg-primary text-primary'
+                            ? styles.statusSecondary
+                            : styles.statusPrimary
                       )}
                     />
                   </div>
                 </div>
 
                 {!isLast && (
-                  <div className="text-primary/40 mt-2 flex justify-center md:hidden">
-                    <PiCaretDown className="h-5 w-5" />
+                  <div {...stylex.props(styles.caretRow)}>
+                    <PiCaretDown {...stylex.props(styles.caret)} />
                   </div>
                 )}
               </div>
@@ -235,18 +574,18 @@ export function ModernizationRoadmap() {
           })}
         </div>
 
-        <div className="mt-16 flex items-center justify-center">
-          <div className="group relative flex items-center gap-4">
-            <div className="to-primary/50 group-hover:to-primary h-[1px] w-12 bg-gradient-to-r from-transparent transition-all duration-500 group-hover:w-24" />
-            <h3 className="text-foreground font-display flex items-center gap-3 text-xl font-bold tracking-tight">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
-                <span className="bg-primary relative inline-flex h-2.5 w-2.5 rounded-full"></span>
+        <div {...stylex.props(styles.footer)}>
+          <div {...stylex.props(styles.footerCluster)}>
+            <div {...stylex.props(styles.lineLeft)} />
+            <h3 {...stylex.props(styles.footerLabel)}>
+              <span {...stylex.props(styles.pingWrap)}>
+                <span {...stylex.props(styles.pingWave)}></span>
+                <span {...stylex.props(styles.pingCore)}></span>
               </span>
-              Systems Upgrade Flow
-              <PiArrowRight className="text-primary h-5 w-5 transition-transform duration-300 group-hover:translate-x-2" />
+              {copy.flowLabel}
+              <PiArrowRight {...stylex.props(styles.footerArrow)} />
             </h3>
-            <div className="to-primary/50 group-hover:from-primary h-[1px] w-12 bg-gradient-to-l from-transparent transition-all duration-500 group-hover:w-24" />
+            <div {...stylex.props(styles.lineRight)} />
           </div>
         </div>
       </div>

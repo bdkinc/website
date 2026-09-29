@@ -1,0 +1,21 @@
+---
+import { resolve, previewHeaders } from '@/lib/content';
+import Page from '@/components/Page.astro';
+export const prerender = false;
+for (const [name, value] of Object.entries(previewHeaders))
+  Astro.response.headers.set(name, value);
+let resolved;
+try {
+  resolved = await resolve(
+    Astro.url.searchParams.get('token') || '',
+    '/' + (Astro.params.path || '')
+  );
+} catch {
+  return new Response('Preview authorization failed or expired.', {
+    status: 401,
+    headers: previewHeaders,
+  });
+}
+---
+
+<Page route={resolved.route} context={resolved.context} />

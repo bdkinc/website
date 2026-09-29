@@ -6,6 +6,12 @@ import {
   PiInstagramLogo,
 } from 'react-icons/pi';
 
+import { getSettings, type ContentProps } from '@/lib/content';
+import EditSection from '@/components/preview/EditSection.astro';
+interface Props extends ContentProps {}
+const { contentContext } = Astro.props;
+const settings = await getSettings(contentContext);
+const { footer: copy, contact } = settings;
 const currentYear = new Date().getFullYear();
 
 const linkClass =
@@ -13,37 +19,38 @@ const linkClass =
 
 const socialLinks = [
   {
-    label: 'BDKinc on LinkedIn',
-    href: 'https://www.linkedin.com/company/bdk-inc./',
+    label: copy.linkedinLabel,
+    href: copy.linkedin,
     Icon: PiLinkedinLogo,
   },
   {
-    label: 'BDKinc on Facebook',
-    href: 'https://www.facebook.com/bdkinctech',
+    label: copy.facebookLabel,
+    href: copy.facebook,
     Icon: PiFacebookLogo,
   },
   {
-    label: 'BDKinc on Instagram',
-    href: 'https://www.instagram.com/bdkinctech/',
+    label: copy.instagramLabel,
+    href: copy.instagram,
     Icon: PiInstagramLogo,
   },
 ];
 
 const companyLinks = [
-  { href: '/about', label: 'About' },
-  { href: '/services', label: 'Services' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/about', label: copy.about },
+  { href: '/services', label: copy.services },
+  { href: '/blog', label: copy.blog },
+  { href: '/contact', label: copy.contact },
 ];
 
 const expertiseLinks = [
-  { href: '/services/cybersecurity', label: 'Cyber Security' },
-  { href: '/services/managed-it', label: 'Managed IT Services' },
-  { href: '/services/cloud-hosting', label: 'Cloud Hosting' },
-  { href: '/services/ibm-power', label: 'IBM Power' },
+  { href: '/services/cybersecurity', label: copy.cybersecurity },
+  { href: '/services/managed-it', label: copy.managedIT },
+  { href: '/services/cloud-hosting', label: copy.cloudHosting },
+  { href: '/services/ibm-power', label: copy.ibmPower },
 ];
 ---
 
+<EditSection record="settings" section="footer">
 <footer
   class="border-border/60 from-secondary/3 via-background to-background relative border-t bg-linear-to-b px-4 py-10 sm:px-6 lg:px-8"
 >
@@ -80,18 +87,17 @@ const expertiseLinks = [
         <a
           href="/"
           class="focus-visible:ring-ring focus-visible:ring-offset-background mb-4 origin-top-left scale-[1.15] rounded-sm focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:scale-[1.25]"
-          aria-label="BDKinc home"
+          aria-label={settings.navigation.homeLabel}
         >
-          <Logo />
+          <Logo copy={settings.brand} />
         </a>
         <p
           class="text-muted-foreground max-w-md text-[0.8rem] sm:text-[0.9rem]"
         >
-          Proactive, security-first managed IT and cloud services for businesses
-          all sizes.
+          {copy.tagline}
         </p>
 
-        <ul class="flex items-center gap-1" aria-label="BDKinc social media">
+        <ul class="flex items-center gap-1" aria-label={copy.socialLabel}>
           {
             socialLinks.map(({ label, href, Icon }) => (
               <li>
@@ -118,7 +124,7 @@ const expertiseLinks = [
             id="footer-company-heading"
             class="text-foreground text-[0.75rem] font-semibold tracking-[0.18em] sm:text-xs"
           >
-            Company
+            {copy.companyHeading}
           </h2>
           <ul class="text-muted-foreground space-y-1.5">
             {
@@ -138,7 +144,7 @@ const expertiseLinks = [
             id="footer-expertise-heading"
             class="text-foreground text-[0.75rem] font-semibold tracking-[0.18em] sm:text-xs"
           >
-            Expertise
+            {copy.expertiseHeading}
           </h2>
           <ul class="text-muted-foreground space-y-1.5">
             {
@@ -158,7 +164,7 @@ const expertiseLinks = [
             id="footer-contact-heading"
             class="text-foreground text-[0.75rem] font-semibold tracking-[0.18em] sm:text-xs"
           >
-            Contact
+            {copy.contact}
           </h2>
           <address
             class="text-muted-foreground space-y-1.5 not-italic"
@@ -166,20 +172,20 @@ const expertiseLinks = [
           >
             <div>
               <a
-                href="tel:+18003090004"
+                href={contact.phoneHref}
                 class={linkClass}
-                aria-label="Call BDKinc at 1 800 309 0004"
+                aria-label={contact.phoneLabel}
               >
-                +1 (800) 309-0004
+                {contact.phoneDisplay}
               </a>
             </div>
             <div>
               <a
-                href="mailto:info@bdkinc.com"
+                href={contact.emailHref}
                 class={linkClass}
-                aria-label="Email BDKinc at info@bdkinc.com"
+                aria-label={contact.emailLabel}
               >
-                info@bdkinc.com
+                {contact.email}
               </a>
             </div>
           </address>
@@ -192,19 +198,19 @@ const expertiseLinks = [
     >
       <p>
         &copy; <time datetime={String(currentYear)}>{currentYear}</time>
-        <span class="font-display font-semibold">BDKinc</span>. All rights
-        reserved.
+        <span class="font-display font-semibold">{settings.siteName}</span>{copy.rights}
       </p>
       <div class="flex flex-wrap items-center justify-center gap-4">
         <nav aria-label="Legal" class="flex items-center gap-4">
-          <a href="/privacy" class={linkClass}>Privacy</a>
-          <a href="/terms" class={linkClass}>Terms</a>
+          <a href="/privacy" class={linkClass}>{copy.privacy}</a>
+          <a href="/terms" class={linkClass}>{copy.terms}</a>
         </nav>
         <span
           class="bg-border/60 hidden h-3 w-px sm:inline-block"
           aria-hidden="true"></span>
-        <p>Security-first. Compliance-ready. Human support.</p>
+        <p>{copy.signature}</p>
       </div>
     </div>
   </div>
 </footer>
+</EditSection>

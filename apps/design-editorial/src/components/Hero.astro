@@ -1,0 +1,9 @@
+---
+interface Props { title: string; description?: string; eyebrow?: string; home?: boolean }
+const { title, description, eyebrow, home } = Astro.props;
+---
+<section class:list={['hero wrap', { 'hero-home': home }]}>
+  {eyebrow && <p class="eyebrow"><span aria-hidden="true"></span>{eyebrow}</p>}
+  <h1>{title}</h1>
+  <div class="hero-bottom">{description && <p class="lead">{description}</p>}<slot /></div>
+</section>

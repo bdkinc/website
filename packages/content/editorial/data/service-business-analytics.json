@@ -1,0 +1,814 @@
+{
+  "key": "service-business-analytics",
+  "kind": "page",
+  "title": "Business Analytics page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "badgePrefix": {
+          "type": "text",
+          "label": "Badge — opening text"
+        },
+        "badgeAccent": {
+          "type": "text",
+          "label": "Badge — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "group",
+      "label": "Delivery lifecycle",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "steps": {
+          "type": "group",
+          "label": "Steps",
+          "fields": {
+            "ingestion": {
+              "type": "group",
+              "label": "Ingestion",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "details": {
+                  "type": "group",
+                  "label": "Details",
+                  "fields": {
+                    "apiConnectors": {
+                      "type": "text",
+                      "label": "Api Connectors"
+                    },
+                    "streamProcessing": {
+                      "type": "text",
+                      "label": "Stream Processing"
+                    },
+                    "schemaValidation": {
+                      "type": "text",
+                      "label": "Schema Validation"
+                    }
+                  }
+                }
+              }
+            },
+            "processing": {
+              "type": "group",
+              "label": "Processing",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "details": {
+                  "type": "group",
+                  "label": "Details",
+                  "fields": {
+                    "etlEltPipelines": {
+                      "type": "text",
+                      "label": "Etl Elt Pipelines"
+                    },
+                    "dataLakeStorage": {
+                      "type": "text",
+                      "label": "Data Lake Storage"
+                    },
+                    "sanitizationLogic": {
+                      "type": "text",
+                      "label": "Sanitization Logic"
+                    }
+                  }
+                }
+              }
+            },
+            "insight": {
+              "type": "group",
+              "label": "Insight",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "details": {
+                  "type": "group",
+                  "label": "Details",
+                  "fields": {
+                    "mlModels": {
+                      "type": "text",
+                      "label": "Ml Models"
+                    },
+                    "biDashboards": {
+                      "type": "text",
+                      "label": "Bi Dashboards"
+                    },
+                    "decisionEngines": {
+                      "type": "text",
+                      "label": "Decision Engines"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "leadership": {
+      "type": "group",
+      "label": "Leadership narrative",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "quoteBefore": {
+          "type": "textarea",
+          "label": "Quotation — before emphasis"
+        },
+        "quoteAccent": {
+          "type": "textarea",
+          "label": "Quotation — emphasized text"
+        },
+        "quoteAfter": {
+          "type": "textarea",
+          "label": "Quotation — after emphasis"
+        }
+      }
+    },
+    "maturity": {
+      "type": "group",
+      "label": "Data maturity journey",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "stages": {
+          "type": "group",
+          "label": "Stages",
+          "fields": {
+            "adHoc": {
+              "type": "group",
+              "label": "Ad-Hoc",
+              "fields": {
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "descriptive": {
+              "type": "group",
+              "label": "Descriptive",
+              "fields": {
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "predictive": {
+              "type": "group",
+              "label": "Predictive",
+              "fields": {
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "prescriptive": {
+              "type": "group",
+              "label": "Prescriptive",
+              "fields": {
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "strategy": {
+      "type": "group",
+      "label": "Strategic advantage",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "features": {
+          "type": "group",
+          "label": "Features",
+          "fields": {
+            "orchestratedIntelligence": {
+              "type": "group",
+              "label": "Orchestrated Intelligence",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "predictiveForesight": {
+              "type": "group",
+              "label": "Predictive Foresight",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "realTimeVelocity": {
+              "type": "group",
+              "label": "Real-Time Velocity",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "strategicTransparency": {
+              "type": "group",
+              "label": "Strategic Transparency",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "benefits": {
+      "type": "group",
+      "label": "Built for Decision-Makers",
+      "fields": {
+        "roles": {
+          "type": "group",
+          "label": "Roles",
+          "fields": {
+            "cfo": {
+              "type": "group",
+              "label": "CFO",
+              "fields": {
+                "role": {
+                  "type": "text",
+                  "label": "Role"
+                },
+                "pain": {
+                  "type": "textarea",
+                  "label": "Before BDK"
+                },
+                "gain": {
+                  "type": "textarea",
+                  "label": "With BDK"
+                }
+              }
+            },
+            "coo": {
+              "type": "group",
+              "label": "COO",
+              "fields": {
+                "role": {
+                  "type": "text",
+                  "label": "Role"
+                },
+                "pain": {
+                  "type": "textarea",
+                  "label": "Before BDK"
+                },
+                "gain": {
+                  "type": "textarea",
+                  "label": "With BDK"
+                }
+              }
+            },
+            "vpSales": {
+              "type": "group",
+              "label": "VP Sales",
+              "fields": {
+                "role": {
+                  "type": "text",
+                  "label": "Role"
+                },
+                "pain": {
+                  "type": "textarea",
+                  "label": "Before BDK"
+                },
+                "gain": {
+                  "type": "textarea",
+                  "label": "With BDK"
+                }
+              }
+            },
+            "dataItTeam": {
+              "type": "group",
+              "label": "Data / IT Team",
+              "fields": {
+                "role": {
+                  "type": "text",
+                  "label": "Role"
+                },
+                "pain": {
+                  "type": "textarea",
+                  "label": "Before BDK"
+                },
+                "gain": {
+                  "type": "textarea",
+                  "label": "With BDK"
+                }
+              }
+            },
+            "ceoBoard": {
+              "type": "group",
+              "label": "CEO / Board",
+              "fields": {
+                "role": {
+                  "type": "text",
+                  "label": "Role"
+                },
+                "pain": {
+                  "type": "textarea",
+                  "label": "Before BDK"
+                },
+                "gain": {
+                  "type": "textarea",
+                  "label": "With BDK"
+                }
+              }
+            },
+            "supplyChain": {
+              "type": "group",
+              "label": "Supply Chain",
+              "fields": {
+                "role": {
+                  "type": "text",
+                  "label": "Role"
+                },
+                "pain": {
+                  "type": "textarea",
+                  "label": "Before BDK"
+                },
+                "gain": {
+                  "type": "textarea",
+                  "label": "With BDK"
+                }
+              }
+            }
+          }
+        },
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "subtitle": {
+          "type": "text",
+          "label": "Subtitle"
+        }
+      }
+    },
+    "faqHeading": { "type": "text", "label": "FAQ heading" },
+    "faqs": {
+      "type": "group",
+      "label": "Frequently asked questions",
+      "fields": {
+        "howDoYouEnsureDataSecurityAnd": {
+          "type": "group",
+          "label": "How do you ensure data security and compliance across distributed systems?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "canYourSolutionsIntegrateWithLegacyOn": {
+          "type": "group",
+          "label": "Can your solutions integrate with legacy on-premise infrastructure?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "whatIsTheTypicalLatencyForReal": {
+          "type": "group",
+          "label": "What is the typical latency for real-time analytics dashboards?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "group",
+      "label": "Impact metrics",
+      "fields": {
+        "dashboardsBuilt": {
+          "type": "group",
+          "label": "Dashboards Built",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "reportTimeSaved": {
+          "type": "group",
+          "label": "Report Time Saved",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "dataSourcesLinked": {
+          "type": "group",
+          "label": "Data Sources Linked",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "dataAccuracy": {
+          "type": "group",
+          "label": "Data Accuracy",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "faqHeading": "Frequently Asked Questions",
+    "hero": {
+      "badgePrefix": "Actionable",
+      "badgeAccent": "Intelligence",
+      "body": "Turn Data into Decisions. Strategic Intelligence at Scale. We architect robust data ecosystems that unify disparate sources into a single source of truth."
+    },
+    "leadership": {
+      "heading": "Strategic",
+      "headingAccent": "Intelligence",
+      "quoteBefore": "“Data without direction is overhead. We transform raw telemetry into",
+      "quoteAccent": "actionable foresight",
+      "quoteAfter": ", aligning your entire organization around a single source of objective truth that drives actual business value.”"
+    },
+    "strategy": {
+      "heading": "The Strategic",
+      "headingAccent": "Advantage",
+      "body": "Move beyond static reports with a partner who builds high-performance data ecosystems.",
+      "features": {
+        "orchestratedIntelligence": {
+          "title": "Orchestrated Intelligence",
+          "description": "Unifying disparate data sources into a single source of truth.",
+          "highlight": "Single source of truth",
+          "detail": "We architect data ecosystems that break down operational silos. By orchestrating data from across your enterprise into a unified plane, we ensure that your analytics are based on a consistent, governed, and accurate foundation."
+        },
+        "predictiveForesight": {
+          "title": "Predictive Foresight",
+          "description": "Moving beyond historical reporting to forward-looking insights.",
+          "highlight": "Forward-looking insights",
+          "detail": "Don't just react to what happened yesterday. Our predictive modeling capabilities identify emerging market trends and operational risks before they manifest, allowing you to navigate complexity with proactive precision."
+        },
+        "realTimeVelocity": {
+          "title": "Real-Time Velocity",
+          "description": "High-performance data pipelines for sub-second operational awareness.",
+          "highlight": "Sub-second awareness",
+          "detail": "In high-stakes environments, latency is a liability. We build event-driven architectures that process and visualize critical data streams in real-time, providing your leadership with the velocity required to make split-second decisions."
+        },
+        "strategicTransparency": {
+          "title": "Strategic Transparency",
+          "description": "Objective performance metrics aligned with organizational goals.",
+          "highlight": "Performance alignment",
+          "detail": "Align your entire team around objective truth. Our strategic dashboards translate complex datasets into clear, actionable KPIs, ensuring that every level of your organization is focused on the metrics that drive actual business value."
+        }
+      }
+    },
+    "lifecycle": {
+      "heading": "Analytics",
+      "headingAccent": "Lifecycle",
+      "body": "Transforming raw signals into strategic foresight through a continuous, high-velocity data pipeline.",
+      "steps": {
+        "ingestion": {
+          "title": "Ingestion",
+          "description": "Multi-source aggregation & validation",
+          "details": {
+            "apiConnectors": "API Connectors",
+            "streamProcessing": "Stream Processing",
+            "schemaValidation": "Schema Validation"
+          }
+        },
+        "processing": {
+          "title": "Processing",
+          "description": "Scalable transformation & warehousing",
+          "details": {
+            "etlEltPipelines": "ETL / ELT Pipelines",
+            "dataLakeStorage": "Data Lake Storage",
+            "sanitizationLogic": "Sanitization Logic"
+          }
+        },
+        "insight": {
+          "title": "Insight",
+          "description": "Predictive analytics & visualization",
+          "details": {
+            "mlModels": "ML Models",
+            "biDashboards": "BI Dashboards",
+            "decisionEngines": "Decision Engines"
+          }
+        }
+      }
+    },
+    "maturity": {
+      "heading": "Your Data",
+      "headingAccent": "Maturity Journey",
+      "body": "Where are you today — and where do we take you?",
+      "stages": {
+        "adHoc": {
+          "label": "Ad-Hoc",
+          "desc": "Siloed spreadsheets, manual pull requests, no single source of truth. Decisions based on gut feel."
+        },
+        "descriptive": {
+          "label": "Descriptive",
+          "desc": "Basic BI dashboards showing what happened. Historical reporting, monthly cadence."
+        },
+        "predictive": {
+          "label": "Predictive",
+          "desc": "ML models forecast what will happen. Proactive decisions on demand, risk, and resource allocation."
+        },
+        "prescriptive": {
+          "label": "Prescriptive",
+          "desc": "AI recommends specific actions. Real-time optimization and automated decision pathways."
+        }
+      }
+    },
+    "metrics": {
+      "dashboardsBuilt": {
+        "value": "300+",
+        "label": "Dashboards Built"
+      },
+      "reportTimeSaved": {
+        "value": "80%",
+        "label": "Report Time Saved"
+      },
+      "dataSourcesLinked": {
+        "value": "200+",
+        "label": "Data Sources Linked"
+      },
+      "dataAccuracy": {
+        "value": "99.9%",
+        "label": "Data Accuracy"
+      }
+    },
+    "faqs": {
+      "howDoYouEnsureDataSecurityAnd": {
+        "question": "How do you ensure data security and compliance across distributed systems?",
+        "answer": "Security is foundational to our architecture. We implement granular role-based access control (RBAC), end-to-end encryption, and rigorous audit trails to ensure your data ecosystem meets enterprise compliance standards and protects sensitive intelligence."
+      },
+      "canYourSolutionsIntegrateWithLegacyOn": {
+        "question": "Can your solutions integrate with legacy on-premise infrastructure?",
+        "answer": "Yes. Our data engineering capabilities bridge the gap between legacy silos and modern cloud architectures. We design hybrid integration layers that securely extract value from established systems without disrupting critical operations."
+      },
+      "whatIsTheTypicalLatencyForReal": {
+        "question": "What is the typical latency for real-time analytics dashboards?",
+        "answer": "Latency is architected to match operational requirements. For mission-critical streams, we deploy event-driven architectures capable of sub-second processing, while strategic dashboards are optimized for high-performance querying of aggregated datasets."
+      }
+    },
+    "benefits": {
+      "roles": {
+        "cfo": {
+          "role": "CFO",
+          "pain": "Spending hours consolidating financial reports from 6 systems",
+          "gain": "One live dashboard — P&L, cash flow, and variance analysis in real time"
+        },
+        "coo": {
+          "role": "COO",
+          "pain": "Operational bottlenecks visible only after they’ve already caused delays",
+          "gain": "Predictive alerts surface inefficiencies 2–3 weeks before they escalate"
+        },
+        "vpSales": {
+          "role": "VP Sales",
+          "pain": "Pipeline reporting that’s 2 weeks stale and manually assembled",
+          "gain": "Real-time revenue intelligence with forecast accuracy models"
+        },
+        "dataItTeam": {
+          "role": "Data / IT Team",
+          "pain": "Fielding ad-hoc data requests that consume 40% of sprint capacity",
+          "gain": "Self-serve analytics layer so business teams answer their own questions"
+        },
+        "ceoBoard": {
+          "role": "CEO / Board",
+          "pain": "Strategic decisions made on incomplete or conflicting data signals",
+          "gain": "Executive scorecard aligned to OKRs with drill-down to source data"
+        },
+        "supplyChain": {
+          "role": "Supply Chain",
+          "pain": "Demand planning based on last quarter’s numbers and gut instinct",
+          "gain": "ML-driven demand forecasting reducing inventory over/under by up to 35%"
+        }
+      },
+      "title": "Built for Decision-Makers",
+      "subtitle": "Every role in your organization gets a direct line to the intelligence they need."
+    },
+    "seo": {
+      "description": "Turn Data into Decisions. Strategic Intelligence at Scale. Transform raw data into competitive advantage with our advanced analytics, predictive modeling, and real-time BI dashboards."
+    },
+    "cta": {
+      "title": "Turn Data into Your Greatest Asset",
+      "description": "Stop guessing and start knowing. Let’s architect an intelligence strategy that drives measurable business outcomes.",
+      "buttonText": "Request an Analytics Audit",
+      "buttonHref": "/contact#chat"
+    }
+  }
+}

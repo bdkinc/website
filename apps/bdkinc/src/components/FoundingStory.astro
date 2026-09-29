@@ -1,7 +1,9 @@
 ---
 import { PiUsersThree, PiBuildings } from 'react-icons/pi';
 
-// No props needed for this static section
+import type { PageData } from '@bdkinc/content';
+interface Props { copy: PageData<'about'>['foundingStory']; }
+const { copy } = Astro.props;
 ---
 
 <section class="relative overflow-hidden py-24">
@@ -18,10 +20,10 @@ import { PiUsersThree, PiBuildings } from 'react-icons/pi';
         <h2
           class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-4 text-3xl font-bold tracking-tight duration-700 md:text-4xl"
         >
-          <span class="text-foreground">The </span>
+          <span class="text-foreground">{copy.headingLead}{' '}</span>
           <span
             class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-            >Founding Story</span
+            >{copy.headingAccent}</span
           >
         </h2>
 
@@ -29,35 +31,23 @@ import { PiUsersThree, PiBuildings } from 'react-icons/pi';
           class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 space-y-6 text-lg leading-relaxed delay-200 duration-700"
         >
           <p>
-            BDKinc was founded in 1999 with a singular directive: to bridge the
-            gap between complex enterprise technology and the businesses that
-            rely on it. In an era where "IT support" often meant reactive fixes,
-            our founders envisioned a practice built on <strong
+            {copy.origin.beforeEmphasis}{' '}<strong
               class="text-foreground font-semibold"
-              >precision engineering</strong
-            >—where systems are architected for resilience, not just repaired
-            after failure.
+              >{copy.origin.emphasis}</strong
+            >{copy.origin.afterEmphasis}
           </p>
 
           <p>
-            We rejected the transactional vendor model from day one. Instead, we
-            established a <strong class="text-foreground font-semibold"
-              >high-touch partnership</strong
-            > philosophy. We operate as a premier extension of your leadership team,
-            bringing the technical discipline required to navigate shifting digital
-            landscapes. Our goal isn't just to manage servers, but to own the outcomes
-            that drive your growth.
+            {copy.partnership.beforeEmphasis}{' '}<strong class="text-foreground font-semibold"
+              >{copy.partnership.emphasis}</strong
+            >{' '}{copy.partnership.afterEmphasis}
           </p>
 
           <p>
-            Today, that vision remains our core protocol. We combine the agility
-            of a specialized boutique with the capabilities of a global
-            powerhouse. Whether modernizing legacy infrastructure or deploying
-            cutting-edge AI, we stand as <strong
+            {copy.today.beforeEmphasis}{' '}<strong
               class="text-foreground font-semibold"
-              >partners in your potential</strong
-            >, ensuring every technical decision advances your strategic
-            mission.
+              >{copy.today.emphasis}</strong
+            >{copy.today.afterEmphasis}
           </p>
         </div>
       </div>
@@ -77,7 +67,7 @@ import { PiUsersThree, PiBuildings } from 'react-icons/pi';
           </div>
 
           <!-- Placeholder Content -->
-          <div
+          {copy.image ? <img src={copy.image} alt={copy.imageAlt} class="absolute inset-0 h-full w-full object-cover" /> : <div
             class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center"
           >
             <div
@@ -92,13 +82,13 @@ import { PiUsersThree, PiBuildings } from 'react-icons/pi';
               <div
                 class="text-muted-foreground/60 text-sm font-medium tracking-widest"
               >
-                Founding Partners
+                {copy.imagePlaceholder}
               </div>
               <div class="text-muted-foreground/40 mt-1 text-xs">
-                1999 - Present
+                {copy.imagePeriod}
               </div>
             </div>
-          </div>
+          </div>}
 
           <!-- Hover Effect Overlay -->
           <div
@@ -112,7 +102,7 @@ import { PiUsersThree, PiBuildings } from 'react-icons/pi';
           class="text-muted-foreground/60 mt-4 flex items-center justify-center gap-2 text-sm"
         >
           <PiBuildings aria-hidden="true" className="h-4 w-4" />
-          <span>Est. 1999 • Maryland Eastern Shore</span>
+          <span>{copy.caption}</span>
         </div>
       </div>
     </div>

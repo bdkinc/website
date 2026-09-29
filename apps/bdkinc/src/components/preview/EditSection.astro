@@ -1,0 +1,43 @@
+---
+import {
+  pageDefinitions,
+  settingsDefinition,
+  type PageKey,
+} from '@bdkinc/content/editorial';
+
+interface Props {
+  /** Fixed record that owns the copy: a marketing page key, or the shared site settings. */
+  record: PageKey | 'settings';
+  /** Top-level field key in that record's editorial definition. */
+  section: string;
+  /** Other top-level keys rendered inside the same block, e.g. a heading field beside its list. */
+  also?: string[];
+}
+
+const { record, section, also } = Astro.props;
+// Markers exist only in authorized previews. Comments keep layout and CSS selectors untouched.
+const preview = Astro.url.pathname.startsWith('/preview/');
+let start = '';
+if (preview) {
+  const definition =
+    record === 'settings' ? settingsDefinition : pageDefinitions[record];
+  const fields = definition.fields as Record<string, { label: string }>;
+  for (const key of [section, ...(also ?? [])]) {
+    if (!fields[key]) throw new Error(`Unknown editorial section: ${record}.${key}`);
+  }
+  const marker = { record, section, also, label: fields[section].label, page: definition.title };
+  start = `<!--bdk-section ${encodeURIComponent(JSON.stringify(marker))}-->`;
+}
+---
+
+{
+  preview ? (
+    <>
+      <Fragment set:html={start} />
+      <slot />
+      <Fragment set:html="<!--/bdk-section-->" />
+    </>
+  ) : (
+    <slot />
+  )
+}

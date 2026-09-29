@@ -1,0 +1,56 @@
+---
+import type { Reader } from '@/lib/content';
+import { asset } from '@/lib/content';
+import CTA from '@/components/CTA.astro';
+import Icon from '@/components/Icon.astro';
+interface Props {
+  content: Reader;
+  slug: string;
+}
+const { content, slug } = Astro.props;
+const [posts, c, s] = await Promise.all([
+  content.getCollection('blog'),
+  content.getPage('blog'),
+  content.getSettings(),
+]);
+const post = posts.find((p) => p.id === slug);
+if (!post) throw new Error('Article unavailable');
+const image = post.data.image || c.detail.image;
+---
+
+<div class="wrap">
+  <section class="hero">
+    <a class="eyebrow" href="/blog"><Icon name="book-open" /> {c.detail.backLabel}</a><h1>
+      {post.data.title}
+    </h1><p class="intro">{post.data.description}</p><p class="byline">
+      {post.data.author} / <time datetime={post.data.pubDate.toISOString()}
+        >{
+          post.data.pubDate.toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+            timeZone: 'UTC',
+          })
+        }</time
+      > / {post.data.category}
+    </p>{
+      image && (
+        <img
+          class="hero-image"
+          src={asset(image)}
+          alt={post.data.image ? post.data.title : c.detail.imageAlt}
+        />
+      )
+    }
+  </section><article class="section">
+    <div class="prose" set:html={post.body?.html} />
+  </article><CTA
+    copy={{
+      title: c.detail.ctaTitle,
+      description: c.detail.ctaDescription,
+      buttonText: c.detail.ctaButtonText,
+      buttonHref: c.detail.ctaButtonHref,
+    }}
+    settings={s}
+  />
+</div>

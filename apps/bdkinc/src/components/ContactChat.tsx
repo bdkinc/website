@@ -1,5 +1,6 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
 import {
   Conversation,
   ConversationContent,
@@ -39,13 +40,10 @@ type MessageType = {
   isStreaming?: boolean;
 };
 
-const mockResponses = [
-  'Thank you for reaching out. A Senior Architect has been notified of your inquiry and will review your requirements shortly.',
-  "We've received your message. Our engineering team is currently reviewing similar projects and will contact you within one business day.",
-  "Thanks for the details. I've routed this to our technical leadership team. You can expect a follow-up email to schedule a consultation.",
-];
+import type { PageData } from '@bdkinc/content';
 
 interface ContactChatProps {
+  copy: PageData<'contact'>['chat'];
   initialSuggestions?: string[];
 }
 
@@ -67,7 +65,237 @@ function track(event: string, params?: AnalyticsParams) {
   window.gtag?.('event', event, params);
 }
 
-export default function ContactChat({ initialSuggestions }: ContactChatProps) {
+const hoverMedia = '@media (hover: hover)';
+const transitionInteractive =
+  'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing';
+const shadowSm = '0 1px 2px 0 rgb(0 0 0 / .05)';
+// `shadow-2xl` stacked with the `ring-1 ring-white/5` outline, resolved to
+// the box-shadow Tailwind emits for that combination.
+const shadowCard =
+  '0 0 0 1px rgb(255 255 255 / .05), 0 25px 50px -12px rgb(0 0 0 / .25)';
+
+const styles = stylex.create({
+  section: {
+    position: 'relative',
+    marginInline: 'auto',
+    width: '100%',
+    maxWidth: '48rem',
+  },
+  card: {
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: '1rem',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'rgb(255 255 255 / .1)',
+    boxShadow: shadowCard,
+  },
+  // Marker: `glass` supplies its CSS rule.
+  // Marker: `gradient-mesh` supplies its CSS rule.
+  mesh: {
+    position: 'absolute',
+    inset: 0,
+    pointerEvents: 'none',
+    opacity: 0.3,
+  },
+  header: {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'rgb(255 255 255 / .05)',
+    backgroundColor: 'color-mix(in oklab, var(--background) 20%, transparent)',
+    paddingInline: '1.5rem',
+    paddingBlock: '1rem',
+    backdropFilter: 'blur(4px)',
+  },
+  headerLeft: { display: 'flex', alignItems: 'center', gap: '.75rem' },
+  headerIcon: {
+    display: 'flex',
+    width: '2rem',
+    height: '2rem',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '.5rem',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+    color: 'var(--primary)',
+  },
+  headerIconGlyph: { width: 16, height: 16 },
+  headerTitle: {
+    color: 'var(--foreground)',
+    fontSize: '.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 500,
+  },
+  chatArea: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    height: 600,
+    backgroundColor: 'color-mix(in oklab, var(--background) 5%, transparent)',
+  },
+  // Original `flex-1` matches the Conversation base; only the vertical
+  // scroll override lives here.
+  conversation: { flex: 1, overflowY: 'auto' },
+  // Replaces `space-y-6` with a flex column gap (sibling-margin utilities
+  // have no single-element StyleX equivalent); padding overrides the base.
+  conversationContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem',
+    padding: 24,
+  },
+  message: { alignItems: 'flex-start', gap: 0, flexDirection: 'row' },
+  messageAssistant: { justifyContent: 'flex-start' },
+  messageUser: { justifyContent: 'flex-end' },
+  // Size, shape and shrink come from the Avatar base (`h-8 w-8 shrink-0
+  // rounded-full` equivalents); only the outline and role margins live here.
+  // The elevation is set via `--tw-shadow` so the MessageAvatar ring
+  // composite (ring-1 ring-border + shadow) keeps composing instead of
+  // being replaced by a flat box-shadow.
+  avatar: {
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'rgb(255 255 255 / .1)',
+    '--tw-shadow': shadowSm,
+  },
+  avatarAssistant: { marginRight: '.5rem' },
+  avatarUser: { order: 9999, marginLeft: '.5rem' },
+  // The flat assistant variant is chromeless (no base padding), so the
+  // caller supplies the original `px-4 py-3` for both roles here.
+  messageBubble: {
+    borderRadius: '1rem',
+    paddingInline: '1rem',
+    paddingBlock: '.75rem',
+    lineHeight: '1.625',
+    boxShadow: shadowSm,
+    backdropFilter: 'blur(4px)',
+  },
+  bubbleAssistant: {
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'rgb(255 255 255 / .05)',
+    backgroundColor: 'color-mix(in oklab, var(--card) 50%, transparent)',
+    color: 'var(--foreground)',
+  },
+  bubbleUser: {
+    backgroundColor: 'var(--primary)',
+    color: 'var(--primary-foreground)',
+  },
+  inputArea: {
+    backgroundColor: 'color-mix(in oklab, var(--background) 10%, transparent)',
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    borderTopColor: 'rgb(255 255 255 / .05)',
+    padding: 16,
+    backdropFilter: 'blur(4px)',
+  },
+  suggestions: { marginBottom: 16 },
+  suggestion: {
+    flexShrink: 0,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'var(--border)',
+    borderRadius: '.5rem',
+    backgroundColor: {
+      default: 'color-mix(in oklab, var(--muted) 20%, transparent)',
+      [hoverMedia]: {
+        default: 'color-mix(in oklab, var(--muted) 20%, transparent)',
+        ':hover': 'var(--muted)',
+      },
+    },
+    color: {
+      default: 'var(--muted-foreground)',
+      [hoverMedia]: {
+        default: 'var(--muted-foreground)',
+        ':hover': 'var(--foreground)',
+      },
+    },
+    paddingInline: '1rem',
+    paddingBlock: '.5rem',
+    fontSize: '.75rem',
+    lineHeight: '1rem',
+    whiteSpace: 'nowrap',
+    transitionProperty: transitionInteractive,
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
+  },
+  // The form owns the visible border/background/ring; the inner InputGroup
+  // is zeroed via `groupXstyle` (see promptGroup) because StyleX cannot
+  // express the old `[&_[data-slot=input-group]]:*` ancestor selectors.
+  promptForm: {
+    position: 'relative',
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'var(--input)',
+    borderRadius: '.75rem',
+    backgroundColor: 'color-mix(in oklab, var(--muted) 50%, transparent)',
+    boxShadow: {
+      default: 'none',
+      ':focus-within':
+        '0 0 0 0 var(--background), 0 0 0 2px color-mix(in oklab, var(--primary) 50%, transparent)',
+    },
+    transitionProperty: transitionInteractive,
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
+  },
+  promptGroup: {
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+    boxShadow: {
+      default: 'none',
+      ':has([data-slot="input-group-control"]:focus-visible)': 'none',
+    },
+  },
+  // `py-3` and `focus:outline-none` match the InputGroupTextarea/primitive
+  // defaults, so only the height, inline padding, size and placeholder live
+  // here. `.875rem` / `1.25rem` are the rem equivalents of `text-sm`.
+  promptTextarea: {
+    minHeight: 50,
+    paddingInline: 16,
+    fontSize: '.875rem',
+    lineHeight: '1.25rem',
+    backgroundColor: 'transparent',
+    color: {
+      default: null,
+      '::placeholder':
+        'color-mix(in oklab, var(--muted-foreground) 50%, transparent)',
+    },
+  },
+  // Inline/block padding match the block-end InputGroupAddon base; only the
+  // justification override lives here.
+  promptFooter: { justifyContent: 'space-between' },
+  // `h-8 w-8` matches the `icon-sm` InputGroupButton size; radius, tinted
+  // colors and disabled colors are overridden on the ghost variant.
+  submit: {
+    width: '2rem',
+    height: '2rem',
+    borderRadius: '9999px',
+    backgroundColor: {
+      default: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+      [hoverMedia]: {
+        default: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+        ':hover': 'color-mix(in oklab, var(--primary) 20%, transparent)',
+      },
+      ':disabled': 'transparent',
+    },
+    color: {
+      default: 'var(--primary)',
+      ':disabled': 'var(--muted-foreground)',
+    },
+    transitionProperty: transitionInteractive,
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
+  },
+});
+
+export default function ContactChat({
+  copy,
+  initialSuggestions,
+}: ContactChatProps) {
   const hasStartedRef = useRef(false);
   const [text, setText] = useState<string>('');
   const [status, setStatus] = useState<
@@ -76,10 +304,10 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
 
   const [suggestions] = useState<string[]>(
     initialSuggestions || [
-      'I need a quote for managed services',
-      'We are looking to migrate to the cloud',
-      'Help us with cybersecurity compliance',
-      'Questions about IBM Power systems',
+      copy.componentSuggestions.managedServices,
+      copy.componentSuggestions.cloud,
+      copy.componentSuggestions.security,
+      copy.componentSuggestions.ibm,
     ]
   );
 
@@ -89,11 +317,10 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
       from: 'assistant',
       version: {
         id: nanoid(),
-        content:
-          'Hello—tell us what you’re building, what you’re replacing, and what “success” looks like. We’ll route this to the right engineer.',
+        content: copy.greeting,
       },
-      avatar: '/favicon.svg',
-      name: 'BDKinc',
+      avatar: copy.avatar,
+      name: copy.assistantName,
     },
   ]);
 
@@ -155,13 +382,18 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
           content,
         },
         avatar: '',
-        name: 'You',
+        name: copy.userName,
       };
 
       setMessages((prev) => [...prev, userMessage]);
 
       setTimeout(() => {
         const assistantMessageId = `assistant-${Date.now()}`;
+        const mockResponses = [
+          copy.simulatedReplies.architect,
+          copy.simulatedReplies.engineering,
+          copy.simulatedReplies.leadership,
+        ];
         const randomResponse =
           mockResponses[Math.floor(Math.random() * mockResponses.length)];
 
@@ -172,8 +404,8 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
             id: assistantMessageId,
             content: '',
           },
-          avatar: '/favicon.svg',
-          name: 'BDKinc',
+          avatar: copy.avatar,
+          name: copy.assistantName,
           isStreaming: true,
         };
 
@@ -181,7 +413,7 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
         streamResponse(assistantMessageId, randomResponse);
       }, 600);
     },
-    [streamResponse]
+    [streamResponse, copy]
   );
 
   const handleSubmit = (message: PromptInputMessage) => {
@@ -211,58 +443,58 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
   };
 
   return (
-    <section
-      aria-label="BDK Assistant"
-      className="relative mx-auto w-full max-w-3xl"
-    >
-      <div className="glass relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl ring-1 ring-white/5">
-        <div className="gradient-mesh pointer-events-none absolute inset-0 opacity-30" />
+    <section aria-label={copy.assistantLabel} {...stylex.props(styles.section)}>
+      <div className={cn(stylex.props(styles.card).className, 'glass')}>
+        <div
+          className={cn(stylex.props(styles.mesh).className, 'gradient-mesh')}
+        />
 
         {/* Header bar */}
-        <div className="bg-background/20 relative flex items-center justify-between border-b border-white/5 px-6 py-4 backdrop-blur-sm">
-          <div className="flex items-center gap-3">
-            <div className="bg-primary/10 text-primary flex h-8 w-8 items-center justify-center rounded-lg">
-              <PiSparkle className="h-4 w-4" />
+        <div {...stylex.props(styles.header)}>
+          <div {...stylex.props(styles.headerLeft)}>
+            <div {...stylex.props(styles.headerIcon)}>
+              <PiSparkle {...stylex.props(styles.headerIconGlyph)} />
             </div>
             <div>
-              <div className="text-foreground text-sm font-medium">
-                BDK Assistant
+              <div {...stylex.props(styles.headerTitle)}>
+                {copy.assistantLabel}
               </div>
             </div>
           </div>
         </div>
 
         {/* Chat area */}
-        <div className="bg-background/5 relative flex h-[600px] flex-col">
-          <Conversation className="flex-1 overflow-y-auto">
-            <ConversationContent className="space-y-6 p-6">
+        <div {...stylex.props(styles.chatArea)}>
+          <Conversation xstyle={styles.conversation}>
+            <ConversationContent xstyle={styles.conversationContent}>
               {messages.map((message) => (
                 <Message
                   from={message.from}
                   key={message.key}
-                  className={cn(
-                    'items-start gap-0',
+                  xstyle={[
+                    styles.message,
                     message.from === 'assistant'
-                      ? 'flex-row justify-start'
-                      : 'flex-row justify-end'
-                  )}
+                      ? styles.messageAssistant
+                      : styles.messageUser,
+                  ]}
                 >
                   <MessageAvatar
                     name={message.name}
                     src={message.avatar}
-                    className={cn(
-                      'h-8 w-8 shrink-0 rounded-full border border-white/10 shadow-sm',
-                      message.from === 'assistant' ? 'mr-2' : 'order-last ml-2'
-                    )}
+                    xstyle={
+                      message.from === 'assistant'
+                        ? [styles.avatar, styles.avatarAssistant]
+                        : [styles.avatar, styles.avatarUser]
+                    }
                   />
                   <MessageContent
                     variant={message.from === 'user' ? 'contained' : 'flat'}
-                    className={cn(
-                      'rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm backdrop-blur-sm',
+                    xstyle={[
+                      styles.messageBubble,
                       message.from === 'assistant'
-                        ? 'bg-card/50 text-foreground border border-white/5'
-                        : 'bg-primary text-primary-foreground'
-                    )}
+                        ? styles.bubbleAssistant
+                        : styles.bubbleUser,
+                    ]}
                   >
                     {message.version.content}
                   </MessageContent>
@@ -273,43 +505,40 @@ export default function ContactChat({ initialSuggestions }: ContactChatProps) {
           </Conversation>
 
           {/* Input area */}
-          <div className="bg-background/10 border-t border-white/5 p-4 backdrop-blur-sm">
-            <Suggestions className="mb-4">
+          <div {...stylex.props(styles.inputArea)}>
+            <Suggestions xstyle={styles.suggestions}>
               {suggestions.map((suggestion) => (
                 <Suggestion
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
                   suggestion={suggestion}
-                  className="text-muted-foreground hover:text-foreground border-border bg-muted/20 hover:bg-muted shrink-0 rounded-lg border px-4 py-2 text-xs whitespace-nowrap transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]"
+                  xstyle={styles.suggestion}
                 />
               ))}
             </Suggestions>
 
             <PromptInput
               onSubmit={handleSubmit}
-              className="ring-offset-background focus-within:ring-primary/50 border-input bg-muted/50 relative overflow-hidden rounded-xl border transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] focus-within:ring-2 [&_[data-slot=input-group]]:border-0 [&_[data-slot=input-group]]:bg-transparent [&_[data-slot=input-group]]:shadow-none [&_[data-slot=input-group]]:!ring-0"
+              xstyle={styles.promptForm}
+              groupXstyle={styles.promptGroup}
             >
               <PromptInputBody>
                 <PromptInputTextarea
                   onChange={(event) => setText(event.target.value)}
                   value={text}
-                  aria-label="Message"
-                  placeholder="How can we help… e.g., migrate ERP to cloud"
-                  className="placeholder:text-muted-foreground/50 min-h-[50px] bg-transparent px-4 py-3 text-sm focus:outline-none"
+                  aria-label={copy.messageLabel}
+                  placeholder={copy.placeholder}
+                  xstyle={styles.promptTextarea}
                 />
               </PromptInputBody>
-              <PromptInputFooter className="flex justify-between px-3 pb-3">
+              <PromptInputFooter xstyle={styles.promptFooter}>
                 <PromptInputTools />
                 <PromptInputSubmit
                   disabled={!text.trim() || status === 'streaming'}
                   status={status}
                   variant="ghost"
                   size="icon-sm"
-                  className={cn(
-                    'h-8 w-8 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]',
-                    'bg-primary/10 text-primary hover:bg-primary/20',
-                    'disabled:text-muted-foreground disabled:bg-transparent'
-                  )}
+                  xstyle={styles.submit}
                 />
               </PromptInputFooter>
             </PromptInput>

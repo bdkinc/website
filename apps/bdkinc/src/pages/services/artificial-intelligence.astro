@@ -1,5 +1,10 @@
 ---
-import { getEntry } from 'astro:content';
+import {
+  getContentEntry,
+  getPageCopy,
+  getSettings,
+  type ContentProps,
+} from '@/lib/content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -12,7 +17,7 @@ import NeuralPipeline from '@/components/NeuralPipeline';
 import WatsonxSpotlight from '@/components/WatsonxSpotlight';
 
 import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
-import FeatureCarousel from '@/components/FeatureCarousel';
+import FeatureCarousel, { type Feature } from '@/components/FeatureCarousel';
 import ServiceBlockquote from '@/components/ServiceBlockquote.astro';
 import {
   PiLightning,
@@ -24,85 +29,60 @@ import {
   PiShieldCheck,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import EditSection from '@/components/preview/EditSection.astro';
 import { servicePageSchemas } from '@/lib/schema';
-const service = await getEntry('services', 'artificial-intelligence');
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const copy = await getPageCopy(
+  'service-artificial-intelligence',
+  contentContext
+);
+const settings = await getSettings(contentContext);
+const service = await getContentEntry(
+  'services',
+  'artificial-intelligence',
+  contentContext
+);
 if (!service) {
   return new Response(null, { status: 404 });
 }
-const { servicesData, recentPosts } = await getNavigationData();
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 const IconComponent = iconMap[service.data.icon];
 const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 const metrics = [
-  { value: '100+', label: 'Enterprise Models Deployed', icon: PiBrain },
-  { value: '6 weeks', label: 'MVP to Production', icon: PiLightning },
-  { value: '40%', label: 'Ops Efficiency Gain', icon: PiTrendUp },
-  { value: '99.9%', label: 'Inference Uptime', icon: PiShield },
+  { ...copy.metrics.enterpriseModelsDeployed, icon: PiBrain },
+  { ...copy.metrics.mvpToProduction, icon: PiLightning },
+  { ...copy.metrics.opsEfficiencyGain, icon: PiTrendUp },
+  { ...copy.metrics.inferenceUptime, icon: PiShield },
 ];
 const faqs = [
-  {
-    question: 'How do you calculate ROI for an AI initiative?',
-    answer:
-      'We focus on measurable outcomes: reduced operational costs, increased throughput, or revenue uplift. Our Discovery Phase establishes clear KPIs, ensuring every model deployed drives tangible business value within 3-6 months.',
-  },
-  {
-    question: 'Is my proprietary data safe when using Generative AI?',
-    answer:
-      'Absolutely. We utilize private model instances and RAG (Retrieval-Augmented Generation) architectures where your data is used strictly for context retrieval, never for public model training. Your intellectual property remains isolated and secure.',
-  },
-  {
-    question: 'Can you integrate AI into our legacy ERP systems?',
-    answer:
-      "Yes. Our 'API-first' approach allows us to wrap legacy systems with modern AI interfaces. We can inject predictive insights or automated actions directly into your existing screens and workflows.",
-  },
+  copy.faqs.howDoYouCalculateRoiForAn,
+  copy.faqs.isMyProprietaryDataSafeWhenUsing,
+  copy.faqs.canYouIntegrateAiIntoOurLegacy,
 ];
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
+  copy: settings.navigation,
   serviceName: service.data.title,
   servicePath: `/services/${service.id}`,
   faqs,
 });
-const strategicFeatures = [
+const strategicFeatures: Feature[] = [
+  { ...copy.strategy.features.neuralOrchestration, icon: 'Brain' },
+  { ...copy.strategy.features.retrievalAugmentedIntelligence, icon: 'Target' },
+  { ...copy.strategy.features.predictivePrecision, icon: 'ChartLine' },
   {
-    title: 'Neural Orchestration',
-    description: 'Secure, governed AI ecosystems powered by IBM watsonx.',
-    highlight: 'Secure AI ecosystems',
-    icon: 'Brain',
-    detail:
-      'We design AI architectures that prioritize security and governance. By utilizing watsonx.governance, we ensure that every model in your ecosystem is transparent, explainable, and aligned with your operational standards.',
-  },
-  {
-    title: 'Retrieval-Augmented Intelligence',
-    description:
-      'Grounding LLMs in your proprietary data for zero hallucination.',
-    highlight: 'Zero hallucination',
-    icon: 'Target',
-    detail:
-      'Your data is your competitive edge. We implement RAG architectures that allow generative models to retrieve context from your secure internal databases, providing highly accurate responses without risking your intellectual property.',
-  },
-  {
-    title: 'Predictive Precision',
-    description:
-      'High-fidelity forecasting using machine learning and time-series analysis.',
-    highlight: 'High-fidelity forecasting',
-    icon: 'ChartLine',
-    detail:
-      'Transform historical drag into future momentum. Our predictive engines identify patterns in supply chain, demand, and risk, allowing you to make decisions based on mathematical certainty rather than intuition.',
-  },
-  {
-    title: 'Operational Cognitive Automation',
-    description:
-      'Embedding intelligence directly into high-volume business workflows.',
-    highlight: 'High-volume workflows',
+    ...copy.strategy.features.operationalCognitiveAutomation,
     icon: 'Lightning',
-    detail:
-      "AI shouldn't be a separate tool; it should be the engine. We inject cognitive capabilities directly into your ERP and CRM systems, automating complex decision paths and accelerating overall business throughput.",
   },
 ];
 ---
 
 <Layout
+  contentContext={contentContext}
+  publicPath={publicPath}
   title={`${service.data.title} - BDKinc`}
   description={service.data.description}
 >
@@ -116,13 +96,18 @@ const strategicFeatures = [
     is:inline
     set:html={JSON.stringify(faqSchema)}
   />
+  <EditSection record="settings" section="navigation">
   <Navigation
     client:load
     services={servicesData}
     blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
+    currentPath={publicPath}
+    copy={settings.navigation}
+    brand={settings.brand}
   />
+  </EditSection>
   <main id="main-content" class="services-page-shell">
+    <EditSection record="service-artificial-intelligence" section="hero">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
@@ -150,8 +135,9 @@ const strategicFeatures = [
           >
             <div class="flex items-center gap-2 text-sm">
               <span
-                >Enterprise <span class="text-accent font-semibold"
-                  >AI Intelligence</span
+                >{copy.hero.badgePrefix}{' '}<span
+                  class="text-accent font-semibold"
+                  >{copy.hero.badgeAccent}</span
                 ></span
               >
             </div>
@@ -185,9 +171,7 @@ const strategicFeatures = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            BDKinc delivers engineered intelligence using IBM watsonx and proven
-            ML workflows. We design secure, governed AI ecosystems that
-            integrate cleanly with your core systems.
+            {copy.hero.body}
           </p>
         </div>
       </div>
@@ -196,6 +180,8 @@ const strategicFeatures = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-artificial-intelligence" section="capabilities">
     <!-- Core Services -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -203,17 +189,20 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
           >
-            <span class="text-foreground">Core </span>
+            <span class="text-foreground">{copy.capabilities.heading}{' '}</span
+            >
             <span
               class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
-              >Capabilities</span
+              >{copy.capabilities.headingAccent}</span
             >
           </h2>
           <p
             class="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl"
           >
-            Engineered intelligence designed for the
-            <span class="text-accent font-semibold">modern enterprise</span>.
+            {copy.capabilities.bodyBefore}{' '}<span
+              class="text-accent font-semibold"
+              >{copy.capabilities.bodyAccent}</span
+            >{copy.capabilities.bodyAfter}
           </p>
         </div>
         <TechCardGrid client:visible className="md:grid-cols-3">
@@ -230,12 +219,10 @@ const strategicFeatures = [
               <h4
                 class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
-                Generative AI & LLMs
+                {copy.capabilities.generativeAi.title}
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Build secure, domain-specific generative models using RAG
-                architectures. We implement watsonx.ai to ensure your assistants
-                are grounded in your proprietary data.
+                {copy.capabilities.generativeAi.description}
               </div>
             </div>
           </TechCard>
@@ -252,12 +239,10 @@ const strategicFeatures = [
               <h4
                 class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
-                Predictive Analytics
+                {copy.capabilities.predictiveAnalytics.title}
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Transform historical data into future certainty. Our ML models
-                forecast demand and optimize resource allocation with
-                high-precision inference engines.
+                {copy.capabilities.predictiveAnalytics.description}
               </div>
             </div>
           </TechCard>
@@ -274,18 +259,18 @@ const strategicFeatures = [
               <h4
                 class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
-                Intelligent Automation
+                {copy.capabilities.intelligentAutomation.title}
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Embed AI into operational workflows. From computer vision for
-                quality control to NLP for document processing, we automate
-                complex cognitive tasks.
+                {copy.capabilities.intelligentAutomation.description}
               </div>
             </div>
           </TechCard>
         </TechCardGrid>
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-artificial-intelligence" section="leadership">
     <!-- Strategic Leadership Section -->
     <section class="relative overflow-hidden py-24">
       <div
@@ -297,20 +282,18 @@ const strategicFeatures = [
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
-            <span class="text-foreground">Cognitive </span>
+            <span class="text-foreground">{copy.leadership.heading}{' '}</span>
             <span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Leadership</span
+              >{copy.leadership.headingAccent}</span
             >
           </h2>
         </div>
 
         <ServiceBlockquote>
-          &ldquo;AI is not a separate tool; it&rsquo;s the engine of modern
-          business. We architect
-          <span class="text-accent"> intelligent ecosystems</span>
-          that automate complexity and transform your proprietary data into your most
-          powerful competitive advantage.&rdquo;
+          {copy.leadership.quoteBefore}{' '}<span class="text-accent"
+            >{copy.leadership.quoteAccent}</span
+          >{' '}{copy.leadership.quoteAfter}
         </ServiceBlockquote>
       </div>
       <div
@@ -318,6 +301,8 @@ const strategicFeatures = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-artificial-intelligence" section="strategy">
     <!-- Strategic Advantage -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -325,25 +310,28 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            The Strategic <span
+            {copy.strategy.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Advantage</span
+              >{copy.strategy.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond experiments with a partner who builds production-ready,
-            governed AI solutions.
+            {copy.strategy.body}
           </p>
         </div>
         <FeatureCarousel client:visible features={strategicFeatures} />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-artificial-intelligence" section="watsonx">
     <!-- Watsonx Spotlight -->
     <section class="py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <WatsonxSpotlight client:visible />
+        <WatsonxSpotlight client:visible copy={copy.watsonx} />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-artificial-intelligence" section="solutions">
     <!-- Generative Solutions: Numbered Timeline -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
@@ -351,13 +339,13 @@ const strategicFeatures = [
           <h2
             class="text-foreground font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            Generative <span
+            {copy.solutions.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Solutions</span
+              >{copy.solutions.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Enterprise-grade LLMs designed for measurable business use cases.
+            {copy.solutions.body}
           </p>
         </div>
         <div class="relative">
@@ -372,27 +360,19 @@ const strategicFeatures = [
               [
                 {
                   num: '01',
-                  title: 'Custom AI Assistants',
-                  desc: 'Deploy intelligent agents trained on your documentation, ensuring context-aware support for internal teams or customers. Grounded in your proprietary data via RAG — zero hallucination.',
-                  tag: 'Conversational AI',
+                  ...copy.solutions.items.customAiAssistants,
                 },
                 {
                   num: '02',
-                  title: 'Intelligent Document Processing',
-                  desc: 'Automate the extraction of critical data from contracts, invoices, and reports with high-precision NLP models. Reduce manual review time by up to 80%.',
-                  tag: 'NLP / OCR',
+                  ...copy.solutions.items.intelligentDocumentProcessing,
                 },
                 {
                   num: '03',
-                  title: 'Code Modernization',
-                  desc: 'Accelerate development cycles using AI to refactor legacy codebases, generate comprehensive test suites, and auto-document complex systems at scale.',
-                  tag: 'Dev Acceleration',
+                  ...copy.solutions.items.codeModernization,
                 },
                 {
                   num: '04',
-                  title: 'Content Strategy at Scale',
-                  desc: 'Generate high-fidelity technical documentation and on-brand marketing copy with consistent brand-voice alignment across all channels and formats.',
-                  tag: 'Content AI',
+                  ...copy.solutions.items.contentStrategyAtScale,
                 },
               ].map(({ num, title, desc, tag }) => (
                 <div class="group relative flex gap-6 md:gap-8">
@@ -425,6 +405,8 @@ const strategicFeatures = [
         </div>
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-artificial-intelligence" section="comparison">
     <!-- Before AI / After AI Contrast Section -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-6xl">
@@ -432,14 +414,13 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            Before AI. <span
+            {copy.comparison.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >After BDK.</span
+              >{copy.comparison.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            What changes when governed enterprise AI is embedded in your
-            operations.
+            {copy.comparison.body}
           </p>
         </div>
         <div
@@ -457,18 +438,23 @@ const strategicFeatures = [
               <h3
                 class="font-display text-muted-foreground text-lg font-bold tracking-tight"
               >
-                Before AI Integration
+                {copy.comparison.beforeHeading}
               </h3>
             </div>
             <ul class="space-y-5">
               {
                 [
-                  'Manual review of hundreds of documents daily',
-                  'Decisions based on lagging historical reports',
-                  'Generic public AI tools handling sensitive data',
-                  'Engineers buried in repetitive code documentation',
-                  'Customer support queues with long resolution times',
-                  'Demand forecasting based on intuition and spreadsheets',
+                  copy.comparison.before.manualReviewOfHundredsOfDocumentsDaily,
+                  copy.comparison.before
+                    .decisionsBasedOnLaggingHistoricalReports,
+                  copy.comparison.before
+                    .genericPublicAiToolsHandlingSensitiveData,
+                  copy.comparison.before
+                    .engineersBuriedInRepetitiveCodeDocumentation,
+                  copy.comparison.before
+                    .customerSupportQueuesWithLongResolutionTimes,
+                  copy.comparison.before
+                    .demandForecastingBasedOnIntuitionAndSpreadsheets,
                 ].map((text) => (
                   <li class="flex items-start gap-3">
                     <div class="border-destructive/30 bg-destructive/10 mt-1 h-4 w-4 shrink-0 rounded-full border" />
@@ -491,36 +477,23 @@ const strategicFeatures = [
               <h3
                 class="font-display text-foreground text-lg font-bold tracking-tight"
               >
-                After BDK AI Deployment
+                {copy.comparison.afterHeading}
               </h3>
             </div>
             <ul class="space-y-5">
               {
                 [
-                  {
-                    text: 'Automated document extraction at 10× human speed',
-                    stat: '10×',
-                  },
-                  {
-                    text: 'Predictive models surfacing insights 30–90 days ahead',
-                    stat: '90-day foresight',
-                  },
-                  {
-                    text: 'Private model instances — your data never trains public LLMs',
-                    stat: 'Air-gapped',
-                  },
-                  {
-                    text: 'AI-assisted refactoring and test generation in CI/CD',
-                    stat: 'Dev velocity',
-                  },
-                  {
-                    text: 'Context-aware AI assistants resolving 70%+ of tier-1 tickets',
-                    stat: '70% deflection',
-                  },
-                  {
-                    text: 'ML-powered demand forecasting with measurable accuracy gains',
-                    stat: 'High-fidelity',
-                  },
+                  copy.comparison.after
+                    .automatedDocumentExtractionAt10HumanSpeed,
+                  copy.comparison.after
+                    .predictiveModelsSurfacingInsights3090Days,
+                  copy.comparison.after
+                    .privateModelInstancesYourDataNeverTrains,
+                  copy.comparison.after
+                    .aiAssistedRefactoringAndTestGenerationIn,
+                  copy.comparison.after.contextAwareAiAssistantsResolving70Of,
+                  copy.comparison.after
+                    .mlPoweredDemandForecastingWithMeasurableAccuracy,
                 ].map(({ text, stat }) => (
                   <li class="flex items-start gap-3">
                     <div class="mt-0.5 shrink-0">
@@ -545,41 +518,44 @@ const strategicFeatures = [
         </div>
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-artificial-intelligence" section="pipeline">
     <!-- Pipeline Section -->
     <section class="py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2
           class="text-foreground font-display mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
         >
-          AI Delivery <span
+          {copy.pipeline.heading}{' '}<span
             class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-            >Framework</span
+            >{copy.pipeline.headingAccent}</span
           >
         </h2>
-        <NeuralPipeline client:visible />
+        <NeuralPipeline client:visible copy={copy.pipeline.steps} />
       </div>
     </section>
 
+    </EditSection>
+    <EditSection record="service-artificial-intelligence" section="faqs" also={['faqHeading']}>
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
         <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          Frequently Asked Questions
+          {copy.faqHeading}
         </h3>
         <div class="mb-20">
           <TechnicalFAQ client:visible faqs={faqs} />
         </div>
       </div>
     </section>
-    <ImpactMetricsSection metrics={metrics} />
+    </EditSection>
+    <EditSection record="service-artificial-intelligence" section="metrics">
+    <ImpactMetricsSection metrics={metrics} copy={settings.metrics} />
+    </EditSection>
+    <EditSection record="service-artificial-intelligence" section="cta">
     <!-- CTA -->
-    <CTASection
-      client:visible
-      title="Plan Your AI Roadmap"
-      description="Define the first 90 days of a governed AI program powered by IBM watsonx."
-      buttonText="Book an AI Strategy Session"
-      buttonHref="/contact#chat"
-    />
+    <CTASection client:visible copy={settings.cta} {...copy.cta} />
+    </EditSection>
   </main>
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

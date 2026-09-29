@@ -1,0 +1,90 @@
+.bdk-section {
+  scroll-margin-top: 48px;
+}
+.bdk-section:target,
+.bdk-section.bdk-flash {
+  animation: bdk-flash 1.8s ease-out;
+}
+@keyframes bdk-flash {
+  from {
+    background: #f0f6fc;
+    box-shadow: 0 0 0 3px #2271b1;
+  }
+  to {
+    background: transparent;
+    box-shadow: 0 0 0 3px transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bdk-section:target,
+  .bdk-section.bdk-flash {
+    animation: none;
+    box-shadow: 0 0 0 3px #2271b1;
+  }
+}
+
+/* Docked live preview: the form keeps the left half, one column so fields stay readable. */
+body.bdk-live-open {
+  --bdk-live-width: max(420px, 50vw);
+}
+body.bdk-live-open #wpwrap {
+  width: auto;
+  margin-right: var(--bdk-live-width);
+}
+body.bdk-live-open #poststuff {
+  min-width: 0;
+}
+body.bdk-live-open #poststuff #post-body.columns-2 {
+  margin-right: 0;
+}
+body.bdk-live-open #poststuff #post-body.columns-2 #postbox-container-1,
+body.bdk-live-open #poststuff #post-body.columns-2 #side-sortables {
+  float: none;
+  clear: both;
+  width: auto;
+  margin-right: 0;
+}
+#bdk-live {
+  position: fixed;
+  top: var(--wp-admin--admin-bar--height, 32px);
+  right: 0;
+  bottom: 0;
+  z-index: 9990;
+  display: flex;
+  flex-direction: column;
+  width: var(--bdk-live-width);
+  border-left: 1px solid #c3c4c7;
+  background: #f0f0f1;
+  box-shadow: -4px 0 16px rgb(0 0 0 / 0.08);
+}
+#bdk-live .bdk-live-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #dcdcde;
+  background: #fff;
+}
+#bdk-live .bdk-live-status {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: #646970;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#bdk-live .bdk-live-stage {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+#bdk-live iframe {
+  position: absolute;
+  top: 0;
+  border: 0;
+  background: #fff;
+  transform-origin: top left;
+}
+#bdk-live iframe.bdk-live-next {
+  visibility: hidden;
+}

@@ -1,0 +1,21 @@
+{
+  "home": "/",
+  "about": "/about",
+  "services": "/services",
+  "blog": "/blog",
+  "contact": "/contact",
+  "privacy": "/privacy",
+  "terms": "/terms",
+  "not-found": "/404",
+  "location-maryland-eastern-shore": "/locations/maryland-eastern-shore",
+  "location-delaware-eastern-shore": "/locations/delaware-eastern-shore",
+  "service-application-development": "/services/application-development",
+  "service-artificial-intelligence": "/services/artificial-intelligence",
+  "service-business-analytics": "/services/business-analytics",
+  "service-cloud-hosting": "/services/cloud-hosting",
+  "service-cybersecurity": "/services/cybersecurity",
+  "service-edi-solutions": "/services/edi-solutions",
+  "service-hosted-erp": "/services/hosted-erp",
+  "service-ibm-power": "/services/ibm-power",
+  "service-managed-it": "/services/managed-it"
+}

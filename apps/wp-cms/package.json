@@ -6,6 +6,11 @@
     "wp:up": "docker compose up -d",
     "wp:down": "docker compose down",
     "wp:cli": "docker compose run --rm cli wp",
-    "wp:seed": "node scripts/seed.mjs"
+    "wp:seed": "node --experimental-strip-types scripts/seed.mjs",
+    "wp:init": "node scripts/setup.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "^4.3.1",
+    "marked": "^16.4.1"
   }
 }

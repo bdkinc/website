@@ -1,58 +1,196 @@
 import * as React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 
 import { cn } from '../../lib/cn';
 import { Slot } from './slot';
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] cursor-pointer disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-  {
-    variants: {
-      variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        destructive:
-          'bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive dark:bg-destructive/60',
-        outline:
-          'border-2 border-primary bg-background shadow-xs text-primary hover:bg-primary/10 dark:bg-input/30 dark:border-primary dark:hover:bg-input/50',
-        secondary:
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost:
-          'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
-        link: 'text-primary underline-offset-4 hover:underline',
-      },
-      size: {
-        default: 'min-h-11 h-11 px-4 py-2 has-[>svg]:px-3',
-        sm: 'min-h-9 h-9 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',
-        lg: 'min-h-11 h-11 rounded-md px-6 has-[>svg]:px-4',
-        cta: 'min-h-11 h-11 rounded-md px-8 py-3 has-[>svg]:px-6',
-        icon: 'size-11 min-h-11 min-w-11',
-        'icon-sm': 'size-9 min-h-9 min-w-9',
-        'icon-lg': 'size-11 min-h-11 min-w-11',
+const hover = '@media (hover: hover)';
+const styles = stylex.create({
+  base: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    whiteSpace: 'nowrap',
+    borderRadius: 'calc(var(--radius) - 2px)',
+    fontSize: '.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 500,
+    transitionProperty:
+      'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing',
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
+    cursor: 'pointer',
+    flexShrink: 0,
+    outline: 'none',
+    pointerEvents: { default: 'auto', ':disabled': 'none' },
+    opacity: { default: 1, ':disabled': 0.5 },
+    '--button-ring': {
+      default: 'var(--ring)',
+      '[aria-invalid="true"]': 'var(--button-invalid-ring)',
+    },
+    boxShadow: {
+      default: 'none',
+      ':focus-visible':
+        '0 0 0 2px var(--background), 0 0 0 4px var(--button-ring)',
+    },
+    borderColor: {
+      default: 'transparent',
+      '[aria-invalid="true"]': 'var(--destructive)',
+    },
+  },
+  default: {
+    backgroundColor: {
+      default: 'var(--primary)',
+      [hover]: {
+        default: 'var(--primary)',
+        ':hover': 'color-mix(in oklab, var(--primary) 90%, transparent)',
       },
     },
-    defaultVariants: {
-      variant: 'default',
-      size: 'default',
+    color: 'var(--primary-foreground)',
+  },
+  destructive: {
+    backgroundColor: 'var(--destructive)',
+    color: '#fff',
+    '--button-ring': 'var(--destructive)',
+  },
+  outline: {
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor: {
+      default: 'var(--primary)',
+      '[aria-invalid="true"]': 'var(--destructive)',
     },
-  }
-);
+    backgroundColor: {
+      default: 'var(--background)',
+      [hover]: {
+        default: 'var(--background)',
+        ':hover': 'color-mix(in oklab, var(--primary) 10%, transparent)',
+      },
+    },
+    color: 'var(--primary)',
+  },
+  secondary: {
+    backgroundColor: 'var(--secondary)',
+  },
+  ghost: {
+    backgroundColor: {
+      default: 'transparent',
+      [hover]: {
+        default: 'transparent',
+        ':hover': 'var(--button-ghost-hover)',
+      },
+    },
+    color: {
+      default: 'inherit',
+      [hover]: { default: 'inherit', ':hover': 'var(--accent-foreground)' },
+    },
+  },
+  link: {
+    color: 'var(--primary)',
+  },
+  sizeDefault: {
+    minHeight: 44,
+    height: 44,
+    paddingInline: 16,
+    paddingBlock: 8,
+  },
+  sm: {
+    height: 36,
+    borderRadius: 'calc(var(--radius) - 2px)',
+    gap: 6,
+    paddingInline: 12,
+  },
+  lg: {
+    minHeight: 44,
+    height: 44,
+    borderRadius: 'calc(var(--radius) - 2px)',
+    paddingInline: 24,
+  },
+  cta: {
+    minHeight: 44,
+    height: 44,
+    borderRadius: 'calc(var(--radius) - 2px)',
+    paddingInline: 32,
+    paddingBlock: 12,
+  },
+  icon: { minWidth: 44, minHeight: 44 },
+  // size-9/min-h-9/min-w-9 were never generated, so icon-sm rendered unsized.
+  iconSm: {},
+  iconLg: { minWidth: 44, minHeight: 44 },
+});
+
+type ButtonVariant =
+  'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+type ButtonSize =
+  'default' | 'sm' | 'lg' | 'cta' | 'icon' | 'icon-sm' | 'icon-lg';
+interface ButtonVariants {
+  variant?: ButtonVariant | null;
+  size?: ButtonSize | null;
+}
+
+const variants = {
+  default: styles.default,
+  destructive: styles.destructive,
+  outline: styles.outline,
+  secondary: styles.secondary,
+  ghost: styles.ghost,
+  link: styles.link,
+};
+const sizes = {
+  default: styles.sizeDefault,
+  sm: styles.sm,
+  lg: styles.lg,
+  cta: styles.cta,
+  icon: styles.icon,
+  'icon-sm': styles.iconSm,
+  'icon-lg': styles.iconLg,
+};
+
+// Keep the string API for Astro consumers.
+function buttonVariants(
+  options: ButtonVariants & { class?: string; className?: string } = {}
+) {
+  return cn(
+    stylex.props(
+      styles.base,
+      options.variant !== null && variants[options.variant ?? 'default'],
+      options.size !== null && sizes[options.size ?? 'default']
+    ).className,
+    'bdk-button',
+    options.class,
+    options.className
+  );
+}
+
+interface ButtonProps extends React.ComponentProps<'button'>, ButtonVariants {
+  asChild?: boolean;
+  xstyle?: StyleXStyles;
+}
 
 function Button({
   className,
   variant,
   size,
   asChild = false,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<'button'> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean;
-  }) {
+}: ButtonProps) {
   const Comp = asChild ? Slot : 'button';
-
+  const applied = stylex.props(
+    styles.base,
+    variant !== null && variants[variant ?? 'default'],
+    size !== null && sizes[size ?? 'default'],
+    xstyle
+  );
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      {...applied}
+      className={cn(applied.className, 'bdk-button', className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     />
   );

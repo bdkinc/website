@@ -1,0 +1,8 @@
+---
+import { object, text, heading, body } from '@/lib/copy';
+import type { SiteSettings } from '@bdkinc/content';
+interface Props { copy?: unknown; settings: SiteSettings }
+const { settings } = Astro.props;
+const copy = object(Astro.props.copy || settings.cta);
+---
+<section class="cta wrap" id="conversation"><div><p class="eyebrow">{settings.navigation.contact}</p><h2>{heading(copy)}</h2><p>{body(copy) || [copy.descriptionLead, copy.descriptionBrand, copy.descriptionEnd].map(text).join('')}</p></div><a class="button" href={text(copy.buttonHref) || '/contact#chat'}>{text(copy.buttonText) || settings.cta.buttonText}</a></section>

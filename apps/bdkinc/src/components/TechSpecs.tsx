@@ -1,5 +1,62 @@
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { PiCheckCircle, PiHeadphones, PiMonitor } from 'react-icons/pi';
+import { cn } from '@bdkinc/design-system';
 import { TechCard } from '@/components/TechCard';
+
+const styles = stylex.create({
+  grid: {
+    display: 'grid',
+    gap: '2rem',
+    marginBottom: '5rem',
+    gridTemplateColumns: {
+      default: 'repeat(1, minmax(0, 1fr))',
+      '@media (min-width: 48rem)': 'repeat(2, minmax(0, 1fr))',
+    },
+  },
+  body: { padding: '2rem' },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+    marginBottom: '1.5rem',
+    paddingBottom: '1rem',
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+  },
+  iconBox: {
+    padding: '0.5rem',
+    borderRadius: 'calc(var(--radius) - 2px)',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+  },
+  icon: { height: '1.5rem', width: '1.5rem', color: 'var(--primary)' },
+  title: {
+    fontFamily: 'var(--font-display)',
+    color: 'var(--foreground)',
+    fontSize: '1.25rem',
+    lineHeight: '1.75rem',
+    fontWeight: 700,
+    letterSpacing: '0.025em',
+  },
+  // `space-y-4` becomes a flex column gap (no sibling selectors in StyleX).
+  list: { display: 'flex', flexDirection: 'column', gap: '1rem' },
+  item: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '0.75rem',
+    fontFamily: 'var(--font-sans)',
+    color: 'var(--muted-foreground)',
+  },
+  check: {
+    height: '1.25rem',
+    width: '1.25rem',
+    flexShrink: 0,
+    marginTop: '0.125rem',
+    color: 'var(--primary)',
+  },
+});
+
 const detailColumns = [
   {
     title: 'Support Tiers',
@@ -20,31 +77,28 @@ const detailColumns = [
     ],
   },
 ];
-export default function TechSpecs() {
+export default function TechSpecs({ xstyle }: { xstyle?: StyleXStyles }) {
+  const applied = stylex.props(styles.grid, xstyle);
   return (
-    <div className="not-prose mb-20 grid gap-8 md:grid-cols-2">
+    // `not-prose` opts this grid out of an ancestor typography plugin's descendants.
+    <div {...applied} className={cn(applied.className, 'not-prose')}>
       {detailColumns.map((column, index) => (
         <TechCard key={index} variant="technical" interactive={false}>
-          <div className="p-8">
-            <div className="border-primary/20 mb-6 flex items-center gap-4 border-b pb-4">
-              <div className="bg-primary/10 rounded-md p-2">
+          <div {...stylex.props(styles.body)}>
+            <div {...stylex.props(styles.header)}>
+              <div {...stylex.props(styles.iconBox)}>
                 <column.icon
-                  className="text-primary h-6 w-6"
+                  {...stylex.props(styles.icon)}
                   aria-hidden="true"
                 />
               </div>
-              <h4 className="font-display text-foreground text-xl font-bold tracking-wide">
-                {column.title}
-              </h4>
+              <h4 {...stylex.props(styles.title)}>{column.title}</h4>
             </div>
-            <ul className="space-y-4">
+            <ul {...stylex.props(styles.list)}>
               {column.items.map((item, idx) => (
-                <li
-                  key={idx}
-                  className="text-muted-foreground flex items-start gap-3 font-sans"
-                >
+                <li key={idx} {...stylex.props(styles.item)}>
                   <PiCheckCircle
-                    className="text-primary mt-0.5 h-5 w-5 shrink-0"
+                    {...stylex.props(styles.check)}
                     aria-hidden="true"
                   />
                   <span>{item}</span>

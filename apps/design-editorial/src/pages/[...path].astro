@@ -1,0 +1,12 @@
+---
+import { getSiteRoutes, type SiteRoute } from '@bdkinc/content/routes';
+import { client } from '@/lib/content';
+import RouteView from '@/components/RouteView.astro';
+export const prerender = true;
+export async function getStaticPaths() {
+  return (await getSiteRoutes(client())).filter(route => route.path !== '/404').map(route => ({ params: { path: route.path.slice(1) || undefined }, props: { route } }));
+}
+interface Props { route: SiteRoute }
+const { route } = Astro.props;
+---
+<RouteView route={route} />

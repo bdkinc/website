@@ -1,0 +1,713 @@
+{
+  "key": "service-managed-it",
+  "kind": "page",
+  "title": "Managed IT page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "badgePrefix": {
+          "type": "text",
+          "label": "Badge — opening text"
+        },
+        "badgeAccent": {
+          "type": "text",
+          "label": "Badge — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "capabilities": {
+      "type": "group",
+      "label": "Core capabilities",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "bodyBefore": {
+          "type": "textarea",
+          "label": "Introduction — before emphasis"
+        },
+        "bodyAccent": {
+          "type": "textarea",
+          "label": "Introduction — emphasized text"
+        },
+        "bodyAfter": {
+          "type": "textarea",
+          "label": "Introduction — after emphasis"
+        },
+        "enterpriseServiceDesk": {
+          "type": "group",
+          "label": "Enterprise Service Desk",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "predictiveIntelligence": {
+          "type": "group",
+          "label": "Predictive Intelligence",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "strategicCoManagement": {
+          "type": "group",
+          "label": "Strategic Co-Management",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        }
+      }
+    },
+    "leadership": {
+      "type": "group",
+      "label": "Leadership narrative",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "quoteBefore": {
+          "type": "textarea",
+          "label": "Quotation — before emphasis"
+        },
+        "quoteAccent": {
+          "type": "textarea",
+          "label": "Quotation — emphasized text"
+        },
+        "quoteAfter": {
+          "type": "textarea",
+          "label": "Quotation — after emphasis"
+        }
+      }
+    },
+    "strategy": {
+      "type": "group",
+      "label": "Strategic advantage",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "features": {
+          "type": "group",
+          "label": "Features",
+          "fields": {
+            "operationalResilience": {
+              "type": "group",
+              "label": "Operational Resilience",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "scalableArchitecture": {
+              "type": "group",
+              "label": "Scalable Architecture",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "costPredictability": {
+              "type": "group",
+              "label": "Cost Predictability",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "securityPosture": {
+              "type": "group",
+              "label": "Security Posture",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "comparison": {
+      "type": "group",
+      "label": "Before and after",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "beforeHeading": {
+          "type": "text",
+          "label": "Before Heading"
+        },
+        "afterHeading": {
+          "type": "text",
+          "label": "After Heading"
+        },
+        "before": {
+          "type": "group",
+          "label": "Before",
+          "fields": {
+            "item3amAlertsWakingYourTeamForServer": {
+              "type": "group",
+              "label": "Item3am Alerts Waking Your Team For Server",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            },
+            "patchCyclesSlippingAndCreatingSecurityGaps": {
+              "type": "group",
+              "label": "Patch Cycles Slipping And Creating Security Gaps",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            },
+            "unexpectedHardwareFailuresDisruptingOperations": {
+              "type": "group",
+              "label": "Unexpected Hardware Failures Disrupting Operations",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            },
+            "shadowItAndUnmanagedEndpoints": {
+              "type": "group",
+              "label": "Shadow It And Unmanaged Endpoints",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            },
+            "recruitingAndRetainingSpecializedItTalent": {
+              "type": "group",
+              "label": "Recruiting And Retaining Specialized It Talent",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            },
+            "unpredictableCapitalExpensesForInfrastructure": {
+              "type": "group",
+              "label": "Unpredictable Capital Expenses For Infrastructure",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            }
+          }
+        },
+        "after": {
+          "type": "group",
+          "label": "After",
+          "fields": {
+            "item247NocCoverageWithSub15": {
+              "type": "group",
+              "label": "Item247 Noc Coverage With Sub15",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            },
+            "automatedPatchManagementWith99Compliance": {
+              "type": "group",
+              "label": "Automated Patch Management With99 Compliance",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            },
+            "predictiveFailureDetectionBeforeImpactOccurs": {
+              "type": "group",
+              "label": "Predictive Failure Detection Before Impact Occurs",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            },
+            "completeAssetVisibilityAcrossEveryEndpoint": {
+              "type": "group",
+              "label": "Complete Asset Visibility Across Every Endpoint",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            },
+            "dedicatedSeniorEngineersWhoKnowYourEnvironment": {
+              "type": "group",
+              "label": "Dedicated Senior Engineers Who Know Your Environment",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            },
+            "flatFeeModelPredictableMonthlyItSpend": {
+              "type": "group",
+              "label": "Flat Fee Model Predictable Monthly It Spend",
+              "fields": {
+                "text": {
+                  "type": "text",
+                  "label": "Text"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "faqHeading": { "type": "text", "label": "FAQ section heading" },
+    "faqs": {
+      "type": "group",
+      "label": "Frequently asked questions",
+      "fields": {
+        "howDoesBdkincIntegrateWithOurExisting": {
+          "type": "group",
+          "label": "How does BDKinc integrate with our existing internal IT team?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "whatIndustriesDoYouSpecializeInSupporting": {
+          "type": "group",
+          "label": "What industries do you specialize in supporting?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "howDoYouHandleRapidOrganizationalScaling": {
+          "type": "group",
+          "label": "How do you handle rapid organizational scaling or M&A activity?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "group",
+      "label": "Impact metrics",
+      "fields": {
+        "ticketsClosed": {
+          "type": "group",
+          "label": "Tickets Closed",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "firstCallResolution": {
+          "type": "group",
+          "label": "First-Call Resolution",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "hourOnsiteSla": {
+          "type": "group",
+          "label": "Hour Onsite SLA",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "supportCoverage": {
+          "type": "group",
+          "label": "Support Coverage",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        }
+      }
+    },
+    "serviceSchema": {
+      "type": "group",
+      "label": "Service structured data",
+      "fields": {
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "serviceType": {
+          "type": "text",
+          "label": "Service Type"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "faqHeading": "Frequently Asked Questions",
+    "hero": {
+      "badgePrefix": "24/7 Business",
+      "badgeAccent": "Support",
+      "body": "Technology shouldn’t be a bottleneck; it should be an accelerator. We monitor your systems 24/7, preventing issues before they disrupt your operations."
+    },
+    "capabilities": {
+      "heading": "Core",
+      "headingAccent": "Capabilities",
+      "bodyBefore": "Comprehensive infrastructure management designed for the",
+      "bodyAccent": "modern enterprise",
+      "bodyAfter": ".",
+      "enterpriseServiceDesk": {
+        "title": "Enterprise Service Desk",
+        "description": "Beyond basic troubleshooting. Our tiered support structure resolves 98% of incidents on first contact, providing your team with immediate access to senior engineers."
+      },
+      "predictiveIntelligence": {
+        "title": "Predictive Intelligence",
+        "description": "We don't just react to alerts; we anticipate failures utilizing advanced telemetry and AI-driven analytics to identify anomalies before they impact your users."
+      },
+      "strategicCoManagement": {
+        "title": "Strategic Co-Management",
+        "description": "Whether acting as your entire IT department or augmenting your internal team, we integrate seamlessly with your workflows and provide specialized expertise."
+      }
+    },
+    "leadership": {
+      "heading": "Technology",
+      "headingAccent": "Leadership",
+      "quoteBefore": "“True business growth requires more than keeping the lights on. It demands a technology strategy that",
+      "quoteAccent": "anticipates challenges",
+      "quoteAfter": "and scales with your ambition. We architect, manage, and secure your infrastructure so you can focus on driving your business forward.”"
+    },
+    "strategy": {
+      "heading": "The Strategic",
+      "headingAccent": "Advantage",
+      "body": "Move beyond break/fix and operational drag with a partner who builds for the future.",
+      "features": {
+        "operationalResilience": {
+          "title": "Operational Resilience",
+          "description": "Systems designed for 99.99% uptime, ensuring your business never pauses.",
+          "highlight": "99.99% uptime",
+          "detail": "Our managed infrastructure is built on high-availability clusters and redundant network paths. We don't just aim for uptime; we guarantee it through rigorous architectural standards and automated failover protocols that keep your critical applications running even during hardware failures."
+        },
+        "scalableArchitecture": {
+          "title": "Scalable Architecture",
+          "description": "Infrastructure that adapts instantly to mergers, acquisitions, and rapid user growth.",
+          "highlight": "adapts instantly",
+          "detail": "Growth shouldn't be painful. Whether you're onboarding 50 new employees or integrating a newly acquired branch, our cloud-first architecture allows for rapid resource provisioning. We eliminate the 'wait-and-see' approach to hardware procurement, replacing it with elastic capacity."
+        },
+        "costPredictability": {
+          "title": "Cost Predictability",
+          "description": "Shift from volatile capital expenditures to predictable, value-driven operational models.",
+          "highlight": "value-driven operational models",
+          "detail": "Eliminate the 'surprise' IT bill. Our flat-fee managed services model turns your IT spend into a predictable monthly utility. This allows for better financial planning and ensures that our incentives are perfectly aligned with yours: keeping your systems running perfectly."
+        },
+        "securityPosture": {
+          "title": "Security Posture",
+          "description": "Enterprise-grade defense mechanisms interwoven into daily operations, not bolted on.",
+          "highlight": "interwoven into daily operations",
+          "detail": "Security is not a separate department; it's a fundamental property of every system we manage. From endpoint protection and multi-factor authentication to continuous vulnerability scanning, we build a 'defense-in-depth' strategy that protects your intellectual property and customer data."
+        }
+      }
+    },
+    "comparison": {
+      "heading": "Stop Managing IT.",
+      "headingAccent": "Start Leading It.",
+      "body": "Here’s what changes when BDK takes ownership of your infrastructure.",
+      "beforeHeading": "The Old Way",
+      "afterHeading": "The BDK Way",
+      "before": {
+        "item3amAlertsWakingYourTeamForServer": {
+          "text": "3am alerts waking your team for server issues"
+        },
+        "patchCyclesSlippingAndCreatingSecurityGaps": {
+          "text": "Patch cycles slipping and creating security gaps"
+        },
+        "unexpectedHardwareFailuresDisruptingOperations": {
+          "text": "Unexpected hardware failures disrupting operations"
+        },
+        "shadowItAndUnmanagedEndpoints": {
+          "text": "Shadow IT and unmanaged endpoints"
+        },
+        "recruitingAndRetainingSpecializedItTalent": {
+          "text": "Recruiting and retaining specialized IT talent"
+        },
+        "unpredictableCapitalExpensesForInfrastructure": {
+          "text": "Unpredictable capital expenses for infrastructure"
+        }
+      },
+      "after": {
+        "item247NocCoverageWithSub15": {
+          "text": "24/7 NOC coverage with sub-15 minute response SLAs"
+        },
+        "automatedPatchManagementWith99Compliance": {
+          "text": "Automated patch management with 99%+ compliance"
+        },
+        "predictiveFailureDetectionBeforeImpactOccurs": {
+          "text": "Predictive failure detection before impact occurs"
+        },
+        "completeAssetVisibilityAcrossEveryEndpoint": {
+          "text": "Complete asset visibility across every endpoint"
+        },
+        "dedicatedSeniorEngineersWhoKnowYourEnvironment": {
+          "text": "Dedicated senior engineers who know your environment"
+        },
+        "flatFeeModelPredictableMonthlyItSpend": {
+          "text": "Flat-fee model: predictable monthly IT spend"
+        }
+      }
+    },
+    "metrics": {
+      "ticketsClosed": {
+        "value": "10K+",
+        "label": "Tickets Closed"
+      },
+      "firstCallResolution": {
+        "value": "98%",
+        "label": "First-Call Resolution"
+      },
+      "hourOnsiteSla": {
+        "value": "2",
+        "label": "Hour Onsite SLA"
+      },
+      "supportCoverage": {
+        "value": "24/7",
+        "label": "Support Coverage"
+      }
+    },
+    "faqs": {
+      "howDoesBdkincIntegrateWithOurExisting": {
+        "question": "How does BDKinc integrate with our existing internal IT team?",
+        "answer": "We function as a force multiplier for your internal team. Our Co-Managed IT model handles the heavy lifting of monitoring, patching, and Level 1 support, freeing your internal leaders to focus on high-value strategic initiatives and proprietary business applications."
+      },
+      "whatIndustriesDoYouSpecializeInSupporting": {
+        "question": "What industries do you specialize in supporting?",
+        "answer": "We specialize in high-complexity, compliance-driven sectors including healthcare, finance, manufacturing, and logistics. Our engineers are well-versed in the regulatory requirements and operational demands of environments where downtime is not an option."
+      },
+      "howDoYouHandleRapidOrganizationalScaling": {
+        "question": "How do you handle rapid organizational scaling or M&A activity?",
+        "answer": "Our infrastructure is built for elasticity. We have extensive experience navigating the technical integration of mergers and acquisitions, standardizing disparate systems, and rapidly onboarding new users to ensure business continuity during critical growth phases."
+      }
+    },
+    "seo": {
+      "title": "Elite Managed IT Services & Strategic Technology Management | BDKinc",
+      "description": "Transform your technology into a competitive advantage. BDKinc provides elite managed IT services, 24/7 enterprise support, and strategic infrastructure leadership for growth-focused organizations.",
+      "ogDescription": "Elite managed IT services delivering 24/7 enterprise support, proactive infrastructure management, and strategic technology leadership for growth-focused organizations."
+    },
+    "cta": {
+      "title": "Stop Managing IT. Start Leading It.",
+      "description": "Your team deserves to focus on strategy, not servers. Let BDK own the infrastructure so you can own the future.",
+      "buttonText": "Schedule a Strategy Session",
+      "buttonHref": "/contact#chat"
+    },
+    "serviceSchema": {
+      "description": "Elite managed IT services delivering 24/7 enterprise support, proactive infrastructure management, and strategic technology leadership for growth-focused organizations.",
+      "serviceType": "Managed IT Services"
+    }
+  }
+}

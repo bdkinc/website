@@ -1,0 +1,963 @@
+{
+  "key": "service-cybersecurity",
+  "kind": "page",
+  "title": "Cybersecurity page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "badgePrefix": {
+          "type": "text",
+          "label": "Badge — opening text"
+        },
+        "badgeAccent": {
+          "type": "text",
+          "label": "Badge — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "capabilities": {
+      "type": "group",
+      "label": "Core capabilities",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "bodyBefore": {
+          "type": "textarea",
+          "label": "Introduction — before emphasis"
+        },
+        "bodyAccent": {
+          "type": "textarea",
+          "label": "Introduction — emphasized text"
+        },
+        "bodyAfter": {
+          "type": "textarea",
+          "label": "Introduction — after emphasis"
+        },
+        "managedDetection": {
+          "type": "group",
+          "label": "Managed Detection & Response",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "ransomwareDefense": {
+          "type": "group",
+          "label": "Ransomware Defense",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "complianceEngineering": {
+          "type": "group",
+          "label": "Compliance Engineering",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        }
+      }
+    },
+    "leadership": {
+      "type": "group",
+      "label": "Leadership narrative",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "quoteBefore": {
+          "type": "textarea",
+          "label": "Quotation — before emphasis"
+        },
+        "quoteAccent": {
+          "type": "textarea",
+          "label": "Quotation — emphasized text"
+        },
+        "quoteAfter": {
+          "type": "textarea",
+          "label": "Quotation — after emphasis"
+        }
+      }
+    },
+    "strategy": {
+      "type": "group",
+      "label": "Strategic advantage",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "features": {
+          "type": "group",
+          "label": "Features",
+          "fields": {
+            "adaptiveThreatIntelligence": {
+              "type": "group",
+              "label": "Adaptive Threat Intelligence",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "zeroTrustArchitecture": {
+              "type": "group",
+              "label": "Zero-Trust Architecture",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "complianceEngineering": {
+              "type": "group",
+              "label": "Compliance Engineering",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "resilientRecovery": {
+              "type": "group",
+              "label": "Resilient Recovery",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "framework": {
+      "type": "group",
+      "label": "Security framework",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "stages": {
+          "type": "group",
+          "label": "Stages",
+          "fields": {
+            "prevent": {
+              "type": "group",
+              "label": "Prevent",
+              "fields": {
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "firewallManagement": {
+                      "type": "text",
+                      "label": "Firewall Management"
+                    },
+                    "endpointProtection": {
+                      "type": "text",
+                      "label": "Endpoint Protection"
+                    },
+                    "emailSecurity": {
+                      "type": "text",
+                      "label": "Email Security"
+                    },
+                    "userEducation": {
+                      "type": "text",
+                      "label": "User Education"
+                    },
+                    "accessControls": {
+                      "type": "text",
+                      "label": "Access Controls"
+                    }
+                  }
+                }
+              }
+            },
+            "detect": {
+              "type": "group",
+              "label": "Detect",
+              "fields": {
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "item247Monitoring": {
+                      "type": "text",
+                      "label": "Item247 Monitoring"
+                    },
+                    "intrusionDetection": {
+                      "type": "text",
+                      "label": "Intrusion Detection"
+                    },
+                    "logAnalysis": {
+                      "type": "text",
+                      "label": "Log Analysis"
+                    },
+                    "vulnerabilityScanning": {
+                      "type": "text",
+                      "label": "Vulnerability Scanning"
+                    },
+                    "threatIntelligence": {
+                      "type": "text",
+                      "label": "Threat Intelligence"
+                    }
+                  }
+                }
+              }
+            },
+            "respond": {
+              "type": "group",
+              "label": "Respond",
+              "fields": {
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "incidentResponse": {
+                      "type": "text",
+                      "label": "Incident Response"
+                    },
+                    "forensicAnalysis": {
+                      "type": "text",
+                      "label": "Forensic Analysis"
+                    },
+                    "containmentProcedures": {
+                      "type": "text",
+                      "label": "Containment Procedures"
+                    },
+                    "recoveryProcesses": {
+                      "type": "text",
+                      "label": "Recovery Processes"
+                    },
+                    "postIncidentReview": {
+                      "type": "text",
+                      "label": "Post Incident Review"
+                    }
+                  }
+                }
+              }
+            },
+            "recover": {
+              "type": "group",
+              "label": "Recover",
+              "fields": {
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "backupSystems": {
+                      "type": "text",
+                      "label": "Backup Systems"
+                    },
+                    "recoveryProcedures": {
+                      "type": "text",
+                      "label": "Recovery Procedures"
+                    },
+                    "continuityPlanning": {
+                      "type": "text",
+                      "label": "Continuity Planning"
+                    },
+                    "communicationProtocols": {
+                      "type": "text",
+                      "label": "Communication Protocols"
+                    },
+                    "systemRestoration": {
+                      "type": "text",
+                      "label": "System Restoration"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "benefits": {
+      "type": "group",
+      "label": "Benefits",
+      "fields": {
+        "items": {
+          "type": "group",
+          "label": "Offerings",
+          "fields": {
+            "reduceRisk": {
+              "type": "group",
+              "label": "Reduce Risk",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "ensureCompliance": {
+              "type": "group",
+              "label": "Ensure Compliance",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "minimizeDowntime": {
+              "type": "group",
+              "label": "Minimize Downtime",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "protectReputation": {
+              "type": "group",
+              "label": "Protect Reputation",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "item247PeaceOfMind": {
+              "type": "group",
+              "label": "24/7 Peace of Mind",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "expertGuidance": {
+              "type": "group",
+              "label": "Expert Guidance",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "specifications": {
+      "type": "group",
+      "label": "Technical specifications",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "columns": {
+          "type": "group",
+          "label": "Columns",
+          "fields": {
+            "managedDetectionResponse": {
+              "type": "group",
+              "label": "Managed Detection & Response",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "realTimeMonitoringAcrossEndpointsNetworkAnd": {
+                      "type": "text",
+                      "label": "Real Time Monitoring Across Endpoints Network And"
+                    },
+                    "securityAnalystsTriageAlertsAndCoordinateRemediation": {
+                      "type": "text",
+                      "label": "Security Analysts Triage Alerts And Coordinate Remediation"
+                    },
+                    "threatIntelligenceFeedsKeepDefensesTunedTo": {
+                      "type": "text",
+                      "label": "Threat Intelligence Feeds Keep Defenses Tuned To"
+                    }
+                  }
+                }
+              }
+            },
+            "complianceRisk": {
+              "type": "group",
+              "label": "Compliance & Risk",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "mappedControlsForHipaaPciCjisNist": {
+                      "type": "text",
+                      "label": "Mapped Controls For Hipaa Pci Cjis Nist"
+                    },
+                    "auditReadyReportingWithEvidenceCollectionAnd": {
+                      "type": "text",
+                      "label": "Audit Ready Reporting With Evidence Collection And"
+                    },
+                    "executiveBriefingsTranslateRiskPostureIntoAction": {
+                      "type": "text",
+                      "label": "Executive Briefings Translate Risk Posture Into Action"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "faqHeading": { "type": "text", "label": "FAQ section heading" },
+    "faqs": {
+      "type": "group",
+      "label": "Frequently asked questions",
+      "fields": {
+        "howDoesBdkincIntegrateWithOurExisting": {
+          "type": "group",
+          "label": "How does BDKinc integrate with our existing IT team?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "canYouAssistWithSoc2Hipaa": {
+          "type": "group",
+          "label": "Can you assist with SOC 2, HIPAA, and PCI compliance?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "whatIsYourResponseTimeForCritical": {
+          "type": "group",
+          "label": "What is your response time for critical security incidents?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "group",
+      "label": "Impact metrics",
+      "fields": {
+        "securityMonitoring": {
+          "type": "group",
+          "label": "Security Monitoring",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "averageAlertResponse": {
+          "type": "group",
+          "label": "Average Alert Response",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "uptimeTarget": {
+          "type": "group",
+          "label": "Uptime Target",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "complianceReadiness": {
+          "type": "group",
+          "label": "Compliance Readiness",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "titleSuffix": {
+          "type": "text",
+          "label": "Title Suffix"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        }
+      }
+    },
+    "serviceSchema": {
+      "type": "group",
+      "label": "Service structured data",
+      "fields": {
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "serviceType": {
+          "type": "text",
+          "label": "Service Type"
+        },
+        "areaServed": {
+          "type": "group",
+          "label": "Area Served",
+          "fields": {
+            "national": {
+              "type": "text",
+              "label": "National"
+            },
+            "global": {
+              "type": "text",
+              "label": "Global"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaults": {
+    "faqHeading": "Frequently Asked Questions",
+    "hero": {
+      "badgePrefix": "24/7 Threat",
+      "badgeAccent": "Protection",
+      "body": "Fortified security for a complex world. Enterprise-grade threat resilience, managed detection and response, and rigorous compliance engineering for high-stakes environments."
+    },
+    "capabilities": {
+      "heading": "Core",
+      "headingAccent": "Capabilities",
+      "bodyBefore": "Comprehensive security management designed for the",
+      "bodyAccent": "modern enterprise",
+      "bodyAfter": ".",
+      "managedDetection": {
+        "title": "Managed Detection & Response",
+        "description": "24/7/365 surveillance of your entire digital estate. Our SOC analysts leverage advanced telemetry to detect anomalies, investigate threats, and neutralize attacks before they impact operations."
+      },
+      "ransomwareDefense": {
+        "title": "Ransomware Defense",
+        "description": "Zero-trust architecture combined with immutable backups. We implement rigorous prevention strategies and rapid recovery protocols to ensure business continuity in the face of extortion attempts."
+      },
+      "complianceEngineering": {
+        "title": "Compliance Engineering",
+        "description": "We don't just consult on compliance; we engineer it. Our team implements the technical controls required for HIPAA, PCI DSS, SOC 2, and NIST frameworks to prepare you for audits."
+      }
+    },
+    "leadership": {
+      "heading": "Security",
+      "headingAccent": "Leadership",
+      "quoteBefore": "“In an era of sophisticated attacks, reactive security is failure. We architect",
+      "quoteAccent": "proactive resilience",
+      "quoteAfter": "into every layer of your digital estate, ensuring your data is protected and your operations are audit-ready 24/7.”"
+    },
+    "strategy": {
+      "heading": "The Strategic",
+      "headingAccent": "Advantage",
+      "body": "Move beyond antivirus and basic firewalls with a partner who builds defense-in-depth security architectures.",
+      "features": {
+        "adaptiveThreatIntelligence": {
+          "title": "Adaptive Threat Intelligence",
+          "description": "Real-time defense that evolves with the threat landscape.",
+          "highlight": "Real-time defense",
+          "detail": "We don't just react to known threats; we use advanced telemetry and global intelligence feeds to anticipate and block emerging attack vectors before they reach your network."
+        },
+        "zeroTrustArchitecture": {
+          "title": "Zero-Trust Architecture",
+          "description": "Verify every user and device, every time, regardless of location.",
+          "highlight": "Verify every user",
+          "detail": "Our security models are built on the principle of 'never trust, always verify.' We implement robust identity management and micro-segmentation to prevent lateral movement within your infrastructure."
+        },
+        "complianceEngineering": {
+          "title": "Compliance Engineering",
+          "description": "Automating evidence collection and technical controls for rigorous audits.",
+          "highlight": "Automating evidence collection",
+          "detail": "We map your technical controls directly to HIPAA, PCI, and SOC 2 frameworks, turning compliance from a yearly burden into a continuous, automated property of your IT operations."
+        },
+        "resilientRecovery": {
+          "title": "Resilient Recovery",
+          "description": "Immutable backups and rapid containment protocols to neutralize ransomware.",
+          "highlight": "Immutable backups",
+          "detail": "In the event of an incident, our rapid-response protocols isolate threats instantly while our immutable backup systems ensure you can restore operations without paying a ransom."
+        }
+      }
+    },
+    "framework": {
+      "heading": "Our Security",
+      "headingAccent": "Framework",
+      "stages": {
+        "prevent": {
+          "label": "Prevent",
+          "items": {
+            "firewallManagement": "Firewall management",
+            "endpointProtection": "Endpoint protection",
+            "emailSecurity": "Email security",
+            "userEducation": "User education",
+            "accessControls": "Access controls"
+          }
+        },
+        "detect": {
+          "label": "Detect",
+          "items": {
+            "item247Monitoring": "24/7 monitoring",
+            "intrusionDetection": "Intrusion detection",
+            "logAnalysis": "Log analysis",
+            "vulnerabilityScanning": "Vulnerability scanning",
+            "threatIntelligence": "Threat intelligence"
+          }
+        },
+        "respond": {
+          "label": "Respond",
+          "items": {
+            "incidentResponse": "Incident response",
+            "forensicAnalysis": "Forensic analysis",
+            "containmentProcedures": "Containment procedures",
+            "recoveryProcesses": "Recovery processes",
+            "postIncidentReview": "Post-incident review"
+          }
+        },
+        "recover": {
+          "label": "Recover",
+          "items": {
+            "backupSystems": "Backup systems",
+            "recoveryProcedures": "Recovery procedures",
+            "continuityPlanning": "Continuity planning",
+            "communicationProtocols": "Communication protocols",
+            "systemRestoration": "System restoration"
+          }
+        }
+      }
+    },
+    "specifications": {
+      "heading": "Technical",
+      "headingAccent": "Specifications",
+      "body": "Rigorous defense protocols engineered for zero-tolerance environments. We build defense-in-depth architectures that protect your most critical assets.",
+      "columns": {
+        "managedDetectionResponse": {
+          "title": "Managed Detection & Response",
+          "items": {
+            "realTimeMonitoringAcrossEndpointsNetworkAnd": "Real-time monitoring across endpoints, network, and cloud workloads",
+            "securityAnalystsTriageAlertsAndCoordinateRemediation": "Security analysts triage alerts and coordinate remediation 24/7",
+            "threatIntelligenceFeedsKeepDefensesTunedTo": "Threat intelligence feeds keep defenses tuned to current attacks"
+          }
+        },
+        "complianceRisk": {
+          "title": "Compliance & Risk",
+          "items": {
+            "mappedControlsForHipaaPciCjisNist": "Mapped controls for HIPAA, PCI, CJIS, NIST, and regional mandates",
+            "auditReadyReportingWithEvidenceCollectionAnd": "Audit-ready reporting with evidence collection and retention",
+            "executiveBriefingsTranslateRiskPostureIntoAction": "Executive briefings translate risk posture into action plans"
+          }
+        }
+      }
+    },
+    "metrics": {
+      "securityMonitoring": {
+        "value": "24/7",
+        "label": "Security Monitoring"
+      },
+      "averageAlertResponse": {
+        "value": "15 min",
+        "label": "Average Alert Response"
+      },
+      "uptimeTarget": {
+        "value": "99.99%",
+        "label": "Uptime Target"
+      },
+      "complianceReadiness": {
+        "value": "100%",
+        "label": "Compliance Readiness"
+      }
+    },
+    "faqs": {
+      "howDoesBdkincIntegrateWithOurExisting": {
+        "question": "How does BDKinc integrate with our existing IT team?",
+        "answer": "We operate as a force multiplier for your internal team. Whether you need a fully managed security operations center (SOC) or co-managed support, we integrate seamlessly into your workflows. We provide the tools, telemetry, and tier-3 expertise, allowing your staff to focus on strategic initiatives while we handle threat detection and response."
+      },
+      "canYouAssistWithSoc2Hipaa": {
+        "question": "Can you assist with SOC 2, HIPAA, and PCI compliance?",
+        "answer": "Yes. We do not just consult on compliance; we engineer it. Our team implements the specific technical controls required for HIPAA, PCI DSS, SOC 2, and NIST frameworks. We map your infrastructure to regulatory requirements, automate evidence collection, and ensure your organization is prepared to pass rigorous third-party audits."
+      },
+      "whatIsYourResponseTimeForCritical": {
+        "question": "What is your response time for critical security incidents?",
+        "answer": "Time is the critical factor in containment. Our Security Operations Center (SOC) operates 24/7/365 with aggressive SLAs. For critical severity incidents, we initiate containment protocols immediately upon detection, minimizing dwell time and preventing lateral movement within your network."
+      }
+    },
+    "benefits": {
+      "items": {
+        "reduceRisk": {
+          "title": "Reduce Risk",
+          "description": "Protect against data breaches, ransomware, and other emerging cyber threats."
+        },
+        "ensureCompliance": {
+          "title": "Ensure Compliance",
+          "description": "Meet industry security standards and regulations including HIPAA, PCI DSS, and SOC 2."
+        },
+        "minimizeDowntime": {
+          "title": "Minimize Downtime",
+          "description": "Quick incident recovery ensures your business operations continue without disruption."
+        },
+        "protectReputation": {
+          "title": "Protect Reputation",
+          "description": "Prevent damaging data breaches that erode customer trust and brand equity."
+        },
+        "item247PeaceOfMind": {
+          "title": "24/7 Peace of Mind",
+          "description": "Rest easy knowing your critical systems are monitored and protected around the clock."
+        },
+        "expertGuidance": {
+          "title": "Expert Guidance",
+          "description": "Direct access to senior security professionals with deep industry expertise."
+        }
+      }
+    },
+    "seo": {
+      "titleSuffix": " & Compliance Services | BDKinc",
+      "description": "Fortified security for a complex world. Enterprise-grade threat resilience, managed detection and response, and rigorous compliance engineering.",
+      "ogDescription": "BDKinc delivers 24/7 managed cybersecurity with ransomware protection, compliance readiness, and rapid incident response for enterprise environments."
+    },
+    "cta": {
+      "title": "Secure Your Digital Future",
+      "description": "Stop settling for standard protection. Partner with the experts who understand enterprise-grade threat resilience.",
+      "buttonText": "Request a Security Audit",
+      "buttonHref": "/contact#chat"
+    },
+    "serviceSchema": {
+      "description": "Fortified security for a complex world. Enterprise-grade threat resilience, managed detection and response, and rigorous compliance engineering for high-stakes environments.",
+      "serviceType": "Managed Cybersecurity Services",
+      "areaServed": {
+        "national": "National",
+        "global": "Global"
+      }
+    }
+  }
+}

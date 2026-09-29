@@ -1,10 +1,12 @@
 ---
-import { getEntry, getCollection } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { getContentEntry, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+import { interpolateCopy } from '@/lib/copy';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
-import { getLocationBySlug } from '@/lib/locations';
+import { getLocationBySlug, getNearbyLocations } from '@/lib/locations';
 import {
   PiMapPin,
   PiPhone,
@@ -18,13 +20,9 @@ import {
 } from 'react-icons/pi';
 import { Card } from '@bdkinc/design-system';
 import Footer from '@/components/Footer.astro';
-
-const slugifyLocation = (name: string) =>
-  name.toLowerCase().replace(/\s+/g, '-').replace(/,/g, '');
+import EditSection from '@/components/preview/EditSection.astro';
 
 export async function getStaticPaths() {
-  const slugifyLocation = (name: string) =>
-    name.toLowerCase().replace(/\s+/g, '-').replace(/,/g, '');
 
   const industries = await getCollection('pseoIndustries');
   const locations = await getCollection('locations');
@@ -32,7 +30,7 @@ export async function getStaticPaths() {
 
   for (const industry of industries) {
     for (const location of locations) {
-      const locationSlug = slugifyLocation(location.data.name);
+      const locationSlug = location.id;
 
       paths.push({
         params: {
@@ -52,70 +50,79 @@ export async function getStaticPaths() {
 
 export const prerender = true;
 
-const { industrySlug, locationSlug } = Astro.props;
+interface Props extends ContentProps {
+  industrySlug: string;
+  locationSlug: string;
+}
+const { industrySlug, locationSlug, contentContext, publicPath = Astro.url.pathname } = Astro.props;
 
-const locationData = getLocationBySlug(locationSlug);
+const locationData = await getLocationBySlug(locationSlug, contentContext);
 if (!locationData) {
   return new Response(null, { status: 404 });
 }
 
-const industry = await getEntry('pseoIndustries', industrySlug);
+const industry = await getContentEntry('pseoIndustries', industrySlug, contentContext);
 if (!industry) {
   return new Response(null, { status: 404 });
 }
 
-const { servicesData, recentPosts } = await getNavigationData();
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
+const copy = await getPageCopy('industry-location', contentContext);
+const settings = await getSettings(contentContext);
+const text = (value: string) => interpolateCopy(value, {
+  industryTitle: industry.data.title, locationName: locationData.name,
+  state: locationData.state, region: locationData.region,
+  counties: locationData.counties?.join(` ${copy.benefits.regional.countySeparator.trim()} `) || copy.benefits.regional.countyFallback,
+});
 const IconComponent = iconMap[industry.data.icon] || PiBuilding;
 
-const locationIntro = `${industry.data.title} for ${locationData.name} teams who need reliable technology and a partner who understands the ${locationData.region} market. We keep daily operations stable while aligning your systems to the goals that drive growth in ${locationData.state}.`;
+const locationIntro = text(copy.hero.description);
 
 const locationFeatures = [
   {
     icon: PiMapPin,
-    title: 'Local Expertise',
-    description: `Deep understanding of ${locationData.name}'s business landscape and regulatory environment`,
+    title: text(copy.localAdvantages.expertise.title),
+    description: text(copy.localAdvantages.expertise.description),
   },
   {
     icon: PiClock,
-    title: 'Rapid Response',
-    description: 'Average response time under 2 hours for critical issues',
+    title: text(copy.localAdvantages.response.title),
+    description: text(copy.localAdvantages.response.description),
   },
   {
     icon: PiShield,
-    title: 'Proactive Monitoring',
-    description: '24/7/365 system monitoring and preventive maintenance',
+    title: text(copy.localAdvantages.monitoring.title),
+    description: text(copy.localAdvantages.monitoring.description),
   },
   {
     icon: PiUsers,
-    title: 'Dedicated Team',
-    description:
-      'Assigned technician who knows your business and infrastructure',
+    title: text(copy.localAdvantages.team.title),
+    description: text(copy.localAdvantages.team.description),
   },
 ];
 
-const locations = await getCollection('locations');
-const nearbyLocations = locations
-  .filter(
-    (loc) =>
-      loc.data.name !== locationData.name &&
-      loc.data.state === locationData.state
-  )
-  .slice(0, 3);
-
-const pageDescription = `${industry.data.title} in ${locationData.name}, ${locationData.state}. Local MSP services with 24/7 support, proactive monitoring, and customizable solutions for ${locationData.region} businesses.`;
+const nearbyLocations = await getNearbyLocations(locationSlug, contentContext);
+const pageDescription = text(copy.metadata.description);
 ---
 
 <Layout
-  title={`${industry.data.title} in ${locationData.name}, ${locationData.state} | BDKinc`}
+  contentContext={contentContext}
+  publicPath={publicPath}
+  title={text(copy.metadata.title)}
   description={pageDescription}
 >
+  <EditSection record="settings" section="navigation">
   <Navigation
     client:load
     services={servicesData}
     blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
+    currentPath={publicPath}
+    copy={settings.navigation}
+    brand={settings.brand}
   />
+  </EditSection>
   <main id="main-content">
+    <EditSection record="industry-location" section="hero">
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
       <div class="circuit-overlay absolute inset-0 opacity-40"></div>
@@ -125,7 +132,7 @@ const pageDescription = `${industry.data.title} in ${locationData.name}, ${locat
         >
           <PiMapPin className="text-primary h-4 w-4" />
           <span class="text-muted-foreground"
-            >{locationData.name}, {locationData.state}</span
+            >{text(copy.hero.badge)}</span
           >
         </div>
         <div
@@ -134,11 +141,11 @@ const pageDescription = `${industry.data.title} in ${locationData.name}, ${locat
           <IconComponent className="text-primary h-12 w-12" />
         </div>
         <h1 class="mb-6 text-5xl font-bold tracking-tight md:text-6xl">
-          <span class="text-foreground">{industry.data.title}</span>
+          <span class="text-foreground">{text(copy.hero.headingLead)}</span>
           <span
             class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
           >
-            {' '}{locationData.name}
+            {' '}{text(copy.hero.headingAccent)}
           </span>
         </h1>
         <p class="text-muted-foreground mx-auto max-w-3xl text-xl">
@@ -149,27 +156,29 @@ const pageDescription = `${industry.data.title} in ${locationData.name}, ${locat
             href="/contact#chat"
             class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
           >
-            Get Started Today
+            {text(copy.hero.buttonText)}
             <PiPhone className="h-4 w-4" />
           </a>
           <a
-            href="tel:410-555-0123"
+            href={settings.contact.phoneHref}
             class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
           >
             <PiPhone className="h-4 w-4" />
-            (410) 555-0123
+            {settings.contact.phoneDisplay}
           </a>
         </div>
       </div>
     </section>
+    </EditSection>
 
+    <EditSection record="industry-location" section="localAdvantages">
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2
           class="text-foreground mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
         >
-          <span class="text-foreground">Local </span>
-          <span class="gradient-primary">{locationData.name} Advantage</span>
+          <span class="text-foreground">{text(copy.localAdvantages.headingLead)}{' '}</span>
+          <span class="gradient-primary">{text(copy.localAdvantages.headingAccent)}</span>
         </h2>
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {
@@ -193,45 +202,47 @@ const pageDescription = `${industry.data.title} in ${locationData.name}, ${locat
         </div>
       </div>
     </section>
+    </EditSection>
 
+    <EditSection record="industry-location" section="benefits">
     <section class="bg-muted/50 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2
           class="text-foreground mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
         >
-          <span class="text-foreground">Why </span>
+          <span class="text-foreground">{text(copy.benefits.headingLead)}{' '}</span>
           <span class="gradient-primary"
-            >{locationData.name} Businesses Choose Us</span
+            >{text(copy.benefits.headingAccent)}</span
           >
         </h2>
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <div>
             <h3 class="text-foreground mb-6 text-2xl font-semibold">
-              Comprehensive {industry.data.title}
+              {text(copy.benefits.comprehensive.heading)}
             </h3>
             <div class="space-y-4">
               <div class="flex items-start gap-3">
                 <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Proactive system monitoring and maintenance
+                  {text(copy.benefits.comprehensive.monitoring)}
                 </p>
               </div>
               <div class="flex items-start gap-3">
                 <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  24/7 technical support and emergency response
+                  {text(copy.benefits.comprehensive.support)}
                 </p>
               </div>
               <div class="flex items-start gap-3">
                 <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Tailored solutions for {locationData.state} business requirements
+                  {text(copy.benefits.comprehensive.tailoring)}
                 </p>
               </div>
               <div class="flex items-start gap-3">
                 <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Regular performance reports and strategic reviews
+                  {text(copy.benefits.comprehensive.reporting)}
                 </p>
               </div>
             </div>
@@ -239,33 +250,31 @@ const pageDescription = `${industry.data.title} in ${locationData.name}, ${locat
 
           <div>
             <h3 class="text-foreground mb-6 text-2xl font-semibold">
-              Regional Expertise
+              {text(copy.benefits.regional.heading)}
             </h3>
             <div class="space-y-4">
               <div class="flex items-start gap-3">
                 <PiMapPin className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Serving {
-                    locationData.counties?.join(' and ') || 'Eastern Shore'
-                  } counties
+                  {text(copy.benefits.regional.coverage)}
                 </p>
               </div>
               <div class="flex items-start gap-3">
                 <PiClock className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Average response time under 2 hours for critical issues
+                  {text(copy.benefits.regional.response)}
                 </p>
               </div>
               <div class="flex items-start gap-3">
                 <PiUsers className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Local team familiar with regional business challenges
+                  {text(copy.benefits.regional.team)}
                 </p>
               </div>
               <div class="flex items-start gap-3">
                 <PiTrendUp className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Proven track record with {locationData.region} businesses
+                  {text(copy.benefits.regional.trackRecord)}
                 </p>
               </div>
             </div>
@@ -273,13 +282,15 @@ const pageDescription = `${industry.data.title} in ${locationData.name}, ${locat
         </div>
       </div>
     </section>
+    </EditSection>
 
     {
       nearbyLocations.length > 0 && (
+        <EditSection record="industry-location" section="nearbyLocations">
         <section class="px-4 py-16 sm:px-6 lg:px-8">
           <div class="mx-auto max-w-7xl">
             <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
-              Also Serving Nearby {locationData.state} Communities
+              {text(copy.nearbyLocations.heading)}
             </h2>
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {nearbyLocations.map((nearbyLoc) => (
@@ -292,49 +303,51 @@ const pageDescription = `${industry.data.title} in ${locationData.name}, ${locat
                     {nearbyLoc.data.state}
                   </p>
                   <a
-                    href={`/industries/${industrySlug}/${slugifyLocation(nearbyLoc.data.name)}`}
+                    href={`/industries/${industrySlug}/${nearbyLoc.id}`}
                     class="text-primary hover:text-primary/80 mt-3 text-sm font-medium"
                   >
-                    View Services →
+                    {text(copy.nearbyLocations.linkText)}
                   </a>
                 </Card>
               ))}
             </div>
           </div>
         </section>
+        </EditSection>
       )
     }
 
+    <EditSection record="industry-location" section="cta">
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-4xl">
         <Card className="text-center" size="xl" interactive={false}>
           <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-            Ready to Transform Your IT in {locationData.name}?
+            {text(copy.cta.heading)}
           </h2>
           <p class="text-muted-foreground mb-8 text-xl">
-            Contact us today for a free consultation and see how our local
-            expertise can benefit your business.
+            {text(copy.cta.description)}
           </p>
           <div class="flex flex-col items-center gap-4 sm:flex-row">
             <a
               href="/contact#chat"
               class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
             >
-              Schedule Consultation
+              {text(copy.cta.buttonText)}
               <PiEnvelope className="h-4 w-4" />
             </a>
             <a
-              href="tel:410-555-0123"
+              href={settings.contact.phoneHref}
               class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
             >
               <PiPhone className="h-4 w-4" />
-              Call (410) 555-0123
+              {settings.contact.phoneDisplay}
             </a>
           </div>
         </Card>
       </div>
     </section>
+    </EditSection>
   </main>
 
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

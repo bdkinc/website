@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import * as stylex from '@stylexjs/stylex';
 import ThemeToggle from '@/components/ThemeToggle';
 import Logo from '@/components/Logo';
 import { PiList, PiX, PiArrowRight } from 'react-icons/pi';
@@ -8,15 +9,247 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuLink,
-  navigationMenuTriggerStyle,
-  cn,
 } from '@bdkinc/design-system';
 import { formatDate } from '@/lib/utils';
 import { iconMap } from '@/lib/icons';
 import { ServicesDropdown } from '@/components/ServicesDropdown';
 import { BlogDropdown } from '@/components/BlogDropdown';
 
+import type { SiteSettings } from '@bdkinc/content';
+
+const enterFromTop = stylex.keyframes({
+  from: { opacity: 0, transform: 'translate3d(0, -0.5rem, 0)' },
+});
+const ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
+const transition =
+  'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing';
+const colorTransition =
+  'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke';
+const focusRing = '0 0 0 2px var(--background), 0 0 0 4px var(--ring)';
+
+const styles = stylex.create({
+  nav: {
+    position: 'fixed',
+    top: 0,
+    right: 0,
+    left: 0,
+    zIndex: 50,
+    boxShadow:
+      '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+    transitionProperty: transition,
+    transitionTimingFunction: ease,
+    transitionDuration: '300ms',
+  },
+  // .glass (unlayered) supplies the scrolled background and blur.
+  scrolled: {
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+  },
+  unscrolled: {
+    backgroundColor: 'transparent',
+    boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+    backdropFilter: 'blur(8px)',
+  },
+  container: { maxWidth: '80rem', marginInline: 'auto' },
+  bar: {
+    position: 'relative',
+    display: 'flex',
+    height: 80,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  logoLink: {
+    display: 'flex',
+    alignItems: 'center',
+    borderRadius: 'calc(var(--radius) - 2px)',
+    boxShadow: { default: 'none', ':focus-visible': focusRing },
+    outline: 'none',
+  },
+  desktopMenu: {
+    position: 'absolute',
+    left: '50%',
+    display: { default: 'none', '@media (min-width: 768px)': 'flex' },
+    alignItems: 'center',
+    justifyContent: 'center',
+    transform: 'translateX(-50%)',
+  },
+  // Matches the dropdown triggers: trigger sizing on the link primitive, with
+  // the transparent background forced in every state.
+  aboutLink: {
+    display: 'inline-flex',
+    height: 44,
+    width: 'max-content',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 'calc(var(--radius) - 2px)',
+    paddingInline: 16,
+    paddingBlock: 8,
+    fontWeight: 500,
+    backgroundColor: 'transparent',
+    color: {
+      default: 'inherit',
+      ':hover': { default: null, '@media (hover: hover)': 'var(--primary)' },
+      '[aria-current="page"]': 'var(--primary)',
+    },
+    backdropFilter: {
+      default: null,
+      ':hover': { default: null, '@media (hover: hover)': 'blur(24px)' },
+    },
+    transitionProperty: transition,
+    transitionTimingFunction: ease,
+    transitionDuration: '150ms',
+  },
+  desktopActions: {
+    zIndex: 10,
+    display: { default: 'none', '@media (min-width: 768px)': 'flex' },
+    alignItems: 'center',
+    gap: 24,
+  },
+  mobileActions: {
+    display: { default: 'flex', '@media (min-width: 768px)': 'none' },
+    alignItems: 'center',
+    gap: 8,
+  },
+  menuButton: {
+    display: 'flex',
+    width: 44,
+    minWidth: 44,
+    height: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 'calc(var(--radius) - 2px)',
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': { default: null, '@media (hover: hover)': 'var(--accent)' },
+    },
+    boxShadow: { default: 'none', ':focus-visible': focusRing },
+    outline: 'none',
+    transitionProperty: colorTransition,
+    transitionTimingFunction: ease,
+    transitionDuration: '150ms',
+  },
+  menuIcon: { width: 24, height: 24, color: 'var(--foreground)' },
+  mobilePanel: {
+    display: { default: 'block', '@media (min-width: 768px)': 'none' },
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    animationName: enterFromTop,
+    animationDuration: '200ms',
+    animationTimingFunction: 'ease',
+    animationFillMode: 'both',
+  },
+  mobileBody: { paddingInline: 8, paddingTop: 8, paddingBottom: 12 },
+  // Same spacing as the former space-y-1 stacks.
+  stacked: { marginBottom: { default: 4, ':last-child': 0 } },
+  section: { paddingTop: 8 },
+  sectionHeading: {
+    paddingInline: 12,
+    paddingBlock: 8,
+    color: 'var(--foreground)',
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 500,
+  },
+  mobileLink: {
+    display: 'flex',
+    minHeight: 44,
+    alignItems: 'center',
+    borderRadius: 'calc(var(--radius) - 2px)',
+    paddingInline: 12,
+    paddingBlock: 8,
+    color: {
+      default: 'var(--muted-foreground)',
+      ':hover': { default: null, '@media (hover: hover)': 'var(--primary)' },
+      '[aria-current="page"]': 'var(--primary)',
+    },
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': {
+        default: null,
+        '@media (hover: hover)':
+          'color-mix(in oklab, var(--accent) 40%, transparent)',
+      },
+    },
+    boxShadow: { default: 'none', ':focus-visible': focusRing },
+    outline: 'none',
+    transitionProperty: colorTransition,
+    transitionTimingFunction: ease,
+    transitionDuration: '300ms',
+  },
+  serviceLink: { alignItems: 'flex-start', gap: 8 },
+  serviceIcon: {
+    marginTop: 2,
+    width: 16,
+    height: 16,
+    flexShrink: 0,
+    color: 'var(--accent)',
+    transitionProperty: colorTransition,
+    transitionTimingFunction: ease,
+    transitionDuration: '300ms',
+  },
+  serviceText: { minWidth: 0, flex: '1' },
+  serviceTitle: {
+    display: 'block',
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 500,
+  },
+  // The legacy block display overrode line-clamp's -webkit-box display.
+  serviceDescription: {
+    display: 'block',
+    overflow: 'hidden',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 1,
+    color: 'var(--muted-foreground)',
+    fontSize: '0.75rem',
+    lineHeight: '1rem',
+  },
+  postLink: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    transitionDuration: '150ms',
+  },
+  postTitle: {
+    display: '-webkit-box',
+    overflow: 'hidden',
+    WebkitBoxOrient: 'vertical',
+    WebkitLineClamp: 2,
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 500,
+  },
+  postDate: {
+    marginTop: 2,
+    color: 'var(--muted-foreground)',
+    fontSize: '0.75rem',
+    lineHeight: '1rem',
+  },
+  allPostsLink: {
+    gap: 8,
+    color: 'var(--primary)',
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 500,
+    transitionDuration: '150ms',
+  },
+  arrow: { width: 16, height: 16 },
+  contact: {
+    marginTop: 12,
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    borderTopColor: 'color-mix(in oklab, var(--border) 40%, transparent)',
+    paddingTop: 12,
+  },
+  contactButton: { width: '100%', justifyContent: 'center' },
+  contactArrow: { marginLeft: 8, width: 16, height: 16 },
+});
+
 interface NavigationProps {
+  copy: SiteSettings['navigation'];
+  brand: SiteSettings['brand'];
   services: Array<{
     slug: string;
     title: string;
@@ -33,6 +266,8 @@ interface NavigationProps {
 }
 
 export default function Navigation({
+  copy,
+  brand,
   services,
   blogPosts = [],
   currentPath,
@@ -44,8 +279,11 @@ export default function Navigation({
     currentPath === href ||
     (href !== '/' && currentPath?.startsWith(`${href}/`));
 
-  const mobileLinkClass =
-    'text-muted-foreground hover:text-primary hover:bg-accent/40 focus-visible:ring-ring focus-visible:ring-offset-background aria-[current=page]:text-primary flex min-h-11 items-center rounded-md px-3 py-2 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none';
+  const navProps = stylex.props(
+    styles.nav,
+    scrolled ? styles.scrolled : styles.unscrolled
+  );
+  const mobilePanelProps = stylex.props(styles.mobilePanel);
 
   // Track scroll position for enhanced blur effect
   useEffect(() => {
@@ -72,27 +310,23 @@ export default function Navigation({
   return (
     <nav
       aria-label="Main navigation"
-      className={cn(
-        'fixed top-0 right-0 left-0 z-50 shadow-lg transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
-        scrolled
-          ? 'glass border-primary/10 border-b backdrop-blur-xl'
-          : 'bg-transparent shadow-sm backdrop-blur-sm'
-      )}
+      {...navProps}
+      className={scrolled ? `${navProps.className} glass` : navProps.className}
     >
-      <div className="mx-auto max-w-7xl">
-        <div className="relative flex h-20 items-center justify-between">
+      <div {...stylex.props(styles.container)}>
+        <div {...stylex.props(styles.bar)}>
           {/* Logo */}
           <a
             href="/"
-            className="focus-visible:ring-ring focus-visible:ring-offset-background flex items-center rounded-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-            aria-label="BDKinc home"
+            {...stylex.props(styles.logoLink)}
+            aria-label={copy.homeLabel}
             aria-current={isCurrent('/') ? 'page' : undefined}
           >
-            <Logo />
+            <Logo copy={brand} />
           </a>
 
           {/* Desktop Navigation - Centered on window */}
-          <div className="absolute left-1/2 hidden -translate-x-1/2 items-center justify-center md:flex">
+          <div {...stylex.props(styles.desktopMenu)}>
             <NavigationMenu>
               <NavigationMenuList>
                 {/* About */}
@@ -100,34 +334,31 @@ export default function Navigation({
                   <NavigationMenuLink
                     href="/about"
                     aria-current={isCurrent('/about') ? 'page' : undefined}
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      'hover:text-primary bg-transparent! transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] hover:bg-[oklch(0.205_0_0/0.15)] hover:backdrop-blur-xl focus:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!'
-                    )}
+                    xstyle={styles.aboutLink}
                   >
-                    About
+                    {copy.about}
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 {/* Services Dropdown */}
-                <ServicesDropdown services={services} />
+                <ServicesDropdown services={services} copy={copy} />
 
                 {/* Blog Dropdown */}
-                <BlogDropdown blogPosts={blogPosts} />
+                <BlogDropdown blogPosts={blogPosts} copy={copy} />
               </NavigationMenuList>
             </NavigationMenu>
           </div>
 
           {/* CTA + Theme Toggle - Desktop */}
-          <div className="z-10 hidden items-center gap-6 md:flex">
+          <div {...stylex.props(styles.desktopActions)}>
             <Button asChild>
-              <a href="/contact">Get In Touch</a>
+              <a href={copy.contactHref}>{copy.contact}</a>
             </Button>
             <ThemeToggle />
           </div>
 
           {/* Mobile menu button and theme toggle */}
-          <div className="flex items-center space-x-2 md:hidden">
+          <div {...stylex.props(styles.mobileActions)}>
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -135,15 +366,12 @@ export default function Navigation({
               aria-expanded={isOpen}
               aria-label={isOpen ? 'Close main menu' : 'Open main menu'}
               type="button"
-              className="hover:bg-accent focus-visible:ring-ring focus-visible:ring-offset-background flex h-11 min-h-11 w-11 min-w-11 items-center justify-center rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              {...stylex.props(styles.menuButton)}
             >
               {isOpen ? (
-                <PiX className="text-foreground h-6 w-6" aria-hidden="true" />
+                <PiX {...stylex.props(styles.menuIcon)} aria-hidden="true" />
               ) : (
-                <PiList
-                  className="text-foreground h-6 w-6"
-                  aria-hidden="true"
-                />
+                <PiList {...stylex.props(styles.menuIcon)} aria-hidden="true" />
               )}
             </button>
           </div>
@@ -154,51 +382,55 @@ export default function Navigation({
       {isOpen && (
         <div
           id="mobile-navigation"
-          className="glass animate-in slide-in-from-top-2 fade-in fill-mode-both border-t duration-200 md:hidden"
+          {...mobilePanelProps}
+          className={`${mobilePanelProps.className} glass`}
         >
-          <div className="space-y-1 px-2 pt-2 pb-3">
-            <ul className="space-y-1">
-              <li>
+          <div {...stylex.props(styles.mobileBody)}>
+            <ul {...stylex.props(styles.stacked)}>
+              <li {...stylex.props(styles.stacked)}>
                 <a
                   href="/"
-                  className={mobileLinkClass}
+                  {...stylex.props(styles.mobileLink)}
                   aria-current={isCurrent('/') ? 'page' : undefined}
                   onClick={() => setIsOpen(false)}
                 >
-                  Home
+                  {copy.home}
                 </a>
               </li>
-              <li>
+              <li {...stylex.props(styles.stacked)}>
                 <a
                   href="/about"
-                  className={mobileLinkClass}
+                  {...stylex.props(styles.mobileLink)}
                   aria-current={isCurrent('/about') ? 'page' : undefined}
                   onClick={() => setIsOpen(false)}
                 >
-                  About
+                  {copy.about}
                 </a>
               </li>
             </ul>
 
             {/* Mobile Services Section */}
-            <section aria-labelledby="mobile-services-heading" className="pt-2">
+            <section
+              aria-labelledby="mobile-services-heading"
+              {...stylex.props(styles.section, styles.stacked)}
+            >
               <p
                 id="mobile-services-heading"
-                className="text-foreground px-3 py-2 text-sm font-medium"
+                {...stylex.props(styles.sectionHeading)}
               >
-                Services
+                {copy.services}
               </p>
-              <ul className="space-y-1">
+              <ul>
                 {services.map((service) => {
                   const Icon = iconMap[service.icon];
                   const href = `/services/${service.slug}`;
                   return (
-                    <li key={service.slug}>
+                    <li key={service.slug} {...stylex.props(styles.stacked)}>
                       <a
                         href={href}
                         aria-current={isCurrent(href) ? 'page' : undefined}
                         onClick={() => setIsOpen(false)}
-                        className="text-muted-foreground hover:text-primary hover:bg-accent/40 focus-visible:ring-ring focus-visible:ring-offset-background aria-[current=page]:text-primary flex min-h-11 items-start gap-2 rounded-md px-3 py-2 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                        {...stylex.props(styles.mobileLink, styles.serviceLink)}
                       >
                         {Icon && (
                           <div
@@ -207,14 +439,14 @@ export default function Navigation({
                             }}
                           >
                             <Icon
-                              className="text-accent mt-0.5 h-4 w-4 shrink-0 transition-colors duration-300"
+                              {...stylex.props(styles.serviceIcon)}
                               aria-hidden="true"
                             />
                           </div>
                         )}
-                        <span className="min-w-0 flex-1">
+                        <span {...stylex.props(styles.serviceText)}>
                           <span
-                            className="block text-sm font-medium"
+                            {...stylex.props(styles.serviceTitle)}
                             style={{
                               viewTransitionName: `service-title-${service.slug}`,
                             }}
@@ -222,7 +454,7 @@ export default function Navigation({
                             {service.title}
                           </span>
                           <span
-                            className="text-muted-foreground line-clamp-1 block text-xs"
+                            {...stylex.props(styles.serviceDescription)}
                             style={{
                               viewTransitionName: `service-description-${service.slug}`,
                             }}
@@ -238,52 +470,61 @@ export default function Navigation({
             </section>
 
             {/* Mobile Blog Section */}
-            <section aria-labelledby="mobile-blog-heading" className="pt-2">
+            <section
+              aria-labelledby="mobile-blog-heading"
+              {...stylex.props(styles.section, styles.stacked)}
+            >
               <p
                 id="mobile-blog-heading"
-                className="text-foreground px-3 py-2 text-sm font-medium"
+                {...stylex.props(styles.sectionHeading)}
               >
-                Blog
+                {copy.blog}
               </p>
-              <ul className="space-y-1">
+              <ul>
                 {blogPosts.length > 0 ? (
                   <>
                     {blogPosts.slice(0, 3).map((post) => (
-                      <li key={post.slug}>
+                      <li key={post.slug} {...stylex.props(styles.stacked)}>
                         <a
                           href={`/blog/${post.slug}`}
                           onClick={() => setIsOpen(false)}
-                          className="text-muted-foreground hover:text-primary hover:bg-accent/40 focus-visible:ring-ring focus-visible:ring-offset-background flex min-h-11 flex-col justify-center rounded-md px-3 py-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                          {...stylex.props(styles.mobileLink, styles.postLink)}
                         >
-                          <span className="line-clamp-2 text-sm font-medium">
+                          <span {...stylex.props(styles.postTitle)}>
                             {post.title}
                           </span>
-                          <span className="text-muted-foreground mt-0.5 text-xs">
+                          <span {...stylex.props(styles.postDate)}>
                             {formatDate(post.pubDate)}
                           </span>
                         </a>
                       </li>
                     ))}
-                    <li>
+                    <li {...stylex.props(styles.stacked)}>
                       <a
                         href="/blog"
                         onClick={() => setIsOpen(false)}
-                        className="text-primary hover:bg-accent/40 focus-visible:ring-ring focus-visible:ring-offset-background flex min-h-11 items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                        {...stylex.props(
+                          styles.mobileLink,
+                          styles.allPostsLink
+                        )}
                       >
-                        View All Posts
-                        <PiArrowRight className="h-4 w-4" aria-hidden="true" />
+                        {copy.allPosts}
+                        <PiArrowRight
+                          {...stylex.props(styles.arrow)}
+                          aria-hidden="true"
+                        />
                       </a>
                     </li>
                   </>
                 ) : (
-                  <li>
+                  <li {...stylex.props(styles.stacked)}>
                     <a
                       href="/blog"
                       onClick={() => setIsOpen(false)}
-                      className={mobileLinkClass}
+                      {...stylex.props(styles.mobileLink)}
                       aria-current={isCurrent('/blog') ? 'page' : undefined}
                     >
-                      Visit Blog
+                      {copy.visitBlog}
                     </a>
                   </li>
                 )}
@@ -291,15 +532,14 @@ export default function Navigation({
             </section>
 
             {/* Contact CTA */}
-            <div className="border-border/40 mt-3 border-t pt-3">
-              <Button
-                asChild
-                variant="outline"
-                className="w-full justify-center"
-              >
-                <a href="/contact" onClick={() => setIsOpen(false)}>
-                  Get In Touch
-                  <PiArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+            <div {...stylex.props(styles.contact)}>
+              <Button asChild variant="outline" xstyle={styles.contactButton}>
+                <a href={copy.contactHref} onClick={() => setIsOpen(false)}>
+                  {copy.contact}
+                  <PiArrowRight
+                    {...stylex.props(styles.contactArrow)}
+                    aria-hidden="true"
+                  />
                 </a>
               </Button>
             </div>

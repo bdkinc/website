@@ -1,5 +1,7 @@
 'use client';
 
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import {
   Button,
   Command,
@@ -61,6 +63,268 @@ import {
   useRef,
   useState,
 } from 'react';
+
+const hoverMedia = '@media (hover: hover)';
+const transitionInteractive =
+  'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing';
+
+const spinKeyframes = stylex.keyframes({
+  from: { transform: 'rotate(0deg)' },
+  to: { transform: 'rotate(360deg)' },
+});
+const pulseKeyframes = stylex.keyframes({
+  '0%': { opacity: 1 },
+  '50%': { opacity: 0.5 },
+  '100%': { opacity: 1 },
+});
+
+const styles = stylex.create({
+  form: { width: '100%' },
+  hidden: { display: 'none' },
+  body: { display: 'contents' },
+  // `field-sizing-content` and `min-h-16` match the InputGroupTextarea
+  // primitive defaults, so only the max-height override lives here.
+  textarea: { maxHeight: '12rem' },
+  // InputGroupAddon supplies the flex row, alignment, color and type;
+  // only the properties the original tailwind-merge kept are overridden.
+  header: { order: -9999, flexWrap: 'wrap', gap: 4 },
+  footer: { justifyContent: 'space-between', gap: 4 },
+  tools: { display: 'flex', alignItems: 'center', gap: 4 },
+  attachment: {
+    position: 'relative',
+    display: 'flex',
+    height: 32,
+    alignItems: 'center',
+    gap: 6,
+    borderRadius: 'calc(var(--radius) - 2px)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'var(--border)',
+    cursor: 'default',
+    paddingInline: 6,
+    fontSize: '.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 500,
+    userSelect: 'none',
+    transitionProperty: transitionInteractive,
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
+    // Replaces `hover:bg-accent hover:text-accent-foreground
+    // dark:hover:bg-accent/50`: the shared ghost token already encodes that
+    // exact pair (light `var(--accent)`, dark `accent/50`), so the hover
+    // colors stay in sync with the Button ghost variant by construction.
+    backgroundColor: {
+      default: null,
+      [hoverMedia]: { default: null, ':hover': 'var(--button-ghost-hover)' },
+    },
+    color: {
+      default: null,
+      [hoverMedia]: { default: null, ':hover': 'var(--accent-foreground)' },
+    },
+    // Replaces the legacy `group` / `group-hover:` pair: the parent drives
+    // `--attach-reveal` on its own hover and the children read it back.
+    // The hover stays gated under `(hover: hover)` to match the Tailwind v4
+    // `group-hover` behavior (no sticky reveal on touch). `.875rem` /
+    // `1.25rem` are the rem equivalents of the original `text-sm` pair.
+    '--attach-reveal': {
+      default: 0,
+      [hoverMedia]: { default: 0, ':hover': 1 },
+    },
+  },
+  attachIconWrap: {
+    position: 'relative',
+    width: 20,
+    height: 20,
+    flexShrink: 0,
+  },
+  attachIconRest: {
+    position: 'absolute',
+    inset: 0,
+    display: 'flex',
+    width: 20,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderRadius: 'calc(var(--radius) - 4px)',
+    backgroundColor: 'var(--background)',
+    opacity: 'calc(1 - var(--attach-reveal, 0))',
+    transitionProperty: 'opacity',
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
+  },
+  attachThumb: { width: 20, height: 20, objectFit: 'cover' },
+  attachFileIcon: {
+    display: 'flex',
+    width: 20,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'var(--muted-foreground)',
+  },
+  // Original `size-5 p-0` intent (20px) expressed against the migrated
+  // Button primitive, whose unlayered size defaults utilities can no longer
+  // override; the focus-visible ring stays on this same element. The zero
+  // uses the same logical longhands as the Button size defaults
+  // (`paddingInline`/`paddingBlock`) so the `p-0` override wins
+  // deterministically instead of racing them as a shorthand.
+  attachRemove: {
+    position: 'absolute',
+    inset: 0,
+    width: 20,
+    height: 20,
+    minHeight: 20,
+    paddingInline: 0,
+    paddingBlock: 0,
+    borderRadius: 'calc(var(--radius) - 4px)',
+    cursor: 'pointer',
+    opacity: 'var(--attach-reveal, 0)',
+    transitionProperty: 'opacity',
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
+  },
+  attachLabel: {
+    flex: 1,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  hoverContent: { width: 'auto', padding: 8 },
+  // Replaces `space-y-3` with a flex column gap; children are full-width
+  // blocks either way, so the rendered output is unchanged.
+  hoverBody: {
+    display: 'flex',
+    width: 'auto',
+    flexDirection: 'column',
+    gap: 12,
+  },
+  hoverPreview: {
+    display: 'flex',
+    width: '24rem',
+    maxHeight: '24rem',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderRadius: 'calc(var(--radius) - 2px)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+  },
+  hoverImage: {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    objectFit: 'contain',
+  },
+  hoverRow: { display: 'flex', alignItems: 'center', gap: 10 },
+  // Replaces `space-y-1` with a flex column gap (see hoverBody).
+  hoverMeta: {
+    display: 'flex',
+    minWidth: 0,
+    flex: 1,
+    flexDirection: 'column',
+    gap: 4,
+    paddingInline: 2,
+  },
+  hoverTitle: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    fontSize: '.875rem',
+    lineHeight: 1,
+    fontWeight: 600,
+  },
+  hoverType: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    color: 'var(--muted-foreground)',
+    fontFamily: 'var(--font-mono)',
+    fontSize: '.75rem',
+    lineHeight: '1rem',
+  },
+  speech: {
+    position: 'relative',
+    transitionProperty: transitionInteractive,
+    transitionDuration: '200ms',
+    transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
+  },
+  speechListening: {
+    backgroundColor: 'var(--accent)',
+    color: 'var(--accent-foreground)',
+    animationName: pulseKeyframes,
+    animationDuration: '2s',
+    animationTimingFunction: 'cubic-bezier(.4, 0, .6, 1)',
+    animationIterationCount: 'infinite',
+  },
+  spin: {
+    animationName: spinKeyframes,
+    animationDuration: '1s',
+    animationTimingFunction: 'linear',
+    animationIterationCount: 'infinite',
+  },
+  modelTrigger: {
+    color: {
+      default: 'var(--muted-foreground)',
+      [hoverMedia]: {
+        default: 'var(--muted-foreground)',
+        ':hover': 'var(--foreground)',
+      },
+      '[aria-expanded="true"]': 'var(--foreground)',
+    },
+    borderStyle: 'none',
+    backgroundColor: {
+      default: 'transparent',
+      [hoverMedia]: { default: 'transparent', ':hover': 'var(--accent)' },
+      '[aria-expanded="true"]': 'var(--accent)',
+    },
+    fontWeight: 500,
+    // `shadow-none` also removed the primitive focus ring; both conditions
+    // are stated so the ring stays off exactly as before.
+    boxShadow: { default: 'none', ':focus-visible': 'none' },
+    transitionProperty:
+      'color, background-color, border-color, text-decoration-color, fill, stroke',
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
+  },
+  tabLabel: {
+    marginBottom: 8,
+    paddingInline: 12,
+    color: 'var(--muted-foreground)',
+    fontSize: '.75rem',
+    lineHeight: '1rem',
+    fontWeight: 500,
+  },
+  // Replaces `space-y-1` with a flex column gap (see hoverBody).
+  tabBody: { display: 'flex', flexDirection: 'column', gap: 4 },
+  tabItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    paddingInline: 12,
+    paddingBlock: 8,
+    fontSize: '.75rem',
+    lineHeight: '1rem',
+    backgroundColor: {
+      default: null,
+      [hoverMedia]: { default: null, ':hover': 'var(--accent)' },
+    },
+  },
+  icon10: { width: 10, height: 10 },
+  icon12: { width: 12, height: 12 },
+  icon16: { width: 16, height: 16 },
+  iconAction: { marginRight: 8, width: 16, height: 16 },
+  srOnly: {
+    position: 'absolute',
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    borderWidth: 0,
+    clipPath: 'inset(50%)',
+  },
+});
+
 // ============================================================================
 // Provider Context & Types
 // ============================================================================
@@ -247,11 +511,14 @@ export const usePromptInputAttachments = () => {
 export type PromptInputAttachmentProps = HTMLAttributes<HTMLDivElement> & {
   data: FileUIPart & { id: string };
   className?: string;
+  xstyle?: StyleXStyles;
 };
 
 export function PromptInputAttachment({
   data,
   className,
+  style,
+  xstyle,
   ...props
 }: PromptInputAttachmentProps) {
   const attachments = usePromptInputAttachments();
@@ -263,37 +530,37 @@ export function PromptInputAttachment({
   const isImage = mediaType === 'image';
 
   const attachmentLabel = filename || (isImage ? 'Image' : 'Attachment');
+  const applied = stylex.props(styles.attachment, xstyle);
 
   return (
     <PromptInputHoverCard>
       <HoverCardTrigger asChild>
         <div
-          className={cn(
-            'group border-border hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 relative flex h-8 cursor-default items-center gap-1.5 rounded-md border px-1.5 text-sm font-medium transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] select-none',
-            className
-          )}
+          {...applied}
+          className={cn(applied.className, className)}
+          style={{ ...applied.style, ...style }}
           key={data.id}
           {...props}
         >
-          <div className="relative size-5 shrink-0">
-            <div className="bg-background absolute inset-0 flex size-5 items-center justify-center overflow-hidden rounded transition-opacity group-hover:opacity-0">
+          <div {...stylex.props(styles.attachIconWrap)}>
+            <div {...stylex.props(styles.attachIconRest)}>
               {isImage ? (
                 <img
                   alt={filename || 'attachment'}
-                  className="size-5 object-cover"
                   height={20}
                   src={data.url}
                   width={20}
+                  {...stylex.props(styles.attachThumb)}
                 />
               ) : (
-                <div className="text-muted-foreground flex size-5 items-center justify-center">
-                  <PiPaperclip className="size-3" />
+                <div {...stylex.props(styles.attachFileIcon)}>
+                  <PiPaperclip {...stylex.props(styles.icon12)} />
                 </div>
               )}
             </div>
             <Button
               aria-label="Remove attachment"
-              className="absolute inset-0 size-5 cursor-pointer rounded p-0 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 [&>svg]:size-2.5"
+              xstyle={styles.attachRemove}
               onClick={(e) => {
                 e.stopPropagation();
                 attachments.remove(data.id);
@@ -301,36 +568,34 @@ export function PromptInputAttachment({
               type="button"
               variant="ghost"
             >
-              <PiX />
-              <span className="sr-only">Remove</span>
+              <PiX {...stylex.props(styles.icon10)} />
+              <span {...stylex.props(styles.srOnly)}>Remove</span>
             </Button>
           </div>
 
-          <span className="flex-1 truncate">{attachmentLabel}</span>
+          <span {...stylex.props(styles.attachLabel)}>{attachmentLabel}</span>
         </div>
       </HoverCardTrigger>
-      <PromptInputHoverCardContent className="w-auto p-2">
-        <div className="w-auto space-y-3">
+      <PromptInputHoverCardContent xstyle={styles.hoverContent}>
+        <div {...stylex.props(styles.hoverBody)}>
           {isImage && (
-            <div className="flex max-h-96 w-96 items-center justify-center overflow-hidden rounded-md border">
+            <div {...stylex.props(styles.hoverPreview)}>
               <img
                 alt={filename || 'attachment preview'}
-                className="max-h-full max-w-full object-contain"
                 height={384}
                 src={data.url}
                 width={448}
+                {...stylex.props(styles.hoverImage)}
               />
             </div>
           )}
-          <div className="flex items-center gap-2.5">
-            <div className="min-w-0 flex-1 space-y-1 px-0.5">
-              <h4 className="truncate text-sm leading-none font-semibold">
+          <div {...stylex.props(styles.hoverRow)}>
+            <div {...stylex.props(styles.hoverMeta)}>
+              <h4 {...stylex.props(styles.hoverTitle)}>
                 {filename || (isImage ? 'Image' : 'Attachment')}
               </h4>
               {data.mediaType && (
-                <p className="text-muted-foreground truncate font-mono text-xs">
-                  {data.mediaType}
-                </p>
+                <p {...stylex.props(styles.hoverType)}>{data.mediaType}</p>
               )}
             </div>
           </div>
@@ -381,7 +646,7 @@ export const PromptInputActionAddAttachments = ({
         attachments.openFileDialog();
       }}
     >
-      <PiImage className="mr-2 size-4" /> {label}
+      <PiImage {...stylex.props(styles.iconAction)} /> {label}
     </DropdownMenuItem>
   );
 };
@@ -412,10 +677,20 @@ export type PromptInputProps = Omit<
     message: PromptInputMessage,
     event: FormEvent<HTMLFormElement>
   ) => void | Promise<void>;
+  xstyle?: StyleXStyles;
+  /**
+   * StyleX override for the inner InputGroup boundary. The group renders
+   * chromeless here (the form owns border/background/ring), which Tailwind
+   * expressed as ancestor `[&_[data-slot=input-group]]:*` selectors that
+   * StyleX cannot address across elements.
+   */
+  groupXstyle?: StyleXStyles;
 };
 
 export const PromptInput = ({
   className,
+  style,
+  xstyle,
   accept,
   multiple,
   globalDrop,
@@ -425,6 +700,7 @@ export const PromptInput = ({
   onError,
   onSubmit,
   children,
+  groupXstyle,
   ...props
 }: PromptInputProps) => {
   // Try to use a provider controller if present
@@ -726,25 +1002,32 @@ export const PromptInput = ({
   };
 
   // Render with or without local provider
+  const formApplied = stylex.props(styles.form, xstyle);
   const inner = (
     <>
-      <span aria-hidden="true" className="hidden" ref={anchorRef} />
+      <span
+        aria-hidden="true"
+        ref={anchorRef}
+        {...stylex.props(styles.hidden)}
+      />
       <input
         accept={accept}
         aria-label="Upload files"
-        className="hidden"
         multiple={multiple}
         onChange={handleChange}
         ref={inputRef}
         title="Upload files"
         type="file"
+        {...stylex.props(styles.hidden)}
       />
       <form
-        className={cn('w-full', className)}
+        {...formApplied}
+        className={cn(formApplied.className, className)}
+        style={{ ...formApplied.style, ...style }}
         onSubmit={handleSubmit}
         {...props}
       >
-        <InputGroup>{children}</InputGroup>
+        <InputGroup xstyle={groupXstyle}>{children}</InputGroup>
       </form>
     </>
   );
@@ -758,14 +1041,26 @@ export const PromptInput = ({
   );
 };
 
-export type PromptInputBodyProps = HTMLAttributes<HTMLDivElement>;
+export type PromptInputBodyProps = HTMLAttributes<HTMLDivElement> & {
+  xstyle?: StyleXStyles;
+};
 
 export const PromptInputBody = ({
   className,
+  style,
+  xstyle,
   ...props
-}: PromptInputBodyProps) => (
-  <div className={cn('contents', className)} {...props} />
-);
+}: PromptInputBodyProps) => {
+  const applied = stylex.props(styles.body, xstyle);
+  return (
+    <div
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
+      {...props}
+    />
+  );
+};
 
 export type PromptInputTextareaProps = ComponentProps<
   typeof InputGroupTextarea
@@ -774,6 +1069,7 @@ export type PromptInputTextareaProps = ComponentProps<
 export const PromptInputTextarea = ({
   onChange,
   className,
+  xstyle,
   placeholder = 'What would you like to know?',
   ...props
 }: PromptInputTextareaProps) => {
@@ -844,8 +1140,9 @@ export const PromptInputTextarea = ({
 
   return (
     <InputGroupTextarea
-      className={cn('field-sizing-content max-h-48 min-h-16', className)}
+      className={className}
       name="message"
+      xstyle={[styles.textarea, xstyle]}
       onCompositionEnd={() => setIsComposing(false)}
       onCompositionStart={() => setIsComposing(true)}
       onKeyDown={handleKeyDown}
@@ -864,11 +1161,13 @@ export type PromptInputHeaderProps = Omit<
 
 export const PromptInputHeader = ({
   className,
+  xstyle,
   ...props
 }: PromptInputHeaderProps) => (
   <InputGroupAddon
     align="block-end"
-    className={cn('order-first flex-wrap gap-1', className)}
+    className={className}
+    xstyle={[styles.header, xstyle]}
     {...props}
   />
 );
@@ -880,23 +1179,37 @@ export type PromptInputFooterProps = Omit<
 
 export const PromptInputFooter = ({
   className,
+  xstyle,
   ...props
 }: PromptInputFooterProps) => (
   <InputGroupAddon
     align="block-end"
-    className={cn('justify-between gap-1', className)}
+    className={className}
+    xstyle={[styles.footer, xstyle]}
     {...props}
   />
 );
 
-export type PromptInputToolsProps = HTMLAttributes<HTMLDivElement>;
+export type PromptInputToolsProps = HTMLAttributes<HTMLDivElement> & {
+  xstyle?: StyleXStyles;
+};
 
 export const PromptInputTools = ({
   className,
+  style,
+  xstyle,
   ...props
-}: PromptInputToolsProps) => (
-  <div className={cn('flex items-center gap-1', className)} {...props} />
-);
+}: PromptInputToolsProps) => {
+  const applied = stylex.props(styles.tools, xstyle);
+  return (
+    <div
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
+      {...props}
+    />
+  );
+};
 
 export type PromptInputButtonProps = ComponentProps<typeof InputGroupButton>;
 
@@ -904,6 +1217,7 @@ export const PromptInputButton = ({
   variant = 'ghost',
   className,
   size,
+  xstyle,
   ...props
 }: PromptInputButtonProps) => {
   const newSize =
@@ -911,10 +1225,11 @@ export const PromptInputButton = ({
 
   return (
     <InputGroupButton
-      className={cn(className)}
+      className={className}
       size={newSize}
       type="button"
       variant={variant}
+      xstyle={xstyle}
       {...props}
     />
   );
@@ -929,12 +1244,13 @@ export type PromptInputActionMenuTriggerProps = PromptInputButtonProps;
 
 export const PromptInputActionMenuTrigger = ({
   className,
+  xstyle,
   children,
   ...props
 }: PromptInputActionMenuTriggerProps) => (
   <DropdownMenuTrigger asChild>
-    <PromptInputButton className={className} {...props}>
-      {children ?? <PiPlus className="size-4" />}
+    <PromptInputButton className={className} xstyle={xstyle} {...props}>
+      {children ?? <PiPlus {...stylex.props(styles.icon16)} />}
     </PromptInputButton>
   </DropdownMenuTrigger>
 );
@@ -944,9 +1260,15 @@ export type PromptInputActionMenuContentProps = ComponentProps<
 >;
 export const PromptInputActionMenuContent = ({
   className,
+  xstyle,
   ...props
 }: PromptInputActionMenuContentProps) => (
-  <DropdownMenuContent align="start" className={cn(className)} {...props} />
+  <DropdownMenuContent
+    align="start"
+    className={className}
+    xstyle={xstyle}
+    {...props}
+  />
 );
 
 export type PromptInputActionMenuItemProps = ComponentProps<
@@ -954,9 +1276,10 @@ export type PromptInputActionMenuItemProps = ComponentProps<
 >;
 export const PromptInputActionMenuItem = ({
   className,
+  xstyle,
   ...props
 }: PromptInputActionMenuItemProps) => (
-  <DropdownMenuItem className={cn(className)} {...props} />
+  <DropdownMenuItem className={className} xstyle={xstyle} {...props} />
 );
 
 // Note: Actions that perform side-effects (like opening a file dialog)
@@ -968,29 +1291,31 @@ export type PromptInputSubmitProps = ComponentProps<typeof InputGroupButton> & {
 
 export const PromptInputSubmit = ({
   className,
+  xstyle,
   variant = 'default',
   size = 'icon-sm',
   status,
   children,
   ...props
 }: PromptInputSubmitProps) => {
-  let Icon = <PiPaperPlaneRight className="size-4" />;
+  let Icon = <PiPaperPlaneRight {...stylex.props(styles.icon16)} />;
 
   if (status === 'submitted') {
-    Icon = <PiSpinner className="size-4 animate-spin" />;
+    Icon = <PiSpinner {...stylex.props(styles.icon16, styles.spin)} />;
   } else if (status === 'streaming') {
-    Icon = <PiSquare className="size-4" />;
+    Icon = <PiSquare {...stylex.props(styles.icon16)} />;
   } else if (status === 'error') {
-    Icon = <PiX className="size-4" />;
+    Icon = <PiX {...stylex.props(styles.icon16)} />;
   }
 
   return (
     <InputGroupButton
       aria-label="Submit"
-      className={cn(className)}
+      className={className}
       size={size}
       type="submit"
       variant={variant}
+      xstyle={xstyle}
       {...props}
     >
       {children ?? Icon}
@@ -1058,6 +1383,7 @@ export type PromptInputSpeechButtonProps = ComponentProps<
 
 export const PromptInputSpeechButton = ({
   className,
+  xstyle,
   textareaRef,
   onTranscriptionChange,
   ...props
@@ -1141,16 +1467,13 @@ export const PromptInputSpeechButton = ({
 
   return (
     <PromptInputButton
-      className={cn(
-        'relative transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-200',
-        isListening && 'bg-accent text-accent-foreground animate-pulse',
-        className
-      )}
+      className={className}
+      xstyle={[styles.speech, isListening && styles.speechListening, xstyle]}
       disabled={!recognition}
       onClick={toggleListening}
       {...props}
     >
-      <PiMicrophone className="size-4" />
+      <PiMicrophone {...stylex.props(styles.icon16)} />
     </PromptInputButton>
   );
 };
@@ -1167,14 +1490,12 @@ export type PromptInputModelSelectTriggerProps = ComponentProps<
 
 export const PromptInputModelSelectTrigger = ({
   className,
+  xstyle,
   ...props
 }: PromptInputModelSelectTriggerProps) => (
   <SelectTrigger
-    className={cn(
-      'text-muted-foreground border-none bg-transparent font-medium shadow-none transition-colors',
-      'hover:bg-accent hover:text-foreground [&[aria-expanded="true"]]:bg-accent [&[aria-expanded="true"]]:text-foreground',
-      className
-    )}
+    className={className}
+    xstyle={[styles.modelTrigger, xstyle]}
     {...props}
   />
 );
@@ -1185,18 +1506,20 @@ export type PromptInputModelSelectContentProps = ComponentProps<
 
 export const PromptInputModelSelectContent = ({
   className,
+  xstyle,
   ...props
 }: PromptInputModelSelectContentProps) => (
-  <SelectContent className={cn(className)} {...props} />
+  <SelectContent className={className} xstyle={xstyle} {...props} />
 );
 
 export type PromptInputModelSelectItemProps = ComponentProps<typeof SelectItem>;
 
 export const PromptInputModelSelectItem = ({
   className,
+  xstyle,
   ...props
 }: PromptInputModelSelectItemProps) => (
-  <SelectItem className={cn(className)} {...props} />
+  <SelectItem className={className} xstyle={xstyle} {...props} />
 );
 
 export type PromptInputModelSelectValueProps = ComponentProps<
@@ -1239,112 +1562,172 @@ export const PromptInputHoverCardContent = ({
   <HoverCardContent align={align} {...props} />
 );
 
-export type PromptInputTabsListProps = HTMLAttributes<HTMLDivElement>;
+export type PromptInputTabsListProps = HTMLAttributes<HTMLDivElement> & {
+  xstyle?: StyleXStyles;
+};
 
 export const PromptInputTabsList = ({
   className,
+  style,
+  xstyle,
   ...props
-}: PromptInputTabsListProps) => <div className={cn(className)} {...props} />;
+}: PromptInputTabsListProps) => {
+  const applied = stylex.props(xstyle);
+  return (
+    <div
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
+      {...props}
+    />
+  );
+};
 
-export type PromptInputTabProps = HTMLAttributes<HTMLDivElement>;
+export type PromptInputTabProps = HTMLAttributes<HTMLDivElement> & {
+  xstyle?: StyleXStyles;
+};
 
 export const PromptInputTab = ({
   className,
+  style,
+  xstyle,
   ...props
-}: PromptInputTabProps) => <div className={cn(className)} {...props} />;
+}: PromptInputTabProps) => {
+  const applied = stylex.props(xstyle);
+  return (
+    <div
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
+      {...props}
+    />
+  );
+};
 
-export type PromptInputTabLabelProps = HTMLAttributes<HTMLHeadingElement>;
+export type PromptInputTabLabelProps = HTMLAttributes<HTMLHeadingElement> & {
+  xstyle?: StyleXStyles;
+};
 
 export const PromptInputTabLabel = ({
   className,
+  style,
+  xstyle,
   children,
   ...props
-}: PromptInputTabLabelProps) => (
-  <h3
-    className={cn(
-      'text-muted-foreground mb-2 px-3 text-xs font-medium',
-      className
-    )}
-    {...props}
-  >
-    {children}
-  </h3>
-);
+}: PromptInputTabLabelProps) => {
+  const applied = stylex.props(styles.tabLabel, xstyle);
+  return (
+    <h3
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
+      {...props}
+    >
+      {children}
+    </h3>
+  );
+};
 
-export type PromptInputTabBodyProps = HTMLAttributes<HTMLDivElement>;
+export type PromptInputTabBodyProps = HTMLAttributes<HTMLDivElement> & {
+  xstyle?: StyleXStyles;
+};
 
 export const PromptInputTabBody = ({
   className,
+  style,
+  xstyle,
   ...props
-}: PromptInputTabBodyProps) => (
-  <div className={cn('space-y-1', className)} {...props} />
-);
+}: PromptInputTabBodyProps) => {
+  const applied = stylex.props(styles.tabBody, xstyle);
+  return (
+    <div
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
+      {...props}
+    />
+  );
+};
 
-export type PromptInputTabItemProps = HTMLAttributes<HTMLDivElement>;
+export type PromptInputTabItemProps = HTMLAttributes<HTMLDivElement> & {
+  xstyle?: StyleXStyles;
+};
 
 export const PromptInputTabItem = ({
   className,
+  style,
+  xstyle,
   ...props
-}: PromptInputTabItemProps) => (
-  <div
-    className={cn(
-      'hover:bg-accent flex items-center gap-2 px-3 py-2 text-xs',
-      className
-    )}
-    {...props}
-  />
-);
+}: PromptInputTabItemProps) => {
+  const applied = stylex.props(styles.tabItem, xstyle);
+  return (
+    <div
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
+      {...props}
+    />
+  );
+};
 
 export type PromptInputCommandProps = ComponentProps<typeof Command>;
 
 export const PromptInputCommand = ({
   className,
+  xstyle,
   ...props
-}: PromptInputCommandProps) => <Command className={cn(className)} {...props} />;
+}: PromptInputCommandProps) => (
+  <Command className={className} xstyle={xstyle} {...props} />
+);
 
 export type PromptInputCommandInputProps = ComponentProps<typeof CommandInput>;
 
 export const PromptInputCommandInput = ({
   className,
+  xstyle,
   ...props
 }: PromptInputCommandInputProps) => (
-  <CommandInput className={cn(className)} {...props} />
+  <CommandInput className={className} xstyle={xstyle} {...props} />
 );
 
 export type PromptInputCommandListProps = ComponentProps<typeof CommandList>;
 
 export const PromptInputCommandList = ({
   className,
+  xstyle,
   ...props
 }: PromptInputCommandListProps) => (
-  <CommandList className={cn(className)} {...props} />
+  <CommandList className={className} xstyle={xstyle} {...props} />
 );
 
 export type PromptInputCommandEmptyProps = ComponentProps<typeof CommandEmpty>;
 
 export const PromptInputCommandEmpty = ({
   className,
+  xstyle,
   ...props
 }: PromptInputCommandEmptyProps) => (
-  <CommandEmpty className={cn(className)} {...props} />
+  <CommandEmpty className={className} xstyle={xstyle} {...props} />
 );
 
 export type PromptInputCommandGroupProps = ComponentProps<typeof CommandGroup>;
 
 export const PromptInputCommandGroup = ({
   className,
+  xstyle,
   ...props
 }: PromptInputCommandGroupProps) => (
-  <CommandGroup className={cn(className)} {...props} />
+  <CommandGroup className={className} xstyle={xstyle} {...props} />
 );
 
 export type PromptInputCommandItemProps = ComponentProps<typeof CommandItem>;
 
 export const PromptInputCommandItem = ({
   className,
+  xstyle,
   ...props
 }: PromptInputCommandItemProps) => (
-  <CommandItem className={cn(className)} {...props} />
+  <CommandItem className={className} xstyle={xstyle} {...props} />
 );
 
 export type PromptInputCommandSeparatorProps = ComponentProps<
@@ -1353,7 +1736,8 @@ export type PromptInputCommandSeparatorProps = ComponentProps<
 
 export const PromptInputCommandSeparator = ({
   className,
+  xstyle,
   ...props
 }: PromptInputCommandSeparatorProps) => (
-  <CommandSeparator className={cn(className)} {...props} />
+  <CommandSeparator className={className} xstyle={xstyle} {...props} />
 );

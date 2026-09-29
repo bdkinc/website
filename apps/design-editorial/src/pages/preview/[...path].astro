@@ -1,0 +1,10 @@
+---
+import RouteView from '@/components/RouteView.astro';
+import { authorize, previewHeaders } from '@/lib/content';
+export const prerender = false;
+for(const [name,value] of Object.entries(previewHeaders)) Astro.response.headers.set(name,value);
+let authorized;
+try { authorized = await authorize(Astro.url.searchParams.get('token') || '', '/'+(Astro.params.path || '')); }
+catch { return new Response('Preview authorization failed or expired.', {status:401,headers:previewHeaders}); }
+---
+<RouteView route={authorized.route} context={authorized.context} />

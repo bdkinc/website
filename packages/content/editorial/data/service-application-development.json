@@ -1,0 +1,1543 @@
+{
+  "key": "service-application-development",
+  "kind": "page",
+  "title": "Application Development page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "badgePrefix": {
+          "type": "text",
+          "label": "Badge — opening text"
+        },
+        "badgeAccent": {
+          "type": "text",
+          "label": "Badge — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "leadership": {
+      "type": "group",
+      "label": "Leadership narrative",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "quoteBefore": {
+          "type": "textarea",
+          "label": "Quotation — before emphasis"
+        },
+        "quoteAccent": {
+          "type": "textarea",
+          "label": "Quotation — emphasized text"
+        },
+        "quoteAfter": {
+          "type": "textarea",
+          "label": "Quotation — after emphasis"
+        }
+      }
+    },
+    "strategy": {
+      "type": "group",
+      "label": "Strategic advantage",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "features": {
+          "type": "group",
+          "label": "Features",
+          "fields": {
+            "architectureFirstMindset": {
+              "type": "group",
+              "label": "Architecture-First Mindset",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "modernizationEngineering": {
+              "type": "group",
+              "label": "Modernization Engineering",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "lifecycleAcceleration": {
+              "type": "group",
+              "label": "Lifecycle Acceleration",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "ecosystemIntegration": {
+              "type": "group",
+              "label": "Ecosystem Integration",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "capabilities": {
+      "type": "group",
+      "label": "Core capabilities",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "items": {
+          "type": "group",
+          "label": "Offerings",
+          "fields": {
+            "frontendUx": {
+              "type": "group",
+              "label": "Frontend & UX",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "details": {
+                  "type": "group",
+                  "label": "Details",
+                  "fields": {
+                    "reactAstroArchitecture": {
+                      "type": "text",
+                      "label": "React Astro Architecture"
+                    },
+                    "responsiveInterfaces": {
+                      "type": "text",
+                      "label": "Responsive Interfaces"
+                    },
+                    "stateManagement": {
+                      "type": "text",
+                      "label": "State Management"
+                    },
+                    "wcagAccessibility": {
+                      "type": "text",
+                      "label": "Wcag Accessibility"
+                    }
+                  }
+                }
+              }
+            },
+            "backendSystems": {
+              "type": "group",
+              "label": "Backend Systems",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "details": {
+                  "type": "group",
+                  "label": "Details",
+                  "fields": {
+                    "restGraphqlApis": {
+                      "type": "text",
+                      "label": "Rest Graphql Apis"
+                    },
+                    "microservices": {
+                      "type": "text",
+                      "label": "Microservices"
+                    },
+                    "serverlessFunctions": {
+                      "type": "text",
+                      "label": "Serverless Functions"
+                    },
+                    "realTimeSockets": {
+                      "type": "text",
+                      "label": "Real Time Sockets"
+                    }
+                  }
+                }
+              }
+            },
+            "dataArchitecture": {
+              "type": "group",
+              "label": "Data Architecture",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "details": {
+                  "type": "group",
+                  "label": "Details",
+                  "fields": {
+                    "sqlOptimization": {
+                      "type": "text",
+                      "label": "Sql Optimization"
+                    },
+                    "nosqlModeling": {
+                      "type": "text",
+                      "label": "Nosql Modeling"
+                    },
+                    "dataWarehousing": {
+                      "type": "text",
+                      "label": "Data Warehousing"
+                    },
+                    "cachingStrategies": {
+                      "type": "text",
+                      "label": "Caching Strategies"
+                    }
+                  }
+                }
+              }
+            },
+            "devsecops": {
+              "type": "group",
+              "label": "DevSecOps",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "details": {
+                  "type": "group",
+                  "label": "Details",
+                  "fields": {
+                    "ciCdPipelines": {
+                      "type": "text",
+                      "label": "Ci Cd Pipelines"
+                    },
+                    "containerization": {
+                      "type": "text",
+                      "label": "Containerization"
+                    },
+                    "infrastructureAsCode": {
+                      "type": "text",
+                      "label": "Infrastructure As Code"
+                    },
+                    "automatedTesting": {
+                      "type": "text",
+                      "label": "Automated Testing"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "techStack": {
+      "type": "group",
+      "label": "Technology stack",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "layers": {
+          "type": "group",
+          "label": "Layers",
+          "fields": {
+            "clientPresentationLayer": {
+              "type": "group",
+              "label": "Client Presentation Layer",
+              "fields": {
+                "name": {
+                  "type": "text",
+                  "label": "Name"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "react": {
+                      "type": "group",
+                      "label": "React",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        },
+                        "version": {
+                          "type": "text",
+                          "label": "Version"
+                        }
+                      }
+                    },
+                    "astro": {
+                      "type": "group",
+                      "label": "Astro",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        },
+                        "version": {
+                          "type": "text",
+                          "label": "Version"
+                        }
+                      }
+                    },
+                    "typescript": {
+                      "type": "group",
+                      "label": "TypeScript",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        },
+                        "version": {
+                          "type": "text",
+                          "label": "Version"
+                        }
+                      }
+                    },
+                    "tailwindCss": {
+                      "type": "group",
+                      "label": "Tailwind CSS",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        },
+                        "version": {
+                          "type": "text",
+                          "label": "Version"
+                        }
+                      }
+                    },
+                    "gsap": {
+                      "type": "group",
+                      "label": "GSAP",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "phosphor": {
+                      "type": "group",
+                      "label": "Phosphor",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    }
+                  }
+                },
+                "moduleLabel": {
+                  "type": "text",
+                  "label": "Technology layer label"
+                }
+              }
+            },
+            "serverLogicLayer": {
+              "type": "group",
+              "label": "Server Logic Layer",
+              "fields": {
+                "name": {
+                  "type": "text",
+                  "label": "Name"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "nodeJs": {
+                      "type": "group",
+                      "label": "Node.js",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "python": {
+                      "type": "group",
+                      "label": "Python",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "go": {
+                      "type": "group",
+                      "label": "Go",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "graphql": {
+                      "type": "group",
+                      "label": "GraphQL",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "rest": {
+                      "type": "group",
+                      "label": "REST",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "docker": {
+                      "type": "group",
+                      "label": "Docker",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    }
+                  }
+                },
+                "moduleLabel": {
+                  "type": "text",
+                  "label": "Technology layer label"
+                }
+              }
+            },
+            "dataPersistenceLayer": {
+              "type": "group",
+              "label": "Data Persistence Layer",
+              "fields": {
+                "name": {
+                  "type": "text",
+                  "label": "Name"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "postgresql": {
+                      "type": "group",
+                      "label": "PostgreSQL",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "mongodb": {
+                      "type": "group",
+                      "label": "MongoDB",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "redis": {
+                      "type": "group",
+                      "label": "Redis",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "ibmDb2": {
+                      "type": "group",
+                      "label": "IBM DB2",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "elasticsearch": {
+                      "type": "group",
+                      "label": "ElasticSearch",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "vectorDb": {
+                      "type": "group",
+                      "label": "Vector DB",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    }
+                  }
+                },
+                "moduleLabel": {
+                  "type": "text",
+                  "label": "Technology layer label"
+                }
+              }
+            },
+            "infrastructureLayer": {
+              "type": "group",
+              "label": "Infrastructure Layer",
+              "fields": {
+                "name": {
+                  "type": "text",
+                  "label": "Name"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "aws": {
+                      "type": "group",
+                      "label": "AWS",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "azure": {
+                      "type": "group",
+                      "label": "Azure",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "bdkCloud": {
+                      "type": "group",
+                      "label": "BDK Cloud",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "kubernetes": {
+                      "type": "group",
+                      "label": "Kubernetes",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "terraform": {
+                      "type": "group",
+                      "label": "Terraform",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    },
+                    "openshift": {
+                      "type": "group",
+                      "label": "OpenShift",
+                      "fields": {
+                        "name": {
+                          "type": "text",
+                          "label": "Name"
+                        },
+                        "category": {
+                          "type": "text",
+                          "label": "Category"
+                        }
+                      }
+                    }
+                  }
+                },
+                "moduleLabel": {
+                  "type": "text",
+                  "label": "Technology layer label"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "benefits": {
+      "type": "group",
+      "label": "Benefits",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "items": {
+          "type": "group",
+          "label": "Offerings",
+          "fields": {
+            "rapidDelivery": {
+              "type": "group",
+              "label": "Rapid Delivery",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "scalableDesign": {
+              "type": "group",
+              "label": "Scalable Design",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "securityFirst": {
+              "type": "group",
+              "label": "Security-First",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "unifiedVisibility": {
+              "type": "group",
+              "label": "Unified Visibility",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "dedicatedTeams": {
+              "type": "group",
+              "label": "Dedicated Teams",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "operationalAgility": {
+              "type": "group",
+              "label": "Operational Agility",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "stat": {
+                  "type": "text",
+                  "label": "Supporting statistic"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "group",
+      "label": "Delivery lifecycle",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "visualization": {
+          "type": "group",
+          "label": "Visualization",
+          "fields": {
+            "heading": {
+              "type": "text",
+              "label": "Heading — opening text"
+            },
+            "body": {
+              "type": "textarea",
+              "label": "Introduction"
+            },
+            "build": {
+              "type": "group",
+              "label": "Build",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "performanceBadge": {
+                  "type": "text",
+                  "label": "Performance Badge"
+                },
+                "securityBadge": {
+                  "type": "text",
+                  "label": "Security Badge"
+                }
+              }
+            },
+            "pipelineLabel": {
+              "type": "text",
+              "label": "Pipeline Label"
+            },
+            "run": {
+              "type": "group",
+              "label": "Run",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "uptimeBadge": {
+                  "type": "text",
+                  "label": "Uptime Badge"
+                },
+                "scalingBadge": {
+                  "type": "text",
+                  "label": "Scaling Badge"
+                }
+              }
+            },
+            "accountability": {
+              "type": "text",
+              "label": "Accountability"
+            }
+          }
+        }
+      }
+    },
+    "operations": {
+      "type": "group",
+      "label": "Operations narrative",
+      "fields": {
+        "badge": {
+          "type": "text",
+          "label": "Badge"
+        },
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "faqHeading": { "type": "text", "label": "FAQ heading" },
+    "faqs": {
+      "type": "group",
+      "label": "Frequently asked questions",
+      "fields": {
+        "howDoYouEnsureTheScalabilityOf": {
+          "type": "group",
+          "label": "How do you ensure the scalability of custom applications?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "whatIsYourApproachToLegacySystem": {
+          "type": "group",
+          "label": "What is your approach to legacy system modernization?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "doYouProvideOngoingSupportAfterDeployment": {
+          "type": "group",
+          "label": "Do you provide ongoing support after deployment?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        }
+      }
+    },
+    "resources": {
+      "type": "group",
+      "label": "Related resources",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "articleLinkLabel": {
+          "type": "text",
+          "label": "Article Link Label"
+        }
+      }
+    },
+    "metrics": {
+      "type": "group",
+      "label": "Impact metrics",
+      "fields": {
+        "appsDelivered": {
+          "type": "group",
+          "label": "Apps Delivered",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "clientRetention": {
+          "type": "group",
+          "label": "Client Retention",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "systemIntegrations": {
+          "type": "group",
+          "label": "System Integrations",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "annualReleases": {
+          "type": "group",
+          "label": "Annual Releases",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        }
+      }
+    },
+    "serviceSchema": {
+      "type": "group",
+      "label": "Service structured data",
+      "fields": {
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "serviceType": {
+          "type": "text",
+          "label": "Service Type"
+        },
+        "areaServed": {
+          "type": "group",
+          "label": "Area Served",
+          "fields": {
+            "unitedStates": {
+              "type": "text",
+              "label": "United States"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaults": {
+    "faqHeading": "Frequently Asked Questions",
+    "hero": {
+      "badgePrefix": "Full-Stack",
+      "badgeAccent": "Dev Shop",
+      "body": "Custom applications and modernization that fit your workflows. BDKinc is your full-service development shop for custom software, enterprise integration, and application modernization."
+    },
+    "leadership": {
+      "heading": "Engineering",
+      "headingAccent": "Vision",
+      "quoteBefore": "“Great software isn’t just about features; it’s about architecture that empowers growth. We build",
+      "quoteAccent": "resilient digital foundations",
+      "quoteAfter": "that automate complexity and transform your technology from a cost center into a competitive advantage.”"
+    },
+    "strategy": {
+      "heading": "The Strategic",
+      "headingAccent": "Advantage",
+      "body": "Move beyond standard development with a partner who builds for enterprise scale and long-term maintainability.",
+      "features": {
+        "architectureFirstMindset": {
+          "title": "Architecture-First Mindset",
+          "description": "Scalable, cloud-native designs that grow with your vision.",
+          "highlight": "Architecture-first mindset",
+          "detail": "We don't just write code; we architect systems. By utilizing microservices, robust API design, and cloud-native patterns, we ensure your application is built for performance today and massive scale tomorrow."
+        },
+        "modernizationEngineering": {
+          "title": "Modernization Engineering",
+          "description": "Phased upgrades for legacy systems with zero business friction.",
+          "highlight": "Zero business friction",
+          "detail": "Legacy technical debt shouldn't hold you back. Our engineering teams specialize in the phased modernization of complex enterprise systems, refactoring critical business logic into modern, secure, and maintainable stacks."
+        },
+        "lifecycleAcceleration": {
+          "title": "Lifecycle Acceleration",
+          "description": "Rapid delivery cycles powered by automated CI/CD and DevOps.",
+          "highlight": "Rapid delivery cycles",
+          "detail": "Speed to market is a competitive advantage. We implement end-to-end DevOps automation, ensuring that new features and security patches move from development to production with absolute reliability and speed."
+        },
+        "ecosystemIntegration": {
+          "title": "Ecosystem Integration",
+          "description": "Seamlessly connecting disparate platforms into a unified data flow.",
+          "highlight": "Unified data flow",
+          "detail": "In a world of fragmented SaaS and legacy silos, we build the connective tissue. Our integration experts ensure that your data moves securely and reliably between platforms, creating a unified source of truth for your business."
+        }
+      }
+    },
+    "benefits": {
+      "heading": "Why BDK for",
+      "headingAccent": "Custom Development",
+      "body": "What we deliver — and the numbers that back it up.",
+      "items": {
+        "rapidDelivery": {
+          "title": "Rapid Delivery",
+          "stat": "45 releases/yr",
+          "desc": "Automated CI/CD and DevOps workflows ensure features move from concept to production at peak speed"
+        },
+        "scalableDesign": {
+          "title": "Scalable Design",
+          "stat": "Cloud-native",
+          "desc": "Architectures that grow seamlessly with your user base and data volume without re-platforming"
+        },
+        "securityFirst": {
+          "title": "Security-First",
+          "stat": "Shift-left",
+          "desc": "Vulnerability scanning and security controls integrated directly into the development lifecycle"
+        },
+        "unifiedVisibility": {
+          "title": "Unified Visibility",
+          "stat": "Real-time",
+          "desc": "Full-stack monitoring providing live insights into application health, latency, and error rates"
+        },
+        "dedicatedTeams": {
+          "title": "Dedicated Teams",
+          "stat": "92% retention",
+          "desc": "Senior engineers who embed with your team to understand and architect solutions for your domain"
+        },
+        "operationalAgility": {
+          "title": "Operational Agility",
+          "stat": "2-week sprints",
+          "desc": "Agile methodologies that allow rapid pivoting and iterative delivery based on real-world feedback"
+        }
+      }
+    },
+    "lifecycle": {
+      "heading": "Development",
+      "headingAccent": "Lifecycle",
+      "body": "How we take you from discovery to production — and keep improving from there.",
+      "visualization": {
+        "heading": "Complete Lifecycle Ownership",
+        "body": "We don't just write code; we own the outcome. BDKinc bridges the gap between development and operations.",
+        "build": {
+          "title": "Build",
+          "description": "Custom architecture, clean code, and modern frameworks designed for your specific business logic.",
+          "performanceBadge": "Performance First",
+          "securityBadge": "Secure by Design"
+        },
+        "pipelineLabel": "CI/CD Pipeline",
+        "run": {
+          "title": "Run",
+          "description": "Enterprise-grade hosting, 24/7 monitoring, and proactive optimization on our secure infrastructure.",
+          "uptimeBadge": "99.99% Uptime",
+          "scalingBadge": "Auto Scaling"
+        },
+        "accountability": "Single Point of Accountability // No Finger Pointing"
+      }
+    },
+    "operations": {
+      "badge": "BDK Dev Shop Operations",
+      "heading": "Engineering Enterprise Systems.",
+      "headingAccent": "Zero Legacy Friction.",
+      "body": "We help you meet the demands of modern business by automating workflows, connecting disparate data sources, and reducing technical debt. Our full-stack teams own the architecture, delivery, and modernization of your applications end-to-end, ensuring your vision is powered by excellence."
+    },
+    "resources": {
+      "heading": "Related Insights",
+      "articleLinkLabel": "Read Article"
+    },
+    "metrics": {
+      "appsDelivered": {
+        "value": "250+",
+        "label": "Apps Delivered"
+      },
+      "clientRetention": {
+        "value": "92%",
+        "label": "Client Retention"
+      },
+      "systemIntegrations": {
+        "value": "60+",
+        "label": "System Integrations"
+      },
+      "annualReleases": {
+        "value": "45",
+        "label": "Annual Releases"
+      }
+    },
+    "faqs": {
+      "howDoYouEnsureTheScalabilityOf": {
+        "question": "How do you ensure the scalability of custom applications?",
+        "answer": "We design with an 'architecture-first' mindset. By utilizing cloud-native technologies, microservices where appropriate, and robust database optimization (SQL/NoSQL), we ensure your application can handle increased loads and expanding feature sets without performance degradation."
+      },
+      "whatIsYourApproachToLegacySystem": {
+        "question": "What is your approach to legacy system modernization?",
+        "answer": "We prioritize risk mitigation and business continuity. Our team analyzes your existing codebase to identify the best path forward—whether it's refactoring, re-platforming, or a complete rebuild. We ensure that critical business logic is preserved while transitioning you to a modern, secure tech stack."
+      },
+      "doYouProvideOngoingSupportAfterDeployment": {
+        "question": "Do you provide ongoing support after deployment?",
+        "answer": "Absolutely. As a full-service partner, we offer comprehensive post-deployment support, including monitoring, security updates, and feature enhancements. Because we can also host what we build, we have full visibility into the application's performance, allowing us to proactively address issues before they impact your business."
+      }
+    },
+    "seo": {
+      "title": "Custom Application Development & Modernization | BDKinc",
+      "description": "BDKinc is your full-service development shop for custom software, enterprise integration, and application modernization. Built to power your vision.",
+      "ogDescription": "BDKinc is your full-service development shop for custom software, enterprise integration, and application modernization. Built to power your vision."
+    },
+    "cta": {
+      "title": "Build Your Vision with BDK",
+      "description": "Ready to engineer the future of your business? Partner with a development shop that understands enterprise scale.",
+      "buttonText": "Start Your Project",
+      "buttonHref": "/contact#chat"
+    },
+    "serviceSchema": {
+      "description": "BDKinc is your full-service development shop for custom software, enterprise integration, and application modernization. Built to power your vision.",
+      "serviceType": "Custom Application Development",
+      "areaServed": {
+        "unitedStates": "United States"
+      }
+    },
+    "capabilities": {
+      "heading": "System Architecture Overview",
+      "items": {
+        "frontendUx": {
+          "title": "Frontend & UX",
+          "details": {
+            "reactAstroArchitecture": "React / Astro Architecture",
+            "responsiveInterfaces": "Responsive Interfaces",
+            "stateManagement": "State Management",
+            "wcagAccessibility": "WCAG Accessibility"
+          }
+        },
+        "backendSystems": {
+          "title": "Backend Systems",
+          "details": {
+            "restGraphqlApis": "REST & GraphQL APIs",
+            "microservices": "Microservices",
+            "serverlessFunctions": "Serverless Functions",
+            "realTimeSockets": "Real-time Sockets"
+          }
+        },
+        "dataArchitecture": {
+          "title": "Data Architecture",
+          "details": {
+            "sqlOptimization": "SQL Optimization",
+            "nosqlModeling": "NoSQL Modeling",
+            "dataWarehousing": "Data Warehousing",
+            "cachingStrategies": "Caching Strategies"
+          }
+        },
+        "devsecops": {
+          "title": "DevSecOps",
+          "details": {
+            "ciCdPipelines": "CI/CD Pipelines",
+            "containerization": "Containerization",
+            "infrastructureAsCode": "Infrastructure as Code",
+            "automatedTesting": "Automated Testing"
+          }
+        }
+      }
+    },
+    "techStack": {
+      "heading": "Technical Specifications",
+      "body": "Our standard stack is selected for enterprise reliability, security, and long-term maintainability.",
+      "layers": {
+        "clientPresentationLayer": {
+          "name": "Client Presentation Layer",
+          "description": "Responsive, high-performance interfaces built for interactivity and accessibility.",
+          "items": {
+            "react": {
+              "name": "React",
+              "category": "Library",
+              "version": "19"
+            },
+            "astro": {
+              "name": "Astro",
+              "category": "Framework",
+              "version": "5.0"
+            },
+            "typescript": {
+              "name": "TypeScript",
+              "category": "Language",
+              "version": "5.x"
+            },
+            "tailwindCss": {
+              "name": "Tailwind CSS",
+              "category": "Styling",
+              "version": "v4"
+            },
+            "gsap": {
+              "name": "GSAP",
+              "category": "Animation"
+            },
+            "phosphor": {
+              "name": "Phosphor",
+              "category": "Icons"
+            }
+          },
+          "moduleLabel": "Frontend Core Module"
+        },
+        "serverLogicLayer": {
+          "name": "Server Logic Layer",
+          "description": "Scalable APIs and microservices handling complex business logic.",
+          "items": {
+            "nodeJs": {
+              "name": "Node.js",
+              "category": "Runtime"
+            },
+            "python": {
+              "name": "Python",
+              "category": "Language"
+            },
+            "go": {
+              "name": "Go",
+              "category": "Language"
+            },
+            "graphql": {
+              "name": "GraphQL",
+              "category": "API Query"
+            },
+            "rest": {
+              "name": "REST",
+              "category": "Architecture"
+            },
+            "docker": {
+              "name": "Docker",
+              "category": "Containers"
+            }
+          },
+          "moduleLabel": "Backend Core Module"
+        },
+        "dataPersistenceLayer": {
+          "name": "Data Persistence Layer",
+          "description": "Robust data storage solutions optimized for integrity and retrieval speed.",
+          "items": {
+            "postgresql": {
+              "name": "PostgreSQL",
+              "category": "RDBMS"
+            },
+            "mongodb": {
+              "name": "MongoDB",
+              "category": "NoSQL"
+            },
+            "redis": {
+              "name": "Redis",
+              "category": "Caching"
+            },
+            "ibmDb2": {
+              "name": "IBM DB2",
+              "category": "Enterprise"
+            },
+            "elasticsearch": {
+              "name": "ElasticSearch",
+              "category": "Search"
+            },
+            "vectorDb": {
+              "name": "Vector DB",
+              "category": "AI/RAG"
+            }
+          },
+          "moduleLabel": "Database Core Module"
+        },
+        "infrastructureLayer": {
+          "name": "Infrastructure Layer",
+          "description": "Secure cloud environments managed for high availability and compliance.",
+          "items": {
+            "aws": {
+              "name": "AWS",
+              "category": "Public Cloud"
+            },
+            "azure": {
+              "name": "Azure",
+              "category": "Public Cloud"
+            },
+            "bdkCloud": {
+              "name": "BDK Cloud",
+              "category": "Private"
+            },
+            "kubernetes": {
+              "name": "Kubernetes",
+              "category": "Orch."
+            },
+            "terraform": {
+              "name": "Terraform",
+              "category": "IaC"
+            },
+            "openshift": {
+              "name": "OpenShift",
+              "category": "IBM"
+            }
+          },
+          "moduleLabel": "Cloud Core Module"
+        }
+      }
+    }
+  }
+}

@@ -5,8 +5,9 @@ import CTASection from '@/components/CTASection';
 import { PiCalendar, PiUser, PiTag, PiArrowLeft } from 'react-icons/pi';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
-import { getBlogPosts } from '@/lib/blog';
-import { renderMarkdownToHtml } from '@/lib/markdown';
+import EditSection from '@/components/preview/EditSection.astro';
+import { getBlogPosts, type BlogPostContent } from '@/lib/blog';
+import { getPageCopy, getSettings, type ContentProps } from '@/lib/content';
 
 export async function getStaticPaths() {
   const blogPosts = await getBlogPosts();
@@ -18,22 +19,13 @@ export async function getStaticPaths() {
 
 export const prerender = true;
 
-interface Props {
-  post: {
-    slug: string;
-    title: string;
-    description: string;
-    author: string;
-    pubDate: Date;
-    tags: string[];
-    content: string;
-  };
+interface Props extends ContentProps {
+  post: BlogPostContent;
 }
-
-const { post } = Astro.props;
-const contentHtml = renderMarkdownToHtml(post.content);
-
-const { servicesData, recentPosts } = await getNavigationData();
+const { post, contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const contentHtml = post.content;
+const [copy, settings] = await Promise.all([getPageCopy('blog', contentContext), getSettings(contentContext)]);
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 
 // Format date helper
 function formatDate(date: Date): string {
@@ -45,8 +37,9 @@ function formatDate(date: Date): string {
 }
 
 const siteOrigin = Astro.site?.origin ?? 'https://www.bdkinc.com';
-const postUrl = new URL(`/blog/${post.slug}`, siteOrigin).toString();
-const defaultImage = new URL('/favicon.svg', siteOrigin).toString();
+const postUrl = new URL(publicPath, siteOrigin).toString();
+const articleImage = post.image || copy.detail.image;
+const defaultImage = new URL(articleImage || settings.brand.favicon, siteOrigin).toString();
 const publishedIso = post.pubDate.toISOString();
 
 const blogPostingSchema = {
@@ -62,7 +55,7 @@ const blogPostingSchema = {
   },
   publisher: {
     '@type': 'Organization',
-    name: 'BDKinc',
+    name: settings.siteName,
     url: siteOrigin,
     logo: {
       '@type': 'ImageObject',
@@ -80,7 +73,9 @@ const blogPostingSchema = {
 ---
 
 <Layout
-  title={`${post.title} - BDKinc Blog`}
+  contentContext={contentContext}
+  publicPath={publicPath}
+  title={`${post.title} ${copy.detail.titleSuffix}`}
   description={post.description}
   ogType="article"
   ogTitle={post.title}
@@ -92,13 +87,18 @@ const blogPostingSchema = {
     is:inline
     set:html={JSON.stringify(blogPostingSchema)}
   />
+  <EditSection record="settings" section="navigation">
   <Navigation
     client:load
     services={servicesData}
     blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
+    currentPath={publicPath}
+    copy={settings.navigation}
+    brand={settings.brand}
   />
+  </EditSection>
   <main id="main-content">
+    <EditSection record="blog" section="detail">
     <!-- Blog Post Header -->
     <section
       class="bg-background relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8"
@@ -189,7 +189,7 @@ const blogPostingSchema = {
           class="text-primary hover:text-primary/80 animate-in fade-in slide-in-from-bottom-3 fill-mode-both mb-8 inline-flex items-center gap-2 transition-colors delay-100 duration-500"
         >
           <PiArrowLeft className="h-4 w-4" />
-          Back to Blog
+          {copy.detail.backLabel}
         </a>
 
         <h1
@@ -242,6 +242,7 @@ const blogPostingSchema = {
       >
       </div>
     </section>
+    </EditSection>
 
     <style>
       /* Orbital Data Network Styles */
@@ -403,7 +404,7 @@ const blogPostingSchema = {
       }
     </style>
 
-    <!-- Featured Image Placeholder -->
+    <!-- Featured article illustration -->
     <section class="px-4 py-12 sm:px-6 lg:px-8">
       <div
         class="fill-mode-both animate-in fade-in zoom-in mx-auto max-w-4xl delay-400 duration-700"
@@ -411,23 +412,23 @@ const blogPostingSchema = {
         <div
           class="glass border-primary/20 overflow-hidden rounded-2xl border shadow-lg"
         >
-          <div
+          {articleImage ? <img src={articleImage} alt={post.image ? `Editorial illustration for ${post.title}` : copy.detail.imageAlt} width="1200" height="675" decoding="async" class="aspect-video w-full object-cover" /> : <div
             class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
           >
             <div class="p-6 text-center">
               <div
                 class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider"
               >
-                Featured Image Placeholder
+                {copy.detail.placeholderTitle}
               </div>
               <div class="text-muted-foreground/60 text-lg">
-                Article Hero Image
+                {copy.detail.placeholderDescription}
               </div>
               <div class="text-muted-foreground/40 mt-2 text-xs">
-                Recommended: 1200x675px
+                {copy.detail.placeholderHint}
               </div>
             </div>
-          </div>
+          </div>}
         </div>
       </div>
     </section>
@@ -444,14 +445,17 @@ const blogPostingSchema = {
     </article>
 
     <!-- Related CTA Section -->
-    <CTASection
-      client:visible
-      title="Ready to Implement These Solutions?"
-      description="Our team can help you apply these best practices to your business infrastructure."
-      buttonText="Contact Us"
-      buttonHref="/contact#chat"
-    />
+    <EditSection record="blog" section="detail">
+      <CTASection
+        client:visible
+        copy={settings.cta}
+        title={copy.detail.ctaTitle}
+        description={copy.detail.ctaDescription}
+        buttonText={copy.detail.ctaButtonText}
+        buttonHref={copy.detail.ctaButtonHref}
+      />
+    </EditSection>
   </main>
 
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

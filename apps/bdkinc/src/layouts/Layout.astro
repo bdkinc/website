@@ -1,8 +1,10 @@
 ---
 import '@/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import { getSettings, type ContentProps } from '@/lib/content';
+import PreviewEditor from '@/components/preview/PreviewEditor.astro';
 
-interface Props {
+interface Props extends ContentProps {
   title: string;
   description?: string;
   canonical?: string;
@@ -15,20 +17,23 @@ interface Props {
   robots?: string | null;
 }
 
+const { contentContext } = Astro.props;
+const settings = await getSettings(contentContext);
 const {
   title,
-  description = 'IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.',
-  canonical = Astro.url.pathname,
+  description = settings.defaultDescription,
+  publicPath = Astro.url.pathname,
+  canonical = publicPath,
   ogTitle = title,
   ogDescription = description,
-  ogImage = '/favicon.svg',
-  ogImageAlt = 'BDKinc — Premier managed IT, cloud hosting, and cybersecurity partner',
+  ogImage = settings.defaultImage,
+  ogImageAlt = settings.defaultImageAlt,
   twitterCard = 'summary_large_image',
   ogType = 'website',
   robots = 'index,follow',
 } = Astro.props;
 
-const siteOrigin = Astro.site?.origin ?? 'https://www.bdkinc.com';
+const siteOrigin = Astro.site?.origin ?? settings.organization.url;
 const canonicalUrl = canonical.startsWith('http')
   ? canonical
   : new URL(canonical, siteOrigin).toString();
@@ -40,18 +45,43 @@ const ogImageUrl = ogImage.startsWith('http')
 <!doctype html>
 <html lang="en">
   <head>
+    {
+      import.meta.env.DEV && (
+        <link rel="stylesheet" href="/virtual:stylex.css" />
+      )
+    }
+    {
+      import.meta.env.DEV && (
+        <script is:inline type="module" src="/@id/virtual:stylex:runtime" />
+      )
+    }
+    {
+      !import.meta.env.DEV && (
+        <link
+          rel="stylesheet"
+          href={`${import.meta.env.BASE_URL}assets/stylex.css`}
+        />
+      )
+    }
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {robots && <meta name="robots" content={robots} />}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {
+      robots && (
+        <meta
+          name="robots"
+          content={contentContext ? 'noindex,nofollow' : robots}
+        />
+      )
+    }
+    <link rel="icon" href={settings.brand.favicon} />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:site_name" content="BDKinc" />
+    <meta property="og:site_name" content={settings.siteName} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
@@ -70,7 +100,7 @@ const ogImageUrl = ogImage.startsWith('http')
     <title>{title}</title>
 
     <!-- View Transitions -->
-    <ClientRouter />
+    {!contentContext && <ClientRouter />}
 
     <script is:inline>
       // Apply theme function - used on initial load and after swaps
@@ -103,5 +133,10 @@ const ogImageUrl = ogImage.startsWith('http')
       Skip to main content
     </a>
     <slot />
+    {
+      contentContext && (
+        <PreviewEditor adminUrl={contentContext.snapshot.bdk_admin} />
+      )
+    }
   </body>
 </html>

@@ -1,49 +1,212 @@
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { cn } from '@bdkinc/design-system';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { TechCard } from '@/components/TechCard';
+import type { PageData, Partner } from '@bdkinc/content';
+
+const hover = '@media (hover: hover)';
+const sm = '@media (min-width: 40rem)';
+const md = '@media (min-width: 48rem)';
+const lg = '@media (min-width: 64rem)';
+const colorTransition =
+  'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke';
+const motionTransition =
+  'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing';
+const timing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+const easeOut = 'cubic-bezier(0, 0, 0.2, 1)';
+// TechCard no longer carries a `group` marker, so card-hovered states reuse
+// the ancestor-hover pattern to preserve the original group-hover styling.
+
+const styles = stylex.create({
+  section: {
+    position: 'relative',
+    paddingInline: {
+      default: '1rem',
+      [sm]: '1.5rem',
+      [lg]: '2rem',
+    },
+    paddingBlock: '5rem',
+  },
+  divider: {
+    position: 'absolute',
+    top: 0,
+    left: '50%',
+    height: 1,
+    width: '100%',
+    transform: 'translateX(-50%)',
+    backgroundImage:
+      'linear-gradient(to right in oklab, transparent, color-mix(in oklab, var(--border) 60%, transparent), transparent)',
+  },
+  container: {
+    maxWidth: '80rem',
+    marginInline: 'auto',
+  },
+  header: {
+    marginBottom: '4rem',
+    textAlign: 'center',
+    transitionProperty: motionTransition,
+    transitionDuration: '700ms',
+    transitionTimingFunction: easeOut,
+  },
+  headerShown: {
+    transform: 'translateY(0)',
+    opacity: 1,
+  },
+  headerHidden: {
+    transform: 'translateY(2rem)',
+    opacity: 0,
+  },
+  title: {
+    fontFamily: 'var(--font-display)',
+    fontSize: { default: '2.25rem', [md]: '3rem' },
+    lineHeight: { default: '2.5rem', [md]: 1 },
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+    marginBottom: '1rem',
+  },
+  titleLead: {
+    color: 'var(--foreground)',
+  },
+  titleAccent: {
+    backgroundImage:
+      'linear-gradient(to bottom right in oklab, var(--primary), var(--secondary))',
+    backgroundClip: 'text',
+    color: 'transparent',
+  },
+  lede: {
+    fontFamily: 'var(--font-sans)',
+    color: 'var(--muted-foreground)',
+    maxWidth: '42rem',
+    marginInline: 'auto',
+    fontSize: '1.25rem',
+    lineHeight: '1.75rem',
+  },
+  ledeAccent: {
+    color: 'var(--accent)',
+    fontWeight: 600,
+  },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: {
+      default: 'repeat(1, minmax(0, 1fr))',
+      [md]: 'repeat(2, minmax(0, 1fr))',
+    },
+    gap: '1.5rem',
+  },
+  gridCols4: {
+    gridTemplateColumns: { [lg]: 'repeat(4, minmax(0, 1fr))' },
+  },
+  gridCols3: {
+    gridTemplateColumns: { [lg]: 'repeat(3, minmax(0, 1fr))' },
+  },
+  cardBody: {
+    position: 'relative',
+    zIndex: 10,
+    display: 'flex',
+    height: '100%',
+    flexDirection: 'column',
+    padding: '1.5rem',
+    paddingBottom: '3rem',
+    textAlign: 'left',
+  },
+  cardMain: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: '0%',
+  },
+  logoRow: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '1rem',
+  },
+  logo: {
+    height: '2rem',
+    width: 'auto',
+    maxWidth: 150,
+    opacity: 1,
+    scale: {
+      default: 1,
+      [hover]: { default: 1, [stylex.when.ancestor(':hover')]: 1.05 },
+    },
+    transitionProperty: motionTransition,
+    transitionDuration: '300ms',
+    transitionTimingFunction: timing,
+  },
+  cardTitle: {
+    fontFamily: 'var(--font-display)',
+    color: 'var(--foreground)',
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    marginBottom: '0.5rem',
+  },
+  cardDetail: {
+    fontFamily: 'var(--font-sans)',
+    color: 'var(--muted-foreground)',
+    fontSize: '0.75rem',
+    lineHeight: 1.625,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: '1.5rem',
+    left: '1.5rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap: '0.5rem',
+  },
+  dot: {
+    height: '0.5rem',
+    width: '0.5rem',
+    borderRadius: '9999px',
+    backgroundColor: {
+      default: 'color-mix(in oklab, var(--secondary) 20%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--secondary) 20%, transparent)',
+        [stylex.when.ancestor(':hover')]:
+          'color-mix(in oklab, var(--secondary) 50%, transparent)',
+      },
+    },
+    transitionProperty: colorTransition,
+    transitionDuration: '500ms',
+    transitionTimingFunction: timing,
+  },
+  bar: {
+    height: '0.25rem',
+    width: {
+      default: '3rem',
+      [hover]: { default: '3rem', [stylex.when.ancestor(':hover')]: '5rem' },
+    },
+    borderRadius: '9999px',
+    backgroundColor: {
+      default: 'color-mix(in oklab, var(--secondary) 20%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--secondary) 20%, transparent)',
+        [stylex.when.ancestor(':hover')]:
+          'color-mix(in oklab, var(--secondary) 50%, transparent)',
+      },
+    },
+    transitionProperty: motionTransition,
+    transitionDuration: '500ms',
+    transitionTimingFunction: timing,
+  },
+});
+
 export interface TrustShowcaseProps {
+  copy: PageData<'home'>['trust'];
+  partners: Array<Partner & { id: string }>;
   showAllPartners?: boolean;
+  className?: string;
+  xstyle?: StyleXStyles;
 }
-const partners = [
-  {
-    name: 'IBM',
-    logo: '/logos/partners/ibm.svg',
-    description: 'Business Partner & watsonx Specialist',
-    detail: 'Legendary reliability and enterprise AI systems.',
-  },
-  {
-    name: 'Microsoft',
-    logo: '/logos/partners/microsoft.svg',
-    description: 'Cloud & Productivity Solutions',
-    detail: 'Seamless Azure and Microsoft 365 integration.',
-  },
-  {
-    name: 'Cisco',
-    logo: '/logos/partners/cisco.svg',
-    description: 'Networking & Security Infrastructure',
-    detail: "The world's most robust connectivity backbone.",
-  },
-  {
-    name: 'Lenovo',
-    logo: '/logos/partners/lenovo.svg',
-    description: 'Enterprise Hardware Systems',
-    detail: 'High-performance computing for modern business.',
-  },
-  {
-    name: 'Cloudflare',
-    logo: '/logos/partners/cloudflare.svg',
-    description: 'Security & Performance',
-    detail: 'Global edge network protection and acceleration.',
-  },
-  {
-    name: 'VMware',
-    logo: '/logos/partners/vmware.svg',
-    description: 'Virtualization Leaders',
-    detail: 'The foundation of modern hybrid cloud infrastructure.',
-  },
-];
 export default function TrustShowcase({
+  copy,
+  partners,
   showAllPartners = false,
+  className,
+  xstyle,
 }: TrustShowcaseProps) {
   const { ref: headerRef, isIntersecting: headerInView } =
     useIntersectionObserver<HTMLDivElement>({
@@ -56,78 +219,84 @@ export default function TrustShowcase({
       triggerOnce: true,
     });
   const visiblePartners = showAllPartners ? partners : partners.slice(0, 4);
-  const gridColsClass =
-    visiblePartners.length === 4
-      ? 'lg:grid-cols-4'
-      : visiblePartners.length === 6
-        ? 'lg:grid-cols-3'
-        : 'lg:grid-cols-3';
+  const section = stylex.props(styles.section, xstyle);
   return (
     <section
+      {...section}
       id="trust-showcase"
-      className="relative px-4 py-20 sm:px-6 lg:px-8"
+      className={cn(section.className, className)}
     >
-      <div className="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent" />
-      <div className="mx-auto max-w-7xl">
+      <div {...stylex.props(styles.divider)} />
+      <div {...stylex.props(styles.container)}>
         <div
           ref={headerRef}
-          className={cn(
-            'mb-16 text-center transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-700 ease-out',
-            headerInView
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-8 opacity-0'
+          {...stylex.props(
+            styles.header,
+            headerInView ? styles.headerShown : styles.headerHidden
           )}
         >
-          <h2 className="font-display mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-            <span className="text-foreground">Powered by </span>
-            <span className="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
-              Industry Leaders
+          <h2 {...stylex.props(styles.title)}>
+            <span {...stylex.props(styles.titleLead)}>
+              {copy.headingLead.trim()}{' '}
+            </span>
+            <span {...stylex.props(styles.titleAccent)}>
+              {copy.headingAccent}
             </span>
           </h2>
-          <p className="text-muted-foreground mx-auto max-w-2xl font-sans text-xl">
-            Integrating{' '}
-            <span className="text-accent font-semibold">best-in-class</span>{' '}
-            technologies into your ecosystem.
+          <p {...stylex.props(styles.lede)}>
+            {copy.bodyLead.trim()}{' '}
+            <span {...stylex.props(styles.ledeAccent)}>{copy.bodyAccent}</span>{' '}
+            {copy.bodyEnd.trim()}
           </p>
         </div>
         <div
           ref={gridRef}
-          className={cn('grid grid-cols-1 gap-6 md:grid-cols-2', gridColsClass)}
+          {...stylex.props(
+            styles.grid,
+            visiblePartners.length === 4 ? styles.gridCols4 : styles.gridCols3
+          )}
         >
           {visiblePartners.map((partner, index) => (
             <TechCard
-              key={partner.name}
+              key={partner.id}
               variant="simple"
               interactive
               delay={index * 150}
               animated={gridInView}
             >
-              <div className="relative z-10 flex h-full flex-col p-6 pb-12 text-left">
-                <div className="flex-1">
-                  <div className="mb-4 flex items-center">
-                    <img
-                      src={partner.logo}
-                      alt={partner.name}
-                      loading="lazy"
-                      width={150}
-                      height={32}
-                      className={cn(
-                        'h-8 w-auto max-w-[150px] opacity-100 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
-                        'group-hover:scale-105'
-                      )}
-                    />
+              <div {...stylex.props(styles.cardBody)}>
+                <div {...stylex.props(styles.cardMain)}>
+                  <div {...stylex.props(styles.logoRow)}>
+                    {partner.logo && (
+                      <img
+                        src={partner.logo}
+                        alt={partner.name}
+                        loading="lazy"
+                        width={150}
+                        height={32}
+                        {...stylex.props(styles.logo)}
+                      />
+                    )}
                   </div>
-                  <h3 className="text-foreground font-display mb-2 text-sm font-bold tracking-widest">
-                    {partner.description}
+                  <h3 {...stylex.props(styles.cardTitle)}>
+                    {partner.id === 'cloudflare'
+                      ? copy.cloudflare.description
+                      : partner.id === 'vmware'
+                        ? copy.vmware.description
+                        : partner.description}
                   </h3>
-                  <p className="text-muted-foreground font-sans text-xs leading-relaxed">
-                    {partner.detail}
+                  <p {...stylex.props(styles.cardDetail)}>
+                    {partner.id === 'cloudflare'
+                      ? copy.cloudflare.detail
+                      : partner.id === 'vmware'
+                        ? copy.vmware.detail
+                        : partner.detail}
                   </p>
                 </div>
                 {/* Custom footer decoration (flipped TechCard footer) */}
-                <div className="absolute bottom-6 left-6 flex items-center justify-start gap-2">
-                  <div className="bg-secondary/20 group-hover:bg-secondary/50 h-2 w-2 rounded-full transition-colors duration-500" />
-                  <div className="bg-secondary/20 group-hover:bg-secondary/50 h-1 w-12 rounded-full transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:w-20" />
+                <div {...stylex.props(styles.footer)}>
+                  <div {...stylex.props(styles.dot)} />
+                  <div {...stylex.props(styles.bar)} />
                 </div>
               </div>
             </TechCard>

@@ -1,0 +1,796 @@
+{
+  "key": "service-cloud-hosting",
+  "kind": "page",
+  "title": "Cloud Hosting page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "badgePrefix": {
+          "type": "text",
+          "label": "Badge — opening text"
+        },
+        "badgeAccent": {
+          "type": "text",
+          "label": "Badge — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "deployment": {
+      "type": "group",
+      "label": "Deployment options",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "bodyBefore": {
+          "type": "textarea",
+          "label": "Introduction — before emphasis"
+        },
+        "bodyAccent": {
+          "type": "textarea",
+          "label": "Introduction — emphasized text"
+        },
+        "bodyAfter": {
+          "type": "textarea",
+          "label": "Introduction — after emphasis"
+        },
+        "privateCloud": {
+          "type": "group",
+          "label": "Private Cloud",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "hybridCloud": {
+          "type": "group",
+          "label": "Hybrid Cloud",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "publicCloud": {
+          "type": "group",
+          "label": "Public Cloud",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        }
+      }
+    },
+    "leadership": {
+      "type": "group",
+      "label": "Leadership narrative",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "quoteBefore": {
+          "type": "textarea",
+          "label": "Quotation — before emphasis"
+        },
+        "quoteAccent": {
+          "type": "textarea",
+          "label": "Quotation — emphasized text"
+        },
+        "quoteAfter": {
+          "type": "textarea",
+          "label": "Quotation — after emphasis"
+        }
+      }
+    },
+    "strategy": {
+      "type": "group",
+      "label": "Strategic advantage",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "features": {
+          "type": "group",
+          "label": "Features",
+          "fields": {
+            "orchestratedAgility": {
+              "type": "group",
+              "label": "Orchestrated Agility",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "architecturalSovereignty": {
+              "type": "group",
+              "label": "Architectural Sovereignty",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "costOptimization": {
+              "type": "group",
+              "label": "Cost Optimization",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "zeroDisruptionMigration": {
+              "type": "group",
+              "label": "Zero-Disruption Migration",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "providers": {
+      "type": "group",
+      "label": "Cloud provider expertise",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "items": {
+          "type": "group",
+          "label": "Offerings",
+          "fields": {
+            "ibmCloud": {
+              "type": "group",
+              "label": "IBM Cloud",
+              "fields": {
+                "name": {
+                  "type": "text",
+                  "label": "Name"
+                },
+                "logo": {
+                  "type": "media",
+                  "label": "Provider logo"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "aws": {
+              "type": "group",
+              "label": "AWS",
+              "fields": {
+                "name": {
+                  "type": "text",
+                  "label": "Name"
+                },
+                "logo": {
+                  "type": "media",
+                  "label": "Provider logo"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "microsoftAzure": {
+              "type": "group",
+              "label": "Microsoft Azure",
+              "fields": {
+                "name": {
+                  "type": "text",
+                  "label": "Name"
+                },
+                "logo": {
+                  "type": "media",
+                  "label": "Provider logo"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "googleCloud": {
+              "type": "group",
+              "label": "Google Cloud",
+              "fields": {
+                "name": {
+                  "type": "text",
+                  "label": "Name"
+                },
+                "logo": {
+                  "type": "media",
+                  "label": "Provider logo"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "bdkcloud": {
+              "type": "group",
+              "label": "BDKcloud",
+              "fields": {
+                "name": {
+                  "type": "text",
+                  "label": "Name"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "cloudflare": {
+              "type": "group",
+              "label": "Cloudflare",
+              "fields": {
+                "name": {
+                  "type": "text",
+                  "label": "Name"
+                },
+                "logo": {
+                  "type": "media",
+                  "label": "Provider logo"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "benefits": {
+      "type": "group",
+      "label": "Benefits",
+      "fields": {
+        "items": {
+          "type": "group",
+          "label": "Offerings",
+          "fields": {
+            "enhancedReliability": {
+              "type": "group",
+              "label": "Enhanced Reliability",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "costEfficiency": {
+              "type": "group",
+              "label": "Cost Efficiency",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "businessContinuity": {
+              "type": "group",
+              "label": "Business Continuity",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "architecturalExpertise": {
+              "type": "group",
+              "label": "Architectural Expertise",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "securityFirst": {
+              "type": "group",
+              "label": "Security First",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "infiniteFlexibility": {
+              "type": "group",
+              "label": "Infinite Flexibility",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "faqHeading": { "type": "text", "label": "FAQ section heading" },
+    "faqs": {
+      "type": "group",
+      "label": "Frequently asked questions",
+      "fields": {
+        "howDoYouDetermineTheRightMix": {
+          "type": "group",
+          "label": "How do you determine the right mix of public vs. private cloud?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "howDoYouHandleComplianceAndSecurity": {
+          "type": "group",
+          "label": "How do you handle compliance and security in a hybrid environment?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "whatDoesManagedCloudActuallyInclude": {
+          "type": "group",
+          "label": "What does 'Managed Cloud' actually include?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "group",
+      "label": "Impact metrics",
+      "fields": {
+        "uptimeSla": {
+          "type": "group",
+          "label": "Uptime SLA",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "cloudMigrations": {
+          "type": "group",
+          "label": "Cloud Migrations",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "dataManaged": {
+          "type": "group",
+          "label": "Data Managed",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "operationsCenter": {
+          "type": "group",
+          "label": "Operations Center",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        }
+      }
+    },
+    "serviceSchema": {
+      "type": "group",
+      "label": "Service structured data",
+      "fields": {
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "serviceType": {
+          "type": "text",
+          "label": "Service Type"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "faqHeading": "Frequently Asked Questions",
+    "hero": {
+      "badgePrefix": "Secure &",
+      "badgeAccent": "Scalable",
+      "body": "Secure, scalable cloud solutions for the enterprise. BDKinc delivers intelligent orchestration across private, public, and hybrid environments with premier management and 24/7 support."
+    },
+    "deployment": {
+      "heading": "Deployment",
+      "headingAccent": "Options",
+      "bodyBefore": "Intelligent cloud orchestration designed for the",
+      "bodyAccent": "modern enterprise",
+      "bodyAfter": ".",
+      "privateCloud": {
+        "title": "Private Cloud",
+        "description": "Uncompromising Control. BDKinc’s Private Cloud offers dedicated resources in our secure datacenters, ensuring absolute data sovereignty, predictable performance, and compliance for sensitive workloads."
+      },
+      "hybridCloud": {
+        "title": "Hybrid Cloud",
+        "description": "Seamless Integration. Bridge the gap between on-premise legacy systems and modern cloud agility. Our hybrid architectures allow you to scale securely, keeping sensitive data close while leveraging public cloud power."
+      },
+      "publicCloud": {
+        "title": "Public Cloud",
+        "description": "Infinite Scalability. Leverage the massive global reach of AWS, Azure, and IBM Cloud. We manage the complexity, optimizing your deployment for cost-efficiency, security, and performance at scale."
+      }
+    },
+    "leadership": {
+      "heading": "Architectural",
+      "headingAccent": "Vision",
+      "quoteBefore": "“Cloud is not a destination; it’s an operating model. We don’t just host your data; we architect",
+      "quoteAccent": "intelligent ecosystems",
+      "quoteAfter": "that balance security, performance, and cost, ensuring your infrastructure never blinks.”"
+    },
+    "strategy": {
+      "heading": "The Strategic",
+      "headingAccent": "Advantage",
+      "body": "Move beyond simple hosting with a partner who orchestrates enterprise-grade cloud transformations.",
+      "features": {
+        "orchestratedAgility": {
+          "title": "Orchestrated Agility",
+          "description": "Intelligent resource allocation across hybrid environments.",
+          "highlight": "Intelligent resource allocation",
+          "detail": "We design cloud architectures that adapt to your workload demands in real-time. By orchestrating resources across private and public clouds, we ensure you have the agility of the cloud with the control of dedicated infrastructure."
+        },
+        "architecturalSovereignty": {
+          "title": "Architectural Sovereignty",
+          "description": "Absolute control over data location and security governance.",
+          "highlight": "Absolute control over data",
+          "detail": "For sensitive workloads, our private cloud environments offer dedicated hardware and direct engineer access, ensuring your data sovereignty and compliance requirements are met without compromise."
+        },
+        "costOptimization": {
+          "title": "Cost Optimization",
+          "description": "Continuous utilization analysis to eliminate cloud waste.",
+          "highlight": "Eliminate cloud waste",
+          "detail": "We don't just set it and forget it. Our engineers perform continuous reviews of your cloud spend and resource utilization, refactoring environments to ensure you're always getting the maximum value for your investment."
+        },
+        "zeroDisruptionMigration": {
+          "title": "Zero-Disruption Migration",
+          "description": "Rigorous cutover playbooks ensuring 100% data integrity.",
+          "highlight": "100% data integrity",
+          "detail": "Migration shouldn't mean downtime. Our proven methodology uses phased transitions and automated synchronization to move your critical systems to the cloud with zero impact on your business operations."
+        }
+      }
+    },
+    "providers": {
+      "heading": "Multi-Provider",
+      "headingAccent": "Expertise",
+      "body": "Certified expertise across leading cloud platforms and enterprise infrastructure partners.",
+      "items": {
+        "ibmCloud": {
+          "name": "IBM Cloud",
+          "logo": "/logos/partners/ibm.svg",
+          "desc": "Enterprise-grade reliability and Power Systems expertise"
+        },
+        "aws": {
+          "name": "AWS",
+          "logo": "/logos/partners/aws.svg",
+          "desc": "Industry-leading breadth for diverse application ecosystems"
+        },
+        "microsoftAzure": {
+          "name": "Microsoft Azure",
+          "logo": "/logos/partners/azure.svg",
+          "desc": "Seamless integration for Microsoft-centric enterprises"
+        },
+        "googleCloud": {
+          "name": "Google Cloud",
+          "logo": "/logos/partners/google-cloud.svg",
+          "desc": "Advanced data analytics and AI capabilities"
+        },
+        "bdkcloud": {
+          "name": "BDKcloud",
+          "desc": "Private cloud infrastructure powered by the BDK platform"
+        },
+        "cloudflare": {
+          "name": "Cloudflare",
+          "logo": "/logos/partners/cloudflare.svg",
+          "desc": "Global edge network for security and performance"
+        }
+      }
+    },
+    "metrics": {
+      "uptimeSla": {
+        "value": "99.99%",
+        "label": "Uptime SLA"
+      },
+      "cloudMigrations": {
+        "value": "75+",
+        "label": "Cloud Migrations"
+      },
+      "dataManaged": {
+        "value": "1.5PB",
+        "label": "Data Managed"
+      },
+      "operationsCenter": {
+        "value": "24/7",
+        "label": "Operations Center"
+      }
+    },
+    "faqs": {
+      "howDoYouDetermineTheRightMix": {
+        "question": "How do you determine the right mix of public vs. private cloud?",
+        "answer": "We conduct a deep architectural assessment of your workloads, compliance requirements, and budget. We typically recommend Private Cloud for predictable, data-heavy core systems, and Public Cloud for variable web workloads or rapid development cycles."
+      },
+      "howDoYouHandleComplianceAndSecurity": {
+        "question": "How do you handle compliance and security in a hybrid environment?",
+        "answer": "Security is our baseline. We implement a unified security plane across all environments—private and public—ensuring consistent policies, identity management, and threat detection that meet SOC 2, HIPAA, and other regulatory standards."
+      },
+      "whatDoesManagedCloudActuallyInclude": {
+        "question": "What does 'Managed Cloud' actually include?",
+        "answer": "It means total accountability. We handle patching, backups, security monitoring, performance tuning, and 24/7 incident response. You focus on your applications and business logic; we ensure the infrastructure never blinks."
+      }
+    },
+    "benefits": {
+      "items": {
+        "enhancedReliability": {
+          "title": "Enhanced Reliability",
+          "description": "Multi-region redundancy and high-availability clusters protect your critical business data."
+        },
+        "costEfficiency": {
+          "title": "Cost Efficiency",
+          "description": "Shift from volatile capital expenses to predictable, value-driven operational models."
+        },
+        "businessContinuity": {
+          "title": "Business Continuity",
+          "description": "Built-in disaster recovery and immutable backup solutions keep your business running."
+        },
+        "architecturalExpertise": {
+          "title": "Architectural Expertise",
+          "description": "Direct access to senior cloud architects with decades of enterprise migration experience."
+        },
+        "securityFirst": {
+          "title": "Security First",
+          "description": "Unified security plane across all environments ensures consistent policy enforcement."
+        },
+        "infiniteFlexibility": {
+          "title": "Infinite Flexibility",
+          "description": "Elastic capacity that adapts instantly to rapid growth, mergers, and acquisitions."
+        }
+      }
+    },
+    "seo": {
+      "title": "Cloud Hosting & Migration Services | BDKinc",
+      "description": "Secure, scalable cloud solutions for the enterprise. BDKinc delivers intelligent orchestration across private, public, and hybrid environments.",
+      "ogDescription": "BDKinc architects the perfect mix of Private, Hybrid, and Public environments to maximize performance and minimize cost across your entire organization."
+    },
+    "cta": {
+      "title": "Power Your Vision in the Cloud",
+      "description": "Stop settling for standard hosting. Partner with the architects who understand your scale and security requirements.",
+      "buttonText": "Schedule a Cloud Strategy Session",
+      "buttonHref": "/contact#chat"
+    },
+    "serviceSchema": {
+      "description": "Secure, scalable cloud solutions for the enterprise. BDKinc delivers intelligent orchestration across private, public, and hybrid environments with premier management and 24/7 support.",
+      "serviceType": "Cloud Hosting & Migration"
+    }
+  }
+}

@@ -1,0 +1,270 @@
+---
+interface Props {
+  /** WordPress admin URL from the authorized snapshot; absent on snapshots created before this feature. */
+  adminUrl?: string;
+}
+const { adminUrl } = Astro.props;
+---
+
+{
+  adminUrl && (
+    <div id="bdk-preview-editor" data-admin-url={adminUrl} hidden>
+      <div class="bdk-box bdk-hover" aria-hidden="true">
+        <span class="bdk-tag" />
+      </div>
+      <div class="bdk-box bdk-flash" aria-hidden="true" />
+      <button type="button" class="bdk-toggle" aria-pressed="false">
+        Edit sections
+      </button>
+      <style is:inline>
+      #bdk-preview-editor {
+        font:
+          500 13px/1.4 system-ui,
+          sans-serif;
+      }
+      #bdk-preview-editor .bdk-box {
+        position: fixed;
+        z-index: 2147483000;
+        display: none;
+        pointer-events: none;
+        border-radius: 6px;
+        outline: 2px solid #2271b1;
+        outline-offset: -2px;
+        background: rgb(34 113 177 / 0.07);
+      }
+      #bdk-preview-editor .bdk-flash {
+        transition: opacity 600ms ease;
+      }
+      #bdk-preview-editor .bdk-tag {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        max-width: calc(100% - 12px);
+        overflow: hidden;
+        border-radius: 4px;
+        background: #2271b1;
+        color: #fff;
+        padding: 3px 8px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      #bdk-preview-editor .bdk-toggle {
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        z-index: 2147483001;
+        border: 1px solid #2271b1;
+        border-radius: 999px;
+        background: #fff;
+        color: #2271b1;
+        padding: 8px 14px;
+        box-shadow: 0 4px 14px rgb(0 0 0 / 0.18);
+        cursor: pointer;
+      }
+      #bdk-preview-editor .bdk-toggle[aria-pressed='true'] {
+        background: #2271b1;
+        color: #fff;
+      }
+      #bdk-preview-editor .bdk-toggle:focus-visible {
+        outline: 2px solid #72aee6;
+        outline-offset: 2px;
+      }
+      </style>
+    </div>
+  )
+}
+
+<script>
+  interface Marker {
+    record: string;
+    section: string;
+    also?: string[];
+    label: string;
+    page: string;
+  }
+  interface Section extends Marker {
+    range: Range;
+  }
+
+  const root = document.getElementById('bdk-preview-editor');
+  const adminUrl = root?.dataset.adminUrl;
+  const sections = collectSections();
+
+  if (root && adminUrl && sections.length) {
+    const adminOrigin = new URL(adminUrl).origin;
+    const framed = window.parent !== window;
+    const hoverBox = root.querySelector<HTMLElement>('.bdk-hover')!;
+    const tag = root.querySelector<HTMLElement>('.bdk-tag')!;
+    const flashBox = root.querySelector<HTMLElement>('.bdk-flash')!;
+    const toggle = root.querySelector<HTMLButtonElement>('.bdk-toggle')!;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Inside the editor a click only scrolls the form, so section picking starts on.
+    let enabled = framed;
+    let hovered: Section | undefined;
+    let flashed: Section | undefined;
+    let flashTimer = 0;
+    let frame = 0;
+
+    const place = (box: HTMLElement, section: Section | undefined) => {
+      const rect = section?.range.getBoundingClientRect();
+      if (!rect || !rect.width || !rect.height) {
+        box.style.display = 'none';
+        return;
+      }
+      Object.assign(box.style, {
+        display: 'block',
+        top: `${rect.top}px`,
+        left: `${rect.left}px`,
+        width: `${rect.width}px`,
+        height: `${rect.height}px`,
+      });
+    };
+    const redraw = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        place(hoverBox, enabled ? hovered : undefined);
+        place(flashBox, flashed);
+      });
+    };
+    const setEnabled = (value: boolean) => {
+      enabled = value;
+      toggle.setAttribute('aria-pressed', String(value));
+      toggle.textContent = value
+        ? 'Editing: click a section'
+        : 'Edit sections';
+      if (!value) hovered = undefined;
+      redraw();
+    };
+    const sectionAt = (target: EventTarget | null) =>
+      target instanceof Node && !root.contains(target)
+        ? sections.find((section) => {
+            try {
+              return section.range.comparePoint(target, 0) === 0;
+            } catch {
+              return false;
+            }
+          })
+        : undefined;
+    const reveal = (section: Section) => {
+      const top =
+        section.range.getBoundingClientRect().top + window.scrollY - 96;
+      window.scrollTo({ top, behavior: reducedMotion ? 'instant' : 'smooth' });
+      flashed = section;
+      flashBox.style.opacity = '1';
+      clearTimeout(flashTimer);
+      flashTimer = window.setTimeout(() => {
+        flashBox.style.opacity = '0';
+        flashTimer = window.setTimeout(() => {
+          flashed = undefined;
+          redraw();
+        }, 600);
+      }, 1400);
+      redraw();
+    };
+    const edit = (section: Section) => {
+      if (framed) {
+        window.parent.postMessage(
+          { type: 'bdk:section', record: section.record, section: section.section },
+          adminOrigin
+        );
+        return;
+      }
+      const url = new URL('admin.php', adminUrl);
+      url.search = new URLSearchParams({
+        page: 'bdk-edit',
+        record: section.record,
+        section: section.section,
+      }).toString();
+      window.open(url, '_blank', 'noopener');
+    };
+
+    root.hidden = false;
+    setEnabled(enabled);
+    toggle.addEventListener('click', () => setEnabled(!enabled));
+    document.addEventListener(
+      'pointermove',
+      (event) => {
+        if (!enabled) return;
+        const section = sectionAt(event.target);
+        if (section === hovered) return;
+        hovered = section;
+        if (section) tag.textContent = `${section.label} · ${section.page}`;
+        redraw();
+      },
+      { passive: true }
+    );
+    // Capture before links and hydrated widgets so picking never navigates or toggles UI.
+    document.addEventListener(
+      'click',
+      (event) => {
+        if (!enabled) return;
+        const section = sectionAt(event.target);
+        if (!section) return;
+        event.preventDefault();
+        event.stopPropagation();
+        edit(section);
+      },
+      true
+    );
+    addEventListener('resize', redraw);
+    addEventListener(
+      'scroll',
+      () => {
+        redraw();
+        if (framed)
+          window.parent.postMessage(
+            { type: 'bdk:scroll', y: window.scrollY },
+            adminOrigin
+          );
+      },
+      { passive: true }
+    );
+
+    if (framed) {
+      addEventListener('message', (event) => {
+        if (event.origin !== adminOrigin || event.source !== window.parent)
+          return;
+        const data = event.data as { type?: string; y?: unknown; record?: unknown; section?: unknown };
+        if (data?.type === 'bdk:scroll' && typeof data.y === 'number') {
+          window.scrollTo({ top: data.y, behavior: 'instant' });
+        }
+        if (data?.type === 'bdk:highlight') {
+          const section = sections.find(
+            (item) =>
+              item.record === data.record &&
+              (item.section === data.section ||
+                item.also?.includes(data.section as string))
+          );
+          if (section) reveal(section);
+        }
+      });
+      window.parent.postMessage({ type: 'bdk:ready' }, adminOrigin);
+    }
+  }
+
+  function collectSections(): Section[] {
+    const found: Section[] = [];
+    const open: { marker: Marker; start: Comment }[] = [];
+    const walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_COMMENT
+    );
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      const text = node.nodeValue ?? '';
+      if (text.startsWith('bdk-section ')) {
+        open.push({
+          marker: JSON.parse(decodeURIComponent(text.slice(12))) as Marker,
+          start: node as Comment,
+        });
+      } else if (text === '/bdk-section' && open.length) {
+        // Inner sections close first, so lookups prefer the most specific match.
+        const { marker, start } = open.pop()!;
+        const range = document.createRange();
+        range.setStartAfter(start);
+        range.setEndBefore(node);
+        found.push({ ...marker, range });
+      }
+    }
+    return found;
+  }
+</script>

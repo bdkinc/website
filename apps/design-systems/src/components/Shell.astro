@@ -1,0 +1,174 @@
+---
+import '@/styles/site.css';
+import type { SiteSettings, ContentEntry } from '@bdkinc/content';
+import { asset } from '@/lib/content';
+import BrandLogo from '@/components/BrandLogo.astro';
+import Icon from '@/components/Icon.astro';
+import Navigation from './Navigation.astro';
+interface Props {
+  settings: SiteSettings;
+  services: ContentEntry<'services'>[];
+  title: string;
+  description: string;
+  path: string;
+  image?: string;
+  imageAlt?: string;
+  preview?: boolean;
+}
+const {
+  settings: s,
+  services,
+  title,
+  description,
+  path,
+  image = s.defaultImage,
+  imageAlt = s.defaultImageAlt,
+  preview,
+} = Astro.props;
+const canonical = new URL(path, 'https://www.bdkinc.com').href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head
+    >{import.meta.env.DEV && <link rel="stylesheet" href="/virtual:stylex.css" />}
+    {import.meta.env.DEV && <script is:inline type="module" src="/@id/virtual:stylex:runtime"></script>}
+    <meta charset="utf-8" /><meta
+      name="viewport"
+      content="width=device-width,initial-scale=1"
+    /><title>{title}</title><meta
+      name="description"
+      content={description}
+    /><meta name="robots" content="noindex,nofollow" /><link
+      rel="canonical"
+      href={canonical}
+    /><link rel="icon" href={asset(s.brand.favicon)} /><meta
+      property="og:title"
+      content={title}
+    /><meta property="og:description" content={description} /><meta
+      property="og:url"
+      content={canonical}
+    /><meta property="og:image" content={asset(image)} /><meta
+      property="og:image:alt"
+      content={imageAlt}
+    />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const preference = window.matchMedia('(prefers-color-scheme: dark)');
+        let saved;
+        try { saved = localStorage.getItem('theme'); } catch {}
+        let explicit = saved === 'light' || saved === 'dark';
+        const apply = (dark) => {
+          root.dataset.theme = dark ? 'dark' : 'light';
+          const button = document.querySelector('[data-theme-toggle]');
+          if (button) {
+            button.setAttribute('aria-checked', String(dark));
+          }
+        };
+        apply(explicit ? saved === 'dark' : preference.matches);
+        preference.addEventListener('change', (event) => {
+          if (!explicit) apply(event.matches);
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+          apply(root.dataset.theme === 'dark');
+          document.querySelector('[data-theme-toggle]').addEventListener('click', () => {
+            apply(root.dataset.theme !== 'dark');
+            explicit = true;
+            try { localStorage.setItem('theme', root.dataset.theme); } catch {}
+          });
+        });
+      })();
+    </script>
+  </head>
+  <body
+    ><a class="skip" href="#main">Skip to content</a><aside
+      class="rail"
+      aria-hidden="true"
+    >
+      <span class="mark">IT</span><span class="rail-label"
+        >{s.footer.signature}</span
+      ><span class="rail-index">02 / BDK</span>
+    </aside><div class="site">
+      <div class="review">
+        <span>Systems / Independent design review{
+          preview ? ' / Authorized preview' : ''
+        }</span>
+        <button class="theme-toggle" type="button" role="switch" aria-checked="true" aria-label="Dark mode" title="Toggle light and dark mode" data-theme-toggle>
+          <span class="theme-track" aria-hidden="true">
+            <Icon name="sun" class="theme-sun" />
+            <Icon name="moon" class="theme-moon" />
+          </span>
+        </button>
+      </div>
+      <header class="masthead">
+        <a class="brand" href="/" aria-label={s.navigation.homeLabel}
+          >{
+            s.brand.logo ? (
+              <img src={asset(s.brand.logo)} alt={s.brand.logoAlt} />
+            ) : (
+              <BrandLogo label={s.brand.logoAlt} />
+            )
+          }</a
+        ><Navigation settings={s} services={services} path={path} />
+      </header>
+      <main id="main"><slot /></main>
+      <footer class="footer">
+        <div class="footer-grid">
+          <div>
+            <a class="brand" href="/"><BrandLogo label={s.brand.logoAlt} /></a><p>
+              {s.footer.tagline}
+            </p><p>
+              <a href={s.contact.phoneHref}>{s.contact.phoneDisplay}</a><br /><a
+                href={s.contact.emailHref}>{s.contact.email}</a>
+            </p>
+          </div><div>
+            <h3>{s.footer.companyHeading}</h3><ul>
+              {
+                [
+                  [s.footer.about, '/about'],
+                  [s.footer.services, '/services'],
+                  [s.footer.blog, '/blog'],
+                  [s.footer.contact, '/contact'],
+                ].map(([label, href]) => (
+                  <li>
+                    <a href={href}>{label}</a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div><div>
+            <h3>{s.footer.expertiseHeading}</h3><ul>
+              {
+                [
+                  [s.footer.managedIT, '/services/managed-it'],
+                  [s.footer.cloudHosting, '/services/cloud-hosting'],
+                  [s.footer.cybersecurity, '/services/cybersecurity'],
+                  [s.footer.ibmPower, '/services/ibm-power'],
+                ].map(([label, href]) => (
+                  <li>
+                    <a href={href}>{label}</a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div><div class="footer-bottom">
+          <span
+            >© {new Date().getFullYear()}
+            {s.organization.legalName}{s.footer.rights}</span
+          ><nav aria-label="Legal">
+            <a href="/privacy">{s.footer.privacy}</a><a href="/terms"
+              >{s.footer.terms}</a>
+          </nav><nav aria-label={s.footer.socialLabel}>
+            <a href={s.footer.linkedin} aria-label={s.footer.linkedinLabel}
+              >LinkedIn</a
+            ><a href={s.footer.facebook} aria-label={s.footer.facebookLabel}
+              >Facebook</a
+            ><a href={s.footer.instagram} aria-label={s.footer.instagramLabel}
+              >Instagram</a>
+          </nav>
+        </div>
+      </footer>
+    </div></body>
+</html>

@@ -1,0 +1,81 @@
+{
+  "key": "home", "kind": "page", "title": "Home page",
+  "fields": {
+    "hero":{"type":"group","label":"Hero","fields":{
+      "heading":{"type":"text","label":"Main heading"},
+      "body":{"type":"textarea","label":"Introduction"},
+      "primaryCTAText":{"type":"text","label":"Primary button label"},
+      "primaryCTALink":{"type":"url","label":"Primary button destination"},
+      "secondaryCTAText":{"type":"text","label":"Secondary button label"},
+      "secondaryCTALink":{"type":"url","label":"Secondary button destination"},
+      "badge":{"type":"text","label":"Experience badge text"},
+      "experienceStartYear":{"type":"number","label":"Experience start year"},
+      "badgeLead":{"type":"text","label":"Experience badge lead after year count"},
+      "yearsLabel":{"type":"text","label":"Years statistic label"},
+      "yearsSuffix":{"type":"text","label":"Years statistic suffix"},
+      "clients":{"type":"number","label":"Clients served count"},
+      "clientsSuffix":{"type":"text","label":"Clients statistic suffix"},
+      "clientsLabel":{"type":"text","label":"Clients statistic label"},
+      "supportHours":{"type":"number","label":"Support hours"},
+      "supportDays":{"type":"number","label":"Support days"},
+      "supportSeparator":{"type":"text","label":"Support number separator"},
+      "supportLabel":{"type":"text","label":"Support statistic label"}
+    }},
+    "services":{"type":"group","label":"Services section","fields":{
+      "headingLead":{"type":"text","label":"Heading lead"},"headingAccent":{"type":"text","label":"Heading emphasis"},
+      "bodyLead":{"type":"text","label":"Introduction lead"},"bodyAccent":{"type":"text","label":"Introduction emphasis"},"bodyEnd":{"type":"text","label":"Introduction ending"}
+    }},
+    "whyUs":{"type":"group","label":"Why choose us","fields":{
+      "headingLead":{"type":"text","label":"Heading lead"},"brandLead":{"type":"text","label":"Bold brand segment"},"brandEnd":{"type":"text","label":"Brand ending"},
+      "bodyLead":{"type":"text","label":"Introduction lead"},"bodyAccent":{"type":"text","label":"Introduction emphasis"},"bodyEnd":{"type":"text","label":"Introduction ending"},
+      "response":{"type":"group","label":"Fast response","fields":{"title":{"type":"text","label":"Title"},"description":{"type":"textarea","label":"Description"},"highlight":{"type":"text","label":"Emphasized word"},"detail":{"type":"textarea","label":"Detail"}}},
+      "expertise":{"type":"group","label":"Proven expertise","fields":{"title":{"type":"text","label":"Title"},"description":{"type":"textarea","label":"Description"},"highlight":{"type":"text","label":"Emphasized word"},"detail":{"type":"textarea","label":"Detail"}}},
+      "service":{"type":"group","label":"Personalized service","fields":{"title":{"type":"text","label":"Title"},"description":{"type":"textarea","label":"Description"},"highlight":{"type":"text","label":"Emphasized word"},"detail":{"type":"textarea","label":"Detail"}}}
+    }},
+    "trust":{"type":"group","label":"Partner showcase","fields":{
+      "headingLead":{"type":"text","label":"Heading lead"},"headingAccent":{"type":"text","label":"Heading emphasis"},
+      "bodyLead":{"type":"text","label":"Introduction lead"},"bodyAccent":{"type":"text","label":"Introduction emphasis"},"bodyEnd":{"type":"text","label":"Introduction ending"},
+      "cloudflare":{"type":"group","label":"Cloudflare showcase wording","fields":{"description":{"type":"text","label":"Showcase headline"},"detail":{"type":"textarea","label":"Showcase detail"}}},
+      "vmware":{"type":"group","label":"VMware showcase wording","fields":{"description":{"type":"text","label":"Showcase headline"},"detail":{"type":"textarea","label":"Showcase detail"}}}
+    }},
+    "testimonials":{"type":"group","label":"Testimonials section","fields":{
+      "headingLead":{"type":"text","label":"Heading lead"},"headingAccent":{"type":"text","label":"Heading emphasis"},
+      "bodyLead":{"type":"text","label":"Introduction lead"},"bodyAccent":{"type":"text","label":"Introduction emphasis"},"bodyEnd":{"type":"text","label":"Introduction ending"}
+    }},
+    "seo": {"type":"group","label":"Search and sharing","fields":{
+      "title":{"type":"text","label":"Page title"},
+      "description":{"type":"textarea","label":"Search description"},
+      "image":{"type":"media","label":"Social sharing image"},
+      "imageAlt":{"type":"text","label":"Social image description"}
+    }}
+  },
+  "defaults": {
+    "seo": {
+      "title":"Premier Managed IT Services & Cloud Hosting | BDKinc",
+      "description":"IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.",
+      "image":"/favicon.svg", "imageAlt":"BDKinc - Premier managed IT, cloud hosting, and cybersecurity partner"
+    },
+    "hero": {
+      "heading":"IT Made Simple",
+      "body":"The premier technology partner for growth-focused organizations. We deliver Managed IT, Cloud Solutions, and Custom Software with enterprise-grade expertise.",
+      "primaryCTAText":"Partner with Us", "primaryCTALink":"/contact",
+      "secondaryCTAText":"Explore Services", "secondaryCTALink":"/services",
+      "badge":"Enterprise Innovation",
+      "experienceStartYear":2000,"badgeLead":"+ Years of ","yearsLabel":"Years in Business","yearsSuffix":"+",
+      "clients":500,"clientsSuffix":"+","clientsLabel":"Clients Served",
+      "supportHours":24,"supportDays":7,"supportSeparator":"x","supportLabel":"Support Available"
+    },
+    "services":{"headingLead":"Expert ","headingAccent":"Solutions","bodyLead":"Enterprise-grade ","bodyAccent":"technical expertise","bodyEnd":" tailored for high-growth organizations."},
+    "whyUs":{
+      "headingLead":"Why choose ","brandLead":"BDK","brandEnd":"inc?","bodyLead":"Technical authority ","bodyAccent":"refined over decades","bodyEnd":".",
+      "response":{"title":"Fast Response","description":"Quick turnaround times with dedicated support staff available 24/7.","highlight":"support","detail":"When incidents happen, minutes matter. We route alerts, triage fast, and keep you operational—with clear communication at every step."},
+      "expertise":{"title":"Proven Expertise","description":"Over 25 years of experience delivering reliable IT solutions.","highlight":"experience","detail":"We build and run production systems across infrastructure, cloud, and security. You get battle-tested processes—not guesswork."},
+      "service":{"title":"Personalized Service","description":"Dedicated team that understands your unique business needs.","highlight":"business","detail":"Your environment is documented, your stakeholders are known, and your roadmap is intentional. We operate like an extension of your team."}
+    },
+    "trust":{"headingLead":"Powered by ","headingAccent":"Industry Leaders","bodyLead":"Integrating ","bodyAccent":"best-in-class","bodyEnd":" technologies into your ecosystem.",
+      "cloudflare":{"description":"Security & Performance","detail":"Global edge network protection and acceleration."},
+      "vmware":{"description":"Virtualization Leaders","detail":"The foundation of modern hybrid cloud infrastructure."}
+    },
+    "testimonials":{"headingLead":"Client ","headingAccent":"Success Stories","bodyLead":"Real outcomes for organizations with ","bodyAccent":"mission-critical","bodyEnd":" needs."}
+  }
+}

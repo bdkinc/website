@@ -1,3 +1,5 @@
+import type { SiteSettings } from '@bdkinc/content';
+
 export interface FAQItem {
   question: string;
   answer: string;
@@ -50,13 +52,14 @@ export function servicePageSchemas(options: {
   serviceName: string;
   servicePath: string;
   faqs: FAQItem[];
+  copy: Pick<SiteSettings['navigation'], 'home' | 'services'>;
 }) {
-  const { serviceName, servicePath, faqs } = options;
+  const { serviceName, servicePath, faqs, copy } = options;
 
   return {
     breadcrumb: breadcrumbListSchema([
-      { name: 'Home', item: '/' },
-      { name: 'Services', item: '/services' },
+      { name: copy.home, item: '/' },
+      { name: copy.services, item: '/services' },
       { name: serviceName, item: servicePath },
     ]),
     faq: faqPageSchema(faqs),

@@ -1,91 +1,162 @@
 import { PiMoon, PiSun } from 'react-icons/pi';
 import { useEffect, useState } from 'react';
-import { Button } from '@bdkinc/design-system';
+import * as stylex from '@stylexjs/stylex';
+
+const ease = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+const styles = stylex.create({
+  button: {
+    position: 'relative',
+    display: 'flex',
+    width: 44,
+    height: 44,
+    minWidth: 44,
+    minHeight: 44,
+    flexShrink: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+    borderRadius: '50%',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'var(--border)',
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': 'color-mix(in oklab, var(--accent) 10%, transparent)',
+    },
+    color: 'var(--foreground)',
+    boxShadow: {
+      default: '0 3px 12px -6px rgba(0,0,0,.35)',
+      ':hover': 'var(--toggle-hover-shadow)',
+    },
+    transform: {
+      default: 'scale(1)',
+      ':hover': {
+        default: null,
+        '@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)':
+          'scale(1.05)',
+      },
+      ':active': {
+        default: null,
+        '@media (prefers-reduced-motion: no-preference)': 'scale(.95)',
+      },
+    },
+    transitionProperty:
+      'background-color, box-shadow, transform, outline-color',
+    transitionDuration: {
+      default: '0ms',
+      '@media (prefers-reduced-motion: no-preference)': '500ms',
+    },
+    transitionTimingFunction: ease,
+    cursor: 'pointer',
+    outline: { default: 'none', ':focus-visible': '2px solid var(--ring)' },
+    outlineOffset: { default: 0, ':focus-visible': '2px' },
+    '--toggle-hover': {
+      default: '0',
+      ':hover': {
+        default: null,
+        '@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)':
+          '1',
+      },
+    },
+  },
+  glow: {
+    position: 'absolute',
+    inset: 0,
+    zIndex: 0,
+    borderRadius: '50%',
+    backgroundImage: 'var(--toggle-glow)',
+    opacity: 'var(--toggle-hover)',
+    filter: 'blur(6px)',
+    transform: {
+      default: 'scale(1)',
+      '@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)':
+        'scale(calc(1 + .5 * var(--toggle-hover)))',
+    },
+    transitionProperty: 'opacity, transform',
+    transitionDuration: {
+      default: '0ms',
+      '@media (prefers-reduced-motion: no-preference)': '500ms',
+    },
+    transitionTimingFunction: ease,
+    pointerEvents: 'none',
+  },
+  iconFrame: {
+    position: 'relative',
+    zIndex: 1,
+    display: 'flex',
+    width: 20,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  icon: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    fontSize: 20,
+    transitionProperty: 'opacity, transform',
+    transitionDuration: {
+      default: '0ms',
+      '@media (prefers-reduced-motion: no-preference)': '500ms',
+    },
+    transitionTimingFunction: ease,
+  },
+  sun: {
+    opacity: 'var(--toggle-sun-opacity)',
+    transform: 'var(--toggle-sun-transform)',
+  },
+  moon: {
+    opacity: 'var(--toggle-moon-opacity)',
+    transform: 'var(--toggle-moon-transform)',
+  },
+});
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [mounted, setMounted] = useState(false);
 
-  const toggleButtonClassName =
-    'group relative flex h-11 w-11 min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-border bg-transparent text-foreground shadow-[0_3px_12px_-6px_rgba(0,0,0,0.35)] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.05] hover:bg-accent/10 hover:text-foreground hover:shadow-[0_6px_20px_-8px_rgba(0,0,0,0.5)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:border-border dark:hover:shadow-[0_6px_20px_-8px_rgba(255,255,255,0.15)]';
-
-  // Load theme from localStorage and set initial state
   useEffect(() => {
     setMounted(true);
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const prefersDark = window.matchMedia(
       '(prefers-color-scheme: dark)'
     ).matches;
-
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     setTheme(initialTheme);
-
-    if (initialTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark', initialTheme === 'dark');
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
-
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
   };
 
-  // Render identical structure for both mounted and unmounted states
-  // to avoid hydration mismatch, relying on CSS `dark:` for immediate styling.
-  const content = (
-    <>
-      <span
-        aria-hidden="true"
-        className="absolute inset-0 z-0 rounded-full bg-gradient-to-tr from-amber-300/20 to-orange-400/20 opacity-0 blur-[6px] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-[1.5] group-hover:opacity-100 dark:from-blue-400/20 dark:to-indigo-500/20"
-      />
-      <div
-        aria-hidden="true"
-        className="relative z-10 flex h-5 w-5 items-center justify-center"
-      >
-        <PiSun className="absolute h-5 w-5 scale-100 rotate-0 opacity-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-[20deg] dark:scale-0 dark:-rotate-90 dark:opacity-0" />
-        <PiMoon className="absolute h-5 w-5 scale-0 rotate-90 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] dark:scale-100 dark:rotate-0 dark:opacity-100 dark:group-hover:-rotate-[15deg]" />
-      </div>
-    </>
-  );
-
-  if (!mounted) {
-    return (
-      <Button
-        type="button"
-        aria-label="Switch color theme"
-        title="Switch color theme"
-        variant={'ghost'}
-        size={'icon'}
-        className={toggleButtonClassName}
-      >
-        {content}
-      </Button>
-    );
-  }
-
-  const nextTheme = theme === 'light' ? 'dark' : 'light';
+  const isDark = theme === 'dark';
+  const label = mounted
+    ? `Switch to ${isDark ? 'light' : 'dark'} mode`
+    : 'Switch color theme';
 
   return (
-    <Button
+    <button
+      {...stylex.props(styles.button)}
       type="button"
-      onClick={toggleTheme}
-      variant={'ghost'}
-      aria-label={`Switch to ${nextTheme} mode`}
-      title={`Switch to ${nextTheme} mode`}
-      aria-pressed={theme === 'dark'}
-      className={toggleButtonClassName}
-      size={'icon'}
+      onClick={mounted ? toggleTheme : undefined}
+      aria-label={label}
+      title={label}
+      aria-pressed={mounted ? isDark : undefined}
     >
-      {content}
-    </Button>
+      <span aria-hidden="true" {...stylex.props(styles.glow)} />
+      <span aria-hidden="true" {...stylex.props(styles.iconFrame)}>
+        <span {...stylex.props(styles.icon, styles.sun)}>
+          <PiSun />
+        </span>
+        <span {...stylex.props(styles.icon, styles.moon)}>
+          <PiMoon />
+        </span>
+      </span>
+    </button>
   );
 }

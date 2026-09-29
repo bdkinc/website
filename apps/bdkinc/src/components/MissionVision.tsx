@@ -1,56 +1,110 @@
+import * as stylex from '@stylexjs/stylex';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { PiRocket, PiEye } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-export default function MissionVision() {
-  const { ref: containerRef, isIntersecting } =
-    useIntersectionObserver<HTMLDivElement>({
-      threshold: 0.2,
-      triggerOnce: true,
-    });
+import type { PageData } from '@bdkinc/content';
+
+type MissionCopy = PageData<'about'>['mission'];
+type VisionCopy = PageData<'about'>['vision'];
+
+const styles = stylex.create({
+  body: {
+    position: 'relative',
+    zIndex: 10,
+    display: 'flex',
+    height: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: { default: '2rem', '@media (min-width: 40rem)': '3rem' },
+    textAlign: 'center',
+  },
+  badge: {
+    marginBottom: '1.5rem',
+    borderRadius: '9999px',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    padding: '1rem',
+    transitionProperty:
+      'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing',
+    transitionDuration: '500ms',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+  badgePrimary: {
+    backgroundColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+    borderColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+  },
+  badgeSecondary: {
+    backgroundColor: 'color-mix(in oklab, var(--secondary) 10%, transparent)',
+    borderColor: 'color-mix(in oklab, var(--secondary) 20%, transparent)',
+  },
+  icon: { height: '2.5rem', width: '2.5rem' },
+  iconPrimary: { color: 'var(--primary)' },
+  iconSecondary: { color: 'var(--secondary)' },
+  heading: {
+    marginBottom: '1rem',
+    color: 'var(--foreground)',
+    fontFamily: 'var(--font-display)',
+    fontSize: '1.875rem',
+    lineHeight: '2.25rem',
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+  },
+  text: {
+    marginInline: 'auto',
+    maxWidth: '28rem',
+    color: 'var(--muted-foreground)',
+    fontSize: '1.125rem',
+    lineHeight: 1.625,
+  },
+});
+
+function useCardReveal() {
+  return useIntersectionObserver<HTMLDivElement>({
+    threshold: 0.2,
+    triggerOnce: true,
+  });
+}
+
+// Separate islands so the preview maps Mission and Vision to their own field
+// groups. Rendered markup is unchanged: the grid lives in about.astro, each
+// card root keeps h-full, and the reveal stagger (delay 0 / 200) is kept.
+export function MissionCard({ copy }: { copy: MissionCopy }) {
+  const { ref, isIntersecting } = useCardReveal();
   return (
-    <div ref={containerRef} className="grid gap-8 md:grid-cols-2">
-      {/* Mission Card */}
-      <TechCard
-        variant="technical"
-        interactive
-        delay={0}
-        animated={isIntersecting}
-      >
-        <div className="relative z-10 flex h-full flex-col items-center justify-center p-8 text-center sm:p-12">
-          <div className="bg-primary/10 border-primary/20 group-hover:bg-primary/20 mb-6 rounded-full border p-4 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
-            <PiRocket className="text-primary h-10 w-10" />
-          </div>
-          <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight">
-            Our Mission
-          </h2>
-          <p className="text-muted-foreground mx-auto max-w-md text-lg leading-relaxed">
-            To architect and secure the digital infrastructure that powers the
-            world&apos;s most ambitious enterprises. We elevate technology from
-            a utility to a strategic driver of unconstrained growth.
-          </p>
+    <TechCard
+      variant="technical"
+      interactive
+      delay={0}
+      animated={isIntersecting}
+    >
+      <div ref={ref} {...stylex.props(styles.body)}>
+        <div {...stylex.props(styles.badge, styles.badgePrimary)}>
+          <PiRocket {...stylex.props(styles.icon, styles.iconPrimary)} />
         </div>
-      </TechCard>
-      {/* Vision Card */}
-      <TechCard
-        variant="technical"
-        interactive
-        delay={200}
-        animated={isIntersecting}
-      >
-        <div className="relative z-10 flex h-full flex-col items-center justify-center p-8 text-center sm:p-12">
-          <div className="bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20 mb-6 rounded-full border p-4 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
-            <PiEye className="text-secondary h-10 w-10" />
-          </div>
-          <h2 className="font-display text-foreground mb-4 text-3xl font-bold tracking-tight">
-            Our Vision
-          </h2>
-          <p className="text-muted-foreground mx-auto max-w-md text-lg leading-relaxed">
-            To set the global standard for technical excellence, where premier
-            expertise meets the reliability of industry giants to solve the most
-            complex business challenges.
-          </p>
+        <h2 {...stylex.props(styles.heading)}>{copy.heading}</h2>
+        <p {...stylex.props(styles.text)}>{copy.body}</p>
+      </div>
+    </TechCard>
+  );
+}
+
+export function VisionCard({ copy }: { copy: VisionCopy }) {
+  const { ref, isIntersecting } = useCardReveal();
+  return (
+    <TechCard
+      variant="technical"
+      interactive
+      delay={200}
+      animated={isIntersecting}
+    >
+      <div ref={ref} {...stylex.props(styles.body)}>
+        <div {...stylex.props(styles.badge, styles.badgeSecondary)}>
+          <PiEye {...stylex.props(styles.icon, styles.iconSecondary)} />
         </div>
-      </TechCard>
-    </div>
+        <h2 {...stylex.props(styles.heading)}>{copy.heading}</h2>
+        <p {...stylex.props(styles.text)}>{copy.body}</p>
+      </div>
+    </TechCard>
   );
 }

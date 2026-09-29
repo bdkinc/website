@@ -1,0 +1,183 @@
+---
+import {
+  group,
+  text,
+  heading,
+  body,
+  entries,
+  type Group,
+} from '@/lib/editorial';
+import { asset } from '@/lib/content';
+interface Props {
+  data: Group;
+  depth?: number;
+}
+const { data: g, depth = 0 } = Astro.props;
+const title = heading(g);
+const paragraph = body(g);
+// Only these named structures represent repeatable editorial content, never operational metadata.
+const collections = [
+  'items',
+  'details',
+  'features',
+  'steps',
+  'stages',
+  'columns',
+  'services',
+  'roles',
+  'layers',
+  'documents',
+  'protocols',
+  'transactions',
+  'regions',
+  'assurances',
+];
+const containers = collections.filter((k) => g[k] && typeof g[k] === 'object');
+const children = entries(g).filter(
+  ([k]) => !collections.includes(k) && !['before', 'after'].includes(k)
+);
+const badges = [
+  'stat',
+  'code',
+  'tag',
+  'category',
+  'version',
+  'regions',
+  'security',
+  'moduleLabel',
+  'phaseLabel',
+  'performanceBadge',
+  'securityBadge',
+  'uptimeBadge',
+  'scalingBadge',
+];
+const supporting = [
+  'detail',
+  'pain',
+  'gain',
+  'text',
+  'introduction',
+  'subheading',
+  'subtitle',
+  'accountability',
+  'pipelineLabel',
+  'flowLabel',
+];
+const image = text(g.image || g.logo);
+---
+
+<div class="group">
+  {
+    image && (
+      <img
+        src={asset(image)}
+        alt={text(g.imageAlt || g.name || g.title)}
+        loading="lazy"
+        width="140"
+      />
+    )
+  }
+  {g.year && <span class="tag">{text(g.year)}</span>}
+  {title && (depth === 0 ? <h3>{title}</h3> : <h4>{title}</h4>)}
+  {paragraph && <p>{paragraph}</p>}
+  {
+    g.quoteBefore && (
+      <blockquote class="quote">
+        {text(g.quoteBefore)} <strong>{text(g.quoteAccent)}</strong>{' '}
+        {text(g.quoteAfter)}
+      </blockquote>
+    )
+  }
+  {
+    g.beforeEmphasis && (
+      <p>
+        {text(g.beforeEmphasis)} <em>{text(g.emphasis)}</em>{' '}
+        {text(g.afterEmphasis)}
+      </p>
+    )
+  }
+  {
+    supporting.map(
+      (k) =>
+        g[k] && typeof g[k] === 'string' && <p class="detail">{text(g[k])}</p>
+    )
+  }
+  {
+    badges.some((k) => typeof g[k] === 'string') && (
+      <p class="tag">
+        {badges
+          .filter((k) => typeof g[k] === 'string')
+          .map((k) => text(g[k]))
+          .join(' · ')}
+      </p>
+    )
+  }
+  {
+    containers.map((k) => {
+      const values = Object.values(group(g[k]));
+      const label = text(
+        g[
+          k === 'documents'
+            ? 'documentHeading'
+            : k === 'protocols'
+              ? 'protocolHeading'
+              : k === 'transactions'
+                ? 'transactionHeading'
+                : ''
+        ]
+      );
+      return (
+        <div
+          class:list={[
+            k === 'steps' || k === 'stages'
+              ? 'flow'
+              : k === 'layers' || k === 'columns' || k === 'roles'
+                ? 'open-grid'
+                : '',
+            'group',
+          ]}
+        >
+          {label && <h3>{label}</h3>}
+          {k === 'transactions' && g.transactionBody && (
+            <p>{text(g.transactionBody)}</p>
+          )}
+          {values.every((v) => typeof v === 'string') ? (
+            <ul>
+              {values.map((v) => (
+                <li>{text(v)}</li>
+              ))}
+            </ul>
+          ) : (
+            values.map((v) =>
+              typeof v === 'object' ? (
+                <Astro.self data={group(v)} depth={depth + 1} />
+              ) : null
+            )
+          )}
+        </div>
+      );
+    })
+  }
+  {
+    g.before && g.after && (
+      <div class="comparison">
+        {['before', 'after'].map((k) => (
+          <div>
+            <h3>{text(g[k + 'Heading'])}</h3>
+            <ul>
+              {Object.values(group(g[k])).map((v) => (
+                <li>
+                  {typeof v === 'string' ? v : text(group(v).text)}
+                  {typeof v === 'object' && group(v).stat && (
+                    <small> · {text(group(v).stat)}</small>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    )
+  }
+  {children.map(([, child]) => <Astro.self data={child} depth={depth + 1} />)}
+</div>

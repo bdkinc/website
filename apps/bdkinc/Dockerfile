@@ -1,15 +1,13 @@
-FROM node:20-alpine
+FROM node:24-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY apps/bdkinc/package.json apps/bdkinc/package.json
-COPY apps/cms/package.json apps/cms/package.json
-COPY packages/design-system/package.json packages/design-system/package.json
+COPY . .
 
 RUN npm ci
 
-COPY . .
+ARG WORDPRESS_URL
+ENV WORDPRESS_URL=${WORDPRESS_URL}
 
 RUN npm run build -w apps/bdkinc
 

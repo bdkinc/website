@@ -1,0 +1,123 @@
+---
+import type { Reader } from '@/lib/content';
+import { group, text, heading } from '@/lib/editorial';
+interface Props {
+  content: Reader;
+  pageKey: 'privacy' | 'terms';
+}
+const { content, pageKey } = Astro.props;
+const c = group(await content.getPage(pageKey)),
+  hero = group(c.hero);
+const order =
+  pageKey === 'privacy'
+    ? [
+        'informationWeCollect',
+        'howWeUse',
+        'informationSharing',
+        'dataSecurity',
+        'yourRights',
+        'cookiesTracking',
+        'thirdPartyLinks',
+        'childrensPrivacy',
+        'changesToPolicy',
+        'contactUs',
+      ]
+    : [
+        'agreementToTerms',
+        'servicesDescription',
+        'userResponsibilities',
+        'paymentTerms',
+        'serviceLevel',
+        'intellectualProperty',
+        'confidentiality',
+        'warrantiesDisclaimers',
+        'limitationOfLiability',
+        'indemnification',
+        'termTermination',
+        'disputeResolution',
+        'generalProvisions',
+        'contactInformation',
+      ];
+const lists: Record<string, string[]> = {
+  informationWeCollect: [
+    'contactDetails',
+    'professionalDetails',
+    'preferences',
+    'technicalDetails',
+  ],
+  howWeUse: ['services', 'inquiries', 'marketing', 'analysis', 'security'],
+  yourRights: ['access', 'correction', 'deletion', 'objection', 'portability'],
+  userResponsibilities: [
+    'lawfulUse',
+    'disruption',
+    'credentials',
+    'access',
+    'notification',
+  ],
+};
+---
+
+<div class="wrap">
+  <section class="hero">
+    <p class="eyebrow">
+      {text(hero.badgeLead)}
+      {text(hero.badgeAccent)}
+      {text(hero.badgeEnd)}
+    </p><h1>{heading(hero)}</h1><p class="intro">{text(hero.description)}</p><p>
+      {text(hero.updatedLabel)}
+      {text(hero.updatedDate)}
+    </p>
+  </section><section class="section">
+    <nav class="legal-nav" aria-label={text(group(c.contents).heading)}>
+      {order.map((k) => <a href={'#' + k}>{text(group(c[k]).heading)}</a>)}
+    </nav><div class="prose">
+      {
+        order.map((key) => {
+          const section = group(c[key]);
+          const list = lists[key] || [];
+          const paragraphs = Object.entries(section).filter(
+            ([k, v]) =>
+              typeof v === 'string' &&
+              ![
+                'heading',
+                'emailLabel',
+                'email',
+                'emailUrl',
+                'phoneLabel',
+                'phone',
+                'phoneUrl',
+                ...list,
+              ].includes(k)
+          );
+          return (
+            <section id={key}>
+              <h2>{text(section.heading)}</h2>
+              {paragraphs
+                .filter(([k]) => k !== 'exercise')
+                .map(([, v]) => (
+                  <p>{text(v)}</p>
+                ))}
+              {list.length > 0 && (
+                <ul>
+                  {list.map((k) => (
+                    <li>{text(section[k])}</li>
+                  ))}
+                </ul>
+              )}
+              {section.exercise && <p>{text(section.exercise)}</p>}
+              {section.emailUrl && (
+                <p>
+                  {text(section.emailLabel)}{' '}
+                  <a href={text(section.emailUrl)}>{text(section.email)}</a>
+                  <br />
+                  {text(section.phoneLabel)}{' '}
+                  <a href={text(section.phoneUrl)}>{text(section.phone)}</a>
+                </p>
+              )}
+            </section>
+          );
+        })
+      }
+    </div>
+  </section>
+</div>

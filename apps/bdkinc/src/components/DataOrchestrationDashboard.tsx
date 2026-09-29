@@ -1,6 +1,192 @@
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { PiLayout, PiNetwork, PiBrain } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-export default function DataOrchestrationDashboard() {
+
+const motionOK = '@media (prefers-reduced-motion: no-preference)';
+const easeOut = 'cubic-bezier(0, 0, 0.2, 1)';
+const transition =
+  'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing';
+const colorTransition = 'color, background-color, border-color';
+
+// Tailwind `animate-ping`: scale 1 -> 2 while fading out.
+const ping = stylex.keyframes({
+  '0%': { transform: 'scale(1)', opacity: 0.75 },
+  '75%': { transform: 'scale(2)', opacity: 0 },
+  '100%': { transform: 'scale(2)', opacity: 0 },
+});
+
+const styles = stylex.create({
+  root: {
+    marginInline: 'auto',
+    marginBottom: '5rem',
+    width: '100%',
+    maxWidth: '80rem',
+  },
+  heading: {
+    marginBottom: '3rem',
+    color: 'var(--foreground)',
+    fontFamily: 'var(--font-display)',
+    fontSize: '1.875rem',
+    lineHeight: '2.25rem',
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+    textAlign: 'center',
+  },
+  grid: {
+    display: 'grid',
+    gap: '1.5rem',
+    gridTemplateColumns: {
+      default: 'repeat(1, minmax(0, 1fr))',
+      '@media (min-width: 64rem)': 'repeat(3, minmax(0, 1fr))',
+    },
+  },
+  body: {
+    position: 'relative',
+    zIndex: 10,
+    display: 'flex',
+    height: '100%',
+    flexDirection: 'column',
+    padding: '2rem',
+    textAlign: 'left',
+  },
+  headerRow: {
+    marginBottom: '2rem',
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  // TechCard drives --tech-hover-opacity to 1 while hovered (the old `group-hover:`).
+  iconBox: {
+    padding: '0.75rem',
+    borderRadius: '0.5rem',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+    backgroundColor:
+      'color-mix(in oklab, var(--primary) calc(10% + 10% * var(--tech-hover-opacity, 0)), transparent)',
+    color: 'var(--primary)',
+    // group-hover:scale-110 sets the individual `scale` property, which is not in the transition list.
+    scale: 'calc(1 + 0.1 * var(--tech-hover-opacity, 0))',
+    boxShadow: '0 0 15px rgba(0, 212, 255, 0.1)',
+    transitionProperty: transition,
+    transitionDuration: '500ms',
+    transitionTimingFunction: easeOut,
+  },
+  icon: { height: '2rem', width: '2rem' },
+  statusCol: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+  },
+  statusPill: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    borderRadius: 0,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 5%, transparent)',
+    paddingInline: '0.5rem',
+    paddingBlock: '0.25rem',
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.625rem',
+    lineHeight: '1rem',
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    color: 'color-mix(in oklab, var(--primary) 80%, transparent)',
+  },
+  dotWrap: {
+    position: 'relative',
+    display: 'flex',
+    height: '0.375rem',
+    width: '0.375rem',
+  },
+  pingDot: {
+    position: 'absolute',
+    inset: 0,
+    display: 'inline-flex',
+    height: '100%',
+    width: '100%',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--primary)',
+    opacity: 0.75,
+    animationName: { default: 'none', [motionOK]: ping },
+    animationDuration: '1s',
+    animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+    animationIterationCount: 'infinite',
+  },
+  dot: {
+    position: 'relative',
+    display: 'inline-flex',
+    height: '0.375rem',
+    width: '0.375rem',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--primary)',
+    boxShadow: '0 0 5px var(--color-primary)',
+  },
+  latency: {
+    marginTop: '0.5rem',
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.5625rem',
+    lineHeight: '0.75rem',
+    letterSpacing: '-0.05em',
+    color: 'var(--muted-foreground)',
+  },
+  title: {
+    marginBottom: '0.75rem',
+    color: 'var(--tech-title-color, var(--foreground))',
+    fontFamily: 'var(--font-display)',
+    fontSize: '1.25rem',
+    lineHeight: '1.75rem',
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+    transitionProperty: colorTransition,
+    transitionDuration: '150ms',
+    transitionTimingFunction: easeOut,
+  },
+  description: {
+    marginBottom: '1.5rem',
+    flexGrow: 1,
+    color: 'var(--muted-foreground)',
+    fontSize: '0.875rem',
+    lineHeight: 1.625,
+  },
+  footer: {
+    marginTop: 'auto',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    borderTopColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+    paddingTop: '1rem',
+  },
+  footerLabel: {
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.5625rem',
+    lineHeight: '0.75rem',
+    letterSpacing: '0.1em',
+    color: 'color-mix(in oklab, var(--muted-foreground) 60%, transparent)',
+  },
+  footerValue: {
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.625rem',
+    lineHeight: '1rem',
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    color: 'var(--primary)',
+  },
+});
+
+interface DataOrchestrationDashboardProps {
+  xstyle?: StyleXStyles;
+}
+
+export default function DataOrchestrationDashboard({
+  xstyle,
+}: DataOrchestrationDashboardProps) {
   const modules = [
     {
       title: 'BI Dashboards',
@@ -28,11 +214,9 @@ export default function DataOrchestrationDashboard() {
     },
   ];
   return (
-    <div className="mx-auto mb-20 w-full max-w-7xl">
-      <h2 className="text-foreground font-display mb-12 text-center text-3xl font-bold tracking-tight">
-        Data Command Center
-      </h2>
-      <div className="grid gap-6 lg:grid-cols-3">
+    <div {...stylex.props(styles.root, xstyle)}>
+      <h2 {...stylex.props(styles.heading)}>Data Command Center</h2>
+      <div {...stylex.props(styles.grid)}>
         {modules.map((module, index) => (
           <TechCard
             key={index}
@@ -40,38 +224,32 @@ export default function DataOrchestrationDashboard() {
             interactive
             delay={index * 150}
           >
-            <div className="relative z-10 flex h-full flex-col p-8 text-left">
+            <div {...stylex.props(styles.body)}>
               {/* Header with Status */}
-              <div className="mb-8 flex items-start justify-between">
-                <div className="bg-primary/10 border-primary/20 text-primary group-hover:bg-primary/20 rounded-lg border p-3 shadow-[0_0_15px_rgba(0,212,255,0.1)] transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110">
-                  <module.icon className="h-8 w-8" />
+              <div {...stylex.props(styles.headerRow)}>
+                <div {...stylex.props(styles.iconBox)}>
+                  <module.icon {...stylex.props(styles.icon)} />
                 </div>
-                <div className="flex flex-col items-end">
-                  <div className="text-primary/80 bg-primary/5 border-primary/20 flex items-center gap-2 rounded-none border px-2 py-1 font-mono text-[10px] font-bold tracking-widest">
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="bg-primary absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
-                      <span className="bg-primary relative inline-flex h-1.5 w-1.5 rounded-full shadow-[0_0_5px_var(--color-primary)]"></span>
+                <div {...stylex.props(styles.statusCol)}>
+                  <div {...stylex.props(styles.statusPill)}>
+                    <span {...stylex.props(styles.dotWrap)}>
+                      <span {...stylex.props(styles.pingDot)}></span>
+                      <span {...stylex.props(styles.dot)}></span>
                     </span>
                     {module.status}
                   </div>
-                  <div className="text-muted-foreground mt-2 font-mono text-[9px] tracking-tighter">
+                  <div {...stylex.props(styles.latency)}>
                     Latency: {module.latency}
                   </div>
                 </div>
               </div>
               {/* Content */}
-              <h3 className="text-foreground font-display group-hover:text-primary mb-3 text-xl font-bold tracking-tight transition-colors">
-                {module.title}
-              </h3>
-              <p className="text-muted-foreground mb-6 flex-grow text-sm leading-relaxed">
-                {module.description}
-              </p>
+              <h3 {...stylex.props(styles.title)}>{module.title}</h3>
+              <p {...stylex.props(styles.description)}>{module.description}</p>
               {/* Footer / Highlight */}
-              <div className="border-primary/10 mt-auto flex items-center justify-between border-t pt-4">
-                <span className="text-muted-foreground/60 font-mono text-[9px] tracking-widest">
-                  Module Stream
-                </span>
-                <span className="text-primary font-mono text-[10px] font-bold tracking-widest">
+              <div {...stylex.props(styles.footer)}>
+                <span {...stylex.props(styles.footerLabel)}>Module Stream</span>
+                <span {...stylex.props(styles.footerValue)}>
                   {module.highlight}
                 </span>
               </div>

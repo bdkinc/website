@@ -1,5 +1,7 @@
 import React from 'react';
-import { buttonVariants, cn } from '@bdkinc/design-system';
+import { Button } from '@bdkinc/design-system';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import {
   PiEnvelope,
   PiPhone,
@@ -13,6 +15,21 @@ import {
   PiMagnifyingGlass,
   PiHeadset,
 } from 'react-icons/pi';
+
+const styles = stylex.create({
+  icon: { height: 16, width: 16 },
+  srOnly: {
+    position: 'absolute',
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: 'hidden',
+    clip: 'rect(0, 0, 0, 0)',
+    whiteSpace: 'nowrap',
+    borderWidth: 0,
+  },
+});
 
 type CTAVariant =
   'default' | 'outline' | 'ghost' | 'secondary' | 'destructive' | 'link';
@@ -36,6 +53,7 @@ interface CTAButtonBaseProps {
     | 'none';
   children: React.ReactNode;
   className?: string;
+  xstyle?: StyleXStyles;
 }
 
 type CTAButtonProps =
@@ -60,6 +78,7 @@ export const CTAButton = React.forwardRef<
       size = 'cta',
       icon,
       className,
+      xstyle,
       href,
       ...props
     },
@@ -144,17 +163,25 @@ export const CTAButton = React.forwardRef<
 
     // Icon components mapping
     const iconComponents: Record<string, React.ReactNode> = {
-      mail: <PiEnvelope className="h-4 w-4" aria-hidden="true" />,
-      phone: <PiPhone className="h-4 w-4" aria-hidden="true" />,
-      sparkles: <PiSparkle className="h-4 w-4" aria-hidden="true" />,
-      arrow: <PiArrowRight className="h-4 w-4" aria-hidden="true" />,
-      home: <PiHouse className="h-4 w-4" aria-hidden="true" />,
-      back: <PiArrowCircleLeft className="h-4 w-4" aria-hidden="true" />,
-      click: <PiCursorClick className="h-4 w-4" aria-hidden="true" />,
-      calendar: <PiCalendar className="h-4 w-4" aria-hidden="true" />,
-      pointer: <PiCursor className="h-4 w-4" aria-hidden="true" />,
-      search: <PiMagnifyingGlass className="h-4 w-4" aria-hidden="true" />,
-      chat: <PiHeadset className="h-4 w-4" aria-hidden="true" />,
+      mail: <PiEnvelope {...stylex.props(styles.icon)} aria-hidden="true" />,
+      phone: <PiPhone {...stylex.props(styles.icon)} aria-hidden="true" />,
+      sparkles: <PiSparkle {...stylex.props(styles.icon)} aria-hidden="true" />,
+      arrow: <PiArrowRight {...stylex.props(styles.icon)} aria-hidden="true" />,
+      home: <PiHouse {...stylex.props(styles.icon)} aria-hidden="true" />,
+      back: (
+        <PiArrowCircleLeft {...stylex.props(styles.icon)} aria-hidden="true" />
+      ),
+      click: (
+        <PiCursorClick {...stylex.props(styles.icon)} aria-hidden="true" />
+      ),
+      calendar: (
+        <PiCalendar {...stylex.props(styles.icon)} aria-hidden="true" />
+      ),
+      pointer: <PiCursor {...stylex.props(styles.icon)} aria-hidden="true" />,
+      search: (
+        <PiMagnifyingGlass {...stylex.props(styles.icon)} aria-hidden="true" />
+      ),
+      chat: <PiHeadset {...stylex.props(styles.icon)} aria-hidden="true" />,
       none: null,
     };
 
@@ -173,17 +200,29 @@ export const CTAButton = React.forwardRef<
       const isExternal = target === '_blank';
 
       return (
-        <a
-          ref={ref as React.Ref<HTMLAnchorElement>}
-          href={href}
-          target={target}
-          rel={rel ?? (isExternal ? 'noopener noreferrer' : undefined)}
-          className={cn(buttonVariants({ variant, size }), className)}
-          {...anchorProps}
+        <Button
+          asChild
+          variant={variant}
+          size={size}
+          className={className}
+          xstyle={xstyle}
         >
-          {content}
-          {isExternal && <span className="sr-only"> (opens in a new tab)</span>}
-        </a>
+          <a
+            ref={ref as React.Ref<HTMLAnchorElement>}
+            href={href}
+            target={target}
+            rel={rel ?? (isExternal ? 'noopener noreferrer' : undefined)}
+            {...anchorProps}
+          >
+            {content}
+            {isExternal && (
+              <span {...stylex.props(styles.srOnly)}>
+                {' '}
+                (opens in a new tab)
+              </span>
+            )}
+          </a>
+        </Button>
       );
     }
 
@@ -191,14 +230,17 @@ export const CTAButton = React.forwardRef<
       props as React.ButtonHTMLAttributes<HTMLButtonElement>;
 
     return (
-      <button
+      <Button
         ref={ref as React.Ref<HTMLButtonElement>}
         type={type ?? 'button'}
-        className={cn(buttonVariants({ variant, size }), className)}
+        variant={variant}
+        size={size}
+        className={className}
+        xstyle={xstyle}
         {...buttonProps}
       >
         {content}
-      </button>
+      </Button>
     );
   }
 );

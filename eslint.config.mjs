@@ -37,7 +37,11 @@ const tsConfigs = tsPlugin.configs['flat/recommended'].map((config) => ({
     parser: tsParser,
     parserOptions: {
       ...(config.languageOptions?.parserOptions ?? {}),
-      project: ['./apps/bdkinc/tsconfig.json'],
+      project: [
+        './apps/bdkinc/tsconfig.json',
+        './apps/design-editorial/tsconfig.json',
+        './apps/design-systems/tsconfig.json',
+      ],
       tsconfigRootDir: __dirname,
       extraFileExtensions: ['.astro'],
       ecmaFeatures: {

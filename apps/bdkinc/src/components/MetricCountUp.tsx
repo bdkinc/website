@@ -1,52 +1,73 @@
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import CountUp from '@/components/CountUp';
 
 interface MetricCountUpProps {
   value: string;
   label: string;
+  className?: string;
+  xstyle?: StyleXStyles;
 }
 
-/**
- * Wrapper component for CountUp animation in metrics.
- * Extracts numeric value from strings like "250+", "92%", "60+" for animation,
- * while preserving the original formatting.
- */
-export default function MetricCountUp({ value, label }: MetricCountUpProps) {
-  // Extract numeric value and suffix
+const styles = stylex.create({
+  value: {
+    color: 'var(--primary)',
+    fontSize: { default: '2.25rem', '@media (min-width: 40rem)': '3rem' },
+    lineHeight: { default: '2.5rem', '@media (min-width: 40rem)': 1 },
+    fontWeight: 700,
+    letterSpacing: '-.025em',
+  },
+  label: {
+    color: 'var(--muted-foreground)',
+    fontSize: '.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 600,
+    letterSpacing: '.1em',
+  },
+  inline: { display: 'inline' },
+});
+
+/** Animate a numeric metric while retaining its original suffix. */
+export default function MetricCountUp({
+  value,
+  label,
+  className,
+  xstyle,
+}: MetricCountUpProps) {
   const match = value.match(/^(\d+(?:\.\d+)?)(.*?)$/);
+  const applied = stylex.props(xstyle);
 
   if (!match) {
-    // Fallback for non-numeric values
     return (
-      <div>
-        <div className="text-primary text-4xl font-bold tracking-tight sm:text-5xl">
-          {value}
-        </div>
-        <div className="text-muted-foreground text-sm font-semibold tracking-widest">
-          {label}
-        </div>
+      <div
+        {...applied}
+        className={[applied.className, className].filter(Boolean).join(' ')}
+      >
+        <div {...stylex.props(styles.value)}>{value}</div>
+        <div {...stylex.props(styles.label)}>{label}</div>
       </div>
     );
   }
 
   const numericValue = parseFloat(match[1]);
   const suffix = match[2];
-
   return (
-    <div>
-      <div className="text-primary text-4xl font-bold tracking-tight sm:text-5xl">
+    <div
+      {...applied}
+      className={[applied.className, className].filter(Boolean).join(' ')}
+    >
+      <div {...stylex.props(styles.value)}>
         <CountUp
           to={numericValue}
           from={0}
           duration={2}
           delay={0.2}
           separator=","
-          className="inline"
+          xstyle={styles.inline}
         />
-        <span className="inline">{suffix}</span>
+        <span {...stylex.props(styles.inline)}>{suffix}</span>
       </div>
-      <div className="text-muted-foreground text-sm font-semibold tracking-widest">
-        {label}
-      </div>
+      <div {...stylex.props(styles.label)}>{label}</div>
     </div>
   );
 }

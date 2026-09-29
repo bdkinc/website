@@ -1,4 +1,6 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import {
@@ -21,7 +23,174 @@ interface ValueItem {
 
 interface CoreProtocolsProps {
   values: ValueItem[];
+  xstyle?: StyleXStyles;
 }
+
+const hover = '@media (hover: hover)';
+const colorTransition =
+  'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke';
+const motionTransition =
+  'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing';
+const easeOut = 'cubic-bezier(0, 0, 0.2, 1)';
+const nodeGlow = '0 0 30px -10px rgba(var(--color-primary),0.25)';
+const hubGlow = '0 0 20px -5px rgba(var(--color-primary),0.2)';
+const focusRing =
+  '0 0 0 1px color-mix(in oklab, var(--primary) 30%, transparent)';
+
+const styles = stylex.create({
+  section: {
+    position: 'relative',
+    isolation: 'isolate',
+    overflow: 'visible',
+  },
+  container: {
+    position: 'relative',
+    zIndex: 10,
+    marginInline: 'auto',
+    maxWidth: '72rem',
+    paddingBlock: '2.5rem',
+    paddingInline: {
+      default: '1.5rem',
+      '@media (min-width: 48rem)': '2.5rem',
+    },
+  },
+  layout: {
+    position: 'relative',
+    minHeight: { default: 420, '@media (min-width: 48rem)': 480 },
+  },
+  svg: { position: 'absolute', inset: 0, height: '100%', width: '100%' },
+  basePath: { color: 'var(--border)' },
+  list: { zIndex: 10 },
+  listDesktop: { position: 'static', height: '100%', width: '100%' },
+  listMobile: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem',
+  },
+  nodeWrap: { position: 'absolute' },
+  node: {
+    display: 'flex',
+    alignItems: 'center',
+    overflow: 'hidden',
+    cursor: 'default',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: {
+      default: 'var(--border)',
+      [hover]: { default: null, ':hover': 'var(--primary)' },
+    },
+    backgroundColor: 'var(--card)',
+    boxShadow: {
+      default: nodeGlow,
+      ':focus-visible': `${focusRing}, ${nodeGlow}`,
+    },
+    outlineStyle: { default: 'none', ':focus-visible': 'none' },
+    '--cp-hover': { default: '0', [hover]: { default: '0', ':hover': '1' } },
+    transitionProperty: colorTransition,
+    transitionDuration: '300ms',
+    transitionTimingFunction: easeOut,
+  },
+  nodeHub: {
+    borderColor: {
+      default: 'color-mix(in oklab, var(--primary) 50%, transparent)',
+      [hover]: {
+        default: null,
+        ':hover': 'color-mix(in oklab, var(--primary) 60%, transparent)',
+      },
+    },
+    backgroundColor: 'var(--background)',
+    boxShadow: {
+      default: hubGlow,
+      ':focus-visible': `${focusRing}, ${hubGlow}`,
+    },
+  },
+  nodeInner: { display: 'flex', alignItems: 'center', gap: '1rem' },
+  nodeIcon: {
+    display: 'flex',
+    flexShrink: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'var(--primary)',
+    scale: 'calc(1 + 0.1 * var(--cp-hover, 0))',
+    transitionProperty: 'transform, scale',
+    transitionDuration: '300ms',
+    transitionTimingFunction: easeOut,
+  },
+  glyphHub: { height: '2.5rem', width: '2.5rem' },
+  glyphSatellite: { height: '1.75rem', width: '1.75rem' },
+  nodeContent: { flexGrow: 1, flexBasis: 0, minWidth: 0 },
+  nodeTitle: {
+    fontFamily: 'var(--font-display)',
+    color: 'var(--foreground)',
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 700,
+  },
+  nodeDesc: {
+    marginTop: '0.375rem',
+    color: 'var(--muted-foreground)',
+    fontSize: '0.75rem',
+    lineHeight: 1.625,
+  },
+  // `node-label` is queried by the GSAP interaction animation; keep the marker.
+  nodeLabel: {
+    position: 'absolute',
+    left: 0,
+    width: '9rem',
+    pointerEvents: 'none',
+    textAlign: 'center',
+    fontFamily: 'var(--font-display)',
+    color: 'var(--foreground)',
+    fontSize: '0.75rem',
+    lineHeight: '1.25rem',
+    fontWeight: 600,
+  },
+  mobileCard: {
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '1rem',
+    cursor: 'default',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'var(--border)',
+    borderRadius: '1rem',
+    backgroundColor: 'var(--card)',
+    paddingBlock: '1.5rem',
+    boxShadow: { default: 'none', ':focus-visible': focusRing },
+    outlineStyle: { default: 'none', ':focus-visible': 'none' },
+    '--cp-hover': { default: '0', [hover]: { default: '0', ':hover': '1' } },
+    transitionProperty: motionTransition,
+    transitionDuration: '300ms',
+    transitionTimingFunction: easeOut,
+  },
+  mobileIcon: {
+    color: 'var(--primary)',
+    scale: 'calc(1 + 0.1 * var(--cp-hover, 0))',
+    transitionProperty: 'transform, scale',
+    transitionDuration: '300ms',
+    transitionTimingFunction: easeOut,
+  },
+  mobileGlyph: { height: '2rem', width: '2rem' },
+  mobileTitle: {
+    textAlign: 'center',
+    fontFamily: 'var(--font-display)',
+    color: 'var(--foreground)',
+    fontSize: '0.75rem',
+    lineHeight: '1.25rem',
+    fontWeight: 700,
+  },
+  mobileDesc: {
+    paddingInline: '1rem',
+    textAlign: 'center',
+    color: 'var(--muted-foreground)',
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+  },
+});
 
 const iconMap: Record<string, React.ElementType> = {
   Target: PiTarget,
@@ -52,7 +221,7 @@ const connections: Array<[number, number]> = [
   [0, 5],
 ];
 
-export default function CoreProtocols({ values }: CoreProtocolsProps) {
+export default function CoreProtocols({ values, xstyle }: CoreProtocolsProps) {
   const { ref: containerRef, isIntersecting } =
     useIntersectionObserver<HTMLElement>({
       threshold: 0.1,
@@ -397,16 +566,15 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
   const svgWidth = Math.max(layoutSize.width, 1);
   const svgHeight = Math.max(layoutSize.height, 1);
 
+  const section = stylex.props(styles.section, xstyle);
+
   return (
-    <section ref={containerRef} className="relative isolate overflow-visible">
-      <div className="relative z-10 mx-auto max-w-6xl px-6 py-10 md:px-10">
-        <div
-          ref={layoutRef}
-          className="relative min-h-[420px] md:min-h-[480px]"
-        >
+    <section ref={containerRef} {...section} className={section.className}>
+      <div {...stylex.props(styles.container)}>
+        <div ref={layoutRef} {...stylex.props(styles.layout)}>
           {isDesktopLayout && (
             <svg
-              className="absolute inset-0 h-full w-full"
+              {...stylex.props(styles.svg)}
               viewBox={`0 0 ${svgWidth} ${svgHeight}`}
               aria-hidden="true"
             >
@@ -437,7 +605,7 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
                   key={`base-${path.id}`}
                   d={path.d}
                   stroke="currentColor"
-                  className="text-border"
+                  {...stylex.props(styles.basePath)}
                   strokeWidth={2}
                   fill="none"
                   strokeLinecap="round"
@@ -463,11 +631,9 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
           )}
 
           <div
-            className={cn(
-              'z-10',
-              isDesktopLayout
-                ? 'static h-full w-full'
-                : 'relative flex flex-col gap-6'
+            {...stylex.props(
+              styles.list,
+              isDesktopLayout ? styles.listDesktop : styles.listMobile
             )}
           >
             {displayValues.map((value, index) => {
@@ -475,10 +641,12 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
 
               if (isDesktopLayout) {
                 // Desktop: Use wrapper div for positioning, inner div for the animated node
+                const content = stylex.props(styles.nodeContent);
+                const label = stylex.props(styles.nodeLabel);
                 return (
                   <div
                     key={value.title}
-                    className="absolute"
+                    {...stylex.props(styles.nodeWrap)}
                     style={{
                       top: `${nodeLayout[index].y}%`,
                       left: `${nodeLayout[index].x}%`,
@@ -502,32 +670,33 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
                           setActiveIndex(activeIndex === index ? 0 : index);
                         }
                       }}
-                      className={cn(
-                        'group focus-visible:ring-primary/30 cursor-default transition-colors duration-300 ease-out focus-visible:ring',
-                        'border-border bg-card hover:border-primary/60 flex items-center overflow-hidden border shadow-[0_0_30px_-10px_rgba(var(--color-primary),0.25)]',
-                        index === 0 &&
-                          'border-primary/50 bg-background shadow-[0_0_20px_-5px_rgba(var(--color-primary),0.2)]'
+                      {...stylex.props(
+                        styles.node,
+                        index === 0 && styles.nodeHub
                       )}
                     >
-                      <div className="node-inner flex items-center gap-4">
-                        <div className="node-icon text-primary flex shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                      <div {...stylex.props(styles.nodeInner)}>
+                        <div {...stylex.props(styles.nodeIcon)}>
                           <IconComponent
                             aria-hidden="true"
-                            className={cn(
-                              index === 0 ? 'h-10 w-10' : 'h-7 w-7'
+                            {...stylex.props(
+                              index === 0
+                                ? styles.glyphHub
+                                : styles.glyphSatellite
                             )}
                           />
                         </div>
 
                         {/* Expanded content (title + description) - inside the pill */}
                         <div
-                          className="node-content min-w-0 flex-1"
+                          {...content}
+                          className={cn(content.className, 'node-content')}
                           style={{ display: 'none', opacity: 0 }}
                         >
-                          <h3 className="font-display text-foreground text-sm leading-tight font-bold">
+                          <h3 {...stylex.props(styles.nodeTitle)}>
                             {value.title}
                           </h3>
-                          <p className="text-muted-foreground mt-1.5 text-xs leading-relaxed">
+                          <p {...stylex.props(styles.nodeDesc)}>
                             {value.description}
                           </p>
                         </div>
@@ -536,7 +705,8 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
 
                     {/* Title label below node - OUTSIDE overflow-hidden container */}
                     <h3
-                      className="node-label font-display text-foreground pointer-events-none absolute w-36 text-center text-xs leading-tight font-semibold"
+                      {...label}
+                      className={cn(label.className, 'node-label')}
                       style={{
                         top: index === 0 ? '60px' : '44px', // half node height + gap (48+12 or 32+12)
                         left: '0',
@@ -569,17 +739,18 @@ export default function CoreProtocols({ values }: CoreProtocolsProps) {
                       setActiveIndex(activeIndex === index ? 0 : index);
                     }
                   }}
-                  className="border-border bg-card group focus-visible:ring-primary/30 relative flex w-full cursor-default flex-col items-center gap-4 rounded-2xl border py-6 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300 ease-out focus-visible:ring"
+                  {...stylex.props(styles.mobileCard)}
                 >
-                  <div className="text-primary transition-transform duration-300 group-hover:scale-110">
-                    <IconComponent aria-hidden="true" className="h-8 w-8" />
+                  <div {...stylex.props(styles.mobileIcon)}>
+                    <IconComponent
+                      aria-hidden="true"
+                      {...stylex.props(styles.mobileGlyph)}
+                    />
                   </div>
 
-                  <h3 className="font-display text-foreground text-center text-xs leading-tight font-bold">
-                    {value.title}
-                  </h3>
+                  <h3 {...stylex.props(styles.mobileTitle)}>{value.title}</h3>
 
-                  <p className="text-muted-foreground px-4 text-center text-sm">
+                  <p {...stylex.props(styles.mobileDesc)}>
                     {value.description}
                   </p>
                 </div>

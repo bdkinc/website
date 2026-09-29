@@ -2,31 +2,42 @@
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
-import { getCollection } from 'astro:content';
+import { getContentCollection, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
 import InteractiveServiceCard from '@/components/InteractiveServiceCard';
 import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer.astro';
 import PageHeroEffects from '@/components/PageHeroEffects';
+import EditSection from '@/components/preview/EditSection.astro';
 
-const { servicesData, recentPosts } = await getNavigationData();
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const [copy, settings] = await Promise.all([getPageCopy('services', contentContext), getSettings(contentContext)]);
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 
 // Get all services from the content collection
-const allServices = await getCollection('services');
+const allServices = await getContentCollection('services', contentContext);
 // Sort by order field
 const services = allServices.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Layout
-  title="IT Services | Managed Services, Cloud Hosting, Cybersecurity | BDKinc"
+  title={copy.metadata.title}
+  contentContext={contentContext}
+  publicPath={publicPath}
 >
-  <Navigation
-    client:load
-    services={servicesData}
-    blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
-  />
+  <EditSection record="settings" section="navigation">
+    <Navigation
+      client:load
+      services={servicesData}
+      blogPosts={recentPosts}
+      currentPath={publicPath}
+      copy={settings.navigation}
+      brand={settings.brand}
+    />
+  </EditSection>
   <main id="main-content">
     <!-- Hero Section -->
+    <EditSection record="services" section="hero">
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <PageHeroEffects client:idle />
       <div class="relative z-10 mx-auto max-w-7xl text-center">
@@ -35,23 +46,23 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
           class="glass border-primary/20 animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
         >
           <span class="text-sm">
-            <span class="font-semibold text-[--accent]">Enterprise-Grade</span> Solutions
+            <span class="font-semibold text-[--accent]">{copy.hero.badgeAccent}</span>{' '}{copy.hero.badgeEnd}
           </span>
         </div>
 
         <h1
           class="fill-mode-both animate-in fade-in slide-in-from-top-6 mb-4 text-5xl font-bold delay-100 duration-700 md:text-6xl"
         >
-          <span class="text-foreground">Our </span>
+          <span class="text-foreground">{copy.hero.headingLead}{' '}</span>
           <span
             class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-            >Services</span
+            >{copy.hero.headingAccent}</span
           >
         </h1>
         <p
           class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-4 mx-auto max-w-2xl text-xl delay-200 duration-600"
         >
-          Comprehensive IT solutions designed to help your business thrive
+          {copy.hero.description}
         </p>
       </div>
       <div
@@ -59,6 +70,7 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
       >
       </div>
     </section>
+    </EditSection>
 
     <!-- Services Grid Section -->
     <section class="px-4 py-16 sm:px-6 lg:px-8">
@@ -86,15 +98,18 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
     </section>
 
     {/* CTA Section */}
-    <CTASection
-      client:visible
-      title="Ready to Get Started?"
-      description="Contact us today to discuss how our services can help your business grow. We architect, manage, and secure your infrastructure so you can focus on driving your business forward."
-      buttonText="Contact Us"
-      buttonHref="/contact#chat"
-      icon="mail"
-    />
+    <EditSection record="services" section="cta">
+      <CTASection
+        client:visible
+        copy={settings.cta}
+        title={copy.cta.title}
+        description={copy.cta.description}
+        buttonText={copy.cta.buttonText}
+        buttonHref={copy.cta.buttonHref}
+        icon="mail"
+      />
+    </EditSection>
   </main>
 
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

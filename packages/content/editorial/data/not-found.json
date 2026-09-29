@@ -1,0 +1,13 @@
+{
+  "key":"not-found","kind":"page","title":"Page Not Found",
+  "fields":{
+    "error":{"type":"group","label":"Missing page message","fields":{"heading":{"type":"text","label":"Heading"},"description":{"type":"textarea","label":"Explanation"},"homeText":{"type":"text","label":"Home button"},"homeLabel":{"type":"text","label":"Home accessible label"},"backText":{"type":"text","label":"Back button"},"backLabel":{"type":"text","label":"Back accessible label"}}},
+    "helpfulLinks":{"type":"group","label":"Suggested destinations","fields":{"description":{"type":"text","label":"Introduction"},"services":{"type":"group","label":"Services link","fields":{"text":{"type":"text","label":"Link text"},"label":{"type":"text","label":"Accessible label"}}},"about":{"type":"group","label":"About link","fields":{"text":{"type":"text","label":"Link text"},"label":{"type":"text","label":"Accessible label"}}},"blog":{"type":"group","label":"Blog link","fields":{"text":{"type":"text","label":"Link text"},"label":{"type":"text","label":"Accessible label"}}},"contact":{"type":"group","label":"Contact link","fields":{"text":{"type":"text","label":"Link text"},"label":{"type":"text","label":"Accessible label"}}}}},
+    "metadata":{"type":"group","label":"Search metadata","fields":{"title":{"type":"text","label":"Page title"}}}
+  },
+  "defaults":{
+    "metadata":{"title":"404 - Page Not Found | BDKinc"},
+    "error":{"heading":"Page Not Found","description":"The page you're looking for seems to have wandered off into the digital void. It might have been moved, deleted, or perhaps it never existed.","homeText":"Go Home","homeLabel":"Return to homepage","backText":"Go Back","backLabel":"Go back to previous page"},
+    "helpfulLinks":{"description":"Looking for something specific? Try these popular pages:","services":{"text":"Services","label":"View our services"},"about":{"text":"About Us","label":"Learn about BDKinc"},"blog":{"text":"Blog","label":"Read our blog"},"contact":{"text":"Contact","label":"Contact us"}}
+  }
+}

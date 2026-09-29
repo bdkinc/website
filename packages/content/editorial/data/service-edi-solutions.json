@@ -1,0 +1,1140 @@
+{
+  "key": "service-edi-solutions",
+  "kind": "page",
+  "title": "EDI Solutions page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "badgePrefix": {
+          "type": "text",
+          "label": "Badge — opening text"
+        },
+        "badgeAccent": {
+          "type": "text",
+          "label": "Badge — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "capabilities": {
+      "type": "group",
+      "label": "Core capabilities",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "bodyBefore": {
+          "type": "textarea",
+          "label": "Introduction — before emphasis"
+        },
+        "bodyAccent": {
+          "type": "textarea",
+          "label": "Introduction — emphasized text"
+        },
+        "bodyAfter": {
+          "type": "textarea",
+          "label": "Introduction — after emphasis"
+        },
+        "globalIntegration": {
+          "type": "group",
+          "label": "Global Integration",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "automatedWorkflows": {
+          "type": "group",
+          "label": "Automated Workflows",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        },
+        "agnosticProtocol": {
+          "type": "group",
+          "label": "Agnostic Protocol",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "description": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        }
+      }
+    },
+    "leadership": {
+      "type": "group",
+      "label": "Leadership narrative",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "quoteBefore": {
+          "type": "textarea",
+          "label": "Quotation — before emphasis"
+        },
+        "quoteAccent": {
+          "type": "textarea",
+          "label": "Quotation — emphasized text"
+        },
+        "quoteAfter": {
+          "type": "textarea",
+          "label": "Quotation — after emphasis"
+        }
+      }
+    },
+    "strategy": {
+      "type": "group",
+      "label": "Strategic advantage",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "features": {
+          "type": "group",
+          "label": "Features",
+          "fields": {
+            "supplyChainOrchestration": {
+              "type": "group",
+              "label": "Supply Chain Orchestration",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "protocolAgnosticIntegration": {
+              "type": "group",
+              "label": "Protocol Agnostic Integration",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "highVelocityThroughput": {
+              "type": "group",
+              "label": "High-Velocity Throughput",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "complianceContinuity": {
+              "type": "group",
+              "label": "Compliance Continuity",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "benefits": {
+      "type": "group",
+      "label": "Benefits",
+      "fields": {
+        "items": {
+          "type": "group",
+          "label": "Offerings",
+          "fields": {
+            "item9999Uptime": {
+              "type": "group",
+              "label": "99.99% Uptime",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "highVelocity": {
+              "type": "group",
+              "label": "High-Velocity",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "activeCompliance": {
+              "type": "group",
+              "label": "Active Compliance",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "costOptimization": {
+              "type": "group",
+              "label": "Cost Optimization",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "globalReach": {
+              "type": "group",
+              "label": "Global Reach",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "totalVisibility": {
+              "type": "group",
+              "label": "Total Visibility",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "standards": {
+      "type": "group",
+      "label": "EDI standards and protocols",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "documentHeading": {
+          "type": "text",
+          "label": "Document Heading"
+        },
+        "protocolHeading": {
+          "type": "text",
+          "label": "Protocol Heading"
+        },
+        "transactionHeading": {
+          "type": "text",
+          "label": "Transaction Heading"
+        },
+        "transactionBody": {
+          "type": "textarea",
+          "label": "Transaction Body"
+        },
+        "documents": {
+          "type": "group",
+          "label": "Documents",
+          "fields": {
+            "ansiX12": {
+              "type": "group",
+              "label": "ANSI X12",
+              "fields": {
+                "std": {
+                  "type": "text",
+                  "label": "Document standard"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "regions": {
+                  "type": "text",
+                  "label": "Regions"
+                }
+              }
+            },
+            "edifact": {
+              "type": "group",
+              "label": "EDIFACT",
+              "fields": {
+                "std": {
+                  "type": "text",
+                  "label": "Document standard"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "regions": {
+                  "type": "text",
+                  "label": "Regions"
+                }
+              }
+            },
+            "tradacoms": {
+              "type": "group",
+              "label": "TRADACOMS",
+              "fields": {
+                "std": {
+                  "type": "text",
+                  "label": "Document standard"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "regions": {
+                  "type": "text",
+                  "label": "Regions"
+                }
+              }
+            },
+            "xmlJson": {
+              "type": "group",
+              "label": "XML / JSON",
+              "fields": {
+                "std": {
+                  "type": "text",
+                  "label": "Document standard"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "regions": {
+                  "type": "text",
+                  "label": "Regions"
+                }
+              }
+            },
+            "flatFile": {
+              "type": "group",
+              "label": "Flat File",
+              "fields": {
+                "std": {
+                  "type": "text",
+                  "label": "Document standard"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "regions": {
+                  "type": "text",
+                  "label": "Regions"
+                }
+              }
+            }
+          }
+        },
+        "protocols": {
+          "type": "group",
+          "label": "Protocols",
+          "fields": {
+            "as2": {
+              "type": "group",
+              "label": "AS2",
+              "fields": {
+                "proto": {
+                  "type": "text",
+                  "label": "Protocol"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "security": {
+                  "type": "text",
+                  "label": "Security"
+                }
+              }
+            },
+            "sftp": {
+              "type": "group",
+              "label": "SFTP",
+              "fields": {
+                "proto": {
+                  "type": "text",
+                  "label": "Protocol"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "security": {
+                  "type": "text",
+                  "label": "Security"
+                }
+              }
+            },
+            "ftps": {
+              "type": "group",
+              "label": "FTPS",
+              "fields": {
+                "proto": {
+                  "type": "text",
+                  "label": "Protocol"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "security": {
+                  "type": "text",
+                  "label": "Security"
+                }
+              }
+            },
+            "httpsApi": {
+              "type": "group",
+              "label": "HTTPS API",
+              "fields": {
+                "proto": {
+                  "type": "text",
+                  "label": "Protocol"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "security": {
+                  "type": "text",
+                  "label": "Security"
+                }
+              }
+            },
+            "van": {
+              "type": "group",
+              "label": "VAN",
+              "fields": {
+                "proto": {
+                  "type": "text",
+                  "label": "Protocol"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "security": {
+                  "type": "text",
+                  "label": "Security"
+                }
+              }
+            }
+          }
+        },
+        "transactions": {
+          "type": "group",
+          "label": "Transactions",
+          "fields": {
+            "invoice": {
+              "type": "group",
+              "label": "Invoice",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "purchaseOrder": {
+              "type": "group",
+              "label": "Purchase Order",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "shipNoticeAsn": {
+              "type": "group",
+              "label": "Ship Notice / ASN",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "inventoryInquiry": {
+              "type": "group",
+              "label": "Inventory Inquiry",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "motorCarrierLoad": {
+              "type": "group",
+              "label": "Motor Carrier Load",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "freightInvoice": {
+              "type": "group",
+              "label": "Freight Invoice",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "shipmentStatus": {
+              "type": "group",
+              "label": "Shipment Status",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "paymentOrder": {
+              "type": "group",
+              "label": "Payment Order",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "warehouseShipping": {
+              "type": "group",
+              "label": "Warehouse Shipping",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "warehouseShippingAdvice": {
+              "type": "group",
+              "label": "Warehouse Shipping Advice",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "functionalAcknowledgment": {
+              "type": "group",
+              "label": "Functional Acknowledgment",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "priceSalesCatalog": {
+              "type": "group",
+              "label": "Price / Sales Catalog",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "poAcknowledgment": {
+              "type": "group",
+              "label": "PO Acknowledgment",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            },
+            "poChange": {
+              "type": "group",
+              "label": "PO Change",
+              "fields": {
+                "code": {
+                  "type": "text",
+                  "label": "Code"
+                },
+                "label": {
+                  "type": "text",
+                  "label": "Label"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "faqHeading": { "type": "text", "label": "FAQ heading" },
+    "faqs": {
+      "type": "group",
+      "label": "Frequently asked questions",
+      "fields": {
+        "whatProtocolsAndStandardsDoYouSupport": {
+          "type": "group",
+          "label": "What protocols and standards do you support?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "howDoYouHandleHighVolumeTransaction": {
+          "type": "group",
+          "label": "How do you handle high-volume transaction scaling?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "canYouIntegrateWithOurExistingErp": {
+          "type": "group",
+          "label": "Can you integrate with our existing ERP environment?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "group",
+      "label": "Impact metrics",
+      "fields": {
+        "retailConnections": {
+          "type": "group",
+          "label": "Retail Connections",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "uptimeSla": {
+          "type": "group",
+          "label": "Uptime SLA",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "averageOnboarding": {
+          "type": "group",
+          "label": "Average Onboarding",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "transactionMonitoring": {
+          "type": "group",
+          "label": "Transaction Monitoring",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "faqHeading": "Frequently Asked Questions",
+    "hero": {
+      "badgePrefix": "Trading Partner Network —",
+      "badgeAccent": "Live",
+      "body": "Orchestrate global EDI with a managed platform that keeps partners connected, documents flowing, and transactions visible in real time."
+    },
+    "capabilities": {
+      "heading": "Core",
+      "headingAccent": "Capabilities",
+      "bodyBefore": "Comprehensive document orchestration designed for the",
+      "bodyAccent": "modern supply chain",
+      "bodyAfter": ".",
+      "globalIntegration": {
+        "title": "Global Integration",
+        "description": "Rapidly onboard retailers, suppliers, and 3PLs across any region. We maintain certified maps for thousands of trading partners, ensuring effortless compliance."
+      },
+      "automatedWorkflows": {
+        "title": "Automated Workflows",
+        "description": "Eliminate manual intervention. Automate POs, invoices, and ASNs to reduce manual errors and accelerate your order-to-cash cycles."
+      },
+      "agnosticProtocol": {
+        "title": "Agnostic Protocol",
+        "description": "Secure transmission across AS2, SFTP, FTPS, and VAN. Our architecture adapts to your partners' technical constraints seamlessly."
+      }
+    },
+    "leadership": {
+      "heading": "Supply Chain",
+      "headingAccent": "Orchestration",
+      "quoteBefore": "“Commerce moves at the speed of data. We don’t just connect systems; we architect",
+      "quoteAccent": "zero-friction, real-time document orchestration",
+      "quoteAfter": "that ensures compliance and powers your global supply chain with 24/7 visibility.”"
+    },
+    "strategy": {
+      "heading": "The Strategic",
+      "headingAccent": "Advantage",
+      "body": "Move beyond simple connections with a partner who orchestrates enterprise-grade supply chain intelligence.",
+      "features": {
+        "supplyChainOrchestration": {
+          "title": "Supply Chain Orchestration",
+          "description": "Synchronized document flow across global partner networks.",
+          "highlight": "Synchronized document flow",
+          "detail": "Modern commerce is a precision game. We orchestrate your entire supply chain data flow, ensuring that orders, invoices, and shipping updates move instantly between you and your trading partners with zero manual friction."
+        },
+        "protocolAgnosticIntegration": {
+          "title": "Protocol Agnostic Integration",
+          "description": "Secure transmission across AS2, SFTP, FTPS, and VAN networks.",
+          "highlight": "Secure transmission",
+          "detail": "Don't let your partners' technical constraints slow you down. Our architecture acts as a universal translator, adapting to any protocol or standard (ANSI X12, EDIFACT, XML) while maintaining a clean, consistent interface for your internal systems."
+        },
+        "highVelocityThroughput": {
+          "title": "High-Velocity Throughput",
+          "description": "Elastic infrastructure designed for peak enterprise transaction volumes.",
+          "highlight": "Peak transaction volumes",
+          "detail": "Built on elastic cloud infrastructure, our platform automatically scales to handle your most demanding spikes—whether it's seasonal retail surges or rapid market expansion—ensuring consistent throughput and zero message loss."
+        },
+        "complianceContinuity": {
+          "title": "Compliance Continuity",
+          "description": "Certified maps and active monitoring for thousands of trading partners.",
+          "highlight": "Certified partner maps",
+          "detail": "We maintain a massive library of certified trading partner maps and actively monitor for mandate changes. This means you stay compliant with major retailers like Walmart, Amazon, and Target without ever touching a line of code."
+        }
+      }
+    },
+    "standards": {
+      "heading": "Standards &",
+      "headingAccent": "Protocol Support",
+      "body": "Every format, every protocol, every trading partner — handled with enterprise-grade precision and zero friction.",
+      "documentHeading": "Document Standards",
+      "protocolHeading": "Transmission Protocols",
+      "transactionHeading": "Common Transaction Sets",
+      "transactionBody": "Over 100+ document types supported",
+      "documents": {
+        "ansiX12": {
+          "std": "ANSI X12",
+          "desc": "North American retail & logistics",
+          "regions": "US / CA"
+        },
+        "edifact": {
+          "std": "EDIFACT",
+          "desc": "International UN standard",
+          "regions": "Global"
+        },
+        "tradacoms": {
+          "std": "TRADACOMS",
+          "desc": "UK grocery and retail",
+          "regions": "UK"
+        },
+        "xmlJson": {
+          "std": "XML / JSON",
+          "desc": "Modern structured data",
+          "regions": "Universal"
+        },
+        "flatFile": {
+          "std": "Flat File",
+          "desc": "Custom delimited formats",
+          "regions": "Legacy"
+        }
+      },
+      "protocols": {
+        "as2": {
+          "proto": "AS2",
+          "desc": "Encrypted HTTP/S with MDN acknowledgments",
+          "security": "TLS 1.3"
+        },
+        "sftp": {
+          "proto": "SFTP",
+          "desc": "Secure file transfer over SSH",
+          "security": "SSH"
+        },
+        "ftps": {
+          "proto": "FTPS",
+          "desc": "FTP over explicit/implicit TLS",
+          "security": "TLS"
+        },
+        "httpsApi": {
+          "proto": "HTTPS API",
+          "desc": "RESTful webhook-based partner connections",
+          "security": "OAuth 2.0"
+        },
+        "van": {
+          "proto": "VAN",
+          "desc": "Value-added network relay (legacy)",
+          "security": "Encrypted"
+        }
+      },
+      "transactions": {
+        "invoice": {
+          "code": "810",
+          "label": "Invoice"
+        },
+        "purchaseOrder": {
+          "code": "850",
+          "label": "Purchase Order"
+        },
+        "shipNoticeAsn": {
+          "code": "856",
+          "label": "Ship Notice / ASN"
+        },
+        "inventoryInquiry": {
+          "code": "846",
+          "label": "Inventory Inquiry"
+        },
+        "motorCarrierLoad": {
+          "code": "204",
+          "label": "Motor Carrier Load"
+        },
+        "freightInvoice": {
+          "code": "210",
+          "label": "Freight Invoice"
+        },
+        "shipmentStatus": {
+          "code": "214",
+          "label": "Shipment Status"
+        },
+        "paymentOrder": {
+          "code": "820",
+          "label": "Payment Order"
+        },
+        "warehouseShipping": {
+          "code": "940",
+          "label": "Warehouse Shipping"
+        },
+        "warehouseShippingAdvice": {
+          "code": "945",
+          "label": "Warehouse Shipping Advice"
+        },
+        "functionalAcknowledgment": {
+          "code": "997",
+          "label": "Functional Acknowledgment"
+        },
+        "priceSalesCatalog": {
+          "code": "832",
+          "label": "Price / Sales Catalog"
+        },
+        "poAcknowledgment": {
+          "code": "855",
+          "label": "PO Acknowledgment"
+        },
+        "poChange": {
+          "code": "860",
+          "label": "PO Change"
+        }
+      }
+    },
+    "metrics": {
+      "retailConnections": {
+        "value": "250+",
+        "label": "Retail Connections"
+      },
+      "uptimeSla": {
+        "value": "99.99%",
+        "label": "Uptime SLA"
+      },
+      "averageOnboarding": {
+        "value": "48h",
+        "label": "Average Onboarding"
+      },
+      "transactionMonitoring": {
+        "value": "24/7",
+        "label": "Transaction Monitoring"
+      }
+    },
+    "faqs": {
+      "whatProtocolsAndStandardsDoYouSupport": {
+        "question": "What protocols and standards do you support?",
+        "answer": "We support the full spectrum of industry-standard protocols including AS2, SFTP, FTPS, HTTPS, and traditional VAN networks. Our translation engine handles ANSI X12, EDIFACT, TRADACOMS, and XML formats, ensuring compatibility with any global trading partner."
+      },
+      "howDoYouHandleHighVolumeTransaction": {
+        "question": "How do you handle high-volume transaction scaling?",
+        "answer": "Our infrastructure is built on elastic cloud architecture designed for enterprise scale. It automatically provisions resources to handle peak loads—whether from seasonal spikes or rapid market expansion—ensuring consistent throughput and zero message loss."
+      },
+      "canYouIntegrateWithOurExistingErp": {
+        "question": "Can you integrate with our existing ERP environment?",
+        "answer": "Yes. Our solution acts as a universal middleware layer, integrating seamlessly with major ERPs (SAP, Oracle, NetSuite, Microsoft Dynamics) as well as custom legacy systems. We map data directly to your internal formats, preserving your existing workflows."
+      }
+    },
+    "benefits": {
+      "items": {
+        "item9999Uptime": {
+          "title": "99.99% Uptime",
+          "description": "Mission-critical reliability for your most sensitive supply chain data streams."
+        },
+        "highVelocity": {
+          "title": "High-Velocity",
+          "description": "Process thousands of transactions per second with low-latency enterprise throughput."
+        },
+        "activeCompliance": {
+          "title": "Active Compliance",
+          "description": "Stay ahead of retailer mandate changes with our continuous compliance monitoring."
+        },
+        "costOptimization": {
+          "title": "Cost Optimization",
+          "description": "Eliminate expensive VAN fees and reduce overhead with direct protocol connections."
+        },
+        "globalReach": {
+          "title": "Global Reach",
+          "description": "Connect with partners in any region with support for all major international standards."
+        },
+        "totalVisibility": {
+          "title": "Total Visibility",
+          "description": "End-to-end real-time tracking of every single document in your supply chain."
+        }
+      }
+    },
+    "cta": {
+      "title": "Scale Your Supply Chain with Precision",
+      "description": "Stop settling for slow connections. Partner with the experts who orchestrate global supply chains.",
+      "buttonText": "Schedule an EDI Strategy Session",
+      "buttonHref": "/contact#chat"
+    }
+  }
+}

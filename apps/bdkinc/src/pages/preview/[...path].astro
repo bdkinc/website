@@ -1,0 +1,64 @@
+---
+import Home from '@/pages/index.astro';
+import About from '@/pages/about.astro';
+import Services from '@/pages/services.astro';
+import Blog from '@/pages/blog.astro';
+import Contact from '@/pages/contact.astro';
+import Privacy from '@/pages/privacy.astro';
+import Terms from '@/pages/terms.astro';
+import NotFound from '@/pages/404.astro';
+import Maryland from '@/pages/locations/maryland-eastern-shore.astro';
+import Delaware from '@/pages/locations/delaware-eastern-shore.astro';
+import ApplicationDevelopment from '@/pages/services/application-development.astro';
+import ArtificialIntelligence from '@/pages/services/artificial-intelligence.astro';
+import BusinessAnalytics from '@/pages/services/business-analytics.astro';
+import CloudHosting from '@/pages/services/cloud-hosting.astro';
+import Cybersecurity from '@/pages/services/cybersecurity.astro';
+import EdiSolutions from '@/pages/services/edi-solutions.astro';
+import HostedErp from '@/pages/services/hosted-erp.astro';
+import IbmPower from '@/pages/services/ibm-power.astro';
+import ManagedIt from '@/pages/services/managed-it.astro';
+import BlogPost from '@/pages/blog/[slug].astro';
+import ServiceLocation from '@/pages/services/[service]/[location].astro';
+import IndustryLocation from '@/pages/industries/[industry]/[location].astro';
+import { resolvePreviewContext, previewHeaders, previewTemplate } from '@/lib/preview';
+import { getBlogPostBySlug } from '@/lib/blog';
+
+export const prerender = false;
+for (const [name, value] of Object.entries(previewHeaders)) Astro.response.headers.set(name, value);
+const publicPath = '/' + (Astro.params.path || '');
+const pages = {
+  home: Home, about: About, services: Services, blog: Blog, contact: Contact,
+  privacy: Privacy, terms: Terms, 'not-found': NotFound,
+  'location-maryland-eastern-shore': Maryland, 'location-delaware-eastern-shore': Delaware,
+  'service-application-development': ApplicationDevelopment, 'service-artificial-intelligence': ArtificialIntelligence,
+  'service-business-analytics': BusinessAnalytics, 'service-cloud-hosting': CloudHosting,
+  'service-cybersecurity': Cybersecurity, 'service-edi-solutions': EdiSolutions,
+  'service-hosted-erp': HostedErp, 'service-ibm-power': IbmPower, 'service-managed-it': ManagedIt,
+};
+let contentContext;
+let route;
+let post;
+try {
+  contentContext = await resolvePreviewContext(Astro.url.searchParams.get('token') || '', publicPath);
+  route = await previewTemplate(contentContext);
+  if (!route) throw new Error('Unregistered route.');
+  if (route.template === 'blog-post') {
+    post = await getBlogPostBySlug(route.slug, contentContext);
+    if (!post) throw new Error('Post unavailable.');
+  }
+} catch {
+  return new Response('Preview authorization failed or expired.', { status: 401, headers: previewHeaders });
+}
+const PageTemplate = route.template === 'page' ? pages[route.pageKey] : undefined;
+---
+{PageTemplate && <PageTemplate contentContext={contentContext} publicPath={publicPath} />}
+{route.template === 'blog-post' && post && (
+  <BlogPost post={post} contentContext={contentContext} publicPath={publicPath} />
+)}
+{route.template === 'service-location' && (
+  <ServiceLocation {...route} contentContext={contentContext} publicPath={publicPath} />
+)}
+{route.template === 'industry-location' && (
+  <IndustryLocation {...route} contentContext={contentContext} publicPath={publicPath} />
+)}

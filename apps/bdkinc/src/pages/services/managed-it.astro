@@ -1,5 +1,5 @@
 ---
-import { getEntry } from 'astro:content';
+import { getContentEntry, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -25,12 +25,19 @@ import {
   PiArrowRight,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import EditSection from '@/components/preview/EditSection.astro';
 import { servicePageSchemas } from '@/lib/schema';
-const service = await getEntry('services', 'managed-it');
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const [service, copy, settings] = await Promise.all([
+  getContentEntry('services', 'managed-it', contentContext),
+  getPageCopy('service-managed-it', contentContext),
+  getSettings(contentContext),
+]);
 if (!service) {
   return new Response(null, { status: 404 });
 }
-const { servicesData, recentPosts } = await getNavigationData();
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 const IconComponent = iconMap[service.data.icon];
 const title = service.data.title;
 const titleWords = title.split(' ');
@@ -40,114 +47,77 @@ const _serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: service.data.title,
-  description:
-    'Elite managed IT services delivering 24/7 enterprise support, proactive infrastructure management, and strategic technology leadership for growth-focused organizations.',
+  description: copy.serviceSchema.description,
   provider: {
     '@type': 'Organization',
-    name: 'BDKinc',
-    url: 'https://www.bdkinc.com',
+    name: settings.siteName,
+    url: settings.organization.url,
   },
-  serviceType: 'Managed IT Services',
+  serviceType: copy.serviceSchema.serviceType,
   offers: {
     '@type': 'Offer',
     availability: 'https://schema.org/InStock',
   },
 };
 const metrics = [
-  { value: '10K+', label: 'Tickets Closed', icon: PiHeadphones },
-  { value: '98%', label: 'First-Call Resolution', icon: PiCheckCircle },
-  { value: '2', label: 'Hour Onsite SLA', icon: PiMapPin },
-  { value: '24/7', label: 'Support Coverage', icon: PiClock },
+  { ...copy.metrics.ticketsClosed, icon: PiHeadphones },
+  { ...copy.metrics.firstCallResolution, icon: PiCheckCircle },
+  { ...copy.metrics.hourOnsiteSla, icon: PiMapPin },
+  { ...copy.metrics.supportCoverage, icon: PiClock },
 ];
 const faqs = [
-  {
-    question: 'How does BDKinc integrate with our existing internal IT team?',
-    answer:
-      'We function as a force multiplier for your internal team. Our Co-Managed IT model handles the heavy lifting of monitoring, patching, and Level 1 support, freeing your internal leaders to focus on high-value strategic initiatives and proprietary business applications.',
-  },
-  {
-    question: 'What industries do you specialize in supporting?',
-    answer:
-      'We specialize in high-complexity, compliance-driven sectors including healthcare, finance, manufacturing, and logistics. Our engineers are well-versed in the regulatory requirements and operational demands of environments where downtime is not an option.',
-  },
-  {
-    question: 'How do you handle rapid organizational scaling or M&A activity?',
-    answer:
-      'Our infrastructure is built for elasticity. We have extensive experience navigating the technical integration of mergers and acquisitions, standardizing disparate systems, and rapidly onboarding new users to ensure business continuity during critical growth phases.',
-  },
+  copy.faqs.howDoesBdkincIntegrateWithOurExisting,
+  copy.faqs.whatIndustriesDoYouSpecializeInSupporting,
+  copy.faqs.howDoYouHandleRapidOrganizationalScaling,
 ];
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   serviceName: service.data.title,
-  servicePath: `/services/${service.id}`,
+  servicePath: '/services/managed-it',
   faqs,
+  copy: settings.navigation,
 });
 const strategicFeatures = [
-  {
-    title: 'Operational Resilience',
-    description:
-      'Systems designed for 99.99% uptime, ensuring your business never pauses.',
-    highlight: '99.99% uptime',
-    icon: 'CheckCircle',
-    detail:
-      "Our managed infrastructure is built on high-availability clusters and redundant network paths. We don't just aim for uptime; we guarantee it through rigorous architectural standards and automated failover protocols that keep your critical applications running even during hardware failures.",
-  },
-  {
-    title: 'Scalable Architecture',
-    description:
-      'Infrastructure that adapts instantly to mergers, acquisitions, and rapid user growth.',
-    highlight: 'adapts instantly',
-    icon: 'TrendUp',
-    detail:
-      "Growth shouldn't be painful. Whether you're onboarding 50 new employees or integrating a newly acquired branch, our cloud-first architecture allows for rapid resource provisioning. We eliminate the 'wait-and-see' approach to hardware procurement, replacing it with elastic capacity.",
-  },
-  {
-    title: 'Cost Predictability',
-    description:
-      'Shift from volatile capital expenditures to predictable, value-driven operational models.',
-    highlight: 'value-driven operational models',
-    icon: 'Lightning',
-    detail:
-      "Eliminate the 'surprise' IT bill. Our flat-fee managed services model turns your IT spend into a predictable monthly utility. This allows for better financial planning and ensures that our incentives are perfectly aligned with yours: keeping your systems running perfectly.",
-  },
-  {
-    title: 'Security Posture',
-    description:
-      'Enterprise-grade defense mechanisms interwoven into daily operations, not bolted on.',
-    highlight: 'interwoven into daily operations',
-    icon: 'ShieldCheck',
-    detail:
-      "Security is not a separate department; it's a fundamental property of every system we manage. From endpoint protection and multi-factor authentication to continuous vulnerability scanning, we build a 'defense-in-depth' strategy that protects your intellectual property and customer data.",
-  },
+  { ...copy.strategy.features.operationalResilience, icon: 'CheckCircle' },
+  { ...copy.strategy.features.scalableArchitecture, icon: 'TrendUp' },
+  { ...copy.strategy.features.costPredictability, icon: 'Lightning' },
+  { ...copy.strategy.features.securityPosture, icon: 'ShieldCheck' },
 ];
 ---
 
 <Layout
-  title="Elite Managed IT Services & Strategic Technology Management | BDKinc"
-  description="Transform your technology into a competitive advantage. BDKinc provides elite managed IT services, 24/7 enterprise support, and strategic infrastructure leadership for growth-focused organizations."
-  ogDescription="Elite managed IT services delivering 24/7 enterprise support, proactive infrastructure management, and strategic technology leadership for growth-focused organizations."
+  title={copy.seo.title}
+  description={copy.seo.description}
+  ogDescription={copy.seo.ogDescription}
+  contentContext={contentContext}
+  publicPath={publicPath}
 >
   <script
     type="application/ld+json"
     is:inline
-    set:html={JSON.stringify(_serviceSchema)}
+    set:html={JSON.stringify(_serviceSchema).replace(/</g, '\\u003c')}
   />
   <script
     type="application/ld+json"
     is:inline
-    set:html={JSON.stringify(breadcrumbSchema)}
+    set:html={JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c')}
   />
   <script
     type="application/ld+json"
     is:inline
-    set:html={JSON.stringify(faqSchema)}
+    set:html={JSON.stringify(faqSchema).replace(/</g, '\\u003c')}
   />
+  <EditSection record="settings" section="navigation">
   <Navigation
     client:load
     services={servicesData}
     blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
+    currentPath={publicPath}
+    copy={settings.navigation}
+    brand={settings.brand}
   />
+  </EditSection>
   <main id="main-content" class="services-page-shell">
+    <EditSection record="service-managed-it" section="hero">
     <!-- Hero Section -->
     <section
       class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 md:pt-32 md:pb-24 lg:px-8"
@@ -173,8 +143,8 @@ const strategicFeatures = [
           >
             <div class="flex items-center gap-2 text-sm">
               <span
-                >24/7 Business <span class="text-accent font-semibold"
-                  >Support</span
+                >{copy.hero.badgePrefix}{' '}<span class="text-accent font-semibold"
+                  >{copy.hero.badgeAccent}</span
                 ></span
               >
             </div>
@@ -208,9 +178,7 @@ const strategicFeatures = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            Technology shouldn&rsquo;t be a bottleneck; it should be an
-            accelerator. We monitor your systems 24/7, preventing issues before
-            they disrupt your operations.
+            {copy.hero.body}
           </p>
         </div>
       </div>
@@ -219,6 +187,8 @@ const strategicFeatures = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-managed-it" section="capabilities">
     <!-- Core Services -->
     <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -226,17 +196,16 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
           >
-            <span class="text-foreground">Core </span>
+            <span class="text-foreground">{copy.capabilities.heading}{' '}</span>
             <span
               class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
-              >Capabilities</span
+              >{copy.capabilities.headingAccent}</span
             >
           </h2>
           <p
             class="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl"
           >
-            Comprehensive infrastructure management designed for the
-            <span class="text-accent font-semibold">modern enterprise</span>.
+            {copy.capabilities.bodyBefore}{' '}<span class="text-accent font-semibold">{copy.capabilities.bodyAccent}</span>{copy.capabilities.bodyAfter}
           </p>
         </div>
         <TechCardGrid client:visible className="md:grid-cols-3">
@@ -257,12 +226,10 @@ const strategicFeatures = [
               <h4
                 class="text-foreground font-display group-hover:text-primary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
-                Enterprise Service Desk
+                {copy.capabilities.enterpriseServiceDesk.title}
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Beyond basic troubleshooting. Our tiered support structure
-                resolves 98% of incidents on first contact, providing your team
-                with immediate access to senior engineers.
+                {copy.capabilities.enterpriseServiceDesk.description}
               </div>
             </div>
           </TechCard>
@@ -283,12 +250,10 @@ const strategicFeatures = [
               <h4
                 class="text-foreground font-display group-hover:text-secondary mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
-                Predictive Intelligence
+                {copy.capabilities.predictiveIntelligence.title}
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                We don't just react to alerts; we anticipate failures utilizing
-                advanced telemetry and AI-driven analytics to identify anomalies
-                before they impact your users.
+                {copy.capabilities.predictiveIntelligence.description}
               </div>
             </div>
           </TechCard>
@@ -309,18 +274,18 @@ const strategicFeatures = [
               <h4
                 class="text-foreground font-display group-hover:text-accent mb-4 text-2xl font-bold tracking-tight transition-colors"
               >
-                Strategic Co-Management
+                {copy.capabilities.strategicCoManagement.title}
               </h4>
               <div class="text-muted-foreground text-sm leading-relaxed">
-                Whether acting as your entire IT department or augmenting your
-                internal team, we integrate seamlessly with your workflows and
-                provide specialized expertise.
+                {copy.capabilities.strategicCoManagement.description}
               </div>
             </div>
           </TechCard>
         </TechCardGrid>
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-managed-it" section="leadership">
     <!-- Strategic Leadership Section -->
     <section class="relative overflow-hidden py-24 md:py-32">
       <div
@@ -332,20 +297,16 @@ const strategicFeatures = [
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
-            <span class="text-foreground">Technology </span>
+            <span class="text-foreground">{copy.leadership.heading}{' '}</span>
             <span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Leadership</span
+              >{copy.leadership.headingAccent}</span
             >
           </h2>
         </div>
 
         <ServiceBlockquote>
-          &ldquo;True business growth requires more than keeping the lights on.
-          It demands a technology strategy that
-          <span class="text-accent"> anticipates challenges</span>
-          and scales with your ambition. We architect, manage, and secure your infrastructure
-          so you can focus on driving your business forward.&rdquo;
+          {copy.leadership.quoteBefore}{' '}<span class="text-accent">{copy.leadership.quoteAccent}</span>{' '}{copy.leadership.quoteAfter}
         </ServiceBlockquote>
       </div>
       <div
@@ -353,6 +314,8 @@ const strategicFeatures = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-managed-it" section="strategy">
     <!-- Technology Leadership -->
     <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -360,19 +323,20 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            The Strategic <span
+            {copy.strategy.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Advantage</span
+              >{copy.strategy.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond break/fix and operational drag with a partner who builds
-            for the future.
+            {copy.strategy.body}
           </p>
         </div>
         <FeatureCarousel client:visible features={strategicFeatures} />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-managed-it" section="comparison">
     <!-- The Shift: Before/After Contrast Section -->
     <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
       <div
@@ -384,17 +348,16 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-4xl font-bold tracking-tight text-balance md:text-5xl lg:text-6xl"
           >
-            Stop Managing IT.{' '}
+            {copy.comparison.heading}{' '}
             <span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Start Leading It.</span
+              >{copy.comparison.headingAccent}</span
             >
           </h2>
           <p
             class="text-muted-foreground mx-auto max-w-2xl text-xl text-balance"
           >
-            Here&rsquo;s what changes when BDK takes ownership of your
-            infrastructure.
+            {copy.comparison.body}
           </p>
         </div>
         <div
@@ -441,7 +404,7 @@ const strategicFeatures = [
                 <h3
                   class="font-display text-foreground/80 text-2xl font-bold tracking-tight"
                 >
-                  The Old Way
+                  {copy.comparison.beforeHeading}
                 </h3>
               </div>
               <ul class="space-y-6">
@@ -449,27 +412,27 @@ const strategicFeatures = [
                   [
                     {
                       icon: PiClock,
-                      text: '3am alerts waking your team for server issues',
+                      text: copy.comparison.before.item3amAlertsWakingYourTeamForServer.text,
                     },
                     {
                       icon: PiShieldCheck,
-                      text: 'Patch cycles slipping and creating security gaps',
+                      text: copy.comparison.before.patchCyclesSlippingAndCreatingSecurityGaps.text,
                     },
                     {
                       icon: PiLightning,
-                      text: 'Unexpected hardware failures disrupting operations',
+                      text: copy.comparison.before.unexpectedHardwareFailuresDisruptingOperations.text,
                     },
                     {
                       icon: PiMonitor,
-                      text: 'Shadow IT and unmanaged endpoints',
+                      text: copy.comparison.before.shadowItAndUnmanagedEndpoints.text,
                     },
                     {
                       icon: PiUsersThree,
-                      text: 'Recruiting and retaining specialized IT talent',
+                      text: copy.comparison.before.recruitingAndRetainingSpecializedItTalent.text,
                     },
                     {
                       icon: PiTrendUp,
-                      text: 'Unpredictable capital expenses for infrastructure',
+                      text: copy.comparison.before.unpredictableCapitalExpensesForInfrastructure.text,
                     },
                   ].map(({ icon: Icon, text }) => (
                     <li class="group flex items-start gap-4 transition-all duration-300 hover:translate-x-1">
@@ -513,7 +476,7 @@ const strategicFeatures = [
                 <h3
                   class="font-display text-foreground text-2xl font-bold tracking-tight"
                 >
-                  The BDK Way
+                  {copy.comparison.afterHeading}
                 </h3>
               </div>
               <ul class="space-y-6">
@@ -521,27 +484,27 @@ const strategicFeatures = [
                   [
                     {
                       icon: PiHeadphones,
-                      text: '24/7 NOC coverage with sub-15 minute response SLAs',
+                      text: copy.comparison.after.item247NocCoverageWithSub15.text,
                     },
                     {
                       icon: PiShieldCheck,
-                      text: 'Automated patch management with 99%+ compliance',
+                      text: copy.comparison.after.automatedPatchManagementWith99Compliance.text,
                     },
                     {
                       icon: PiLightning,
-                      text: 'Predictive failure detection before impact occurs',
+                      text: copy.comparison.after.predictiveFailureDetectionBeforeImpactOccurs.text,
                     },
                     {
                       icon: PiMonitor,
-                      text: 'Complete asset visibility across every endpoint',
+                      text: copy.comparison.after.completeAssetVisibilityAcrossEveryEndpoint.text,
                     },
                     {
                       icon: PiUsersThree,
-                      text: 'Dedicated senior engineers who know your environment',
+                      text: copy.comparison.after.dedicatedSeniorEngineersWhoKnowYourEnvironment.text,
                     },
                     {
                       icon: PiTrendUp,
-                      text: 'Flat-fee model: predictable monthly IT spend',
+                      text: copy.comparison.after.flatFeeModelPredictableMonthlyItSpend.text,
                     },
                   ].map(({ icon: Icon, text }) => (
                     <li class="group flex items-start gap-4 transition-all duration-300 hover:translate-x-1">
@@ -565,7 +528,9 @@ const strategicFeatures = [
         </div>
       </div>
     </section>
+    </EditSection>
 
+    <EditSection record="service-managed-it" section="faqs" also={['faqHeading']}>
     <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
       <div
         class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -573,22 +538,26 @@ const strategicFeatures = [
       </div>
       <div class="mx-auto max-w-5xl">
         <h2 class="text-foreground mb-12 text-center text-3xl font-bold">
-          Frequently Asked Questions
+          {copy.faqHeading}
         </h2>
         <div>
           <TechnicalFAQ client:visible faqs={faqs} />
         </div>
       </div>
     </section>
+    </EditSection>
 
+    <EditSection record="service-managed-it" section="metrics">
     <div class="relative">
       <div
         class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
       >
       </div>
-      <ImpactMetricsSection metrics={metrics} />
+      <ImpactMetricsSection metrics={metrics} copy={settings.metrics} />
     </div>
+    </EditSection>
 
+    <EditSection record="service-managed-it" section="cta">
     <!-- CTA -->
     <div class="relative">
       <div
@@ -597,12 +566,11 @@ const strategicFeatures = [
       </div>
       <CTASection
         client:visible
-        title="Stop Managing IT. Start Leading It."
-        description="Your team deserves to focus on strategy, not servers. Let BDK own the infrastructure so you can own the future."
-        buttonText="Schedule a Strategy Session"
-        buttonHref="/contact#chat"
+        copy={settings.cta}
+        {...copy.cta}
       />
     </div>
+    </EditSection>
   </main>
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

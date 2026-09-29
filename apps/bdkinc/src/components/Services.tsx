@@ -1,17 +1,149 @@
 import { useEffect, useRef } from 'react';
-import { CardTitle, CardDescription, cn } from '@bdkinc/design-system';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
+import { CardTitle, CardDescription } from '@bdkinc/design-system';
 import { iconMap } from '@/lib/icons';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { TechCard } from '@/components/TechCard';
+import type { PageData } from '@bdkinc/content';
 interface ServicesProps {
+  copy: PageData<'home'>['services'];
   services: Array<{
     slug: string;
     title: string;
     description: string;
     icon: string;
   }>;
+  xstyle?: StyleXStyles;
 }
-export default function Services({ services }: ServicesProps) {
+
+const colorTransition =
+  'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to';
+const styles = stylex.create({
+  section: {
+    paddingBlock: '6rem',
+    paddingInline: {
+      default: '1rem',
+      '@media (min-width: 40rem)': '1.5rem',
+      '@media (min-width: 64rem)': '2rem',
+    },
+  },
+  container: { marginInline: 'auto', maxWidth: '80rem' },
+  header: {
+    marginBottom: '4rem',
+    textAlign: 'center',
+    translate: '0 2rem',
+    opacity: 0,
+    transitionProperty: 'opacity, transform',
+    transitionDuration: '700ms',
+    transitionTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+  },
+  headerVisible: { translate: '0 0', opacity: 1 },
+  heading: {
+    marginBottom: '1rem',
+    fontFamily: 'var(--font-display)',
+    fontSize: { default: '2.25rem', '@media (min-width: 48rem)': '3rem' },
+    lineHeight: { default: '2.5rem', '@media (min-width: 48rem)': 1 },
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+  },
+  headingLead: { color: 'var(--foreground)' },
+  headingAccent: {
+    backgroundImage:
+      'linear-gradient(to bottom right in oklab, var(--primary), var(--secondary))',
+    backgroundClip: 'text',
+    color: 'transparent',
+  },
+  body: {
+    marginInline: 'auto',
+    maxWidth: '42rem',
+    color: 'var(--muted-foreground)',
+    fontFamily: 'var(--font-sans)',
+    fontSize: '1.25rem',
+    lineHeight: '1.75rem',
+  },
+  bodyAccent: { color: 'var(--accent)', fontWeight: 600 },
+  grid: {
+    display: 'grid',
+    gridAutoRows: 'minmax(0, 1fr)',
+    gridTemplateColumns: {
+      default: 'repeat(1, minmax(0, 1fr))',
+      '@media (min-width: 48rem)': 'repeat(3, minmax(0, 1fr))',
+    },
+    gap: '1.5rem',
+  },
+  link: {
+    position: 'relative',
+    zIndex: 20,
+    display: 'flex',
+    height: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    padding: '2rem',
+    textAlign: 'center',
+  },
+  // Border alpha rises by 30% while TechCard sets --tech-hover-opacity to 1 (group-hover).
+  icon: {
+    marginInline: 'auto',
+    marginBottom: '1.5rem',
+    display: 'flex',
+    width: 'fit-content',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 'calc(var(--radius) + 4px)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    padding: '1.25rem',
+    transitionProperty: colorTransition,
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+  iconPrimary: {
+    backgroundImage:
+      'linear-gradient(to bottom right in oklab, color-mix(in oklab, var(--primary) 10%, transparent), color-mix(in oklab, var(--primary) 5%, transparent))',
+    borderColor:
+      'color-mix(in oklab, var(--primary) calc(20% + 30% * var(--tech-hover-opacity)), transparent)',
+  },
+  iconSecondary: {
+    backgroundImage:
+      'linear-gradient(to bottom right in oklab, color-mix(in oklab, var(--secondary) 10%, transparent), color-mix(in oklab, var(--secondary) 5%, transparent))',
+    borderColor:
+      'color-mix(in oklab, var(--secondary) calc(20% + 30% * var(--tech-hover-opacity)), transparent)',
+  },
+  iconAccent: {
+    backgroundImage:
+      'linear-gradient(to bottom right in oklab, color-mix(in oklab, var(--accent) 20%, transparent), color-mix(in oklab, var(--accent) 10%, transparent))',
+    borderColor:
+      'color-mix(in oklab, var(--accent) calc(30% + 30% * var(--tech-hover-opacity)), transparent)',
+  },
+  glyph: { height: '2.5rem', width: '2.5rem' },
+  glyphPrimary: { color: 'var(--primary)' },
+  glyphSecondary: { color: 'var(--secondary)' },
+  glyphAccent: { color: 'var(--accent)' },
+  title: {
+    marginBottom: '0.5rem',
+    textAlign: 'center',
+    fontFamily: 'var(--font-display)',
+    color: 'var(--tech-title-color, var(--foreground))',
+    fontSize: '1.125rem',
+    lineHeight: '1.75rem',
+    letterSpacing: '0.05em',
+    transitionProperty: colorTransition,
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+  description: { textAlign: 'center', lineHeight: 1.625 },
+});
+
+// Rotate icon accent colors: primary → secondary → accent
+const iconColors = [
+  { box: styles.iconPrimary, glyph: styles.glyphPrimary },
+  { box: styles.iconSecondary, glyph: styles.glyphSecondary },
+  { box: styles.iconAccent, glyph: styles.glyphAccent },
+];
+
+export default function Services({ services, copy, xstyle }: ServicesProps) {
   const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
   const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
   const descriptionRefs = useRef<(HTMLParagraphElement | null)[]>([]);
@@ -56,57 +188,32 @@ export default function Services({ services }: ServicesProps) {
     });
   }, [services]);
   return (
-    <section className="px-4 py-24 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <section {...stylex.props(styles.section, xstyle)}>
+      <div {...stylex.props(styles.container)}>
         {/* Section Header */}
         <div
           ref={headerRef as any}
-          className={cn(
-            'mb-16 text-center',
-            'translate-y-8 opacity-0 transition-[opacity,transform] duration-700 ease-out',
-            headerInView && 'translate-y-0 opacity-100'
-          )}
+          {...stylex.props(styles.header, headerInView && styles.headerVisible)}
         >
-          <h2 className="font-display mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-            <span className="text-foreground">Expert </span>
-            <span className="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
-              Solutions
+          <h2 {...stylex.props(styles.heading)}>
+            <span {...stylex.props(styles.headingLead)}>
+              {copy.headingLead.trim()}{' '}
+            </span>
+            <span {...stylex.props(styles.headingAccent)}>
+              {copy.headingAccent}
             </span>
           </h2>
-          <p className="text-muted-foreground mx-auto max-w-2xl font-sans text-xl">
-            Enterprise-grade{' '}
-            <span className="text-accent font-semibold">
-              technical expertise
-            </span>{' '}
-            tailored for high-growth organizations.
+          <p {...stylex.props(styles.body)}>
+            {copy.bodyLead.trim()}{' '}
+            <span {...stylex.props(styles.bodyAccent)}>{copy.bodyAccent}</span>{' '}
+            {copy.bodyEnd.trim()}
           </p>
         </div>
         {/* Services Grid */}
-        <div
-          ref={gridRef as any}
-          className="grid auto-rows-fr grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-3"
-        >
+        <div ref={gridRef as any} {...stylex.props(styles.grid)}>
           {services.map((service, index) => {
             const Icon = iconMap[service.icon];
             const delayMs = index * 100;
-            // Rotate icon accent colors: primary → secondary → accent
-            const iconColors = [
-              {
-                bg: 'from-primary/10 to-primary/5',
-                border: 'border-primary/20 group-hover:border-primary/50',
-                icon: 'text-primary',
-              },
-              {
-                bg: 'from-secondary/10 to-secondary/5',
-                border: 'border-secondary/20 group-hover:border-secondary/50',
-                icon: 'text-secondary',
-              },
-              {
-                bg: 'from-accent/20 to-accent/10',
-                border: 'border-accent/30 group-hover:border-accent/60',
-                icon: 'text-accent',
-              },
-            ];
             const color = iconColors[index % iconColors.length];
             return (
               <TechCard
@@ -116,29 +223,24 @@ export default function Services({ services }: ServicesProps) {
                 variant="technical"
                 delay={delayMs}
                 animated={gridInView}
+                xstyle={styles.link}
               >
-                <a
-                  href={`/services/${service.slug}`}
-                  className="relative z-20 flex h-full flex-col items-center justify-start p-8 text-center"
-                >
+                <a href={`/services/${service.slug}`}>
                   <div
                     ref={(el) => {
                       iconRefs.current[index] = el;
                     }}
-                    className={cn(
-                      'mx-auto mb-6 w-fit rounded-xl bg-linear-to-br p-5',
-                      'flex items-center justify-center border transition-colors',
-                      color.bg,
-                      color.border
-                    )}
+                    {...stylex.props(styles.icon, color.box)}
                   >
-                    {Icon && <Icon className={cn('h-10 w-10', color.icon)} />}
+                    {Icon && (
+                      <Icon {...stylex.props(styles.glyph, color.glyph)} />
+                    )}
                   </div>
                   <CardTitle
                     ref={(el) => {
                       titleRefs.current[index] = el;
                     }}
-                    className="font-display group-hover:text-primary mb-2 text-center text-lg tracking-wider transition-colors"
+                    xstyle={styles.title}
                   >
                     {service.title}
                   </CardTitle>
@@ -146,7 +248,7 @@ export default function Services({ services }: ServicesProps) {
                     ref={(el) => {
                       descriptionRefs.current[index] = el;
                     }}
-                    className="text-center text-sm leading-relaxed"
+                    xstyle={styles.description}
                   >
                     {service.description}
                   </CardDescription>

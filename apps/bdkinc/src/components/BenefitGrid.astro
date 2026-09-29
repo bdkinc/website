@@ -1,5 +1,6 @@
 ---
 import type { ComponentType } from 'react';
+import type { SiteSettings } from '@bdkinc/content';
 
 interface Benefit {
   title: string;
@@ -10,12 +11,13 @@ interface Benefit {
 }
 
 interface Props {
+  copy: SiteSettings['benefits'];
   benefits: Benefit[];
   title?: string;
   subtitle?: string;
 }
 
-const { benefits, title = 'Key Benefits', subtitle }: Props = Astro.props;
+const { benefits, copy, title = copy.title, subtitle }: Props = Astro.props;
 
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
@@ -65,16 +67,14 @@ const itemClass =
           <div class="mb-3">
             <p
               class="text-muted-foreground/70 decoration-destructive/40 text-xs leading-relaxed line-through"
-              set:html={benefit.pain}
-            />
+            >{benefit.pain}</p>
           </div>
         )}
         {benefit.gain && (
           <div class="border-primary/10 border-t pt-3">
             <p
               class="text-foreground text-sm leading-relaxed"
-              set:html={benefit.gain}
-            />
+            >{benefit.gain}</p>
           </div>
         )}
       </div>

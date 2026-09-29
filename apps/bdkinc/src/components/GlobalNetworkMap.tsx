@@ -1,133 +1,451 @@
 import { useState } from 'react';
-import { cn } from '@bdkinc/design-system';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
+import type { CSSProperties } from 'react';
 import { PiGlobe, PiDesktop, PiShieldCheck, PiWifiHigh } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-const regions = [
-  {
-    id: 'us-east',
-    name: 'US East (Virginia)',
-    lat: 30,
-    lng: 25,
-    status: 'operational',
-    load: 42,
+import type { PageData } from '@bdkinc/content';
+
+const hover = '@media (hover: hover)';
+const md = '@media (min-width: 48rem)';
+const motionOK = '@media (prefers-reduced-motion: no-preference)';
+const easeOut = 'cubic-bezier(0, 0, 0.2, 1)';
+const transition =
+  'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing';
+const colorTransition = 'color, background-color, border-color';
+
+// Tailwind `animate-ping`: scale 1 -> 2 while fading out.
+const ping = stylex.keyframes({
+  '0%': { transform: 'scale(1)', opacity: 0.75 },
+  '75%': { transform: 'scale(2)', opacity: 0 },
+  '100%': { transform: 'scale(2)', opacity: 0 },
+});
+
+// Tailwind `animate-pulse`: opacity 1 -> 0.5.
+const pulse = stylex.keyframes({
+  '0%': { opacity: 1 },
+  '50%': { opacity: 0.5 },
+  '100%': { opacity: 1 },
+});
+
+const styles = stylex.create({
+  // Local width replacing the legacy internal `w-full` utility.
+  fullWidth: { width: '100%' },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+    backgroundColor: 'color-mix(in oklab, var(--muted) 20%, transparent)',
+    paddingInline: '1.5rem',
+    paddingBlock: '1rem',
   },
-  {
-    id: 'us-west',
-    name: 'US West (Oregon)',
-    lat: 35,
-    lng: 15,
-    status: 'operational',
-    load: 38,
+  headerLeft: { display: 'flex', alignItems: 'center', gap: '0.75rem' },
+  globeIcon: { height: '1.25rem', width: '1.25rem', color: 'var(--primary)' },
+  headerTitle: {
+    color: 'var(--foreground)',
+    fontFamily: 'var(--font-display)',
+    fontWeight: 700,
+    letterSpacing: '0.025em',
   },
-  {
-    id: 'eu-cent',
-    name: 'EU Central (Frankfurt)',
-    lat: 25,
-    lng: 55,
-    status: 'operational',
-    load: 65,
+  headerRight: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.625rem',
+    lineHeight: '1rem',
   },
-  {
-    id: 'asia-east',
-    name: 'Asia Pacific (Tokyo)',
-    lat: 35,
-    lng: 85,
-    status: 'operational',
-    load: 51,
+  liveRow: { display: 'flex', alignItems: 'center', gap: '0.5rem' },
+  liveDot: {
+    height: '0.375rem',
+    width: '0.375rem',
+    borderRadius: '9999px',
+    backgroundColor: '#22c55e',
+    boxShadow: '0 0 8px #22c55e',
+    animationName: { default: 'none', [motionOK]: pulse },
+    animationDuration: '2s',
+    animationTimingFunction: 'cubic-bezier(0.4, 0, 0.6, 1)',
+    animationIterationCount: 'infinite',
   },
-];
-export function GlobalNetworkMap() {
+  liveText: { color: 'var(--muted-foreground)' },
+  shieldRow: {
+    display: { default: 'none', [md]: 'flex' },
+    alignItems: 'center',
+    gap: '0.5rem',
+  },
+  shieldIcon: { height: '1rem', width: '1rem', color: 'var(--primary)' },
+  shieldText: { color: 'var(--muted-foreground)' },
+  mapArea: {
+    position: 'relative',
+    aspectRatio: '21 / 9',
+    width: '100%',
+    overflow: 'hidden',
+    backgroundImage:
+      'radial-gradient(circle at center, rgba(0, 212, 255, 0.05) 0%, transparent 100%)',
+  },
+  gridOverlay: {
+    position: 'absolute',
+    inset: 0,
+    backgroundImage:
+      'linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px)',
+    backgroundSize: '40px 40px',
+    maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
+  },
+  glowOverlay: {
+    position: 'absolute',
+    inset: 0,
+    pointerEvents: 'none',
+    opacity: 0.2,
+  },
+  glowCore: {
+    position: 'absolute',
+    inset: 0,
+    backgroundImage:
+      'radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 60%)',
+  },
+  node: {
+    position: 'absolute',
+    cursor: 'pointer',
+    transform: 'translate(-50%, -50%)',
+    '--node-hover': {
+      default: '0',
+      [hover]: { default: '0', ':hover': '1' },
+    },
+  },
+  pingWave: {
+    position: 'absolute',
+    inset: 0,
+    margin: '-1rem',
+    borderRadius: '9999px',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'color-mix(in oklab, var(--primary) 30%, transparent)',
+    opacity: 0.75,
+    animationName: { default: 'none', [motionOK]: ping },
+    animationDuration: '3s',
+    animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+    animationIterationCount: 'infinite',
+  },
+  nodeBox: {
+    position: 'relative',
+    display: 'flex',
+    height: '1.5rem',
+    width: '1.5rem',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 0,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    boxShadow: '0 0 15px rgba(0, 212, 255, 0.3)',
+    transitionProperty: transition,
+    transitionDuration: '300ms',
+    transitionTimingFunction: easeOut,
+  },
+  nodeIdle: {
+    borderColor: 'color-mix(in oklab, var(--primary) 50%, transparent)',
+    backgroundColor: 'var(--background)',
+    scale: 1,
+  },
+  nodeActive: {
+    borderColor: 'var(--primary)',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+    scale: 1.25,
+  },
+  nodeGlyph: { height: '0.75rem', width: '0.75rem', color: 'var(--primary)' },
+  linkLine: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    height: 1,
+    width: 200,
+    transformOrigin: 'left',
+    transform: 'rotate(-45deg)',
+    pointerEvents: 'none',
+    backgroundImage:
+      'linear-gradient(to right, color-mix(in oklab, var(--primary) 20%, transparent), transparent)',
+    opacity: 'var(--node-hover, 0)',
+    transitionProperty: 'opacity',
+    transitionDuration: '150ms',
+    transitionTimingFunction: easeOut,
+  },
+  tooltip: {
+    position: 'absolute',
+    top: '2.5rem',
+    left: '50%',
+    zIndex: 20,
+    width: '12rem',
+    borderRadius: 0,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'color-mix(in oklab, var(--primary) 40%, transparent)',
+    backgroundColor: 'color-mix(in oklab, var(--card) 95%, transparent)',
+    padding: '0.75rem',
+    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+    backdropFilter: 'blur(12px)',
+    transitionProperty: transition,
+    transitionDuration: '300ms',
+    transitionTimingFunction: easeOut,
+  },
+  tooltipHidden: {
+    opacity: 0,
+    transform: 'translate(-50%, -0.5rem)',
+    pointerEvents: 'none',
+  },
+  tooltipVisible: { opacity: 1, transform: 'translate(-50%, 0)' },
+  tipHead: {
+    marginBottom: '0.5rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+    paddingBottom: '0.25rem',
+  },
+  tipName: {
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.625rem',
+    lineHeight: '1rem',
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    color: 'var(--primary)',
+  },
+  tipIcon: { height: '0.75rem', width: '0.75rem', color: '#22c55e' },
+  // Replaces the legacy `space-y-1` sibling margins with parent gap.
+  tipRows: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.25rem',
+    textAlign: 'left',
+  },
+  tipRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.5625rem',
+    lineHeight: '0.75rem',
+    color: 'var(--muted-foreground)',
+  },
+  tipValue: { color: 'var(--foreground)' },
+  loadTrack: {
+    marginTop: '0.25rem',
+    height: '0.25rem',
+    width: '100%',
+    overflow: 'hidden',
+    borderRadius: 0,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'color-mix(in oklab, var(--primary) 5%, transparent)',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+  },
+  loadFill: {
+    height: '100%',
+    backgroundColor: 'var(--primary)',
+    boxShadow: '0 0 8px rgba(0, 212, 255, 0.5)',
+  },
+  arcs: {
+    position: 'absolute',
+    inset: 0,
+    height: '100%',
+    width: '100%',
+    pointerEvents: 'none',
+    opacity: 0.3,
+  },
+  arc: {
+    color: 'var(--primary)',
+    animationName: { default: 'none', [motionOK]: pulse },
+    animationDuration: '2s',
+    animationTimingFunction: 'cubic-bezier(0.4, 0, 0.6, 1)',
+    animationIterationCount: 'infinite',
+  },
+  arcDelay1: { animationDelay: '75ms' },
+  arcDelay2: { animationDelay: '150ms' },
+  footer: {
+    display: 'grid',
+    gridTemplateColumns: {
+      default: 'repeat(2, minmax(0, 1fr))',
+      [md]: 'repeat(4, minmax(0, 1fr))',
+    },
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    borderTopColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+    backgroundColor: 'color-mix(in oklab, var(--muted) 20%, transparent)',
+  },
+  // Replaces the legacy `divide-x` sibling borders.
+  footCell: {
+    borderLeftWidth: 1,
+    borderLeftStyle: 'solid',
+    borderLeftColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+    paddingBlock: '0.75rem',
+    textAlign: 'center',
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.625rem',
+    lineHeight: '1rem',
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    color: {
+      default: 'var(--muted-foreground)',
+      [hover]: {
+        default: 'var(--muted-foreground)',
+        ':hover': 'var(--primary)',
+      },
+    },
+    transitionProperty: colorTransition,
+    transitionDuration: '150ms',
+    transitionTimingFunction: easeOut,
+  },
+  footCellFirst: {
+    borderLeftWidth: 0,
+    paddingBlock: '0.75rem',
+    textAlign: 'center',
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.625rem',
+    lineHeight: '1rem',
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    color: {
+      default: 'var(--muted-foreground)',
+      [hover]: {
+        default: 'var(--muted-foreground)',
+        ':hover': 'var(--primary)',
+      },
+    },
+    transitionProperty: colorTransition,
+    transitionDuration: '150ms',
+    transitionTimingFunction: easeOut,
+  },
+});
+
+interface Props {
+  copy: PageData<'service-hosted-erp'>['network']['map'];
+  className?: string;
+  xstyle?: StyleXStyles;
+}
+
+export function GlobalNetworkMap({ copy, className, xstyle }: Props) {
+  // Editorial marketing figures, not live network telemetry. Topology is code-owned.
+  const regions = [
+    { ...copy.regions.usEastVirginia, id: 'us-east', lat: 30, lng: 25 },
+    { ...copy.regions.usWestOregon, id: 'us-west', lat: 35, lng: 15 },
+    { ...copy.regions.euCentralFrankfurt, id: 'eu-cent', lat: 25, lng: 55 },
+    { ...copy.regions.asiaPacificTokyo, id: 'asia-east', lat: 35, lng: 85 },
+  ];
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
   return (
-    <TechCard variant="technical" interactive={false} className="w-full">
+    <TechCard
+      variant="technical"
+      interactive={false}
+      className={className}
+      xstyle={[styles.fullWidth, xstyle]}
+    >
       {/* Header */}
-      <div className="border-primary/10 bg-muted/20 flex items-center justify-between border-b px-6 py-4">
-        <div className="flex items-center gap-3">
-          <PiGlobe className="text-primary h-5 w-5" />
-          <span className="font-display text-foreground font-bold tracking-wider">
-            Global Availability Net
-          </span>
+      <div {...stylex.props(styles.header)}>
+        <div {...stylex.props(styles.headerLeft)}>
+          <PiGlobe {...stylex.props(styles.globeIcon)} />
+          <span {...stylex.props(styles.headerTitle)}>{copy.title}</span>
         </div>
-        <div className="flex items-center gap-4 font-mono text-[10px]">
-          <div className="flex items-center gap-2">
-            <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]" />
-            <span className="text-muted-foreground">Status: Optimal</span>
+        <div {...stylex.props(styles.headerRight)}>
+          <div {...stylex.props(styles.liveRow)}>
+            <div {...stylex.props(styles.liveDot)} />
+            <span {...stylex.props(styles.liveText)}>{copy.status}</span>
           </div>
-          <div className="hidden items-center gap-2 md:flex">
-            <PiShieldCheck className="text-primary h-4 w-4" />
-            <span className="text-muted-foreground">Shield: Active</span>
+          <div {...stylex.props(styles.shieldRow)}>
+            <PiShieldCheck {...stylex.props(styles.shieldIcon)} />
+            <span {...stylex.props(styles.shieldText)}>
+              {copy.shieldStatus}
+            </span>
           </div>
         </div>
       </div>
       {/* Map Area */}
-      <div className="relative aspect-[21/9] w-full overflow-hidden bg-[radial-gradient(circle_at_center,_rgba(0,212,255,0.05)_0%,_transparent_100%)]">
+      <div {...stylex.props(styles.mapArea)}>
         {/* Abstract Map Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,212,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,212,255,0.03)_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] bg-[size:40px_40px]" />
+        <div {...stylex.props(styles.gridOverlay)} />
         {/* World Map Silhouette */}
-        <div className="pointer-events-none absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(0,212,255,0.1)_0%,_transparent_60%)]" />
+        <div {...stylex.props(styles.glowOverlay)}>
+          <div {...stylex.props(styles.glowCore)} />
         </div>
         {/* Region Nodes */}
-        {regions.map((region) => (
-          <div
-            key={region.id}
-            className="group/node absolute -translate-x-1/2 -translate-y-1/2 transform cursor-pointer"
-            style={{ left: `${region.lng}%`, top: `${region.lat}%` }}
-            onMouseEnter={() => setActiveRegion(region.id)}
-            onMouseLeave={() => setActiveRegion(null)}
-          >
-            {/* Ping Wave Animation */}
-            <div className="border-primary/30 absolute inset-0 -m-4 animate-ping rounded-full border opacity-75 duration-[3s]" />
-            {/* Node Icon */}
+        {regions.map((region) => {
+          const node = stylex.props(styles.node);
+          const load = stylex.props(styles.loadFill);
+          return (
             <div
-              className={cn(
-                'border-primary/50 bg-background relative flex h-6 w-6 items-center justify-center rounded-none border shadow-[0_0_15px_rgba(0,212,255,0.3)] transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
-                activeRegion === region.id
-                  ? 'border-primary bg-primary/20 scale-125'
-                  : ''
-              )}
+              key={region.id}
+              {...node}
+              style={
+                {
+                  ...node.style,
+                  left: `${region.lng}%`,
+                  top: `${region.lat}%`,
+                } as CSSProperties
+              }
+              onMouseEnter={() => setActiveRegion(region.id)}
+              onMouseLeave={() => setActiveRegion(null)}
             >
-              <PiDesktop className="text-primary h-3 w-3" />
-            </div>
-            {/* Connecting Lines (Decorative) */}
-            <div className="from-primary/20 pointer-events-none absolute top-1/2 left-1/2 h-[1px] w-[200px] origin-left -rotate-45 bg-gradient-to-r to-transparent opacity-0 transition-opacity group-hover/node:opacity-100" />
-            {/* Tooltip */}
-            <div
-              className={cn(
-                'border-primary/40 bg-card/95 absolute top-10 left-1/2 z-20 w-48 -translate-x-1/2 rounded-none border p-3 shadow-2xl backdrop-blur-md transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-300',
-                activeRegion === region.id
-                  ? 'translate-y-0 opacity-100'
-                  : 'pointer-events-none -translate-y-2 opacity-0'
-              )}
-            >
-              <div className="border-primary/20 mb-2 flex items-center justify-between border-b pb-1">
-                <span className="text-primary font-mono text-[10px] font-bold tracking-widest">
-                  {region.name}
-                </span>
-                <PiWifiHigh className="h-3 w-3 text-green-500" />
+              {/* Ping Wave Animation */}
+              <div {...stylex.props(styles.pingWave)} />
+              {/* Node Icon */}
+              <div
+                {...stylex.props(
+                  styles.nodeBox,
+                  activeRegion === region.id
+                    ? styles.nodeActive
+                    : styles.nodeIdle
+                )}
+              >
+                <PiDesktop {...stylex.props(styles.nodeGlyph)} />
               </div>
-              <div className="space-y-1 text-left">
-                <div className="text-muted-foreground flex justify-between font-mono text-[9px]">
-                  <span>Latency</span>
-                  <span className="text-foreground">12ms</span>
+              {/* Connecting Lines (Decorative) */}
+              <div {...stylex.props(styles.linkLine)} />
+              {/* Tooltip */}
+              <div
+                {...stylex.props(
+                  styles.tooltip,
+                  activeRegion === region.id
+                    ? styles.tooltipVisible
+                    : styles.tooltipHidden
+                )}
+              >
+                <div {...stylex.props(styles.tipHead)}>
+                  <span {...stylex.props(styles.tipName)}>{region.name}</span>
+                  <PiWifiHigh {...stylex.props(styles.tipIcon)} />
                 </div>
-                <div className="text-muted-foreground flex justify-between font-mono text-[9px]">
-                  <span>System Load</span>
-                  <span className="text-foreground">{region.load}%</span>
-                </div>
-                <div className="bg-primary/10 border-primary/5 mt-1 h-1 w-full overflow-hidden rounded-none border">
-                  <div
-                    className="bg-primary h-full shadow-[0_0_8px_rgba(0,212,255,0.5)]"
-                    style={{ width: `${region.load}%` }}
-                  />
+                <div {...stylex.props(styles.tipRows)}>
+                  <div {...stylex.props(styles.tipRow)}>
+                    <span>{copy.latencyLabel}</span>
+                    <span {...stylex.props(styles.tipValue)}>
+                      {copy.latencyValue}
+                    </span>
+                  </div>
+                  <div {...stylex.props(styles.tipRow)}>
+                    <span>{copy.loadLabel}</span>
+                    <span {...stylex.props(styles.tipValue)}>
+                      {region.load}%
+                    </span>
+                  </div>
+                  <div {...stylex.props(styles.loadTrack)}>
+                    <div
+                      {...load}
+                      style={
+                        {
+                          ...load.style,
+                          width: `${Math.min(100, Math.max(0, region.load))}%`,
+                        } as CSSProperties
+                      }
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         {/* Connection Arcs (SVG) */}
         <svg
-          className="pointer-events-none absolute inset-0 h-full w-full opacity-30"
+          {...stylex.props(styles.arcs)}
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
@@ -135,37 +453,40 @@ export function GlobalNetworkMap() {
             d="M 25 30 Q 40 10 55 25"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1"
-            className="text-primary animate-pulse"
+            strokeWidth={1}
+            {...stylex.props(styles.arc)}
           />
           <path
             d="M 55 25 Q 70 40 85 35"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1"
-            className="text-primary animate-pulse delay-75"
+            strokeWidth={1}
+            {...stylex.props(styles.arc, styles.arcDelay1)}
           />
           <path
             d="M 15 35 Q 20 50 25 30"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1"
-            className="text-primary animate-pulse delay-150"
+            strokeWidth={1}
+            {...stylex.props(styles.arc, styles.arcDelay2)}
           />
         </svg>
       </div>
       {/* Footer Stats */}
-      <div className="divide-primary/10 border-primary/10 bg-muted/20 grid grid-cols-2 divide-x border-t md:grid-cols-4">
-        {['99.999% Uptime', 'Terabit Backbone', 'ISO 27001', '24/7 NOC'].map(
-          (stat, i) => (
-            <div
-              key={i}
-              className="text-muted-foreground hover:text-primary py-3 text-center font-mono text-[10px] font-bold tracking-widest transition-colors"
-            >
-              {stat}
-            </div>
-          )
-        )}
+      <div {...stylex.props(styles.footer)}>
+        {[
+          copy.assurances.item99999Uptime,
+          copy.assurances.terabitBackbone,
+          copy.assurances.iso27001,
+          copy.assurances.item247Noc,
+        ].map((stat, i) => (
+          <div
+            key={i}
+            {...stylex.props(i === 0 ? styles.footCellFirst : styles.footCell)}
+          >
+            {stat}
+          </div>
+        ))}
       </div>
     </TechCard>
   );
