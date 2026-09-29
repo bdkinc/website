@@ -80,9 +80,3 @@ export function reader(context?: Context) {
   };
 }
 export type Reader = ReturnType<typeof reader>;
-export function asset(url: string) {
-  // Legacy app-owned brand assets stay on the canonical public origin; uploads use our proxy.
-  return url.startsWith('/') && !url.startsWith('/api/cms-media/')
-    ? new URL(url, 'https://www.bdkinc.com').href
-    : url;
-}

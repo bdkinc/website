@@ -20,28 +20,30 @@ const chatSuggestions = Object.values(c.chat.pageFallbackSuggestions);
   </section><section class="section" id="chat" aria-label={c.chat.sectionLabel}>
     <header class="section-head">
       <span class="section-index">01 /</span><h2>{c.hero.invitation}</h2>
-    </header><div class="section-body contact-chat-scope"><div class="contact-chat"><ContactChat client:only="react" initialSuggestions={chatSuggestions} copy={c.chat} /></div></div>
-  </section><section class="section">
-    <header class="section-head">
-      <span class="section-index">02 /</span><h2>
-        {d.headingLead}
-        <em>{d.headingAccent}</em>
-      </h2>
-    </header><div class="section-body contact-grid">
-      <article>
-        <h3>{d.phone.label}</h3><a href={d.phone.linkUrl}>{d.phone.value} <Icon name="phone" /></a
-        ><p>{d.phone.availability}</p>
-      </article><article>
-        <h3>{d.email.label}</h3><a href={d.email.linkUrl}>{d.email.value} <Icon name="envelope-simple" /></a
-        ><p>{d.email.description}</p>
-      </article><article>
-        <h3>{d.headquarters.label}</h3><address>
-          {d.headquarters.address}<br />{d.headquarters.location}
-        </address><a href={d.headquarters.mapUrl}
-          >{d.headquarters.location} <Icon name="map-pin" /></a>
-      </article><article>
-        <h3>{d.support.label}</h3><p>{d.support.description}</p>
-      </article>
+    </header><div class="section-body contact-desk">
+      <div class="contact-chat-scope"><div class="contact-chat"><ContactChat client:only="react" initialSuggestions={chatSuggestions} copy={c.chat} /></div></div>
+      <section class="contact-directory" aria-labelledby="contact-directory-heading">
+        <header class="contact-directory-head">
+          <span class="section-index">02 /</span><h2 id="contact-directory-heading">
+            {d.headingLead}
+            <em>{d.headingAccent}</em>
+          </h2>
+        </header><div class="contact-grid">
+          <article>
+            <h3>{d.phone.label}</h3><a href={d.phone.linkUrl}>{d.phone.value} <Icon name="phone" /></a
+            ><p>{d.phone.availability}</p>
+          </article><article>
+            <h3>{d.email.label}</h3><a href={d.email.linkUrl}>{d.email.value} <Icon name="envelope-simple" /></a
+            ><p>{d.email.description}</p>
+          </article><article>
+            <h3>{d.headquarters.label}</h3><a href={d.headquarters.mapUrl}
+              >{d.headquarters.location} <Icon name="map-pin" /></a
+            ><address>{d.headquarters.address}</address>
+          </article><article>
+            <h3>{d.support.label}</h3><p>{d.support.description}</p>
+          </article>
+        </div>
+      </section>
     </div>
   </section>
 </div>

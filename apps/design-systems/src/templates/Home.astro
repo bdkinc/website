@@ -1,6 +1,5 @@
 ---
 import type { Reader } from '@/lib/content';
-import { asset } from '@/lib/content';
 import ServiceIndex from '@/components/ServiceIndex.astro';
 import CTA from '@/components/CTA.astro';
 import Icon from '@/components/Icon.astro';
@@ -136,7 +135,7 @@ const years = new Date().getFullYear() - c.hero.experienceStartYear;
             <article class="open-item">
               {p.logo && (
                 <img
-                  src={asset(p.logo)}
+                  src={p.logo}
                   alt={p.name}
                   width="110"
                   loading="lazy"

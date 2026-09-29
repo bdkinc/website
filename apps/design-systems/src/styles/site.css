@@ -630,21 +630,71 @@ details.faq {
 .legal-nav a {
   color: var(--cyan);
 }
-.contact-grid {
+.contact-desk {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 50px;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 60px;
+  align-items: start;
+}
+.contact-directory {
+  position: sticky;
+  top: 2rem;
+}
+.contact-directory-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.contact-directory-head .section-index {
+  padding-top: 0;
+}
+.contact-directory-head h2 {
+  font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+}
+.contact-grid article {
+  padding: 22px 0;
+  border-top: 1px solid var(--rule);
+}
+.contact-grid article:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.contact-grid h3 {
+  font-size: 1.05rem;
+  margin-bottom: 4px;
 }
 .contact-grid a {
-  font-size: clamp(1.2rem, 2.3vw, 2rem);
-  display: inline-block;
-  padding: 15px 0;
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
   color: var(--cyan);
+  overflow-wrap: anywhere;
 }
+.contact-grid p,
 .contact-grid address {
   font-style: normal;
   color: var(--muted);
-  line-height: 1.8;
+  line-height: 1.7;
+  margin: 4px 0 0;
+}
+@media (max-width: 1100px) {
+  .contact-desk {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 56px;
+  }
+  .contact-directory {
+    position: static;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 50px;
+  }
+  .contact-grid article:last-child {
+    border-bottom: 0;
+  }
 }
 .hero-image {
   max-height: 560px;

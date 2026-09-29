@@ -1,6 +1,5 @@
 ---
 import type { Reader } from '@/lib/content';
-import { asset } from '@/lib/content';
 import CTA from '@/components/CTA.astro';
 import Icon from '@/components/Icon.astro';
 interface Props {
@@ -37,7 +36,7 @@ const image = post.data.image || c.detail.image;
       image && (
         <img
           class="hero-image"
-          src={asset(image)}
+          src={image}
           alt={post.data.image ? post.data.title : c.detail.imageAlt}
         />
       )
