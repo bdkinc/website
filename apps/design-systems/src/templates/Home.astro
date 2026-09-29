@@ -1,0 +1,341 @@
+---
+import type { Reader } from '@/lib/content';
+import { asset } from '@/lib/content';
+import ServiceIndex from '@/components/ServiceIndex.astro';
+import CTA from '@/components/CTA.astro';
+import Icon from '@/components/Icon.astro';
+import HeroMotion from '../components/HeroMotion.astro';
+interface Props {
+  content: Reader;
+}
+const { content } = Astro.props;
+const [c, s, services, partners, testimonials] = await Promise.all([
+  content.getPage('home'),
+  content.getSettings(),
+  content.getCollection('services'),
+  content.getCollection('partners'),
+  content.getCollection('testimonials'),
+]);
+const years = new Date().getFullYear() - c.hero.experienceStartYear;
+---
+
+<div class="wrap home-motion" data-home-motion>
+  <section class="hero hero-home">
+    <HeroMotion />
+    <div class="home-hero-image" aria-hidden="true">
+      <img
+        src="/images/concept/it-infrastructure-hero.webp"
+        srcset="/images/concept/it-infrastructure-hero-768.webp 768w, /images/concept/it-infrastructure-hero.webp 1536w"
+        sizes="(max-width: 650px) 88vw, (max-width: 1000px) calc(92vw - 60px), (min-width: 1588px) 1340px, calc(90vw - 88px)"
+        width="1536" height="1024" alt=""
+        loading="eager" fetchpriority="high" decoding="async"
+      />
+    </div>
+    <p class="eyebrow">{c.hero.badge}</p><h1>{c.hero.heading}</h1><div
+      class="hero-bottom"
+    >
+      <div>
+        <p class="intro">{c.hero.body}</p><div class="actions">
+          <a class="button primary" href={c.hero.primaryCTALink}
+            >{c.hero.primaryCTAText}<span class="arrow" aria-hidden="true"
+              ><Icon name="handshake" /></span
+            ></a
+          ><a class="button" href={c.hero.secondaryCTALink}
+            >{c.hero.secondaryCTAText}<span class="arrow" aria-hidden="true"
+              ><Icon name="squares-four" /></span
+            ></a>
+        </div>
+      </div><p class="hero-note">{s.footer.signature}</p>
+    </div>
+  </section>
+  <dl class="metrics">
+    <div>
+      <dd>{years}{c.hero.yearsSuffix}</dd><dt>{c.hero.yearsLabel}</dt>
+    </div><div>
+      <dd>{c.hero.clients}{c.hero.clientsSuffix}</dd><dt>
+        {c.hero.clientsLabel}
+      </dt>
+    </div><div>
+      <dd>
+        {c.hero.supportHours}{c.hero.supportSeparator}{c.hero.supportDays}
+      </dd><dt>{c.hero.supportLabel}</dt>
+    </div>
+  </dl>
+  <section class="section" id="services">
+    <header class="section-head">
+      <span class="section-index">01 /</span><div>
+        <h2>{c.services.headingLead} <em>{c.services.headingAccent}</em></h2><p>
+          {c.services.bodyLead}
+          <em>{c.services.bodyAccent}</em>
+          {c.services.bodyEnd}
+        </p>
+      </div>
+    </header>
+    <div class="home-capabilities">
+      <figure>
+        <img class="home-network" src="/images/concept/managed-it-network.webp" alt="Technician inspecting organized network switches and cabling" width="1200" height="800" loading="lazy" decoding="async" />
+        <figcaption>Infrastructure</figcaption>
+      </figure>
+      <figure>
+        <img class="home-platforms" src="/images/concept/business-platforms.webp" alt="Warehouse operator using a handheld inventory scanner" width="1200" height="800" loading="lazy" decoding="async" />
+        <figcaption>Business systems</figcaption>
+      </figure>
+      <figure>
+        <img src="/images/concept/software-data.webp" alt="Two software developers reviewing code at a workstation" width="1200" height="800" loading="lazy" decoding="async" />
+        <figcaption>Software &amp; data</figcaption>
+      </figure>
+    </div>
+    <ServiceIndex services={services} />
+  </section>
+  <section class="section">
+    <header class="section-head">
+      <span class="section-index">02 /</span><div>
+        <h2>{c.whyUs.headingLead} {c.whyUs.brandLead}{c.whyUs.brandEnd}</h2><p>
+          {c.whyUs.bodyLead}
+          <em>{c.whyUs.bodyAccent}</em>{c.whyUs.bodyEnd}
+        </p>
+      </div>
+    </header>
+    <div class="section-body home-support">
+      <img src="/images/concept/it-support.webp" alt="IT technician helping an office worker at a dual-monitor workstation" width="1200" height="800" loading="lazy" decoding="async" />
+    </div>
+    <div class="section-body open-grid three">
+      {
+        [
+          { item: c.whyUs.response, icon: 'lightning' as const },
+          { item: c.whyUs.expertise, icon: 'medal' as const },
+          { item: c.whyUs.service, icon: 'headset' as const },
+        ].map(({ item, icon }) => (
+          <article class="open-item">
+            <>
+              <Icon name={icon} class="benefit-icon" size={28} />
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <p>{item.detail}</p>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+  <section class="section">
+    <header class="section-head">
+      <span class="section-index">03 /</span><div>
+        <h2>{c.trust.headingLead} <em>{c.trust.headingAccent}</em></h2><p>
+          {c.trust.bodyLead}
+          {c.trust.bodyAccent}
+          {c.trust.bodyEnd}
+        </p>
+      </div>
+    </header><div class="section-body open-grid three">
+      {
+        partners
+          .slice()
+          .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+          .map(({ data: p }) => (
+            <article class="open-item">
+              {p.logo && (
+                <img
+                  src={asset(p.logo)}
+                  alt={p.name}
+                  width="110"
+                  loading="lazy"
+                />
+              )}
+              <h3>{p.name}</h3>
+              <p>{p.description}</p>
+              {p.detail && <p>{p.detail}</p>}
+            </article>
+          ))
+      }
+    </div>
+  </section>
+  <section class="section">
+    <header class="section-head">
+      <span class="section-index">04 /</span><div>
+        <h2>
+          {c.testimonials.headingLead}
+          <em>{c.testimonials.headingAccent}</em>
+        </h2><p>
+          {c.testimonials.bodyLead}
+          {c.testimonials.bodyAccent}
+          {c.testimonials.bodyEnd}
+        </p>
+      </div>
+    </header><div class="section-body open-grid">
+      {
+        testimonials.map(({ data: t }) => (
+          <figure class="open-item">
+            <>
+              <blockquote>
+                <p>{t.quote}</p>
+              </blockquote>
+              <figcaption>
+                {t.author}
+                <p>
+                  {t.company} · {t.industry}
+                </p>
+              </figcaption>
+            </>
+          </figure>
+        ))
+      }
+    </div>
+  </section><CTA copy={s.cta} settings={s} />
+</div>
+
+<script>
+  const home = document.querySelector<HTMLElement>('[data-home-motion]');
+  if (home) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const targets = home.querySelectorAll<HTMLElement>('.metrics > div, .section-head, .home-capabilities figure, .service-cell, .home-support, .open-item, .cta');
+    const reveal = (element: HTMLElement, immediate = false) => {
+      if (immediate) element.dataset.revealInstant = '';
+      delete element.dataset.revealPending;
+      observer.unobserve(element);
+    };
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) reveal(entry.target as HTMLElement);
+      }
+    }, { rootMargin: '0px 0px -24px 0px', threshold: .08 });
+
+    if (!reduced.matches) {
+      targets.forEach((element, index) => {
+        if (element.getBoundingClientRect().top < innerHeight) return;
+        element.dataset.homeReveal = '';
+        element.dataset.revealPending = '';
+        element.style.setProperty('--reveal-delay', `${(index % 3) * 60}ms`);
+        observer.observe(element);
+      });
+    }
+    home.addEventListener('focusin', (event) => {
+      if (!(event.target instanceof HTMLElement)) return;
+      const pending = event.target.closest<HTMLElement>('[data-home-reveal]');
+      if (pending) reveal(pending, true);
+    });
+    reduced.addEventListener('change', () => {
+      if (!reduced.matches) return;
+      targets.forEach((element) => reveal(element, true));
+      observer.disconnect();
+    });
+  }
+</script>
+
+<style>
+  .home-motion :global([data-home-reveal]) {
+    transition: opacity 260ms var(--ease-out) var(--reveal-delay), transform 260ms var(--ease-out) var(--reveal-delay);
+  }
+  .home-motion :global([data-reveal-pending]) {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  .home-motion :global([data-reveal-instant]) {
+    transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .home-motion :global([data-home-reveal]) {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+  .hero-home {
+    isolation: isolate;
+  }
+  .hero-home > .eyebrow,
+  .hero-home > h1,
+  .hero-home > .hero-bottom {
+    position: relative;
+    z-index: 1;
+  }
+  .home-hero-image {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .home-hero-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% center;
+    outline: none;
+  }
+  .home-hero-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 94%, transparent) 32%, color-mix(in srgb, var(--bg) 72%, transparent) 58%, color-mix(in srgb, var(--bg) 25%, transparent) 100%);
+  }
+  .hero-home .hero-note {
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    padding-block: 10px;
+    padding-right: 10px;
+  }
+  .home-capabilities {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .home-capabilities figure {
+    min-width: 0;
+    margin: 0;
+  }
+  .home-capabilities img,
+  .home-support img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    outline: 1px solid rgba(255, 255, 255, 0.1);
+    outline-offset: -1px;
+  }
+  :global(:root[data-theme='light']) .home-capabilities img,
+  :global(:root[data-theme='light']) .home-support img {
+    outline-color: rgba(0, 0, 0, 0.1);
+  }
+  .home-capabilities img {
+    aspect-ratio: 3 / 2;
+  }
+  .home-capabilities .home-network {
+    object-position: 70% 30%;
+  }
+  .home-capabilities .home-platforms {
+    object-position: 45% 40%;
+  }
+  .home-capabilities figcaption {
+    padding-top: 16px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .home-support {
+    margin-bottom: 42px;
+  }
+  .home-support img {
+    aspect-ratio: 2.3 / 1;
+    object-position: center top;
+  }
+  @media (max-width: 1000px) {
+    .home-capabilities {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 650px) {
+    .home-capabilities {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .home-support img {
+      aspect-ratio: 3 / 2;
+    }
+    .home-hero-image::after {
+      background: linear-gradient(90deg, color-mix(in srgb, var(--bg) 94%, transparent), color-mix(in srgb, var(--bg) 78%, transparent));
+    }
+  }
+</style>

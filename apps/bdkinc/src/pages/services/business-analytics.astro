@@ -1,5 +1,10 @@
 ---
-import { getEntry } from 'astro:content';
+import {
+  getContentEntry,
+  getPageCopy,
+  getSettings,
+  type ContentProps,
+} from '@/lib/content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -9,9 +14,8 @@ import CTASection from '@/components/CTASection';
 import AnalyticsLifecycle from '@/components/AnalyticsLifecycle';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 
-import TechnicalSection from '@/components/TechnicalSection';
 import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
-import FeatureCarousel from '@/components/FeatureCarousel';
+import FeatureCarousel, { type Feature } from '@/components/FeatureCarousel';
 import ServiceBlockquote from '@/components/ServiceBlockquote.astro';
 import BenefitGrid from '@/components/BenefitGrid.astro';
 import {
@@ -26,129 +30,65 @@ import {
   PiBuildings,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import EditSection from '@/components/preview/EditSection.astro';
 import { servicePageSchemas } from '@/lib/schema';
-const service = await getEntry('services', 'business-analytics');
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const copy = await getPageCopy('service-business-analytics', contentContext);
+const settings = await getSettings(contentContext);
+const service = await getContentEntry(
+  'services',
+  'business-analytics',
+  contentContext
+);
 if (!service) {
   return new Response(null, { status: 404 });
 }
-const { servicesData, recentPosts } = await getNavigationData();
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 const IconComponent = iconMap[service.data.icon];
 const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 const metrics = [
-  { value: '300+', label: 'Dashboards Built', icon: PiLayout },
-  { value: '80%', label: 'Report Time Saved', icon: PiClock },
-  { value: '200+', label: 'Data Sources Linked', icon: PiNetwork },
-  { value: '99.9%', label: 'Data Accuracy', icon: PiTarget },
+  { ...copy.metrics.dashboardsBuilt, icon: PiLayout },
+  { ...copy.metrics.reportTimeSaved, icon: PiClock },
+  { ...copy.metrics.dataSourcesLinked, icon: PiNetwork },
+  { ...copy.metrics.dataAccuracy, icon: PiTarget },
 ];
 const faqs = [
-  {
-    question:
-      'How do you ensure data security and compliance across distributed systems?',
-    answer:
-      'Security is foundational to our architecture. We implement granular role-based access control (RBAC), end-to-end encryption, and rigorous audit trails to ensure your data ecosystem meets enterprise compliance standards and protects sensitive intelligence.',
-  },
-  {
-    question:
-      'Can your solutions integrate with legacy on-premise infrastructure?',
-    answer:
-      'Yes. Our data engineering capabilities bridge the gap between legacy silos and modern cloud architectures. We design hybrid integration layers that securely extract value from established systems without disrupting critical operations.',
-  },
-  {
-    question: 'What is the typical latency for real-time analytics dashboards?',
-    answer:
-      'Latency is architected to match operational requirements. For mission-critical streams, we deploy event-driven architectures capable of sub-second processing, while strategic dashboards are optimized for high-performance querying of aggregated datasets.',
-  },
+  copy.faqs.howDoYouEnsureDataSecurityAnd,
+  copy.faqs.canYourSolutionsIntegrateWithLegacyOn,
+  copy.faqs.whatIsTheTypicalLatencyForReal,
 ];
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
+  copy: settings.navigation,
   serviceName: service.data.title,
   servicePath: `/services/${service.id}`,
   faqs,
 });
-const strategicFeatures = [
-  {
-    title: 'Orchestrated Intelligence',
-    description:
-      'Unifying disparate data sources into a single source of truth.',
-    highlight: 'Single source of truth',
-    icon: 'Database',
-    detail:
-      'We architect data ecosystems that break down operational silos. By orchestrating data from across your enterprise into a unified plane, we ensure that your analytics are based on a consistent, governed, and accurate foundation.',
-  },
-  {
-    title: 'Predictive Foresight',
-    description:
-      'Moving beyond historical reporting to forward-looking insights.',
-    highlight: 'Forward-looking insights',
-    icon: 'ChartLine',
-    detail:
-      "Don't just react to what happened yesterday. Our predictive modeling capabilities identify emerging market trends and operational risks before they manifest, allowing you to navigate complexity with proactive precision.",
-  },
-  {
-    title: 'Real-Time Velocity',
-    description:
-      'High-performance data pipelines for sub-second operational awareness.',
-    highlight: 'Sub-second awareness',
-    icon: 'Lightning',
-    detail:
-      'In high-stakes environments, latency is a liability. We build event-driven architectures that process and visualize critical data streams in real-time, providing your leadership with the velocity required to make split-second decisions.',
-  },
-  {
-    title: 'Strategic Transparency',
-    description:
-      'Objective performance metrics aligned with organizational goals.',
-    highlight: 'Performance alignment',
-    icon: 'Target',
-    detail:
-      'Align your entire team around objective truth. Our strategic dashboards translate complex datasets into clear, actionable KPIs, ensuring that every level of your organization is focused on the metrics that drive actual business value.',
-  },
+const strategicFeatures: Feature[] = [
+  { ...copy.strategy.features.orchestratedIntelligence, icon: 'Database' },
+  { ...copy.strategy.features.predictiveForesight, icon: 'ChartLine' },
+  { ...copy.strategy.features.realTimeVelocity, icon: 'Lightning' },
+  { ...copy.strategy.features.strategicTransparency, icon: 'Target' },
 ];
 
 const roleBenefits = [
-  {
-    Icon: PiBriefcase,
-    role: 'CFO',
-    pain: 'Spending hours consolidating financial reports from 6 systems',
-    gain: 'One live dashboard — P&L, cash flow, and variance analysis in real time',
-  },
-  {
-    Icon: PiGear,
-    role: 'COO',
-    pain: 'Operational bottlenecks visible only after they&rsquo;ve already caused delays',
-    gain: 'Predictive alerts surface inefficiencies 2–3 weeks before they escalate',
-  },
-  {
-    Icon: PiChartBar,
-    role: 'VP Sales',
-    pain: 'Pipeline reporting that&rsquo;s 2 weeks stale and manually assembled',
-    gain: 'Real-time revenue intelligence with forecast accuracy models',
-  },
-  {
-    Icon: PiDatabase,
-    role: 'Data / IT Team',
-    pain: 'Fielding ad-hoc data requests that consume 40% of sprint capacity',
-    gain: 'Self-serve analytics layer so business teams answer their own questions',
-  },
-  {
-    Icon: PiBuildings,
-    role: 'CEO / Board',
-    pain: 'Strategic decisions made on incomplete or conflicting data signals',
-    gain: 'Executive scorecard aligned to OKRs with drill-down to source data',
-  },
-  {
-    Icon: PiNetwork,
-    role: 'Supply Chain',
-    pain: 'Demand planning based on last quarter&rsquo;s numbers and gut instinct',
-    gain: 'ML-driven demand forecasting reducing inventory over/under by up to 35%',
-  },
+  { Icon: PiBriefcase, ...copy.benefits.roles.cfo },
+  { Icon: PiGear, ...copy.benefits.roles.coo },
+  { Icon: PiChartBar, ...copy.benefits.roles.vpSales },
+  { Icon: PiDatabase, ...copy.benefits.roles.dataItTeam },
+  { Icon: PiBuildings, ...copy.benefits.roles.ceoBoard },
+  { Icon: PiNetwork, ...copy.benefits.roles.supplyChain },
 ];
 ---
 
 <Layout
+  contentContext={contentContext}
+  publicPath={publicPath}
   title={`${service.data.title} - BDKinc`}
-  description="Turn Data into Decisions. Strategic Intelligence at Scale. Transform raw data into competitive advantage with our advanced analytics, predictive modeling, and real-time BI dashboards."
+  description={copy.seo.description}
 >
   <script
     type="application/ld+json"
@@ -160,13 +100,18 @@ const roleBenefits = [
     is:inline
     set:html={JSON.stringify(faqSchema)}
   />
+  <EditSection record="settings" section="navigation">
   <Navigation
     client:load
     services={servicesData}
     blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
+    currentPath={publicPath}
+    copy={settings.navigation}
+    brand={settings.brand}
   />
+  </EditSection>
   <main id="main-content" class="services-page-shell">
+    <EditSection record="service-business-analytics" section="hero">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
@@ -185,8 +130,9 @@ const roleBenefits = [
           >
             <div class="flex items-center gap-2 text-sm">
               <span
-                >Actionable <span class="text-accent font-semibold"
-                  >Intelligence</span
+                >{copy.hero.badgePrefix}{' '}<span
+                  class="text-accent font-semibold"
+                  >{copy.hero.badgeAccent}</span
                 ></span
               >
             </div>
@@ -220,9 +166,7 @@ const roleBenefits = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            Turn Data into Decisions. Strategic Intelligence at Scale. We
-            architect robust data ecosystems that unify disparate sources into a
-            single source of truth.
+            {copy.hero.body}
           </p>
         </div>
       </div>
@@ -231,6 +175,8 @@ const roleBenefits = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-business-analytics" section="lifecycle">
     <!-- Analytics Lifecycle -->
     <section class="px-4 py-24">
       <div class="mx-auto max-w-7xl">
@@ -238,20 +184,21 @@ const roleBenefits = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
           >
-            <span class="text-foreground">Analytics </span>
+            <span class="text-foreground">{copy.lifecycle.heading}{' '}</span>
             <span
               class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
-              >Lifecycle</span
+              >{copy.lifecycle.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-lg">
-            Transforming raw signals into strategic foresight through a
-            continuous, high-velocity data pipeline.
+            {copy.lifecycle.body}
           </p>
         </div>
-        <AnalyticsLifecycle client:visible />
+        <AnalyticsLifecycle client:visible copy={copy.lifecycle.steps} />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-business-analytics" section="leadership">
     <!-- Strategic Leadership Section -->
     <section class="relative overflow-hidden py-24">
       <div
@@ -263,20 +210,18 @@ const roleBenefits = [
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
-            <span class="text-foreground">Strategic </span>
+            <span class="text-foreground">{copy.leadership.heading}{' '}</span>
             <span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Intelligence</span
+              >{copy.leadership.headingAccent}</span
             >
           </h2>
         </div>
 
         <ServiceBlockquote>
-          &ldquo;Data without direction is overhead. We transform raw telemetry
-          into
-          <span class="text-accent"> actionable foresight</span>, aligning your
-          entire organization around a single source of objective truth that
-          drives actual business value.&rdquo;
+          {copy.leadership.quoteBefore}{' '}<span class="text-accent"
+            >{copy.leadership.quoteAccent}</span
+          >{copy.leadership.quoteAfter}
         </ServiceBlockquote>
       </div>
       <div
@@ -284,6 +229,8 @@ const roleBenefits = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-business-analytics" section="maturity">
     <!-- Data Maturity Model -->
     <section class="relative overflow-hidden px-4 py-32 sm:px-6 lg:px-8">
       <!-- Background effects -->
@@ -301,15 +248,15 @@ const roleBenefits = [
           <h2
             class="font-display mb-6 text-4xl font-bold tracking-tight md:text-5xl"
           >
-            Your Data <span
+            {copy.maturity.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Maturity Journey</span
+              >{copy.maturity.headingAccent}</span
             >
           </h2>
           <p
             class="text-muted-foreground mx-auto max-w-2xl text-xl leading-relaxed"
           >
-            Where are you today — and where do we take you?
+            {copy.maturity.body}
           </p>
         </div>
 
@@ -349,29 +296,25 @@ const roleBenefits = [
               [
                 {
                   stage: '01',
-                  label: 'Ad-Hoc',
+                  ...copy.maturity.stages.adHoc,
                   color: 'foreground',
-                  desc: 'Siloed spreadsheets, manual pull requests, no single source of truth. Decisions based on gut feel.',
                 },
                 {
                   stage: '02',
-                  label: 'Descriptive',
+                  ...copy.maturity.stages.descriptive,
                   color: 'primary',
-                  desc: 'Basic BI dashboards showing what happened. Historical reporting, monthly cadence.',
                 },
                 {
                   stage: '03',
-                  label: 'Predictive',
+                  ...copy.maturity.stages.predictive,
                   color: 'secondary',
-                  desc: 'ML models forecast what will happen. Proactive decisions on demand, risk, and resource allocation.',
                 },
                 {
                   stage: '04',
-                  label: 'Prescriptive',
+                  ...copy.maturity.stages.prescriptive,
                   color: 'accent',
-                  desc: 'AI recommends specific actions. Real-time optimization and automated decision pathways.',
                 },
-              ].map(({ stage, label, color, desc }, index) => {
+              ].map(({ stage, label, color, desc }) => {
                 // Map color names to Tailwind classes
                 const colorScales = {
                   primary: {
@@ -458,6 +401,8 @@ const roleBenefits = [
         </div>
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-business-analytics" section="strategy">
     <!-- Strategic Advantage -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -465,55 +410,58 @@ const roleBenefits = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            The Strategic <span
+            {copy.strategy.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Advantage</span
+              >{copy.strategy.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond static reports with a partner who builds
-            high-performance data ecosystems.
+            {copy.strategy.body}
           </p>
         </div>
         <FeatureCarousel client:visible features={strategicFeatures} />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-business-analytics" section="benefits">
     <!-- Role-Based Benefits: Who Gets Value -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-6xl">
         <BenefitGrid
+          copy={settings.benefits}
           benefits={roleBenefits.map(({ Icon, role, pain, gain }) => ({
             icon: Icon,
             title: role,
             pain,
             gain,
           }))}
-          title="Built for Decision-Makers"
-          subtitle="Every role in your organization gets a direct line to the intelligence they need."
+          title={copy.benefits.title}
+          subtitle={copy.benefits.subtitle}
         />
       </div>
     </section>
 
+    </EditSection>
+    <EditSection record="service-business-analytics" section="faqs" also={['faqHeading']}>
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
         <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          Frequently Asked Questions
+          {copy.faqHeading}
         </h3>
         <div class="mb-20">
           <TechnicalFAQ client:visible faqs={faqs} />
         </div>
       </div>
     </section>
-    <ImpactMetricsSection metrics={metrics} />
+    </EditSection>
+    <EditSection record="service-business-analytics" section="metrics">
+    <ImpactMetricsSection metrics={metrics} copy={settings.metrics} />
+    </EditSection>
+    <EditSection record="service-business-analytics" section="cta">
     <!-- CTA -->
-    <CTASection
-      client:visible
-      title="Turn Data into Your Greatest Asset"
-      description="Stop guessing and start knowing. Let’s architect an intelligence strategy that drives measurable business outcomes."
-      buttonText="Request an Analytics Audit"
-      buttonHref="/contact#chat"
-    />
+    <CTASection client:visible copy={settings.cta} {...copy.cta} />
+    </EditSection>
   </main>
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

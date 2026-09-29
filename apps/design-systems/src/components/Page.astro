@@ -1,0 +1,180 @@
+---
+import { reader, type Context } from '@/lib/content';
+import { group, text, substitute } from '@/lib/editorial';
+import type { SiteRoute } from '@bdkinc/content/routes';
+import Shell from '@/components/Shell.astro';
+import Home from '@/templates/Home.astro';
+import Service from '@/templates/Service.astro';
+import About from '@/templates/About.astro';
+import Contact from '@/templates/Contact.astro';
+import Index from '@/templates/Index.astro';
+import Legal from '@/templates/Legal.astro';
+import Article from '@/templates/Article.astro';
+import Regional from '@/templates/Regional.astro';
+import Generated from '@/templates/Generated.astro';
+interface Props {
+  route: SiteRoute;
+  context?: Context;
+}
+const { route, context } = Astro.props;
+const content = reader(context);
+const [settings, services] = await Promise.all([
+  content.getSettings(),
+  content.getCollection('services'),
+]);
+let title = settings.siteName,
+  description = settings.defaultDescription,
+  image = settings.defaultImage,
+  imageAlt = settings.defaultImageAlt;
+if (route.template === 'page') {
+  const copy = group(await content.getPage(route.pageKey));
+  const seo = group(copy.seo || copy.metadata);
+  const hero = group(copy.hero);
+  title = text(seo.title) || text(hero.heading) || settings.siteName;
+  description =
+    text(seo.description) || text(hero.description || hero.body) || description;
+  image = text(seo.image) || image;
+  imageAlt = text(seo.imageAlt) || imageAlt;
+  if (route.pageKey.startsWith('service-')) {
+    const service = services.find(
+      (s) => 'service-' + s.id === route.pageKey
+    );
+    if (service) {
+      title =
+        text(seo.title) ||
+        service.data.title +
+          (text(seo.titleSuffix) || ' — ' + settings.siteName);
+      description = text(seo.description) || service.data.description;
+    }
+  }
+} else if (route.template === 'blog-post') {
+  const post = (await content.getCollection('blog')).find(
+    (p) => p.id === route.slug
+  );
+  if (post) {
+    title = post.data.title + ' — ' + settings.siteName;
+    description = post.data.description;
+    image = post.data.image || image;
+    imageAlt = post.data.title;
+  }
+} else {
+  const c = await content.getPage(route.template);
+  const location = (await content.getCollection('locations')).find(
+    (l) => l.id === route.locationId
+  );
+  const records =
+    route.template === 'service-location'
+      ? await content.getCollection(route.collectionKey)
+      : await content.getCollection('pseoIndustries');
+  const entry = records.find(
+    (e) =>
+      e.id ===
+      (route.template === 'service-location'
+        ? route.serviceSlug
+        : route.industrySlug)
+  );
+  if (entry && location) {
+    const vars = {
+      serviceTitle: entry.data.title,
+      industryTitle: entry.data.title,
+      locationName: location.data.name,
+      state: location.data.state,
+      region: location.data.region,
+    };
+    title = substitute(c.metadata.title, vars);
+    description = substitute(c.metadata.description, vars);
+  }
+}
+const pageKey = route.template === 'page' ? route.pageKey : undefined;
+const notFound =
+  pageKey === 'not-found' ? await content.getPage('not-found') : undefined;
+---
+
+<Shell
+  settings={settings}
+  services={services}
+  title={title}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  path={route.path}
+  preview={!!context}
+>
+  {pageKey === 'home' && <Home content={content} />}
+  {pageKey === 'about' && <About content={content} />}
+  {pageKey === 'contact' && <Contact content={content} />}
+  {
+    (pageKey === 'services' || pageKey === 'blog') && (
+      <Index content={content} pageKey={pageKey} />
+    )
+  }
+  {
+    (pageKey === 'privacy' || pageKey === 'terms') && (
+      <Legal content={content} pageKey={pageKey} />
+    )
+  }
+  {
+    (pageKey === 'location-maryland-eastern-shore' ||
+      pageKey === 'location-delaware-eastern-shore') && (
+      <Regional content={content} pageKey={pageKey} />
+    )
+  }
+  {
+    pageKey?.startsWith('service-') && (
+      <Service content={content} pageKey={pageKey} />
+    )
+  }
+  {
+    route.template === 'blog-post' && (
+      <Article content={content} slug={route.slug} />
+    )
+  }
+  {
+    (route.template === 'service-location' ||
+      route.template === 'industry-location') && (
+      <Generated content={content} route={route} />
+    )
+  }
+  {
+    notFound && (
+      <div class="wrap">
+        <>
+          <section class="hero">
+            <>
+              <p class="eyebrow">404</p>
+              <h1>{notFound.error.heading}</h1>
+              <p class="intro">{notFound.error.description}</p>
+              <div class="actions">
+                <a
+                  class="button primary"
+                  href="/"
+                  aria-label={notFound.error.homeLabel}
+                >
+                  {notFound.error.homeText}
+                </a>
+              </div>
+            </>
+          </section>
+          <section class="section">
+            <>
+              <p>{notFound.helpfulLinks.description}</p>
+              <nav class="actions">
+                {(['services', 'about', 'blog', 'contact'] as const).map(
+                  (key) => (
+                    <a
+                      class="button"
+                      href={'/' + key}
+                      aria-label={notFound.helpfulLinks[key].label}
+                    >
+                      {notFound.helpfulLinks[key].text}
+                    </a>
+                  )
+                )}
+              </nav>
+            </>
+          </section>
+        </>
+      </div>
+    )
+  }
+</Shell>

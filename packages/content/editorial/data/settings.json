@@ -1,0 +1,65 @@
+{
+  "key":"site", "kind":"settings", "title":"Shared site settings",
+  "fields":{
+    "siteName":{"type":"text","label":"Site name"},
+    "defaultDescription":{"type":"textarea","label":"Default search description"},
+    "defaultImage":{"type":"media","label":"Default sharing image"},
+    "defaultImageAlt":{"type":"text","label":"Default image description"},
+    "navigation":{"type":"group","label":"Navigation labels","fields":{
+      "about":{"type":"text","label":"About label"}, "services":{"type":"text","label":"Services label"},
+      "blog":{"type":"text","label":"Blog label"}, "contact":{"type":"text","label":"Contact button label"},
+      "home":{"type":"text","label":"Home label"},"homeLabel":{"type":"text","label":"Home link accessible label"},
+      "contactHref":{"type":"url","label":"Contact button destination"},
+      "allServices":{"type":"text","label":"All services label"},"allPosts":{"type":"text","label":"All posts label"},
+      "recentPosts":{"type":"text","label":"Recent posts heading"},"visitBlog":{"type":"text","label":"Visit blog label"},"blogDescription":{"type":"text","label":"Empty blog introduction"}
+    }},
+    "footer":{"type":"group","label":"Footer","fields":{
+      "tagline":{"type":"textarea","label":"Company summary"},
+      "companyHeading":{"type":"text","label":"Company links heading"},
+      "expertiseHeading":{"type":"text","label":"Expertise links heading"},
+      "linkedin":{"type":"url","label":"LinkedIn URL"},
+      "facebook":{"type":"url","label":"Facebook URL"},
+      "instagram":{"type":"url","label":"Instagram URL"},
+      "linkedinLabel":{"type":"text","label":"LinkedIn accessible label"},"facebookLabel":{"type":"text","label":"Facebook accessible label"},"instagramLabel":{"type":"text","label":"Instagram accessible label"},"socialLabel":{"type":"text","label":"Social links accessible label"},
+      "about":{"type":"text","label":"About link"},"services":{"type":"text","label":"Services link"},"blog":{"type":"text","label":"Blog link"},"contact":{"type":"text","label":"Contact link and heading"},
+      "cybersecurity":{"type":"text","label":"Cybersecurity link"},"managedIT":{"type":"text","label":"Managed IT link"},"cloudHosting":{"type":"text","label":"Cloud hosting link"},"ibmPower":{"type":"text","label":"IBM Power link"},
+      "privacy":{"type":"text","label":"Privacy link"},"terms":{"type":"text","label":"Terms link"},"rights":{"type":"text","label":"Copyright ending"},"signature":{"type":"text","label":"Footer closing message"}
+    }},
+    "brand":{"type":"group","label":"Brand media","fields":{
+      "logo":{"type":"media","label":"Custom logo (empty preserves animated brand artwork)"},"logoAlt":{"type":"text","label":"Logo description"},"favicon":{"type":"media","label":"Browser icon"}
+    }},
+    "organization":{"type":"group","label":"Organization and structured data","fields":{
+      "legalName":{"type":"text","label":"Legal name"},"url":{"type":"url","label":"Public website origin"},"logo":{"type":"media","label":"Structured data logo"},"image":{"type":"media","label":"Organization image"},"description":{"type":"textarea","label":"Organization description"},"foundingDate":{"type":"text","label":"Founding year"},
+      "streetAddress":{"type":"text","label":"Street address"},"addressLocality":{"type":"text","label":"City"},"addressRegion":{"type":"text","label":"State"},"postalCode":{"type":"text","label":"Postal code"},"addressCountry":{"type":"text","label":"Country code"},"latitude":{"type":"number","label":"Latitude"},"longitude":{"type":"number","label":"Longitude"},
+      "areaServed":{"type":"text","label":"Area served"},"availableLanguage":{"type":"strings","label":"Supported languages"},"supportType":{"type":"text","label":"Support contact type"},"salesType":{"type":"text","label":"Sales contact type"}
+    }},
+    "contact":{"type":"group","label":"Shared contact details","fields":{
+      "telephone":{"type":"text","label":"Structured data telephone"},"phoneDisplay":{"type":"text","label":"Displayed telephone"},"phoneHref":{"type":"url","label":"Telephone link"},"phoneLabel":{"type":"text","label":"Telephone accessible label"},
+      "email":{"type":"text","label":"Email address"},"emailHref":{"type":"url","label":"Email link"},"emailLabel":{"type":"text","label":"Email accessible label"}
+    }},
+    "metrics":{"type":"group","label":"Default metrics section","fields":{"title":{"type":"text","label":"Heading"}}},
+    "benefits":{"type":"group","label":"Default benefits section","fields":{"title":{"type":"text","label":"Heading"}}},
+    "cta":{"type":"group","label":"Default call to action","fields":{
+      "title":{"type":"text","label":"Heading"}, "description":{"type":"textarea","label":"Description"},
+      "buttonText":{"type":"text","label":"Button label"}, "buttonHref":{"type":"url","label":"Button destination"}
+    }}
+  },
+  "defaults":{
+    "siteName":"BDKinc",
+    "defaultDescription":"IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.",
+    "defaultImage":"/favicon.svg", "defaultImageAlt":"BDKinc - Premier managed IT, cloud hosting, and cybersecurity partner",
+    "navigation":{"about":"About","services":"Services","blog":"Blog","contact":"Get In Touch","home":"Home","homeLabel":"BDKinc home","contactHref":"/contact","allServices":"View All Services","allPosts":"View All Posts","recentPosts":"Recent Posts","visitBlog":"Visit Blog","blogDescription":"Check out our latest insights"},
+    "footer":{
+      "tagline":"Proactive, security-first managed IT and cloud services for businesses all sizes.",
+      "companyHeading":"Company", "expertiseHeading":"Expertise",
+      "linkedin":"https://www.linkedin.com/company/bdk-inc./", "facebook":"https://www.facebook.com/bdkinctech", "instagram":"https://www.instagram.com/bdkinctech/",
+      "linkedinLabel":"BDKinc on LinkedIn","facebookLabel":"BDKinc on Facebook","instagramLabel":"BDKinc on Instagram","socialLabel":"BDKinc social media",
+      "about":"About","services":"Services","blog":"Blog","contact":"Contact","cybersecurity":"Cyber Security","managedIT":"Managed IT Services","cloudHosting":"Cloud Hosting","ibmPower":"IBM Power","privacy":"Privacy","terms":"Terms","rights":". All rights reserved.","signature":"Security-first. Compliance-ready. Human support."
+    },
+    "brand":{"logo":"","logoAlt":"BDKinc — IT Made Simple","favicon":"/favicon.svg"},
+    "organization":{"legalName":"BDK Inc","url":"https://www.bdkinc.com","logo":"/favicon.svg","image":"/favicon.svg","description":"Premier technology partner delivering Managed IT, Cloud Solutions, and Custom Software with enterprise-grade expertise.","foundingDate":"1999","streetAddress":"29515 Canvasback Drive","addressLocality":"Easton","addressRegion":"MD","postalCode":"21601","addressCountry":"US","latitude":38.7846,"longitude":-76.0756,"areaServed":"US","availableLanguage":["English"],"supportType":"customer support","salesType":"sales"},
+    "contact":{"telephone":"+1-800-309-0004","phoneDisplay":"+1 (800) 309-0004","phoneHref":"tel:+18003090004","phoneLabel":"Call BDKinc at 1 800 309 0004","email":"info@bdkinc.com","emailHref":"mailto:info@bdkinc.com","emailLabel":"Email BDKinc at info@bdkinc.com"},
+    "metrics":{"title":"Impact Metrics"},"benefits":{"title":"Key Benefits"},
+    "cta":{"title":"Ready to Transform Your IT Infrastructure?","description":"Let's discuss how we can help your business grow with reliable IT solutions.","buttonText":"Get in Touch","buttonHref":"/contact"}
+  }
+}

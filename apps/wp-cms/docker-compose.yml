@@ -1,3 +1,29 @@
+x-wordpress-environment: &wordpress-environment
+  WORDPRESS_DB_HOST: db
+  WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+  WORDPRESS_DB_USER: ${MYSQL_USER}
+  WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+  WORDPRESS_TABLE_PREFIX: wp_
+  WORDPRESS_AUTH_KEY: ${AUTH_KEY}
+  WORDPRESS_SECURE_AUTH_KEY: ${SECURE_AUTH_KEY}
+  WORDPRESS_LOGGED_IN_KEY: ${LOGGED_IN_KEY}
+  WORDPRESS_NONCE_KEY: ${NONCE_KEY}
+  WORDPRESS_AUTH_SALT: ${AUTH_SALT}
+  WORDPRESS_SECURE_AUTH_SALT: ${SECURE_AUTH_SALT}
+  WORDPRESS_LOGGED_IN_SALT: ${LOGGED_IN_SALT}
+  WORDPRESS_NONCE_SALT: ${NONCE_SALT}
+  WORDPRESS_DEBUG: ${WP_DEBUG:-0}
+  WP_HOME: ${WP_HOME}
+  WP_SITEURL: ${WP_SITEURL}
+  FRONTEND_URL: ${FRONTEND_URL}
+  BDK_PREVIEW_EDITORIAL_URL: ${BDK_PREVIEW_EDITORIAL_URL:-}
+  BDK_PREVIEW_SYSTEMS_URL: ${BDK_PREVIEW_SYSTEMS_URL:-}
+  WORDPRESS_CONFIG_EXTRA: |
+    define('WP_HOME', getenv('WP_HOME'));
+    define('WP_SITEURL', getenv('WP_SITEURL'));
+    define('WP_ENVIRONMENT_TYPE', '${WP_ENVIRONMENT_TYPE}');
+    define('DISALLOW_FILE_EDIT', true);
+
 services:
   db:
     image: mariadb:11.4
@@ -9,35 +35,19 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - wp_db:/var/lib/mysql
-    networks:
-      - wp
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [wp]
 
   wordpress:
     image: wordpress:6.8-php8.3-apache
     restart: unless-stopped
     ports:
       - "127.0.0.1:8080:80"
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-      WORDPRESS_TABLE_PREFIX: wp_
-      FRONTEND_URL: ${FRONTEND_URL}
-      WORDPRESS_CONFIG_EXTRA: |
-        define('WP_HOME', getenv('WP_HOME') ?: '${WP_HOME}');
-        define('WP_SITEURL', getenv('WP_SITEURL') ?: '${WP_SITEURL}');
-        define('AUTH_KEY', '${AUTH_KEY}');
-        define('SECURE_AUTH_KEY', '${SECURE_AUTH_KEY}');
-        define('LOGGED_IN_KEY', '${LOGGED_IN_KEY}');
-        define('NONCE_KEY', '${NONCE_KEY}');
-        define('AUTH_SALT', '${AUTH_SALT}');
-        define('SECURE_AUTH_SALT', '${SECURE_AUTH_SALT}');
-        define('LOGGED_IN_SALT', '${LOGGED_IN_SALT}');
-        define('NONCE_SALT', '${NONCE_SALT}');
-        define('WP_DEBUG', filter_var('${WP_DEBUG}', FILTER_VALIDATE_BOOLEAN));
-        define('WP_ENVIRONMENT_TYPE', '${WP_ENVIRONMENT_TYPE}');
-        define('DISALLOW_FILE_EDIT', true);
+    environment: *wordpress-environment
     env_file:
       - path: .env
         required: false
@@ -47,25 +57,23 @@ services:
       - ./wp-content/plugins/bdk-content:/var/www/html/wp-content/plugins/bdk-content
       - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
       - ./wp-content/uploads:/var/www/html/wp-content/uploads
+      - ../../packages/content/editorial:/var/www/bdk-editorial:ro
     depends_on:
-      - db
-    networks:
-      - wp
+      db:
+        condition: service_healthy
+    networks: [wp]
 
   cli:
     image: wordpress:cli-2.11-php8.3
-    profiles: ["tools"]
+    profiles: [tools]
     user: "33:33"
     env_file:
       - path: .env
         required: false
     environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-      WP_HOME: ${WP_HOME}
-      WP_SITEURL: ${WP_SITEURL}
+      <<: *wordpress-environment
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
+      HTTP_HOST: localhost:8080
     volumes:
       - wp_core:/var/www/html
       - ./wp-content/themes/bdk-headless:/var/www/html/wp-content/themes/bdk-headless
@@ -73,22 +81,22 @@ services:
       - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
       - ./wp-content/uploads:/var/www/html/wp-content/uploads
       - ./scripts:/scripts
+      - ../../packages/content/editorial:/var/www/bdk-editorial:ro
     depends_on:
-      - db
-      - wordpress
-    networks:
-      - wp
+      db:
+        condition: service_healthy
+      wordpress:
+        condition: service_started
+    networks: [wp]
     working_dir: /var/www/html
 
   adminer:
     image: adminer:4
-    profiles: ["tools"]
+    profiles: [tools]
     ports:
       - "127.0.0.1:8081:8080"
-    depends_on:
-      - db
-    networks:
-      - wp
+    depends_on: [db]
+    networks: [wp]
 
 volumes:
   wp_core:

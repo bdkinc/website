@@ -1,13 +1,13 @@
-import { getCollection } from 'astro:content';
+import { getContentCollection, type ContentContext } from '@/lib/content';
 
 import { getBlogPosts } from '@/lib/blog';
 
-export async function getNavigationData() {
-  // Get services data (now from JSON files)
-  const servicesEntries = await getCollection('services');
+export async function getNavigationData(context?: ContentContext) {
+  // Resolve published services, or the single authorized preview overlay.
+  const servicesEntries = await getContentCollection('services', context);
   const servicesData = servicesEntries
-    .sort((a: any, b: any) => a.data.order - b.data.order)
-    .map((entry: any) => ({
+    .sort((a, b) => a.data.order - b.data.order)
+    .map((entry) => ({
       slug: entry.id,
       title: entry.data.title,
       description: entry.data.description,
@@ -15,7 +15,7 @@ export async function getNavigationData() {
     }));
 
   // Get recent blog posts
-  const blogEntries = await getBlogPosts();
+  const blogEntries = await getBlogPosts(context);
   const recentPosts = blogEntries
     .sort((a, b) => b.pubDate.valueOf() - a.pubDate.valueOf())
     .slice(0, 3)

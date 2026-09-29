@@ -2,7 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
-import { getCollection } from 'astro:content';
+import { getContentCollection, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
 import { iconMap } from '@/lib/icons';
 import {
   PiMapPin,
@@ -17,51 +17,43 @@ import {
 } from 'react-icons/pi';
 import { Card } from '@bdkinc/design-system';
 import Footer from '@/components/Footer.astro';
+import EditSection from '@/components/preview/EditSection.astro';
 
-const { servicesData, recentPosts } = await getNavigationData();
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const copy = await getPageCopy('location-maryland-eastern-shore', contentContext);
+const settings = await getSettings(contentContext);
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 
 // Get all services and locations for the location pages
-const services = await getCollection('services');
-const locations = await getCollection('locations');
+const services = await getContentCollection('services', contentContext);
+const locations = await getContentCollection('locations', contentContext);
 const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
 
 // Maryland Eastern Shore locations only
 const marylandLocations = locations.filter(
   (loc) => loc.data.state === 'Maryland'
 );
-const marylandServicesPages = [];
-
-// Generate service + location combinations for Maryland
-for (const service of sortedServices) {
-  for (const location of marylandLocations) {
-    const locationSlug = location.data.name
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/,/g, '');
-
-    marylandServicesPages.push({
-      serviceSlug: service.id,
-      serviceName: service.data.title,
-      locationName: location.data.name,
-      locationState: location.data.state,
-      url: `/services/${service.id}/${locationSlug}`,
-      icon: service.data.icon,
-    });
-  }
-}
 ---
 
 <Layout
-  title="Maryland Eastern Shore IT Services | Managed IT Services | BDKinc"
-  description="Complete managed IT services and cloud solutions for Maryland Eastern Shore businesses. Local MSP serving Cambridge, Easton, Salisbury, Ocean City and surrounding areas."
+  contentContext={contentContext}
+  publicPath={publicPath}
+  title={copy.metadata.title}
+  description={copy.metadata.description}
 >
+  <EditSection record="settings" section="navigation">
   <Navigation
     client:load
     services={servicesData}
     blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
+    currentPath={publicPath}
+    copy={settings.navigation}
+    brand={settings.brand}
   />
+  </EditSection>
   <main id="main-content">
+    <EditSection record="location-maryland-eastern-shore" section="hero">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
@@ -69,16 +61,14 @@ for (const service of sortedServices) {
       <div class="relative z-10 mx-auto max-w-7xl text-center">
         <div class="mb-6 inline-flex items-center justify-center gap-2 text-lg">
           <PiMapPin className="text-primary h-5 w-5" />
-          <span class="text-muted-foreground">Maryland Eastern Shore</span>
+          <span class="text-muted-foreground">{copy.hero.badge}</span>
         </div>
         <h1 class="mb-6 text-5xl font-bold md:text-6xl">
-          <span class="text-foreground">IT Services for </span>
-          <span class="text-primary">Maryland Eastern Shore</span>
+          <span class="text-foreground">{copy.hero.headingLead}{' '}</span>
+          <span class="text-primary">{copy.hero.headingAccent}</span>
         </h1>
         <p class="text-muted-foreground mx-auto max-w-3xl text-xl">
-          Trusted managed IT services provider serving businesses across
-          Maryland's Eastern Shore. From Cambridge to Ocean City, we deliver
-          proactive technology support and strategic IT solutions.
+          {copy.hero.description}
         </p>
         <div
           class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
@@ -87,15 +77,15 @@ for (const service of sortedServices) {
             href="/contact"
             class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
           >
-            Get Started Today
+            {copy.hero.buttonText}
             <PiPhone className="h-4 w-4" />
           </a>
           <a
-            href="tel:800-309-0004"
+            href={settings.contact.phoneHref}
             class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
           >
             <PiPhone className="h-4 w-4" />
-            (800) 309-0004
+            {settings.contact.phoneDisplay}
           </a>
         </div>
       </div>
@@ -105,13 +95,15 @@ for (const service of sortedServices) {
       </div>
     </section>
 
+    </EditSection>
+    <EditSection record="location-maryland-eastern-shore" section="featuredCities">
     <!-- Featured Cities -->
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2
           class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl"
         >
-          Serving Maryland Eastern Shore Cities
+          {copy.featuredCities.heading}
         </h2>
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {
@@ -122,13 +114,13 @@ for (const service of sortedServices) {
                   {location.data.name}
                 </h3>
                 <p class="text-muted-foreground text-sm">
-                  {location.data.counties?.join(' County')}
+                  {location.data.counties?.join(` ${copy.featuredCities.countySeparator.trim()}`)}
                 </p>
                 <a
-                  href={`/services/managed-it/${location.data.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  href={`/services/managed-it/${location.id}`}
                   class="text-primary hover:text-primary/80 mt-3 text-sm font-medium"
                 >
-                  View IT Services →
+                  {copy.featuredCities.linkText}
                 </a>
               </Card>
             ))
@@ -137,18 +129,20 @@ for (const service of sortedServices) {
       </div>
     </section>
 
+    </EditSection>
+    <EditSection record="location-maryland-eastern-shore" section="servicesByLocation">
     <!-- Services by Location -->
     <section class="bg-muted/50 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2
           class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl"
         >
-          Services by Location
+          {copy.servicesByLocation.heading}
         </h2>
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <div>
             <h3 class="text-foreground mb-6 text-2xl font-semibold">
-              Managed IT Services
+              {copy.servicesByLocation.managedServices.heading}
             </h3>
             <div class="space-y-4">
               <div class="flex items-start gap-3">
@@ -157,19 +151,19 @@ for (const service of sortedServices) {
                 />
 
                 <p class="text-muted-foreground">
-                  24/7 monitoring and proactive maintenance
+                  {copy.servicesByLocation.managedServices.monitoring}
                 </p>
               </div>
               <div class="flex items-start gap-3">
                 <PiShield className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Cybersecurity protection and compliance
+                  {copy.servicesByLocation.managedServices.security}
                 </p>
               </div>
               <div class="flex items-start gap-3">
                 <PiClock className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Fast response times across the Eastern Shore
+                  {copy.servicesByLocation.managedServices.response}
                 </p>
               </div>
             </div>
@@ -177,25 +171,25 @@ for (const service of sortedServices) {
 
           <div>
             <h3 class="text-foreground mb-6 text-2xl font-semibold">
-              Maryland Focus Areas
+              {copy.servicesByLocation.focusAreas.heading}
             </h3>
             <div class="space-y-4">
               <div class="flex items-start gap-3">
                 <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Local expertise with regional business knowledge
+                  {copy.servicesByLocation.focusAreas.expertise}
                 </p>
               </div>
               <div class="flex items-start gap-3">
                 <PiTrendUp className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Scalable solutions for growing businesses
+                  {copy.servicesByLocation.focusAreas.growth}
                 </p>
               </div>
               <div class="flex items-start gap-3">
                 <PiUsers className="text-primary mt-1 h-5 w-5 shrink-0" />
                 <p class="text-muted-foreground">
-                  Dedicated support team familiar with your area
+                  {copy.servicesByLocation.focusAreas.team}
                 </p>
               </div>
             </div>
@@ -204,13 +198,15 @@ for (const service of sortedServices) {
       </div>
     </section>
 
+    </EditSection>
+    <EditSection record="location-maryland-eastern-shore" section="serviceLocations">
     <!-- Service Location Grid -->
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2
           class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl"
         >
-          Find Your Service + Location
+          {copy.serviceLocations.heading}
         </h2>
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {
@@ -231,7 +227,7 @@ for (const service of sortedServices) {
                     <div class="space-y-2">
                       {marylandLocations.slice(0, 4).map((location) => (
                         <a
-                          href={`/services/${service.id}/${location.data.name.toLowerCase().replace(/\s+/g, '-')}`}
+                          href={`/services/${service.id}/${location.id}`}
                           class="text-muted-foreground hover:text-primary hover:bg-muted/50 flex items-center justify-between rounded px-3 py-2 text-sm"
                         >
                           <span>
@@ -250,13 +246,15 @@ for (const service of sortedServices) {
       </div>
     </section>
 
+    </EditSection>
+    <EditSection record="location-maryland-eastern-shore" section="allLocations">
     <!-- All Locations -->
     <section class="bg-muted/50 px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <h2
           class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl"
         >
-          All Maryland Eastern Shore Locations
+          {copy.allLocations.heading}
         </h2>
         <div
           class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
@@ -264,7 +262,7 @@ for (const service of sortedServices) {
           {
             marylandLocations.map((location, _index) => (
               <a
-                href={`/services/managed-it/${location.data.name.toLowerCase().replace(/\s+/g, '-')}`}
+                href={`/services/managed-it/${location.id}`}
                 class="hover:bg-muted/50 rounded p-3 text-center transition-colors"
               >
                 <PiMapPin className="text-primary mx-auto mb-2 h-4 w-4" />
@@ -281,17 +279,17 @@ for (const service of sortedServices) {
       </div>
     </section>
 
+    </EditSection>
+    <EditSection record="location-maryland-eastern-shore" section="cta">
     <!-- CTA Section -->
     <section class="px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-4xl">
         <Card className="text-center" size="xl" interactive={false}>
           <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-            Ready for Better IT Support in Maryland?
+            {copy.cta.heading}
           </h2>
           <p class="text-muted-foreground mb-8 text-xl">
-            Discover how <span class="font-display font-extrabold">BDKinc</span>
-            can transform your technology infrastructure with local Eastern Shore
-            expertise.
+            {copy.cta.descriptionLead}{' '}<span class="font-display font-extrabold">{copy.cta.descriptionBrand}</span>{' '}{copy.cta.descriptionEnd}
           </p>
           <div
             class="flex flex-col items-center justify-center gap-4 sm:flex-row"
@@ -300,21 +298,22 @@ for (const service of sortedServices) {
               href="/contact"
               class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
             >
-              Schedule Consultation
+              {copy.cta.buttonText}
               <PiEnvelope className="h-4 w-4" />
             </a>
             <a
-              href="tel:800-309-0004"
+              href={settings.contact.phoneHref}
               class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
             >
               <PiPhone className="h-4 w-4" />
-              Call (800) 309-0004
+              {settings.contact.phoneDisplay}
             </a>
           </div>
         </Card>
       </div>
     </section>
+    </EditSection>
   </main>
 
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

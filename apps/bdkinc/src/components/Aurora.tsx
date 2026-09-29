@@ -1,5 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
+
+const styles = stylex.create({
+  canvasHost: { height: '100%', width: '100%' },
+});
 
 const VERT = `#version 300 es
 in vec2 position;
@@ -113,6 +119,8 @@ interface AuroraProps {
   blend?: number;
   time?: number;
   speed?: number;
+  className?: string;
+  xstyle?: StyleXStyles;
 }
 
 export default function Aurora(props: AuroraProps) {
@@ -125,8 +133,6 @@ export default function Aurora(props: AuroraProps) {
   propsRef.current = props;
 
   const ctnDom = useRef<HTMLDivElement>(null);
-  const isVisibleRef = useRef<boolean>(true);
-  const lastFrameTimeRef = useRef<number>(0);
 
   useEffect(() => {
     const ctn = ctnDom.current;
@@ -137,26 +143,16 @@ export default function Aurora(props: AuroraProps) {
     ).matches;
 
     // If reduced motion is preferred, don't render animations at all
-    if (prefersReducedMotion) {
-      isVisibleRef.current = false;
-      return;
-    }
+    if (prefersReducedMotion) return;
 
-    // Intersection Observer for visibility detection
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isVisibleRef.current = entry.isIntersecting;
-        });
-      },
-      { threshold: 0 }
-    );
-    observer.observe(ctn);
-
+    // The aurora is a soft, low-frequency gradient: rendering it at half
+    // resolution and letting CSS upscale it is visually identical and cuts
+    // fragment work by ~75%. MSAA is pointless for a single fullscreen triangle.
     const renderer = new Renderer({
       alpha: true,
       premultipliedAlpha: true,
-      antialias: true,
+      antialias: false,
+      dpr: 0.5,
     });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 0);
@@ -172,7 +168,11 @@ export default function Aurora(props: AuroraProps) {
       const height = ctn.offsetHeight;
       renderer.setSize(width, height);
       if (program) {
-        program.uniforms.uResolution.value = [width, height];
+        // gl_FragCoord is in drawing-buffer pixels, not CSS pixels.
+        program.uniforms.uResolution.value = [
+          gl.drawingBufferWidth,
+          gl.drawingBufferHeight,
+        ];
       }
     }
     window.addEventListener('resize', resize);
@@ -194,7 +194,7 @@ export default function Aurora(props: AuroraProps) {
         uTime: { value: 0 },
         uAmplitude: { value: amplitude },
         uColorStops: { value: colorStopsArray },
-        uResolution: { value: [ctn.offsetWidth, ctn.offsetHeight] },
+        uResolution: { value: [gl.drawingBufferWidth, gl.drawingBufferHeight] },
         uBlend: { value: blend },
       },
     });
@@ -202,48 +202,57 @@ export default function Aurora(props: AuroraProps) {
     const mesh = new Mesh(gl, { geometry, program });
     ctn.appendChild(gl.canvas);
 
-    let animateId = 0;
-    const targetFPS = 30; // Throttle to 30 FPS for better performance
-    const frameInterval = 1000 / targetFPS;
+    let animateId: number | null = null;
+    let lastTick = -1;
+    const frameInterval = 1000 / 30;
 
     const update = (t: number) => {
       animateId = requestAnimationFrame(update);
 
-      // Skip rendering if not visible
-      if (!isVisibleRef.current) {
-        return;
-      }
-
-      // Throttle rendering to target FPS
-      const elapsed = t - lastFrameTimeRef.current;
-      if (elapsed < frameInterval) {
-        return;
-      }
-      lastFrameTimeRef.current = t - (elapsed % frameInterval);
+      // Throttle to 30 fps on shared boundaries so the page's other 30 fps
+      // effects land on the same display frames.
+      const tick = Math.floor(t / frameInterval);
+      if (tick === lastTick) return;
+      lastTick = tick;
 
       const { time = t * 0.01, speed = 1.0 } = propsRef.current;
       if (program) {
         program.uniforms.uTime.value = time * speed * 0.1;
-        program.uniforms.uAmplitude.value = propsRef.current.amplitude ?? 1.0;
-        program.uniforms.uBlend.value = propsRef.current.blend ?? blend;
-        const stops = propsRef.current.colorStops ?? colorStops;
-        program.uniforms.uColorStops.value = stops.map((hex: string) => {
-          const c = new Color(hex);
-          return [c.r, c.g, c.b];
-        });
         renderer.render({ scene: mesh });
       }
     };
-    animateId = requestAnimationFrame(update);
+
+    // Only keep the rAF loop alive while the canvas is on screen and the tab
+    // is visible, so an off-screen hero costs nothing.
+    let isIntersecting = true;
+    const updateAnimationState = () => {
+      const shouldRun = isIntersecting && !document.hidden;
+      if (shouldRun && animateId === null) {
+        animateId = requestAnimationFrame(update);
+      } else if (!shouldRun && animateId !== null) {
+        cancelAnimationFrame(animateId);
+        animateId = null;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isIntersecting = entry.isIntersecting;
+        updateAnimationState();
+      },
+      { threshold: 0 }
+    );
+    observer.observe(ctn);
+    document.addEventListener('visibilitychange', updateAnimationState);
 
     resize();
+    updateAnimationState();
 
     return () => {
-      // Clean up observer
       observer.disconnect();
+      document.removeEventListener('visibilitychange', updateAnimationState);
 
-      // Cancel animation frame
-      cancelAnimationFrame(animateId);
+      if (animateId !== null) cancelAnimationFrame(animateId);
 
       // Remove event listeners
       window.removeEventListener('resize', resize);
@@ -258,5 +267,12 @@ export default function Aurora(props: AuroraProps) {
     };
   }, [amplitude, blend, colorStops]);
 
-  return <div ref={ctnDom} className="h-full w-full" />;
+  const applied = stylex.props(styles.canvasHost, props.xstyle);
+  return (
+    <div
+      ref={ctnDom}
+      {...applied}
+      className={[applied.className, props.className].filter(Boolean).join(' ')}
+    />
+  );
 }

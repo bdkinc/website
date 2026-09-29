@@ -1,3 +1,5 @@
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import {
   PiDatabase,
   PiShieldCheck,
@@ -6,120 +8,448 @@ import {
   PiBrain,
 } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
-export default function WatsonxSpotlight() {
+import { cn } from '@bdkinc/design-system';
+
+const hover = '@media (hover: hover)';
+const sm = '@media (min-width: 40rem)';
+const md = '@media (min-width: 48rem)';
+const lg = '@media (min-width: 64rem)';
+const colorTransition =
+  'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke';
+const timing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+// Module rows carry their own hover state, so row-hovered children reuse the
+// ancestor-hover pattern to preserve the original group-hover styling.
+
+const styles = stylex.create({
+  section: {
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: 0,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+    backgroundColor: 'color-mix(in oklab, var(--background) 50%, transparent)',
+    marginBlock: '6rem',
+    padding: { default: '2rem', [md]: '3rem' },
+  },
+  glowTop: {
+    position: 'absolute',
+    inset: 0,
+    backgroundImage:
+      'radial-gradient(circle at top right, rgba(0,102,255,0.08), transparent 40%)',
+  },
+  glowBottom: {
+    position: 'absolute',
+    inset: 0,
+    backgroundImage:
+      'radial-gradient(circle at bottom left, rgba(124,58,237,0.08), transparent 40%)',
+  },
+  // `scanlines` supplies its CSS rule; positioning comes from StyleX.
+  scanlines: {
+    position: 'absolute',
+    inset: 0,
+    opacity: 0.03,
+  },
+  // `circuit-overlay` supplies its CSS rule; positioning comes from StyleX.
+  circuit: {
+    position: 'absolute',
+    inset: 0,
+    opacity: 0.02,
+    pointerEvents: 'none',
+  },
+  grid: {
+    position: 'relative',
+    zIndex: 10,
+    display: 'grid',
+    gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
+    gap: '3rem',
+    alignItems: { [lg]: 'center' },
+  },
+  gridCols: {
+    gridTemplateColumns: { [lg]: 'repeat(2, minmax(0, 1fr))' },
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem',
+  },
+  eyebrow: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'color-mix(in oklab, var(--primary) 30%, transparent)',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 5%, transparent)',
+    color: 'var(--primary)',
+    paddingInline: '1rem',
+    paddingBlock: '0.375rem',
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.75rem',
+    lineHeight: '1rem',
+    fontWeight: 600,
+    letterSpacing: '0.05em',
+  },
+  eyebrowIcon: {
+    height: '0.875rem',
+    width: '0.875rem',
+  },
+  heading: {
+    fontFamily: 'var(--font-display)',
+    color: 'var(--foreground)',
+    fontSize: { default: '1.875rem', [sm]: '2.25rem' },
+    lineHeight: { default: '2.25rem', [sm]: '2.5rem' },
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+  },
+  headingAccent: {
+    color: 'var(--primary)',
+  },
+  body: {
+    color: 'var(--muted-foreground)',
+    fontSize: '1.125rem',
+    lineHeight: 1.625,
+  },
+  features: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
+    gap: '1rem',
+  },
+  featuresCols: {
+    gridTemplateColumns: { [sm]: 'repeat(2, minmax(0, 1fr))' },
+  },
+  feature: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+  },
+  featureIcon: {
+    height: '1.25rem',
+    width: '1.25rem',
+    flexShrink: 0,
+    color: 'var(--primary)',
+  },
+  featureLabel: {
+    fontFamily: 'var(--font-display)',
+    color: 'var(--foreground)',
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 500,
+    letterSpacing: '0.025em',
+  },
+  visual: {
+    position: 'relative',
+  },
+  cardShadow: {
+    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+  },
+  moduleBody: {
+    padding: '1.5rem',
+  },
+  moduleHead: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+    marginBottom: '1.5rem',
+    paddingBottom: '1rem',
+  },
+  dots: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.75rem',
+  },
+  dotMuted: {
+    height: '0.5rem',
+    width: '0.5rem',
+    borderRadius: '9999px',
+    backgroundColor:
+      'color-mix(in oklab, var(--muted-foreground) 50%, transparent)',
+  },
+  dotPrimary: {
+    height: '0.5rem',
+    width: '0.5rem',
+    borderRadius: '9999px',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 50%, transparent)',
+  },
+  nodeStatus: {
+    fontFamily: 'var(--font-mono)',
+    color: 'color-mix(in oklab, var(--primary) 60%, transparent)',
+    fontSize: '0.625rem',
+    letterSpacing: '0.1em',
+  },
+  modules: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
+    gap: '1rem',
+  },
+  modulePrimary: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: {
+      default: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+        ':hover': 'color-mix(in oklab, var(--primary) 40%, transparent)',
+      },
+    },
+    backgroundColor: {
+      default: 'color-mix(in oklab, var(--background) 50%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--background) 50%, transparent)',
+        ':hover': 'color-mix(in oklab, var(--primary) 5%, transparent)',
+      },
+    },
+    padding: '1rem',
+    transitionProperty:
+      'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing',
+    transitionDuration: '150ms',
+    transitionTimingFunction: timing,
+  },
+  moduleMuted: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1rem',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: {
+      default: 'color-mix(in oklab, var(--border) 60%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--border) 60%, transparent)',
+        ':hover': 'color-mix(in oklab, var(--primary) 40%, transparent)',
+      },
+    },
+    backgroundColor: {
+      default: 'color-mix(in oklab, var(--background) 50%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--background) 50%, transparent)',
+        ':hover': 'color-mix(in oklab, var(--primary) 5%, transparent)',
+      },
+    },
+    padding: '1rem',
+    transitionProperty: colorTransition,
+    transitionDuration: '150ms',
+    transitionTimingFunction: timing,
+  },
+  moduleIconPrimary: {
+    borderRadius: '0.375rem',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: {
+      default: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+        [stylex.when.ancestor(':hover')]:
+          'color-mix(in oklab, var(--primary) 40%, transparent)',
+      },
+    },
+    backgroundColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
+    color: 'var(--primary)',
+    padding: '0.75rem',
+    transitionProperty: colorTransition,
+    transitionDuration: '150ms',
+    transitionTimingFunction: timing,
+  },
+  moduleIconSecondary: {
+    borderRadius: '0.375rem',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: {
+      default: 'color-mix(in oklab, var(--secondary) 20%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--secondary) 20%, transparent)',
+        [stylex.when.ancestor(':hover')]:
+          'color-mix(in oklab, var(--secondary) 40%, transparent)',
+      },
+    },
+    backgroundColor: 'color-mix(in oklab, var(--secondary) 10%, transparent)',
+    color: 'var(--secondary)',
+    padding: '0.75rem',
+    transitionProperty: colorTransition,
+    transitionDuration: '150ms',
+    transitionTimingFunction: timing,
+  },
+  moduleGlyph: {
+    height: '1.5rem',
+    width: '1.5rem',
+  },
+  moduleText: {
+    textAlign: 'left',
+  },
+  moduleTitle: {
+    fontFamily: 'var(--font-display)',
+    color: 'var(--foreground)',
+    fontSize: '0.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+  },
+  moduleDesc: {
+    fontFamily: 'var(--font-mono)',
+    color: 'var(--muted-foreground)',
+    fontSize: '0.625rem',
+  },
+  moduleMeta: {
+    marginLeft: 'auto',
+  },
+  moduleDot: {
+    height: '0.375rem',
+    width: '0.375rem',
+    borderRadius: '9999px',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 70%, transparent)',
+  },
+  moduleStatus: {
+    marginLeft: 'auto',
+    fontFamily: 'var(--font-mono)',
+    color: 'color-mix(in oklab, var(--primary) 80%, transparent)',
+    fontSize: '0.625rem',
+    letterSpacing: '-0.05em',
+  },
+  backdrop: {
+    position: 'absolute',
+    inset: '-1rem',
+    zIndex: -1,
+    borderRadius: 0,
+    backgroundImage:
+      'linear-gradient(to bottom right in oklab, color-mix(in oklab, var(--primary) 10%, transparent), color-mix(in oklab, var(--secondary) 10%, transparent), transparent)',
+    opacity: 0.4,
+    filter: 'blur(64px)',
+  },
+});
+
+interface Props {
+  copy: import('@bdkinc/content').PageData<'service-artificial-intelligence'>['watsonx'];
+  className?: string;
+  xstyle?: StyleXStyles;
+}
+
+export default function WatsonxSpotlight({ copy, className, xstyle }: Props) {
+  const section = stylex.props(styles.section, xstyle);
+  const scanlines = stylex.props(styles.scanlines);
+  const circuit = stylex.props(styles.circuit);
   return (
-    <section className="border-primary/20 bg-background/50 relative my-24 overflow-hidden rounded-none border p-8 md:p-12">
+    <section {...section} className={cn(section.className, className)}>
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,102,255,0.08),transparent_40%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(124,58,237,0.08),transparent_40%)]" />
-      <div className="scanlines absolute inset-0 opacity-[0.03]" />
-      <div className="circuit-overlay pointer-events-none absolute inset-0 opacity-[0.02]" />
-      <div className="relative z-10 grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div {...stylex.props(styles.glowTop)} />
+      <div {...stylex.props(styles.glowBottom)} />
+      <div {...scanlines} className={cn(scanlines.className, 'scanlines')} />
+      <div {...circuit} className={cn(circuit.className, 'circuit-overlay')} />
+      <div {...stylex.props(styles.grid, styles.gridCols)}>
         {/* Content Side */}
-        <div className="space-y-6">
-          <div className="border-primary/30 bg-primary/5 text-primary inline-flex items-center gap-2 border px-4 py-1.5 font-mono text-xs font-semibold tracking-wider">
-            <PiCpu className="h-3.5 w-3.5" />
-            Premier Toolkit // watsonx
+        <div {...stylex.props(styles.content)}>
+          <div {...stylex.props(styles.eyebrow)}>
+            <PiCpu {...stylex.props(styles.eyebrowIcon)} />
+            {copy.eyebrow}
           </div>
-          <h2 className="font-display text-foreground text-3xl font-bold tracking-tight sm:text-4xl">
-            Powered by <span className="text-primary">IBM watsonx</span>
+          <h2 {...stylex.props(styles.heading)}>
+            {copy.heading}{' '}
+            <span {...stylex.props(styles.headingAccent)}>
+              {copy.headingAccent}
+            </span>
           </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed">
-            We don&apos;t just use AI APIs; we engineer enterprise-grade AI
-            platforms. Leveraging the watsonx stack, we deliver models that are
-            transparent, governable, and trained on your proprietary data—not
-            the public internet.
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <p {...stylex.props(styles.body)}>{copy.body}</p>
+          <div {...stylex.props(styles.features, styles.featuresCols)}>
             {[
-              'watsonx.ai for Generative Models',
-              'watsonx.data for Lakehouse Scale',
-              'watsonx.governance for Compliance',
-              'OpenShift Containerization',
+              copy.features.watsonxAiForGenerativeModels,
+              copy.features.watsonxDataForLakehouseScale,
+              copy.features.watsonxGovernanceForCompliance,
+              copy.features.openshiftContainerization,
             ].map((feature, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <PiCheckCircle className="text-primary h-5 w-5 shrink-0" />
-                <span className="text-foreground font-display text-sm font-medium tracking-wide">
-                  {feature}
-                </span>
+              <div key={i} {...stylex.props(styles.feature)}>
+                <PiCheckCircle {...stylex.props(styles.featureIcon)} />
+                <span {...stylex.props(styles.featureLabel)}>{feature}</span>
               </div>
             ))}
           </div>
         </div>
         {/* Visual Side - "Module" Look */}
-        <div className="relative">
+        <div {...stylex.props(styles.visual)}>
           <TechCard
             variant="technical"
             interactive={false}
-            className="shadow-2xl"
+            xstyle={styles.cardShadow}
           >
-            <div className="p-6">
+            <div {...stylex.props(styles.moduleBody)}>
               {/* Header */}
-              <div className="border-primary/20 mb-6 flex items-center justify-between border-b pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="bg-muted-foreground/50 h-2 w-2 rounded-full" />
-                  <div className="bg-muted-foreground/50 h-2 w-2 rounded-full" />
-                  <div className="bg-primary/50 h-2 w-2 rounded-full" />
+              <div {...stylex.props(styles.moduleHead)}>
+                <div {...stylex.props(styles.dots)}>
+                  <div {...stylex.props(styles.dotMuted)} />
+                  <div {...stylex.props(styles.dotMuted)} />
+                  <div {...stylex.props(styles.dotPrimary)} />
                 </div>
-                <div className="text-primary/60 font-mono text-[10px] tracking-widest">
-                  Node Status: Optimized
+                <div {...stylex.props(styles.nodeStatus)}>
+                  {copy.nodeStatus}
                 </div>
               </div>
               {/* Modules Grid */}
-              <div className="grid gap-4">
-                <div className="group border-primary/10 bg-background/50 hover:border-primary/40 hover:bg-primary/5 flex items-center gap-4 border p-4 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing]">
-                  <div className="border-primary/20 bg-primary/10 text-primary group-hover:border-primary/40 rounded-md border p-3 transition-colors">
-                    <PiBrain className="h-6 w-6" />
+              <div {...stylex.props(styles.modules)}>
+                <div
+                  {...stylex.props(
+                    stylex.defaultMarker(),
+                    styles.modulePrimary
+                  )}
+                >
+                  <div {...stylex.props(styles.moduleIconPrimary)}>
+                    <PiBrain {...stylex.props(styles.moduleGlyph)} />
                   </div>
-                  <div className="text-left">
-                    <div className="text-foreground font-display text-sm font-bold tracking-tight">
-                      Foundation Models
+                  <div {...stylex.props(styles.moduleText)}>
+                    <div {...stylex.props(styles.moduleTitle)}>
+                      {copy.foundationModels.title}
                     </div>
-                    <div className="text-muted-foreground font-mono text-[10px]">
-                      GRANITE-13B, LLAMA-3, FALCON-180B
+                    <div {...stylex.props(styles.moduleDesc)}>
+                      {copy.foundationModels.description}
                     </div>
                   </div>
-                  <div className="ml-auto">
-                    <div className="bg-primary/70 h-1.5 w-1.5 rounded-full" />
+                  <div {...stylex.props(styles.moduleMeta)}>
+                    <div {...stylex.props(styles.moduleDot)} />
                   </div>
                 </div>
-                <div className="group border-border/60 bg-background/50 hover:border-primary/40 hover:bg-primary/5 flex items-center gap-4 border p-4 transition-colors">
-                  <div className="border-secondary/20 bg-secondary/10 text-secondary group-hover:border-secondary/40 rounded-md border p-3 transition-colors">
-                    <PiDatabase className="h-6 w-6" />
+                <div
+                  {...stylex.props(stylex.defaultMarker(), styles.moduleMuted)}
+                >
+                  <div {...stylex.props(styles.moduleIconSecondary)}>
+                    <PiDatabase {...stylex.props(styles.moduleGlyph)} />
                   </div>
-                  <div className="text-left">
-                    <div className="text-foreground font-display text-sm font-bold tracking-tight">
-                      Vector Store
+                  <div {...stylex.props(styles.moduleText)}>
+                    <div {...stylex.props(styles.moduleTitle)}>
+                      {copy.vectorStore.title}
                     </div>
-                    <div className="text-muted-foreground font-mono text-[10px]">
-                      RAG Knowledge Base // Scale Ready
+                    <div {...stylex.props(styles.moduleDesc)}>
+                      {copy.vectorStore.description}
                     </div>
                   </div>
-                  <div className="text-primary/80 ml-auto font-mono text-[10px] tracking-tighter">
-                    Synced
+                  <div {...stylex.props(styles.moduleStatus)}>
+                    {copy.vectorStore.status}
                   </div>
                 </div>
-                <div className="group border-border/60 bg-background/50 hover:border-primary/40 hover:bg-primary/5 flex items-center gap-4 border p-4 transition-colors">
-                  <div className="border-primary/20 bg-primary/10 text-primary group-hover:border-primary/40 rounded-md border p-3 transition-colors">
-                    <PiShieldCheck className="h-6 w-6" />
+                <div
+                  {...stylex.props(stylex.defaultMarker(), styles.moduleMuted)}
+                >
+                  <div {...stylex.props(styles.moduleIconPrimary)}>
+                    <PiShieldCheck {...stylex.props(styles.moduleGlyph)} />
                   </div>
-                  <div className="text-left">
-                    <div className="text-foreground font-display text-sm font-bold tracking-tight">
-                      Governance Layer
+                  <div {...stylex.props(styles.moduleText)}>
+                    <div {...stylex.props(styles.moduleTitle)}>
+                      {copy.governance.title}
                     </div>
-                    <div className="text-muted-foreground font-mono text-[10px]">
-                      Drift Detection Active // Compliant
+                    <div {...stylex.props(styles.moduleDesc)}>
+                      {copy.governance.description}
                     </div>
                   </div>
-                  <div className="text-primary/80 ml-auto font-mono text-[10px] tracking-tighter">
-                    Active
+                  <div {...stylex.props(styles.moduleStatus)}>
+                    {copy.governance.status}
                   </div>
                 </div>
               </div>
             </div>
           </TechCard>
           {/* Background */}
-          <div className="from-primary/10 via-secondary/10 absolute -inset-4 z-[-1] rounded-none bg-gradient-to-br to-transparent opacity-40 blur-3xl" />
+          <div {...stylex.props(styles.backdrop)} />
         </div>
       </div>
     </section>

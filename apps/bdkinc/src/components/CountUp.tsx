@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useInView, useMotionValue, useSpring } from 'motion/react';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 
 interface CountUpProps {
   to: number;
@@ -8,6 +10,7 @@ interface CountUpProps {
   delay?: number;
   duration?: number;
   className?: string;
+  xstyle?: StyleXStyles;
   startWhen?: boolean;
   separator?: string;
   onStart?: () => void;
@@ -21,6 +24,7 @@ export default function CountUp({
   delay = 0,
   duration = 2,
   className = '',
+  xstyle,
   startWhen = true,
   separator = '',
   onStart,
@@ -134,5 +138,12 @@ export default function CountUp({
     return () => unsubscribe();
   }, [springValue, separator, maxDecimals]);
 
-  return <span className={className} ref={ref} />;
+  const applied = stylex.props(xstyle);
+  return (
+    <span
+      {...applied}
+      className={[applied.className, className].filter(Boolean).join(' ')}
+      ref={ref}
+    />
+  );
 }

@@ -1,0 +1,15 @@
+{
+  "key": "services",
+  "kind": "page",
+  "title": "Services",
+  "fields": {
+    "hero": {"type":"group","label":"Introduction","fields":{"badgeAccent":{"type":"text","label":"Badge emphasis"},"badgeEnd":{"type":"text","label":"Badge ending"},"headingLead":{"type":"text","label":"Heading introduction"},"headingAccent":{"type":"text","label":"Heading emphasis"},"description":{"type":"textarea","label":"Description"}}},
+    "cta": {"type":"group","label":"Contact invitation","fields":{"title":{"type":"text","label":"Heading"},"description":{"type":"textarea","label":"Description"},"buttonText":{"type":"text","label":"Button text"},"buttonHref":{"type":"url","label":"Button destination"}}},
+    "metadata": {"type":"group","label":"Search metadata","fields":{"title":{"type":"text","label":"Page title"}}}
+  },
+  "defaults": {
+    "metadata":{"title":"IT Services | Managed Services, Cloud Hosting, Cybersecurity | BDKinc"},
+    "hero":{"badgeAccent":"Enterprise-Grade","badgeEnd":" Solutions","headingLead":"Our ","headingAccent":"Services","description":"Comprehensive IT solutions designed to help your business thrive"},
+    "cta":{"title":"Ready to Get Started?","description":"Contact us today to discuss how our services can help your business grow. We architect, manage, and secure your infrastructure so you can focus on driving your business forward.","buttonText":"Contact Us","buttonHref":"/contact#chat"}
+  }
+}

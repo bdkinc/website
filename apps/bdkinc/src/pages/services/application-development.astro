@@ -1,27 +1,30 @@
 ---
-import { getEntry } from 'astro:content';
+import {
+  getContentEntry,
+  getPageCopy,
+  getSettings,
+  type ContentProps,
+} from '@/lib/content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { getBlogPosts } from '@/lib/blog';
 import { iconMap } from '@/lib/icons';
-import { TechCard, TechCardGrid } from '@/components/TechCard';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer.astro';
+import EditSection from '@/components/preview/EditSection.astro';
 import CapabilitiesGrid from '@/components/visualizations/CapabilitiesGrid';
 import TechStackShowcase from '@/components/visualizations/TechStackShowcase';
 import LifecycleVisualization from '@/components/visualizations/LifecycleVisualization';
 import TechnicalFAQ from '@/components/TechnicalFAQ';
 
 import TechnicalSection from '@/components/TechnicalSection';
-import FeatureCarousel from '@/components/FeatureCarousel';
+import FeatureCarousel, { type Feature } from '@/components/FeatureCarousel';
 import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
 import ServiceBlockquote from '@/components/ServiceBlockquote.astro';
 import { servicePageSchemas } from '@/lib/schema';
 import {
-  PiArrowsClockwise,
-  PiNetworkX,
   PiCode,
   PiMedal,
   PiLink,
@@ -33,11 +36,22 @@ import {
   PiUsersThree,
   PiArrowRight,
 } from 'react-icons/pi';
-const service = await getEntry('services', 'application-development');
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const copy = await getPageCopy(
+  'service-application-development',
+  contentContext
+);
+const settings = await getSettings(contentContext);
+const service = await getContentEntry(
+  'services',
+  'application-development',
+  contentContext
+);
 if (!service) {
   return new Response(null, { status: 404 });
 }
-const { servicesData, recentPosts } = await getNavigationData();
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 const IconComponent = iconMap[service.data.icon];
 const title = service.data.title;
 const titleWords = title.split(' ');
@@ -47,22 +61,21 @@ const _serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: service.data.title,
-  description:
-    'BDKinc is your full-service development shop for custom software, enterprise integration, and application modernization. Built to power your vision.',
+  description: copy.serviceSchema.description,
   provider: {
     '@type': 'Organization',
     name: 'BDKinc',
     url: 'https://www.bdkinc.com',
   },
-  serviceType: 'Custom Application Development',
-  areaServed: ['United States'],
+  serviceType: copy.serviceSchema.serviceType,
+  areaServed: [copy.serviceSchema.areaServed.unitedStates],
 };
 const relatedTags = [
   'application-development',
   'software-development',
   'modernization',
 ];
-const relatedPosts = (await getBlogPosts())
+const relatedPosts = (await getBlogPosts(contentContext))
   .filter((post) => {
     return (
       Array.isArray(post.tags) &&
@@ -71,75 +84,39 @@ const relatedPosts = (await getBlogPosts())
   })
   .slice(0, 3);
 const metrics = [
-  { value: '250+', label: 'Apps Delivered', icon: PiCode },
-  { value: '92%', label: 'Client Retention', icon: PiMedal },
-  { value: '60+', label: 'System Integrations', icon: PiLink },
-  { value: '45', label: 'Annual Releases', icon: PiRocket },
+  { ...copy.metrics.appsDelivered, icon: PiCode },
+  { ...copy.metrics.clientRetention, icon: PiMedal },
+  { ...copy.metrics.systemIntegrations, icon: PiLink },
+  { ...copy.metrics.annualReleases, icon: PiRocket },
 ];
 const faqs = [
-  {
-    question: 'How do you ensure the scalability of custom applications?',
-    answer:
-      "We design with an 'architecture-first' mindset. By utilizing cloud-native technologies, microservices where appropriate, and robust database optimization (SQL/NoSQL), we ensure your application can handle increased loads and expanding feature sets without performance degradation.",
-  },
-  {
-    question: 'What is your approach to legacy system modernization?',
-    answer:
-      "We prioritize risk mitigation and business continuity. Our team analyzes your existing codebase to identify the best path forward—whether it's refactoring, re-platforming, or a complete rebuild. We ensure that critical business logic is preserved while transitioning you to a modern, secure tech stack.",
-  },
-  {
-    question: 'Do you provide ongoing support after deployment?',
-    answer:
-      "Absolutely. As a full-service partner, we offer comprehensive post-deployment support, including monitoring, security updates, and feature enhancements. Because we can also host what we build, we have full visibility into the application's performance, allowing us to proactively address issues before they impact your business.",
-  },
+  copy.faqs.howDoYouEnsureTheScalabilityOf,
+  copy.faqs.whatIsYourApproachToLegacySystem,
+  copy.faqs.doYouProvideOngoingSupportAfterDeployment,
 ];
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
+  copy: settings.navigation,
   serviceName: service.data.title,
   servicePath: `/services/${service.id}`,
   faqs,
 });
-const strategicFeatures = [
+const strategicFeatures: Feature[] = [
+  { ...copy.strategy.features.architectureFirstMindset, icon: 'Stack' },
   {
-    title: 'Architecture-First Mindset',
-    description: 'Scalable, cloud-native designs that grow with your vision.',
-    highlight: 'Architecture-first mindset',
-    icon: 'Stack',
-    detail:
-      "We don't just write code; we architect systems. By utilizing microservices, robust API design, and cloud-native patterns, we ensure your application is built for performance today and massive scale tomorrow.",
-  },
-  {
-    title: 'Modernization Engineering',
-    description:
-      'Phased upgrades for legacy systems with zero business friction.',
-    highlight: 'Zero business friction',
+    ...copy.strategy.features.modernizationEngineering,
     icon: 'ArrowsClockwise',
-    detail:
-      "Legacy technical debt shouldn't hold you back. Our engineering teams specialize in the phased modernization of complex enterprise systems, refactoring critical business logic into modern, secure, and maintainable stacks.",
   },
-  {
-    title: 'Lifecycle Acceleration',
-    description: 'Rapid delivery cycles powered by automated CI/CD and DevOps.',
-    highlight: 'Rapid delivery cycles',
-    icon: 'Rocket',
-    detail:
-      'Speed to market is a competitive advantage. We implement end-to-end DevOps automation, ensuring that new features and security patches move from development to production with absolute reliability and speed.',
-  },
-  {
-    title: 'Ecosystem Integration',
-    description:
-      'Seamlessly connecting disparate platforms into a unified data flow.',
-    highlight: 'Unified data flow',
-    icon: 'NetworkX',
-    detail:
-      'In a world of fragmented SaaS and legacy silos, we build the connective tissue. Our integration experts ensure that your data moves securely and reliably between platforms, creating a unified source of truth for your business.',
-  },
+  { ...copy.strategy.features.lifecycleAcceleration, icon: 'Rocket' },
+  { ...copy.strategy.features.ecosystemIntegration, icon: 'NetworkX' },
 ];
 ---
 
 <Layout
-  title="Custom Application Development & Modernization | BDKinc"
-  description="BDKinc is your full-service development shop for custom software, enterprise integration, and application modernization. Built to power your vision."
-  ogDescription="BDKinc is your full-service development shop for custom software, enterprise integration, and application modernization. Built to power your vision."
+  contentContext={contentContext}
+  publicPath={publicPath}
+  title={copy.seo.title}
+  description={copy.seo.description}
+  ogDescription={copy.seo.ogDescription}
 >
   <script
     type="application/ld+json"
@@ -156,13 +133,18 @@ const strategicFeatures = [
     is:inline
     set:html={JSON.stringify(faqSchema)}
   />
+  <EditSection record="settings" section="navigation">
   <Navigation
     client:load
     services={servicesData}
     blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
+    currentPath={publicPath}
+    copy={settings.navigation}
+    brand={settings.brand}
   />
+  </EditSection>
   <main id="main-content" class="services-page-shell">
+    <EditSection record="service-application-development" section="hero">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
@@ -184,8 +166,9 @@ const strategicFeatures = [
           >
             <div class="flex items-center gap-2 text-sm">
               <span
-                >Full-Stack <span class="text-accent font-semibold"
-                  >Dev Shop</span
+                >{copy.hero.badgePrefix}{' '}<span
+                  class="text-accent font-semibold"
+                  >{copy.hero.badgeAccent}</span
                 ></span
               >
             </div>
@@ -219,9 +202,7 @@ const strategicFeatures = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            Custom applications and modernization that fit your workflows.
-            BDKinc is your full-service development shop for custom software,
-            enterprise integration, and application modernization.
+            {copy.hero.body}
           </p>
         </div>
       </div>
@@ -230,8 +211,10 @@ const strategicFeatures = [
       >
       </div>
     </section>
+    </EditSection>
     <!-- Core Services -->
 
+    <EditSection record="service-application-development" section="leadership">
     <!-- Strategic Leadership Section -->
     <section class="relative overflow-hidden py-24">
       <div
@@ -243,20 +226,18 @@ const strategicFeatures = [
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
-            <span class="text-foreground">Engineering </span>
+            <span class="text-foreground">{copy.leadership.heading}{' '}</span>
             <span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Vision</span
+              >{copy.leadership.headingAccent}</span
             >
           </h2>
         </div>
 
         <ServiceBlockquote>
-          &ldquo;Great software isn&rsquo;t just about features; it&rsquo;s
-          about architecture that empowers growth. We build
-          <span class="text-accent"> resilient digital foundations</span>
-          that automate complexity and transform your technology from a cost center
-          into a competitive advantage.&rdquo;
+          {copy.leadership.quoteBefore}{' '}<span class="text-accent"
+            >{copy.leadership.quoteAccent}</span
+          >{' '}{copy.leadership.quoteAfter}
         </ServiceBlockquote>
       </div>
       <div
@@ -264,6 +245,8 @@ const strategicFeatures = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-application-development" section="strategy">
     <!-- Strategic Advantage -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -271,28 +254,33 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            The Strategic <span
+            {copy.strategy.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Advantage</span
+              >{copy.strategy.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond standard development with a partner who builds for
-            enterprise scale and long-term maintainability.
+            {copy.strategy.body}
           </p>
         </div>
         <FeatureCarousel client:visible features={strategicFeatures} />
       </div>
     </section>
+    </EditSection>
     <!-- Capabilities & Stack Section (split into two focused sections) -->
     <section class="py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <CapabilitiesGrid client:visible />
+        <EditSection record="service-application-development" section="capabilities">
+          <CapabilitiesGrid client:visible copy={copy.capabilities} />
+        </EditSection>
         <div class="mt-24">
-          <TechStackShowcase client:visible />
+          <EditSection record="service-application-development" section="techStack">
+            <TechStackShowcase client:visible copy={copy.techStack} />
+          </EditSection>
         </div>
       </div>
     </section>
+    <EditSection record="service-application-development" section="benefits">
     <!-- Key Benefits with stats -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -300,13 +288,13 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            Why BDK for <span
+            {copy.benefits.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Custom Development</span
+              >{copy.benefits.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            What we deliver — and the numbers that back it up.
+            {copy.benefits.body}
           </p>
         </div>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -314,39 +302,27 @@ const strategicFeatures = [
             [
               {
                 Icon: PiRocket,
-                title: 'Rapid Delivery',
-                stat: '45 releases/yr',
-                desc: 'Automated CI/CD and DevOps workflows ensure features move from concept to production at peak speed',
+                ...copy.benefits.items.rapidDelivery,
               },
               {
                 Icon: PiStack,
-                title: 'Scalable Design',
-                stat: 'Cloud-native',
-                desc: 'Architectures that grow seamlessly with your user base and data volume without re-platforming',
+                ...copy.benefits.items.scalableDesign,
               },
               {
                 Icon: PiShieldCheck,
-                title: 'Security-First',
-                stat: 'Shift-left',
-                desc: 'Vulnerability scanning and security controls integrated directly into the development lifecycle',
+                ...copy.benefits.items.securityFirst,
               },
               {
                 Icon: PiMonitor,
-                title: 'Unified Visibility',
-                stat: 'Real-time',
-                desc: 'Full-stack monitoring providing live insights into application health, latency, and error rates',
+                ...copy.benefits.items.unifiedVisibility,
               },
               {
                 Icon: PiUsersThree,
-                title: 'Dedicated Teams',
-                stat: '92% retention',
-                desc: 'Senior engineers who embed with your team to understand and architect solutions for your domain',
+                ...copy.benefits.items.dedicatedTeams,
               },
               {
                 Icon: PiLightning,
-                title: 'Operational Agility',
-                stat: '2-week sprints',
-                desc: 'Agile methodologies that allow rapid pivoting and iterative delivery based on real-world feedback',
+                ...copy.benefits.items.operationalAgility,
               },
             ].map(({ Icon, title, stat, desc }) => (
               <div class="group border-border bg-card/30 hover:border-primary/30 relative overflow-hidden rounded-xl border p-6 transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_20px_oklch(0.65_0.18_210_/_0.07)]">
@@ -370,6 +346,8 @@ const strategicFeatures = [
         </div>
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-application-development" section="lifecycle">
     <!-- Lifecycle Visualization (standalone section) -->
     <section class="py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -377,19 +355,23 @@ const strategicFeatures = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            Development <span
+            {copy.lifecycle.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Lifecycle</span
+              >{copy.lifecycle.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            How we take you from discovery to production — and keep improving
-            from there.
+            {copy.lifecycle.body}
           </p>
         </div>
-        <LifecycleVisualization client:visible />
+        <LifecycleVisualization
+          client:visible
+          copy={copy.lifecycle.visualization}
+        />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-application-development" section="operations">
     <TechnicalSection
       client:visible
       id="dev-shop-vault"
@@ -402,45 +384,45 @@ const strategicFeatures = [
           <div class="bg-primary h-2 w-2 animate-pulse rounded-full"></div>
           <span
             class="text-primary font-display text-xs font-bold tracking-widest"
-            >BDK Dev Shop Operations</span
+            >{copy.operations.badge}</span
           >
         </div>
         <h3
           class="text-foreground font-display mb-6 max-w-2xl text-3xl font-bold tracking-tight"
         >
-          Engineering Enterprise Systems. <span class="text-primary"
-            >Zero Legacy Friction.</span
+          {copy.operations.heading}{' '}<span class="text-primary"
+            >{copy.operations.headingAccent}</span
           >
         </h3>
         <div
           class="text-muted-foreground mx-auto max-w-4xl font-sans text-lg leading-relaxed"
         >
-          We help you meet the demands of modern business by automating
-          workflows, connecting disparate data sources, and reducing technical
-          debt. Our full-stack teams own the architecture, delivery, and
-          modernization of your applications end-to-end, ensuring your vision is
-          powered by excellence.
+          {copy.operations.body}
         </div>
       </div>
     </TechnicalSection>
+    </EditSection>
 
+    <EditSection record="service-application-development" section="faqs" also={['faqHeading']}>
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
         <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          Frequently Asked Questions
+          {copy.faqHeading}
         </h3>
         <div class="mb-20">
           <TechnicalFAQ client:visible faqs={faqs} />
         </div>
       </div>
     </section>
+    </EditSection>
     <!-- Related Resources -->
     {
       relatedPosts.length > 0 && (
+        <EditSection record="service-application-development" section="resources">
         <section class="mx-auto max-w-5xl px-4 py-24">
           <h2 class="text-foreground mb-6 text-center text-3xl font-bold">
-            Related Insights
+            {copy.resources.heading}
           </h2>
           <div class="grid gap-6 md:grid-cols-3">
             {relatedPosts.map((post) => (
@@ -455,24 +437,23 @@ const strategicFeatures = [
                   {post.description}
                 </p>
                 <span class="text-primary mt-4 flex items-center gap-1 text-sm font-medium">
-                  Read Article{' '}
+                  {copy.resources.articleLinkLabel}{' '}
                   <PiArrowRight className="h-3 w-3" aria-hidden="true" />
                 </span>
               </a>
             ))}
           </div>
         </section>
+        </EditSection>
       )
     }
-    <ImpactMetricsSection metrics={metrics} />
+    <EditSection record="service-application-development" section="metrics">
+    <ImpactMetricsSection metrics={metrics} copy={settings.metrics} />
+    </EditSection>
+    <EditSection record="service-application-development" section="cta">
     <!-- CTA -->
-    <CTASection
-      client:visible
-      title="Build Your Vision with BDK"
-      description="Ready to engineer the future of your business? Partner with a development shop that understands enterprise scale."
-      buttonText="Start Your Project"
-      buttonHref="/contact#chat"
-    />
+    <CTASection client:visible copy={settings.cta} {...copy.cta} />
+    </EditSection>
   </main>
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

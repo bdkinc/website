@@ -1,12 +1,73 @@
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { iconMap } from '@/lib/icons';
 import { PiPackage } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
+
+const colorTransition =
+  'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to';
+const transition =
+  'color, background-color, border-color, box-shadow, opacity, transform, width, gap, letter-spacing';
+const easing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+// TechCard sets --tech-hover-opacity to 1 while hovered (the old `group-hover:`).
+const styles = stylex.create({
+  link: {
+    position: 'relative',
+    zIndex: 20,
+    display: 'flex',
+    height: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '2rem',
+    textAlign: 'center',
+  },
+  iconWrapper: { marginBottom: '1.5rem' },
+  iconBox: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 'var(--radius)',
+    padding: '0.75rem',
+    backgroundColor:
+      'color-mix(in oklab, var(--primary) calc(5% + 5% * var(--tech-hover-opacity, 0)), transparent)',
+    // group-hover:scale-110 sets the individual `scale` property, which is not in the transition list.
+    scale: 'calc(1 + 0.1 * var(--tech-hover-opacity, 0))',
+    boxShadow:
+      '0 0 15px rgba(0, 212, 255, calc(0.3 * var(--tech-hover-opacity, 0)))',
+    transitionProperty: transition,
+    transitionDuration: '500ms',
+    transitionTimingFunction: easing,
+  },
+  glyph: { height: '2rem', width: '2rem', color: 'var(--primary)' },
+  title: {
+    marginBottom: '0.75rem',
+    color: 'var(--tech-title-color, var(--foreground))',
+    fontFamily: 'var(--font-display)',
+    fontSize: '1.5rem',
+    lineHeight: 'calc(2 / 1.5)',
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+    transitionProperty: colorTransition,
+    transitionDuration: '300ms',
+    transitionTimingFunction: easing,
+  },
+  description: {
+    marginBottom: '1.5rem',
+    flexGrow: 1,
+    color: 'var(--muted-foreground)',
+    fontSize: '0.875rem',
+    lineHeight: 1.625,
+  },
+});
+
 interface InteractiveServiceCardProps {
   id: string;
   title: string;
   description: string;
   icon: string;
   index: number;
+  xstyle?: StyleXStyles;
 }
 export default function InteractiveServiceCard({
   id,
@@ -14,6 +75,7 @@ export default function InteractiveServiceCard({
   description,
   icon,
   index,
+  xstyle,
 }: InteractiveServiceCardProps) {
   const Icon = iconMap[icon] || PiPackage;
   return (
@@ -22,26 +84,23 @@ export default function InteractiveServiceCard({
       interactive
       variant="technical"
       delay={index * 100}
-      className="h-full"
+      xstyle={[styles.link, xstyle]}
     >
-      <a
-        href={`/services/${id}`}
-        className="relative z-20 flex h-full flex-col items-center p-8 text-center"
-      >
+      <a href={`/services/${id}`}>
         {/* Icon */}
-        <div className="service-icon-wrapper mb-6">
+        <div {...stylex.props(styles.iconWrapper)}>
           <div
-            className="bg-primary/5 group-hover:bg-primary/10 inline-flex items-center justify-center rounded-lg p-3 transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(0,212,255,0.3)]"
+            {...stylex.props(styles.iconBox)}
             style={{
               viewTransitionName: `service-icon-${id}`,
             }}
           >
-            <Icon className="text-primary h-8 w-8" />
+            <Icon {...stylex.props(styles.glyph)} />
           </div>
         </div>
         {/* Title */}
         <h2
-          className="text-foreground group-hover:text-primary font-display mb-3 text-2xl font-bold tracking-tight transition-colors duration-300"
+          {...stylex.props(styles.title)}
           style={{
             viewTransitionName: `service-title-${id}`,
           }}
@@ -50,7 +109,7 @@ export default function InteractiveServiceCard({
         </h2>
         {/* Description */}
         <p
-          className="text-muted-foreground mb-6 grow text-sm leading-relaxed"
+          {...stylex.props(styles.description)}
           style={{
             viewTransitionName: `service-description-${id}`,
           }}

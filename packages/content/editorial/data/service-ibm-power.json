@@ -1,0 +1,796 @@
+{
+  "key": "service-ibm-power",
+  "kind": "page",
+  "title": "IBM Power page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "badgePrefix": {
+          "type": "text",
+          "label": "Badge — opening text"
+        },
+        "badgeAccent": {
+          "type": "text",
+          "label": "Badge — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "backgroundLogo": {
+          "type": "media",
+          "label": "Background partner logo"
+        }
+      }
+    },
+    "infrastructure": {
+      "type": "group",
+      "label": "Power Systems services",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "bodyBefore": {
+          "type": "textarea",
+          "label": "Introduction — before emphasis"
+        },
+        "bodyAccent": {
+          "type": "textarea",
+          "label": "Introduction — emphasized text"
+        },
+        "bodyAfter": {
+          "type": "textarea",
+          "label": "Introduction — after emphasis"
+        },
+        "services": {
+          "type": "group",
+          "label": "Services",
+          "fields": {
+            "managedHosting": {
+              "type": "group",
+              "label": "Managed Hosting",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "tag": {
+                  "type": "text",
+                  "label": "Tag"
+                }
+              }
+            },
+            "modernization": {
+              "type": "group",
+              "label": "Modernization",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "tag": {
+                  "type": "text",
+                  "label": "Tag"
+                }
+              }
+            },
+            "disasterRecovery": {
+              "type": "group",
+              "label": "Disaster Recovery",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "tag": {
+                  "type": "text",
+                  "label": "Tag"
+                }
+              }
+            },
+            "performanceTuning": {
+              "type": "group",
+              "label": "Performance Tuning",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "tag": {
+                  "type": "text",
+                  "label": "Tag"
+                }
+              }
+            },
+            "osLifecycle": {
+              "type": "group",
+              "label": "OS Lifecycle",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "tag": {
+                  "type": "text",
+                  "label": "Tag"
+                }
+              }
+            },
+            "hybridIntegration": {
+              "type": "group",
+              "label": "Hybrid Integration",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "desc": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "tag": {
+                  "type": "text",
+                  "label": "Tag"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "leadership": {
+      "type": "group",
+      "label": "Leadership narrative",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "quoteBefore": {
+          "type": "textarea",
+          "label": "Quotation — before emphasis"
+        },
+        "quoteAccent": {
+          "type": "textarea",
+          "label": "Quotation — emphasized text"
+        },
+        "quoteAfter": {
+          "type": "textarea",
+          "label": "Quotation — after emphasis"
+        }
+      }
+    },
+    "strategy": {
+      "type": "group",
+      "label": "Strategic advantage",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "features": {
+          "type": "group",
+          "label": "Features",
+          "fields": {
+            "orchestratedMastery": {
+              "type": "group",
+              "label": "Orchestrated Mastery",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "modernizationWithoutFriction": {
+              "type": "group",
+              "label": "Modernization Without Friction",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "hybridResilience": {
+              "type": "group",
+              "label": "Hybrid Resilience",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "slaBackedOperations": {
+              "type": "group",
+              "label": "SLA-Backed Operations",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "roadmap": {
+      "type": "group",
+      "label": "Modernization roadmap",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "steps": {
+          "type": "group",
+          "label": "Steps",
+          "fields": {
+            "legacyFoundation": {
+              "type": "group",
+              "label": "Legacy Foundation",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "hybridIntegration": {
+              "type": "group",
+              "label": "Hybrid Integration",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "futureState": {
+              "type": "group",
+              "label": "Future State",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        },
+        "flowLabel": {
+          "type": "text",
+          "label": "Flow Label"
+        }
+      }
+    },
+    "benefits": {
+      "type": "group",
+      "label": "Benefits",
+      "fields": {
+        "items": {
+          "type": "group",
+          "label": "Offerings",
+          "fields": {
+            "item25YearsMastery": {
+              "type": "group",
+              "label": "25+ Years Mastery",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "certifiedPartner": {
+              "type": "group",
+              "label": "Certified Partner",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "blackBoxExpertise": {
+              "type": "group",
+              "label": "'Black Box' Expertise",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "enterpriseSecurity": {
+              "type": "group",
+              "label": "Enterprise Security",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "singlePartner": {
+              "type": "group",
+              "label": "Single Partner",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "slaDriven": {
+              "type": "group",
+              "label": "SLA-Driven",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "faqHeading": { "type": "text", "label": "FAQ heading" },
+    "faqs": {
+      "type": "group",
+      "label": "Frequently asked questions",
+      "fields": {
+        "canYouHostOurIbmIAs": {
+          "type": "group",
+          "label": "Can you host our IBM i / AS/400 applications without rewriting them?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "whatIsYourApproachToModernizingGreen": {
+          "type": "group",
+          "label": "What is your approach to modernizing green-screen interfaces?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "howDoYouHandleDisasterRecoveryFor": {
+          "type": "group",
+          "label": "How do you handle Disaster Recovery for IBM i?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "group",
+      "label": "Impact metrics",
+      "fields": {
+        "lparsManaged": {
+          "type": "group",
+          "label": "LPARs Managed",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "availabilityTarget": {
+          "type": "group",
+          "label": "Availability Target",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "operationsCoverage": {
+          "type": "group",
+          "label": "Operations Coverage",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "powerEngineers": {
+          "type": "group",
+          "label": "Power Engineers",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "faqHeading": "Frequently Asked Questions",
+    "hero": {
+      "badgePrefix": "Power Systems",
+      "badgeAccent": "Experts",
+      "body": "Maximize your AS/400 and iSeries legacy. Premier IBM Power orchestration, managed hosting, and modernization services for high-availability enterprise environments.",
+      "backgroundLogo": "/logos/partners/ibm.svg"
+    },
+    "leadership": {
+      "heading": "Architectural",
+      "headingAccent": "Legacy",
+      "quoteBefore": "“IBM Power is the heartbeat of the enterprise. We don’t just host legacy systems; we architect",
+      "quoteAccent": "battle-hardened foundations",
+      "quoteAfter": "that preserve your rock-solid logic while empowering your next decade of business innovation.”"
+    },
+    "strategy": {
+      "heading": "The Strategic",
+      "headingAccent": "Advantage",
+      "body": "Move beyond standard support with a partner who speaks the language of Power Systems.",
+      "features": {
+        "orchestratedMastery": {
+          "title": "Orchestrated Mastery",
+          "description": "Decades of engineering expertise across AS/400 and iSeries legacy.",
+          "highlight": "25+ years of mastery",
+          "detail": "We don't just support IBM Power; we live it. Our deep bench of engineers spans generations of hardware and software evolution, providing you with the expert-level management required for environments that generalist MSPs won't touch."
+        },
+        "modernizationWithoutFriction": {
+          "title": "Modernization Without Friction",
+          "description": "Zero-code 'lift and shift' strategies for mission-critical workloads.",
+          "highlight": "Zero-code modernization",
+          "detail": "Your legacy is your foundation, not your limit. We specialize in phased modernization paths that move your exact workloads to modern Power10 hardware or secure cloud instances without requiring a single line of code to be rewritten."
+        },
+        "hybridResilience": {
+          "title": "Hybrid Resilience",
+          "description": "Low-latency interconnects between IBM Power and modern x86 cloud.",
+          "highlight": "Unified hybrid architecture",
+          "detail": "Break down the silos between your rock-solid IBM i backend and your modern web frontends. We architect low-latency private interconnects that allow your modern applications to query legacy databases in real-time, creating a unified, resilient ecosystem."
+        },
+        "slaBackedOperations": {
+          "title": "SLA-Backed Operations",
+          "description": "High-availability targets aligned strictly with business uptime.",
+          "highlight": "99.99% availability target",
+          "detail": "Downtime isn't just an inconvenience; it's a failure. Our operations are driven by aggressive SLAs and proactive monitoring, utilizing logical and hardware-based replication to ensure your core business systems never blink."
+        }
+      }
+    },
+    "infrastructure": {
+      "heading": "Infrastructure",
+      "headingAccent": "Control",
+      "bodyBefore": "Expert-level Power Systems management designed for",
+      "bodyAccent": "critical uptime",
+      "bodyAfter": ".",
+      "services": {
+        "managedHosting": {
+          "title": "Managed Hosting",
+          "desc": "Secure, scalable hosting for IBM i, AIX, and Linux with 99.99% availability.",
+          "tag": "Core"
+        },
+        "modernization": {
+          "title": "Modernization",
+          "desc": "RPG/COBOL modernization and integration with modern API-driven workflows.",
+          "tag": "Innovate"
+        },
+        "disasterRecovery": {
+          "title": "Disaster Recovery",
+          "desc": "Real-time replication and rapid recovery protocols for business continuity.",
+          "tag": "Protect"
+        },
+        "performanceTuning": {
+          "title": "Performance Tuning",
+          "desc": "Deep-layer optimization of CPW, memory, and I/O for peak efficiency.",
+          "tag": "Optimize"
+        },
+        "osLifecycle": {
+          "title": "OS Lifecycle",
+          "desc": "Precision management of version upgrades, PTFs, and security patches.",
+          "tag": "Manage"
+        },
+        "hybridIntegration": {
+          "title": "Hybrid Integration",
+          "desc": "Connecting Power workloads with Azure, AWS, and modern cloud stacks.",
+          "tag": "Scale"
+        }
+      }
+    },
+    "roadmap": {
+      "heading": "Modernization",
+      "headingAccent": "Roadmap",
+      "body": "Phased strategies to evolve your core systems without business disruption.",
+      "steps": {
+        "legacyFoundation": {
+          "title": "Legacy Foundation",
+          "description": "Stabilize AS/400 & iSeries workloads. Hardware refresh, OS upgrades, and security hardening."
+        },
+        "hybridIntegration": {
+          "title": "Hybrid Integration",
+          "description": "Connect legacy data to modern workflows. REST APIs, cloud connectors, and bi-directional sync."
+        },
+        "futureState": {
+          "title": "Future State",
+          "description": "Full digital agility. Web/Mobile front-ends, real-time analytics, and microservices architecture."
+        }
+      },
+      "flowLabel": "Systems Upgrade Flow"
+    },
+    "metrics": {
+      "lparsManaged": {
+        "value": "500+",
+        "label": "LPARs Managed"
+      },
+      "availabilityTarget": {
+        "value": "99.99%",
+        "label": "Availability Target"
+      },
+      "operationsCoverage": {
+        "value": "24/7",
+        "label": "Operations Coverage"
+      },
+      "powerEngineers": {
+        "value": "30+",
+        "label": "Power Engineers"
+      }
+    },
+    "faqs": {
+      "canYouHostOurIbmIAs": {
+        "question": "Can you host our IBM i / AS/400 applications without rewriting them?",
+        "answer": "Yes. We specialize in 'lift and shift' strategies that move your exact workload to modern hardware without code changes, often improving performance and reliability."
+      },
+      "whatIsYourApproachToModernizingGreen": {
+        "question": "What is your approach to modernizing green-screen interfaces?",
+        "answer": "We offer multiple paths, from web-facing refacing tools to developing new API layers that allow modern front-ends (React, Mobile) to interact with your rock-solid backend logic."
+      },
+      "howDoYouHandleDisasterRecoveryFor": {
+        "question": "How do you handle Disaster Recovery for IBM i?",
+        "answer": "We utilize logical replication and hardware-based replication technologies to mirror your system in real-time to our secure datacenters, targeting minute-level RTO/RPOs depending on architecture."
+      }
+    },
+    "benefits": {
+      "items": {
+        "item25YearsMastery": {
+          "title": "25+ Years Mastery",
+          "description": "Decades of deep engineering expertise across IBM hardware and software evolution."
+        },
+        "certifiedPartner": {
+          "title": "Certified Partner",
+          "description": "IBM Silver Partner status providing direct access to IBM labs and tier-3 global support."
+        },
+        "blackBoxExpertise": {
+          "title": "'Black Box' Expertise",
+          "description": "We thrive in complex, legacy environments that generalist MSPs simply won't touch."
+        },
+        "enterpriseSecurity": {
+          "title": "Enterprise Security",
+          "description": "Hardening and continuous compliance for your most sensitive legacy and modern datasets."
+        },
+        "singlePartner": {
+          "title": "Single Partner",
+          "description": "Unified premier support for IBM i, AIX, and Linux, simplifying your operational complexity."
+        },
+        "slaDriven": {
+          "title": "SLA-Driven",
+          "description": "Operations aligned strictly to business uptime with aggressive resolution targets."
+        }
+      }
+    },
+    "seo": {
+      "title": "IBM Power Systems - Managed Hosting & Modernization | BDKinc",
+      "description": "Maximize your AS/400 and iSeries legacy. Premier IBM Power orchestration, managed hosting, and modernization services for high-availability enterprise environments."
+    },
+    "cta": {
+      "title": "Your Power Systems Deserve Expert Hands",
+      "description": "Don't let your legacy become a liability. Secure, optimize, and modernize your IBM investment with a team that knows it best.",
+      "buttonText": "Schedule a Power Assessment",
+      "buttonHref": "/contact#chat"
+    }
+  }
+}

@@ -1,25 +1,172 @@
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { motion } from 'motion/react';
 
-export default function CohesiveOrbit() {
+const styles = stylex.create({
+  root: {
+    position: 'absolute',
+    inset: 0,
+    zIndex: 0,
+    display: 'flex',
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    pointerEvents: 'none',
+  },
+  glowPrimary: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    height: 400,
+    width: '80vw',
+    maxWidth: 600,
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '9999px',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+    filter: 'blur(100px)',
+  },
+  glowSecondary: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    height: 300,
+    width: '40vw',
+    maxWidth: 400,
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '9999px',
+    backgroundColor: 'color-mix(in oklab, var(--secondary) 20%, transparent)',
+    filter: 'blur(80px)',
+  },
+  // Rings rotate via motion `animate`; no transform here so the animation wins.
+  ringPrimary: {
+    position: 'absolute',
+    display: 'flex',
+    aspectRatio: '1 / 1',
+    width: '70vw',
+    maxWidth: 700,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '9999px',
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+  },
+  ringSecondary: {
+    position: 'absolute',
+    display: 'flex',
+    aspectRatio: '1 / 1',
+    width: '110vw',
+    maxWidth: 1100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '9999px',
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: 'color-mix(in oklab, var(--secondary) 20%, transparent)',
+  },
+  ringOuter: {
+    position: 'absolute',
+    display: 'flex',
+    aspectRatio: '1 / 1',
+    width: '150vw',
+    maxWidth: 1500,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '9999px',
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: 'var(--orbit-ring-outer)',
+  },
+  nodeTop: {
+    position: 'absolute',
+    top: 0,
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
+  nodeRight: {
+    position: 'absolute',
+    top: '50%',
+    right: 0,
+    transform: 'translate(50%, -50%)',
+  },
+  nodeLeft: {
+    position: 'absolute',
+    top: '50%',
+    left: 0,
+    transform: 'translate(-50%, -50%)',
+  },
+  nodeBottom: {
+    position: 'absolute',
+    bottom: 0,
+    left: '50%',
+    transform: 'translate(-50%, 50%)',
+  },
+  dotPrimary: {
+    height: '0.5rem',
+    width: '0.5rem',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--primary)',
+    // Kept verbatim: --color-primary resolves to an oklch var, so this
+    // shadow never rendered; preserved as-is per migration policy.
+    boxShadow: '0 0 15px 4px rgba(var(--color-primary),0.5)',
+  },
+  dotPrimarySmall: {
+    height: '0.375rem',
+    width: '0.375rem',
+    borderRadius: '9999px',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 50%, transparent)',
+    boxShadow: '0 0 10px 2px rgba(var(--color-primary),0.3)',
+  },
+  dotSecondary: {
+    height: '0.625rem',
+    width: '0.625rem',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--secondary)',
+    boxShadow: '0 0 20px 5px rgba(var(--color-secondary),0.6)',
+  },
+  dotAccent: {
+    height: '0.75rem',
+    width: '0.75rem',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--accent)',
+    boxShadow: '0 0 20px 5px rgba(var(--color-accent),0.4)',
+  },
+  dotWhite: {
+    height: '0.375rem',
+    width: '0.375rem',
+    borderRadius: '9999px',
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    boxShadow: '0 0 10px 2px rgba(255,255,255,0.2)',
+  },
+});
+
+interface CohesiveOrbitProps {
+  xstyle?: StyleXStyles;
+}
+
+export default function CohesiveOrbit({ xstyle }: CohesiveOrbitProps) {
+  const root = stylex.props(styles.root, xstyle);
   return (
-    <div className="pointer-events-none absolute inset-0 z-0 flex h-full w-full items-center justify-center overflow-hidden">
+    <div {...root}>
       {/* Central Core Glows (Behind text) */}
-      <div className="bg-primary/20 absolute top-1/2 left-1/2 h-[400px] w-[80vw] max-w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[100px]" />
-      <div className="bg-secondary/20 absolute top-1/2 left-1/2 h-[300px] w-[40vw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[80px]" />
+      <div {...stylex.props(styles.glowPrimary)} />
+      <div {...stylex.props(styles.glowSecondary)} />
 
       {/* Ring 1 (Inner) - Primary */}
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-        className="border-primary/20 absolute flex aspect-square w-[70vw] max-w-[700px] items-center justify-center rounded-full border border-dashed"
+        {...stylex.props(styles.ringPrimary)}
       >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div {...stylex.props(styles.nodeTop)}>
           {/* Glowing node */}
-          <div className="bg-primary h-2 w-2 rounded-full shadow-[0_0_15px_4px_rgba(var(--color-primary),0.5)]" />
+          <div {...stylex.props(styles.dotPrimary)} />
         </div>
         {/* Secondary node on same ring */}
-        <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2">
-          <div className="bg-primary/50 h-1.5 w-1.5 rounded-full shadow-[0_0_10px_2px_rgba(var(--color-primary),0.3)]" />
+        <div {...stylex.props(styles.nodeRight)}>
+          <div {...stylex.props(styles.dotPrimarySmall)} />
         </div>
       </motion.div>
 
@@ -27,10 +174,10 @@ export default function CohesiveOrbit() {
       <motion.div
         animate={{ rotate: -360 }}
         transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
-        className="border-secondary/20 absolute flex aspect-square w-[110vw] max-w-[1100px] items-center justify-center rounded-full border border-dashed"
+        {...stylex.props(styles.ringSecondary)}
       >
-        <div className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2">
-          <div className="bg-secondary h-2.5 w-2.5 rounded-full shadow-[0_0_20px_5px_rgba(var(--color-secondary),0.6)]" />
+        <div {...stylex.props(styles.nodeLeft)}>
+          <div {...stylex.props(styles.dotSecondary)} />
         </div>
       </motion.div>
 
@@ -38,13 +185,13 @@ export default function CohesiveOrbit() {
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
-        className="absolute flex aspect-square w-[150vw] max-w-[1500px] items-center justify-center rounded-full border border-dashed border-white/10 dark:border-white/[0.05]"
+        {...stylex.props(styles.ringOuter)}
       >
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-          <div className="bg-accent h-3 w-3 rounded-full shadow-[0_0_20px_5px_rgba(var(--color-accent),0.4)]" />
+        <div {...stylex.props(styles.nodeBottom)}>
+          <div {...stylex.props(styles.dotAccent)} />
         </div>
-        <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2">
-          <div className="h-1.5 w-1.5 rounded-full bg-white/50 shadow-[0_0_10px_2px_rgba(255,255,255,0.2)]" />
+        <div {...stylex.props(styles.nodeRight)}>
+          <div {...stylex.props(styles.dotWhite)} />
         </div>
       </motion.div>
     </div>

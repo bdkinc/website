@@ -2,21 +2,30 @@
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer.astro';
+import EditSection from '@/components/preview/EditSection.astro';
 import CTAButton from '@/components/CTAButton';
 import { Card } from '@bdkinc/design-system';
 import { getNavigationData } from '@/lib/navigation-data';
 import { PiWarningCircle, PiHouse, PiArrowLeft } from 'react-icons/pi';
 
-const { servicesData, recentPosts } = await getNavigationData();
+import { getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const [copy, settings] = await Promise.all([getPageCopy('not-found', contentContext), getSettings(contentContext)]);
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 ---
 
-<Layout title="404 - Page Not Found | BDKinc">
-  <Navigation
-    client:load
-    services={servicesData}
-    blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
-  />
+<Layout title={copy.metadata.title} contentContext={contentContext} publicPath={publicPath}>
+  <EditSection record="settings" section="navigation">
+    <Navigation
+      client:load
+      services={servicesData}
+      blogPosts={recentPosts}
+      currentPath={publicPath}
+      copy={settings.navigation}
+      brand={settings.brand}
+    />
+  </EditSection>
 
   <main id="main-content">
     <!-- 404 Hero Section -->
@@ -40,6 +49,7 @@ const { servicesData, recentPosts } = await getNavigationData();
 
       <!-- Content -->
       <div class="relative z-10 mx-auto max-w-4xl text-center">
+        <EditSection record="not-found" section="error">
         <!-- Error Icon with animation -->
         <div
           class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both mb-8 duration-500"
@@ -64,7 +74,7 @@ const { servicesData, recentPosts } = await getNavigationData();
           class="text-foreground animate-in fade-in slide-in-from-bottom-4 fill-mode-both mb-6 text-3xl font-bold duration-500 md:text-5xl"
           style="animation-delay: 200ms;"
         >
-          Page Not Found
+          {copy.error.heading}
         </h2>
 
         <!-- Description Card -->
@@ -74,9 +84,7 @@ const { servicesData, recentPosts } = await getNavigationData();
         >
           <Card size="lg" interactive={false} className="mx-auto max-w-2xl">
             <p class="text-muted-foreground mb-6 text-lg">
-              The page you're looking for seems to have wandered off into the
-              digital void. It might have been moved, deleted, or perhaps it
-              never existed.
+              {copy.error.description}
             </p>
 
             <div
@@ -87,12 +95,12 @@ const { servicesData, recentPosts } = await getNavigationData();
                 href="/"
                 icon="none"
                 className="bg-brand-primary hover:bg-brand-primary/90 text-primary-foreground group w-full gap-2 sm:w-auto"
-                aria-label="Return to homepage"
+                aria-label={copy.error.homeLabel}
               >
                 <PiHouse
                   className="icon-sm transition-transform duration-300 group-hover:scale-110"
                 />
-                <span>Go Home</span>
+                <span>{copy.error.homeText}</span>
               </CTAButton>
 
               <!-- Go Back Button -->
@@ -102,64 +110,67 @@ const { servicesData, recentPosts } = await getNavigationData();
                 className="border-brand-primary text-brand-primary hover:bg-brand-primary/10 group w-full gap-2 sm:w-auto"
                 type="button"
                 data-back-button="true"
-                aria-label="Go back to previous page"
+                aria-label={copy.error.backLabel}
               >
                 <PiArrowLeft
                   className="icon-sm transition-transform duration-300 group-hover:-translate-x-1"
                 />
-                <span>Go Back</span>
+                <span>{copy.error.backText}</span>
               </CTAButton>
             </div>
           </Card>
         </div>
+        </EditSection>
 
+        <EditSection record="not-found" section="helpfulLinks">
         <!-- Helpful Links -->
         <div
           class="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-500"
           style="animation-delay: 400ms;"
         >
           <p class="text-muted-foreground mb-4">
-            Looking for something specific? Try these popular pages:
+            {copy.helpfulLinks.description}
           </p>
           <div class="flex flex-wrap justify-center gap-3">
             <a
               href="/services"
               class="text-brand-primary hover:text-brand-primary/80 transition-colors duration-300"
-              aria-label="View our services"
+              aria-label={copy.helpfulLinks.services.label}
             >
-              Services
+              {copy.helpfulLinks.services.text}
             </a>
             <span class="text-muted-foreground/50">•</span>
             <a
               href="/about"
               class="text-brand-primary hover:text-brand-primary/80 transition-colors duration-300"
-              aria-label="Learn about BDKinc"
+              aria-label={copy.helpfulLinks.about.label}
             >
-              About Us
+              {copy.helpfulLinks.about.text}
             </a>
             <span class="text-muted-foreground/50">•</span>
             <a
               href="/blog"
               class="text-brand-primary hover:text-brand-primary/80 transition-colors duration-300"
-              aria-label="Read our blog"
+              aria-label={copy.helpfulLinks.blog.label}
             >
-              Blog
+              {copy.helpfulLinks.blog.text}
             </a>
             <span class="text-muted-foreground/50">•</span>
             <a
               href="/contact"
               class="text-brand-primary hover:text-brand-primary/80 transition-colors duration-300"
-              aria-label="Contact us"
+              aria-label={copy.helpfulLinks.contact.label}
             >
-              Contact
+              {copy.helpfulLinks.contact.text}
             </a>
           </div>
         </div>
+        </EditSection>
       </div>
     </section>
   </main>
 
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>
 
 <script>

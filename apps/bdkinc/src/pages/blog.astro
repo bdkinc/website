@@ -5,13 +5,18 @@ import CTASection from '@/components/CTASection';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 import { BlogList } from '@/components/BlogList';
-import { PiArrowRight, PiCpu } from 'react-icons/pi';
+import { PiArrowRight } from 'react-icons/pi';
 import { getBlogPosts } from '@/lib/blog';
 import PageHeroEffects from '@/components/PageHeroEffects';
+import EditSection from '@/components/preview/EditSection.astro';
+import { getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
 
-const { servicesData, recentPosts } = await getNavigationData();
+const [copy, settings] = await Promise.all([getPageCopy('blog', contentContext), getSettings(contentContext)]);
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 
-const sortedPosts = await getBlogPosts();
+const sortedPosts = await getBlogPosts(contentContext);
 
 // Calculate read time
 const postsWithReadTime = sortedPosts.map((post) => {
@@ -20,7 +25,7 @@ const postsWithReadTime = sortedPosts.map((post) => {
   const minutes = Math.ceil(words / wordsPerMinute);
   return {
     ...post,
-    readTime: `${minutes} min read`,
+    readTime: copy.posts.readTime.replace('{minutes}', String(minutes)),
   };
 });
 
@@ -29,15 +34,24 @@ const featuredPost = postsWithReadTime[0];
 const remainingPosts = postsWithReadTime.slice(1);
 ---
 
-<Layout title="Technical Intelligence - BDKinc">
-  <Navigation
-    client:load
-    services={servicesData}
-    blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
-  />
+<Layout
+  title={copy.metadata.title}
+  contentContext={contentContext}
+  publicPath={publicPath}
+>
+  <EditSection record="settings" section="navigation">
+    <Navigation
+      client:load
+      services={servicesData}
+      blogPosts={recentPosts}
+      currentPath={publicPath}
+      copy={settings.navigation}
+      brand={settings.brand}
+    />
+  </EditSection>
   <main id="main-content">
     <!-- Hero Section -->
+    <EditSection record="blog" section="hero">
     <section class="relative overflow-hidden pt-32 pb-20">
       <PageHeroEffects client:idle />
 
@@ -47,8 +61,8 @@ const remainingPosts = postsWithReadTime.slice(1);
           class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-8 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
         >
           <div class="text-sm">
-            Strategic <span class="text-accent font-semibold"
-              >Technical Insights</span
+            {copy.hero.badgeLead}{' '}<span class="text-accent font-semibold"
+              >{copy.hero.badgeAccent}</span
             >
           </div>
         </div>
@@ -57,16 +71,16 @@ const remainingPosts = postsWithReadTime.slice(1);
         <h1
           class="font-display mb-6 text-5xl font-bold tracking-tight md:text-7xl"
         >
-          <span class="text-foreground">News & </span>
+          <span class="text-foreground">{copy.hero.headingLead}{' '}</span>
           <span
             class="from-primary to-secondary bg-gradient-to-r bg-clip-text text-transparent"
-            >Insights</span
+            >{copy.hero.headingAccent}</span
           >
         </h1>
 
         <!-- Subtitle -->
         <p class="text-muted-foreground mx-auto max-w-2xl text-xl font-light">
-          Technical deep-dives, industry updates, and BDKinc events.
+          {copy.hero.description}
         </p>
       </div>
 
@@ -76,8 +90,10 @@ const remainingPosts = postsWithReadTime.slice(1);
       >
       </div>
     </section>
+    </EditSection>
 
     <!-- Featured Post Section -->
+    <EditSection record="blog" section="posts">
     <section class="border-border/10 bg-card/20 relative z-20 border-b">
       <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <a
@@ -103,7 +119,7 @@ const remainingPosts = postsWithReadTime.slice(1);
                 <span
                   class="border-primary/20 bg-primary/5 text-primary/90 inline-flex items-center rounded-sm border px-2 py-1 text-xs font-medium"
                 >
-                  Featured
+                  {copy.posts.featuredLabel}
                 </span>
                 <span class="text-muted-foreground/60 text-xs font-medium">
                   {
@@ -135,37 +151,30 @@ const remainingPosts = postsWithReadTime.slice(1);
                 <span
                   class="text-primary inline-flex items-center gap-2 text-sm font-bold tracking-widest transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] group-hover:gap-4"
                 >
-                  Read Analysis
+                  {copy.posts.readAction}
                   <PiArrowRight className="h-4 w-4" />
                 </span>
               </div>
             </div>
 
-            <!-- Abstract Visual / Right Column -->
-            <div
+            <!-- Featured article illustration / Right Column -->
+            {(featuredPost.image || copy.detail.image) && <div
               class="relative hidden min-h-[300px] overflow-hidden rounded-xl border border-white/5 bg-black/20 lg:block"
             >
-              <!-- Abstract Circuit Pattern or Code Placeholder -->
-              <div
-                class="absolute inset-0 flex items-center justify-center opacity-30"
-              >
-                <div class="grid grid-cols-6 gap-4">
-                  {
-                    Array.from({ length: 24 }).map(() => (
-                      <div class="bg-primary/40 h-1.5 w-1.5 rounded-full" />
-                    ))
-                  }
-                </div>
-              </div>
-              <!-- Large Icon Overlay -->
-              <div class="absolute inset-0 flex items-center justify-center">
-                <PiCpu className="text-primary/20 h-32 w-32" />
-              </div>
-            </div>
+              <img
+                src={featuredPost.image || copy.detail.image}
+                alt={featuredPost.image ? `Editorial illustration for ${featuredPost.title}` : copy.detail.imageAlt}
+                width="1200"
+                height="675"
+                class="absolute inset-0 h-full w-full object-cover"
+                decoding="async"
+              />
+            </div>}
           </div>
         </a>
       </div>
     </section>
+    </EditSection>
 
     <!-- Blog Posts List -->
     <section>
@@ -175,15 +184,18 @@ const remainingPosts = postsWithReadTime.slice(1);
     </section>
 
     <!-- CTA Section -->
-    <CTASection
-      client:visible
-      title="Require Detailed Analysis?"
-      description="Our engineering team provides comprehensive audits and strategic roadmaps tailored to your infrastructure."
-      buttonText="Initiate Consultation"
-      buttonHref="/contact#chat"
-      icon="arrow"
-    />
+    <EditSection record="blog" section="cta">
+      <CTASection
+        client:visible
+        copy={settings.cta}
+        title={copy.cta.title}
+        description={copy.cta.description}
+        buttonText={copy.cta.buttonText}
+        buttonHref={copy.cta.buttonHref}
+        icon="arrow"
+      />
+    </EditSection>
   </main>
 
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

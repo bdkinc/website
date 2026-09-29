@@ -1,43 +1,121 @@
 'use client';
 
 import * as React from 'react';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog';
 import { PiX } from 'react-icons/pi';
 
 import { cn } from '../../lib/cn';
 
-function Dialog({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Root>) {
+const styles = stylex.create({
+  overlay: {
+    position: 'fixed',
+    inset: 0,
+    zIndex: 50,
+  },
+  viewport: {
+    position: 'fixed',
+    inset: 0,
+    zIndex: 50,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+  },
+  content: {
+    display: 'grid',
+    width: '100%',
+    gap: 16,
+    borderRadius: 'var(--radius)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'var(--border)',
+    backgroundColor: 'var(--background)',
+    padding: 24,
+    boxShadow:
+      '0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1)',
+    transitionDuration: '200ms',
+  },
+  close: {
+    position: 'absolute',
+    opacity: 0.7,
+    transitionProperty: 'opacity',
+    transitionDuration: '150ms',
+    outline: { default: 'none', ':focus': 'none' },
+    boxShadow: {
+      default: 'none',
+      ':focus': '0 0 0 2px var(--ring), 0 0 0 4px var(--background)',
+    },
+    pointerEvents: { default: 'auto', ':disabled': 'none' },
+  },
+  srOnly: {
+    position: 'absolute',
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: 'hidden',
+    clip: 'rect(0, 0, 0, 0)',
+    whiteSpace: 'nowrap',
+    borderWidth: 0,
+  },
+  header: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 8,
+    textAlign: 'center',
+  },
+  footer: {
+    display: 'flex',
+    flexDirection: {
+      default: 'column',
+      '@media (min-width: 40rem)': 'row',
+    },
+    gap: 8,
+  },
+  title: { fontSize: '1.125rem', lineHeight: 1, fontWeight: 600 },
+  description: {
+    color: 'var(--muted-foreground)',
+    fontSize: '.875rem',
+    lineHeight: '1.25rem',
+  },
+});
+
+function Dialog(props: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
-
-function DialogTrigger({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
+function DialogTrigger(
+  props: React.ComponentProps<typeof DialogPrimitive.Trigger>
+) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
-
-function DialogPortal({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Portal>) {
+function DialogPortal(
+  props: React.ComponentProps<typeof DialogPrimitive.Portal>
+) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
 }
-
-function DialogClose({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) {
+function DialogClose(
+  props: React.ComponentProps<typeof DialogPrimitive.Close>
+) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
 }
 
 function DialogOverlay({
   className,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Backdrop>) {
+}: React.ComponentProps<typeof DialogPrimitive.Backdrop> & {
+  xstyle?: StyleXStyles;
+}) {
+  const applied = stylex.props(styles.overlay, xstyle);
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
-      className={cn('fixed inset-0 z-50 bg-black/50', className)}
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     />
   );
@@ -47,30 +125,33 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  xstyle,
+  style,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Popup> & {
   showCloseButton?: boolean;
+  xstyle?: StyleXStyles;
 }) {
+  const applied = stylex.props(styles.content, xstyle);
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
-      <DialogPrimitive.Viewport className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <DialogPrimitive.Viewport {...stylex.props(styles.viewport)}>
         <DialogPrimitive.Popup
           data-slot="dialog-content"
-          className={cn(
-            'bg-background grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg',
-            className
-          )}
+          {...applied}
+          className={cn(applied.className, className)}
+          style={{ ...applied.style, ...style }}
           {...props}
         >
           {children}
           {showCloseButton && (
             <DialogPrimitive.Close
               data-slot="dialog-close"
-              className="ring-offset-background focus:ring-ring absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+              {...stylex.props(styles.close)}
             >
               <PiX />
-              <span className="sr-only">Close</span>
+              <span {...stylex.props(styles.srOnly)}>Close</span>
             </DialogPrimitive.Close>
           )}
         </DialogPrimitive.Popup>
@@ -79,50 +160,74 @@ function DialogContent({
   );
 }
 
-function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
+function DialogHeader({
+  className,
+  xstyle,
+  style,
+  ...props
+}: React.ComponentProps<'div'> & { xstyle?: StyleXStyles }) {
+  const applied = stylex.props(styles.header, xstyle);
   return (
     <div
       data-slot="dialog-header"
-      className={cn('flex flex-col gap-2 text-center sm:text-left', className)}
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     />
   );
 }
-
-function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
+function DialogFooter({
+  className,
+  xstyle,
+  style,
+  ...props
+}: React.ComponentProps<'div'> & { xstyle?: StyleXStyles }) {
+  const applied = stylex.props(styles.footer, xstyle);
   return (
     <div
       data-slot="dialog-footer"
-      className={cn(
-        'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
-        className
-      )}
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     />
   );
 }
-
 function DialogTitle({
   className,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Title>) {
+}: React.ComponentProps<typeof DialogPrimitive.Title> & {
+  xstyle?: StyleXStyles;
+}) {
+  const applied = stylex.props(styles.title, xstyle);
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn('text-lg leading-none font-semibold', className)}
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     />
   );
 }
-
 function DialogDescription({
   className,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Description>) {
+}: React.ComponentProps<typeof DialogPrimitive.Description> & {
+  xstyle?: StyleXStyles;
+}) {
+  const applied = stylex.props(styles.description, xstyle);
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn('text-muted-foreground text-sm', className)}
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     />
   );

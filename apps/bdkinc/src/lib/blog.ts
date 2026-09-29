@@ -1,4 +1,8 @@
-import { getCollection, getEntry } from 'astro:content';
+import {
+  getContentCollection,
+  getContentEntry,
+  type ContentContext,
+} from '@/lib/content';
 
 export interface BlogPostContent {
   slug: string;
@@ -10,6 +14,7 @@ export interface BlogPostContent {
   tags: string[];
   image?: string;
   content: string;
+  contentFormat?: 'html' | 'markdown';
 }
 
 function sortByDateDesc(posts: BlogPostContent[]): BlogPostContent[] {
@@ -39,27 +44,35 @@ function toBlogPost(
     tags: data.tags || [],
     image: data.image,
     content,
+    contentFormat: 'html',
   };
 }
 
-export async function getBlogPosts(): Promise<BlogPostContent[]> {
-  const localEntries = await getCollection('blog', ({ data }) => !data.draft);
+export async function getBlogPosts(
+  context?: ContentContext
+): Promise<BlogPostContent[]> {
+  const localEntries = await getContentCollection('blog', context);
 
   return sortByDateDesc(
     localEntries.map((entry) =>
-      toBlogPost(entry.id, entry.data, entry.body || '')
+      toBlogPost(entry.id, entry.data, entry.body?.html || '')
     )
   );
 }
 
 export async function getBlogPostBySlug(
-  slug: string
+  slug: string,
+  context?: ContentContext
 ): Promise<BlogPostContent | null> {
-  const localEntry = await getEntry('blog', slug);
+  const localEntry = await getContentEntry('blog', slug, context);
 
-  if (!localEntry || localEntry.data.draft) {
+  if (!localEntry) {
     return null;
   }
 
-  return toBlogPost(localEntry.id, localEntry.data, localEntry.body || '');
+  return toBlogPost(
+    localEntry.id,
+    localEntry.data,
+    localEntry.body?.html || ''
+  );
 }

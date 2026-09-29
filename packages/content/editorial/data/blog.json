@@ -1,0 +1,17 @@
+{
+  "key":"blog","kind":"page","title":"Blog",
+  "fields":{
+    "hero":{"type":"group","label":"Introduction","fields":{"badgeLead":{"type":"text","label":"Badge introduction"},"badgeAccent":{"type":"text","label":"Badge emphasis"},"headingLead":{"type":"text","label":"Heading introduction"},"headingAccent":{"type":"text","label":"Heading emphasis"},"description":{"type":"textarea","label":"Description"}}},
+    "posts":{"type":"group","label":"Article presentation","fields":{"featuredLabel":{"type":"text","label":"Featured badge"},"readAction":{"type":"text","label":"Read article action"},"readTime":{"type":"text","label":"Reading time — {minutes} is calculated minutes"}}},
+    "cta":{"type":"group","label":"Consultation invitation","fields":{"title":{"type":"text","label":"Heading"},"description":{"type":"textarea","label":"Description"},"buttonText":{"type":"text","label":"Button text"},"buttonHref":{"type":"url","label":"Button destination"}}},
+    "detail":{"type":"group","label":"Article detail page","fields":{"titleSuffix":{"type":"text","label":"Search title suffix"},"backLabel":{"type":"text","label":"Back to listing"},"image":{"type":"media","label":"Article presentation image"},"imageAlt":{"type":"text","label":"Image alternative text"},"placeholderTitle":{"type":"text","label":"Image placeholder heading"},"placeholderDescription":{"type":"text","label":"Image placeholder description"},"placeholderHint":{"type":"text","label":"Image placeholder hint"},"ctaTitle":{"type":"text","label":"CTA heading"},"ctaDescription":{"type":"textarea","label":"CTA description"},"ctaButtonText":{"type":"text","label":"CTA button"},"ctaButtonHref":{"type":"url","label":"CTA destination"}}},
+    "metadata":{"type":"group","label":"Search metadata","fields":{"title":{"type":"text","label":"Page title"}}}
+  },
+  "defaults":{
+    "metadata":{"title":"Technical Intelligence - BDKinc"},
+    "hero":{"badgeLead":"Strategic ","badgeAccent":"Technical Insights","headingLead":"News & ","headingAccent":"Insights","description":"Technical deep-dives, industry updates, and BDKinc events."},
+    "posts":{"featuredLabel":"Featured","readAction":"Read Analysis","readTime":"{minutes} min read"},
+    "cta":{"title":"Require Detailed Analysis?","description":"Our engineering team provides comprehensive audits and strategic roadmaps tailored to your infrastructure.","buttonText":"Initiate Consultation","buttonHref":"/contact#chat"},
+    "detail":{"titleSuffix":"- BDKinc Blog","backLabel":"Back to Blog","image":"","imageAlt":"Article Hero Image","placeholderTitle":"Featured Image Placeholder","placeholderDescription":"Article Hero Image","placeholderHint":"Recommended: 1200x675px","ctaTitle":"Ready to Implement These Solutions?","ctaDescription":"Our team can help you apply these best practices to your business infrastructure.","ctaButtonText":"Contact Us","ctaButtonHref":"/contact#chat"}
+  }
+}

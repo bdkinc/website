@@ -1,65 +1,155 @@
 import * as React from 'react';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { Select as SelectPrimitive } from '@base-ui/react/select';
 import { PiCheck, PiCaretDown, PiCaretUp } from 'react-icons/pi';
 
 import { cn } from '../../lib/cn';
 
-function Select({
-  ...props
-}: React.ComponentProps<typeof SelectPrimitive.Root>) {
+const styles = stylex.create({
+  trigger: {
+    display: 'flex',
+    width: 'fit-content',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+    borderRadius: 'calc(var(--radius) - 2px)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: {
+      default: 'var(--input)',
+      ':focus-visible': 'var(--ring)',
+      '[aria-invalid="true"]': 'var(--destructive)',
+    },
+    backgroundColor: 'transparent',
+    paddingInline: 12,
+    paddingBlock: 8,
+    fontSize: '.875rem',
+    lineHeight: '1.25rem',
+    whiteSpace: 'nowrap',
+    '--field-ring-color': {
+      default: 'var(--field-focus-ring)',
+      '[aria-invalid="true"]': 'var(--field-invalid-ring)',
+    },
+    boxShadow: {
+      default: null,
+      ':focus-visible': '0 0 0 3px var(--field-ring-color)',
+    },
+    outline: 'none',
+    cursor: { default: 'auto', ':disabled': 'not-allowed' },
+    opacity: { default: 1, ':disabled': 0.5 },
+  },
+  icon: { width: 16, height: 16, opacity: 0.5 },
+  popup: {
+    position: 'relative',
+    zIndex: 50,
+    overflowY: 'auto',
+    borderRadius: 'calc(var(--radius) - 2px)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'var(--border)',
+    boxShadow: '0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1)',
+  },
+  label: {
+    paddingInline: 8,
+    paddingBlock: 6,
+    color: 'var(--muted-foreground)',
+    fontSize: '.75rem',
+    lineHeight: '1rem',
+  },
+  item: {
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
+    cursor: 'default',
+    alignItems: 'center',
+    gap: 8,
+    borderRadius: 'calc(var(--radius) - 4px)',
+    paddingLeft: 8,
+    paddingBlock: 6,
+    fontSize: '.875rem',
+    lineHeight: '1.25rem',
+    userSelect: 'none',
+    pointerEvents: { default: 'auto', '[data-disabled]': 'none' },
+    opacity: { default: 1, '[data-disabled]': 0.5 },
+  },
+  indicator: {
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  check: { width: 16, height: 16 },
+  separator: {
+    height: 1,
+    pointerEvents: 'none',
+    backgroundColor: 'var(--border)',
+  },
+  scroll: {
+    display: 'flex',
+    cursor: 'default',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBlock: 4,
+  },
+});
+
+type XStyle = { xstyle?: StyleXStyles };
+function Select(props: React.ComponentProps<typeof SelectPrimitive.Root>) {
   return <SelectPrimitive.Root data-slot="select" {...props} />;
 }
-
-function SelectGroup({
-  ...props
-}: React.ComponentProps<typeof SelectPrimitive.Group>) {
+function SelectGroup(
+  props: React.ComponentProps<typeof SelectPrimitive.Group>
+) {
   return <SelectPrimitive.Group data-slot="select-group" {...props} />;
 }
-
-function SelectValue({
-  ...props
-}: React.ComponentProps<typeof SelectPrimitive.Value>) {
+function SelectValue(
+  props: React.ComponentProps<typeof SelectPrimitive.Value>
+) {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />;
 }
-
 function SelectTrigger({
   className,
   size = 'default',
   children,
+  xstyle,
+  style,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
-  size?: 'sm' | 'default';
-}) {
+  size?: 'sm' | 'default' | null;
+} & XStyle) {
+  const applied = stylex.props(styles.trigger, xstyle);
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       data-size={size}
-      className={cn(
-        "border-input data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-fit items-center justify-between gap-2 rounded-md border bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
-      )}
+      {...applied}
+      className={cn(applied.className, 'bdk-select-trigger', className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     >
       {children}
       <SelectPrimitive.Icon>
-        <PiCaretDown className="size-4 opacity-50" />
+        <PiCaretDown {...stylex.props(styles.icon)} />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
 }
-
 function SelectContent({
   className,
   children,
   position = 'popper',
   align = 'center',
   sideOffset = 4,
+  xstyle,
+  style,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Popup> & {
   position?: 'popper' | 'item-aligned';
   align?: 'start' | 'center' | 'end';
   sideOffset?: number;
-}) {
+} & XStyle) {
+  const applied = stylex.props(styles.popup, xstyle);
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Positioner
@@ -69,102 +159,113 @@ function SelectContent({
       >
         <SelectPrimitive.Popup
           data-slot="select-content"
-          className={cn(
-            'bg-popover text-popover-foreground relative z-50 min-w-[8rem] overflow-x-hidden overflow-y-auto rounded-md border shadow-md',
-            className
-          )}
+          {...applied}
+          className={cn(applied.className, className)}
+          style={{ ...applied.style, ...style }}
           {...props}
         >
           <SelectScrollUpButton />
-          <SelectPrimitive.List className="p-1">
-            {children}
-          </SelectPrimitive.List>
+          <SelectPrimitive.List>{children}</SelectPrimitive.List>
           <SelectScrollDownButton />
         </SelectPrimitive.Popup>
       </SelectPrimitive.Positioner>
     </SelectPrimitive.Portal>
   );
 }
-
 function SelectLabel({
   className,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.GroupLabel>) {
+}: React.ComponentProps<typeof SelectPrimitive.GroupLabel> & XStyle) {
+  const applied = stylex.props(styles.label, xstyle);
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
-      className={cn('text-muted-foreground px-2 py-1.5 text-xs', className)}
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     />
   );
 }
-
 function SelectItem({
   className,
   children,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Item>) {
+}: React.ComponentProps<typeof SelectPrimitive.Item> & XStyle) {
+  const applied = stylex.props(styles.item, xstyle);
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
-      className={cn(
-        "focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
-        className
-      )}
+      {...applied}
+      className={cn(applied.className, 'bdk-select-item', className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     >
-      <span className="absolute right-2 flex size-3.5 items-center justify-center">
+      <span {...stylex.props(styles.indicator)}>
         <SelectPrimitive.ItemIndicator>
-          <PiCheck className="size-4" />
+          <PiCheck {...stylex.props(styles.check)} />
         </SelectPrimitive.ItemIndicator>
       </span>
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     </SelectPrimitive.Item>
   );
 }
-
-function SelectSeparator({ className, ...props }: React.ComponentProps<'div'>) {
+function SelectSeparator({
+  className,
+  xstyle,
+  style,
+  ...props
+}: React.ComponentProps<'div'> & XStyle) {
+  const applied = stylex.props(styles.separator, xstyle);
   return (
     <div
       data-slot="select-separator"
-      className={cn('bg-border pointer-events-none -mx-1 my-1 h-px', className)}
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     />
   );
 }
-
 function SelectScrollUpButton({
   className,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow>) {
+}: React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow> & XStyle) {
+  const applied = stylex.props(styles.scroll, xstyle);
   return (
     <SelectPrimitive.ScrollUpArrow
       data-slot="select-scroll-up-button"
-      className={cn(
-        'flex cursor-default items-center justify-center py-1',
-        className
-      )}
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     >
-      <PiCaretUp className="size-4" />
+      <PiCaretUp {...stylex.props(styles.check)} />
     </SelectPrimitive.ScrollUpArrow>
   );
 }
-
 function SelectScrollDownButton({
   className,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.ScrollDownArrow>) {
+}: React.ComponentProps<typeof SelectPrimitive.ScrollDownArrow> & XStyle) {
+  const applied = stylex.props(styles.scroll, xstyle);
   return (
     <SelectPrimitive.ScrollDownArrow
       data-slot="select-scroll-down-button"
-      className={cn(
-        'flex cursor-default items-center justify-center py-1',
-        className
-      )}
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     >
-      <PiCaretDown className="size-4" />
+      <PiCaretDown {...stylex.props(styles.check)} />
     </SelectPrimitive.ScrollDownArrow>
   );
 }

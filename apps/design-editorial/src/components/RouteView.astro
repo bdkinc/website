@@ -1,0 +1,67 @@
+---
+import Shell from '@/components/Shell.astro';
+import Home from '@/components/Home.astro';
+import Service from '@/components/Service.astro';
+import FixedPage from '@/components/FixedPage.astro';
+import Regional from '@/components/Regional.astro';
+import Hero from '@/components/Hero.astro';
+import CallToAction from '@/components/CallToAction.astro';
+import { content, type Context } from '@/lib/content';
+import { object, text, interpolate } from '@/lib/copy';
+import type { SiteRoute } from '@bdkinc/content/routes';
+interface Props { route: SiteRoute; context?: Context }
+const { route, context } = Astro.props;
+const source = content(context), settings = await source.settings();
+const page = route.template==='page' ? await source.page(route.pageKey) : undefined;
+const copy = object(page);
+const service = route.template==='page' && route.pageKey.startsWith('service-') ? (await source.collection('services')).find(s=>`service-${s.id}`===route.pageKey) : undefined;
+const post = route.template==='blog-post' ? (await source.collection('blog')).find(p=>p.id===route.slug) : undefined;
+const blogCopy = post ? await source.page('blog') : undefined;
+const metadata = object(copy.metadata || copy.seo);
+let title = text(metadata.title) || (service ? service.data.title : post ? post.data.title : settings.siteName);
+let description = text(metadata.description) || service?.data.description || post?.data.description || settings.defaultDescription;
+if(route.template==='service-location'||route.template==='industry-location') {
+  const location=(await source.collection('locations')).find(l=>l.id===route.locationId);
+  const entries=route.template==='service-location'?await source.collection(route.collectionKey):await source.collection('pseoIndustries');
+  const entry=entries.find(e=>e.id===(route.template==='service-location'?route.serviceSlug:route.industrySlug));
+  if(!location||!entry) throw new Error('Missing route entity');
+  const regional=await source.page(route.template);
+  const meta=interpolate(regional.metadata,{serviceTitle:entry.data.title,industryTitle:entry.data.title,locationName:location.data.name,state:location.data.state,region:location.data.region});title=meta.title;description=meta.description;
+}
+---
+<Shell settings={settings} title={title} description={description} path={route.path} preview={Boolean(context)}>
+  {route.template==='page' && route.pageKey==='home' ? <Home source={source} settings={settings} />
+    : service ? <Service copy={copy} service={service} settings={settings} />
+    : route.template==='page' ? <FixedPage pageKey={route.pageKey} copy={copy} source={source} settings={settings} />
+    : route.template==='service-location'||route.template==='industry-location' ? <Regional route={route} source={source} settings={settings} />
+    : post && blogCopy ? <>
+      <Hero title={post.data.title} description={post.data.description} eyebrow={post.data.category} />
+      <div class="wrap article-meta"><span class="meta-item">{post.data.author}</span><time class="meta-item" datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('en-US',{dateStyle:'long'})}</time><a class="back-link" href="/blog">← {blogCopy.detail.backLabel}</a></div>
+      {(post.data.image || blogCopy.detail.image) && <figure class="wrap feature-image"><img src={post.data.image || blogCopy.detail.image} alt={post.data.image ? post.data.title : blogCopy.detail.imageAlt} width="1200" height="675" /></figure>}
+      <article class="prose article-body" set:html={post.body?.html} />
+      <CallToAction settings={settings} copy={{title:blogCopy.detail.ctaTitle,description:blogCopy.detail.ctaDescription,buttonText:blogCopy.detail.ctaButtonText,buttonHref:blogCopy.detail.ctaButtonHref}} />
+    </> : null}
+</Shell>
+<style>
+  /* Blog-post meta row: homepage mono metadata treatment (.field-label equivalent). */
+  .article-meta .meta-item {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: .72rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .article-meta .back-link {
+    color: var(--muted);
+    transition: color .2s ease;
+  }
+  .article-meta .back-link:hover {
+    color: var(--ink);
+  }
+  /* No-figure rhythm: .article-body directly follows .article-meta only when no
+     <figure> renders, so tighten to a ~3rem meta-to-body gap (1.5rem meta
+     padding + 1.5rem body margin). Figure-present spacing is untouched. */
+  .article-meta + .article-body {
+    margin-top: 1.5rem;
+  }
+</style>

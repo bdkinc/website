@@ -1,0 +1,182 @@
+---
+import type { Reader } from '@/lib/content';
+import type { PageKey } from '@bdkinc/content';
+import { group, text, heading, body, entries } from '@/lib/editorial';
+import EditorialGroup from '@/components/EditorialGroup.astro';
+import CTA from '@/components/CTA.astro';
+import Icon from '@/components/Icon.astro';
+interface Props {
+  content: Reader;
+  pageKey: PageKey;
+}
+const { content, pageKey } = Astro.props;
+const [copy, s, services] = await Promise.all([
+  content.getPage(pageKey),
+  content.getSettings(),
+  content.getCollection('services'),
+]);
+const c = group(copy),
+  hero = group(c.hero);
+const service = services.find((entry) => 'service-' + entry.id === pageKey);
+if (!service) throw new Error('Service entry unavailable');
+const order = [
+  'leadership',
+  'capabilities',
+  'deployment',
+  'strategy',
+  'comparison',
+  'benefits',
+  'solutions',
+  'lifecycle',
+  'maturity',
+  'framework',
+  'pipeline',
+  'watsonx',
+  'infrastructure',
+  'roadmap',
+  'network',
+  'specifications',
+  'standards',
+  'providers',
+  'techStack',
+  'operations',
+];
+const sections = order.filter((key) => c[key]);
+const posts = c.resources
+  ? (await content.getCollection('blog'))
+      .filter((p) =>
+        p.data.tags?.some((tag) =>
+          [service.id, 'software-development', 'modernization'].includes(tag)
+        )
+      )
+      .slice(0, 3)
+  : [];
+---
+
+<div class="wrap">
+  <section class="hero">
+    <p class="eyebrow">{text(hero.badgePrefix)} {text(hero.badgeAccent)}</p><h1>
+      {service.data.title}
+    </h1><p class="intro">
+      {text(hero.body) || service.data.description}{
+        hero.bodySuffix && <> {text(hero.bodySuffix)}</>
+      }
+    </p><div class="actions">
+      <a
+        class="button primary"
+        href={text(group(c.cta).buttonHref) || s.navigation.contactHref}
+        >{text(group(c.cta).buttonText)}<span class="arrow" aria-hidden="true"
+          ><Icon name="chat-circle" /></span
+        ></a
+      ><a class="button" href="/services">{s.navigation.allServices}</a>
+    </div>
+  </section>
+  {
+    c.metrics && (
+      <dl class="metrics">
+        {entries(c.metrics).map(([, m]) => (
+          <div>
+            <dd>{text(m.value)}</dd>
+            <dt>{text(m.label)}</dt>
+          </div>
+        ))}
+      </dl>
+    )
+  }
+  {
+    sections.map((key, i) => {
+      const section = group(c[key]);
+      return (
+        <section class="section" id={key}>
+          <>
+            <header class="section-head">
+              <>
+                <span class="section-index">
+                  {String(i + 1).padStart(2, '0')} /
+                </span>
+                <div>
+                  <h2>
+                    {heading(section) ||
+                      (key === 'benefits' ? s.benefits.title : '')}
+                  </h2>
+                  {body(section) && <p>{body(section)}</p>}
+                </div>
+              </>
+            </header>
+            <div class="section-body">
+              <EditorialGroup
+                data={{
+                  ...section,
+                  heading: undefined,
+                  headingLead: undefined,
+                  headingAccent: undefined,
+                  title: undefined,
+                  body: undefined,
+                  description: undefined,
+                  bodyBefore: undefined,
+                  bodyLead: undefined,
+                  bodyAccent: undefined,
+                  bodyAfter: undefined,
+                  bodyEnd: undefined,
+                }}
+              />
+            </div>
+          </>
+        </section>
+      );
+    })
+  }
+  {
+    c.faqs && (
+      <section class="section">
+        <>
+          <header class="section-head">
+            <>
+              <span class="section-index">? /</span>
+              <h2>{text(c.faqHeading)}</h2>
+            </>
+          </header>
+          <div class="section-body">
+            {entries(c.faqs).map(([, faq]) => (
+              <details class="faq">
+                <summary>{text(faq.question)}</summary>
+                <p>{text(faq.answer)}</p>
+              </details>
+            ))}
+          </div>
+        </>
+      </section>
+    )
+  }
+  {
+    posts.length > 0 && (
+      <section class="section">
+        <>
+          <h2>{text(group(c.resources).heading)}</h2>
+          <div class="article-list">
+            {posts.map((p) => (
+              <a class="article-row" href={'/blog/' + p.id}>
+                <time datetime={p.data.pubDate.toISOString()}>
+                  {p.data.pubDate.toLocaleDateString('en-US', {
+                    month: 'short',
+                    year: 'numeric',
+                    timeZone: 'UTC',
+                  })}
+                </time>
+                <div>
+                  <h3>{p.data.title}</h3>
+                  <p>{p.data.description}</p>
+                  <p>{text(group(c.resources).articleLinkLabel)}</p>
+                </div>
+                <span class="arrow" aria-hidden="true">
+                  <Icon name="article" />
+                </span>
+              </a>
+            ))}
+          </div>
+        </>
+      </section>
+    )
+  }
+  <CTA copy={group(c.cta)} settings={s} />
+</div>

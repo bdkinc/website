@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import react from '@astrojs/react';
+import stylex from '@stylexjs/unplugin';
 import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
@@ -20,10 +21,23 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone',
   }),
-  integrations: [react(), mdx(), sitemap(), markdoc()],
+  integrations: [react({ compiler: true }), mdx(), sitemap(), markdoc()],
 
   vite: {
-    plugins: [tailwindcss()],
+    build: {
+      // Required for the StyleX fallback stylesheet linked by Layout.astro.
+      cssCodeSplit: false,
+    },
+    plugins: [
+      stylex.vite({
+        useCSSLayers: {
+          before: ['theme', 'base', 'components'],
+          after: ['utilities'],
+          prefix: 'stylex',
+        },
+      }),
+      tailwindcss(),
+    ],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

@@ -1,72 +1,121 @@
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { cn } from '@bdkinc/design-system';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import FeatureCarousel from '@/components/FeatureCarousel';
 
-const reasons = [
-  {
-    icon: 'Lightning' as const,
-    title: 'Fast Response',
-    description:
-      'Quick turnaround times with dedicated support staff available 24/7.',
-    highlight: 'support',
-    detail:
-      'When incidents happen, minutes matter. We route alerts, triage fast, and keep you operational—with clear communication at every step.',
-  },
-  {
-    icon: 'ShieldCheck' as const,
-    title: 'Proven Expertise',
-    description:
-      'Over 25 years of experience delivering reliable IT solutions.',
-    highlight: 'experience',
-    detail:
-      'We build and run production systems across infrastructure, cloud, and security. You get battle-tested processes—not guesswork.',
-  },
-  {
-    icon: 'Users' as const,
-    title: 'Personalized Service',
-    description: 'Dedicated team that understands your unique business needs.',
-    highlight: 'business',
-    detail:
-      'Your environment is documented, your stakeholders are known, and your roadmap is intentional. We operate like an extension of your team.',
-  },
-];
+import type { PageData } from '@bdkinc/content';
+interface WhyChooseUsProps {
+  copy: PageData<'home'>['whyUs'];
+  className?: string;
+  xstyle?: StyleXStyles;
+}
 
-export default function WhyChooseUs() {
+const styles = stylex.create({
+  section: {
+    position: 'relative',
+    backgroundColor: 'var(--page-why-bg)',
+    paddingBlock: '5rem',
+    paddingInline: {
+      default: '1rem',
+      '@media (min-width: 40rem)': '1.5rem',
+      '@media (min-width: 64rem)': '2rem',
+    },
+  },
+  divider: {
+    position: 'absolute',
+    top: 0,
+    left: '50%',
+    height: 1,
+    width: '100%',
+    translate: '-50% 0',
+    backgroundImage:
+      'linear-gradient(to right in oklab, transparent, color-mix(in oklab, var(--border) 60%, transparent), transparent)',
+  },
+  container: { marginInline: 'auto', maxWidth: '80rem' },
+  header: {
+    marginBottom: '4rem',
+    textAlign: 'center',
+    translate: '0 2rem',
+    opacity: 0,
+    transitionProperty: 'opacity, transform',
+    transitionDuration: '700ms',
+    transitionTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+  },
+  headerVisible: { translate: '0 0', opacity: 1 },
+  heading: {
+    marginBottom: '1rem',
+    fontFamily: 'var(--font-display)',
+    fontSize: { default: '2.25rem', '@media (min-width: 48rem)': '3rem' },
+    lineHeight: { default: '2.5rem', '@media (min-width: 48rem)': 1 },
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+  },
+  headingLead: { color: 'var(--foreground)' },
+  headingBrand: {
+    backgroundImage:
+      'linear-gradient(to bottom right in oklab, var(--primary), var(--secondary))',
+    backgroundClip: 'text',
+    color: 'transparent',
+    fontWeight: 800,
+  },
+  brandLead: { fontWeight: 800 },
+  body: {
+    marginInline: 'auto',
+    marginTop: '1rem',
+    maxWidth: '42rem',
+    color: 'var(--muted-foreground)',
+    fontFamily: 'var(--font-sans)',
+    fontSize: '1.25rem',
+    lineHeight: '1.75rem',
+  },
+  bodyAccent: { color: 'var(--accent)', fontWeight: 600 },
+});
+
+export default function WhyChooseUs({
+  copy,
+  className,
+  xstyle,
+}: WhyChooseUsProps) {
+  const reasons = [
+    { ...copy.response, icon: 'Lightning' as const },
+    { ...copy.expertise, icon: 'ShieldCheck' as const },
+    { ...copy.service, icon: 'Users' as const },
+  ];
   const { ref: headerRef, isIntersecting: headerInView } =
     useIntersectionObserver({
       threshold: 0.2,
       rootMargin: '0px',
       triggerOnce: true,
     });
+  const section = stylex.props(styles.section, xstyle);
 
   return (
     <section
       id="why-choose-us"
-      className="bg-muted/30 relative px-4 py-20 sm:px-6 lg:px-8 dark:bg-transparent"
+      {...section}
+      className={cn(section.className, className)}
     >
-      <div className="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent" />
+      <div {...stylex.props(styles.divider)} />
 
-      <div className="mx-auto max-w-7xl">
+      <div {...stylex.props(styles.container)}>
         <div
           ref={headerRef as any}
-          className={cn(
-            'mb-16 text-center',
-            'translate-y-8 opacity-0 transition-[opacity,transform] duration-700 ease-out',
-            headerInView && 'translate-y-0 opacity-100'
-          )}
+          {...stylex.props(styles.header, headerInView && styles.headerVisible)}
         >
-          <h2 className="font-display mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-            <span className="text-foreground">Why choose </span>
-            <span className="from-primary to-secondary bg-linear-to-br bg-clip-text font-extrabold text-transparent">
-              <span className="font-extrabold">BDK</span>inc?
+          <h2 {...stylex.props(styles.heading)}>
+            <span {...stylex.props(styles.headingLead)}>
+              {copy.headingLead.trim()}{' '}
+            </span>
+            <span {...stylex.props(styles.headingBrand)}>
+              <span {...stylex.props(styles.brandLead)}>{copy.brandLead}</span>
+              {copy.brandEnd}
             </span>
           </h2>
-          <p className="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl">
-            Technical authority{' '}
-            <span className="text-accent font-semibold">
-              refined over decades
-            </span>
-            .
+          <p {...stylex.props(styles.body)}>
+            {copy.bodyLead.trim()}{' '}
+            <span {...stylex.props(styles.bodyAccent)}>{copy.bodyAccent}</span>
+            {copy.bodyEnd}
           </p>
         </div>
 

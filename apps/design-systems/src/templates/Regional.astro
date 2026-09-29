@@ -1,0 +1,97 @@
+---
+import type { Reader } from '@/lib/content';
+import CTA from '@/components/CTA.astro';
+import Icon from '@/components/Icon.astro';
+interface Props {
+  content: Reader;
+  pageKey:
+    'location-maryland-eastern-shore' | 'location-delaware-eastern-shore';
+}
+const { content, pageKey } = Astro.props;
+const [c, s, all, services] = await Promise.all([
+  content.getPage(pageKey),
+  content.getSettings(),
+  content.getCollection('locations'),
+  content.getCollection('services'),
+]);
+const state = pageKey.includes('maryland') ? 'Maryland' : 'Delaware';
+const locations = all.filter((l) => l.data.state === state);
+---
+
+<div class="wrap">
+  <section class="hero">
+    <p class="eyebrow">{c.hero.badge}</p><h1>
+      {c.hero.headingLead}
+      <em>{c.hero.headingAccent}</em>
+    </h1><p class="intro">{c.hero.description}</p><div class="actions">
+      <a class="button primary" href={s.navigation.contactHref}
+        >{c.hero.buttonText} <Icon name="chat-circle" /></a
+      ><a class="button" href={c.hero.phoneUrl}>{c.hero.phoneText}</a>
+    </div>
+  </section><section class="section">
+    <header class="section-head">
+      <span class="section-index">01 /</span><h2>{c.featuredCities.heading}</h2>
+    </header><ul class="location-list">
+      {
+        locations.map((l) => (
+          <li>
+            <a href={'/services/managed-it/' + l.id}>
+              {l.data.name} <Icon name="map-pin" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section><section class="section">
+    <header class="section-head">
+      <span class="section-index">02 /</span><h2>
+        {c.servicesByLocation.heading}
+      </h2>
+    </header><div class="section-body open-grid">
+      {
+        [
+          c.servicesByLocation.managedServices,
+          c.servicesByLocation.focusAreas,
+        ].map((g) => (
+          <article>
+            <>
+              <h3>{g.heading}</h3>
+              <ul>
+                {Object.entries(g)
+                  .filter(([k]) => k !== 'heading')
+                  .map(([, v]) => (
+                    <li>{v}</li>
+                  ))}
+              </ul>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section><section class="section">
+    <header class="section-head">
+      <span class="section-index">03 /</span><h2>
+        {c.serviceLocations.heading}
+      </h2>
+    </header><div class="section-body">
+      {
+        services.map((service) => (
+          <details class="faq">
+            <>
+              <summary>{service.data.title}</summary>
+              <ul class="location-list">
+                {locations.map((location) => (
+                  <li>
+                    <a href={`/services/${service.id}/${location.id}`}>
+                      {location.data.name} <Icon name="map-pin" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </>
+          </details>
+        ))
+      }
+    </div>
+  </section><CTA copy={c.cta} settings={s} />
+</div>

@@ -1,0 +1,22 @@
+---
+import type { SiteSettings } from '@bdkinc/content';
+import { text, body, type Group } from '@/lib/editorial';
+import Icon from '@/components/Icon.astro';
+interface Props {
+  copy: Group | SiteSettings['cta'];
+  settings: SiteSettings;
+}
+const { copy, settings } = Astro.props;
+const g = copy as Group;
+---
+
+<section class="cta">
+  <div><h2>{text(g.title || g.heading)}</h2><p>{body(g)}</p></div><div
+    class="actions"
+  >
+    <a
+      class="button primary"
+      href={text(g.buttonHref) || settings.navigation.contactHref}
+      >{text(g.buttonText)}<span class="arrow" aria-hidden="true"><Icon name="chat-circle" /></span></a>
+  </div>
+</section>

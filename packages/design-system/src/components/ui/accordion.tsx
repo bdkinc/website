@@ -1,8 +1,54 @@
 import * as React from 'react';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { Accordion as AccordionPrimitive } from '@base-ui/react/accordion';
 import { PiCaretDown } from 'react-icons/pi';
 
 import { cn } from '../../lib/cn';
+
+const styles = stylex.create({
+  item: {
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: 'var(--border)',
+  },
+  header: { display: 'flex' },
+  trigger: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    gap: 16,
+    borderRadius: 'calc(var(--radius) - 2px)',
+    paddingBlock: 16,
+    textAlign: 'left',
+    fontSize: '.875rem',
+    lineHeight: '1.25rem',
+    fontWeight: 500,
+    transitionProperty: 'all',
+    transitionDuration: '150ms',
+    outline: 'none',
+    borderColor: { default: 'transparent', ':focus-visible': 'var(--ring)' },
+    boxShadow: {
+      default: 'none',
+      ':focus-visible':
+        '0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent)',
+    },
+    pointerEvents: { default: 'auto', ':disabled': 'none' },
+    opacity: { default: 1, ':disabled': 0.5 },
+  },
+  caret: {
+    color: 'var(--muted-foreground)',
+    pointerEvents: 'none',
+    height: 16,
+    width: 16,
+    flexShrink: 0,
+    transitionProperty: 'transform',
+    transitionDuration: '200ms',
+  },
+  panel: { overflow: 'hidden', fontSize: '.875rem', lineHeight: '1.25rem' },
+  inner: { paddingBottom: 16 },
+});
 
 function Accordion({
   type,
@@ -23,15 +69,22 @@ function Accordion({
 
 function AccordionItem({
   className,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Item>) {
+}: React.ComponentProps<typeof AccordionPrimitive.Item> & {
+  xstyle?: StyleXStyles;
+}) {
+  const applied = stylex.props(styles.item, xstyle);
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
       render={(props, state) => (
         <div {...props} data-state={state.open ? 'open' : 'closed'} />
       )}
-      className={cn('border-b last:border-b-0', className)}
+      {...applied}
+      className={cn(applied.className, className)}
+      style={{ ...applied.style, ...style }}
       {...props}
     />
   );
@@ -40,10 +93,15 @@ function AccordionItem({
 function AccordionTrigger({
   className,
   children,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
+}: React.ComponentProps<typeof AccordionPrimitive.Trigger> & {
+  xstyle?: StyleXStyles;
+}) {
+  const applied = stylex.props(styles.trigger, xstyle);
   return (
-    <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Header {...stylex.props(styles.header)}>
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         render={(props, state) => (
@@ -53,17 +111,13 @@ function AccordionTrigger({
             type="button"
           />
         )}
-        className={cn(
-          'focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-open]_.accordion-caret]:rotate-180 [&[data-state=open]_.accordion-caret]:rotate-180',
-          className
-        )}
+        {...applied}
+        className={cn(applied.className, className)}
+        style={{ ...applied.style, ...style }}
         {...props}
       >
         {children}
-        <PiCaretDown
-          className="accordion-caret text-muted-foreground pointer-events-none h-4 w-4 shrink-0 transition-transform duration-200"
-          aria-hidden="true"
-        />
+        <PiCaretDown {...stylex.props(styles.caret)} aria-hidden="true" />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );
@@ -72,15 +126,26 @@ function AccordionTrigger({
 function AccordionContent({
   className,
   children,
+  xstyle,
+  style,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Panel>) {
+}: React.ComponentProps<typeof AccordionPrimitive.Panel> & {
+  xstyle?: StyleXStyles;
+}) {
+  const applied = stylex.props(styles.inner, xstyle);
   return (
     <AccordionPrimitive.Panel
       data-slot="accordion-content"
-      className="overflow-hidden text-sm"
+      {...stylex.props(styles.panel)}
       {...props}
     >
-      <div className={cn('pt-0 pb-4', className)}>{children}</div>
+      <div
+        {...applied}
+        className={cn(applied.className, className)}
+        style={{ ...applied.style, ...style }}
+      >
+        {children}
+      </div>
     </AccordionPrimitive.Panel>
   );
 }

@@ -1,0 +1,37 @@
+---
+import Hero from '@/components/Hero.astro';
+import CopySection from '@/components/CopySection.astro';
+import CallToAction from '@/components/CallToAction.astro';
+import { object, records, text, type Copy } from '@/lib/copy';
+import type { SiteSettings, ContentEntry } from '@bdkinc/content';
+interface Props { copy: Copy; service: ContentEntry<'services'>; settings: SiteSettings }
+const { copy, service, settings } = Astro.props;
+const hero = object(copy.hero);
+const sections = ['capabilities','deployment','leadership','strategy','infrastructure','solutions','comparison','framework','pipeline','lifecycle','maturity','roadmap','network','specifications','standards','operations','providers','watsonx','techStack'];
+const faqs = records(copy.faqs);
+const labelText: Record<string, string> = { capabilities: 'Capabilities', deployment: 'Deployment', leadership: 'Leadership', strategy: 'Strategy', infrastructure: 'Infrastructure', solutions: 'Solutions', comparison: 'Comparison', framework: 'Framework', pipeline: 'Pipeline', lifecycle: 'Lifecycle', maturity: 'Maturity', roadmap: 'Roadmap', network: 'Network', specifications: 'Specifications', standards: 'Standards', operations: 'Operations', providers: 'Providers', watsonx: 'Watsonx', techStack: 'Technology' };
+const renderedSections = sections.filter(key => copy[key]);
+const benefitsOffset = copy.benefits ? 1 : 0;
+const num = (index: number) => String(index + 1).padStart(2, '0');
+---
+<Hero title={service.data.title} description={text(hero.body) || `${service.data.description} ${text(hero.bodySuffix)}`} eyebrow={[hero.badgePrefix,hero.badgeAccent].map(text).join(' ')}><a class="button" href="/contact#chat">{settings.navigation.contact}</a></Hero>
+{hero.backgroundLogo && <div class="wrap partner-signature"><img src={text(hero.backgroundLogo)} alt="" width="180" height="80" /></div>}
+{copy.metrics && <dl class="metrics wrap">{records(copy.metrics).map(metric => <div><dt>{text(metric.value)}</dt><dd>{text(metric.label)}</dd></div>)}</dl>}
+{renderedSections.map((key, i) => <CopySection copy={copy[key]} label={{ number: num(i), text: labelText[key] ?? key }} />)}
+{copy.benefits && <CopySection copy={copy.benefits} fallbackHeading={settings.benefits.title} label={{ number: num(renderedSections.length), text: 'Advantage' }} />}
+{faqs.length > 0 && <section class="copy-section wrap faq"><p class="section-label"><span>{num(renderedSections.length + benefitsOffset)}</span>FAQ</p><h2>{text(copy.faqHeading) || 'Questions & answers'}</h2><div>{faqs.map(faq => <details><summary>{text(faq.question)}<span aria-hidden="true">+</span></summary><p>{text(faq.answer)}</p></details>)}</div></section>}
+<CallToAction copy={copy.cta} settings={settings} />
+
+<style>
+  /* The label sits above the two-column .faq grid, so it must span both tracks. */
+  .faq > .section-label {
+    grid-column: 1 / -1;
+  }
+  /* Close the FAQ rule set: global CSS only draws border-bottom per row. */
+  .faq > div > details:first-child {
+    border-top: 1px solid var(--line);
+  }
+  .faq summary > span {
+    color: var(--cyan);
+  }
+</style>

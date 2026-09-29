@@ -1,0 +1,34 @@
+---
+import Icon from '@/components/Icon.astro';
+import { serviceIcons } from '@/lib/service-presentation';
+import type { ContentEntry } from '@bdkinc/content';
+interface Props {
+  services: ContentEntry<'services'>[];
+}
+const { services } = Astro.props;
+
+---
+
+<div class="matrix">
+  {
+    services
+      .slice()
+      .sort((a, b) => a.data.order - b.data.order)
+      .map((s, i) => {
+        const icon = serviceIcons[s.id];
+        return <a class="service-cell" href={`/services/${s.id}`}>
+          <>
+            <span class="service-heading">
+              <span class="number">{String(i + 1).padStart(2, '0')}</span>
+              {icon && <Icon name={icon} class="service-icon" size={28} />}
+            </span>
+            <span class="arrow" aria-hidden="true">
+              <Icon name="link" />
+            </span>
+            <h3>{s.data.title}</h3>
+            <p>{s.data.description}</p>
+          </>
+        </a>;
+      })
+  }
+</div>

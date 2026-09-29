@@ -1,3 +1,5 @@
+import * as stylex from '@stylexjs/stylex';
+import { cn } from '@bdkinc/design-system';
 import Aurora from '@/components/Aurora';
 import CircuitBoard from '@/components/CircuitBoard';
 
@@ -6,24 +8,42 @@ interface PageHeroEffectsProps {
   circuitClassName?: string;
 }
 
+const styles = stylex.create({
+  aurora: {
+    position: 'absolute',
+    inset: 0,
+    opacity: 'var(--page-hero-aurora-opacity)',
+  },
+  mesh: {
+    position: 'absolute',
+    inset: 0,
+    opacity: 'var(--page-hero-mesh-opacity)',
+  },
+  circuit: { pointerEvents: 'none' },
+  fade: {
+    position: 'absolute',
+    inset: 0,
+    backgroundImage:
+      'linear-gradient(to bottom, transparent, var(--page-hero-fade-mid), var(--background))',
+  },
+  radial: {
+    position: 'absolute',
+    inset: 0,
+    opacity: 'var(--page-hero-radial-opacity)',
+    backgroundImage:
+      'radial-gradient(ellipse at center, var(--page-hero-radial-start), transparent 70%)',
+  },
+});
+
 export default function PageHeroEffects({
   auroraClassName,
   circuitClassName,
 }: PageHeroEffectsProps) {
-  const auroraClasses = [
-    'absolute inset-0 opacity-30 dark:opacity-60',
-    auroraClassName,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const circuitClasses = ['pointer-events-none', circuitClassName]
-    .filter(Boolean)
-    .join(' ');
-
+  const aurora = stylex.props(styles.aurora);
+  const mesh = stylex.props(styles.mesh);
   return (
     <>
-      <div className={auroraClasses}>
+      <div {...aurora} className={cn(aurora.className, auroraClassName)}>
         <Aurora
           colorStops={['#00d4ff', '#7c3aed', '#00d4ff']}
           amplitude={1.5}
@@ -31,14 +51,11 @@ export default function PageHeroEffects({
           speed={0.6}
         />
       </div>
-
-      <div className="gradient-mesh absolute inset-0 opacity-40 dark:opacity-0" />
-
-      <CircuitBoard className={circuitClasses} />
-
-      <div className="via-background/30 to-background dark:via-background/50 absolute inset-0 bg-linear-to-b from-transparent"></div>
-
-      <div className="from-primary/8 dark:from-primary/5 absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-from),transparent_70%)] opacity-60 dark:opacity-50"></div>
+      {/* Existing gradient-mesh is the site's shared multi-stop artwork. */}
+      <div {...mesh} className={cn(mesh.className, 'gradient-mesh')} />
+      <CircuitBoard xstyle={styles.circuit} className={circuitClassName} />
+      <div {...stylex.props(styles.fade)} />
+      <div {...stylex.props(styles.radial)} />
     </>
   );
 }

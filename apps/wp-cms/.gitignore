@@ -9,3 +9,5 @@ wp-content/cache/
 *.sql.gz
 data/
 db/
+
+scripts/.local/

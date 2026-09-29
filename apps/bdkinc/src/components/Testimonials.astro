@@ -1,8 +1,13 @@
 ---
-import { getCollection } from 'astro:content';
+import { getContentCollection, type ContentProps } from '@/lib/content';
+import type { PageData } from '@bdkinc/content';
+interface Props extends ContentProps { copy: PageData<'home'>['testimonials']; }
+const { contentContext, copy } = Astro.props;
 import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 
-const testimonials = (await getCollection('testimonials'))
+const testimonials = (
+  await getContentCollection('testimonials', contentContext)
+)
   .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
   .map(({ data }) => ({
     quote: data.quote,
@@ -23,17 +28,15 @@ const testimonials = (await getCollection('testimonials'))
   <div class="relative z-10 mx-auto max-w-7xl space-y-12">
     <div class="mx-auto max-w-2xl space-y-4 text-center">
       <h2 class="font-display text-4xl font-bold tracking-tight md:text-5xl">
-        <span class="text-foreground">Client </span>
+        <span class="text-foreground">{copy.headingLead.trim()} </span>
         <span
           class="from-primary to-secondary bg-linear-to-br bg-clip-text font-extrabold text-transparent"
         >
-          Success Stories
+          {copy.headingAccent}
         </span>
       </h2>
       <p class="text-muted-foreground mx-auto font-sans text-xl">
-        Real outcomes for organizations with
-        <span class="text-accent font-semibold">mission-critical</span>
-        needs.
+        {copy.bodyLead.trim()}{' '}<span class="text-accent font-semibold">{copy.bodyAccent}</span>{' '}{copy.bodyEnd.trim()}
       </p>
     </div>
 

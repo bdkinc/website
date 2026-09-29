@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import { PiArrowLeft, PiArrowRight } from 'react-icons/pi';
 
-import { cn } from '@bdkinc/design-system';
+import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import {
   TestimonialCard,
   type Testimonial,
@@ -14,7 +16,132 @@ export type TestimonialItem = Testimonial;
 
 export interface TestimonialsCarouselProps {
   testimonials: TestimonialItem[];
+  xstyle?: StyleXStyles;
 }
+
+const hover = '@media (hover: hover)';
+const sm = '@media (min-width: 40rem)';
+const md = '@media (min-width: 48rem)';
+const lg = '@media (min-width: 64rem)';
+
+const styles = stylex.create({
+  section: { marginInline: 'auto', width: '100%' },
+  container: { marginInline: 'auto', width: '100%' },
+  inner: {
+    position: 'relative',
+    marginInline: 'auto',
+    width: '100%',
+    paddingInline: 0,
+    paddingBlock: { default: '1.5rem', [sm]: '2rem' },
+  },
+  stage: {
+    position: 'relative',
+    marginInline: 'auto',
+    height: { default: '520px', [sm]: '480px' },
+    width: '100%',
+    maxWidth: '80rem',
+  },
+  track: { position: 'relative', height: '100%', width: '100%' },
+  slot: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    height: 'auto',
+    width: '100%',
+    maxWidth: { default: '420px', [md]: '460px', [lg]: '500px' },
+  },
+  pointer: { cursor: 'pointer' },
+  defaultCursor: { cursor: 'default' },
+  controls: {
+    marginTop: '1.5rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '1rem',
+  },
+  group: { display: 'flex', alignItems: 'center', gap: '0.5rem' },
+  // Tailwind `focus-visible:ring-2 ring-primary/40 ring-offset-2 ring-offset-background outline-none`.
+  focusable: {
+    boxShadow: {
+      default: null,
+      ':focus-visible':
+        '0 0 0 2px var(--background), 0 0 0 4px color-mix(in oklab, var(--primary) 40%, transparent)',
+    },
+    outlineStyle: { default: null, ':focus-visible': 'none' },
+  },
+  arrow: {
+    display: 'flex',
+    height: '2.25rem',
+    width: '2.25rem',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 'calc(var(--radius) + 4px)',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    backgroundColor: 'transparent',
+    borderColor: {
+      default: 'color-mix(in oklab, var(--border) 50%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--border) 50%, transparent)',
+        ':hover': 'color-mix(in oklab, var(--primary) 40%, transparent)',
+      },
+    },
+    color: {
+      default: 'var(--muted-foreground)',
+      [hover]: {
+        default: 'var(--muted-foreground)',
+        ':hover': 'var(--primary)',
+      },
+    },
+    transitionProperty:
+      'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to',
+    transitionDuration: '200ms',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+  arrowIcon: { height: '1rem', width: '1rem' },
+  dot: {
+    height: '0.625rem',
+    borderRadius: '9999px',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    transitionProperty: 'width, background-color, border-color',
+    transitionDuration: '500ms',
+    transitionTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+  },
+  dotActive: {
+    borderColor: 'color-mix(in oklab, var(--secondary) 60%, transparent)',
+    backgroundColor: 'color-mix(in oklab, var(--secondary) 70%, transparent)',
+    width: '2rem',
+  },
+  dotIdle: {
+    width: '0.625rem',
+    borderColor: {
+      default: 'color-mix(in oklab, var(--border) 50%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--border) 50%, transparent)',
+        ':hover': 'color-mix(in oklab, var(--secondary) 50%, transparent)',
+      },
+    },
+    backgroundColor: {
+      default: 'color-mix(in oklab, var(--border) 30%, transparent)',
+      [hover]: {
+        default: 'color-mix(in oklab, var(--border) 30%, transparent)',
+        ':hover': 'color-mix(in oklab, var(--secondary) 40%, transparent)',
+      },
+    },
+  },
+  srOnly: {
+    position: 'absolute',
+    width: 1,
+    height: 1,
+    padding: 0,
+    margin: -1,
+    overflow: 'hidden',
+    clip: 'rect(0, 0, 0, 0)',
+    whiteSpace: 'nowrap',
+    borderWidth: 0,
+  },
+});
 
 type SlotName = 'left' | 'center' | 'right';
 
@@ -60,11 +187,17 @@ const AUTOPLAY_DURATION = 7000;
 
 export default function TestimonialsCarousel({
   testimonials,
+  xstyle,
 }: TestimonialsCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  // Not triggerOnce: autoplay pauses while the carousel is off screen.
+  const { ref: sectionRef, isIntersecting: inView } =
+    useIntersectionObserver<HTMLElement>({
+      threshold: 0.1,
+      triggerOnce: false,
+    });
 
   const containerRef = useRef<HTMLDivElement>(null);
   const leftRef = useRef<HTMLButtonElement | null>(null);
@@ -87,30 +220,11 @@ export default function TestimonialsCarousel({
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  // Autoplay with RAF-driven progress bar
-  useEffect(() => {
-    if (reduceMotion || isPaused || length <= 1) return;
-
-    setProgress(0);
-    const startTime = performance.now();
-    let rafId: number;
-
-    const tick = (now: number) => {
-      const elapsed = now - startTime;
-      const pct = Math.min((elapsed / AUTOPLAY_DURATION) * 100, 100);
-      setProgress(pct);
-
-      if (pct < 100) {
-        rafId = requestAnimationFrame(tick);
-      } else {
-        setActiveIndex((prev) => (prev + 1) % length);
-        setProgress(0);
-      }
-    };
-
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [activeIndex, reduceMotion, isPaused, length]);
+  // Autoplay is driven by the progress bar's CSS animation ending.
+  const autoplayEnabled = !reduceMotion && length > 1;
+  const handleAutoplayEnd = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % length);
+  }, [length]);
 
   const showSides = length > 2;
 
@@ -225,19 +339,16 @@ export default function TestimonialsCarousel({
   const goTo = (index: number) => {
     if (index === activeIndex || isAnimatingRef.current) return;
     setActiveIndex(index);
-    setProgress(0);
   };
 
   const handlePrev = () => {
     if (isAnimatingRef.current) return;
     setActiveIndex((prev) => (prev - 1 + length) % length);
-    setProgress(0);
   };
 
   const handleNext = () => {
     if (isAnimatingRef.current) return;
     setActiveIndex((prev) => (prev + 1) % length);
-    setProgress(0);
   };
 
   const handleLeftClick = () => {
@@ -250,22 +361,20 @@ export default function TestimonialsCarousel({
     goTo(indices.right);
   };
 
-  const slotBaseClasses =
-    'group absolute top-1/2 left-1/2 h-auto w-full max-w-[420px] md:max-w-[460px] lg:max-w-[500px]';
-
   return (
     <section
+      ref={sectionRef}
       aria-label="Client success stories carousel"
-      className="mx-auto w-full"
+      {...stylex.props(styles.section, xstyle)}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="mx-auto w-full">
-        <div className="relative mx-auto w-full px-0 py-6 sm:py-8">
+      <div {...stylex.props(styles.container)}>
+        <div {...stylex.props(styles.inner)}>
           {/* Card stage */}
           <div
             ref={containerRef}
-            className="relative mx-auto h-[520px] w-full max-w-7xl sm:h-[480px]"
+            {...stylex.props(styles.stage)}
             style={{
               maskImage:
                 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
@@ -273,14 +382,14 @@ export default function TestimonialsCarousel({
                 'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
             }}
           >
-            <div className="relative h-full w-full">
+            <div {...stylex.props(styles.track)}>
               {showSides && (
                 <button
                   ref={leftRef}
                   type="button"
                   aria-label={`Show testimonial from ${testimonials[indices.left].author}`}
                   onClick={handleLeftClick}
-                  className={cn(slotBaseClasses, 'cursor-pointer')}
+                  {...stylex.props(styles.slot, styles.pointer)}
                 >
                   <TestimonialCard testimonial={testimonials[indices.left]} />
                 </button>
@@ -289,11 +398,20 @@ export default function TestimonialsCarousel({
               <div
                 ref={centerRef}
                 aria-label={`Currently highlighted testimonial from ${testimonials[indices.center].author}`}
-                className={cn(slotBaseClasses, 'cursor-default')}
+                {...stylex.props(styles.slot, styles.defaultCursor)}
               >
                 <TestimonialCard
+                  key={activeIndex}
                   testimonial={testimonials[indices.center]}
-                  progress={progress}
+                  autoplay={
+                    autoplayEnabled
+                      ? {
+                          durationMs: AUTOPLAY_DURATION,
+                          paused: isPaused || !inView,
+                          onEnd: handleAutoplayEnd,
+                        }
+                      : undefined
+                  }
                 />
               </div>
 
@@ -303,7 +421,7 @@ export default function TestimonialsCarousel({
                   type="button"
                   aria-label={`Show testimonial from ${testimonials[indices.right].author}`}
                   onClick={handleRightClick}
-                  className={cn(slotBaseClasses, 'cursor-pointer')}
+                  {...stylex.props(styles.slot, styles.pointer)}
                 >
                   <TestimonialCard testimonial={testimonials[indices.right]} />
                 </button>
@@ -312,29 +430,29 @@ export default function TestimonialsCarousel({
           </div>
 
           {/* Controls */}
-          <div className="mt-6 flex items-center justify-between gap-4">
+          <div {...stylex.props(styles.controls)}>
             {/* Prev / Next */}
-            <div className="flex items-center gap-2">
+            <div {...stylex.props(styles.group)}>
               <button
                 type="button"
                 aria-label="Show previous testimonial"
                 onClick={handlePrev}
-                className="border-border/50 text-muted-foreground hover:border-primary/40 hover:text-primary focus-visible:ring-primary/40 focus-visible:ring-offset-background flex h-9 w-9 items-center justify-center rounded-xl border bg-transparent transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                {...stylex.props(styles.arrow, styles.focusable)}
               >
-                <PiArrowLeft className="h-4 w-4" aria-hidden />
+                <PiArrowLeft {...stylex.props(styles.arrowIcon)} aria-hidden />
               </button>
               <button
                 type="button"
                 aria-label="Show next testimonial"
                 onClick={handleNext}
-                className="border-border/50 text-muted-foreground hover:border-primary/40 hover:text-primary focus-visible:ring-primary/40 focus-visible:ring-offset-background flex h-9 w-9 items-center justify-center rounded-xl border bg-transparent transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                {...stylex.props(styles.arrow, styles.focusable)}
               >
-                <PiArrowRight className="h-4 w-4" aria-hidden />
+                <PiArrowRight {...stylex.props(styles.arrowIcon)} aria-hidden />
               </button>
             </div>
 
             {/* Dot indicators */}
-            <div className="flex items-center gap-2">
+            <div {...stylex.props(styles.group)}>
               {testimonials.map((t, index) => (
                 <button
                   key={`indicator-${index}`}
@@ -342,14 +460,13 @@ export default function TestimonialsCarousel({
                   aria-label={`Jump to testimonial ${index + 1}`}
                   aria-pressed={index === activeIndex}
                   onClick={() => goTo(index)}
-                  className={cn(
-                    'focus-visible:ring-primary/40 focus-visible:ring-offset-background h-2.5 rounded-full border transition-[width,background-color,border-color] duration-500 ease-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
-                    index === activeIndex
-                      ? 'border-secondary/60 bg-secondary/70 w-8'
-                      : 'border-border/50 bg-border/30 hover:border-secondary/50 hover:bg-secondary/40 w-2.5'
+                  {...stylex.props(
+                    styles.dot,
+                    styles.focusable,
+                    index === activeIndex ? styles.dotActive : styles.dotIdle
                   )}
                 >
-                  <span className="sr-only">
+                  <span {...stylex.props(styles.srOnly)}>
                     {index === activeIndex ? 'Active' : `Go to ${t.author}`}
                   </span>
                 </button>

@@ -1,3 +1,5 @@
+/* Utilities must outrank generated StyleX layers for className overrides. */
+@layer theme, base, components, stylex, utilities;
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 @import 'tw-animate-css';
@@ -78,6 +80,20 @@
   --border: oklch(0.88 0 0); /* Light border */
   --input: oklch(0.88 0 0); /* Light input border */
   --ring: oklch(0.65 0.18 210); /* Primary ring color */
+  /* Shared Button's StyleX rules use these for class-based dark variants before hydration. */
+  --button-invalid-ring: color-mix(in oklab, var(--destructive) 20%, transparent);
+  --button-ghost-hover: var(--accent);
+  --shared-card-glass: oklch(1 0 0 / 0.7);
+  --orbit-ring-outer: rgba(255, 255, 255, 0.1);
+  --logo-ink: #000;
+  --page-hero-aurora-opacity: 0.3;
+  --page-hero-mesh-opacity: 0.4;
+  --page-hero-fade-mid: color-mix(in oklab, var(--background) 30%, transparent);
+  --page-hero-radial-start: color-mix(in oklab, var(--primary) 8%, transparent);
+  --page-hero-radial-opacity: 0.6;
+  --page-why-bg: color-mix(in oklab, var(--muted) 30%, transparent);
+  --field-focus-ring: color-mix(in oklab, var(--ring) 50%, transparent);
+  --field-invalid-ring: color-mix(in oklab, var(--destructive) 20%, transparent);
 
   /* Brand colors - updated for consistency */
   --brand-primary: oklch(0.65 0.18 210); /* Cyan blue */
@@ -88,6 +104,14 @@
   --shadow-glow-sm: 0 0 10px oklch(0.65 0.18 210 / 0.2);
   --shadow-glow-accent: 0 0 20px oklch(0.7 0.18 45 / 0.3);
   --shadow-glow-accent-sm: 0 0 10px oklch(0.7 0.18 45 / 0.2);
+
+  /* ThemeToggle's StyleX rules read these before React hydrates. */
+  --toggle-hover-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.5);
+  --toggle-glow: linear-gradient(to top right, rgb(252 211 77 / .2), rgb(251 146 60 / .2));
+  --toggle-sun-opacity: 1;
+  --toggle-sun-transform: scale(1) rotate(calc(20deg * var(--toggle-hover)));
+  --toggle-moon-opacity: 0;
+  --toggle-moon-transform: scale(0) rotate(90deg);
 }
 
 .dark {
@@ -111,6 +135,19 @@
   --border: oklch(0.2 0 0); /* Dark border */
   --input: oklch(0.2 0 0); /* Dark input border */
   --ring: oklch(0.7 0.18 210); /* Bright primary ring */
+  --button-invalid-ring: color-mix(in oklab, var(--destructive) 40%, transparent);
+  --button-ghost-hover: color-mix(in oklab, var(--accent) 50%, transparent);
+  --shared-card-glass: oklch(0.12 0 0 / 0.7);
+  --orbit-ring-outer: rgba(255, 255, 255, 0.05);
+  --logo-ink: #fff;
+  --page-hero-aurora-opacity: 0.6;
+  --page-hero-mesh-opacity: 0;
+  --page-hero-fade-mid: color-mix(in oklab, var(--background) 50%, transparent);
+  --page-hero-radial-start: color-mix(in oklab, var(--primary) 5%, transparent);
+  --page-hero-radial-opacity: 0.5;
+  --page-why-bg: transparent;
+  --field-focus-ring: color-mix(in oklab, var(--ring) 50%, transparent);
+  --field-invalid-ring: color-mix(in oklab, var(--destructive) 40%, transparent);
 
   /* Brand colors for dark mode */
 
@@ -119,6 +156,13 @@
   --shadow-glow-sm: 0 0 10px oklch(0.7 0.18 210 / 0.3);
   --shadow-glow-accent: 0 0 20px oklch(0.75 0.18 45 / 0.4);
   --shadow-glow-accent-sm: 0 0 10px oklch(0.75 0.18 45 / 0.3);
+
+  --toggle-hover-shadow: 0 6px 20px -8px rgba(255, 255, 255, 0.15);
+  --toggle-glow: linear-gradient(to top right, rgb(96 165 250 / .2), rgb(99 102 241 / .2));
+  --toggle-sun-opacity: 0;
+  --toggle-sun-transform: scale(0) rotate(-90deg);
+  --toggle-moon-opacity: 1;
+  --toggle-moon-transform: scale(1) rotate(calc(-15deg * var(--toggle-hover)));
 }
 
 @layer base {
@@ -600,6 +644,16 @@ li {
 
 .pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Carousel autoplay progress bar (compositor-only; advances on animationend) */
+@keyframes autoplay-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 /* CTA highlight sweep for secondary hero button */

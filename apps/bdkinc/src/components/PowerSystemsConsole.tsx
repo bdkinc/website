@@ -1,3 +1,5 @@
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
 import {
   PiDesktop,
   PiShieldCheck,
@@ -7,71 +9,142 @@ import {
   PiArrowsClockwise,
 } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
+import type { PageData } from '@bdkinc/content';
 
-export function PowerSystemsConsole() {
+const md = '@media (min-width: 48rem)';
+const lg = '@media (min-width: 64rem)';
+const easeOut = 'cubic-bezier(0, 0, 0.2, 1)';
+const colorTransition = 'color, background-color, border-color';
+
+const styles = stylex.create({
+  root: { position: 'relative', width: '100%', paddingBlock: '3rem' },
+  grid: {
+    display: 'grid',
+    gap: '1.5rem',
+    gridTemplateColumns: {
+      default: 'repeat(1, minmax(0, 1fr))',
+      [md]: 'repeat(2, minmax(0, 1fr))',
+      [lg]: 'repeat(3, minmax(0, 1fr))',
+    },
+  },
+  body: {
+    position: 'relative',
+    zIndex: 10,
+    display: 'flex',
+    height: '100%',
+    flexDirection: 'column',
+    padding: '1.5rem',
+    textAlign: 'center',
+  },
+  iconRow: {
+    marginBottom: '1rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  // TechCard drives --tech-hover-opacity to 1 while hovered (the old `group-hover:`).
+  iconBox: {
+    borderRadius: '0.25rem',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    padding: '0.5rem',
+    transitionProperty: colorTransition,
+    transitionDuration: '150ms',
+    transitionTimingFunction: easeOut,
+  },
+  iconBoxPrimary: {
+    borderColor: 'color-mix(in oklab, var(--primary) 20%, transparent)',
+    backgroundColor:
+      'color-mix(in oklab, var(--primary) calc(5% + 5% * var(--tech-hover-opacity, 0)), transparent)',
+  },
+  iconBoxSecondary: {
+    borderColor: 'color-mix(in oklab, var(--secondary) 20%, transparent)',
+    backgroundColor:
+      'color-mix(in oklab, var(--secondary) calc(5% + 5% * var(--tech-hover-opacity, 0)), transparent)',
+  },
+  iconBoxAccent: {
+    borderColor: 'color-mix(in oklab, var(--accent) 20%, transparent)',
+    backgroundColor:
+      'color-mix(in oklab, var(--accent) calc(5% + 5% * var(--tech-hover-opacity, 0)), transparent)',
+  },
+  glyph: { height: '1.5rem', width: '1.5rem' },
+  glyphPrimary: { color: 'var(--primary)' },
+  glyphSecondary: { color: 'var(--secondary)' },
+  glyphAccent: { color: 'var(--accent)' },
+  title: {
+    marginBottom: '0.5rem',
+    fontFamily: 'var(--font-display)',
+    fontSize: '1.125rem',
+    lineHeight: '1.75rem',
+    fontWeight: 700,
+    letterSpacing: '-0.025em',
+    transitionProperty: colorTransition,
+    transitionDuration: '150ms',
+    transitionTimingFunction: easeOut,
+  },
+  titlePrimary: { color: 'var(--tech-title-color, var(--foreground))' },
+  titleSecondary: {
+    color:
+      'color-mix(in oklab, var(--secondary) calc(100% * var(--tech-hover-opacity, 0)), var(--foreground))',
+  },
+  titleAccent: {
+    color:
+      'color-mix(in oklab, var(--accent) calc(100% * var(--tech-hover-opacity, 0)), var(--foreground))',
+  },
+  description: {
+    marginBottom: '1.5rem',
+    flexGrow: 1,
+    color: 'var(--muted-foreground)',
+    fontSize: '0.875rem',
+    lineHeight: 1.625,
+  },
+});
+
+type Tone = 'primary' | 'secondary' | 'accent';
+
+const toneStyles: Record<
+  Tone,
+  { box: StyleXStyles; glyph: StyleXStyles; title: StyleXStyles }
+> = {
+  primary: {
+    box: styles.iconBoxPrimary,
+    glyph: styles.glyphPrimary,
+    title: styles.titlePrimary,
+  },
+  secondary: {
+    box: styles.iconBoxSecondary,
+    glyph: styles.glyphSecondary,
+    title: styles.titleSecondary,
+  },
+  accent: {
+    box: styles.iconBoxAccent,
+    glyph: styles.glyphAccent,
+    title: styles.titleAccent,
+  },
+};
+
+interface Props {
+  copy: PageData<'service-ibm-power'>['infrastructure']['services'];
+  xstyle?: StyleXStyles;
+}
+
+export function PowerSystemsConsole({ copy, xstyle }: Props) {
   const services = [
-    {
-      title: 'Managed Hosting',
-      desc: 'Secure, scalable hosting for IBM i, AIX, and Linux with 99.99% availability.',
-      icon: PiDesktop,
-      tag: 'Core',
-    },
-    {
-      title: 'Modernization',
-      desc: 'RPG/COBOL modernization and integration with modern API-driven workflows.',
-      icon: PiArrowsClockwise,
-      tag: 'Innovate',
-    },
-    {
-      title: 'Disaster Recovery',
-      desc: 'Real-time replication and rapid recovery protocols for business continuity.',
-      icon: PiShieldCheck,
-      tag: 'Protect',
-    },
-    {
-      title: 'Performance Tuning',
-      desc: 'Deep-layer optimization of CPW, memory, and I/O for peak efficiency.',
-      icon: PiLightning,
-      tag: 'Optimize',
-    },
-    {
-      title: 'OS Lifecycle',
-      desc: 'Precision management of version upgrades, PTFs, and security patches.',
-      icon: PiPulse,
-      tag: 'Manage',
-    },
-    {
-      title: 'Hybrid Integration',
-      desc: 'Connecting Power workloads with Azure, AWS, and modern cloud stacks.',
-      icon: PiDatabase,
-      tag: 'Scale',
-    },
+    { ...copy.managedHosting, icon: PiDesktop },
+    { ...copy.modernization, icon: PiArrowsClockwise },
+    { ...copy.disasterRecovery, icon: PiShieldCheck },
+    { ...copy.performanceTuning, icon: PiLightning },
+    { ...copy.osLifecycle, icon: PiPulse },
+    { ...copy.hybridIntegration, icon: PiDatabase },
   ];
   return (
-    <div className="relative w-full py-12">
+    <div {...stylex.props(styles.root, xstyle)}>
       {/* Console Grid */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div {...stylex.props(styles.grid)}>
         {services.map((s, i) => {
-          const trackingColor =
+          const trackingColor: Tone =
             i % 3 === 1 ? 'secondary' : i % 3 === 2 ? 'accent' : 'primary';
-          const iconContainerClass =
-            trackingColor === 'secondary'
-              ? 'bg-secondary/5 border-secondary/20 group-hover:bg-secondary/10'
-              : trackingColor === 'accent'
-                ? 'bg-accent/5 border-accent/20 group-hover:bg-accent/10'
-                : 'bg-primary/5 border-primary/20 group-hover:bg-primary/10';
-          const iconClass =
-            trackingColor === 'secondary'
-              ? 'text-secondary h-6 w-6'
-              : trackingColor === 'accent'
-                ? 'text-accent h-6 w-6'
-                : 'text-primary h-6 w-6';
-          const titleHoverClass =
-            trackingColor === 'secondary'
-              ? 'group-hover:text-secondary'
-              : trackingColor === 'accent'
-                ? 'group-hover:text-accent'
-                : 'group-hover:text-primary';
+          const tone = toneStyles[trackingColor];
 
           return (
             <TechCard
@@ -81,22 +154,14 @@ export function PowerSystemsConsole() {
               delay={i * 100}
               trackingColor={trackingColor}
             >
-              <div className="relative z-10 flex h-full flex-col p-6 text-center">
-                <div className="mb-4 flex items-center justify-center">
-                  <div
-                    className={`${iconContainerClass} rounded border p-2 transition-colors`}
-                  >
-                    <s.icon className={iconClass} />
+              <div {...stylex.props(styles.body)}>
+                <div {...stylex.props(styles.iconRow)}>
+                  <div {...stylex.props(styles.iconBox, tone.box)}>
+                    <s.icon {...stylex.props(styles.glyph, tone.glyph)} />
                   </div>
                 </div>
-                <h4
-                  className={`font-display mb-2 text-lg font-bold tracking-tight transition-colors ${titleHoverClass}`}
-                >
-                  {s.title}
-                </h4>
-                <p className="text-muted-foreground mb-6 flex-grow text-sm leading-relaxed">
-                  {s.desc}
-                </p>
+                <h4 {...stylex.props(styles.title, tone.title)}>{s.title}</h4>
+                <p {...stylex.props(styles.description)}>{s.desc}</p>
               </div>
             </TechCard>
           );

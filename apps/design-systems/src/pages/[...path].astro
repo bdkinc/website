@@ -1,0 +1,20 @@
+---
+import { getSiteRoutes, type SiteRoute } from '@bdkinc/content/routes';
+import { client } from '@/lib/content';
+import Page from '@/components/Page.astro';
+export async function getStaticPaths() {
+  const routes = await getSiteRoutes(client());
+  return routes
+    .filter((r) => r.path !== '/404')
+    .map((route) => ({
+      params: { path: route.path.slice(1) || undefined },
+      props: { route },
+    }));
+}
+interface Props {
+  route: SiteRoute;
+}
+const { route } = Astro.props;
+---
+
+<Page route={route} />

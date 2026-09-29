@@ -1,0 +1,21 @@
+{
+  "key":"location-maryland-eastern-shore","kind":"page","title":"Maryland Eastern Shore",
+  "fields":{
+    "hero":{"type":"group","label":"Introduction","fields":{"badge":{"type":"text","label":"Location badge"},"headingLead":{"type":"text","label":"Heading introduction"},"headingAccent":{"type":"text","label":"Heading emphasis"},"description":{"type":"textarea","label":"Description"},"buttonText":{"type":"text","label":"Contact button"},"phoneText":{"type":"text","label":"Displayed phone"},"phoneUrl":{"type":"url","label":"Telephone link"}}},
+    "featuredCities":{"type":"group","label":"Featured cities","fields":{"heading":{"type":"text","label":"Heading"},"linkText":{"type":"text","label":"Service link text"},"countySeparator":{"type":"text","label":"County name separator"}}},
+    "servicesByLocation":{"type":"group","label":"Services by location","fields":{"heading":{"type":"text","label":"Heading"},"managedServices":{"type":"group","label":"Managed services benefits","fields":{"heading":{"type":"text","label":"Heading"},"monitoring":{"type":"text","label":"Monitoring"},"security":{"type":"text","label":"Security"},"response":{"type":"text","label":"Response"}}},"focusAreas":{"type":"group","label":"Regional focus","fields":{"heading":{"type":"text","label":"Heading"},"expertise":{"type":"text","label":"Local expertise"},"growth":{"type":"text","label":"Business growth"},"team":{"type":"text","label":"Support team"}}}}},
+    "serviceLocations":{"type":"group","label":"Service and location directory","fields":{"heading":{"type":"text","label":"Heading"}}},
+    "allLocations":{"type":"group","label":"All locations","fields":{"heading":{"type":"text","label":"Heading"}}},
+    "cta":{"type":"group","label":"Consultation invitation","fields":{"heading":{"type":"text","label":"Heading"},"descriptionLead":{"type":"text","label":"Description introduction"},"descriptionBrand":{"type":"text","label":"Emphasized company name"},"descriptionEnd":{"type":"textarea","label":"Description ending"},"buttonText":{"type":"text","label":"Consultation button"},"phoneText":{"type":"text","label":"Phone action text"},"phoneUrl":{"type":"url","label":"Telephone link"}}},
+    "metadata":{"type":"group","label":"Search metadata","fields":{"title":{"type":"text","label":"Page title"},"description":{"type":"textarea","label":"Description"}}}
+  },
+  "defaults":{
+    "metadata":{"title":"Maryland Eastern Shore IT Services | Managed IT Services | BDKinc","description":"Complete managed IT services and cloud solutions for Maryland Eastern Shore businesses. Local MSP serving Cambridge, Easton, Salisbury, Ocean City and surrounding areas."},
+    "hero":{"badge":"Maryland Eastern Shore","headingLead":"IT Services for ","headingAccent":"Maryland Eastern Shore","description":"Trusted managed IT services provider serving businesses across Maryland's Eastern Shore. From Cambridge to Ocean City, we deliver proactive technology support and strategic IT solutions.","buttonText":"Get Started Today","phoneText":"(800) 309-0004","phoneUrl":"tel:800-309-0004"},
+    "featuredCities":{"heading":"Serving Maryland Eastern Shore Cities","linkText":"View IT Services →","countySeparator":" County"},
+    "servicesByLocation":{"heading":"Services by Location","managedServices":{"heading":"Managed IT Services","monitoring":"24/7 monitoring and proactive maintenance","security":"Cybersecurity protection and compliance","response":"Fast response times across the Eastern Shore"},"focusAreas":{"heading":"Maryland Focus Areas","expertise":"Local expertise with regional business knowledge","growth":"Scalable solutions for growing businesses","team":"Dedicated support team familiar with your area"}},
+    "serviceLocations":{"heading":"Find Your Service + Location"},
+    "allLocations":{"heading":"All Maryland Eastern Shore Locations"},
+    "cta":{"heading":"Ready for Better IT Support in Maryland?","descriptionLead":"Discover how ","descriptionBrand":"BDKinc","descriptionEnd":" can transform your technology infrastructure with local Eastern Shore expertise.","buttonText":"Schedule Consultation","phoneText":"Call (800) 309-0004","phoneUrl":"tel:800-309-0004"}
+  }
+}

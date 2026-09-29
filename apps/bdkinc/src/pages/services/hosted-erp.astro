@@ -1,5 +1,5 @@
 ---
-import { getEntry } from 'astro:content';
+import { getContentEntry, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -26,149 +26,75 @@ import {
   PiCurrencyDollar,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import EditSection from '@/components/preview/EditSection.astro';
 import { servicePageSchemas } from '@/lib/schema';
-const service = await getEntry('services', 'hosted-erp');
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const [service, copy, settings] = await Promise.all([
+  getContentEntry('services', 'hosted-erp', contentContext),
+  getPageCopy('service-hosted-erp', contentContext),
+  getSettings(contentContext),
+]);
 if (!service) {
   return new Response(null, { status: 404 });
 }
-const { servicesData, recentPosts } = await getNavigationData();
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 const IconComponent = iconMap[service.data.icon];
 const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
-// Updated Metrics for "Technical Authority"
 const metrics = [
-  { value: '99.99%', label: 'SLA Uptime', icon: PiArrowUp },
-  { value: 'Sub-ms', label: 'Network Latency', icon: PiLightning },
-  { value: 'Tier-3', label: 'Data Centers', icon: PiDatabase },
-  { value: '24/7', label: 'NOC Monitoring', icon: PiHeadphones },
+  { ...copy.metrics.slaUptime, icon: PiArrowUp },
+  { ...copy.metrics.networkLatency, icon: PiLightning },
+  { ...copy.metrics.dataCenters, icon: PiDatabase },
+  { ...copy.metrics.nocMonitoring, icon: PiHeadphones },
 ];
+const migration = copy.specifications.columns.migrationOnboarding;
+const operations = copy.specifications.columns.managedOperations;
 const detailColumns = [
-  {
-    title: 'Migration & Onboarding',
-    icon: PiArrowUp,
-    items: [
-      'Comprehensive fit-gap analysis and infrastructure assessment',
-      'Parallel sandbox environments for zero-risk data migration',
-      'Custom integration mapping for EDI, MES, and WMS endpoints',
-    ],
-  },
-  {
-    title: 'Managed Operations',
-    icon: PiStack,
-    items: [
-      'Automated patch management and security hardening',
-      'Performance tuning for high-throughput transaction processing',
-      'Real-time compliance auditing and immutable log retention',
-    ],
-  },
+  { ...migration, icon: PiArrowUp, items: [
+    migration.items.comprehensiveFitGapAnalysisAndInfrastructureAssessment,
+    migration.items.parallelSandboxEnvironmentsForZeroRiskData,
+    migration.items.customIntegrationMappingForEdiMesAnd,
+  ] },
+  { ...operations, icon: PiStack, items: [
+    operations.items.automatedPatchManagementAndSecurityHardening,
+    operations.items.performanceTuningForHighThroughputTransactionProcessing,
+    operations.items.realTimeComplianceAuditingAndImmutableLog,
+  ] },
 ];
 const faqs = [
-  {
-    question: 'How do you handle migration from legacy on-premise hardware?',
-    answer:
-      "We utilize a phased 'lift-and-shift' or 're-platform' methodology. Our engineers perform full system imaging and data verification in a parallel sandbox environment before cutover, ensuring zero data loss and minimal operational downtime.",
-  },
-  {
-    question:
-      'Can you support hybrid environments with both cloud and IBM Power Systems?',
-    answer:
-      'Yes. Our infrastructure seamlessly integrates IBM Power (AS/400, iSeries) with x86 cloud environments. We establish low-latency private interconnects, allowing modern web applications to query legacy databases in real-time without synchronization lag.',
-  },
-  {
-    question:
-      'How is compliance and data sovereignty managed for global operations?',
-    answer:
-      'We strictly adhere to GDPR, CCPA, and industry-specific mandates. Data residency controls allow you to lock specific datasets to geographic regions, while our immutable audit logs provide complete transparency for regulatory reporting.',
-  },
+  copy.faqs.howDoYouHandleMigrationFromLegacy,
+  copy.faqs.canYouSupportHybridEnvironmentsWithBoth,
+  copy.faqs.howIsComplianceAndDataSovereigntyManaged,
 ];
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   serviceName: service.data.title,
   servicePath: `/services/${service.id}`,
   faqs,
+  copy: settings.navigation,
 });
 const strategicFeatures = [
-  {
-    title: 'Mission-Critical Availability',
-    description:
-      'Tier-3 infrastructure targeting 99.99% uptime for core systems.',
-    highlight: '99.99% uptime target',
-    icon: 'ShieldCheck',
-    detail:
-      'Your ERP is the backbone of your business. We provide precision-engineered hosting environments with redundant power, cooling, and network paths, ensuring that your mission-critical applications are always available when you need them most.',
-  },
-  {
-    title: 'Zero-Risk Migration',
-    description:
-      "Phased 'lift-and-shift' methodology with parallel verification.",
-    highlight: 'Parallel data verification',
-    icon: 'ArrowUp',
-    detail:
-      "Moving your ERP shouldn't be a gamble. Our engineers perform full system imaging and data verification in parallel sandbox environments before cutover, eliminating migration risk and ensuring a seamless transition with minimal downtime.",
-  },
-  {
-    title: 'Cross-Platform Integration',
-    description:
-      'Unified connectivity between IBM Power Systems and x86 cloud.',
-    highlight: 'Unified cross-platform connectivity',
-    icon: 'Stack',
-    detail:
-      "Don't let platform silos fragment your operations. We establish low-latency private interconnects between legacy IBM Power environments and modern x86 cloud stacks, allowing for real-time data flow and unified management across your entire estate.",
-  },
-  {
-    title: 'Continuous Hardening',
-    description:
-      'Proactive patching and security governance for sensitive data.',
-    highlight: 'Automated security hardening',
-    icon: 'Lock',
-    detail:
-      'Security is a process, not a state. We implement automated patch management and continuous vulnerability scanning tailored specifically for complex ERP ecosystems, ensuring your most sensitive business data is protected by enterprise-grade defense.',
-  },
+  { ...copy.strategy.features.missionCriticalAvailability, icon: 'ShieldCheck' },
+  { ...copy.strategy.features.zeroRiskMigration, icon: 'ArrowUp' },
+  { ...copy.strategy.features.crossPlatformIntegration, icon: 'Stack' },
+  { ...copy.strategy.features.continuousHardening, icon: 'Lock' },
 ];
-
 const keyBenefits = [
-  {
-    title: '99.99% Uptime',
-    description:
-      'Tier-3 infrastructure targeting mission-critical availability for your most sensitive data.',
-    icon: PiCheckCircle,
-  },
-  {
-    title: 'Rapid Scalability',
-    description:
-      'Dynamic resource allocation to handle peak transactional loads and seasonal business spikes.',
-    icon: PiLightning,
-  },
-  {
-    title: 'IBM Power Native',
-    description:
-      'Seamless support for AS/400 and iSeries alongside modern x86 cloud environments - no translation layer required.',
-    icon: PiShieldCheck,
-  },
-  {
-    title: 'Disaster Recovery',
-    description:
-      'Automated snapshots and geo-redundant backups ensuring aggressive RPO/RTO targets.',
-    icon: PiDatabase,
-  },
-  {
-    title: 'OpEx Efficiency',
-    description:
-      'Shift from volatile CapEx hardware cycles to a predictable, value-driven monthly operating model.',
-    icon: PiCurrencyDollar,
-  },
-  {
-    title: 'Zero Trust Security',
-    description:
-      'Micro-segmentation and real-time threat detection protecting your proprietary business logic.',
-    icon: PiLock,
-  },
+  { ...copy.benefits.items.item9999Uptime, icon: PiCheckCircle },
+  { ...copy.benefits.items.rapidScalability, icon: PiLightning },
+  { ...copy.benefits.items.ibmPowerNative, icon: PiShieldCheck },
+  { ...copy.benefits.items.disasterRecovery, icon: PiDatabase },
+  { ...copy.benefits.items.opexEfficiency, icon: PiCurrencyDollar },
+  { ...copy.benefits.items.zeroTrustSecurity, icon: PiLock },
 ];
 ---
 
 <Layout
-  title={`${service.data.title} - BDKinc`}
+  contentContext={contentContext}
+  publicPath={publicPath}
+  title={`${service.data.title} - ${settings.siteName}`}
   description={service.data.description}
 >
   <script
@@ -181,13 +107,18 @@ const keyBenefits = [
     is:inline
     set:html={JSON.stringify(faqSchema)}
   />
+  <EditSection record="settings" section="navigation">
   <Navigation
     client:load
     services={servicesData}
     blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
+    currentPath={publicPath}
+    copy={settings.navigation}
+    brand={settings.brand}
   />
+  </EditSection>
   <main id="main-content" class="services-page-shell">
+    <EditSection record="service-hosted-erp" section="hero">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
@@ -206,8 +137,8 @@ const keyBenefits = [
           >
             <div class="flex items-center gap-2 text-sm">
               <span
-                >Mission-Critical <span class="text-accent font-semibold"
-                  >Backbone</span
+                >{copy.hero.badgePrefix}{' '}<span class="text-accent font-semibold"
+                  >{copy.hero.badgeAccent}</span
                 ></span
               >
             </div>
@@ -241,8 +172,7 @@ const keyBenefits = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            {service.data.description} Precision-engineered hosting for high-throughput
-            enterprise ecosystems.
+            {service.data.description}{' '}{copy.hero.bodySuffix}
           </p>
         </div>
       </div>
@@ -251,6 +181,8 @@ const keyBenefits = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-hosted-erp" section="leadership">
     <!-- Strategic Leadership Section -->
     <section class="relative overflow-hidden py-24">
       <div
@@ -262,20 +194,18 @@ const keyBenefits = [
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
-            <span class="text-foreground">Architectural </span>
+            <span class="text-foreground">{copy.leadership.heading}{' '}</span>
             <span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Authority</span
+              >{copy.leadership.headingAccent}</span
             >
           </h2>
         </div>
 
         <ServiceBlockquote>
-          &ldquo;Your ERP is not just an application; it&rsquo;s the nervous
-          system of your organization. We architect
-          <span class="text-accent"> high-availability environments</span>
-          that eliminate latency and ensure your core operations move with mathematical
-          precision 24/7.&rdquo;
+          {copy.leadership.quoteBefore}{' '}
+          <span class="text-accent">{copy.leadership.quoteAccent}</span>{' '}
+          {copy.leadership.quoteAfter}
         </ServiceBlockquote>
       </div>
       <div
@@ -283,6 +213,8 @@ const keyBenefits = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-hosted-erp" section="strategy">
     <!-- Strategic Advantage -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -290,19 +222,20 @@ const keyBenefits = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            The Strategic <span
+            {copy.strategy.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Advantage</span
+              >{copy.strategy.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond standard hosting with a partner who specializes in the
-            complexity of enterprise ERP ecosystems.
+            {copy.strategy.body}
           </p>
         </div>
         <FeatureCarousel client:visible features={strategicFeatures} />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-hosted-erp" section="network">
     <!-- Network Section -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -310,27 +243,30 @@ const keyBenefits = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            Global <span
+            {copy.network.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Availability</span
+              >{copy.network.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Low-latency edge nodes and redundant failover regions ensuring
-            absolute business continuity.
+            {copy.network.body}
           </p>
         </div>
         <div class="mb-12">
-          <GlobalNetworkMap client:visible />
+          <GlobalNetworkMap client:visible copy={copy.network.map} />
         </div>
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-hosted-erp" section="benefits">
     <!-- Key Benefits -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <BenefitGrid benefits={keyBenefits} />
+        <BenefitGrid benefits={keyBenefits} copy={settings.benefits} />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-hosted-erp" section="specifications">
     <!-- Technical Execution Section -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -338,9 +274,9 @@ const keyBenefits = [
           <h2
             class="text-foreground font-display mb-6 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            Technical <span
+            {copy.specifications.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Specifications</span
+              >{copy.specifications.headingAccent}</span
             >
           </h2>
         </div>
@@ -354,7 +290,7 @@ const keyBenefits = [
                   <span
                     class={`font-mono text-[10px] font-bold tracking-widest ${idx === 0 ? 'text-primary' : 'text-secondary'} uppercase`}
                   >
-                    {idx === 0 ? 'Phase 1 — Setup' : 'Phase 2 — Ongoing'}
+                    {column.phaseLabel}
                   </span>
                 </div>
                 <div class="mb-6 flex items-center gap-3">
@@ -384,6 +320,8 @@ const keyBenefits = [
       </div>
     </section>
 
+    </EditSection>
+    <EditSection record="service-hosted-erp" section="operations">
     <TechnicalSection client:visible id="erp-vault" overlayOpacity="opacity-10">
       <div class="relative z-10 flex flex-col items-center text-center">
         <div
@@ -392,46 +330,48 @@ const keyBenefits = [
           <div class="bg-primary h-2 w-2 animate-pulse rounded-full"></div>
           <span
             class="text-primary font-display text-xs font-bold tracking-widest"
-            >Enterprise ERP Vault</span
+            >{copy.operations.badge}</span
           >
         </div>
         <h3
           class="text-foreground font-display mb-6 max-w-2xl text-3xl font-bold tracking-tight"
         >
-          Precision Engineering. <span class="text-primary"
-            >Absolute Uptime.</span
+          {copy.operations.heading}{' '}<span class="text-primary"
+            >{copy.operations.headingAccent}</span
           >
         </h3>
         <div
           class="text-muted-foreground mx-auto max-w-4xl font-sans text-lg leading-relaxed"
         >
-          We deliver mission-critical ERP environments designed for
-          sub-millisecond latency and global scale. Our engineers manage the
-          complexities of the infrastructure backbone so your leadership can
-          focus on the proprietary logic that drives your business forward.
+          {copy.operations.body}
         </div>
       </div>
     </TechnicalSection>
+    </EditSection>
+    <EditSection record="service-hosted-erp" section="faqs" also={['faqHeading']}>
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
         <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          Frequently Asked Questions
+          {copy.faqHeading}
         </h3>
         <div class="mb-20">
           <TechnicalFAQ client:visible faqs={faqs} />
         </div>
       </div>
     </section>
-    <ImpactMetricsSection metrics={metrics} />
+    </EditSection>
+    <EditSection record="service-hosted-erp" section="metrics">
+    <ImpactMetricsSection metrics={metrics} copy={settings.metrics} />
+    </EditSection>
+    <EditSection record="service-hosted-erp" section="cta">
     <!-- CTA -->
     <CTASection
       client:visible
-      title="Secure Your ERP Backbone"
-      description="Stop settling for standard hosting. Partner with the architects who specialize in mission-critical enterprise scale."
-      buttonText="Request an ERP Strategy Session"
-      buttonHref="/contact#chat"
+      copy={settings.cta}
+      {...copy.cta}
     />
+    </EditSection>
   </main>
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

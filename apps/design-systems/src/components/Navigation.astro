@@ -1,0 +1,101 @@
+---
+import type { ContentEntry, SiteSettings } from '@bdkinc/content';
+import Icon from '@/components/Icon.astro';
+import { serviceIcons, serviceImages } from '@/lib/service-presentation';
+interface Props {
+  settings: SiteSettings;
+  services: ContentEntry<'services'>[];
+  path: string;
+}
+const { settings: s, services, path } = Astro.props;
+const ordered = services.slice().sort((a, b) => a.data.order - b.data.order);
+const selected = ordered.find((entry) => path === `/services/${entry.id}`)?.id || ordered[0]?.id;
+const links = [
+  [s.navigation.about, '/about', 'link'],
+  [s.navigation.services, '/services', 'squares-four'],
+  [s.navigation.blog, '/blog', 'book-open'],
+  [s.navigation.contact, s.navigation.contactHref, 'chat-circle'],
+] as const;
+---
+<div class="navigation">
+  <nav class="primary-nav" aria-label="Main navigation">
+    {links.map(([label, href, icon], i) => i === 1 ? (
+      <button class:list={['nav-link', { 'is-current': path.startsWith('/services') }]} type="button" popovertarget="capability-directory" data-directory-trigger>
+        <span class="nav-index" aria-hidden="true">02</span>{label}<Icon name="caret-down" class="nav-caret" />
+      </button>
+    ) : (
+      <a class="nav-link" href={href} aria-current={path === href ? 'page' : undefined}>
+        <span class="nav-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{label}{i === 3 && <Icon name={icon} />}
+      </a>
+    ))}
+  </nav>
+  <button class="directory-mobile-trigger" type="button" popovertarget="capability-directory" data-directory-trigger>Menu <Icon name="list" size={22} /></button>
+  <div id="capability-directory" class="capability-directory" popover="auto" aria-labelledby="directory-heading">
+    <div class="directory-heading">
+      <div><span class="directory-kicker">BDK / Capabilities</span><h2 id="directory-heading">{s.navigation.services}</h2></div>
+      <button type="button" class="directory-close" popovertarget="capability-directory" popovertargetaction="hide" aria-label="Close navigation"><Icon name="x" size={22} /></button>
+    </div>
+    <nav class="directory-mobile-nav" aria-label="Main navigation">
+      {links.map(([label, href, icon]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}<Icon name={icon} /></a>)}
+    </nav>
+    <div class="directory-body">
+      <nav class="capability-links" aria-label="Services">
+        {ordered.map((entry, i) => {
+          const icon = serviceIcons[entry.id];
+          return <a href={`/services/${entry.id}`} data-service-link={entry.id} data-selected={entry.id === selected ? 'true' : undefined} aria-current={path === `/services/${entry.id}` ? 'page' : undefined}>
+            <span class="capability-number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            {icon && <Icon name={icon} size={24} />}
+            <span>{entry.data.title}</span><Icon name="link" class="capability-arrow" />
+          </a>;
+        })}
+        <a class="directory-all" href="/services">All services <Icon name="squares-four" /></a>
+      </nav>
+      <div class="capability-previews">
+        {ordered.map((entry, i) => {
+          const image = serviceImages[entry.id];
+          return <section class="capability-preview" data-service-preview={entry.id} aria-hidden={entry.id !== selected ? 'true' : 'false'}>
+            {image && <img src={image.src} alt="" width="640" height="400" style={{ objectPosition: image.position }} loading="lazy" />}
+            <span class="directory-kicker">{String(i + 1).padStart(2, '0')} / Expertise</span>
+            <h3>{entry.data.title}</h3><p>{entry.data.description}</p>
+          </section>;
+        })}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const directory = document.querySelector<HTMLElement>('#capability-directory');
+  if (directory) {
+    const triggers = document.querySelectorAll<HTMLButtonElement>('[data-directory-trigger]');
+    const links = directory.querySelectorAll<HTMLAnchorElement>('[data-service-link]');
+    const previews = directory.querySelectorAll<HTMLElement>('[data-service-preview]');
+    let opener: HTMLButtonElement | undefined;
+    const select = (id: string | undefined, keyboard: boolean) => {
+      directory.dataset.keyboard = String(keyboard);
+      links.forEach((link) => { link.dataset.selected = String(link.dataset.serviceLink === id); });
+      previews.forEach((preview) => { preview.setAttribute('aria-hidden', String(preview.dataset.servicePreview !== id)); });
+    };
+    triggers.forEach((trigger) => {
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.addEventListener('click', (event) => {
+        opener = trigger;
+        directory.dataset.keyboard = String(event.detail === 0);
+      });
+    });
+    directory.addEventListener('toggle', () => {
+      const open = directory.matches(':popover-open');
+      triggers.forEach((trigger) => trigger.setAttribute('aria-expanded', String(open)));
+      if (open && directory.dataset.keyboard === 'true') {
+        directory.querySelector<HTMLButtonElement>('.directory-close')?.focus();
+      }
+    });
+    directory.querySelector('.directory-close')?.addEventListener('click', () => opener?.focus());
+    // Native Escape restores the invoker; outside dismissal never moves focus here.
+    links.forEach((link) => {
+      link.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'mouse' && matchMedia('(hover: hover) and (pointer: fine)').matches) select(link.dataset.serviceLink, false);
+      });
+      link.addEventListener('focus', () => select(link.dataset.serviceLink, true));
+    });
+  }
+</script>

@@ -6,167 +6,105 @@ import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 import CoreProtocols from '@/components/CoreProtocols';
 import DevelopmentLogTimeline from '@/components/DevelopmentLogTimeline';
-import MissionVision from '@/components/MissionVision';
+import { MissionCard, VisionCard } from '@/components/MissionVision';
 import FoundingStory from '@/components/FoundingStory.astro';
 import TrustShowcase from '@/components/TrustShowcase';
 import PageHeroEffects from '@/components/PageHeroEffects';
+import EditSection from '@/components/preview/EditSection.astro';
 
-const { servicesData, recentPosts } = await getNavigationData();
+import { getPageCopy, getSettings, getContentCollection, type ContentProps } from '@/lib/content';
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const [copy, settings, home, partnerEntries] = await Promise.all([
+  getPageCopy('about', contentContext), getSettings(contentContext),
+  getPageCopy('home', contentContext), getContentCollection('partners', contentContext),
+]);
+const partners = partnerEntries
+  .filter((partner) => partner.data.showOnAbout)
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+  .map((partner) => ({ id: partner.id, ...partner.data }));
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 
-const aboutTitle = 'About BDKinc | Enterprise Technology Partner';
-const aboutDescription =
-  "Discover BDKinc's 25-year evolution into a premier technology partner. Deep expertise in IBM, Microsoft, Cisco, and Lenovo solutions for enterprise-grade growth.";
-const aboutHeroHeading = 'Partners in Your Potential';
-const aboutHeroBody =
-  'More than a vendor. We are the strategic extension of your team-bringing clarity, discipline, and engineering depth to every decision.';
+const aboutTitle = copy.metadata.title;
+const aboutDescription = copy.metadata.description;
+const aboutHeroHeading = copy.hero.heading;
+const aboutHeroBody = copy.hero.body;
 const aboutHeadingWords = aboutHeroHeading.trim().split(/\s+/);
-const aboutHeadingAccent = aboutHeadingWords.pop() ?? 'Potential';
+const aboutHeadingAccent = aboutHeadingWords.pop();
 const aboutHeadingLead = aboutHeadingWords.join(' ');
-const aboutValuesHeading = 'Our Values';
-const aboutValuesSubheading = 'The principles that guide our premier standards';
-const aboutJourneyHeading = 'Our Journey';
-const aboutJourneySubheading = 'A legacy of innovation and excellence';
-const aboutCTATitle = 'Partner with Engineers Who Own Outcomes';
-const aboutCTADescription =
-  'Bring clarity, resilience, and speed to mission-critical IT. Tap 25+ years of infrastructure, security, and modernization expertise.';
-const aboutCTAButtonText = 'Talk to an Engineer';
-const aboutCTAButtonHref = '/contact#chat';
+const aboutValuesHeading = copy.values.heading;
+const aboutValuesSubheading = copy.values.subheading;
+const aboutJourneyHeading = copy.journey.heading;
+const aboutJourneySubheading = copy.journey.subheading;
+const aboutCTATitle = copy.cta.title;
+const aboutCTADescription = copy.cta.description;
+const aboutCTAButtonText = copy.cta.buttonText;
+const aboutCTAButtonHref = copy.cta.buttonHref;
 const aboutValuesWords = aboutValuesHeading.trim().split(/\s+/);
-const aboutValuesAccent = aboutValuesWords.pop() ?? 'Values';
+const aboutValuesAccent = aboutValuesWords.pop();
 const aboutValuesLead = aboutValuesWords.join(' ');
 const aboutJourneyWords = aboutJourneyHeading.trim().split(/\s+/);
-const aboutJourneyAccent = aboutJourneyWords.pop() ?? 'Journey';
+const aboutJourneyAccent = aboutJourneyWords.pop();
 const aboutJourneyLead = aboutJourneyWords.join(' ');
 
-// Company values data
-const values = [
-  {
-    icon: 'Target',
-    title: 'Client-Focused',
-    description:
-      'Your strategic goals define our technical roadmap. We engineer solutions that directly drive your business outcomes.',
-  },
-  {
-    icon: 'Lightbulb',
-    title: 'Innovation',
-    description:
-      'We constantly evaluate emerging technologies to bring you proven, high-impact advancements.',
-  },
-  {
-    icon: 'Shield',
-    title: 'Reliability',
-    description:
-      '25+ years of steadfast stability. We build systems designed for maximum uptime and resilience.',
-  },
-  {
-    icon: 'Users',
-    title: 'Partnership',
-    description:
-      'We operate as an extension of your leadership team, invested in your long-term success.',
-  },
-  {
-    icon: 'Award',
-    title: 'Excellence',
-    description:
-      'We hold ourselves to premier standards of technical precision and operational discipline.',
-  },
-  {
-    icon: 'Clock',
-    title: '24/7 Support',
-    description:
-      'Unrelenting vigilance. Our expert team ensures your infrastructure never sleeps.',
-  },
+// Icons and presentation order remain code-owned.
+const valuesData = [
+  { icon: 'Target', ...copy.values.clientFocus },
+  { icon: 'Lightbulb', ...copy.values.innovation },
+  { icon: 'Shield', ...copy.values.reliability },
+  { icon: 'Users', ...copy.values.partnership },
+  { icon: 'Award', ...copy.values.excellence },
+  { icon: 'Clock', ...copy.values.support },
 ];
-const valuesData = values;
-
-// Milestones data
-const milestones = [
-  {
-    year: '1999',
-    title: 'Foundation of Excellence',
-    description:
-      'Established with a focused commitment to IBM Power Systems and specialized software solutions.',
-  },
-  {
-    year: '2005',
-    title: 'Growth & Expansion',
-    description:
-      'Opened multiple office locations and expanded service offerings to include enterprise Networking and Windows Server support.',
-  },
-  {
-    year: '2010',
-    title: 'Cloud Hosting',
-    description:
-      'Launched comprehensive hosting services for IBM Power, Windows, and Linux environments.',
-  },
-  {
-    year: '2015',
-    title: 'Infrastructure & Analytics',
-    description:
-      'Extended reach to multiple datacenters while enhancing software solutions with advanced analytics and integration capabilities.',
-  },
-  {
-    year: '2018',
-    title: 'Public Cloud Integration',
-    description:
-      'Forged strategic integrations with major public cloud vendors including Azure, Google Cloud, and Cloudflare.',
-  },
-  {
-    year: '2022',
-    title: 'Premier Partnership',
-    description:
-      'Solidified status as a premier IT solutions partner capable of serving businesses of any size with enterprise-grade support.',
-  },
-  {
-    year: '2025',
-    title: 'AI & Innovation',
-    description:
-      'Pioneering the future as a specialized IBM watsonx solutions expert, driving enterprise AI adoption.',
-  },
-];
-const milestonesData = milestones;
+const milestonesData = [copy.journey.foundation, copy.journey.expansion,
+  copy.journey.cloudHosting, copy.journey.infrastructure, copy.journey.publicCloud,
+  copy.journey.premierPartnership, copy.journey.artificialIntelligence];
 ---
 
 <Layout
+  contentContext={contentContext}
+  publicPath={publicPath}
   title={aboutTitle}
   description={aboutDescription}
   ogDescription={aboutDescription}
 >
   <!-- AboutPage Schema Markup -->
   <script
+    is:inline
     type="application/ld+json"
     set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'AboutPage',
       mainEntity: {
         '@type': 'Organization',
-        name: 'BDKinc',
-        foundingDate: '1999',
-        description:
-          'BDKinc is a premier technology partner delivering enterprise-grade managed IT, cloud hosting, cybersecurity, and AI solutions.',
-        url: 'https://www.bdkinc.com',
+        name: copy.organization.name,
+        foundingDate: copy.organization.foundingDate,
+        description: copy.organization.description,
+        url: copy.organization.websiteUrl,
         numberOfEmployees: {
           '@type': 'QuantitativeValue',
-          value: '50+',
+          value: copy.organization.employeeCount,
         },
         knowsAbout: [
-          'Managed IT Services',
-          'Cloud Hosting',
-          'Cybersecurity',
-          'IBM Power Systems',
-          'AI Solutions',
-          'Business Applications',
+          copy.organization.expertise.managedIt, copy.organization.expertise.cloud,
+          copy.organization.expertise.security, copy.organization.expertise.ibm,
+          copy.organization.expertise.ai, copy.organization.expertise.applications,
         ],
       },
     })}
   />
-  <Navigation
-    client:load
-    services={servicesData}
-    blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
-  />
+  <EditSection record="settings" section="navigation">
+    <Navigation
+      client:load
+      services={servicesData}
+      blogPosts={recentPosts}
+      currentPath={publicPath}
+      copy={settings.navigation}
+      brand={settings.brand}
+    />
+  </EditSection>
   <main id="main-content">
+    <EditSection record="about" section="hero">
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <PageHeroEffects client:idle />
       <div class="relative z-10 mx-auto max-w-4xl text-center">
@@ -174,8 +112,8 @@ const milestonesData = milestones;
           class="glass border-border animate-in fade-in slide-in-from-top-4 fill-mode-both mb-6 inline-flex items-center rounded-full border px-4 py-2 backdrop-blur-xl duration-500"
         >
           <div class="text-sm">
-            25+ Years of <span class="text-accent font-semibold"
-              >Client Dedication</span
+            {copy.hero.badgeLead}{' '}<span class="text-accent font-semibold"
+              >{copy.hero.badgeAccent}</span
             >
           </div>
         </div>
@@ -202,23 +140,23 @@ const milestonesData = milestones;
           <div
             class="glass border-primary/20 relative mx-auto max-w-4xl overflow-hidden rounded-xl border shadow-lg"
           >
-            <div
+            {copy.hero.image ? <img src={copy.hero.image} alt={copy.hero.imageAlt} class="aspect-video w-full object-cover" /> : <div
               class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
             >
               <div class="text-center">
                 <div
                   class="text-muted-foreground/40 mb-2 text-sm font-medium tracking-wider"
                 >
-                  Image Placeholder
+                  {copy.hero.imagePlaceholder}
                 </div>
                 <div class="text-muted-foreground/60 text-lg">
-                  Company Photo / Team Image
+                  {copy.hero.imageDescription}
                 </div>
                 <div class="text-muted-foreground/40 mt-2 text-xs">
-                  Recommended: 1200x675px
+                  {copy.hero.imageRecommendation}
                 </div>
               </div>
-            </div>
+            </div>}
           </div>
         </div>
       </div>
@@ -228,13 +166,24 @@ const milestonesData = milestones;
       >
       </div>
     </section>
+    </EditSection>
 
-    <FoundingStory />
+    <EditSection record="about" section="foundingStory">
+      <FoundingStory copy={copy.foundingStory} />
+    </EditSection>
 
     <section class="mx-auto max-w-7xl py-24">
-      <MissionVision client:visible />
+      <div class="grid gap-8 md:grid-cols-2">
+        <EditSection record="about" section="mission">
+          <MissionCard client:visible copy={copy.mission} />
+        </EditSection>
+        <EditSection record="about" section="vision">
+          <VisionCard client:visible copy={copy.vision} />
+        </EditSection>
+      </div>
     </section>
 
+    <EditSection record="about" section="values">
     <section class="relative overflow-hidden">
       <div
         class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -245,7 +194,7 @@ const milestonesData = milestones;
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
-            <span class="text-foreground">{aboutValuesLead || 'Our'} </span>
+            <span class="text-foreground">{aboutValuesLead} </span>
             <span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
               >{aboutValuesAccent}</span
@@ -261,7 +210,9 @@ const milestonesData = milestones;
         <CoreProtocols values={valuesData} client:visible />
       </div>
     </section>
+    </EditSection>
 
+    <EditSection record="about" section="journey">
     <section class="relative px-4 py-24 sm:px-6 lg:px-8">
       <div
         class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
@@ -272,7 +223,7 @@ const milestonesData = milestones;
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-4 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
-            <span class="text-foreground">{aboutJourneyLead || 'Our'} </span>
+            <span class="text-foreground">{aboutJourneyLead} </span>
             <span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
               >{aboutJourneyAccent}</span
@@ -285,20 +236,30 @@ const milestonesData = milestones;
           </p>
         </div>
 
-        <DevelopmentLogTimeline milestones={milestonesData} client:visible />
+        <DevelopmentLogTimeline
+          milestones={milestonesData}
+          foundingBrand={copy.journey.foundingBrand}
+          client:visible
+        />
       </div>
     </section>
+    </EditSection>
 
-    <TrustShowcase client:visible showAllPartners />
+    <EditSection record="home" section="trust">
+      <TrustShowcase client:visible showAllPartners copy={home.trust} partners={partners} />
+    </EditSection>
 
-    <CTASection
-      client:visible
-      title={aboutCTATitle}
-      description={aboutCTADescription}
-      buttonText={aboutCTAButtonText}
-      buttonHref={aboutCTAButtonHref}
-    />
+    <EditSection record="about" section="cta">
+      <CTASection
+        copy={settings.cta}
+        client:visible
+        title={aboutCTATitle}
+        description={aboutCTADescription}
+        buttonText={aboutCTAButtonText}
+        buttonHref={aboutCTAButtonHref}
+      />
+    </EditSection>
   </main>
 
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

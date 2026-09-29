@@ -1,0 +1,809 @@
+{
+  "key": "service-hosted-erp",
+  "kind": "page",
+  "title": "Hosted ERP page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "badgePrefix": {
+          "type": "text",
+          "label": "Badge — opening text"
+        },
+        "badgeAccent": {
+          "type": "text",
+          "label": "Badge — emphasized text"
+        },
+        "bodySuffix": {
+          "type": "textarea",
+          "label": "Body Suffix"
+        }
+      }
+    },
+    "leadership": {
+      "type": "group",
+      "label": "Leadership narrative",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "quoteBefore": {
+          "type": "textarea",
+          "label": "Quotation — before emphasis"
+        },
+        "quoteAccent": {
+          "type": "textarea",
+          "label": "Quotation — emphasized text"
+        },
+        "quoteAfter": {
+          "type": "textarea",
+          "label": "Quotation — after emphasis"
+        }
+      }
+    },
+    "strategy": {
+      "type": "group",
+      "label": "Strategic advantage",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "features": {
+          "type": "group",
+          "label": "Features",
+          "fields": {
+            "missionCriticalAvailability": {
+              "type": "group",
+              "label": "Mission-Critical Availability",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "zeroRiskMigration": {
+              "type": "group",
+              "label": "Zero-Risk Migration",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "crossPlatformIntegration": {
+              "type": "group",
+              "label": "Cross-Platform Integration",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            },
+            "continuousHardening": {
+              "type": "group",
+              "label": "Continuous Hardening",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "highlight": {
+                  "type": "text",
+                  "label": "Highlight"
+                },
+                "detail": {
+                  "type": "textarea",
+                  "label": "Detail"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "network": {
+      "type": "group",
+      "label": "Global availability",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "map": {
+          "type": "group",
+          "label": "Global Availability Net",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "status": {
+              "type": "text",
+              "label": "Status"
+            },
+            "shieldStatus": {
+              "type": "text",
+              "label": "Shield Status"
+            },
+            "latencyLabel": {
+              "type": "text",
+              "label": "Latency Label"
+            },
+            "latencyValue": {
+              "type": "text",
+              "label": "Latency Value"
+            },
+            "loadLabel": {
+              "type": "text",
+              "label": "Load Label"
+            },
+            "regions": {
+              "type": "group",
+              "label": "Regions",
+              "fields": {
+                "usEastVirginia": {
+                  "type": "group",
+                  "label": "US East (Virginia)",
+                  "fields": {
+                    "name": {
+                      "type": "text",
+                      "label": "Name"
+                    },
+                    "load": {
+                      "type": "number",
+                      "label": "Illustrative system load (percent)"
+                    }
+                  }
+                },
+                "usWestOregon": {
+                  "type": "group",
+                  "label": "US West (Oregon)",
+                  "fields": {
+                    "name": {
+                      "type": "text",
+                      "label": "Name"
+                    },
+                    "load": {
+                      "type": "number",
+                      "label": "Illustrative system load (percent)"
+                    }
+                  }
+                },
+                "euCentralFrankfurt": {
+                  "type": "group",
+                  "label": "EU Central (Frankfurt)",
+                  "fields": {
+                    "name": {
+                      "type": "text",
+                      "label": "Name"
+                    },
+                    "load": {
+                      "type": "number",
+                      "label": "Illustrative system load (percent)"
+                    }
+                  }
+                },
+                "asiaPacificTokyo": {
+                  "type": "group",
+                  "label": "Asia Pacific (Tokyo)",
+                  "fields": {
+                    "name": {
+                      "type": "text",
+                      "label": "Name"
+                    },
+                    "load": {
+                      "type": "number",
+                      "label": "Illustrative system load (percent)"
+                    }
+                  }
+                }
+              }
+            },
+            "assurances": {
+              "type": "group",
+              "label": "Assurances",
+              "fields": {
+                "item99999Uptime": {
+                  "type": "text",
+                  "label": "Item99999 Uptime"
+                },
+                "terabitBackbone": {
+                  "type": "text",
+                  "label": "Terabit Backbone"
+                },
+                "iso27001": {
+                  "type": "text",
+                  "label": "Iso27001"
+                },
+                "item247Noc": {
+                  "type": "text",
+                  "label": "Item247 Noc"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "benefits": {
+      "type": "group",
+      "label": "Benefits",
+      "fields": {
+        "items": {
+          "type": "group",
+          "label": "Offerings",
+          "fields": {
+            "item9999Uptime": {
+              "type": "group",
+              "label": "99.99% Uptime",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "rapidScalability": {
+              "type": "group",
+              "label": "Rapid Scalability",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "ibmPowerNative": {
+              "type": "group",
+              "label": "IBM Power Native",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "disasterRecovery": {
+              "type": "group",
+              "label": "Disaster Recovery",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "opexEfficiency": {
+              "type": "group",
+              "label": "OpEx Efficiency",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "zeroTrustSecurity": {
+              "type": "group",
+              "label": "Zero Trust Security",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "description": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "specifications": {
+      "type": "group",
+      "label": "Technical specifications",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "columns": {
+          "type": "group",
+          "label": "Columns",
+          "fields": {
+            "migrationOnboarding": {
+              "type": "group",
+              "label": "Migration & Onboarding",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "comprehensiveFitGapAnalysisAndInfrastructureAssessment": {
+                      "type": "text",
+                      "label": "Comprehensive Fit Gap Analysis And Infrastructure Assessment"
+                    },
+                    "parallelSandboxEnvironmentsForZeroRiskData": {
+                      "type": "text",
+                      "label": "Parallel Sandbox Environments For Zero Risk Data"
+                    },
+                    "customIntegrationMappingForEdiMesAnd": {
+                      "type": "text",
+                      "label": "Custom Integration Mapping For Edi Mes And"
+                    }
+                  }
+                },
+                "phaseLabel": {
+                  "type": "text",
+                  "label": "Phase label"
+                }
+              }
+            },
+            "managedOperations": {
+              "type": "group",
+              "label": "Managed Operations",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "items": {
+                  "type": "group",
+                  "label": "Offerings",
+                  "fields": {
+                    "automatedPatchManagementAndSecurityHardening": {
+                      "type": "text",
+                      "label": "Automated Patch Management And Security Hardening"
+                    },
+                    "performanceTuningForHighThroughputTransactionProcessing": {
+                      "type": "text",
+                      "label": "Performance Tuning For High Throughput Transaction Processing"
+                    },
+                    "realTimeComplianceAuditingAndImmutableLog": {
+                      "type": "text",
+                      "label": "Real Time Compliance Auditing And Immutable Log"
+                    }
+                  }
+                },
+                "phaseLabel": {
+                  "type": "text",
+                  "label": "Phase label"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "operations": {
+      "type": "group",
+      "label": "Operations narrative",
+      "fields": {
+        "badge": {
+          "type": "text",
+          "label": "Badge"
+        },
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "faqHeading": { "type": "text", "label": "FAQ heading" },
+    "faqs": {
+      "type": "group",
+      "label": "Frequently asked questions",
+      "fields": {
+        "howDoYouHandleMigrationFromLegacy": {
+          "type": "group",
+          "label": "How do you handle migration from legacy on-premise hardware?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "canYouSupportHybridEnvironmentsWithBoth": {
+          "type": "group",
+          "label": "Can you support hybrid environments with both cloud and IBM Power Systems?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        },
+        "howIsComplianceAndDataSovereigntyManaged": {
+          "type": "group",
+          "label": "How is compliance and data sovereignty managed for global operations?",
+          "fields": {
+            "question": {
+              "type": "text",
+              "label": "Question"
+            },
+            "answer": {
+              "type": "textarea",
+              "label": "Answer"
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "group",
+      "label": "Impact metrics",
+      "fields": {
+        "slaUptime": {
+          "type": "group",
+          "label": "SLA Uptime",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "networkLatency": {
+          "type": "group",
+          "label": "Network Latency",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "dataCenters": {
+          "type": "group",
+          "label": "Data Centers",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        },
+        "nocMonitoring": {
+          "type": "group",
+          "label": "NOC Monitoring",
+          "fields": {
+            "value": {
+              "type": "text",
+              "label": "Value"
+            },
+            "label": {
+              "type": "text",
+              "label": "Label"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "faqHeading": "Frequently Asked Questions",
+    "hero": {
+      "badgePrefix": "Mission-Critical",
+      "badgeAccent": "Backbone",
+      "bodySuffix": "Precision-engineered hosting for high-throughput enterprise ecosystems."
+    },
+    "leadership": {
+      "heading": "Architectural",
+      "headingAccent": "Authority",
+      "quoteBefore": "“Your ERP is not just an application; it’s the nervous system of your organization. We architect",
+      "quoteAccent": "high-availability environments",
+      "quoteAfter": "that eliminate latency and ensure your core operations move with mathematical precision 24/7.”"
+    },
+    "strategy": {
+      "heading": "The Strategic",
+      "headingAccent": "Advantage",
+      "body": "Move beyond standard hosting with a partner who specializes in the complexity of enterprise ERP ecosystems.",
+      "features": {
+        "missionCriticalAvailability": {
+          "title": "Mission-Critical Availability",
+          "description": "Tier-3 infrastructure targeting 99.99% uptime for core systems.",
+          "highlight": "99.99% uptime target",
+          "detail": "Your ERP is the backbone of your business. We provide precision-engineered hosting environments with redundant power, cooling, and network paths, ensuring that your mission-critical applications are always available when you need them most."
+        },
+        "zeroRiskMigration": {
+          "title": "Zero-Risk Migration",
+          "description": "Phased 'lift-and-shift' methodology with parallel verification.",
+          "highlight": "Parallel data verification",
+          "detail": "Moving your ERP shouldn't be a gamble. Our engineers perform full system imaging and data verification in parallel sandbox environments before cutover, eliminating migration risk and ensuring a seamless transition with minimal downtime."
+        },
+        "crossPlatformIntegration": {
+          "title": "Cross-Platform Integration",
+          "description": "Unified connectivity between IBM Power Systems and x86 cloud.",
+          "highlight": "Unified cross-platform connectivity",
+          "detail": "Don't let platform silos fragment your operations. We establish low-latency private interconnects between legacy IBM Power environments and modern x86 cloud stacks, allowing for real-time data flow and unified management across your entire estate."
+        },
+        "continuousHardening": {
+          "title": "Continuous Hardening",
+          "description": "Proactive patching and security governance for sensitive data.",
+          "highlight": "Automated security hardening",
+          "detail": "Security is a process, not a state. We implement automated patch management and continuous vulnerability scanning tailored specifically for complex ERP ecosystems, ensuring your most sensitive business data is protected by enterprise-grade defense."
+        }
+      }
+    },
+    "network": {
+      "heading": "Global",
+      "headingAccent": "Availability",
+      "body": "Low-latency edge nodes and redundant failover regions ensuring absolute business continuity.",
+      "map": {
+        "title": "Global Availability Net",
+        "status": "Status: Optimal",
+        "shieldStatus": "Shield: Active",
+        "latencyLabel": "Latency",
+        "latencyValue": "12ms",
+        "loadLabel": "System Load",
+        "regions": {
+          "usEastVirginia": {
+            "name": "US East (Virginia)",
+            "load": 42
+          },
+          "usWestOregon": {
+            "name": "US West (Oregon)",
+            "load": 38
+          },
+          "euCentralFrankfurt": {
+            "name": "EU Central (Frankfurt)",
+            "load": 65
+          },
+          "asiaPacificTokyo": {
+            "name": "Asia Pacific (Tokyo)",
+            "load": 51
+          }
+        },
+        "assurances": {
+          "item99999Uptime": "99.999% Uptime",
+          "terabitBackbone": "Terabit Backbone",
+          "iso27001": "ISO 27001",
+          "item247Noc": "24/7 NOC"
+        }
+      }
+    },
+    "specifications": {
+      "heading": "Technical",
+      "headingAccent": "Specifications",
+      "columns": {
+        "migrationOnboarding": {
+          "title": "Migration & Onboarding",
+          "items": {
+            "comprehensiveFitGapAnalysisAndInfrastructureAssessment": "Comprehensive fit-gap analysis and infrastructure assessment",
+            "parallelSandboxEnvironmentsForZeroRiskData": "Parallel sandbox environments for zero-risk data migration",
+            "customIntegrationMappingForEdiMesAnd": "Custom integration mapping for EDI, MES, and WMS endpoints"
+          },
+          "phaseLabel": "Phase 1 — Setup"
+        },
+        "managedOperations": {
+          "title": "Managed Operations",
+          "items": {
+            "automatedPatchManagementAndSecurityHardening": "Automated patch management and security hardening",
+            "performanceTuningForHighThroughputTransactionProcessing": "Performance tuning for high-throughput transaction processing",
+            "realTimeComplianceAuditingAndImmutableLog": "Real-time compliance auditing and immutable log retention"
+          },
+          "phaseLabel": "Phase 2 — Ongoing"
+        }
+      }
+    },
+    "operations": {
+      "badge": "Enterprise ERP Vault",
+      "heading": "Precision Engineering.",
+      "headingAccent": "Absolute Uptime.",
+      "body": "We deliver mission-critical ERP environments designed for sub-millisecond latency and global scale. Our engineers manage the complexities of the infrastructure backbone so your leadership can focus on the proprietary logic that drives your business forward."
+    },
+    "metrics": {
+      "slaUptime": {
+        "value": "99.99%",
+        "label": "SLA Uptime"
+      },
+      "networkLatency": {
+        "value": "Sub-ms",
+        "label": "Network Latency"
+      },
+      "dataCenters": {
+        "value": "Tier-3",
+        "label": "Data Centers"
+      },
+      "nocMonitoring": {
+        "value": "24/7",
+        "label": "NOC Monitoring"
+      }
+    },
+    "faqs": {
+      "howDoYouHandleMigrationFromLegacy": {
+        "question": "How do you handle migration from legacy on-premise hardware?",
+        "answer": "We utilize a phased 'lift-and-shift' or 're-platform' methodology. Our engineers perform full system imaging and data verification in a parallel sandbox environment before cutover, ensuring zero data loss and minimal operational downtime."
+      },
+      "canYouSupportHybridEnvironmentsWithBoth": {
+        "question": "Can you support hybrid environments with both cloud and IBM Power Systems?",
+        "answer": "Yes. Our infrastructure seamlessly integrates IBM Power (AS/400, iSeries) with x86 cloud environments. We establish low-latency private interconnects, allowing modern web applications to query legacy databases in real-time without synchronization lag."
+      },
+      "howIsComplianceAndDataSovereigntyManaged": {
+        "question": "How is compliance and data sovereignty managed for global operations?",
+        "answer": "We strictly adhere to GDPR, CCPA, and industry-specific mandates. Data residency controls allow you to lock specific datasets to geographic regions, while our immutable audit logs provide complete transparency for regulatory reporting."
+      }
+    },
+    "benefits": {
+      "items": {
+        "item9999Uptime": {
+          "title": "99.99% Uptime",
+          "description": "Tier-3 infrastructure targeting mission-critical availability for your most sensitive data."
+        },
+        "rapidScalability": {
+          "title": "Rapid Scalability",
+          "description": "Dynamic resource allocation to handle peak transactional loads and seasonal business spikes."
+        },
+        "ibmPowerNative": {
+          "title": "IBM Power Native",
+          "description": "Seamless support for AS/400 and iSeries alongside modern x86 cloud environments - no translation layer required."
+        },
+        "disasterRecovery": {
+          "title": "Disaster Recovery",
+          "description": "Automated snapshots and geo-redundant backups ensuring aggressive RPO/RTO targets."
+        },
+        "opexEfficiency": {
+          "title": "OpEx Efficiency",
+          "description": "Shift from volatile CapEx hardware cycles to a predictable, value-driven monthly operating model."
+        },
+        "zeroTrustSecurity": {
+          "title": "Zero Trust Security",
+          "description": "Micro-segmentation and real-time threat detection protecting your proprietary business logic."
+        }
+      }
+    },
+    "cta": {
+      "title": "Secure Your ERP Backbone",
+      "description": "Stop settling for standard hosting. Partner with the architects who specialize in mission-critical enterprise scale.",
+      "buttonText": "Request an ERP Strategy Session",
+      "buttonHref": "/contact#chat"
+    }
+  }
+}

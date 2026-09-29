@@ -1,7 +1,7 @@
 .git
 .github
 node_modules
-apps/*/node_modules
+**/node_modules
 apps/*/dist
 apps/*/.astro
 dist
@@ -9,3 +9,6 @@ dist
 npm-debug.log*
 .env
 **/.env
+**/.env.*
+apps/wp-cms/scripts/.local
+apps/wp-cms/wp-content/uploads

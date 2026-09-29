@@ -1,0 +1,41 @@
+---
+import Icon from '@/components/Icon.astro';
+import type { Reader } from '@/lib/content';
+interface Props {
+  content: Reader;
+}
+const { content } = Astro.props;
+const c = await content.getPage('contact');
+const d = c.directContact;
+---
+
+<div class="wrap">
+  <section class="hero">
+    <p class="eyebrow">{c.hero.badgeLead} {c.hero.badgeAccent}</p><h1>
+      {c.hero.headingLead}
+      <em>{c.hero.headingAccent}</em>
+    </h1><p class="intro">{d.description}</p>
+  </section><section class="section" id="chat">
+    <header class="section-head">
+      <span class="section-index">01 /</span><h2>
+        {d.headingLead}
+        <em>{d.headingAccent}</em>
+      </h2>
+    </header><div class="section-body contact-grid">
+      <article>
+        <h3>{d.phone.label}</h3><a href={d.phone.linkUrl}>{d.phone.value} <Icon name="phone" /></a
+        ><p>{d.phone.availability}</p>
+      </article><article>
+        <h3>{d.email.label}</h3><a href={d.email.linkUrl}>{d.email.value} <Icon name="envelope-simple" /></a
+        ><p>{d.email.description}</p>
+      </article><article>
+        <h3>{d.headquarters.label}</h3><address>
+          {d.headquarters.address}<br />{d.headquarters.location}
+        </address><a href={d.headquarters.mapUrl}
+          >{d.headquarters.location} <Icon name="map-pin" /></a>
+      </article><article>
+        <h3>{d.support.label}</h3><p>{d.support.description}</p>
+      </article>
+    </div>
+  </section>
+</div>

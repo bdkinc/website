@@ -1,7 +1,15 @@
 import { useEffect, useRef } from 'react';
+import * as stylex from '@stylexjs/stylex';
+import type { StyleXStyles } from '@stylexjs/stylex';
+
+const styles = stylex.create({
+  container: { position: 'absolute', inset: 0 },
+  canvas: { display: 'block', height: '100%', width: '100%' },
+});
 
 interface CircuitBoardProps {
   className?: string;
+  xstyle?: StyleXStyles;
 }
 
 const SVG_PATH =
@@ -206,7 +214,22 @@ interface Signal {
 const POLYGONS = parsePolygons(SVG_PATH);
 const TILE_SEGMENTS = extractTraceSegments(POLYGONS);
 
-export default function CircuitBoard({ className }: CircuitBoardProps) {
+const PATTERN_SIZE = 304;
+
+// The faint static trace pattern is a CSS background so the browser rasterizes
+// it once; only the moving signals are redrawn on the canvas.
+const PATTERN_BACKGROUND = `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="${PATTERN_SIZE}" height="${PATTERN_SIZE}"><path fill="#00d4ff" fill-opacity="0.1" d="${SVG_PATH}"/></svg>`
+)}")`;
+
+// Simulation constants are tuned per 60 Hz step. Rendering at 30 fps with two
+// steps per frame keeps the same motion while halving draw work, and stops
+// high-refresh displays from redrawing at 120-165 fps. Frames are gated on
+// shared 30 fps boundaries so they coincide with the page's other effects.
+const FRAME_INTERVAL = 1000 / 30;
+const STEPS_PER_FRAME = 2;
+
+export default function CircuitBoard({ className, xstyle }: CircuitBoardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -223,7 +246,7 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const patternSize = 304;
+    const patternSize = PATTERN_SIZE;
     const patternCanvas = document.createElement('canvas');
     patternCanvas.width = patternSize;
     patternCanvas.height = patternSize;
@@ -234,6 +257,7 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
       pCtx.fillStyle = '#00d4ff';
       pCtx.fill(path);
     }
+    const maskPattern = ctx.createPattern(patternCanvas, 'repeat');
 
     const headSprites = new Map<string, HTMLCanvasElement>();
     const trailPool: Float32Array[] = [];
@@ -254,7 +278,6 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
     let adjacency = new Map<number, number[]>();
     let graphSegments: GraphSegment[] = [];
     let segmentLookup = new Map<number, GraphSegment>();
-    let bgCanvas: HTMLCanvasElement | null = null;
 
     const activeSignals: Signal[] = [];
 
@@ -372,19 +395,6 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
 
       canvas.width = nextWidth;
       canvas.height = nextHeight;
-
-      bgCanvas = document.createElement('canvas');
-      bgCanvas.width = nextWidth;
-      bgCanvas.height = nextHeight;
-      const bgCtx = bgCanvas.getContext('2d');
-
-      if (bgCtx && pCtx) {
-        const pattern = bgCtx.createPattern(patternCanvas, 'repeat');
-        if (pattern) {
-          bgCtx.fillStyle = pattern;
-          bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-        }
-      }
 
       nodes = [];
       adjacency = new Map();
@@ -576,23 +586,30 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
     let isIntersecting = true;
     let isDocumentHidden = document.hidden;
     let animationId: number | null = null;
+    let lastTick = -1;
 
-    const renderFrame = () => {
+    const renderFrame = (t: number) => {
       if (!isIntersecting || isDocumentHidden) {
         animationId = null;
         return;
       }
+      animationId = requestAnimationFrame(renderFrame);
+
+      const tick = Math.floor(t / FRAME_INTERVAL);
+      if (tick === lastTick) return;
+      lastTick = tick;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (bgCanvas) {
-        ctx.globalAlpha = 0.1;
-        ctx.drawImage(bgCanvas, 0, 0);
-      }
-
       ctx.globalAlpha = 1;
-      if (mouse.x > -100 && bgCanvas) {
+      if (mouse.x > -100 && maskPattern) {
+        const radius = 300;
+        const left = mouse.x - radius;
+        const top = mouse.y - radius;
         ctx.save();
+        ctx.beginPath();
+        ctx.rect(left, top, radius * 2, radius * 2);
+        ctx.clip();
 
         const gradient = ctx.createRadialGradient(
           mouse.x,
@@ -600,20 +617,35 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
           0,
           mouse.x,
           mouse.y,
-          300
+          radius
         );
         gradient.addColorStop(0, 'rgba(0, 212, 255, 0.4)');
         gradient.addColorStop(1, 'rgba(0, 212, 255, 0)');
 
         ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(left, top, radius * 2, radius * 2);
 
         ctx.globalCompositeOperation = 'destination-in';
-        ctx.drawImage(bgCanvas, 0, 0);
+        ctx.fillStyle = maskPattern;
+        ctx.fillRect(left, top, radius * 2, radius * 2);
 
         ctx.restore();
       }
 
+      ctx.globalCompositeOperation = 'screen';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      for (let step = 0; step < STEPS_PER_FRAME; step++) {
+        stepSignals();
+      }
+      drawSignals();
+
+      ctx.globalCompositeOperation = 'source-over';
+    };
+
+    const stepSignals = () => {
       if (
         Math.random() < SPAWN_RATE &&
         activeSignals.length < MAX_SIGNALS &&
@@ -621,11 +653,6 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
       ) {
         spawnSignal();
       }
-
-      ctx.globalCompositeOperation = 'screen';
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
 
       for (let i = activeSignals.length - 1; i >= 0; i--) {
         const signal = activeSignals[i];
@@ -705,6 +732,17 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
           disposeSignalAt(i);
           continue;
         }
+      }
+    };
+
+    const drawSignals = () => {
+      for (const signal of activeSignals) {
+        if (signal.trailSize === 0) continue;
+        const opacity = getSignalOpacity(signal);
+        const headBase =
+          ((signal.trailIndex - 1 + TRAIL_POINTS) % TRAIL_POINTS) * 2;
+        const x = signal.trailBuffer[headBase];
+        const y = signal.trailBuffer[headBase + 1];
 
         if (signal.trailSize > 1) {
           const oldestIdx =
@@ -738,10 +776,6 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
         ctx.drawImage(sprite, x - HEAD_RADIUS, y - HEAD_RADIUS);
         ctx.globalAlpha = 1;
       }
-
-      ctx.globalCompositeOperation = 'source-over';
-
-      animationId = requestAnimationFrame(renderFrame);
     };
 
     const updateAnimationState = () => {
@@ -802,9 +836,15 @@ export default function CircuitBoard({ className }: CircuitBoardProps) {
     };
   }, []);
 
+  const applied = stylex.props(styles.container, xstyle);
   return (
-    <div ref={containerRef} className={`absolute inset-0 ${className}`}>
-      <canvas ref={canvasRef} className="block h-full w-full" />
+    <div
+      ref={containerRef}
+      {...applied}
+      className={[applied.className, className].filter(Boolean).join(' ')}
+      style={{ ...applied.style, backgroundImage: PATTERN_BACKGROUND }}
+    >
+      <canvas ref={canvasRef} {...stylex.props(styles.canvas)} />
     </div>
   );
 }

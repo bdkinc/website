@@ -1,5 +1,5 @@
 ---
-import { getEntry } from 'astro:content';
+import { getContentEntry, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -24,128 +24,62 @@ import {
   PiTerminalWindow,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
+import EditSection from '@/components/preview/EditSection.astro';
 import { servicePageSchemas } from '@/lib/schema';
-const service = await getEntry('services', 'ibm-power');
+interface Props extends ContentProps {}
+const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const [service, copy, settings] = await Promise.all([
+  getContentEntry('services', 'ibm-power', contentContext),
+  getPageCopy('service-ibm-power', contentContext),
+  getSettings(contentContext),
+]);
 if (!service) {
   return new Response(null, { status: 404 });
 }
-const { servicesData, recentPosts } = await getNavigationData();
+const { servicesData, recentPosts } = await getNavigationData(contentContext);
 const IconComponent = iconMap[service.data.icon];
 const title = service.data.title;
 const titleWords = title.split(' ');
 const lastTitleWord = titleWords.pop();
 const titleFirst = titleWords.join(' ');
 const metrics = [
-  { value: '500+', label: 'LPARs Managed', icon: PiDesktopTower },
-  { value: '99.99%', label: 'Availability Target', icon: PiShieldCheck },
-  { value: '24/7', label: 'Operations Coverage', icon: PiArrowsClockwise },
-  { value: '30+', label: 'Power Engineers', icon: PiUsers },
+  { ...copy.metrics.lparsManaged, icon: PiDesktopTower },
+  { ...copy.metrics.availabilityTarget, icon: PiShieldCheck },
+  { ...copy.metrics.operationsCoverage, icon: PiArrowsClockwise },
+  { ...copy.metrics.powerEngineers, icon: PiUsers },
 ];
 const faqs = [
-  {
-    question:
-      'Can you host our IBM i / AS/400 applications without rewriting them?',
-    answer:
-      "Yes. We specialize in 'lift and shift' strategies that move your exact workload to modern hardware without code changes, often improving performance and reliability.",
-  },
-  {
-    question: 'What is your approach to modernizing green-screen interfaces?',
-    answer:
-      'We offer multiple paths, from web-facing refacing tools to developing new API layers that allow modern front-ends (React, Mobile) to interact with your rock-solid backend logic.',
-  },
-  {
-    question: 'How do you handle Disaster Recovery for IBM i?',
-    answer:
-      'We utilize logical replication and hardware-based replication technologies to mirror your system in real-time to our secure datacenters, targeting minute-level RTO/RPOs depending on architecture.',
-  },
+  copy.faqs.canYouHostOurIbmIAs,
+  copy.faqs.whatIsYourApproachToModernizingGreen,
+  copy.faqs.howDoYouHandleDisasterRecoveryFor,
 ];
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   serviceName: service.data.title,
   servicePath: `/services/${service.id}`,
   faqs,
+  copy: settings.navigation,
 });
 const strategicFeatures = [
-  {
-    title: 'Orchestrated Mastery',
-    description:
-      'Decades of engineering expertise across AS/400 and iSeries legacy.',
-    highlight: '25+ years of mastery',
-    icon: 'Medal',
-    detail:
-      "We don't just support IBM Power; we live it. Our deep bench of engineers spans generations of hardware and software evolution, providing you with the expert-level management required for environments that generalist MSPs won't touch.",
-  },
-  {
-    title: 'Modernization Without Friction',
-    description:
-      "Zero-code 'lift and shift' strategies for mission-critical workloads.",
-    highlight: 'Zero-code modernization',
-    icon: 'ArrowsClockwise',
-    detail:
-      'Your legacy is your foundation, not your limit. We specialize in phased modernization paths that move your exact workloads to modern Power10 hardware or secure cloud instances without requiring a single line of code to be rewritten.',
-  },
-  {
-    title: 'Hybrid Resilience',
-    description:
-      'Low-latency interconnects between IBM Power and modern x86 cloud.',
-    highlight: 'Unified hybrid architecture',
-    icon: 'Stack',
-    detail:
-      'Break down the silos between your rock-solid IBM i backend and your modern web frontends. We architect low-latency private interconnects that allow your modern applications to query legacy databases in real-time, creating a unified, resilient ecosystem.',
-  },
-  {
-    title: 'SLA-Backed Operations',
-    description:
-      'High-availability targets aligned strictly with business uptime.',
-    highlight: '99.99% availability target',
-    icon: 'ShieldCheck',
-    detail:
-      "Downtime isn't just an inconvenience; it's a failure. Our operations are driven by aggressive SLAs and proactive monitoring, utilizing logical and hardware-based replication to ensure your core business systems never blink.",
-  },
+  { ...copy.strategy.features.orchestratedMastery, icon: 'Medal' },
+  { ...copy.strategy.features.modernizationWithoutFriction, icon: 'ArrowsClockwise' },
+  { ...copy.strategy.features.hybridResilience, icon: 'Stack' },
+  { ...copy.strategy.features.slaBackedOperations, icon: 'ShieldCheck' },
 ];
-
 const keyBenefits = [
-  {
-    title: '25+ Years Mastery',
-    description:
-      'Decades of deep engineering expertise across IBM hardware and software evolution.',
-    icon: PiMedal,
-  },
-  {
-    title: 'Certified Partner',
-    description:
-      'IBM Silver Partner status providing direct access to IBM labs and tier-3 global support.',
-    icon: PiMedal,
-  },
-  {
-    title: "'Black Box' Expertise",
-    description:
-      "We thrive in complex, legacy environments that generalist MSPs simply won't touch.",
-    icon: PiTerminalWindow,
-  },
-  {
-    title: 'Enterprise Security',
-    description:
-      'Hardening and continuous compliance for your most sensitive legacy and modern datasets.',
-    icon: PiShieldCheck,
-  },
-  {
-    title: 'Single Partner',
-    description:
-      'Unified premier support for IBM i, AIX, and Linux, simplifying your operational complexity.',
-    icon: PiDesktopTower,
-  },
-  {
-    title: 'SLA-Driven',
-    description:
-      'Operations aligned strictly to business uptime with aggressive resolution targets.',
-    icon: PiPulse,
-  },
+  { ...copy.benefits.items.item25YearsMastery, icon: PiMedal },
+  { ...copy.benefits.items.certifiedPartner, icon: PiMedal },
+  { ...copy.benefits.items.blackBoxExpertise, icon: PiTerminalWindow },
+  { ...copy.benefits.items.enterpriseSecurity, icon: PiShieldCheck },
+  { ...copy.benefits.items.singlePartner, icon: PiDesktopTower },
+  { ...copy.benefits.items.slaDriven, icon: PiPulse },
 ];
 ---
 
 <Layout
-  title="IBM Power Systems - Managed Hosting & Modernization | BDKinc"
-  description="Maximize your AS/400 and iSeries legacy. Premier IBM Power orchestration, managed hosting, and modernization services for high-availability enterprise environments."
+  contentContext={contentContext}
+  publicPath={publicPath}
+  title={copy.seo.title}
+  description={copy.seo.description}
 >
   <script
     type="application/ld+json"
@@ -157,13 +91,18 @@ const keyBenefits = [
     is:inline
     set:html={JSON.stringify(faqSchema)}
   />
+  <EditSection record="settings" section="navigation">
   <Navigation
     client:load
     services={servicesData}
     blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
+    currentPath={publicPath}
+    copy={settings.navigation}
+    brand={settings.brand}
   />
+  </EditSection>
   <main id="main-content" class="services-page-shell">
+    <EditSection record="service-ibm-power" section="hero">
     <!-- Hero Section -->
     <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
       <div class="gradient-mesh absolute inset-0 opacity-30"></div>
@@ -175,7 +114,7 @@ const keyBenefits = [
         class="pointer-events-none absolute -top-12 left-4 z-0 opacity-30 md:-top-24 md:left-12"
       >
         <img
-          src="/logos/partners/ibm.svg"
+          src={copy.hero.backgroundLogo}
           alt=""
           class="h-[600px] w-[600px] object-contain grayscale filter md:h-[1000px] md:w-[1000px]"
           aria-hidden="true"
@@ -195,8 +134,8 @@ const keyBenefits = [
           >
             <div class="flex items-center gap-2 text-sm">
               <span
-                >Power Systems <span class="text-accent font-semibold"
-                  >Experts</span
+                >{copy.hero.badgePrefix}{' '}<span class="text-accent font-semibold"
+                  >{copy.hero.badgeAccent}</span
                 ></span
               >
             </div>
@@ -230,9 +169,7 @@ const keyBenefits = [
             transition:name={`service-description-${service.id}`}
             transition:animate="initial"
           >
-            Maximize your AS/400 and iSeries legacy. Premier IBM Power
-            orchestration, managed hosting, and modernization services for
-            high-availability enterprise environments.
+            {copy.hero.body}
           </p>
         </div>
       </div>
@@ -241,6 +178,8 @@ const keyBenefits = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-ibm-power" section="infrastructure">
     <!-- Core Services -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -248,22 +187,24 @@ const keyBenefits = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight normal-case md:text-4xl"
           >
-            <span class="text-foreground">Infrastructure </span>
+            <span class="text-foreground">{copy.infrastructure.heading}{' '}</span>
             <span
               class="to-secondary from-primary bg-linear-to-br bg-clip-text text-transparent"
-              >Control</span
+              >{copy.infrastructure.headingAccent}</span
             >
           </h2>
           <p
             class="text-muted-foreground mx-auto mt-4 max-w-2xl font-sans text-xl"
           >
-            Expert-level Power Systems management designed for
-            <span class="text-accent font-semibold">critical uptime</span>.
+            {copy.infrastructure.bodyBefore}{' '}
+            <span class="text-accent font-semibold">{copy.infrastructure.bodyAccent}</span>{copy.infrastructure.bodyAfter}
           </p>
         </div>
-        <PowerSystemsConsole client:visible />
+        <PowerSystemsConsole client:visible copy={copy.infrastructure.services} />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-ibm-power" section="leadership">
     <!-- Strategic Leadership Section -->
     <section class="relative overflow-hidden py-24">
       <div
@@ -275,20 +216,18 @@ const keyBenefits = [
           <h2
             class="font-display fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-4xl font-bold tracking-tight duration-600 md:text-5xl"
           >
-            <span class="text-foreground">Architectural </span>
+            <span class="text-foreground">{copy.leadership.heading}{' '}</span>
             <span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Legacy</span
+              >{copy.leadership.headingAccent}</span
             >
           </h2>
         </div>
 
         <ServiceBlockquote>
-          &ldquo;IBM Power is the heartbeat of the enterprise. We don&rsquo;t
-          just host legacy systems; we architect
-          <span class="text-accent"> battle-hardened foundations</span>
-          that preserve your rock-solid logic while empowering your next decade of
-          business innovation.&rdquo;
+          {copy.leadership.quoteBefore}{' '}
+          <span class="text-accent">{copy.leadership.quoteAccent}</span>{' '}
+          {copy.leadership.quoteAfter}
         </ServiceBlockquote>
       </div>
       <div
@@ -296,6 +235,8 @@ const keyBenefits = [
       >
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-ibm-power" section="strategy">
     <!-- Strategic Advantage -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -303,19 +244,20 @@ const keyBenefits = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            The Strategic <span
+            {copy.strategy.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Advantage</span
+              >{copy.strategy.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Move beyond standard support with a partner who speaks the language
-            of Power Systems.
+            {copy.strategy.body}
           </p>
         </div>
         <FeatureCarousel client:visible features={strategicFeatures} />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-ibm-power" section="roadmap">
     <!-- Roadmap Section -->
     <section class="py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
@@ -323,46 +265,52 @@ const keyBenefits = [
           <h2
             class="font-display mb-4 text-3xl font-bold tracking-tight md:text-4xl"
           >
-            Modernization <span
+            {copy.roadmap.heading}{' '}<span
               class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
-              >Roadmap</span
+              >{copy.roadmap.headingAccent}</span
             >
           </h2>
           <p class="text-muted-foreground mx-auto max-w-2xl text-xl">
-            Phased strategies to evolve your core systems without business
-            disruption.
+            {copy.roadmap.body}
           </p>
         </div>
-        <ModernizationRoadmap client:visible />
+        <ModernizationRoadmap client:visible copy={copy.roadmap} />
       </div>
     </section>
+    </EditSection>
+    <EditSection record="service-ibm-power" section="benefits">
     <!-- Key Benefits -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <BenefitGrid benefits={keyBenefits} />
+        <BenefitGrid benefits={keyBenefits} copy={settings.benefits} />
       </div>
     </section>
 
+    </EditSection>
+    <EditSection record="service-ibm-power" section="faqs" also={['faqHeading']}>
     <!-- FAQ -->
     <section class="px-4 py-24 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-5xl">
         <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          Frequently Asked Questions
+          {copy.faqHeading}
         </h3>
         <div class="mb-20">
           <TechnicalFAQ client:visible faqs={faqs} />
         </div>
       </div>
     </section>
-    <ImpactMetricsSection metrics={metrics} />
+    </EditSection>
+    <EditSection record="service-ibm-power" section="metrics">
+    <ImpactMetricsSection metrics={metrics} copy={settings.metrics} />
+    </EditSection>
+    <EditSection record="service-ibm-power" section="cta">
     <!-- CTA -->
     <CTASection
       client:visible
-      title="Your Power Systems Deserve Expert Hands"
-      description="Don't let your legacy become a liability. Secure, optimize, and modernize your IBM investment with a team that knows it best."
-      buttonText="Schedule a Power Assessment"
-      buttonHref="/contact#chat"
+      copy={settings.cta}
+      {...copy.cta}
     />
+    </EditSection>
   </main>
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>

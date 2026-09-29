@@ -9,88 +9,107 @@ import Testimonials from '@/components/Testimonials.astro';
 import CTASection from '@/components/CTASection';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
-
-const { servicesData, recentPosts } = await getNavigationData();
-
-const pageTitle = 'Premier Managed IT Services & Cloud Hosting | BDKinc';
-const pageDescription =
-  'IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.';
-
+import EditSection from '@/components/preview/EditSection.astro';
+import { getPageCopy, getSettings, getContentCollection, type ContentProps } from '@/lib/content';
+interface Props extends ContentProps {}
+const { contentContext, publicPath = '/' } = Astro.props;
+const [copy, settings, navigation, partnerEntries] = await Promise.all([
+  getPageCopy('home', contentContext),
+  getSettings(contentContext),
+  getNavigationData(contentContext),
+  getContentCollection('partners', contentContext),
+]);
+const { servicesData, recentPosts } = navigation;
+// The showcase's slots/order remain code-owned; names, media and details are live records.
+const partnerOrder = ['ibm', 'microsoft', 'cisco', 'lenovo', 'cloudflare', 'vmware'];
+const partners = partnerOrder.flatMap(id => {
+  const entry = partnerEntries.find(partner => partner.id === id);
+  return entry ? [{ ...entry.data, id: entry.id }] : [];
+});
+const { organization, contact } = settings;
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'BDKinc',
-  legalName: 'BDK Inc',
-  url: 'https://www.bdkinc.com',
+  name: settings.siteName,
+  legalName: organization.legalName,
+  url: organization.url,
   logo: {
     '@type': 'ImageObject',
-    url: 'https://www.bdkinc.com/favicon.svg',
+    url: new URL(organization.logo, organization.url).toString(),
   },
-  image: 'https://www.bdkinc.com/favicon.svg',
-  description:
-    'Premier technology partner delivering Managed IT, Cloud Solutions, and Custom Software with enterprise-grade expertise.',
-  foundingDate: '1999',
-  sameAs: [
-    'https://www.linkedin.com/company/bdk-inc./',
-    'https://www.facebook.com/bdkinctech',
-    'https://www.instagram.com/bdkinctech/',
-  ],
+  image: new URL(organization.image, organization.url).toString(),
+  description: organization.description,
+  foundingDate: organization.foundingDate,
+  sameAs: [settings.footer.linkedin, settings.footer.facebook, settings.footer.instagram],
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '29515 Canvasback Drive',
-    addressLocality: 'Easton',
-    addressRegion: 'MD',
-    postalCode: '21601',
-    addressCountry: 'US',
+    streetAddress: organization.streetAddress,
+    addressLocality: organization.addressLocality,
+    addressRegion: organization.addressRegion,
+    postalCode: organization.postalCode,
+    addressCountry: organization.addressCountry,
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 38.7846,
-    longitude: -76.0756,
+    latitude: organization.latitude,
+    longitude: organization.longitude,
   },
-  contactPoint: [
-    {
-      '@type': 'ContactPoint',
-      telephone: '+1-800-309-0004',
-      contactType: 'customer support',
-      email: 'info@bdkinc.com',
-      areaServed: 'US',
-      availableLanguage: ['English'],
-    },
-    {
-      '@type': 'ContactPoint',
-      telephone: '+1-800-309-0004',
-      contactType: 'sales',
-      email: 'info@bdkinc.com',
-      areaServed: 'US',
-      availableLanguage: ['English'],
-    },
-  ],
+  contactPoint: [organization.supportType, organization.salesType].map(contactType => ({
+    '@type': 'ContactPoint',
+    telephone: contact.telephone,
+    contactType,
+    email: contact.email,
+    areaServed: organization.areaServed,
+    availableLanguage: organization.availableLanguage,
+  })),
 };
 ---
 
-<Layout title={pageTitle} description={pageDescription}>
-  <!-- JSON-LD Organization Schema -->
+<Layout
+  title={copy.seo.title}
+  description={copy.seo.description}
+  ogImage={copy.seo.image}
+  ogImageAlt={copy.seo.imageAlt}
+  contentContext={contentContext}
+  publicPath={publicPath}
+>
+  <!-- JSON-LD Organization Schema: escape script delimiters in editorial text. -->
   <script
     type="application/ld+json"
     is:inline
-    set:html={JSON.stringify(organizationSchema)}
+    set:html={JSON.stringify(organizationSchema).replace(/</g, '\\u003c')}
   />
 
-  <Navigation
-    client:load
-    services={servicesData}
-    blogPosts={recentPosts}
-    currentPath={Astro.url.pathname}
-  />
+  <EditSection record="settings" section="navigation">
+    <Navigation
+      client:load
+      services={servicesData}
+      blogPosts={recentPosts}
+      currentPath={publicPath}
+      copy={settings.navigation}
+      brand={settings.brand}
+    />
+  </EditSection>
   <main id="main-content">
-    <Hero client:load />
-    <Services client:visible services={servicesData} />
-    <WhyChooseUs client:visible />
-    <TrustShowcase client:visible />
-    <Testimonials />
-    <CTASection client:visible icon="click" />
+    <EditSection record="home" section="hero">
+      <Hero client:load copy={copy.hero} />
+    </EditSection>
+    <EditSection record="home" section="services">
+      <Services client:visible services={servicesData} copy={copy.services} />
+    </EditSection>
+    <EditSection record="home" section="whyUs">
+      <WhyChooseUs client:visible copy={copy.whyUs} />
+    </EditSection>
+    <EditSection record="home" section="trust">
+      <TrustShowcase client:visible partners={partners} copy={copy.trust} />
+    </EditSection>
+    <EditSection record="home" section="testimonials">
+      <Testimonials contentContext={contentContext} copy={copy.testimonials} />
+    </EditSection>
+    <EditSection record="settings" section="cta">
+      <CTASection client:visible icon="click" copy={settings.cta} />
+    </EditSection>
   </main>
 
-  <Footer />
+  <Footer contentContext={contentContext} />
 </Layout>
