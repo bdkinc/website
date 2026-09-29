@@ -1,13 +1,14 @@
 ---
-import { getContentCollection, type ContentProps } from '@/lib/content';
+import type { ContentProps, ContentReader } from '@/lib/content';
 import type { PageData } from '@bdkinc/content';
-interface Props extends ContentProps { copy: PageData<'home'>['testimonials']; }
-const { contentContext, copy } = Astro.props;
+interface Props extends ContentProps {
+  reader: ContentReader;
+  copy: PageData<'home'>['testimonials'];
+}
+const { reader, copy } = Astro.props;
 import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 
-const testimonials = (
-  await getContentCollection('testimonials', contentContext)
-)
+const testimonials = (await reader.getCollection('testimonials'))
   .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
   .map(({ data }) => ({
     quote: data.quote,

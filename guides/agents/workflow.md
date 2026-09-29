@@ -2,9 +2,13 @@
 
 ## Local development
 
-This is an npm workspaces monorepo. Use the Node version in root `engines` (Node 24 recommended) and Docker Desktop for WordPress. PHP/WP-CLI run only in containers.
+This is an npm workspaces monorepo. Use the current default environment with Node/npm versions supported by root `package.json` `engines`, and Docker Desktop for WordPress. Consult workspace manifests and the lockfile for dependency versions. PHP/WP-CLI run only in containers.
 
-From the repository root (root scripts delegate through `vp run <workspace>#<script>`; workspace commands themselves stay `astro ...`):
+Use normal repository-root scripts. Frontend scripts delegate through project-local Vite+ (`vp run <workspace>#<script>`) to the apps' Astro commands; no global CLI installation is required. `vp dev` starts Vite itself, not an app's Astro script.
+
+Diagnose and fix startup or task failures in this normal path; report unresolved blockers rather than bypassing the runtime, framework or task runner.
+
+From the repository root:
 
 ```sh
 npm run wp:init -w apps/wp-cms
@@ -20,7 +24,7 @@ Initialization preserves existing data and writes ignored main-site server confi
 | Temporary light Editorial review | `npm run dev:editorial` | 4322       |
 | Temporary dark Systems review    | `npm run dev:systems`   | 4323       |
 
-WordPress runs on 8080. Check for an existing listener before starting another server. The review apps share published CMS content, not the main app's templates; they are noindex with main-site canonicals, not production replacements. `apps/bdkcloud` remains planned.
+`npm run dev` is an alias for the main-site command. WordPress runs on 8080. Check for an existing listener before starting another server. When a background job is needed, run the same normal script with the background-process tools (such as `bg_start`); inspect and stop only jobs you own. The review apps share published CMS content, not the main app's templates; they are noindex with main-site canonicals, not production replacements. `apps/bdkcloud` remains planned.
 
 ## Incremental validation and build protocol
 
@@ -33,7 +37,7 @@ npm run check -w apps/design-editorial
 npm run check -w apps/design-systems
 ```
 
-Coordinate workspace-wide checks after concurrent writers settle. A failed/crashed checker is not a pass. Windows native Node CLI runs have intermittently exited with `3221225477`; a dedicated PowerShell launcher has worked for dev servers, but does not establish a successful checker result. Prefer workspace scripts, which select app-local dependencies.
+Coordinate workspace-wide checks after concurrent writers settle. A failed/crashed checker is not a pass. Use the existing scoped workspace scripts and diagnose failures in the normal task path.
 
 ## Changing content and templates
 

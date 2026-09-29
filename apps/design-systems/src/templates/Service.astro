@@ -1,12 +1,12 @@
 ---
-import type { Reader } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
 import type { PageKey } from '@bdkinc/content';
 import { group, text, heading, body, entries } from '@/lib/editorial';
 import EditorialGroup from '@/components/EditorialGroup.astro';
 import CTA from '@/components/CTA.astro';
 import Icon from '@/components/Icon.astro';
 interface Props {
-  content: Reader;
+  content: ContentReader;
   pageKey: PageKey;
 }
 const { content, pageKey } = Astro.props;

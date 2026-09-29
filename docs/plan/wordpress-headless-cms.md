@@ -8,7 +8,7 @@ WordPress in `apps/wp-cms` is the editing origin; Astro remains the static publi
 - `apps/bdkinc`: current public design on 4321, static pages with Node preview/media endpoints.
 - `apps/design-editorial` and `apps/design-systems`: temporary independent light/dark review frontends on 4322/4323. Both consume the same content/routes, use noindex and canonicalize to the main site.
 
-App-local Astro 7.1.6 and Node adapter 11.0.3 are locked. Node >=22.12 is required; the main Dockerfile uses Node 24. Preserve npm workspace commands, branding and selective hydration. Full builds still require explicit user instruction.
+Consult workspace manifests and the lockfile for Astro/adapter versions, and root `package.json` `engines` for Node/npm support. Use the normal root development scripts documented in [Development Workflow](../../guides/agents/workflow.md). Preserve branding and selective hydration. Full builds still require explicit user instruction.
 
 ## Content and migration contract
 `packages/content/src/schemas.ts` is the collection-schema source of truth; `apps/bdkinc/src/content.config.ts` imports those schemas for WordPress loaders. Page/settings definitions and migration defaults live in `packages/content/editorial/data/`. Clients validate published data and fail on missing/invalid content; there is no local-source switch or runtime fixture fallback.
@@ -38,6 +38,8 @@ WordPress upload URLs map to real `/api/cms-media/<upload-path>` endpoints, not 
 Publication queues a debounced outbound host/CI hook through WP cron. Network/non-2xx failures are recorded and retried; a 2xx means **dispatch accepted (deployment pending)**, not deployment success. Public static output changes only after a successful rebuild and deployment. There is no extra generic receiver stub to provision in the Astro app.
 
 ## Gates and remaining production work
+The following is a historical implementation verification record, not a runtime-selection recommendation or current validation.
+
 Final Linux Node 24 verification passed shared-content TypeScript and all three Astro checks: **111 main-site files, 17 Editorial files and 23 Systems files, with zero errors/warnings/hints**. Root lint passed with zero errors and one pre-existing accessibility warning in the unchanged `TestimonialsCarousel.tsx`. Five authoring-plugin PHP syntax checks and Git diff checks passed. Earlier Windows native checker/linter failures did not reproduce in Linux; their underlying cause is unproven.
 
 Real Editor workflows verified new saved drafts with unsaved-copy previews on all three frontends, public draft exclusion, working relative internal links, stable published slugs across unpublishing, and unique first-publication slugs. Desktop/mobile, media and local webhook-dispatch checks also passed. After owned probe cleanup, the inventory remained 74 collection records, 21 catalogs, site settings and 587 routes. These are local gates, not a build/deployment certificate.

@@ -1,8 +1,8 @@
 ---
-import type { Reader } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
 import { group, text, heading } from '@/lib/editorial';
 interface Props {
-  content: Reader;
+  content: ContentReader;
   pageKey: 'privacy' | 'terms';
 }
 const { content, pageKey } = Astro.props;

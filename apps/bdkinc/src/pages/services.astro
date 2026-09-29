@@ -2,7 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
-import { getContentCollection, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 import InteractiveServiceCard from '@/components/InteractiveServiceCard';
 import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer.astro';
@@ -10,17 +10,18 @@ import PageHeroEffects from '@/components/PageHeroEffects';
 import EditSection from '@/components/preview/EditSection.astro';
 
 interface Props extends ContentProps {}
-const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
-const [copy, settings] = await Promise.all([getPageCopy('services', contentContext), getSettings(contentContext)]);
-const { servicesData, recentPosts } = await getNavigationData(contentContext);
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const [copy, settings] = await Promise.all([reader.getPage('services'), reader.getSettings()]);
+const { servicesData, recentPosts } = await getNavigationData(reader);
 
 // Get all services from the content collection
-const allServices = await getContentCollection('services', contentContext);
+const allServices = await reader.getCollection('services');
 // Sort by order field
 const services = allServices.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Layout
+<Layout reader={reader}
   title={copy.metadata.title}
   contentContext={contentContext}
   publicPath={publicPath}
@@ -111,5 +112,5 @@ const services = allServices.sort((a, b) => a.data.order - b.data.order);
     </EditSection>
   </main>
 
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>

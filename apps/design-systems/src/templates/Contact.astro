@@ -1,9 +1,9 @@
 ---
 import Icon from '@/components/Icon.astro';
-import type { Reader } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
 import ContactChat from '@bdkinc/design-system/contact-chat';
 interface Props {
-  content: Reader;
+  content: ContentReader;
 }
 const { content } = Astro.props;
 const c = await content.getPage('contact');

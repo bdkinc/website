@@ -1,6 +1,12 @@
 import { PiMoon, PiSun } from 'react-icons/pi';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import * as stylex from '@stylexjs/stylex';
+import {
+  getTheme,
+  getServerTheme,
+  subscribeTheme,
+  toggleTheme,
+} from '@/lib/theme';
 
 const ease = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
@@ -113,27 +119,8 @@ const styles = stylex.create({
 });
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-    setTheme(initialTheme);
-    document.documentElement.classList.toggle('dark', initialTheme === 'dark');
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
-  };
-
+  const theme = useSyncExternalStore(subscribeTheme, getTheme, getServerTheme);
+  const mounted = theme !== null;
   const isDark = theme === 'dark';
   const label = mounted
     ? `Switch to ${isDark ? 'light' : 'dark'} mode`

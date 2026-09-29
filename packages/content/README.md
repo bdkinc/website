@@ -32,6 +32,21 @@ Public methods always request published content **without Authorization**, even 
 
 Blog queries use `bdk_managed=true` to exclude WordPress's unstructured starter post. This is a plugin-defined, metadata-backed filter, not a slug denylist.
 
+## Render-local reading
+
+```ts
+import { createContentReader } from '@bdkinc/content/reader';
+const reader = createContentReader({ published: content });
+```
+
+Create one reader per render or authorization operation and pass that same instance to metadata, templates and nested server-rendered modules. `ContentSource` supplies `getCollection`, `getPage` and `getSettings`; `ContentReader` exposes those same methods. Collection records allow an optional `wpId` so an app can supply Astro's published store without fabricating WordPress identity.
+
+The reader reuses pending and resolved reads by key, evicts rejected reads for retry, and returns a fresh structured clone to each caller. Sorting a result or mutating its nested data cannot change another caller's value; `Date` values remain dates. Each reader has its own lifetime: no module-global cache, cross-render reuse or global draft state.
+
+`authorizePreview` returns an already-authorized reader. Its selected-record overlay uses the existing client mapper, captures the authorized context, preserves published siblings and replaces only matching slug/defined WordPress identity. Page and settings overlays apply only to their selected target. Reader/context objects stay server-only; hydrate presentation data, not read functions or snapshots.
+
+Domain terms are defined in [CONTEXT.md](../../CONTEXT.md).
+
 ## Fixed editorial definitions
 
 `editorial/data/` contains 21 page catalogs plus site settings. Each JSON file defines one fixed page/template copy catalog or singleton settings record:
@@ -68,18 +83,22 @@ The app dependency is installed. `npm run check -w packages/content` is a slice-
 
 ## Astro runtime seam
 
-`apps/bdkinc/src/lib/content.ts` exports `ContentProps` (`contentContext?`, `publicPath?`) and context-last helpers `getContentCollection(name, context?)`, `getContentEntry(name, slug, context?)`, `getPageCopy(key, context?)`, `getSettings(context?)`. Absent context means published-only. Collections use the build-time WP loader; dev reads published WP live for immediate publish verification. Production collections use Astro's published store. Fixed editorial records are read during page render/build. No source-default fallback exists.
+`apps/bdkinc/src/lib/content.ts` exports `ContentProps` (`reader?`, `contentContext?`, `publicPath?`) and `createAppContentReader(context?)`. A page root uses its supplied reader or creates one scope, then passes it to Layout, Footer and content-reading helpers. Nested consumers require that reader rather than silently creating another. Helpers retain navigation, blog and geographic transformations; direct copy/settings/collection reads use the reader interface.
 
-`ContentContext` is server-only: `{mode:'preview', publicPath, target:{kind,key,postId}, snapshot}`. Only the authenticated outer route creates it. Collection results overlay only the selected snapshot on published entries. `ContentRecord` preserves slug/data/body; `wpId` is optional for Astro-store entries (the package's live `ContentEntry` always has a real `wpId`). Never hydrate the context; pass only presentation fields to React.
+Absent preview context means published-only. Dev and preview collections read published WordPress live; production public collections use Astro's published store populated by the WordPress loader. Fixed editorial records remain WordPress reads during page render/build. No source-default fallback exists. Static path enumeration creates its own published scope and serializes only route/post data, never the reader.
 
-`lib/preview.ts:previewTemplate` plus static imports in `pages/preview/[...path].astro` form the main app's fixed-template registry. It covers fixed pages, blog detail and service/industry-location templates. `src/routes.ts` maps settings/partners/testimonials to home and generated copy/collection previews to representative published routes. New blog draft identities can resolve a detail preview before publication.
+`ContentContext` aliases shared `PreviewContext`: `{mode:'preview', publicPath, target:{kind,key,postId}, snapshot}`. Keep it separate from the reader: its presence controls preview-only rendering, headers and editing UI, not public read reuse. `ContentRecord` preserves slug/data/body; `wpId` is optional for Astro-store entries (live `ContentEntry` always has a real `wpId`). Only presentation fields pass to hydrated React islands.
 
-For a new developer-owned route, update `editorial/routes.json`, shared route mapping, WordPress target mapping and each consuming renderer deliberately. Resolve dynamic props before rendering and pass `{contentContext, publicPath, ...props}` in the main app. Do not run imported pages' `getStaticPaths` or use caller-selected module paths. Public route generation remains published-only.
+`lib/preview.ts:resolvePreview` delegates to shared authorization and returns the resolved route, context and warmed reader once. Static imports in `pages/preview/[...path].astro` select fixed pages, blog detail and service/industry-location renderers. `src/routes.ts` maps settings/partners/testimonials to home and generated copy/collection previews to representative published routes. New blog draft identities can resolve a detail preview before publication.
+
+For a new developer-owned route, update `editorial/routes.json`, shared route mapping, WordPress target mapping and each consuming renderer deliberately. Resolve dynamic props before rendering and pass `{reader, contentContext, publicPath, ...props}` in the main app. Do not run imported pages' `getStaticPaths` or use caller-selected module paths. Public route generation remains published-only.
 
 ## Routes, review apps and snapshot verification
-`@bdkinc/content/routes` exports `getSiteRoutes` and `getPreviewRoute`. The migrated canonical inventory is **587 paths**: 19 fixed, 4 blog, 408 service/location and 156 industry/location. The 21 catalogs include generated-template copy; they are not 21 fixed routes. The reference-only geographic archive in `apps/wp-cms/migrations/location-reference.json` does not expand the route set.
+`@bdkinc/content/routes` exports `getSiteRoutes` and `getPreviewRoute`. Production dynamic paths, both review frontends and preview selection consume the same published inventory. Main services win a main/pSEO slug collision; app renderers translate the shared descriptors into their own props. The migrated canonical inventory is **587 paths**: 19 fixed, 4 blog, 408 service/location and 156 industry/location. The 21 catalogs include generated-template copy; they are not 21 fixed routes. The reference-only geographic archive in `apps/wp-cms/migrations/location-reference.json` does not expand the route set.
 
-`@bdkinc/content/preview` exports `verifyPreviewToken` and `previewHeaders`. Callers supply the server secret and audience; the package does not load environment variables. The 15-minute HMAC grant binds entity/snapshot/editor/path/audience/expiry. Consumers additionally verify snapshot identity and mapped path before rendering. Preview captures current form values without publishing; only that snapshot overlays published siblings, with private/no-store, noindex and no-referrer responses.
+`@bdkinc/content/preview` exports `authorizePreview`, `verifyPreviewToken`, `PreviewContext` and `previewHeaders`. Callers supply the server secret, audience and client; the package does not load environment variables. `authorizePreview({ token, path?, secret, audience, client, publishedReader? })` verifies the grant, requested path, snapshot parent, allowed target, mapped published route and complete targeted schema. It returns `{ route, context, reader }`; use the returned route and reader rather than reconstructing the inventory or overlay policy. If `path` is omitted, the signed grant path is used. A supplied published source is scoped through the same reader mechanism, so inventory acquisition can be reused by rendering.
+
+The 15-minute HMAC grant binds entity/snapshot/editor/path/audience/expiry. WordPress additionally enforces the immutable stored grant and editor capability when retrieving the snapshot. Preview captures current form values without publishing; only that snapshot overlays published siblings. Apps own environment access, redirects, renderers and private/no-store, noindex and no-referrer responses.
 
 The two temporary review apps use independent templates and server-only clients rather than importing production page renderers. Their public pages are static and noindex, with main-site canonicals; private previews and real upload proxies use the Node adapter. Media endpoint details differ by app: the review proxies serve allowed image content, while the main proxy also forwards supported range/validator headers. All use the configured uploads origin, not arbitrary URL proxying.
 

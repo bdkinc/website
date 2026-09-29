@@ -5,20 +5,20 @@ import CallToAction from '@/components/CallToAction.astro';
 import EditorialIcon from '@/components/EditorialIcon.astro';
 import { serviceIcons } from '@/lib/service-icons';
 import { object, text, heading, body, records, type Copy } from '@/lib/copy';
-import type { content } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
 import type { PageData, SiteSettings } from '@bdkinc/content';
 import ContactChat from '@bdkinc/design-system/contact-chat';
-interface Props { pageKey: string; copy: Copy; source: ReturnType<typeof content>; settings: SiteSettings }
+interface Props { pageKey: string; copy: Copy; source: ContentReader; settings: SiteSettings }
 const { pageKey, copy, source, settings } = Astro.props;
 const hero = object(copy.hero);
 const legal = pageKey === 'privacy' || pageKey === 'terms';
 const sections = legal ? Object.entries(copy).filter(([key])=>!['metadata','hero','contents'].includes(key)) : [];
-const services = pageKey === 'services' || pageKey.startsWith('location-') ? await source.collection('services') : [];
-const posts = pageKey === 'blog' ? await source.collection('blog') : [];
-const locations = pageKey.startsWith('location-') ? (await source.collection('locations')).filter(l=>l.data.state===(pageKey.includes('maryland')?'Maryland':'Delaware')) : [];
+const services = pageKey === 'services' || pageKey.startsWith('location-') ? await source.getCollection('services') : [];
+const posts = pageKey === 'blog' ? await source.getCollection('blog') : [];
+const locations = pageKey.startsWith('location-') ? (await source.getCollection('locations')).filter(l=>l.data.state===(pageKey.includes('maryland')?'Maryland':'Delaware')) : [];
 const contact = object(copy.directContact);
 const story = object(copy.foundingStory);
-const aboutPartners = pageKey === 'about' ? await source.collection('partners') : [];
+const aboutPartners = pageKey === 'about' ? await source.getCollection('partners') : [];
 const chat = object(copy.chat);
 const chatSuggestions = pageKey === 'contact' ? Object.values(object(chat.pageFallbackSuggestions)).map(text) : [];
 const notFound = object(copy.error);

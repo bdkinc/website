@@ -2,7 +2,7 @@
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
-import { getContentCollection, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 import { iconMap } from '@/lib/icons';
 import {
   PiMapPin,
@@ -20,14 +20,15 @@ import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
 
 interface Props extends ContentProps {}
-const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
-const copy = await getPageCopy('location-maryland-eastern-shore', contentContext);
-const settings = await getSettings(contentContext);
-const { servicesData, recentPosts } = await getNavigationData(contentContext);
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const copy = await reader.getPage('location-maryland-eastern-shore');
+const settings = await reader.getSettings();
+const { servicesData, recentPosts } = await getNavigationData(reader);
 
 // Get all services and locations for the location pages
-const services = await getContentCollection('services', contentContext);
-const locations = await getContentCollection('locations', contentContext);
+const services = await reader.getCollection('services');
+const locations = await reader.getCollection('locations');
 const sortedServices = services.sort((a, b) => a.data.order - b.data.order);
 
 // Maryland Eastern Shore locations only
@@ -36,7 +37,7 @@ const marylandLocations = locations.filter(
 );
 ---
 
-<Layout
+<Layout reader={reader}
   contentContext={contentContext}
   publicPath={publicPath}
   title={copy.metadata.title}
@@ -315,5 +316,5 @@ const marylandLocations = locations.filter(
     </EditSection>
   </main>
 
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>

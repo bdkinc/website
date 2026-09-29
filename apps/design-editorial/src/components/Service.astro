@@ -3,8 +3,9 @@ import Hero from '@/components/Hero.astro';
 import CopySection from '@/components/CopySection.astro';
 import CallToAction from '@/components/CallToAction.astro';
 import { object, records, text, type Copy } from '@/lib/copy';
-import type { SiteSettings, ContentEntry } from '@bdkinc/content';
-interface Props { copy: Copy; service: ContentEntry<'services'>; settings: SiteSettings }
+import type { SiteSettings } from '@bdkinc/content';
+import type { ContentRecord } from '@bdkinc/content/reader';
+interface Props { copy: Copy; service: ContentRecord<'services'>; settings: SiteSettings }
 const { copy, service, settings } = Astro.props;
 const hero = object(copy.hero);
 const sections = ['capabilities','deployment','leadership','strategy','infrastructure','solutions','comparison','framework','pipeline','lifecycle','maturity','roadmap','network','specifications','standards','operations','providers','watsonx','techStack'];

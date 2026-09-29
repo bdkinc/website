@@ -2,18 +2,18 @@
 import Hero from '@/components/Hero.astro';
 import CopySection from '@/components/CopySection.astro';
 import CallToAction from '@/components/CallToAction.astro';
-import type { content } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
 import { heading, interpolate } from '@/lib/copy';
 import type { SiteRoute } from '@bdkinc/content/routes';
 import type { SiteSettings } from '@bdkinc/content';
-interface Props { route: Extract<SiteRoute, { template: 'service-location' | 'industry-location' }>; source: ReturnType<typeof content>; settings: SiteSettings }
+interface Props { route: Extract<SiteRoute, { template: 'service-location' | 'industry-location' }>; source: ContentReader; settings: SiteSettings }
 const { route, source, settings } = Astro.props;
-const locations = await source.collection('locations');
+const locations = await source.getCollection('locations');
 const location = locations.find(l=>l.id===route.locationId);
-const entries = route.template==='service-location' ? await source.collection(route.collectionKey) : await source.collection('pseoIndustries');
+const entries = route.template==='service-location' ? await source.getCollection(route.collectionKey) : await source.getCollection('pseoIndustries');
 const entry = entries.find(e=>e.id===(route.template==='service-location'?route.serviceSlug:route.industrySlug));
 if (!location || !entry) throw new Error('Published route is missing its content.');
-const raw = await source.page(route.template);
+const raw = await source.getPage(route.template);
 const copy = interpolate(raw, {serviceTitle:entry.data.title,industryTitle:entry.data.title,locationName:location.data.name,state:location.data.state,region:location.data.region,counties:location.data.counties?.join(raw.benefits.regional.countySeparator)||raw.benefits.regional.countyFallback});
 const nearby = locations.filter(l=>l.data.state===location.data.state&&l.id!==location.id);
 const prefix=route.template==='service-location'?`/services/${route.serviceSlug}`:`/industries/${route.industrySlug}`;

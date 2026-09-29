@@ -1,15 +1,15 @@
-import { getContentCollection, type ContentContext, type ContentRecord } from '@/lib/content';
+import type { ContentReader, ContentRecord } from '@/lib/content';
 
 export type Location = ContentRecord<'locations'>['data'];
 
 /** Collection IDs, not editable display names, are the public route identity. */
-export async function getLocationBySlug(slug: string, context?: ContentContext) {
-  return (await getContentCollection('locations', context)).find((entry) => entry.id === slug)?.data;
+export async function getLocationBySlug(slug: string, reader: ContentReader) {
+  return (await reader.getCollection('locations')).find((entry) => entry.id === slug)?.data;
 }
 
 /** Rank same-state communities by their CMS coordinates. */
-export async function getNearbyLocations(slug: string, context?: ContentContext) {
-  const locations = await getContentCollection('locations', context);
+export async function getNearbyLocations(slug: string, reader: ContentReader) {
+  const locations = await reader.getCollection('locations');
   const origin = locations.find((entry) => entry.id === slug);
   if (!origin) return [];
   const radians = (degrees: number) => degrees * Math.PI / 180;

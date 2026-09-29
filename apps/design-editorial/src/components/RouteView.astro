@@ -6,30 +6,32 @@ import FixedPage from '@/components/FixedPage.astro';
 import Regional from '@/components/Regional.astro';
 import Hero from '@/components/Hero.astro';
 import CallToAction from '@/components/CallToAction.astro';
-import { content, type Context } from '@/lib/content';
+import { createReader } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
+import type { PreviewContext } from '@bdkinc/content/preview';
 import { object, text, interpolate } from '@/lib/copy';
 import type { SiteRoute } from '@bdkinc/content/routes';
-interface Props { route: SiteRoute; context?: Context }
-const { route, context } = Astro.props;
-const source = content(context), settings = await source.settings();
-const page = route.template==='page' ? await source.page(route.pageKey) : undefined;
+interface Props { route: SiteRoute; context?: PreviewContext; reader?: ContentReader }
+const { route, context, reader: suppliedReader } = Astro.props;
+const source = suppliedReader ?? createReader(), settings = await source.getSettings();
+const page = route.template==='page' ? await source.getPage(route.pageKey) : undefined;
 const copy = object(page);
-const service = route.template==='page' && route.pageKey.startsWith('service-') ? (await source.collection('services')).find(s=>`service-${s.id}`===route.pageKey) : undefined;
-const post = route.template==='blog-post' ? (await source.collection('blog')).find(p=>p.id===route.slug) : undefined;
-const blogCopy = post ? await source.page('blog') : undefined;
+const service = route.template==='page' && route.pageKey.startsWith('service-') ? (await source.getCollection('services')).find(s=>`service-${s.id}`===route.pageKey) : undefined;
+const post = route.template==='blog-post' ? (await source.getCollection('blog')).find(p=>p.id===route.slug) : undefined;
+const blogCopy = post ? await source.getPage('blog') : undefined;
 const metadata = object(copy.metadata || copy.seo);
 let title = text(metadata.title) || (service ? service.data.title : post ? post.data.title : settings.siteName);
 let description = text(metadata.description) || service?.data.description || post?.data.description || settings.defaultDescription;
 if(route.template==='service-location'||route.template==='industry-location') {
-  const location=(await source.collection('locations')).find(l=>l.id===route.locationId);
-  const entries=route.template==='service-location'?await source.collection(route.collectionKey):await source.collection('pseoIndustries');
+  const location=(await source.getCollection('locations')).find(l=>l.id===route.locationId);
+  const entries=route.template==='service-location'?await source.getCollection(route.collectionKey):await source.getCollection('pseoIndustries');
   const entry=entries.find(e=>e.id===(route.template==='service-location'?route.serviceSlug:route.industrySlug));
   if(!location||!entry) throw new Error('Missing route entity');
-  const regional=await source.page(route.template);
+  const regional=await source.getPage(route.template);
   const meta=interpolate(regional.metadata,{serviceTitle:entry.data.title,industryTitle:entry.data.title,locationName:location.data.name,state:location.data.state,region:location.data.region});title=meta.title;description=meta.description;
 }
 ---
-<Shell settings={settings} title={title} description={description} path={route.path} preview={Boolean(context)}>
+<Shell source={source} settings={settings} title={title} description={description} path={route.path} preview={Boolean(context)}>
   {route.template==='page' && route.pageKey==='home' ? <Home source={source} settings={settings} />
     : service ? <Service copy={copy} service={service} settings={settings} />
     : route.template==='page' ? <FixedPage pageKey={route.pageKey} copy={copy} source={source} settings={settings} />

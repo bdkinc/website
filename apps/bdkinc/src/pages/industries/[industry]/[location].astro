@@ -1,6 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
-import { getContentEntry, getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+import { getSiteRoutes } from '@bdkinc/content/routes';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 import { interpolateCopy } from '@/lib/copy';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
@@ -23,29 +23,14 @@ import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
 
 export async function getStaticPaths() {
-
-  const industries = await getCollection('pseoIndustries');
-  const locations = await getCollection('locations');
-  const paths = [];
-
-  for (const industry of industries) {
-    for (const location of locations) {
-      const locationSlug = location.id;
-
-      paths.push({
-        params: {
-          industry: industry.id,
-          location: locationSlug,
-        },
-        props: {
-          industrySlug: industry.id,
-          locationSlug,
-        },
-      });
-    }
-  }
-
-  return paths;
+  const routes = await getSiteRoutes(createAppContentReader());
+  return routes.filter((route) => route.template === 'industry-location').map((route) => ({
+    params: { industry: route.industrySlug, location: route.locationSlug },
+    props: {
+      industrySlug: route.industrySlug,
+      locationSlug: route.locationSlug,
+    },
+  }));
 }
 
 export const prerender = true;
@@ -54,21 +39,22 @@ interface Props extends ContentProps {
   industrySlug: string;
   locationSlug: string;
 }
-const { industrySlug, locationSlug, contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const { industrySlug, locationSlug, contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
 
-const locationData = await getLocationBySlug(locationSlug, contentContext);
+const locationData = await getLocationBySlug(locationSlug, reader);
 if (!locationData) {
   return new Response(null, { status: 404 });
 }
 
-const industry = await getContentEntry('pseoIndustries', industrySlug, contentContext);
+const industry = (await reader.getCollection('pseoIndustries')).find((entry) => entry.id === industrySlug);
 if (!industry) {
   return new Response(null, { status: 404 });
 }
 
-const { servicesData, recentPosts } = await getNavigationData(contentContext);
-const copy = await getPageCopy('industry-location', contentContext);
-const settings = await getSettings(contentContext);
+const { servicesData, recentPosts } = await getNavigationData(reader);
+const copy = await reader.getPage('industry-location');
+const settings = await reader.getSettings();
 const text = (value: string) => interpolateCopy(value, {
   industryTitle: industry.data.title, locationName: locationData.name,
   state: locationData.state, region: locationData.region,
@@ -101,11 +87,11 @@ const locationFeatures = [
   },
 ];
 
-const nearbyLocations = await getNearbyLocations(locationSlug, contentContext);
+const nearbyLocations = await getNearbyLocations(locationSlug, reader);
 const pageDescription = text(copy.metadata.description);
 ---
 
-<Layout
+<Layout reader={reader}
   contentContext={contentContext}
   publicPath={publicPath}
   title={text(copy.metadata.title)}
@@ -349,5 +335,5 @@ const pageDescription = text(copy.metadata.description);
     </EditSection>
   </main>
 
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>

@@ -6,11 +6,12 @@ import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 import { PiShield } from 'react-icons/pi';
 import EditSection from '@/components/preview/EditSection.astro';
-import { getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 interface Props extends ContentProps {}
-const { contentContext, publicPath = Astro.url.pathname } = Astro.props;
-const [copy, settings] = await Promise.all([getPageCopy('privacy', contentContext), getSettings(contentContext)]);
-const { servicesData, recentPosts } = await getNavigationData(contentContext);
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const [copy, settings] = await Promise.all([reader.getPage('privacy'), reader.getSettings()]);
+const { servicesData, recentPosts } = await getNavigationData(reader);
 // Section identities, paragraph counts, and list structure remain code-owned.
 const sections = [
   { id: 'information-we-collect', heading: copy.informationWeCollect.heading, paragraphs: [copy.informationWeCollect.introduction], items: [copy.informationWeCollect.contactDetails, copy.informationWeCollect.professionalDetails, copy.informationWeCollect.preferences, copy.informationWeCollect.technicalDetails] },
@@ -28,7 +29,7 @@ const fieldKey = (id: string) => id.replace(/-(.)/g, (_, letter: string) => lett
 const tocItems = [...sections.map(({ id, heading }) => ({ id, label: heading })), { id: 'contact-us', label: copy.contactUs.heading }];
 ---
 
-<Layout title={copy.metadata.title} description={copy.metadata.description} contentContext={contentContext} publicPath={publicPath}>
+<Layout reader={reader} title={copy.metadata.title} description={copy.metadata.description} contentContext={contentContext} publicPath={publicPath}>
   <EditSection record="settings" section="navigation">
     <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={publicPath} copy={settings.navigation} brand={settings.brand} />
   </EditSection>
@@ -96,5 +97,5 @@ const tocItems = [...sections.map(({ id, heading }) => ({ id, label: heading }))
       </div>
     </section>
   </main>
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>

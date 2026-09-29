@@ -1,5 +1,7 @@
 ---
-import { reader, type Context } from '@/lib/content';
+import { createReader } from '@/lib/content';
+import type { ContentReader } from '@bdkinc/content/reader';
+import type { PreviewContext } from '@bdkinc/content/preview';
 import { group, text, substitute } from '@/lib/editorial';
 import type { SiteRoute } from '@bdkinc/content/routes';
 import Shell from '@/components/Shell.astro';
@@ -14,10 +16,11 @@ import Regional from '@/templates/Regional.astro';
 import Generated from '@/templates/Generated.astro';
 interface Props {
   route: SiteRoute;
-  context?: Context;
+  context?: PreviewContext;
+  reader?: ContentReader;
 }
-const { route, context } = Astro.props;
-const content = reader(context);
+const { route, context, reader: suppliedReader } = Astro.props;
+const content = suppliedReader ?? createReader();
 const [settings, services] = await Promise.all([
   content.getSettings(),
   content.getCollection('services'),

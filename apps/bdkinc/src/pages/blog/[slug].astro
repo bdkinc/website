@@ -6,15 +6,20 @@ import { PiCalendar, PiUser, PiTag, PiArrowLeft } from 'react-icons/pi';
 import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
-import { getBlogPosts, type BlogPostContent } from '@/lib/blog';
-import { getPageCopy, getSettings, type ContentProps } from '@/lib/content';
+import { getBlogPostBySlug, type BlogPostContent } from '@/lib/blog';
+import { getSiteRoutes } from '@bdkinc/content/routes';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
 
 export async function getStaticPaths() {
-  const blogPosts = await getBlogPosts();
-  return blogPosts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+  const reader = createAppContentReader();
+  const routes = await getSiteRoutes(reader);
+  return Promise.all(
+    routes.filter((route) => route.template === 'blog-post').map(async (route) => {
+      const post = await getBlogPostBySlug(route.slug, reader);
+      if (!post) throw new Error('Published blog route is missing its post.');
+      return { params: { slug: route.slug }, props: { post } };
+    })
+  );
 }
 
 export const prerender = true;
@@ -22,10 +27,11 @@ export const prerender = true;
 interface Props extends ContentProps {
   post: BlogPostContent;
 }
-const { post, contentContext, publicPath = Astro.url.pathname } = Astro.props;
+const { post, contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
 const contentHtml = post.content;
-const [copy, settings] = await Promise.all([getPageCopy('blog', contentContext), getSettings(contentContext)]);
-const { servicesData, recentPosts } = await getNavigationData(contentContext);
+const [copy, settings] = await Promise.all([reader.getPage('blog'), reader.getSettings()]);
+const { servicesData, recentPosts } = await getNavigationData(reader);
 
 // Format date helper
 function formatDate(date: Date): string {
@@ -72,7 +78,7 @@ const blogPostingSchema = {
 };
 ---
 
-<Layout
+<Layout reader={reader}
   contentContext={contentContext}
   publicPath={publicPath}
   title={`${post.title} ${copy.detail.titleSuffix}`}
@@ -457,5 +463,5 @@ const blogPostingSchema = {
     </EditSection>
   </main>
 
-  <Footer contentContext={contentContext} />
+  <Footer reader={reader} contentContext={contentContext} />
 </Layout>
