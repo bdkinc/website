@@ -757,16 +757,38 @@ export default function CircuitBoard({ className, xstyle }: CircuitBoardProps) {
           ctx.strokeStyle = gradient;
           ctx.globalAlpha = opacity * 0.85;
           ctx.beginPath();
-          for (let k = 0; k < signal.trailSize; k++) {
-            const idx =
-              (signal.trailIndex - signal.trailSize + k + TRAIL_POINTS) %
-              TRAIL_POINTS;
+          ctx.moveTo(startX, startY);
+          let anchorX = startX;
+          let anchorY = startY;
+          for (let k = 1; k < signal.trailSize - 1; k++) {
+            const idx = (oldestIdx + k) % TRAIL_POINTS;
             const base = idx * 2;
             const tx = signal.trailBuffer[base];
             const ty = signal.trailBuffer[base + 1];
-            if (k === 0) ctx.moveTo(tx, ty);
-            else ctx.lineTo(tx, ty);
+            const nextBase = ((idx + 1) % TRAIL_POINTS) * 2;
+            const nextX = signal.trailBuffer[nextBase];
+            const nextY = signal.trailBuffer[nextBase + 1];
+            const dx = tx - anchorX;
+            const dy = ty - anchorY;
+            const nextDx = nextX - tx;
+            const nextDy = nextY - ty;
+            const spanX = nextX - anchorX;
+            const spanY = nextY - anchorY;
+            const cross = dx * nextDy - dy * nextDx;
+
+            // Omit straight-run samples within 0.01 CSS px (Float32 rounding).
+            // The dot-product guard keeps reversals; endpoints and corners stay.
+            if (
+              dx * nextDx + dy * nextDy >= 0 &&
+              cross * cross <= 0.0001 * (spanX * spanX + spanY * spanY)
+            ) {
+              continue;
+            }
+            ctx.lineTo(tx, ty);
+            anchorX = tx;
+            anchorY = ty;
           }
+          ctx.lineTo(x, y);
           ctx.stroke();
           ctx.restore();
         }
