@@ -10,10 +10,14 @@
     "./client": "./src/client.ts",
     "./routes": "./src/routes.ts",
     "./preview": "./src/preview.ts",
-    "./reader": "./src/reader.ts"
+    "./reader": "./src/reader.ts",
+    "./seo": "./src/seo.ts"
   },
   "scripts": {
-    "check": "tsc --noEmit -p tsconfig.json"
+    "check": "tsc --noEmit -p tsconfig.json",
+    "generate:collections": "node scripts/collections.mjs",
+    "check:collections": "node scripts/collections.mjs --check",
+    "exercise:collections": "node scripts/collections.mjs --exercise"
   },
   "dependencies": {
     "zod": "^4.3.6"

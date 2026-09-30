@@ -45,6 +45,7 @@ function formatDate(date: Date): string {
 const siteOrigin = Astro.site?.origin ?? 'https://www.bdkinc.com';
 const postUrl = new URL(publicPath, siteOrigin).toString();
 const articleImage = post.image || copy.detail.image;
+const articleAlt = post.imageAlt || (post.image ? `Editorial illustration for ${post.title}` : copy.detail.imageAlt);
 const defaultImage = new URL(articleImage || settings.brand.favicon, siteOrigin).toString();
 const publishedIso = post.pubDate.toISOString();
 
@@ -86,7 +87,8 @@ const blogPostingSchema = {
   ogType="article"
   ogTitle={post.title}
   ogDescription={post.description}
-  ogImageAlt={post.title}
+  ogImage={articleImage || undefined}
+  ogImageAlt={articleAlt}
 >
   <script
     type="application/ld+json"
@@ -418,7 +420,7 @@ const blogPostingSchema = {
         <div
           class="glass border-primary/20 overflow-hidden rounded-2xl border shadow-lg"
         >
-          {articleImage ? <img src={articleImage} alt={post.image ? `Editorial illustration for ${post.title}` : copy.detail.imageAlt} width="1200" height="675" decoding="async" class="aspect-video w-full object-cover" /> : <div
+          {articleImage ? <img src={articleImage} alt={articleAlt} width="1200" height="675" decoding="async" class="aspect-video w-full object-cover" /> : <div
             class="from-primary/5 via-secondary/5 to-primary/5 flex aspect-video items-center justify-center bg-linear-to-br"
           >
             <div class="p-6 text-center">

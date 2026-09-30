@@ -1,8 +1,25 @@
-import { defineCollection } from 'astro:content';
+import { defineCollection, z } from 'astro:content';
+import { pageSchemas, settingsSchema } from '@bdkinc/content/editorial';
 import { collectionSchemas } from '@bdkinc/content/schemas';
-import { wordpressLoader } from './lib/loaders/wordpress';
+import { wordpressLoader, wordpressPagesLoader, wordpressSettingsLoader } from './lib/loaders/wordpress';
+
+const variants = Object.entries(pageSchemas).map(([key, schema]) =>
+  z.object({ key: z.literal(key), data: schema })
+);
+const pageVariants = variants as [
+  (typeof variants)[number],
+  ...(typeof variants)[number][],
+];
 
 export const collections = {
+  marketingPages: defineCollection({
+    loader: wordpressPagesLoader(),
+    schema: z.union(pageVariants),
+  }),
+  siteSettings: defineCollection({
+    loader: wordpressSettingsLoader(),
+    schema: settingsSchema,
+  }),
   services: defineCollection({
     loader: wordpressLoader('services'),
     schema: collectionSchemas.services,

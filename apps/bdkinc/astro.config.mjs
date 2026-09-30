@@ -2,6 +2,9 @@
 import { defineConfig } from 'astro/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { readFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
+import { getNoindexPaths } from '@bdkinc/content/seo';
 
 import react from '@astrojs/react';
 import stylex from '@stylexjs/unplugin';
@@ -12,6 +15,62 @@ import node from '@astrojs/node';
 import markdoc from '@astrojs/markdoc';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const { parse } = createRequire(import.meta.resolve('astro'))('devalue');
+/** @type {URL | undefined} */
+let snapshotUrl;
+/** @type {Promise<Set<string>> | undefined} */
+let noindexPaths;
+
+const sitemapSnapshot = {
+  name: 'sitemap-published-snapshot',
+  hooks: {
+    /** @param {{ config: import('astro').AstroConfig }} options */
+    'astro:config:done': ({ config }) => {
+      snapshotUrl = new URL('data-store.json', config.cacheDir);
+      noindexPaths = undefined;
+    },
+  },
+};
+
+async function readNoindexPaths() {
+  const resolvedSnapshotUrl = snapshotUrl;
+  if (!resolvedSnapshotUrl) throw new Error('Sitemap content snapshot cacheDir has not been resolved.');
+  const store = await readFile(resolvedSnapshotUrl, 'utf8')
+    .then(serialized => parse(serialized))
+    .catch(cause => {
+      throw new Error(`Cannot read sitemap published content snapshot: ${resolvedSnapshotUrl.href}`, { cause });
+    });
+  /** @param {string} key */
+  function collection(key) {
+    const entries = store.get(key);
+    if (!(entries instanceof Map)) throw new Error(`Sitemap published content snapshot is missing collection: ${key}`);
+    return entries;
+  }
+  /** @param {string} collectionKey @param {string} id */
+  function entry(collectionKey, id) {
+    const value = collection(collectionKey).get(id);
+    if (!value) throw new Error(`Sitemap published content snapshot is missing entry: ${collectionKey}/${id}`);
+    return value;
+  }
+  return getNoindexPaths({
+    async getCollection(key) {
+      return [...collection(key).values()].map(value => ({
+        id: value.id,
+        data: value.data,
+        body: value.rendered?.html ?? value.body,
+      }));
+    },
+    async getPage(key) { return entry('marketingPages', key).data.data; },
+    async getSettings() { return entry('siteSettings', 'site').data; },
+  });
+}
+
+/** @param {import('@astrojs/sitemap').SitemapItem} item */
+async function serializeSitemapItem(item) {
+  noindexPaths ??= readNoindexPaths();
+  const pathname = new URL(item.url).pathname.replace(/\/+$/, '') || '/';
+  return (await noindexPaths).has(pathname) ? undefined : item;
+}
 
 // https://astro.build/config
 // Static by default; Node adapter kept for contact SSR/actions and API routes.
@@ -21,14 +80,15 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone',
   }),
-  integrations: [react({ compiler: true }), mdx(), sitemap(), markdoc()],
+  integrations: [react({ compiler: true }), mdx(), sitemapSnapshot, sitemap({ serialize: serializeSitemapItem }), markdoc()],
 
   vite: {
-    // Imported only via the React compiler transform and astro:transitions/client,
-    // so Vite's startup scan misses them; late discovery 504s client:only islands.
+    // Client-only islands, compiler transforms and transitions can escape startup scanning.
+    // Preoptimize their imports so late discovery does not invalidate active module URLs.
     optimizeDeps: {
       include: [
         'react/compiler-runtime',
+        'react-icons/pi',
         'astro/virtual-modules/transitions.js',
         'astro/virtual-modules/transitions-router.js',
         'astro/virtual-modules/transitions-types.js',

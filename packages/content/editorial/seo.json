@@ -1,0 +1,7 @@
+{
+  "title": { "type": "text", "label": "SEO title", "optional": true },
+  "description": { "type": "textarea", "label": "SEO description", "optional": true },
+  "image": { "type": "media", "label": "Social sharing image", "optional": true },
+  "imageAlt": { "type": "text", "label": "Social image description", "optional": true },
+  "noindex": { "type": "boolean", "label": "Exclude from search indexing", "optional": true }
+}

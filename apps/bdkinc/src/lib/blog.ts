@@ -9,6 +9,7 @@ export interface BlogPostContent {
   category: 'Infrastructure' | 'Security' | 'Development' | 'AI';
   tags: string[];
   image?: string;
+  imageAlt?: string;
   content: string;
   contentFormat?: 'html' | 'markdown';
 }
@@ -27,6 +28,7 @@ function toBlogPost(
     category: 'Infrastructure' | 'Security' | 'Development' | 'AI';
     tags?: string[];
     image?: string;
+    imageAlt?: string;
   },
   content: string
 ): BlogPostContent {
@@ -39,6 +41,7 @@ function toBlogPost(
     category: data.category,
     tags: data.tags || [],
     image: data.image,
+    imageAlt: data.imageAlt,
     content,
     contentFormat: 'html',
   };

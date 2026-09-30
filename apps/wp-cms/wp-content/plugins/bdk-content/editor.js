@@ -1,19 +1,337 @@
 /* global jQuery, wp */
+function bdkMediaDescription(attachment) {
+  if (!attachment || typeof attachment !== 'object') return '';
+  const parts = [];
+  if (attachment.filename) parts.push(String(attachment.filename));
+  if (attachment.id) parts.push('ID ' + attachment.id);
+  if (attachment.width && attachment.height) parts.push(attachment.width + ' \u00d7 ' + attachment.height);
+  if (!parts.length) return '';
+  return 'Selected: ' + parts.join(', ');
+}
 jQuery(document).on('click', '.bdk-media', function () {
-  const target = document.getElementById(this.dataset.target);
+  const button = this;
+  const target = document.getElementById(button.dataset.target);
+  if (!target) return;
   const frame = wp.media({
     title: 'Choose website image',
     multiple: false,
     library: { type: 'image' },
   });
   frame.on('select', () => {
-    target.value = frame.state().get('selection').first().toJSON().url;
+    const attachment = frame.state().get('selection').first().toJSON();
+    target.value = attachment.url;
     target.dispatchEvent(new Event('change', { bubbles: true }));
+    const altTarget = document.getElementById(button.dataset.altTarget || '');
+    if (altTarget && altTarget.value.trim() === '' && attachment.alt) {
+      altTarget.value = attachment.alt;
+      altTarget.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    const descTarget = document.getElementById(button.dataset.descTarget || '');
+    if (descTarget) descTarget.textContent = bdkMediaDescription(attachment);
   });
   frame.open();
 });
+jQuery(document).on('input change', 'input', function () {
+  for (const button of document.querySelectorAll('.bdk-media')) {
+    if (button.dataset.target !== this.id) continue;
+    const description = document.getElementById(button.dataset.descTarget || '');
+    if (description) description.textContent = '';
+  }
+});
 
-/* global bdkPreview */
+/* global bdkEditorial, bdkPreview */
+// Durable draft workflow for already-published fixed records only. Uses the
+// working-copy REST contract; never submits the native post form, so the page
+// status stays published and the page can never be taken offline from here.
+(function () {
+  if (!window.bdkEditorial || !window.bdkEditorial.isFixedPublished) return;
+  const box = document.getElementById('bdk-publication');
+  if (!box) return;
+  const cfg = window.bdkEditorial;
+  const statusEl = document.getElementById('bdk-working-status');
+  const metaEl = document.getElementById('bdk-draft-meta');
+  const schedEl = document.getElementById('bdk-scheduled-meta');
+  const deployEl = document.getElementById('bdk-deploy-status');
+  const retryBtn = document.getElementById('bdk-deploy-retry');
+  const actionBtns = Array.from(box.querySelectorAll('button:not(#bdk-deploy-retry)'));
+
+  function setStatus(text, kind) {
+    statusEl.textContent = text;
+    statusEl.classList.toggle('bdk-error', kind === 'error');
+    statusEl.classList.toggle('bdk-ok', kind === 'ok');
+  }
+
+  function namePath(name) {
+    const path = [];
+    const re = /\[([^\]]*)\]/g;
+    let m;
+    while ((m = re.exec(name.slice('bdk_copy'.length)))) { if (m[1] !== '') path.push(m[1]); }
+    return path;
+  }
+
+  // Raw strings from the visible fields, nesting preserved. Unchecked boxes
+  // contribute nothing; each boolean ships a hidden 0 fallback input.
+  // On any recoverable error the fields are left untouched so edits are kept.
+  function collectRaw() {
+    const data = {};
+    document.querySelectorAll('[name^="bdk_copy["]').forEach((el) => {
+      if ((el.type === 'checkbox' || el.type === 'radio') && !el.checked) return;
+      const path = namePath(el.name);
+      if (!path.length) return;
+      let node = data;
+      path.forEach((key, i) => {
+        if (i === path.length - 1) node[key] = el.value;
+        else node = node[key] = node[key] && typeof node[key] === 'object' ? node[key] : {};
+      });
+    });
+    return data;
+  }
+
+  // Convert leaves using the definition descriptor map (PHP mirrors the same
+  // rules in bdk_form_values, and the ERP load expects real numbers).
+  // Unknown keys stay strings for backend validation to judge.
+  function typeLeaf(value, type) {
+    if (type === 'number') {
+      if (value === '' || value === null || value === undefined) return null;
+      const n = Number(value);
+      return Number.isFinite(n) ? n : null;
+    }
+    if (type === 'boolean') return value === true || value === '1';
+    if (type === 'strings') return String(value === null || value === undefined ? '' : value).split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+    return value;
+  }
+  function typeData(node, path) {
+    if (!node || typeof node !== 'object' || Array.isArray(node)) return node;
+    const out = {};
+    for (const key of Object.keys(node)) {
+      const p = path ? path + '.' + key : key;
+      const t = (cfg.fieldTypes || {})[p];
+      const v = node[key];
+      out[key] = (t === 'group' || (v && typeof v === 'object' && !Array.isArray(v))) ? typeData(v, p) : typeLeaf(v, t);
+    }
+    return out;
+  }
+  function collectData() { return typeData(collectRaw(), ''); }
+
+  function valueAt(data, path) {
+    let node = data;
+    for (const key of path) {
+      if (!node || typeof node !== 'object' || !(key in node)) return undefined;
+      node = node[key];
+    }
+    return node;
+  }
+
+  // Rewrite visible fields from server data (after discard). Unknown paths untouched.
+  function applyDataToForm(data) {
+    document.querySelectorAll('[name^="bdk_copy["]').forEach((el) => {
+      const path = namePath(el.name);
+      if (!path.length) return;
+      const value = valueAt(data, path);
+      if (value === undefined) return;
+      if (el.type === 'checkbox') { el.checked = value === true || value === '1'; return; }
+      if (el.type === 'radio' || el.type === 'hidden') return;
+      el.value = Array.isArray(value) ? value.join('\n') : (value === null ? '' : String(value));
+      if (typeof Event !== 'undefined' && el.dispatchEvent) el.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  }
+
+  async function api(url, method, body) {
+    let response;
+    try {
+      response = await fetch(url, {
+        method,
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', 'X-WP-Nonce': cfg.nonce },
+        body: body === undefined ? undefined : JSON.stringify(body),
+      });
+    } catch (e) {
+      throw new Error('Could not reach WordPress. Your edits are still in the form — try again.');
+    }
+    let result = {};
+    try { result = await response.json(); } catch (e) { /* non-JSON: fall through to status handling */ }
+    if (!response.ok) throw new Error(result.message || 'Request failed. Your edits are still in the form.');
+    return result;
+  }
+
+  function browserTz() {
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; }
+  }
+  // Unix seconds (or numeric strings) render as readable dates with an
+  // explicit zone; anything else passes through untouched.
+  function fmtTs(ts) {
+    const n = typeof ts === 'number' ? ts : (typeof ts === 'string' && /^\d+$/.test(ts.trim()) ? parseInt(ts.trim(), 10) : NaN);
+    if (!Number.isFinite(n) || n <= 0) return typeof ts === 'string' ? ts : '';
+    const tz = browserTz();
+    try {
+      return new Date(n * 1000).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }) + (tz ? ' (' + tz + ')' : '');
+    } catch (e) { return new Date(n * 1000).toUTCString(); }
+  }
+
+  function describeWorking(result) {
+    const working = result.working || {};
+    if (working.savedAt) metaEl.textContent = 'Draft saved ' + fmtTs(working.savedAt) + (working.savedBy ? ' by ' + working.savedBy : '') + '. Live copy unchanged.';
+    else metaEl.textContent = 'No draft saved yet — fields show the live copy.';
+    const s = result.scheduled;
+    schedEl.textContent = s && s.publishAt ? 'Scheduled to publish ' + fmtTs(s.publishAt) + (s.scheduledBy ? ' by ' + s.scheduledBy : '') + '.' : '';
+  }
+
+  function setBusy(busy) { actionBtns.forEach((b) => { b.disabled = busy; }); }
+
+  async function refresh() {
+    try {
+      const result = await api(cfg.workingCopy, 'GET');
+      describeWorking(result);
+      setStatus('Draft workflow ready. Save a draft, preview it, then publish.', 'ok');
+    } catch (error) {
+      setStatus(error.message + ' (Draft actions unavailable; fields remain editable.)', 'error');
+      setBusy(true);
+    }
+  }
+
+  // Publish/schedule send no data themselves: the backend ignores it. Always
+  // persist the form with save first and abort the action when saving fails,
+  // so entered values are never silently dropped.
+  async function saveFirst() {
+    const result = await api(cfg.workingCopy, 'POST', { action: 'save', data: collectData() });
+    describeWorking(result);
+    return result;
+  }
+
+  async function run(label, body, done) {
+    setBusy(true);
+    setStatus(label + '…');
+    try {
+      const result = await api(cfg.workingCopy, 'POST', body);
+      describeWorking(result);
+      setStatus(done, 'ok');
+      refreshDeploy();
+    } catch (error) {
+      setStatus(error.message, 'error'); // attempted values preserved: fields untouched
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function scheduleTime() {
+    const input = document.getElementById('bdk-schedule-at');
+    const ms = Date.parse(input.value);
+    if (!input.value || Number.isNaN(ms)) { setStatus('Choose a schedule date and time first. Nothing was saved.', 'error'); input.focus(); return null; }
+    const at = Math.floor(ms / 1000);
+    if (at <= Math.floor(Date.now() / 1000)) { setStatus('Schedule time must be in the future. Nothing was saved.', 'error'); input.focus(); return null; }
+    return at;
+  }
+
+  async function publishFlow() {
+    setBusy(true);
+    try {
+      setStatus('Saving draft…');
+      await saveFirst();
+      setStatus('Publishing…');
+      const result = await api(cfg.workingCopy, 'POST', { action: 'publish' });
+      describeWorking(result);
+      setStatus('Published. The live copy updates on the next site rebuild — see Site publication below.', 'ok');
+      refreshDeploy();
+    } catch (error) {
+      setStatus(error.message, 'error'); // entered values preserved: fields untouched
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function scheduleFlow() {
+    const publishAt = scheduleTime();
+    if (publishAt === null) return;
+    setBusy(true);
+    try {
+      setStatus('Saving draft…');
+      await saveFirst();
+      setStatus('Scheduling…');
+      const result = await api(cfg.workingCopy, 'POST', { action: 'schedule', publishAt });
+      describeWorking(result);
+      setStatus('Scheduled. The draft publishes automatically at the scheduled time.', 'ok');
+      refreshDeploy();
+    } catch (error) {
+      setStatus(error.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function discardFlow() {
+    setBusy(true);
+    setStatus('Discarding draft…');
+    try {
+      const result = await api(cfg.workingCopy, 'POST', { action: 'discard' });
+      describeWorking(result);
+      if (result.working && result.working.data && typeof result.working.data === 'object') applyDataToForm(result.working.data);
+      setStatus('Draft discarded. Fields now show the live copy. A scheduled publish, if any, is kept — cancel it separately.', 'ok');
+    } catch (error) {
+      setStatus(error.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  document.getElementById('bdk-save-draft').addEventListener('click', () =>
+    run('Saving draft', { action: 'save', data: collectData() }, 'Draft saved. Live copy unchanged — preview it from the “Astro website preview” box.'));
+  const publishBtn = document.getElementById('bdk-publish-now');
+  if (publishBtn) publishBtn.addEventListener('click', publishFlow);
+  const schedBtn = document.getElementById('bdk-schedule');
+  if (schedBtn) schedBtn.addEventListener('click', scheduleFlow);
+  document.getElementById('bdk-cancel-schedule').addEventListener('click', () => {
+    if (!window.confirm('Cancel the scheduled publish? The saved draft is kept.')) return;
+    run('Cancelling schedule', { action: 'cancel' }, 'Schedule cancelled. The saved draft is kept; nothing went live.');
+  });
+  document.getElementById('bdk-discard-draft').addEventListener('click', () => {
+    if (!window.confirm('Discard the saved draft? Fields will be reset to the live copy. A scheduled publish is kept — cancel it separately if needed.')) return;
+    discardFlow();
+  });
+
+  // Honest site publication state. "dispatched" is never labelled live; a
+  // missing completion configuration stays pending, never fake-live.
+  async function refreshDeploy() {
+    deployEl.textContent = 'Checking publication status…';
+    retryBtn.hidden = true;
+    try {
+      const s = await api(cfg.deployStatus, 'GET');
+      const state = String(s.state || '').toLowerCase();
+      const detail = ' (attempt ' + (s.attempt || 1) + (s.at ? ', ' + fmtTs(s.at) : '') + (s.deploymentId ? ', build ' + s.deploymentId : '') + ')';
+      if (state === 'live') deployEl.textContent = 'Live: the published copy is on the site.' + detail;
+      else if (state === 'building') deployEl.textContent = 'Rebuilding the site now — your publish is not live yet.' + detail;
+      else if (state === 'dispatched' || state === 'dispatch accepted (deployment pending)') deployEl.textContent = 'Sent to the site builder and waiting — not live yet.' + detail;
+      else if (state === 'queued') deployEl.textContent = 'A site rebuild is queued — not live yet.' + detail;
+      else if (state === 'failed') {
+        deployEl.textContent = 'The last site rebuild failed' + (s.message ? ': ' + s.message : '') + (s.httpStatus ? ' (HTTP ' + s.httpStatus + ')' : '') + '.' + detail + ' Your published copy is saved; retry below.';
+        retryBtn.hidden = false;
+      } else deployEl.textContent = 'Publication status pending — completion is not configured. Your publish is saved; the site updates once configured.';
+    } catch (error) {
+      deployEl.textContent = 'Could not check publication status. ' + error.message;
+    }
+  }
+  retryBtn.addEventListener('click', async () => {
+    retryBtn.disabled = true;
+    try {
+      await api(cfg.deployRetry, 'POST', {});
+      await refreshDeploy();
+    } catch (error) {
+      deployEl.textContent = error.message;
+    } finally {
+      retryBtn.disabled = false;
+    }
+  });
+
+  // The datetime-local value has no zone; it is read as browser-local time and
+  // labelled that way — never presented as site time.
+  const tzEl = document.getElementById('bdk-schedule-tz');
+  if (tzEl) {
+    const tz = browserTz();
+    if (tz) tzEl.textContent = 'Browser time: ' + tz + ' (detected automatically). The picked time is saved as a Unix timestamp.';
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { refresh(); refreshDeploy(); });
+  else { refresh(); refreshDeploy(); }
+})();
 // Snapshot of the current (possibly unsaved) form; never updates published content.
 async function bdkRequestPreview() {
   const fields = jQuery('[name^="bdk_copy["]').serialize();

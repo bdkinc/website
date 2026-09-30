@@ -33,7 +33,7 @@ try {
 }
 ---
 
-<Layout reader={reader} title={copy.metadata.title} contentContext={contentContext} publicPath={publicPath}>
+<Layout reader={reader} title={copy.metadata.title} description={copy.metadata.description} contentContext={contentContext} publicPath={publicPath}>
   <EditSection record="settings" section="navigation">
     <Navigation
       client:load

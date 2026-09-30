@@ -47,16 +47,25 @@ async function ensure(endpoint, slug, payload) {
   if (existing.length) {
     // Explicit additive schema migration, never replacement of existing values.
     if (process.argv.includes('--add-missing-fields')) {
-      const missing = (defaults, current) => Object.fromEntries(Object.entries(defaults).flatMap(([key, value]) => {
-        if (!Object.hasOwn(current, key)) return [[key, value]];
-        if (value && typeof value === 'object' && !Array.isArray(value) && current[key] && typeof current[key] === 'object') {
-          const nested = missing(value, current[key]);
-          if (Object.keys(nested).length) return [[key, nested]];
-        }
-        return [];
-      }));
-      const additions = missing(payload.bdk_data, existing[0].bdk_data ?? {});
-      if (Object.keys(additions).length) await request(`${endpoint}/${existing[0].id}`, 'POST', { bdk_data: additions });
+      // Candidates are descriptor defaults for fixed copy, retained migration
+      // input for collections. Only the server can compare all actual stores.
+      const creationDefaults = Object.values(definitions).find(definition => definition.endpoint === endpoint)?.creationDefaults;
+      let options;
+      try {
+        options = await request(`${endpoint}/${existing[0].id}`, 'OPTIONS');
+      } catch (error) {
+        throw new Error(`Cannot verify bdk_missing_fields migration support; upgrade the CMS plugin before migrating. ${error.message}`);
+      }
+      if (!options.schema?.properties?.bdk_missing_fields) {
+        throw new Error(`Seed OPTIONS ${endpoint}/${existing[0].id}: server lacks bdk_missing_fields migration support; upgrade the CMS plugin before migrating.`);
+      }
+      const record = await request(`${endpoint}/${existing[0].id}`, 'POST', {
+        bdk_missing_fields: { ...creationDefaults, ...payload.bdk_data },
+      });
+      const additions = record.bdk_missing_fields;
+      if (!additions) throw new Error(`Seed POST ${endpoint}/${existing[0].id}: server lacks bdk_missing_fields migration response; upgrade the CMS plugin before migrating.`);
+      const changed = Object.values(additions).some(paths => paths.length > 0);
+      console.log(`${endpoint}/${existing[0].id}: ${changed ? 'added missing fields' : 'unchanged (idempotent)'} ${JSON.stringify(additions)}`);
     }
     return { id: existing[0].id, created: false };
   }

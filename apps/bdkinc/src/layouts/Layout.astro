@@ -2,6 +2,8 @@
 import '@/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import type { ContentProps, ContentReader } from '@/lib/content';
+import { getRouteSeo } from '@bdkinc/content/seo';
+import type { SEO } from '@bdkinc/content/schemas';
 import PreviewEditor from '@/components/preview/PreviewEditor.astro';
 import { themeBootstrap } from '@/lib/theme';
 
@@ -35,13 +37,24 @@ const {
   robots = 'index,follow',
 } = Astro.props;
 
+const previewPath = contentContext?.publicPath ?? publicPath;
+const routeSeo: SEO = await getRouteSeo(reader, previewPath);
+const resolvedTitle = routeSeo.title || title;
+const resolvedDescription = routeSeo.description || description;
+const resolvedOgImage = routeSeo.image || ogImage;
+const resolvedOgImageAlt = routeSeo.imageAlt || ogImageAlt;
+const resolvedOgTitle = routeSeo.title || Astro.props.ogTitle || title;
+const resolvedOgDescription = routeSeo.description || Astro.props.ogDescription || description;
+const propNoindex = robots?.includes('noindex') ?? false;
+const effectiveRobots = routeSeo.noindex === true || propNoindex ? 'noindex,nofollow' : robots;
+
 const siteOrigin = Astro.site?.origin ?? settings.organization.url;
 const canonicalUrl = canonical.startsWith('http')
   ? canonical
   : new URL(canonical, siteOrigin).toString();
-const ogImageUrl = ogImage.startsWith('http')
-  ? ogImage
-  : new URL(ogImage, siteOrigin).toString();
+const ogImageUrl = resolvedOgImage.startsWith('http')
+  ? resolvedOgImage
+  : new URL(resolvedOgImage, siteOrigin).toString();
 ---
 
 <!doctype html>
@@ -75,13 +88,13 @@ const ogImageUrl = ogImage.startsWith('http')
       )
     }
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
+    <meta name="description" content={resolvedDescription} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {
       robots && (
         <meta
           name="robots"
-          content={contentContext ? 'noindex,nofollow' : robots}
+          content={contentContext ? 'noindex,nofollow' : effectiveRobots}
         />
       )
     }
@@ -94,21 +107,21 @@ const ogImageUrl = ogImage.startsWith('http')
     <!-- Open Graph Meta Tags -->
     <meta property="og:site_name" content={settings.siteName} />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:title" content={ogTitle} />
-    <meta property="og:description" content={ogDescription} />
+    <meta property="og:title" content={resolvedOgTitle} />
+    <meta property="og:description" content={resolvedOgDescription} />
     <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:image:alt" content={resolvedOgImageAlt} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:type" content={ogType} />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content={twitterCard} />
-    <meta name="twitter:title" content={ogTitle} />
-    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:title" content={resolvedOgTitle} />
+    <meta name="twitter:description" content={resolvedOgDescription} />
     <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="twitter:image:alt" content={ogImageAlt} />
+    <meta name="twitter:image:alt" content={resolvedOgImageAlt} />
 
-    <title>{title}</title>
+    <title>{resolvedTitle}</title>
 
     <!-- View Transitions -->
     {!contentContext && <ClientRouter />}

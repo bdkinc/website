@@ -9,10 +9,21 @@ import { getNavigationData } from '@/lib/navigation-data';
 import { PiWarningCircle, PiHouse, PiArrowLeft } from 'react-icons/pi';
 
 import { createAppContentReader, type ContentProps } from '@/lib/content';
+import { getSiteRoutes, parseRedirects } from '@bdkinc/content/routes';
+
+// Only unmatched URLs reach this page, so aliases resolve here while public pages stay static.
+export const prerender = false;
+
 interface Props extends ContentProps {}
 const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
 const reader = suppliedReader ?? createAppContentReader(contentContext);
 const [copy, settings] = await Promise.all([reader.getPage('not-found'), reader.getSettings()]);
+if (settings.redirects?.length) {
+  const routes = await getSiteRoutes(reader);
+  const aliases = parseRedirects(settings.redirects, routes.map((route) => route.path));
+  const target = aliases.get(Astro.url.pathname.replace(/\/+$/, '') || '/');
+  if (target) return Astro.redirect(target, ['GET', 'HEAD'].includes(Astro.request.method) ? 301 : 308);
+}
 const { servicesData, recentPosts } = await getNavigationData(reader);
 ---
 
