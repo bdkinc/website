@@ -68,6 +68,7 @@ add_action('admin_bar_menu', function ($bar) {
 }, 99);
 
 require_once __DIR__ . '/editorial.php';
+require_once __DIR__ . '/lifecycle.php';
 
 add_filter('acf/settings/save_json', 'bdk_content_acf_json_save');
 add_filter('acf/settings/load_json', 'bdk_content_acf_json_load');

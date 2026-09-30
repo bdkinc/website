@@ -12,6 +12,9 @@ x-wordpress-environment: &wordpress-environment
   WORDPRESS_SECURE_AUTH_SALT: ${SECURE_AUTH_SALT}
   WORDPRESS_LOGGED_IN_SALT: ${LOGGED_IN_SALT}
   WORDPRESS_NONCE_SALT: ${NONCE_SALT}
+  BDK_DEPLOY_HOOK_URL: ${BDK_DEPLOY_HOOK_URL:-}
+  BDK_DEPLOY_HOOK_TOKEN: ${BDK_DEPLOY_HOOK_TOKEN:-}
+  BDK_DEPLOY_CALLBACK_SECRET: ${BDK_DEPLOY_CALLBACK_SECRET:-}
   WORDPRESS_DEBUG: ${WP_DEBUG:-0}
   WP_HOME: ${WP_HOME}
   WP_SITEURL: ${WP_SITEURL}
@@ -23,6 +26,7 @@ x-wordpress-environment: &wordpress-environment
     define('WP_SITEURL', getenv('WP_SITEURL'));
     define('WP_ENVIRONMENT_TYPE', '${WP_ENVIRONMENT_TYPE}');
     define('DISALLOW_FILE_EDIT', true);
+    define('DISABLE_WP_CRON', true);
 
 services:
   db:
@@ -62,6 +66,35 @@ services:
       db:
         condition: service_healthy
     networks: [wp]
+
+  scheduler:
+    image: wordpress:cli-2.11-php8.3
+    restart: unless-stopped
+    user: "33:33"
+    environment:
+      <<: *wordpress-environment
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
+      HTTP_HOST: localhost:8080
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - wp_core:/var/www/html
+      - ./wp-content/themes/bdk-headless:/var/www/html/wp-content/themes/bdk-headless
+      - ./wp-content/plugins/bdk-content:/var/www/html/wp-content/plugins/bdk-content
+      - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads
+      - ../../packages/content/editorial:/var/www/bdk-editorial:ro
+    depends_on:
+      db:
+        condition: service_healthy
+      wordpress:
+        condition: service_started
+    networks: [wp]
+    working_dir: /var/www/html
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - "while true; do if wp core is-installed --quiet; then wp cron event run --due-now; fi; sleep 30; done"
 
   cli:
     image: wordpress:cli-2.11-php8.3

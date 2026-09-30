@@ -148,8 +148,8 @@ add_action('rest_api_init', function () {
             if (!$definition || !$target || !$post->post_name) { return new WP_Error('bdk_target', 'Save this record as a draft before previewing.', ['status' => 400]); }
             if (!$secret || !$audience) { return new WP_Error('bdk_config', 'Preview is not configured.', ['status' => 503]); }
             parse_str((string) $request['form'], $form);
-            $previous = (array) bdk_copy_data($post);
-            $input = bdk_form_values($form['bdk_copy'] ?? [], $definition['fields']);
+            $previous = bdk_fixed_copy($post) ? bdk_working_copy($post)['data'] : (array) bdk_copy_data($post);
+            $input = $request->has_param('form') ? bdk_form_values($form['bdk_copy'] ?? [], $definition['fields']) : [];
             $data = bdk_validate_fields($input, $definition['fields'], $previous);
             if (is_wp_error($data)) { return $data; }
             $body = $post->post_content;

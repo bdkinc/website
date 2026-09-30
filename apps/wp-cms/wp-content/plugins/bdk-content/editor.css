@@ -23,6 +23,37 @@
   }
 }
 
+/* Draft workflow + deployment panel: native WP admin conventions only. */
+.bdk-draft-note {
+  padding: 4px 12px;
+  margin: 12px 0;
+  border-left: 4px solid #2271b1;
+  background: #f0f6fc;
+}
+#bdk-publication .bdk-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+#bdk-working-status.bdk-error,
+#bdk-deploy-status.bdk-error,
+.bdk-error {
+  color: #d63638;
+}
+#bdk-working-status.bdk-ok {
+  color: #00a32a;
+}
+#bdk-publication .bdk-danger {
+  color: #b32d2e;
+}
+#bdk-publication input[type="datetime-local"] {
+  max-width: 100%;
+}
+#bdk-working-status,
+#bdk-deploy-status {
+  text-wrap: pretty;
+}
 /* Docked live preview: the form keeps the left half, one column so fields stay readable. */
 body.bdk-live-open {
   --bdk-live-width: max(420px, 50vw);

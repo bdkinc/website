@@ -1,4 +1,5 @@
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
+import { pageSchemas, settingsSchema, type PageKey, type PageData, type SiteSettings } from '@bdkinc/content/editorial';
 import { createContentClient, type CollectionName } from '@bdkinc/content';
 import {
   createContentReader,
@@ -36,11 +37,11 @@ export interface ContentProps {
 
 /** One explicit reading scope per render, with the existing transport policy. */
 export function createAppContentReader(context?: ContentContext): ContentReader {
-  const client = wordpressClient();
+  const client = context || import.meta.env.DEV ? wordpressClient() : undefined;
   const published: ContentSource = {
     async getCollection<K extends CollectionName>(name: K): Promise<ContentRecord<K>[]> {
       // Dev and preview read WP live; production reads Astro's published store.
-      if (context || import.meta.env.DEV) return client.getCollection(name);
+      if (client) return client.getCollection(name);
       return (await getCollection(name)).map((entry) => ({
         id: entry.id,
         data: entry.data,
@@ -49,11 +50,22 @@ export function createAppContentReader(context?: ContentContext): ContentReader 
           : {}),
       })) as ContentRecord<K>[];
     },
-    getPage: client.getPage,
-    getSettings: client.getSettings,
+    async getPage<K extends PageKey>(key: K): Promise<PageData<K>> {
+      if (client) return client.getPage(key);
+      const entry = await getEntry('marketingPages', key);
+      if (!entry || entry.data.key !== key)
+        throw new Error(`Published marketing page snapshot is missing: ${key}`);
+      return pageSchemas[key].parse(entry.data.data) as PageData<K>;
+    },
+    async getSettings(): Promise<SiteSettings> {
+      if (client) return client.getSettings();
+      const entry = await getEntry('siteSettings', 'site');
+      if (!entry) throw new Error('Published site settings snapshot is missing: site');
+      return settingsSchema.parse(entry.data);
+    },
   };
   return createContentReader({
     published,
-    ...(context ? { preview: { context, mapper: client.preview } } : {}),
+    ...(context && client ? { preview: { context, mapper: client.preview } } : {}),
   });
 }

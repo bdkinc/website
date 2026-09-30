@@ -1,6 +1,7 @@
 {
   "key":"site", "kind":"settings", "title":"Shared site settings",
   "fields":{
+    "redirects":{"type":"strings","label":"Path redirects (/old-path -> /new-path)","optional":true},
     "siteName":{"type":"text","label":"Site name"},
     "defaultDescription":{"type":"textarea","label":"Default search description"},
     "defaultImage":{"type":"media","label":"Default sharing image"},

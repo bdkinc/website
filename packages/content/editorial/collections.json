@@ -2,7 +2,9 @@
   "services": {
     "postType": "service",
     "endpoint": "services",
+    "creationDefaults": { "icon": "Server", "order": 10 },
     "fields": {
+      "seo": { "type": "group", "label": "Search and sharing", "optional": true, "ref": "seo" },
       "title": {
         "type": "text",
         "label": "Title"
@@ -27,6 +29,8 @@
     "postType": "post",
     "endpoint": "posts",
     "fields": {
+      "seo": { "type": "group", "label": "Search and sharing", "optional": true, "ref": "seo" },
+      "imageAlt": { "type": "text", "label": "Featured image description", "optional": true },
       "title": {
         "type": "text",
         "label": "Title",
@@ -47,15 +51,18 @@
       },
       "image": {
         "type": "media",
-        "label": "Featured image"
+        "label": "Featured image",
+        "optional": true
       },
       "tags": {
         "type": "strings",
-        "label": "Tags (one per line)"
+        "label": "Tags (one per line)",
+        "optional": true
       },
       "category": {
         "type": "select",
         "label": "Category",
+        "default": "Infrastructure",
         "choices": [
           "Infrastructure",
           "Security",
@@ -66,6 +73,7 @@
       "draft": {
         "type": "boolean",
         "label": "Draft",
+        "optional": true,
         "locked": true
       }
     }
@@ -74,6 +82,7 @@
     "postType": "location",
     "endpoint": "locations",
     "fields": {
+      "seo": { "type": "group", "label": "Search and sharing", "optional": true, "ref": "seo" },
       "name": {
         "type": "text",
         "label": "Location name"
@@ -92,7 +101,8 @@
       },
       "counties": {
         "type": "strings",
-        "label": "Counties (one per line)"
+        "label": "Counties (one per line)",
+        "optional": true
       },
       "coordinates": {
         "type": "group",
@@ -133,6 +143,7 @@
       "order": {
         "type": "number",
         "label": "Order",
+        "optional": true,
         "locked": true
       }
     }
@@ -151,37 +162,45 @@
       },
       "detail": {
         "type": "textarea",
-        "label": "Detail"
+        "label": "Detail",
+        "optional": true
       },
       "category": {
         "type": "text",
-        "label": "Category"
+        "label": "Category",
+        "optional": true
       },
       "order": {
         "type": "number",
         "label": "Order",
+        "optional": true,
         "locked": true
       },
       "featured": {
         "type": "boolean",
         "label": "Featured",
+        "optional": true,
         "locked": true
       },
       "showOnAbout": {
         "type": "boolean",
         "label": "Show on About",
+        "optional": true,
         "locked": true
       },
       "logo": {
         "type": "media",
-        "label": "Logo"
+        "label": "Logo",
+        "optional": true
       }
     }
   },
   "pseoServices": {
     "postType": "pseo_service",
     "endpoint": "pseo-services",
+    "creationDefaults": { "icon": "Server", "order": 33 },
     "fields": {
+      "seo": { "type": "group", "label": "Search and sharing", "optional": true, "ref": "seo" },
       "title": {
         "type": "text",
         "label": "Title"
@@ -220,7 +239,9 @@
   "pseoIndustries": {
     "postType": "pseo_industry",
     "endpoint": "pseo-industries",
+    "creationDefaults": { "icon": "Building2", "order": 14 },
     "fields": {
+      "seo": { "type": "group", "label": "Search and sharing", "optional": true, "ref": "seo" },
       "title": {
         "type": "text",
         "label": "Title"
