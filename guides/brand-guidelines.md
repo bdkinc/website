@@ -15,7 +15,7 @@ BDKinc uses a shadcn-style semantic color system backed by CSS variables (see `s
 **Brand Colors (CSS variables)**
 
 - Primary (Cyan): `--primary: oklch(0.65 0.18 210)`
-- Secondary (Purple): `--secondary: oklch(0.65 0.22 280)`
+- Secondary (Navy Blue): `--secondary: oklch(0.45 0.15 255)` in light mode; `oklch(0.75 0.14 255)` in dark mode for readable contrast.
 - Accent (Amber): `--accent: oklch(0.7 0.18 45)` (slightly brighter in dark mode)
 
 **Semantic Surface Colors (CSS variables)**

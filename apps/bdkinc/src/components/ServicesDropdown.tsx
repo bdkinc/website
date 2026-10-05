@@ -361,7 +361,7 @@ function ServiceDropdownItem({
             {...stylex.props(styles.spotlight)}
             style={{
               opacity: isHovered ? 1 : 0,
-              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.12), rgba(124, 58, 237, 0.08) 40%, transparent 60%)`,
+              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 212, 255, 0.12), rgba(36, 64, 143, 0.08) 40%, transparent 60%)`,
             }}
           />
 

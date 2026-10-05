@@ -17,14 +17,14 @@
   --muted-foreground: oklch(0.869 0.022 252.894);
   --border: oklch(0.2 0 0);
   --primary: oklch(0.7 0.18 210);
-  --secondary: oklch(0.7 0.22 280);
+  --secondary: oklch(0.75 0.14 255);
   --accent: oklch(0.75 0.18 45);
   --bg: var(--background);
   --ink: var(--foreground);
   --muted: var(--muted-foreground);
   --rule: var(--border);
   --cyan: var(--primary);
-  --purple: var(--secondary);
+  --navy: var(--secondary);
   --amber: var(--accent);
   --rail: 88px;
   --font-sans:
@@ -47,7 +47,7 @@
   --muted-foreground: #596269;
   --border: #d9dfe2;
   --primary: #007c97;
-  --secondary: #67519c;
+  --secondary: #24408f;
   --accent: #99570c;
 }
 * {
@@ -401,7 +401,7 @@ main {
 }
 .open-item .tag {
   font-size: 11px;
-  color: var(--purple);
+  color: var(--navy);
   display: block;
   margin-bottom: 14px;
 }
@@ -467,7 +467,7 @@ main {
   margin: 28px 0;
 }
 .prose blockquote {
-  border-left: 2px solid var(--purple);
+  border-left: 2px solid var(--navy);
   padding-left: 25px;
   margin: 35px 0;
 }
@@ -708,7 +708,7 @@ details.faq {
   gap: 50px;
 }
 .comparison > div {
-  border-top: 2px solid var(--purple);
+  border-top: 2px solid var(--navy);
   padding-top: 25px;
 }
 .comparison > div + div {
@@ -734,7 +734,7 @@ details.faq {
 }
 .byline {
   font-size: 12px;
-  color: var(--purple);
+  color: var(--navy);
   margin-top: 25px;
 }
 .theme-toggle {

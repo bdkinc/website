@@ -91,7 +91,7 @@ const styles = stylex.create({
     right: { default: -50, [desktop]: -40, [mobile]: -26 },
     width: { default: 210, [desktop]: 160, [mobile]: 104 },
     height: { default: 210, [desktop]: 160, [mobile]: 104 },
-    backgroundColor: 'var(--purple)',
+    backgroundColor: 'var(--navy)',
     opacity: 0.94,
     animationName: {
       default: 'none',

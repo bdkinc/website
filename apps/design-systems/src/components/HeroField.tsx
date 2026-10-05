@@ -67,7 +67,7 @@ const styles = stylex.create({
   bright: {
     backgroundColor: 'color-mix(in srgb, var(--tile-color) 40%, transparent)',
   },
-  purple: { '--tile-color': 'var(--purple)' },
+  navy: { '--tile-color': 'var(--navy)' },
   amber: { '--tile-color': 'var(--amber)' },
   beyondMobile: { display: { default: 'block', [mobile]: 'none' } },
   running: { animationPlayState: 'running' },
@@ -221,7 +221,7 @@ export default function HeroField() {
               {...stylex.props(
                 styles.tile,
                 index % 5 === 4 && styles.bright,
-                index % 7 === 6 && styles.purple,
+                index % 7 === 6 && styles.navy,
                 index % 11 === 10 && styles.amber,
                 index >= 240 && styles.beyondMobile,
                 running && styles.running,

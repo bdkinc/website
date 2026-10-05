@@ -262,7 +262,7 @@ export default function CircuitBoard({ className, xstyle }: CircuitBoardProps) {
     const headSprites = new Map<string, HTMLCanvasElement>();
     const trailPool: Float32Array[] = [];
 
-    const colors = ['#00d4ff', '#7c3aed', '#ff9933'];
+    const colors = ['#00d4ff', '#3a62d6', '#ff9933'];
     const BASE_SPEED_PX = 1.0;
     const SPAWN_RATE = 0.25;
     const MAX_SIGNALS = 30;

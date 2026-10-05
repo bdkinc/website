@@ -45,7 +45,7 @@ export default function PageHeroEffects({
     <>
       <div {...aurora} className={cn(aurora.className, auroraClassName)}>
         <Aurora
-          colorStops={['#00d4ff', '#7c3aed', '#00d4ff']}
+          colorStops={['#00d4ff', '#3a62d6', '#00d4ff']}
           amplitude={1.5}
           blend={0.6}
           speed={0.6}

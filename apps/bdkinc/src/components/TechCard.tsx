@@ -221,10 +221,10 @@ export function TechCard({
   };
   const spotlightColors =
     trackingColor === 'primary'
-      ? 'rgba(0, 212, 255, 0.12), rgba(124, 58, 237, 0.08)'
+      ? 'rgba(0, 212, 255, 0.12), rgba(36, 64, 143, 0.08)'
       : trackingColor === 'secondary'
-        ? 'rgba(124, 58, 237, 0.12), rgba(0, 212, 255, 0.08)'
-        : 'rgba(255, 107, 107, 0.12), rgba(124, 58, 237, 0.08)';
+        ? 'rgba(36, 64, 143, 0.12), rgba(0, 212, 255, 0.08)'
+        : 'rgba(255, 107, 107, 0.12), rgba(36, 64, 143, 0.08)';
   return (
     <Component
       {...wrapper}

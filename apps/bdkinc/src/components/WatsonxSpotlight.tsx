@@ -42,7 +42,7 @@ const styles = stylex.create({
     position: 'absolute',
     inset: 0,
     backgroundImage:
-      'radial-gradient(circle at bottom left, rgba(124,58,237,0.08), transparent 40%)',
+      'radial-gradient(circle at bottom left, rgba(36,64,143,0.08), transparent 40%)',
   },
   // `scanlines` supplies its CSS rule; positioning comes from StyleX.
   scanlines: {

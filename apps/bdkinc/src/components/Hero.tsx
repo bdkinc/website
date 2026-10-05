@@ -260,7 +260,7 @@ export default function Hero({ copy, xstyle }: HeroProps) {
       {/* Clean gradient background */}
       <div {...stylex.props(styles.layer, styles.aurora)}>
         <Aurora
-          colorStops={['#00d4ff', '#7c3aed', '#00d4ff']}
+          colorStops={['#00d4ff', '#3a62d6', '#00d4ff']}
           amplitude={1.5}
           blend={0.6}
           speed={0.6}

@@ -110,7 +110,7 @@ Classify every visual element into one (or more) of these categories.
 ##### Semantic Color Logic
 
 - **Primary (Blue/Cyan):** Core Identity & Offerings (Services, Features)
-- **Secondary (Purple):** Ecosystem & Trust (Partners, Testimonials)
+- **Secondary (Navy Blue):** Ecosystem & Trust (Partners, Testimonials)
 - **Accent (Orange/Amber):** Highlights & Differentiators (Text highlights)
 
 **Note:** This system intentionally replaces older “corner brackets” and neon/glow treatments as the main technical signifiers, keeping the aesthetic executive-friendly and consistent.
