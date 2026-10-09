@@ -95,6 +95,7 @@ export default defineConfig({
     allowedDomains: [
       { hostname: 'www.bdkinc.com', protocol: 'https' },
       { hostname: 'bdkinc.com', protocol: 'https' },
+      { hostname: 'a.concept.bdkcloud.com', protocol: 'https' },
     ],
   },
   output: 'static',

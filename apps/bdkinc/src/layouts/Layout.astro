@@ -47,9 +47,11 @@ const resolvedOgImageAlt = routeSeo.imageAlt || ogImageAlt;
 const resolvedOgTitle = routeSeo.title || Astro.props.ogTitle || title;
 const resolvedOgDescription =
   routeSeo.description || Astro.props.ogDescription || description;
+const buildNoindex =
+  (process.env.BDK_NOINDEX || import.meta.env.BDK_NOINDEX) === 'true';
 const propNoindex = robots?.includes('noindex') ?? false;
 const effectiveRobots =
-  contentContext || routeSeo.noindex === true || propNoindex
+  buildNoindex || contentContext || routeSeo.noindex === true || propNoindex
     ? 'noindex,nofollow'
     : robots;
 

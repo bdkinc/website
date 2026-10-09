@@ -12,19 +12,29 @@ This is a configuration guide, **not evidence of a production deployment**. Full
 The checked-in Compose setup is local/loopback-oriented. Production routing, TLS, network access and persistent storage must be configured for the actual host; do not delete original files or volumes to initialize it.
 
 ## Concept review deployment
-Stakeholder review of the two concepts runs on Dokploy with the CMS at `https://cms.concept.bdkcloud.com`. Hostnames below for the concept frontends (`editorial.concept.bdkcloud.com`, `systems.concept.bdkcloud.com`) are placeholders; substitute the real ones everywhere. Domains, TLS and the apex redirect are configured in the Dokploy UI, which injects the Traefik labels and `dokploy-network` at deploy time. Deploy from a commit that contains this setup.
+Stakeholder review of all three sites runs on Dokploy behind neutral hostnames:
+
+| Host | App | Port |
+|---|---|---|
+| `cms.concept.bdkcloud.com` | WordPress (`apps/wp-cms`) | 80 |
+| `a.concept.bdkcloud.com` | `apps/bdkinc` | 4321 |
+| `b.concept.bdkcloud.com` | `apps/design-editorial` | 4322 |
+| `c.concept.bdkcloud.com` | `apps/design-systems` | 4323 |
+
+One DNS record, `*.concept.bdkcloud.com` → the Dokploy host, covers all four; Dokploy issues a Let's Encrypt certificate per hostname. Domains and TLS are configured in the Dokploy UI, which injects the Traefik labels and `dokploy-network` at deploy time. Deploy from `main`.
 
 **CMS (Dokploy Docker Compose)**
 - Compose path `./apps/wp-cms/docker-compose.dokploy.yml`. It differs from the local file only in having no host ports, uploads in the named volume `wp_uploads`, `HTTP_HOST` from `CMS_HOSTNAME`, and no `cli`/`adminer`.
 - Advanced → Command: take the default command shown and append `--force-recreate`. Dokploy re-clones the repository on every deploy; without recreating, the theme, plugin, mu-plugin and editorial bind mounts point at the deleted clone and come up empty.
 - Domain: service `wordpress`, port 80, HTTPS. The WordPress image honours Traefik's `X-Forwarded-Proto`.
-- Environment (Dokploy writes it to `.env` beside the Compose file): everything in `apps/wp-cms/.env.example` with new secrets, plus `WP_HOME`/`WP_SITEURL=https://cms.concept.bdkcloud.com`, `CMS_HOSTNAME=cms.concept.bdkcloud.com`, `FRONTEND_URL` set to a concept origin, `BDK_PREVIEW_EDITORIAL_URL`/`BDK_PREVIEW_SYSTEMS_URL` set to the concept origins, `WP_ENVIRONMENT_TYPE=staging`, `WP_DEBUG=false`. Leave the deploy hook variables blank: publishing still saves, status reads **not configured**, and the concepts are redeployed manually.
+- Environment (Dokploy writes it to `.env` beside the Compose file): everything in `apps/wp-cms/.env.example` with new secrets, plus `WP_HOME`/`WP_SITEURL=https://cms.concept.bdkcloud.com`, `CMS_HOSTNAME=cms.concept.bdkcloud.com`, `FRONTEND_URL=https://a.concept.bdkcloud.com` (the "Current site" preview target), `BDK_PREVIEW_EDITORIAL_URL=https://b.concept.bdkcloud.com`, `BDK_PREVIEW_SYSTEMS_URL=https://c.concept.bdkcloud.com`, `WP_ENVIRONMENT_TYPE=staging`, `WP_DEBUG=false`. Leave the deploy hook variables blank: publishing still saves, status reads **not configured**, and the concepts are redeployed manually.
 
-**Concept frontends (two Dokploy Applications)**
-- Build type Dockerfile, build context `.`, Dockerfile `apps/design-editorial/Dockerfile` or `apps/design-systems/Dockerfile`; container port 4322 or 4323. The images set `HOST=0.0.0.0`; the Astro configs pin `127.0.0.1` for local dev.
-- Build argument `WORDPRESS_URL=https://cms.concept.bdkcloud.com`. The build reads published content and fails if the CMS is unreachable, so the CMS must be restored and live first.
-- Runtime: `WORDPRESS_URL`, `WORDPRESS_USERNAME` and `WORDPRESS_APPLICATION_PASSWORD` (Editor), `BDK_PREVIEW_SECRET` (same as the CMS), `BDK_PREVIEW_AUDIENCE` (that app's own origin, matching the CMS preview target).
-- Both apps emit `noindex` and `robots.txt` disallows everything. Dokploy's per-application basic auth is optional if the concepts should not be publicly reachable.
+**Frontends (three Dokploy Applications)**
+- Build type Dockerfile, build context `.`, Dockerfile `apps/<app>/Dockerfile`, container port from the table. The images set `HOST=0.0.0.0`; the concept Astro configs pin `127.0.0.1` for local dev.
+- Build argument `WORDPRESS_URL=https://cms.concept.bdkcloud.com` for all three, plus `BDK_NOINDEX=true` for `apps/bdkinc` (the main site is indexable by default; the flag makes every page `noindex` and `robots.txt` disallow all). Leave `BDK_GA4_ID` unset. The build reads published content and fails if the CMS is unreachable, so the CMS must be restored and live first.
+- `apps/bdkinc` trusts forwarded HTTPS only for hosts in `security.allowedDomains`; `a.concept.bdkcloud.com` is listed so `/contact` actions pass Astro's origin check.
+- Runtime: `WORDPRESS_URL`, `WORDPRESS_USERNAME` and `WORDPRESS_APPLICATION_PASSWORD` (Editor), `BDK_PREVIEW_SECRET` (same as the CMS), `BDK_PREVIEW_AUDIENCE` (that app's own origin, matching its CMS preview target).
+- `design-editorial` and `design-systems` always emit `noindex` and disallow crawling. Dokploy's per-application basic auth is optional if the concepts should not be publicly reachable.
 
 **Restore the local CMS (first deploy only)**
 1. Deploy the CMS once so the database, `wp_core` and `wp_uploads` volumes exist.
@@ -32,7 +42,7 @@ Stakeholder review of the two concepts runs on Dokploy with the CMS at `https://
 3. Import into the Compose `db` container (`docker exec -i <db> mariadb -u<MYSQL_USER> -p<MYSQL_PASSWORD> <MYSQL_DATABASE> < concept.sql`). Copy uploads into the volume and give them to `www-data`: `docker run --rm -v <project>_wp_uploads:/dest -v <uploads-dir>:/src alpine sh -c 'cp -a /src/. /dest/ && chown -R 33:33 /dest'`. Use `docker volume ls` for the project prefix.
 4. In the `scheduler` container (it has WP-CLI and the same mounts): `wp plugin install advanced-custom-fields --activate`, `wp search-replace http://localhost:8080 https://cms.concept.bdkcloud.com --all-tables`, `wp rewrite flush`.
 5. The restored database keeps local logins. Because `wp-admin` is public, reset them (`wp user update <user> --user_pass=...`), revoke local application passwords, and create the concept preview credential with `wp user application-password create <editor> concept-preview --porcelain`.
-6. Probe `https://cms.concept.bdkcloud.com/wp-json/`, then deploy both concept apps and open a preview from the editor's target dropdown.
+6. Probe `https://cms.concept.bdkcloud.com/wp-json/`, then deploy the three frontends and open a preview from the editor's target dropdown.
 
 ## WordPress environment
 Start from `apps/wp-cms/.env.example`, supplying values through protected server configuration:
