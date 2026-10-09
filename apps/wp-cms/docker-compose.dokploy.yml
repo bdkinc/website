@@ -65,6 +65,9 @@ services:
       - path: .env
         required: false
     volumes: *wordpress-volumes
+    labels:
+      # Dokploy adds dokploy-network beside wp; pin Traefik to the network it can reach.
+      - traefik.docker.network=dokploy-network
     depends_on:
       db:
         condition: service_healthy
