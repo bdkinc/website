@@ -25,8 +25,8 @@ One DNS record, `*.concept.bdkcloud.com` → the Dokploy host, covers all four; 
 
 **CMS (Dokploy Docker Compose)**
 - Compose path `./apps/wp-cms/docker-compose.dokploy.yml`. It differs from the local file only in having no host ports, uploads in the named volume `wp_uploads`, `HTTP_HOST` from `CMS_HOSTNAME`, and no `cli`/`adminer`.
-- Advanced → Command: take the default command shown and append `--force-recreate`. Dokploy re-clones the repository on every deploy; without recreating, the theme, plugin, mu-plugin and editorial bind mounts point at the deleted clone and come up empty.
-- Domain: service `wordpress`, port 80, HTTPS. The WordPress image honours Traefik's `X-Forwarded-Proto`.
+- Advanced → Command: enter only `--force-recreate`; Dokploy appends this field to its default `docker compose … up` command. Dokploy re-clones the repository on every deploy; without recreating, the theme, plugin, mu-plugin and editorial bind mounts point at the deleted clone and come up empty.
+- Domain: service `wordpress`, port 80, HTTPS. The WordPress image honours Traefik's `X-Forwarded-Proto`. The Compose file pins `traefik.docker.network=dokploy-network`; without it Traefik may pick the private `wp` network address and HTTPS requests hang.
 - Environment (Dokploy writes it to `.env` beside the Compose file): everything in `apps/wp-cms/.env.example` with new secrets, plus `WP_HOME`/`WP_SITEURL=https://cms.concept.bdkcloud.com`, `CMS_HOSTNAME=cms.concept.bdkcloud.com`, `FRONTEND_URL=https://a.concept.bdkcloud.com` (the "Current site" preview target), `BDK_PREVIEW_EDITORIAL_URL=https://b.concept.bdkcloud.com`, `BDK_PREVIEW_SYSTEMS_URL=https://c.concept.bdkcloud.com`, `WP_ENVIRONMENT_TYPE=staging`, `WP_DEBUG=false`. Leave the deploy hook variables blank: publishing still saves, status reads **not configured**, and the concepts are redeployed manually.
 
 **Frontends (three Dokploy Applications)**
@@ -38,9 +38,9 @@ One DNS record, `*.concept.bdkcloud.com` → the Dokploy host, covers all four; 
 
 **Restore the local CMS (first deploy only)**
 1. Deploy the CMS once so the database, `wp_core` and `wp_uploads` volumes exist.
-2. Locally, with the stack up: `npm run wp:cli -w apps/wp-cms -- db export /scripts/.local/concept.sql` (ignored path), and archive `apps/wp-cms/wp-content/uploads`. Copy both to the server.
-3. Import into the Compose `db` container (`docker exec -i <db> mariadb -u<MYSQL_USER> -p<MYSQL_PASSWORD> <MYSQL_DATABASE> < concept.sql`). Copy uploads into the volume and give them to `www-data`: `docker run --rm -v <project>_wp_uploads:/dest -v <uploads-dir>:/src alpine sh -c 'cp -a /src/. /dest/ && chown -R 33:33 /dest'`. Use `docker volume ls` for the project prefix.
-4. In the `scheduler` container (it has WP-CLI and the same mounts): `wp plugin install advanced-custom-fields --activate`, `wp search-replace http://localhost:8080 https://cms.concept.bdkcloud.com --all-tables`, `wp rewrite flush`.
+2. Locally, with the stack up: `npm run wp:cli -w apps/wp-cms -- db export /scripts/.local/concept.sql` (ignored path; in Git Bash prefix `MSYS_NO_PATHCONV=1` so `/scripts` is not rewritten), and archive `apps/wp-cms/wp-content/uploads` if it holds media. Get the dump into the `scheduler` container: copy it to the server, or open Dokploy's terminal on `scheduler` and `curl` it from a short-lived one-time URL on the workstation.
+3. Import with `wp db import` in `scheduler` (or `docker exec -i <db> mariadb -u<MYSQL_USER> -p<MYSQL_PASSWORD> <MYSQL_DATABASE> < concept.sql` on the host). Copy uploads into the volume and give them to `www-data`: `docker run --rm -v <project>_wp_uploads:/dest -v <uploads-dir>:/src alpine sh -c 'cp -a /src/. /dest/ && chown -R 33:33 /dest'`. Use `docker volume ls` for the project prefix.
+4. In the `scheduler` container (it has WP-CLI and the same mounts): `wp plugin install advanced-custom-fields --activate`, `wp search-replace http://localhost:8080 https://cms.concept.bdkcloud.com --all-tables`, `wp search-replace http://localhost:4321 https://a.concept.bdkcloud.com --all-tables`, `wp rewrite flush`.
 5. The restored database keeps local logins. Because `wp-admin` is public, reset them (`wp user update <user> --user_pass=...`), revoke local application passwords, and create the concept preview credential with `wp user application-password create <editor> concept-preview --porcelain`.
 6. Probe `https://cms.concept.bdkcloud.com/wp-json/`, then deploy the three frontends and open a preview from the editor's target dropdown.
 
