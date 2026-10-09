@@ -86,6 +86,26 @@ async function serializeSitemapItem(item) {
   return (await noindexPaths).has(pathname) ? undefined : item;
 }
 
+const stylexPlugin = stylex.vite({
+  useCSSLayers: {
+    before: ['theme', 'base', 'components'],
+    after: ['utilities'],
+    prefix: 'stylex',
+  },
+});
+
+// StyleX appends its collected CSS to a stylesheet in every build output, which would
+// duplicate it into the page CSS from the ssr/prerender builds. Emit only from the
+// client build: it runs last, has no CSS asset of its own, and writes the complete
+// assets/stylex.css linked by Layout.astro.
+/** @param {Function} hook */
+function inClientBuildOnly(hook) {
+  /** @this {any} @param {any[]} args */
+  return function (...args) {
+    if (this.environment?.name === 'client') return hook.apply(this, args);
+  };
+}
+
 // https://astro.build/config
 // Static by default; Node adapter kept for contact SSR/actions and API routes.
 export default defineConfig({
@@ -124,18 +144,12 @@ export default defineConfig({
         'astro/virtual-modules/transitions-swap-functions.js',
       ],
     },
-    build: {
-      // Required for the StyleX fallback stylesheet linked by Layout.astro.
-      cssCodeSplit: false,
-    },
     plugins: [
-      stylex.vite({
-        useCSSLayers: {
-          before: ['theme', 'base', 'components'],
-          after: ['utilities'],
-          prefix: 'stylex',
-        },
-      }),
+      {
+        ...stylexPlugin,
+        generateBundle: inClientBuildOnly(stylexPlugin.generateBundle),
+        writeBundle: inClientBuildOnly(stylexPlugin.writeBundle),
+      },
       tailwindcss(),
     ],
     resolve: {
