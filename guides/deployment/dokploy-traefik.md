@@ -7,9 +7,32 @@ This is a configuration guide, **not evidence of a production deployment**. Full
 - The main Astro site uses `apps/bdkinc/Dockerfile` with **repository root** as build context. Its Node server listens on **4321**. Route the public TLS hostname to that port.
 - The Compose `scheduler` service runs WP-CLI due-event processing every 30 seconds (WP's own cron is disabled). Deploy it alongside `wordpress` with the same mounts; deployment dispatch, retries and scheduled publication depend on it.
 - Use separate services so a content rebuild does not recreate the database. Preserve `wp_db`, `wp_core`, the uploads bind mount and custom plugin/theme mounts. Both WordPress and CLI need `packages/content/editorial` mounted read-only at `/var/www/bdk-editorial`.
-- `apps/design-editorial` (4322) and `apps/design-systems` (4323) are temporary local review apps. They have Node adapters but no dedicated Dockerfiles; do not assume they have been deployed. `apps/bdkcloud` remains planned.
+- `apps/design-editorial` (4322) and `apps/design-systems` (4323) are temporary review apps. Each has a root-context Dockerfile for the concept review deployment below; they are not production replacements. `apps/bdkcloud` remains planned.
 
 The checked-in Compose setup is local/loopback-oriented. Production routing, TLS, network access and persistent storage must be configured for the actual host; do not delete original files or volumes to initialize it.
+
+## Concept review deployment
+Stakeholder review of the two concepts runs on Dokploy with the CMS at `https://cms.concept.bdkcloud.com`. Hostnames below for the concept frontends (`editorial.concept.bdkcloud.com`, `systems.concept.bdkcloud.com`) are placeholders; substitute the real ones everywhere. Domains, TLS and the apex redirect are configured in the Dokploy UI, which injects the Traefik labels and `dokploy-network` at deploy time. Deploy from a commit that contains this setup.
+
+**CMS (Dokploy Docker Compose)**
+- Compose path `./apps/wp-cms/docker-compose.dokploy.yml`. It differs from the local file only in having no host ports, uploads in the named volume `wp_uploads`, `HTTP_HOST` from `CMS_HOSTNAME`, and no `cli`/`adminer`.
+- Advanced → Command: take the default command shown and append `--force-recreate`. Dokploy re-clones the repository on every deploy; without recreating, the theme, plugin, mu-plugin and editorial bind mounts point at the deleted clone and come up empty.
+- Domain: service `wordpress`, port 80, HTTPS. The WordPress image honours Traefik's `X-Forwarded-Proto`.
+- Environment (Dokploy writes it to `.env` beside the Compose file): everything in `apps/wp-cms/.env.example` with new secrets, plus `WP_HOME`/`WP_SITEURL=https://cms.concept.bdkcloud.com`, `CMS_HOSTNAME=cms.concept.bdkcloud.com`, `FRONTEND_URL` set to a concept origin, `BDK_PREVIEW_EDITORIAL_URL`/`BDK_PREVIEW_SYSTEMS_URL` set to the concept origins, `WP_ENVIRONMENT_TYPE=staging`, `WP_DEBUG=false`. Leave the deploy hook variables blank: publishing still saves, status reads **not configured**, and the concepts are redeployed manually.
+
+**Concept frontends (two Dokploy Applications)**
+- Build type Dockerfile, build context `.`, Dockerfile `apps/design-editorial/Dockerfile` or `apps/design-systems/Dockerfile`; container port 4322 or 4323. The images set `HOST=0.0.0.0`; the Astro configs pin `127.0.0.1` for local dev.
+- Build argument `WORDPRESS_URL=https://cms.concept.bdkcloud.com`. The build reads published content and fails if the CMS is unreachable, so the CMS must be restored and live first.
+- Runtime: `WORDPRESS_URL`, `WORDPRESS_USERNAME` and `WORDPRESS_APPLICATION_PASSWORD` (Editor), `BDK_PREVIEW_SECRET` (same as the CMS), `BDK_PREVIEW_AUDIENCE` (that app's own origin, matching the CMS preview target).
+- Both apps emit `noindex` and `robots.txt` disallows everything. Dokploy's per-application basic auth is optional if the concepts should not be publicly reachable.
+
+**Restore the local CMS (first deploy only)**
+1. Deploy the CMS once so the database, `wp_core` and `wp_uploads` volumes exist.
+2. Locally, with the stack up: `npm run wp:cli -w apps/wp-cms -- db export /scripts/.local/concept.sql` (ignored path), and archive `apps/wp-cms/wp-content/uploads`. Copy both to the server.
+3. Import into the Compose `db` container (`docker exec -i <db> mariadb -u<MYSQL_USER> -p<MYSQL_PASSWORD> <MYSQL_DATABASE> < concept.sql`). Copy uploads into the volume and give them to `www-data`: `docker run --rm -v <project>_wp_uploads:/dest -v <uploads-dir>:/src alpine sh -c 'cp -a /src/. /dest/ && chown -R 33:33 /dest'`. Use `docker volume ls` for the project prefix.
+4. In the `scheduler` container (it has WP-CLI and the same mounts): `wp plugin install advanced-custom-fields --activate`, `wp search-replace http://localhost:8080 https://cms.concept.bdkcloud.com --all-tables`, `wp rewrite flush`.
+5. The restored database keeps local logins. Because `wp-admin` is public, reset them (`wp user update <user> --user_pass=...`), revoke local application passwords, and create the concept preview credential with `wp user application-password create <editor> concept-preview --porcelain`.
+6. Probe `https://cms.concept.bdkcloud.com/wp-json/`, then deploy both concept apps and open a preview from the editor's target dropdown.
 
 ## WordPress environment
 Start from `apps/wp-cms/.env.example`, supplying values through protected server configuration:
@@ -62,7 +85,7 @@ Overlapping deployments must serialize or supersede: the adapter should build th
 
 Backup, restore and retention of `wp_db`, `wp_core` and uploads are the operator's responsibility; no production restore is verified. Keep the hook token, callback secret and preview secret in protected server configuration. Preview does not enqueue publication.
 
-**Not specified:** lead destination, analytics provider and campaign requirements. Automated lead delivery, measurement and campaign templates are not delivered.
+Google Analytics 4 and the `/campaigns/it-consultation` template are implemented; see [marketing/SEO setup](../marketing-seo.md) for measurement ID, consent and stream configuration. Autotask CRM integration and automated lead capture are deliberately deferred. The contact page preserves a labeled conversation preview plus real phone/email links; live AI is not connected.
 
 Short operations checklist (none verified in production): restore a backup of `wp_db`, `wp_core` and uploads; wire the real hook and completion callbacks; exercise redirects (301/308, unknown 404) on the production runtime.
 

@@ -1,0 +1,102 @@
+# Dokploy variant of docker-compose.yml. Domains/TLS are set in the Dokploy UI
+# (wordpress service, port 80). Deploy with --force-recreate so the repo bind
+# mounts follow each fresh clone; see guides/deployment/dokploy-traefik.md.
+x-wordpress-environment: &wordpress-environment
+  WORDPRESS_DB_HOST: db
+  WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+  WORDPRESS_DB_USER: ${MYSQL_USER}
+  WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+  WORDPRESS_TABLE_PREFIX: wp_
+  WORDPRESS_AUTH_KEY: ${AUTH_KEY}
+  WORDPRESS_SECURE_AUTH_KEY: ${SECURE_AUTH_KEY}
+  WORDPRESS_LOGGED_IN_KEY: ${LOGGED_IN_KEY}
+  WORDPRESS_NONCE_KEY: ${NONCE_KEY}
+  WORDPRESS_AUTH_SALT: ${AUTH_SALT}
+  WORDPRESS_SECURE_AUTH_SALT: ${SECURE_AUTH_SALT}
+  WORDPRESS_LOGGED_IN_SALT: ${LOGGED_IN_SALT}
+  WORDPRESS_NONCE_SALT: ${NONCE_SALT}
+  BDK_DEPLOY_HOOK_URL: ${BDK_DEPLOY_HOOK_URL:-}
+  BDK_DEPLOY_HOOK_TOKEN: ${BDK_DEPLOY_HOOK_TOKEN:-}
+  BDK_DEPLOY_CALLBACK_SECRET: ${BDK_DEPLOY_CALLBACK_SECRET:-}
+  WORDPRESS_DEBUG: ${WP_DEBUG:-0}
+  WP_HOME: ${WP_HOME}
+  WP_SITEURL: ${WP_SITEURL}
+  FRONTEND_URL: ${FRONTEND_URL}
+  BDK_PREVIEW_EDITORIAL_URL: ${BDK_PREVIEW_EDITORIAL_URL:-}
+  BDK_PREVIEW_SYSTEMS_URL: ${BDK_PREVIEW_SYSTEMS_URL:-}
+  WORDPRESS_CONFIG_EXTRA: |
+    define('WP_HOME', getenv('WP_HOME'));
+    define('WP_SITEURL', getenv('WP_SITEURL'));
+    define('WP_ENVIRONMENT_TYPE', '${WP_ENVIRONMENT_TYPE}');
+    define('DISALLOW_FILE_EDIT', true);
+    define('DISABLE_WP_CRON', true);
+
+x-wordpress-volumes: &wordpress-volumes
+  - wp_core:/var/www/html
+  - wp_uploads:/var/www/html/wp-content/uploads
+  - ./wp-content/themes/bdk-headless:/var/www/html/wp-content/themes/bdk-headless
+  - ./wp-content/plugins/bdk-content:/var/www/html/wp-content/plugins/bdk-content
+  - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
+  - ../../packages/content/editorial:/var/www/bdk-editorial:ro
+
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - wp_db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [wp]
+
+  wordpress:
+    image: wordpress:6.8-php8.3-apache
+    restart: unless-stopped
+    environment: *wordpress-environment
+    env_file:
+      - path: .env
+        required: false
+    volumes: *wordpress-volumes
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [wp]
+
+  scheduler:
+    image: wordpress:cli-2.11-php8.3
+    restart: unless-stopped
+    user: "33:33"
+    environment:
+      <<: *wordpress-environment
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
+      HTTP_HOST: ${CMS_HOSTNAME}
+    env_file:
+      - path: .env
+        required: false
+    volumes: *wordpress-volumes
+    depends_on:
+      db:
+        condition: service_healthy
+      wordpress:
+        condition: service_started
+    networks: [wp]
+    working_dir: /var/www/html
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - "while true; do if wp core is-installed --quiet; then wp cron event run --due-now; fi; sleep 30; done"
+
+volumes:
+  wp_core:
+  wp_db:
+  wp_uploads:
+
+networks:
+  wp:
