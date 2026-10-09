@@ -8,6 +8,8 @@ RUN npm ci
 
 ARG WORDPRESS_URL
 ENV WORDPRESS_URL=${WORDPRESS_URL}
+ARG BDK_GA4_ID
+ENV BDK_GA4_ID=${BDK_GA4_ID}
 
 RUN npm run build -w apps/bdkinc
 

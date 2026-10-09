@@ -1,0 +1,110 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Footer from '@/components/Footer.astro';
+import EditSection from '@/components/preview/EditSection.astro';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
+import { breadcrumbListSchema, serializeSchema } from '@/lib/schema';
+interface Props extends ContentProps {}
+const {
+  reader: suppliedReader,
+  contentContext,
+  publicPath = Astro.url.pathname,
+} = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const [copy, settings] = await Promise.all([
+  reader.getPage('campaign-it-consultation'),
+  reader.getSettings(),
+]);
+const breadcrumb = breadcrumbListSchema(
+  [
+    { name: settings.navigation.home, item: '/' },
+    { name: copy.metadata.title, item: publicPath },
+  ],
+  settings.organization.url
+);
+---
+
+<Layout
+  reader={reader}
+  contentContext={contentContext}
+  publicPath={publicPath}
+  title={copy.metadata.title}
+  description={copy.metadata.description}
+>
+  <script type="application/ld+json" set:html={serializeSchema(breadcrumb)} />
+  <main id="main-content">
+    <EditSection
+      record="campaign-it-consultation"
+      section="hero"
+      also={['cta']}
+    >
+      <section class="mx-auto max-w-5xl px-6 pt-24 pb-20 md:pt-32">
+        <a
+          class="text-primary text-lg font-semibold"
+          href="/"
+          aria-label={settings.navigation.homeLabel}>{settings.siteName}</a
+        >
+        <p class="text-muted-foreground mt-16 mb-4 text-sm">
+          {copy.hero.badge}
+        </p>
+        <h1
+          class="text-foreground max-w-3xl text-5xl font-bold tracking-tight md:text-7xl"
+        >
+          {copy.hero.heading}
+        </h1>
+        <p class="text-muted-foreground mt-8 max-w-2xl text-xl leading-relaxed">
+          {copy.hero.description}
+        </p>
+        <a
+          href={copy.cta.buttonHref}
+          class="bg-primary text-primary-foreground hover:bg-primary/90 mt-10 inline-block rounded-md px-8 py-4 font-semibold"
+          >{copy.cta.buttonText}</a
+        >
+        <a
+          href={settings.contact.phoneHref}
+          class="text-primary ml-6 inline-block py-4"
+          >{settings.contact.phoneDisplay}</a
+        >
+      </section>
+    </EditSection>
+    <EditSection record="campaign-it-consultation" section="outcomes">
+      <section class="border-border mx-auto max-w-5xl border-t px-6 py-20">
+        <h2 class="text-foreground max-w-2xl text-3xl font-bold tracking-tight">
+          {copy.outcomes.heading}
+        </h2>
+        <ol class="mt-10 grid gap-10 md:grid-cols-3">
+          {
+            [
+              copy.outcomes.priorities,
+              copy.outcomes.risks,
+              copy.outcomes.nextSteps,
+            ].map((text, index) => (
+              <li>
+                <>
+                  <span class="text-primary mb-4 block text-2xl font-semibold">
+                    0{index + 1}
+                  </span>
+                  <p class="text-muted-foreground leading-relaxed">{text}</p>
+                </>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+    </EditSection>
+    <EditSection record="campaign-it-consultation" section="cta">
+      <section class="border-border mx-auto max-w-5xl border-t px-6 py-20">
+        <h2 class="text-foreground text-3xl font-bold tracking-tight">
+          {copy.cta.title}
+        </h2>
+        <p class="text-muted-foreground mt-4">{copy.cta.description}</p>
+        <a
+          href={copy.cta.buttonHref}
+          class="bg-primary text-primary-foreground hover:bg-primary/90 mt-8 inline-block rounded-md px-8 py-3 font-semibold"
+          >{copy.cta.buttonText}</a
+        >
+      </section>
+    </EditSection>
+  </main>
+  <Footer reader={reader} contentContext={contentContext} />
+</Layout>

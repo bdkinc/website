@@ -48,6 +48,7 @@ const featuredCities = object(copy.featuredCities);
   <section class="copy-section wrap"><p class="section-label"><span>03</span>Locations</p><h2>{heading(copy.serviceLocations)}</h2>{services.map(service=><details class="location-services"><summary>{service.data.title}</summary><div class="link-cloud">{locations.map(location=><a href={`/services/${service.id}/${location.id}`}>{location.data.name}</a>)}</div></details>)}</section>
 </>}
 {copy.cta && <CallToAction copy={copy.cta} settings={settings} />}
+{pageKey === 'campaign-it-consultation' && <section class="wrap"><h2>{heading(copy.outcomes)}</h2><ul>{['priorities','risks','nextSteps'].map(key => <li>{text(object(copy.outcomes)[key])}</li>)}</ul></section>}
 
 <style>
   .story > .section-label,

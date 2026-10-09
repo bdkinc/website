@@ -1,0 +1,255 @@
+---
+interface Props {
+  preview?: boolean;
+}
+const { preview = false } = Astro.props;
+const id = process.env.BDK_GA4_ID || import.meta.env.BDK_GA4_ID || '';
+const enabled =
+  !preview &&
+  /^G-[A-Z0-9]+$/.test(id) &&
+  (!import.meta.env.DEV || process.env.BDK_ANALYTICS_DEV === 'true');
+---
+
+{
+  enabled && (
+    <div data-marketing-analytics data-id={id}>
+      <div
+        class="analytics-choice"
+        data-analytics-choice
+        hidden
+        role="region"
+        aria-label="Analytics preferences"
+      >
+        <p>
+          Allow anonymous usage measurement to help us improve this website?{' '}
+          <a href="/privacy">Privacy policy</a>
+        </p>
+        <div>
+          <>
+            <button type="button" data-analytics-allow>
+              Allow analytics
+            </button>
+            <button type="button" data-analytics-deny>
+              Decline
+            </button>
+          </>
+        </div>
+      </div>
+      <button class="analytics-settings" type="button" data-analytics-settings>
+        Analytics preferences
+      </button>
+    </div>
+  )
+}
+<script>
+  let initialized = false;
+  let configuredId = '';
+  let lastPage = '';
+  const choiceKey = 'bdk-analytics-consent';
+  function choice() {
+    try {
+      return localStorage.getItem(choiceKey);
+    } catch {
+      return null;
+    }
+  }
+  function allowed() {
+    return (
+      Boolean(document.querySelector('[data-marketing-analytics]')) &&
+      choice() === 'granted'
+    );
+  }
+  function disable(disabled: boolean) {
+    if (configuredId)
+      (window as unknown as Record<string, unknown>)[
+        `ga-disable-${configuredId}`
+      ] = disabled;
+  }
+  function measuredPage() {
+    const page = new URL(location.origin + location.pathname);
+    const params = new URLSearchParams(location.search);
+    for (const key of ['utm_source', 'utm_medium', 'utm_campaign']) {
+      const value = params.get(key);
+      if (value && /^[a-zA-Z0-9_.-]{1,100}$/.test(value))
+        page.searchParams.set(key, value);
+    }
+    return page.toString();
+  }
+  function send(event: string, params: Record<string, unknown> = {}) {
+    if (allowed())
+      window.gtag?.('event', event, {
+        ...params,
+        page_location: measuredPage(),
+        page_referrer: '',
+      });
+  }
+  function enable() {
+    const root = document.querySelector<HTMLElement>(
+      '[data-marketing-analytics]'
+    );
+    const id = root?.dataset.id;
+    if (!id || !allowed()) return;
+    disable(false);
+    if (!initialized) {
+      initialized = true;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () {
+        window.dataLayer!.push(arguments as unknown as Record<string, unknown>);
+      };
+      window.gtag('consent', 'default', {
+        analytics_storage: 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+      });
+      window.gtag('js', new Date());
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+      document.head.append(script);
+    }
+    window.gtag?.('consent', 'update', { analytics_storage: 'granted' });
+    if (configuredId !== id) {
+      configuredId = id;
+      window.gtag?.('config', id, {
+        send_page_view: false,
+        page_location: measuredPage(),
+        page_referrer: '',
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+      });
+    }
+    // Exclude queries/referrers: contact emails, preview tokens and arbitrary query data never reach analytics.
+    const page = measuredPage();
+    window.gtag?.('set', { page_location: page, page_referrer: '' });
+    if (page !== lastPage) {
+      lastPage = page;
+      send('page_view', {
+        page_location: page,
+        page_title: document.title,
+        page_referrer: '',
+      });
+    }
+  }
+  function setup() {
+    const root = document.querySelector<HTMLElement>(
+      '[data-marketing-analytics]'
+    );
+    if (!root) {
+      disable(true);
+      return;
+    }
+    const panel = root.querySelector<HTMLElement>('[data-analytics-choice]')!;
+    panel.hidden = choice() !== null;
+    if (!root.dataset.ready) {
+      root.dataset.ready = 'true';
+      root
+        .querySelector('[data-analytics-settings]')
+        ?.addEventListener('click', () => {
+          panel.hidden = false;
+        });
+      for (const [selector, value] of [
+        ['[data-analytics-allow]', 'granted'],
+        ['[data-analytics-deny]', 'denied'],
+      ]) {
+        root.querySelector(selector)?.addEventListener('click', () => {
+          try {
+            localStorage.setItem(choiceKey, value);
+          } catch {
+            return;
+          }
+          panel.hidden = true;
+          if (value === 'granted') enable();
+          else {
+            disable(true);
+            window.gtag?.('consent', 'update', { analytics_storage: 'denied' });
+            lastPage = '';
+          }
+        });
+      }
+    }
+    enable();
+  }
+  document.addEventListener('click', (event) => {
+    const link =
+      event.target instanceof Element
+        ? event.target.closest<HTMLAnchorElement>('a[href]')
+        : null;
+    if (!link) return;
+    if (link.href.startsWith('tel:'))
+      send('contact_click', { contact_method: 'phone' });
+    else if (link.href.startsWith('mailto:'))
+      send('contact_click', { contact_method: 'email' });
+    else if (new URL(link.href).pathname === '/contact')
+      send('contact_click', { contact_method: 'contact_page' });
+  });
+  document.addEventListener('astro:page-load', setup);
+  window.addEventListener('contact-chat:analytics', (event) => {
+    const detail = (event as CustomEvent).detail;
+    if (
+      ![
+        'contact_chat_view',
+        'contact_chat_started',
+        'contact_chat_message_sent',
+      ].includes(detail?.event)
+    )
+      return;
+    const params: Record<string, unknown> = {};
+    if (['typed', 'suggestion'].includes(detail.params?.source))
+      params.source = detail.params.source;
+    if (['typed', 'suggestion'].includes(detail.params?.method))
+      params.method = detail.params.method;
+    if (
+      Number.isInteger(detail.params?.char_count) &&
+      detail.params.char_count >= 0
+    )
+      params.char_count = detail.params.char_count;
+    send(detail.event, params);
+  });
+  setup();
+</script>
+<style>
+  .analytics-choice {
+    position: fixed;
+    z-index: 100;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    max-width: 36rem;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--background);
+    color: var(--foreground);
+    box-shadow: 0 8px 30px rgb(0 0 0 / 0.2);
+    font-size: 0.875rem;
+  }
+  .analytics-choice[hidden] {
+    display: none;
+  }
+  .analytics-choice div {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .analytics-choice button {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 0.25rem;
+  }
+  .analytics-choice a {
+    text-decoration: underline;
+  }
+  .analytics-settings {
+    display: block;
+    margin: 1rem auto;
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    text-decoration: underline;
+  }
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+  }
+</style>

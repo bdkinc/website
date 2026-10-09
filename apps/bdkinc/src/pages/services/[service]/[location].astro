@@ -2,6 +2,7 @@
 import { getSiteRoutes } from '@bdkinc/content/routes';
 import { createAppContentReader, type ContentProps } from '@/lib/content';
 import { interpolateCopy } from '@/lib/copy';
+import { locationPageSchemas, serializeSchema } from '@/lib/schema';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
@@ -25,14 +26,16 @@ import EditSection from '@/components/preview/EditSection.astro';
 
 export async function getStaticPaths() {
   const routes = await getSiteRoutes(createAppContentReader());
-  return routes.filter((route) => route.template === 'service-location').map((route) => ({
-    params: { service: route.serviceSlug, location: route.locationSlug },
-    props: {
-      serviceSlug: route.serviceSlug,
-      locationSlug: route.locationSlug,
-      collectionKey: route.collectionKey,
-    },
-  }));
+  return routes
+    .filter((route) => route.template === 'service-location')
+    .map((route) => ({
+      params: { service: route.serviceSlug, location: route.locationSlug },
+      props: {
+        serviceSlug: route.serviceSlug,
+        locationSlug: route.locationSlug,
+        collectionKey: route.collectionKey,
+      },
+    }));
 }
 
 export const prerender = true;
@@ -42,7 +45,14 @@ interface Props extends ContentProps {
   locationSlug: string;
   collectionKey: 'services' | 'pseoServices';
 }
-const { serviceSlug, locationSlug, collectionKey, contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const {
+  serviceSlug,
+  locationSlug,
+  collectionKey,
+  contentContext,
+  publicPath = Astro.url.pathname,
+  reader: suppliedReader,
+} = Astro.props;
 const reader = suppliedReader ?? createAppContentReader(contentContext);
 
 const locationData = await getLocationBySlug(locationSlug, reader);
@@ -51,7 +61,9 @@ if (!locationData) {
 }
 
 // Get service data from the correct collection to avoid warnings
-const service = (await reader.getCollection(collectionKey)).find((entry) => entry.id === serviceSlug);
+const service = (await reader.getCollection(collectionKey)).find(
+  (entry) => entry.id === serviceSlug
+);
 if (!service) {
   return new Response(null, { status: 404 });
 }
@@ -59,11 +71,17 @@ if (!service) {
 const { servicesData, recentPosts } = await getNavigationData(reader);
 const copy = await reader.getPage('service-location');
 const settings = await reader.getSettings();
-const text = (value: string) => interpolateCopy(value, {
-  serviceTitle: service.data.title, locationName: locationData.name,
-  state: locationData.state, region: locationData.region,
-  counties: locationData.counties?.join(` ${copy.benefits.regional.countySeparator.trim()} `) || copy.benefits.regional.countyFallback,
-});
+const text = (value: string) =>
+  interpolateCopy(value, {
+    serviceTitle: service.data.title,
+    locationName: locationData.name,
+    state: locationData.state,
+    region: locationData.region,
+    counties:
+      locationData.counties?.join(
+        ` ${copy.benefits.regional.countySeparator.trim()} `
+      ) || copy.benefits.regional.countyFallback,
+  });
 const IconComponent = iconMap[service.data.icon] || PiBuilding;
 
 // Location-specific content
@@ -94,260 +112,311 @@ const locationFeatures = [
 
 const nearbyLocations = await getNearbyLocations(locationSlug, reader);
 const pageDescription = text(copy.metadata.description);
+const contactHref = `/contact?${new URLSearchParams({
+  from: serviceSlug,
+  source: publicPath,
+  service: serviceSlug,
+})}#chat`;
+const schemas = locationPageSchemas({
+  type: 'Service',
+  name: `${service.data.title} in ${locationData.name}, ${locationData.state}`,
+  description: `${service.data.description} ${locationIntro}`,
+  pagePath: publicPath,
+  subject: service.data,
+  location: locationData,
+  settings,
+  breadcrumbs: [
+    { name: settings.navigation.home, item: '/' },
+    { name: settings.navigation.services, item: '/services' },
+    ...(collectionKey === 'services'
+      ? [{ name: service.data.title, item: `/services/${serviceSlug}` }]
+      : []),
+    {
+      name: `${service.data.title} in ${locationData.name}, ${locationData.state}`,
+      item: publicPath,
+    },
+  ],
+});
 ---
 
-<Layout reader={reader}
+<Layout
+  reader={reader}
   contentContext={contentContext}
   publicPath={publicPath}
   title={text(copy.metadata.title)}
   description={pageDescription}
 >
-  <EditSection record="settings" section="navigation">
-  <Navigation
-    client:load
-    services={servicesData}
-    blogPosts={recentPosts}
-    currentPath={publicPath}
-    copy={settings.navigation}
-    brand={settings.brand}
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={serializeSchema(schemas.page)}
   />
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={serializeSchema(schemas.breadcrumb)}
+  />
+  <EditSection record="settings" section="navigation">
+    <Navigation
+      client:load
+      services={servicesData}
+      blogPosts={recentPosts}
+      currentPath={publicPath}
+      copy={settings.navigation}
+      brand={settings.brand}
+    />
   </EditSection>
   <main id="main-content" class="services-page-shell">
     <EditSection record="service-location" section="hero">
-    <!-- Hero Section with Location -->
-    <section class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8">
-      <div class="gradient-mesh absolute inset-0 opacity-30"></div>
-      <div class="scanlines pointer-events-none absolute inset-0 opacity-50">
-      </div>
-      <div
-        class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
+      <!-- Hero Section with Location -->
+      <section
+        class="relative overflow-hidden px-4 pt-24 pb-12 sm:px-6 lg:px-8"
       >
-        <CohesiveOrbit client:idle />
-      </div>
-      <div class="relative z-10 mx-auto max-w-7xl text-center">
-        <div
-          class="glass border-border mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm backdrop-blur-xl"
-        >
-          <PiMapPin className="text-primary h-4 w-4" />
-          <span class="text-muted-foreground"
-            >{text(copy.hero.badge)}</span
-          >
+        <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+        <div class="scanlines pointer-events-none absolute inset-0 opacity-50">
         </div>
         <div
-          class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4"
+          class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-80 md:opacity-100"
         >
-          <IconComponent className="text-primary h-12 w-12" />
+          <CohesiveOrbit client:idle />
         </div>
-        <h1 class="mb-6 text-5xl font-bold tracking-tight md:text-6xl">
-          <span class="text-foreground">{text(copy.hero.headingLead)}</span>
-          <span
-            class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+        <div class="relative z-10 mx-auto max-w-7xl text-center">
+          <div
+            class="glass border-border mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm backdrop-blur-xl"
           >
-            {' '}{text(copy.hero.headingAccent)}
-          </span>
-        </h1>
-        <p class="text-muted-foreground mx-auto max-w-3xl text-xl">
-          {locationIntro}
-        </p>
-        <div class="mt-8 flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            href="/contact#chat"
-            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
+            <PiMapPin className="text-primary h-4 w-4" />
+            <span class="text-muted-foreground">{text(copy.hero.badge)}</span>
+          </div>
+          <div
+            class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4"
           >
-            {text(copy.hero.buttonText)}
-            <PiPhone className="h-4 w-4" />
-          </a>
-          <a
-            href={settings.contact.phoneHref}
-            class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
-          >
-            <PiPhone className="h-4 w-4" />
-            {settings.contact.phoneDisplay}
-          </a>
+            <IconComponent className="text-primary h-12 w-12" />
+          </div>
+          <h1 class="mb-6 text-5xl font-bold tracking-tight md:text-6xl">
+            <span class="text-foreground">{text(copy.hero.headingLead)}</span>
+            <span
+              class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent"
+            >
+              {' '}{text(copy.hero.headingAccent)}
+            </span>
+          </h1>
+          <p class="text-muted-foreground mx-auto max-w-3xl text-xl">
+            {service.data.description}
+          </p>
+          <p class="text-muted-foreground mx-auto mt-4 max-w-3xl text-lg">
+            {locationIntro}
+          </p>
+          <div class="mt-8 flex flex-col items-center gap-4 sm:flex-row">
+            <a
+              href={contactHref}
+              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
+            >
+              {text(copy.hero.buttonText)}
+              <PiPhone className="h-4 w-4" />
+            </a>
+            <a
+              href={settings.contact.phoneHref}
+              class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
+            >
+              <PiPhone className="h-4 w-4" />
+              {settings.contact.phoneDisplay}
+            </a>
+          </div>
         </div>
-      </div>
-    </section>
-
+      </section>
     </EditSection>
     <EditSection record="service-location" section="localAdvantages">
-    <!-- Location-Specific Features -->
-    <section class="px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <h2
-          class="text-foreground mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
-        >
-          <span class="text-foreground">{text(copy.localAdvantages.headingLead)}{' '}</span>
-          <span class="gradient-primary">{text(copy.localAdvantages.headingAccent)}</span>
-        </h2>
-        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {
-            locationFeatures.map((feature) => {
-              const FeatureIcon = feature.icon;
-              return (
-                <div data-feature-key={feature.title} class="text-center">
-                  <div class="bg-primary/5 mb-4 inline-flex items-center justify-center rounded-lg p-3">
-                    <FeatureIcon className="text-primary h-6 w-6" />
+      <!-- Location-Specific Features -->
+      <section class="px-4 py-16 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <h2
+            class="text-foreground mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            <span class="text-foreground"
+              >{text(copy.localAdvantages.headingLead)}{' '}</span
+            >
+            <span class="gradient-primary"
+              >{text(copy.localAdvantages.headingAccent)}</span
+            >
+          </h2>
+          <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {
+              locationFeatures.map((feature) => {
+                const FeatureIcon = feature.icon;
+                return (
+                  <div data-feature-key={feature.title} class="text-center">
+                    <div class="bg-primary/5 mb-4 inline-flex items-center justify-center rounded-lg p-3">
+                      <FeatureIcon className="text-primary h-6 w-6" />
+                    </div>
+                    <h3 class="text-foreground mb-2 text-xl font-semibold">
+                      {feature.title}
+                    </h3>
+                    <p class="text-muted-foreground text-sm">
+                      {feature.description}
+                    </p>
                   </div>
-                  <h3 class="text-foreground mb-2 text-xl font-semibold">
-                    {feature.title}
-                  </h3>
-                  <p class="text-muted-foreground text-sm">
-                    {feature.description}
-                  </p>
-                </div>
-              );
-            })
-          }
+                );
+              })
+            }
+          </div>
         </div>
-      </div>
-    </section>
-
+      </section>
     </EditSection>
     <EditSection record="service-location" section="benefits">
-    <!-- Service Benefits -->
-    <section class="px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-7xl">
-        <h2
-          class="text-foreground mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
-        >
-          <span class="text-foreground">{text(copy.benefits.headingLead)}{' '}</span>
-          <span class="gradient-primary"
-            >{text(copy.benefits.headingAccent)}</span
+      <!-- Service Benefits -->
+      <section class="px-4 py-16 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+          <h2
+            class="text-foreground mb-12 text-center text-3xl font-bold tracking-tight md:text-4xl"
           >
-        </h2>
-        <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          <div>
-            <h3 class="text-foreground mb-6 text-2xl font-semibold">
-              {text(copy.benefits.comprehensive.heading)}
-            </h3>
-            <div class="space-y-4">
-              <div class="flex items-start gap-3">
-                <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
-                <p class="text-muted-foreground">
-                  {text(copy.benefits.comprehensive.monitoring)}
-                </p>
-              </div>
-              <div class="flex items-start gap-3">
-                <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
-                <p class="text-muted-foreground">
-                  {text(copy.benefits.comprehensive.support)}
-                </p>
-              </div>
-              <div class="flex items-start gap-3">
-                <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
-                <p class="text-muted-foreground">
-                  {text(copy.benefits.comprehensive.tailoring)}
-                </p>
-              </div>
-              <div class="flex items-start gap-3">
-                <PiCheckCircle className="text-primary mt-1 h-5 w-5 shrink-0" />
-                <p class="text-muted-foreground">
-                  {text(copy.benefits.comprehensive.reporting)}
-                </p>
+            <span class="text-foreground"
+              >{text(copy.benefits.headingLead)}{' '}</span
+            >
+            <span class="gradient-primary"
+              >{text(copy.benefits.headingAccent)}</span
+            >
+          </h2>
+          <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <div>
+              <h3 class="text-foreground mb-6 text-2xl font-semibold">
+                {text(copy.benefits.comprehensive.heading)}
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-start gap-3">
+                  <PiCheckCircle
+                    className="text-primary mt-1 h-5 w-5 shrink-0"
+                  />
+                  <p class="text-muted-foreground">
+                    {text(copy.benefits.comprehensive.monitoring)}
+                  </p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <PiCheckCircle
+                    className="text-primary mt-1 h-5 w-5 shrink-0"
+                  />
+                  <p class="text-muted-foreground">
+                    {text(copy.benefits.comprehensive.support)}
+                  </p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <PiCheckCircle
+                    className="text-primary mt-1 h-5 w-5 shrink-0"
+                  />
+                  <p class="text-muted-foreground">
+                    {text(copy.benefits.comprehensive.tailoring)}
+                  </p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <PiCheckCircle
+                    className="text-primary mt-1 h-5 w-5 shrink-0"
+                  />
+                  <p class="text-muted-foreground">
+                    {text(copy.benefits.comprehensive.reporting)}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div>
-            <h3 class="text-foreground mb-6 text-2xl font-semibold">
-              {text(copy.benefits.regional.heading)}
-            </h3>
-            <div class="space-y-4">
-              <div class="flex items-start gap-3">
-                <PiMapPin className="text-primary mt-1 h-5 w-5 shrink-0" />
-                <p class="text-muted-foreground">
-                  {text(copy.benefits.regional.coverage)}
-                </p>
-              </div>
-              <div class="flex items-start gap-3">
-                <PiClock className="text-primary mt-1 h-5 w-5 shrink-0" />
-                <p class="text-muted-foreground">
-                  {text(copy.benefits.regional.response)}
-                </p>
-              </div>
-              <div class="flex items-start gap-3">
-                <PiUsers className="text-primary mt-1 h-5 w-5 shrink-0" />
-                <p class="text-muted-foreground">
-                  {text(copy.benefits.regional.team)}
-                </p>
-              </div>
-              <div class="flex items-start gap-3">
-                <PiTrendUp className="text-primary mt-1 h-5 w-5 shrink-0" />
-                <p class="text-muted-foreground">
-                  {text(copy.benefits.regional.trackRecord)}
-                </p>
+            <div>
+              <h3 class="text-foreground mb-6 text-2xl font-semibold">
+                {text(copy.benefits.regional.heading)}
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-start gap-3">
+                  <PiMapPin className="text-primary mt-1 h-5 w-5 shrink-0" />
+                  <p class="text-muted-foreground">
+                    {text(copy.benefits.regional.coverage)}
+                  </p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <PiClock className="text-primary mt-1 h-5 w-5 shrink-0" />
+                  <p class="text-muted-foreground">
+                    {text(copy.benefits.regional.response)}
+                  </p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <PiUsers className="text-primary mt-1 h-5 w-5 shrink-0" />
+                  <p class="text-muted-foreground">
+                    {text(copy.benefits.regional.team)}
+                  </p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <PiTrendUp className="text-primary mt-1 h-5 w-5 shrink-0" />
+                  <p class="text-muted-foreground">
+                    {text(copy.benefits.regional.trackRecord)}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
     </EditSection>
 
     <!-- Nearby Locations -->
     {
       nearbyLocations.length > 0 && (
         <EditSection record="service-location" section="nearbyLocations">
-        <section class="px-4 py-16 sm:px-6 lg:px-8">
-          <div class="mx-auto max-w-7xl">
-            <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
-              {text(copy.nearbyLocations.heading)}
-            </h2>
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {nearbyLocations.map((nearbyLoc) => (
-                <Card key={nearbyLoc.id} className="text-center p-6">
-                  <PiMapPin className="text-primary mx-auto mb-3 h-6 w-6" />
-                  <h3 class="text-foreground font-semibold">
-                    {nearbyLoc.data.name}
-                  </h3>
-                  <p class="text-muted-foreground text-sm">
-                    {nearbyLoc.data.state}
-                  </p>
-                  <a
-                    href={`/services/${serviceSlug}/${nearbyLoc.id}`}
-                    class="text-primary hover:text-primary/80 mt-3 text-sm font-medium"
-                  >
-                    {text(copy.nearbyLocations.linkText)}
-                  </a>
-                </Card>
-              ))}
+          <section class="px-4 py-16 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl">
+              <h2 class="text-foreground mb-12 text-center text-3xl font-bold md:text-4xl">
+                {text(copy.nearbyLocations.heading)}
+              </h2>
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {nearbyLocations.map((nearbyLoc) => (
+                  <Card key={nearbyLoc.id} className="text-center p-6">
+                    <PiMapPin className="text-primary mx-auto mb-3 h-6 w-6" />
+                    <h3 class="text-foreground font-semibold">
+                      {nearbyLoc.data.name}
+                    </h3>
+                    <p class="text-muted-foreground text-sm">
+                      {nearbyLoc.data.state}
+                    </p>
+                    <a
+                      href={`/services/${serviceSlug}/${nearbyLoc.id}`}
+                      class="text-primary hover:text-primary/80 mt-3 text-sm font-medium"
+                    >
+                      {text(copy.nearbyLocations.linkText)}
+                    </a>
+                  </Card>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
         </EditSection>
       )
     }
 
     <EditSection record="service-location" section="cta">
-    <!-- CTA Section -->
-    <section class="px-4 py-16 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-4xl">
-        <Card className="text-center" size="xl" interactive={false}>
-          <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-            {text(copy.cta.heading)}
-          </h2>
-          <p class="text-muted-foreground mb-8 text-xl">
-            {text(copy.cta.description)}
-          </p>
-          <div class="flex flex-col items-center gap-4 sm:flex-row">
-            <a
-              href="/contact#chat"
-              class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
-            >
-              {text(copy.cta.buttonText)}
-              <PiEnvelope className="h-4 w-4" />
-            </a>
-            <a
-              href={settings.contact.phoneHref}
-              class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
-            >
-              <PiPhone className="h-4 w-4" />
-              {settings.contact.phoneDisplay}
-            </a>
-          </div>
-        </Card>
-      </div>
-    </section>
+      <!-- CTA Section -->
+      <section class="px-4 py-16 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-4xl">
+          <Card className="text-center" size="xl" interactive={false}>
+            <h2 class="text-foreground mb-4 text-3xl font-bold md:text-4xl">
+              {text(copy.cta.heading)}
+            </h2>
+            <p class="text-muted-foreground mb-8 text-xl">
+              {text(copy.cta.description)}
+            </p>
+            <div class="flex flex-col items-center gap-4 sm:flex-row">
+              <a
+                href={contactHref}
+                class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex cursor-pointer items-center gap-2 rounded-md px-8 py-3 text-sm font-medium shadow-sm transition-colors duration-300 hover:shadow-[--shadow-glow-sm]"
+              >
+                {text(copy.cta.buttonText)}
+                <PiEnvelope className="h-4 w-4" />
+              </a>
+              <a
+                href={settings.contact.phoneHref}
+                class="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm font-medium transition-colors"
+              >
+                <PiPhone className="h-4 w-4" />
+                {settings.contact.phoneDisplay}
+              </a>
+            </div>
+          </Card>
+        </div>
+      </section>
     </EditSection>
   </main>
 

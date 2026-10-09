@@ -48,7 +48,7 @@
   "defaults":{
     "siteName":"BDKinc",
     "defaultDescription":"IT Made Simple - Your trusted technology partner for managed IT services, cloud hosting, and cybersecurity solutions.",
-    "defaultImage":"/favicon.svg", "defaultImageAlt":"BDKinc - Premier managed IT, cloud hosting, and cybersecurity partner",
+    "defaultImage":"/images/social/bdkinc.png", "defaultImageAlt":"BDKinc — IT Made Simple. Managed IT, cloud, and cybersecurity.",
     "navigation":{"about":"About","services":"Services","blog":"Blog","contact":"Get In Touch","home":"Home","homeLabel":"BDKinc home","contactHref":"/contact","allServices":"View All Services","allPosts":"View All Posts","recentPosts":"Recent Posts","visitBlog":"Visit Blog","blogDescription":"Check out our latest insights"},
     "footer":{
       "tagline":"Proactive, security-first managed IT and cloud services for businesses all sizes.",

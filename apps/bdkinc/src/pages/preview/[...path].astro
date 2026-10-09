@@ -1,5 +1,6 @@
 ---
 import Home from '@/pages/index.astro';
+import ItConsultation from '@/pages/campaigns/it-consultation.astro';
 import About from '@/pages/about.astro';
 import Services from '@/pages/services.astro';
 import Blog from '@/pages/blog.astro';
@@ -26,23 +27,40 @@ import { getBlogPostBySlug } from '@/lib/blog';
 import type { ContentReader } from '@/lib/content';
 
 export const prerender = false;
-for (const [name, value] of Object.entries(previewHeaders)) Astro.response.headers.set(name, value);
+for (const [name, value] of Object.entries(previewHeaders))
+  Astro.response.headers.set(name, value);
 const publicPath = '/' + (Astro.params.path || '');
 const pages = {
-  home: Home, about: About, services: Services, blog: Blog, contact: Contact,
-  privacy: Privacy, terms: Terms, 'not-found': NotFound,
-  'location-maryland-eastern-shore': Maryland, 'location-delaware-eastern-shore': Delaware,
-  'service-application-development': ApplicationDevelopment, 'service-artificial-intelligence': ArtificialIntelligence,
-  'service-business-analytics': BusinessAnalytics, 'service-cloud-hosting': CloudHosting,
-  'service-cybersecurity': Cybersecurity, 'service-edi-solutions': EdiSolutions,
-  'service-hosted-erp': HostedErp, 'service-ibm-power': IbmPower, 'service-managed-it': ManagedIt,
+  'campaign-it-consultation': ItConsultation,
+  home: Home,
+  about: About,
+  services: Services,
+  blog: Blog,
+  contact: Contact,
+  privacy: Privacy,
+  terms: Terms,
+  'not-found': NotFound,
+  'location-maryland-eastern-shore': Maryland,
+  'location-delaware-eastern-shore': Delaware,
+  'service-application-development': ApplicationDevelopment,
+  'service-artificial-intelligence': ArtificialIntelligence,
+  'service-business-analytics': BusinessAnalytics,
+  'service-cloud-hosting': CloudHosting,
+  'service-cybersecurity': Cybersecurity,
+  'service-edi-solutions': EdiSolutions,
+  'service-hosted-erp': HostedErp,
+  'service-ibm-power': IbmPower,
+  'service-managed-it': ManagedIt,
 };
 let contentContext;
 let route;
 let post;
 let reader: ContentReader;
 try {
-  const resolved = await resolvePreview(Astro.url.searchParams.get('token') || '', publicPath);
+  const resolved = await resolvePreview(
+    Astro.url.searchParams.get('token') || '',
+    publicPath
+  );
   contentContext = resolved.context;
   route = resolved.route;
   reader = resolved.reader;
@@ -51,17 +69,51 @@ try {
     if (!post) throw new Error('Post unavailable.');
   }
 } catch {
-  return new Response('Preview authorization failed or expired.', { status: 401, headers: previewHeaders });
+  return new Response('Preview authorization failed or expired.', {
+    status: 401,
+    headers: previewHeaders,
+  });
 }
-const PageTemplate = route.template === 'page' ? pages[route.pageKey] : undefined;
+const PageTemplate =
+  route.template === 'page' ? pages[route.pageKey] : undefined;
 ---
-{PageTemplate && <PageTemplate reader={reader} contentContext={contentContext} publicPath={publicPath} />}
-{route.template === 'blog-post' && post && (
-  <BlogPost reader={reader} post={post} contentContext={contentContext} publicPath={publicPath} />
-)}
-{route.template === 'service-location' && (
-  <ServiceLocation reader={reader} {...route} contentContext={contentContext} publicPath={publicPath} />
-)}
-{route.template === 'industry-location' && (
-  <IndustryLocation reader={reader} {...route} contentContext={contentContext} publicPath={publicPath} />
-)}
+
+{
+  PageTemplate && (
+    <PageTemplate
+      reader={reader}
+      contentContext={contentContext}
+      publicPath={publicPath}
+    />
+  )
+}
+{
+  route.template === 'blog-post' && post && (
+    <BlogPost
+      reader={reader}
+      post={post}
+      contentContext={contentContext}
+      publicPath={publicPath}
+    />
+  )
+}
+{
+  route.template === 'service-location' && (
+    <ServiceLocation
+      reader={reader}
+      {...route}
+      contentContext={contentContext}
+      publicPath={publicPath}
+    />
+  )
+}
+{
+  route.template === 'industry-location' && (
+    <IndustryLocation
+      reader={reader}
+      {...route}
+      contentContext={contentContext}
+      publicPath={publicPath}
+    />
+  )
+}

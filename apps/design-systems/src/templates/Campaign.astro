@@ -1,0 +1,33 @@
+---
+import type { ContentReader } from '@bdkinc/content/reader';
+interface Props {
+  content: ContentReader;
+}
+const { content } = Astro.props;
+const copy = await content.getPage('campaign-it-consultation');
+---
+
+<div class="wrap">
+  <section class="hero">
+    <p class="eyebrow">{copy.hero.badge}</p><h1>{copy.hero.heading}</h1><p
+      class="intro"
+    >
+      {copy.hero.description}
+    </p>
+  </section>
+  <section>
+    <h2>{copy.outcomes.heading}</h2><ul>
+      {
+        [
+          copy.outcomes.priorities,
+          copy.outcomes.risks,
+          copy.outcomes.nextSteps,
+        ].map((item) => <li>{item}</li>)
+      }
+    </ul>
+  </section>
+  <section>
+    <h2>{copy.cta.title}</h2><p>{copy.cta.description}</p><a
+      href={copy.cta.buttonHref}>{copy.cta.buttonText}</a>
+  </section>
+</div>

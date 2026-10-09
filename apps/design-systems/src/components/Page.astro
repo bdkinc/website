@@ -6,6 +6,7 @@ import { group, text, substitute } from '@/lib/editorial';
 import type { SiteRoute } from '@bdkinc/content/routes';
 import Shell from '@/components/Shell.astro';
 import Home from '@/templates/Home.astro';
+import Campaign from '@/templates/Campaign.astro';
 import Service from '@/templates/Service.astro';
 import About from '@/templates/About.astro';
 import Contact from '@/templates/Contact.astro';
@@ -104,6 +105,7 @@ const notFound =
   preview={!!context}
 >
   {pageKey === 'home' && <Home content={content} />}
+  {pageKey === 'campaign-it-consultation' && <Campaign content={content} />}
   {pageKey === 'about' && <About content={content} />}
   {pageKey === 'contact' && <Contact content={content} />}
   {

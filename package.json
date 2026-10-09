@@ -33,5 +33,9 @@
   "engines": {
     "node": "^22.18.0 || ^24.11.0 || >=26.0.0",
     "npm": ">=10"
+  },
+  "dependencies": {
+    "baseline-browser-mapping": "^2.11.27",
+    "caniuse-lite": "^1.0.30001814"
   }
 }

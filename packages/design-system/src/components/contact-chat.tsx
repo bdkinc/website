@@ -67,8 +67,9 @@ declare global {
 function track(event: string, params?: AnalyticsParams) {
   if (typeof window === 'undefined') return;
 
-  window.dataLayer?.push({ event, ...params });
-  window.gtag?.('event', event, params);
+  // The consuming app owns consent, URL sanitization and analytics transport.
+  // Never bypass those controls or include conversation text in telemetry.
+  window.dispatchEvent(new CustomEvent('contact-chat:analytics', { detail: { event, params } }));
 }
 
 const hoverMedia = '@media (hover: hover)';

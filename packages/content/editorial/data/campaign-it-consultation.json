@@ -1,0 +1,76 @@
+{
+  "key": "campaign-it-consultation",
+  "kind": "page",
+  "title": "Campaign: IT consultation",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Campaign introduction",
+      "fields": {
+        "badge": { "type": "text", "label": "Eyebrow" },
+        "heading": { "type": "text", "label": "Heading" },
+        "description": { "type": "textarea", "label": "Introduction" }
+      }
+    },
+    "outcomes": {
+      "type": "group",
+      "label": "Consultation outcomes",
+      "fields": {
+        "heading": { "type": "text", "label": "Heading" },
+        "priorities": { "type": "textarea", "label": "Business priorities" },
+        "risks": { "type": "textarea", "label": "Technology challenges" },
+        "nextSteps": { "type": "textarea", "label": "Next steps" }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Contact invitation",
+      "fields": {
+        "title": { "type": "text", "label": "Heading" },
+        "description": { "type": "textarea", "label": "Description" },
+        "buttonText": { "type": "text", "label": "Button label" },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination",
+          "locked": true
+        }
+      }
+    },
+    "metadata": {
+      "type": "group",
+      "label": "Search and social sharing",
+      "fields": {
+        "title": { "type": "text", "label": "Page title" },
+        "description": { "type": "textarea", "label": "Description" },
+        "noindex": {
+          "type": "boolean",
+          "label": "Exclude from search indexing"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "hero": {
+      "badge": "Technology strategy",
+      "heading": "A clear next step for your IT",
+      "description": "Talk with BDKinc about the systems your business depends on. Bring your questions about managed IT, cloud infrastructure, or cybersecurity, and let’s identify a practical way forward."
+    },
+    "outcomes": {
+      "heading": "Start with what matters to your business",
+      "priorities": "Discuss your business goals, current environment, and the changes your team needs to support.",
+      "risks": "Explore reliability, security, and operational challenges so your technology priorities have context.",
+      "nextSteps": "Identify which BDKinc services fit your needs and the information needed for a proposal."
+    },
+    "cta": {
+      "title": "Let’s talk about your priorities",
+      "description": "Share your goals and questions with our team.",
+      "buttonText": "Request a consultation",
+      "buttonHref": "/contact?source=%2Fcampaigns%2Fit-consultation&utm_campaign=it-consultation#chat"
+    },
+    "metadata": {
+      "title": "IT Consultation | BDKinc",
+      "description": "Discuss managed IT, cloud infrastructure, and cybersecurity with BDKinc. Start a conversation about your business goals and technology priorities.",
+      "noindex": true
+    }
+  }
+}

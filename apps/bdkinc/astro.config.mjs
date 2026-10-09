@@ -34,34 +34,48 @@ const sitemapSnapshot = {
 
 async function readNoindexPaths() {
   const resolvedSnapshotUrl = snapshotUrl;
-  if (!resolvedSnapshotUrl) throw new Error('Sitemap content snapshot cacheDir has not been resolved.');
+  if (!resolvedSnapshotUrl)
+    throw new Error('Sitemap content snapshot cacheDir has not been resolved.');
   const store = await readFile(resolvedSnapshotUrl, 'utf8')
-    .then(serialized => parse(serialized))
-    .catch(cause => {
-      throw new Error(`Cannot read sitemap published content snapshot: ${resolvedSnapshotUrl.href}`, { cause });
+    .then((serialized) => parse(serialized))
+    .catch((cause) => {
+      throw new Error(
+        `Cannot read sitemap published content snapshot: ${resolvedSnapshotUrl.href}`,
+        { cause }
+      );
     });
   /** @param {string} key */
   function collection(key) {
     const entries = store.get(key);
-    if (!(entries instanceof Map)) throw new Error(`Sitemap published content snapshot is missing collection: ${key}`);
+    if (!(entries instanceof Map))
+      throw new Error(
+        `Sitemap published content snapshot is missing collection: ${key}`
+      );
     return entries;
   }
   /** @param {string} collectionKey @param {string} id */
   function entry(collectionKey, id) {
     const value = collection(collectionKey).get(id);
-    if (!value) throw new Error(`Sitemap published content snapshot is missing entry: ${collectionKey}/${id}`);
+    if (!value)
+      throw new Error(
+        `Sitemap published content snapshot is missing entry: ${collectionKey}/${id}`
+      );
     return value;
   }
   return getNoindexPaths({
     async getCollection(key) {
-      return [...collection(key).values()].map(value => ({
+      return [...collection(key).values()].map((value) => ({
         id: value.id,
         data: value.data,
         body: value.rendered?.html ?? value.body,
       }));
     },
-    async getPage(key) { return entry('marketingPages', key).data.data; },
-    async getSettings() { return entry('siteSettings', 'site').data; },
+    async getPage(key) {
+      return entry('marketingPages', key).data.data;
+    },
+    async getSettings() {
+      return entry('siteSettings', 'site').data;
+    },
   });
 }
 
@@ -76,11 +90,24 @@ async function serializeSitemapItem(item) {
 // Static by default; Node adapter kept for contact SSR/actions and API routes.
 export default defineConfig({
   site: 'https://www.bdkinc.com',
+  security: {
+    // Trust forwarded HTTPS only for the public hosts behind the private Traefik backend.
+    allowedDomains: [
+      { hostname: 'www.bdkinc.com', protocol: 'https' },
+      { hostname: 'bdkinc.com', protocol: 'https' },
+    ],
+  },
   output: 'static',
   adapter: node({
     mode: 'standalone',
   }),
-  integrations: [react({ compiler: true }), mdx(), sitemapSnapshot, sitemap({ serialize: serializeSitemapItem }), markdoc()],
+  integrations: [
+    react({ compiler: true }),
+    mdx(),
+    sitemapSnapshot,
+    sitemap({ serialize: serializeSitemapItem }),
+    markdoc(),
+  ],
 
   vite: {
     // Client-only islands, compiler transforms and transitions can escape startup scanning.

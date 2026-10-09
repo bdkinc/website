@@ -69,7 +69,11 @@ async function ensure(endpoint, slug, payload) {
     }
     return { id: existing[0].id, created: false };
   }
-  const record = await request(endpoint, 'POST', { ...payload, slug });
+  // Fixed copy on an already published record is deliberately staged. Create
+  // new fixed records as drafts so their validated copy exists before publication.
+  const fixed = endpoint === 'marketing-pages' || endpoint === 'site-settings';
+  const record = await request(endpoint, 'POST', { ...payload, ...(fixed ? { status: 'draft' } : {}), slug });
+  if (fixed && payload.status === 'publish') await request(`${endpoint}/${record.id}`, 'POST', { status: 'publish' });
   return { id: record.id, created: true };
 }
 

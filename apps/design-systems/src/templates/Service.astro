@@ -19,6 +19,18 @@ const c = group(copy),
   hero = group(c.hero);
 const service = services.find((entry) => 'service-' + entry.id === pageKey);
 if (!service) throw new Error('Service entry unavailable');
+const heroHeights: Record<string, number> = {
+  'managed-it': 1024,
+  'cloud-hosting': 1024,
+  cybersecurity: 864,
+  'application-development': 1024,
+  'ibm-power': 1024,
+  'business-analytics': 864,
+  'edi-solutions': 614,
+  'hosted-erp': 864,
+  'artificial-intelligence': 864,
+};
+const heroHeight = heroHeights[service.id];
 const order = [
   'leadership',
   'capabilities',
@@ -54,7 +66,20 @@ const posts = c.resources
 ---
 
 <div class="wrap">
-  <section class="hero">
+  <section class="hero hero-service">
+    {
+      heroHeight && (
+        <div class="service-hero-image" aria-hidden="true">
+          <img
+            src={`/images/services/${service.id}.webp`}
+            srcset={`/images/services/${service.id}-768.webp 768w, /images/services/${service.id}.webp 1536w`}
+            sizes="(max-width: 650px) 88vw, (max-width: 1000px) calc(92vw - 60px), (min-width: 1588px) 1340px, calc(90vw - 88px)"
+            width="1536" height={heroHeight} alt=""
+            loading="eager" fetchpriority="high" decoding="async"
+          />
+        </div>
+      )
+    }
     <p class="eyebrow">{text(hero.badgePrefix)} {text(hero.badgeAccent)}</p><h1>
       {service.data.title}
     </h1><p class="intro">
@@ -180,3 +205,30 @@ const posts = c.resources
   }
   <CTA copy={group(c.cta)} settings={s} />
 </div>
+
+<style>
+  .hero-service {
+    isolation: isolate;
+  }
+  .service-hero-image {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .service-hero-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% center;
+  }
+  .service-hero-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Px stops track the copy column (.intro 680px, h1 1100px); narrower heroes clamp to the opaque end. */
+    background: linear-gradient(90deg, var(--bg) 0, color-mix(in srgb, var(--bg) 94%, transparent) 720px, color-mix(in srgb, var(--bg) 50%, transparent) 1100px, color-mix(in srgb, var(--bg) 25%, transparent) 100%);
+  }
+</style>

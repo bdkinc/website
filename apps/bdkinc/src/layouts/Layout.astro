@@ -6,6 +6,7 @@ import { getRouteSeo } from '@bdkinc/content/seo';
 import type { SEO } from '@bdkinc/content/schemas';
 import PreviewEditor from '@/components/preview/PreviewEditor.astro';
 import { themeBootstrap } from '@/lib/theme';
+import MarketingAnalytics from '@/components/MarketingAnalytics.astro';
 
 interface Props extends ContentProps {
   reader: ContentReader;
@@ -28,8 +29,6 @@ const {
   description = settings.defaultDescription,
   publicPath = Astro.url.pathname,
   canonical = publicPath,
-  ogTitle = title,
-  ogDescription = description,
   ogImage = settings.defaultImage,
   ogImageAlt = settings.defaultImageAlt,
   twitterCard = 'summary_large_image',
@@ -41,12 +40,18 @@ const previewPath = contentContext?.publicPath ?? publicPath;
 const routeSeo: SEO = await getRouteSeo(reader, previewPath);
 const resolvedTitle = routeSeo.title || title;
 const resolvedDescription = routeSeo.description || description;
-const resolvedOgImage = routeSeo.image || ogImage;
+const resolvedOgImage =
+  routeSeo.image ||
+  (ogImage === '/favicon.svg' ? '/images/social/bdkinc.png' : ogImage);
 const resolvedOgImageAlt = routeSeo.imageAlt || ogImageAlt;
 const resolvedOgTitle = routeSeo.title || Astro.props.ogTitle || title;
-const resolvedOgDescription = routeSeo.description || Astro.props.ogDescription || description;
+const resolvedOgDescription =
+  routeSeo.description || Astro.props.ogDescription || description;
 const propNoindex = robots?.includes('noindex') ?? false;
-const effectiveRobots = routeSeo.noindex === true || propNoindex ? 'noindex,nofollow' : robots;
+const effectiveRobots =
+  contentContext || routeSeo.noindex === true || propNoindex
+    ? 'noindex,nofollow'
+    : robots;
 
 const siteOrigin = Astro.site?.origin ?? settings.organization.url;
 const canonicalUrl = canonical.startsWith('http')
@@ -91,7 +96,7 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
     <meta name="description" content={resolvedDescription} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {
-      robots && (
+      effectiveRobots && (
         <meta
           name="robots"
           content={contentContext ? 'noindex,nofollow' : effectiveRobots}
@@ -137,6 +142,7 @@ const ogImageUrl = resolvedOgImage.startsWith('http')
       Skip to main content
     </a>
     <slot />
+    <MarketingAnalytics preview={Boolean(contentContext)} />
     {
       contentContext && (
         <PreviewEditor adminUrl={contentContext.snapshot.bdk_admin} />

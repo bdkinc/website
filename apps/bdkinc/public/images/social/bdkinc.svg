@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs><linearGradient id="accent" x2="1" y2="0"><stop stop-color="#40b7e5"/><stop offset="1" stop-color="#91cd52"/></linearGradient><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#243443" stroke-width="1"/></pattern></defs>
+  <rect width="1200" height="630" fill="#091521"/>
+  <rect x="710" width="490" height="630" fill="url(#grid)"/>
+  <path d="M780 200H1020V440H780Z M820 240H980V400H820Z" fill="none" stroke="#40b7e5" stroke-width="2" opacity=".45"/>
+  <circle cx="900" cy="320" r="150" fill="none" stroke="#91cd52" stroke-width="2" opacity=".5"/>
+  <path d="M740 320H1060M900 160V480" stroke="#40b7e5" stroke-width="1" opacity=".5"/>
+  <rect x="72" y="72" width="72" height="5" fill="url(#accent)"/>
+  <text x="72" y="180" fill="#ffffff" font-family="Montserrat, Arial, sans-serif" font-weight="700" font-size="64">BDKinc</text>
+  <text x="72" y="300" fill="#ffffff" font-family="Montserrat, Arial, sans-serif" font-weight="700" font-size="58">IT Made Simple.</text>
+  <text x="72" y="370" fill="#b7c5d2" font-family="Open Sans, Arial, sans-serif" font-size="28">Managed IT · Cloud · Cybersecurity</text>
+  <path d="M72 480H620" stroke="#334453" stroke-width="1"/>
+  <text x="72" y="535" fill="#91cd52" font-family="Open Sans, Arial, sans-serif" font-size="24">www.bdkinc.com</text>
+</svg>

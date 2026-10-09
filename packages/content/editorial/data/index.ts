@@ -20,8 +20,10 @@ import hostedErp from './service-hosted-erp.json' with { type: 'json' };
 import ibmPower from './service-ibm-power.json' with { type: 'json' };
 import managedIt from './service-managed-it.json' with { type: 'json' };
 import settings from './settings.json' with { type: 'json' };
+import campaignItConsultation from './campaign-it-consultation.json' with { type: 'json' };
 
 export const pageDefinitions = {
+  'campaign-it-consultation': campaignItConsultation,
   home,
   about,
   services,
