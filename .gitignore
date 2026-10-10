@@ -1,6 +1,8 @@
 # build output
 dist/
 apps/**/dist/
+.next/
+apps/**/.next/
 # generated types
 .astro/
 apps/**/.astro/
