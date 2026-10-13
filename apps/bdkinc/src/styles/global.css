@@ -74,7 +74,7 @@
   --card-foreground: oklch(0.15 0 0); /* Dark text on cards */
   --popover: oklch(1 0 0); /* White popover */
   --popover-foreground: oklch(0.15 0 0); /* Dark popover text */
-  --primary: oklch(0.65 0.18 210); /* Cyan blue - UPDATED for better contrast */
+  --primary: oklch(0.655 0.113 245.09); /* Brand blue (#4f97d1) */
   --primary-foreground: oklch(1 0 0); /* White text on primary */
   --secondary: oklch(0.45 0.15 255); /* Navy - UPDATED for consistency */
   --secondary-foreground: oklch(1 0 0); /* White text on secondary */
@@ -88,7 +88,7 @@
   --destructive-foreground: oklch(1 0 0); /* White on destructive */
   --border: oklch(0.88 0 0); /* Light border */
   --input: oklch(0.88 0 0); /* Light input border */
-  --ring: oklch(0.65 0.18 210); /* Primary ring color */
+  --ring: oklch(0.655 0.113 245.09); /* Primary ring color */
   /* Shared Button's StyleX rules use these for class-based dark variants before hydration. */
   --button-invalid-ring: color-mix(in oklab, var(--destructive) 20%, transparent);
   --button-ghost-hover: var(--accent);
@@ -105,12 +105,12 @@
   --field-invalid-ring: color-mix(in oklab, var(--destructive) 20%, transparent);
 
   /* Brand colors - updated for consistency */
-  --brand-primary: oklch(0.65 0.18 210); /* Cyan blue */
+  --brand-primary: oklch(0.655 0.113 245.09); /* Brand blue (#4f97d1) */
   --brand-secondary: oklch(0.45 0.15 255); /* Navy */
 
   /* Shadows */
-  --shadow-glow: 0 0 20px oklch(0.65 0.18 210 / 0.3);
-  --shadow-glow-sm: 0 0 10px oklch(0.65 0.18 210 / 0.2);
+  --shadow-glow: 0 0 20px oklch(0.655 0.113 245.09 / 0.3);
+  --shadow-glow-sm: 0 0 10px oklch(0.655 0.113 245.09 / 0.2);
   --shadow-glow-accent: 0 0 20px oklch(0.7 0.18 45 / 0.3);
   --shadow-glow-accent-sm: 0 0 10px oklch(0.7 0.18 45 / 0.2);
 
@@ -131,7 +131,7 @@
   --card-foreground: oklch(0.98 0 0); /* Light text on cards */
   --popover: oklch(0.12 0 0); /* Dark popover */
   --popover-foreground: oklch(0.98 0 0); /* Light popover text */
-  --primary: oklch(0.7 0.18 210); /* Brighter cyan for dark mode */
+  --primary: oklch(0.655 0.113 245.09); /* Brand blue (#4f97d1) */
   --primary-foreground: oklch(0.05 0 0); /* Near black on primary */
   --secondary: oklch(0.75 0.14 255); /* Brighter blue for dark mode */
   --secondary-foreground: oklch(0.05 0 0); /* Near black on secondary */
@@ -143,7 +143,7 @@
   --destructive-foreground: oklch(0.98 0 0); /* Light on destructive */
   --border: oklch(0.2 0 0); /* Dark border */
   --input: oklch(0.2 0 0); /* Dark input border */
-  --ring: oklch(0.7 0.18 210); /* Bright primary ring */
+  --ring: oklch(0.655 0.113 245.09); /* Primary ring color */
   --button-invalid-ring: color-mix(in oklab, var(--destructive) 40%, transparent);
   --button-ghost-hover: color-mix(in oklab, var(--accent) 50%, transparent);
   --shared-card-glass: oklch(0.12 0 0 / 0.7);
@@ -161,8 +161,8 @@
   /* Brand colors for dark mode */
 
   /* Shadows for dark mode */
-  --shadow-glow: 0 0 20px oklch(0.7 0.18 210 / 0.4);
-  --shadow-glow-sm: 0 0 10px oklch(0.7 0.18 210 / 0.3);
+  --shadow-glow: 0 0 20px oklch(0.655 0.113 245.09 / 0.4);
+  --shadow-glow-sm: 0 0 10px oklch(0.655 0.113 245.09 / 0.3);
   --shadow-glow-accent: 0 0 20px oklch(0.75 0.18 45 / 0.4);
   --shadow-glow-accent-sm: 0 0 10px oklch(0.75 0.18 45 / 0.3);
 
@@ -251,7 +251,7 @@
 .gradient-primary {
   background-image: linear-gradient(
     135deg,
-    oklch(0.65 0.18 210) 0%,
+    oklch(0.655 0.113 245.09) 0%,
     oklch(0.45 0.15 255) 100%
   );
 }
@@ -260,7 +260,7 @@
   background:
     radial-gradient(
       at 40% 20%,
-      oklch(0.65 0.18 210 / 0.08) 0px,
+      oklch(0.655 0.113 245.09 / 0.08) 0px,
       transparent 50%
     ),
     radial-gradient(
@@ -268,7 +268,7 @@
       oklch(0.45 0.15 255 / 0.08) 0px,
       transparent 50%
     ),
-    radial-gradient(at 0% 50%, oklch(0.65 0.18 210 / 0.04) 0px, transparent 50%);
+    radial-gradient(at 0% 50%, oklch(0.655 0.113 245.09 / 0.04) 0px, transparent 50%);
 }
 
 /* Glass morphism effect - updated opacity for better cohesion */
@@ -428,8 +428,8 @@ li {
     to bottom,
     transparent 0px,
     transparent 2px,
-    oklch(0.7 0.18 210 / 0.03) 2px,
-    oklch(0.7 0.18 210 / 0.03) 4px
+    oklch(0.655 0.113 245.09 / 0.03) 2px,
+    oklch(0.655 0.113 245.09 / 0.03) 4px
   );
   animation: scanline-scroll 8s linear infinite;
 }
@@ -439,8 +439,8 @@ li {
     to bottom,
     transparent 0px,
     transparent 2px,
-    oklch(0.7 0.18 210 / 0.05) 2px,
-    oklch(0.7 0.18 210 / 0.05) 4px
+    oklch(0.655 0.113 245.09 / 0.05) 2px,
+    oklch(0.655 0.113 245.09 / 0.05) 4px
   );
 }
 
@@ -630,14 +630,14 @@ li {
   0%,
   100% {
     box-shadow:
-      0 0 8px oklch(0.7 0.18 210 / 0.5),
-      0 0 16px oklch(0.7 0.18 210 / 0.25),
+      0 0 8px oklch(0.655 0.113 245.09 / 0.5),
+      0 0 16px oklch(0.655 0.113 245.09 / 0.25),
       0 4px 6px -1px rgb(0 0 0 / 0.1);
   }
   50% {
     box-shadow:
-      0 0 12px oklch(0.7 0.18 210 / 0.7),
-      0 0 24px oklch(0.7 0.18 210 / 0.35),
+      0 0 12px oklch(0.655 0.113 245.09 / 0.7),
+      0 0 24px oklch(0.655 0.113 245.09 / 0.35),
       0 4px 6px -1px rgb(0 0 0 / 0.1);
   }
 }

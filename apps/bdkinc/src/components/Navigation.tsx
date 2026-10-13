@@ -51,7 +51,15 @@ const styles = stylex.create({
     boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
     backdropFilter: 'blur(8px)',
   },
-  container: { maxWidth: '80rem', marginInline: 'auto' },
+  container: {
+    maxWidth: '80rem',
+    marginInline: 'auto',
+    paddingInline: {
+      default: '1rem',
+      '@media (min-width: 40rem)': '1.5rem',
+      '@media (min-width: 64rem)': '2rem',
+    },
+  },
   bar: {
     position: 'relative',
     display: 'flex',

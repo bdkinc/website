@@ -256,7 +256,7 @@ export function TechCard({
           {...stylex.props(styles.texture)}
           style={{
             backgroundImage:
-              'repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, oklch(0.7 0.18 210) 2px, oklch(0.7 0.18 210) 4px)',
+              'repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, oklch(0.655 0.113 245.09) 2px, oklch(0.655 0.113 245.09) 4px)',
           }}
         />
         {interactive && <div {...stylex.props(styles.wash)} />}
