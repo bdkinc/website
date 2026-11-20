@@ -26,6 +26,7 @@ const transition =
 const colorTransition =
   'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke';
 const focusRing = '0 0 0 2px var(--background), 0 0 0 4px var(--ring)';
+const barHeight = 80;
 
 const styles = stylex.create({
   nav: {
@@ -63,7 +64,7 @@ const styles = stylex.create({
   bar: {
     position: 'relative',
     display: 'flex',
-    height: 80,
+    height: barHeight,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
@@ -143,6 +144,14 @@ const styles = stylex.create({
     display: { default: 'block', '@media (min-width: 768px)': 'none' },
     borderTopWidth: 1,
     borderTopStyle: 'solid',
+    // The fixed nav never scrolls with the page, so the panel below the bar
+    // owns scrolling and is capped to the visible viewport.
+    maxHeight: stylex.firstThatWorks(
+      `calc(100dvh - ${barHeight}px)`,
+      `calc(100vh - ${barHeight}px)`
+    ),
+    overflowY: 'auto',
+    overscrollBehavior: 'contain',
     animationName: enterFromTop,
     animationDuration: '200ms',
     animationTimingFunction: 'ease',
