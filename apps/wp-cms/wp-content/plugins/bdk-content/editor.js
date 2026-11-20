@@ -39,6 +39,87 @@ jQuery(document).on('input change', 'input', function () {
   }
 });
 
+// Repeatable list fields (add, remove, reorder) for editorial definitions.
+let bdkListUid = 0;
+function bdkReindexList(fieldset) {
+  const prefix = fieldset.dataset.bdkListPrefix;
+  if (!prefix) return;
+  const items = Array.from(fieldset.querySelectorAll(':scope > .bdk-list-items > .bdk-list-item'));
+  items.forEach((item, index) => {
+    const num = item.querySelector(':scope > .bdk-list-item-header .bdk-list-item-num');
+    if (num) num.textContent = String(index + 1);
+    const up = item.querySelector(':scope > .bdk-list-item-header .bdk-list-up');
+    const down = item.querySelector(':scope > .bdk-list-item-header .bdk-list-down');
+    if (up) up.disabled = index === 0;
+    if (down) down.disabled = index === items.length - 1;
+    item.querySelectorAll('[name]').forEach((el) => {
+      if (!el.name.startsWith(prefix + '[')) return;
+      const rest = el.name.slice(prefix.length + 1);
+      const close = rest.indexOf(']');
+      if (close === -1) return;
+      el.name = prefix + '[' + index + ']' + rest.slice(close + 1);
+    });
+  });
+}
+function bdkNotifyListChange(fieldset) {
+  const marker = fieldset.querySelector(':scope > input[type="hidden"][name$="[__present]"]');
+  if (marker) marker.dispatchEvent(new Event('change', { bubbles: true }));
+}
+function bdkAppendListItem(fieldset) {
+  const template = fieldset.querySelector(':scope > template.bdk-list-template');
+  const container = fieldset.querySelector(':scope > .bdk-list-items');
+  if (!template || !container) return null;
+  const nextIndex = container.querySelectorAll(':scope > .bdk-list-item').length;
+  const uid = 'new-' + (++bdkListUid) + '-' + nextIndex;
+  const html = template.innerHTML
+    .replaceAll('-__INDEX__', '-' + uid)
+    .replaceAll('__INDEX__', String(nextIndex))
+    .replaceAll('__NUM__', String(nextIndex + 1));
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = html;
+  const item = wrapper.firstElementChild;
+  if (!item) return null;
+  container.appendChild(item);
+  bdkReindexList(fieldset);
+  return item;
+}
+jQuery(document).on('click', '.bdk-list-add', function () {
+  const fieldset = this.closest('.bdk-list-field');
+  if (!fieldset) return;
+  const item = bdkAppendListItem(fieldset);
+  bdkNotifyListChange(fieldset);
+  item?.querySelector('input:not([type="hidden"]), textarea, select')?.focus();
+});
+jQuery(document).on('click', '.bdk-list-remove', function () {
+  const item = this.closest('.bdk-list-item');
+  const fieldset = this.closest('.bdk-list-field');
+  if (!item || !fieldset) return;
+  item.remove();
+  bdkReindexList(fieldset);
+  bdkNotifyListChange(fieldset);
+});
+jQuery(document).on('click', '.bdk-list-up', function () {
+  const item = this.closest('.bdk-list-item');
+  const fieldset = this.closest('.bdk-list-field');
+  if (!item || !fieldset || !item.previousElementSibling) return;
+  item.parentNode.insertBefore(item, item.previousElementSibling);
+  bdkReindexList(fieldset);
+  bdkNotifyListChange(fieldset);
+});
+jQuery(document).on('click', '.bdk-list-down', function () {
+  const item = this.closest('.bdk-list-item');
+  const fieldset = this.closest('.bdk-list-field');
+  if (!item || !fieldset || !item.nextElementSibling) return;
+  item.parentNode.insertBefore(item.nextElementSibling, item);
+  bdkReindexList(fieldset);
+  bdkNotifyListChange(fieldset);
+});
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => document.querySelectorAll('.bdk-list-field').forEach(bdkReindexList));
+} else {
+  document.querySelectorAll('.bdk-list-field').forEach(bdkReindexList);
+}
+
 /* global bdkEditorial, bdkPreview */
 // Durable draft workflow for already-published fixed records only. Uses the
 // working-copy REST contract; never submits the native post form, so the page
@@ -107,7 +188,14 @@ jQuery(document).on('input change', 'input', function () {
       const p = path ? path + '.' + key : key;
       const t = (cfg.fieldTypes || {})[p];
       const v = node[key];
-      out[key] = (t === 'group' || (v && typeof v === 'object' && !Array.isArray(v))) ? typeData(v, p) : typeLeaf(v, t);
+      if (t === 'list') {
+        const keys = v && typeof v === 'object'
+          ? Object.keys(v).filter((k) => k !== '__present' && /^\d+$/.test(k)).sort((a, b) => Number(a) - Number(b))
+          : [];
+        out[key] = keys.map((k) => typeData(v[k], p + '.*'));
+      } else {
+        out[key] = (t === 'group' || (v && typeof v === 'object' && !Array.isArray(v))) ? typeData(v, p) : typeLeaf(v, t);
+      }
     }
     return out;
   }
@@ -116,6 +204,13 @@ jQuery(document).on('input change', 'input', function () {
   function valueAt(data, path) {
     let node = data;
     for (const key of path) {
+      if (Array.isArray(node)) {
+        if (!/^\d+$/.test(key)) return undefined;
+        const idx = Number(key);
+        if (idx < 0 || idx >= node.length) return undefined;
+        node = node[idx];
+        continue;
+      }
       if (!node || typeof node !== 'object' || !(key in node)) return undefined;
       node = node[key];
     }
@@ -124,9 +219,20 @@ jQuery(document).on('input change', 'input', function () {
 
   // Rewrite visible fields from server data (after discard). Unknown paths untouched.
   function applyDataToForm(data) {
+    document.querySelectorAll('.bdk-list-field').forEach((fieldset) => {
+      const prefix = fieldset.dataset.bdkListPrefix;
+      if (!prefix) return;
+      const listVal = valueAt(data, namePath(prefix));
+      if (!Array.isArray(listVal)) return;
+      const container = fieldset.querySelector(':scope > .bdk-list-items');
+      if (!container) return;
+      container.innerHTML = '';
+      for (let i = 0; i < listVal.length; i++) bdkAppendListItem(fieldset);
+      bdkReindexList(fieldset);
+    });
     document.querySelectorAll('[name^="bdk_copy["]').forEach((el) => {
       const path = namePath(el.name);
-      if (!path.length) return;
+      if (!path.length || path[path.length - 1] === '__present') return;
       const value = valueAt(data, path);
       if (value === undefined) return;
       if (el.type === 'checkbox') { el.checked = value === true || value === '1'; return; }

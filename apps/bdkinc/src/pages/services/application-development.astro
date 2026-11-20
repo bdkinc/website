@@ -78,11 +78,7 @@ const metrics = [
   { ...copy.metrics.systemIntegrations, icon: PiLink },
   { ...copy.metrics.annualReleases, icon: PiRocket },
 ];
-const faqs = [
-  copy.faqs.howDoYouEnsureTheScalabilityOf,
-  copy.faqs.whatIsYourApproachToLegacySystem,
-  copy.faqs.doYouProvideOngoingSupportAfterDeployment,
-];
+const faqs = copy.faqs;
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   copy: settings.navigation,
   serviceName: service.data.title,
@@ -117,11 +113,15 @@ const strategicFeatures: Feature[] = [
     is:inline
     set:html={JSON.stringify(breadcrumbSchema)}
   />
-  <script
-    type="application/ld+json"
-    is:inline
-    set:html={JSON.stringify(faqSchema)}
-  />
+  {
+    faqs.length > 0 && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(faqSchema)}
+      />
+    )
+  }
   <EditSection record="settings" section="navigation">
   <Navigation
     client:load
@@ -392,19 +392,23 @@ const strategicFeatures: Feature[] = [
     </TechnicalSection>
     </EditSection>
 
-    <EditSection record="service-application-development" section="faqs" also={['faqHeading']}>
-    <!-- FAQ -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-5xl">
-        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          {copy.faqHeading}
-        </h3>
-        <div class="mb-20">
-          <TechnicalFAQ client:visible faqs={faqs} />
-        </div>
-      </div>
-    </section>
-    </EditSection>
+    {
+      faqs.length > 0 && (
+        <EditSection record="service-application-development" section="faqs" also={['faqHeading']}>
+        <!-- FAQ -->
+        <section class="px-4 py-24 sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-5xl">
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              {copy.faqHeading}
+            </h3>
+            <div class="mb-20">
+              <TechnicalFAQ client:visible faqs={faqs} />
+            </div>
+          </div>
+        </section>
+        </EditSection>
+      )
+    }
     <!-- Related Resources -->
     {
       relatedPosts.length > 0 && (

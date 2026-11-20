@@ -66,11 +66,7 @@ const metrics = [
   { ...copy.metrics.hourOnsiteSla, icon: PiMapPin },
   { ...copy.metrics.supportCoverage, icon: PiClock },
 ];
-const faqs = [
-  copy.faqs.howDoesBdkincIntegrateWithOurExisting,
-  copy.faqs.whatIndustriesDoYouSpecializeInSupporting,
-  copy.faqs.howDoYouHandleRapidOrganizationalScaling,
-];
+const faqs = copy.faqs;
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   serviceName: service.data.title,
   servicePath: '/services/managed-it',
@@ -102,11 +98,15 @@ const strategicFeatures = [
     is:inline
     set:html={JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c')}
   />
-  <script
-    type="application/ld+json"
-    is:inline
-    set:html={JSON.stringify(faqSchema).replace(/</g, '\\u003c')}
-  />
+  {
+    faqs.length > 0 && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(faqSchema).replace(/</g, '\\u003c')}
+      />
+    )
+  }
   <EditSection record="settings" section="navigation">
   <Navigation
     client:load
@@ -531,22 +531,26 @@ const strategicFeatures = [
     </section>
     </EditSection>
 
-    <EditSection record="service-managed-it" section="faqs" also={['faqHeading']}>
-    <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
-      <div
-        class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
-      >
-      </div>
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-foreground mb-12 text-center text-3xl font-bold">
-          {copy.faqHeading}
-        </h2>
-        <div>
-          <TechnicalFAQ client:visible faqs={faqs} />
-        </div>
-      </div>
-    </section>
-    </EditSection>
+    {
+      faqs.length > 0 && (
+        <EditSection record="service-managed-it" section="faqs" also={['faqHeading']}>
+        <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+          <div
+            class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+          >
+          </div>
+          <div class="mx-auto max-w-5xl">
+            <h2 class="text-foreground mb-12 text-center text-3xl font-bold">
+              {copy.faqHeading}
+            </h2>
+            <div>
+              <TechnicalFAQ client:visible faqs={faqs} />
+            </div>
+          </div>
+        </section>
+        </EditSection>
+      )
+    }
 
     <EditSection record="service-managed-it" section="metrics">
     <div class="relative">

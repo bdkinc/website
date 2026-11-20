@@ -6,6 +6,8 @@ function bdk_expand_seo_fields($fields, $seo) {
     foreach ($fields as &$field) {
         if ($field['type'] === 'group') {
             $field['fields'] = bdk_expand_seo_fields(array_replace(($field['ref'] ?? '') === 'seo' ? $seo : [], $field['fields'] ?? []), $seo);
+        } elseif ($field['type'] === 'list' && isset($field['fields']) && is_array($field['fields'])) {
+            $field['fields'] = bdk_expand_seo_fields($field['fields'], $seo);
         }
     }
     unset($field);
@@ -43,9 +45,33 @@ function bdk_definition($post) {
     return null;
 }
 
+// Normalize legacy keyed-group records (e.g. pre-list static FAQs) to indexed arrays.
+function bdk_normalize_list_fields($data, $fields) {
+    if (!is_array($data)) { return $data; }
+    foreach ($fields as $key => $field) {
+        if (!array_key_exists($key, $data) || !is_array($data[$key])) { continue; }
+        if ($field['type'] === 'group' && isset($field['fields'])) {
+            $data[$key] = bdk_normalize_list_fields($data[$key], $field['fields']);
+        } elseif ($field['type'] === 'list' && isset($field['fields'])) {
+            $items = array_values($data[$key]);
+            foreach ($items as $index => $item) {
+                if (is_array($item)) {
+                    $items[$index] = bdk_normalize_list_fields($item, $field['fields']);
+                }
+            }
+            $data[$key] = $items;
+        }
+    }
+    return $data;
+}
+
 function bdk_copy_data($post) {
     $data = get_post_meta($post->ID, '_bdk_data', true);
     if (!is_array($data)) { $data = []; }
+    $definition = bdk_definition($post);
+    if ($definition && isset($definition['fields'])) {
+        $data = bdk_normalize_list_fields($data, $definition['fields']);
+    }
     if ($post->post_type === 'post') {
         $data['title'] = $post->post_title;
         // New drafts may have no GMT publication date yet; preview still needs a valid date.
@@ -137,6 +163,17 @@ function bdk_complete_fields($data, $fields) {
                     $data[$key] = $value;
                 }
                 break;
+            case 'list':
+                if (!is_array($value)) { return new WP_Error('bdk_shape', 'Expected a list: ' . $key, ['status' => 400]); }
+                $items = [];
+                foreach (array_values($value) as $index => $item) {
+                    if (!is_array($item)) { return new WP_Error('bdk_shape', 'Expected an object in ' . $key . '[' . $index . ']', ['status' => 400]); }
+                    $completed = bdk_complete_fields($item, $field['fields']);
+                    if (is_wp_error($completed)) { return $completed; }
+                    $items[] = $completed;
+                }
+                $data[$key] = $items;
+                break;
             case 'number': $valid = (is_int($value) || is_float($value)) && is_finite($value); break;
             case 'boolean': $valid = is_bool($value); break;
             case 'strings': $valid = is_array($value) && array_values($value) === $value && count(array_filter($value, 'is_string')) === count($value); break;
@@ -144,7 +181,7 @@ function bdk_complete_fields($data, $fields) {
             case 'date': $valid = is_string($value) && strtotime($value) !== false; break;
             default: $valid = is_string($value);
         }
-        if ($field['type'] !== 'group' && !$valid) { return new WP_Error('bdk_value', 'Invalid copy field: ' . $key, ['status' => 400]); }
+        if (!in_array($field['type'], ['group', 'list'], true) && !$valid) { return new WP_Error('bdk_value', 'Invalid copy field: ' . $key, ['status' => 400]); }
     }
     return $fields === (bdk_definitions()['settings:site']['fields'] ?? null) ? bdk_validate_site_redirects($data) : $data;
 }
@@ -161,6 +198,18 @@ function bdk_validate_fields($input, $fields, $previous = []) {
         if ($type === 'group') {
             $value = bdk_validate_fields($value, $field['fields'], is_array($previous[$key] ?? null) ? $previous[$key] : []);
             if (is_wp_error($value)) { return $value; }
+        } elseif ($type === 'list') {
+            if (!is_array($value) || ($value !== [] && array_values($value) !== $value)) {
+                return new WP_Error('bdk_list', 'Expected a list: ' . $key, ['status' => 400]);
+            }
+            $items = [];
+            foreach ($value as $index => $item) {
+                if (!is_array($item)) { return new WP_Error('bdk_list', 'Expected an object in ' . $key . '[' . $index . ']', ['status' => 400]); }
+                $validated = bdk_validate_fields($item, $field['fields'], []);
+                if (is_wp_error($validated)) { return $validated; }
+                $items[] = $validated;
+            }
+            $value = $items;
         } elseif ($type === 'number') {
             if (!is_int($value) && !is_float($value)) { return new WP_Error('bdk_number', 'Expected a number: ' . $key, ['status' => 400]); }
         } elseif ($type === 'boolean') {

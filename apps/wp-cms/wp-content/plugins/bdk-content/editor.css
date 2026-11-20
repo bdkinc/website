@@ -1,6 +1,29 @@
 .bdk-section {
   scroll-margin-top: 48px;
 }
+.bdk-list-item {
+  border: 1px solid #dcdcde;
+  background: #f6f7f7;
+  padding: 10px 12px;
+  margin: 12px 0;
+}
+.bdk-list-item-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 6px;
+}
+.bdk-list-item-actions {
+  display: inline-flex;
+  gap: 4px;
+}
+.bdk-list-item-actions .bdk-list-remove {
+  color: #b32d2e;
+  border-color: #b32d2e;
+}
+.bdk-list-footer {
+  margin-bottom: 0;
+}
 .bdk-section:target,
 .bdk-section.bdk-flash {
   animation: bdk-flash 1.8s ease-out;

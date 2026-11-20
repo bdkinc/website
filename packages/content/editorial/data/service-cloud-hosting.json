@@ -453,50 +453,17 @@
     },
     "faqHeading": { "type": "text", "label": "FAQ section heading" },
     "faqs": {
-      "type": "group",
+      "type": "list",
       "label": "Frequently asked questions",
+      "itemLabel": "FAQ",
       "fields": {
-        "howDoYouDetermineTheRightMix": {
-          "type": "group",
-          "label": "How do you determine the right mix of public vs. private cloud?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
+        "question": {
+          "type": "text",
+          "label": "Question"
         },
-        "howDoYouHandleComplianceAndSecurity": {
-          "type": "group",
-          "label": "How do you handle compliance and security in a hybrid environment?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
-        },
-        "whatDoesManagedCloudActuallyInclude": {
-          "type": "group",
-          "label": "What does 'Managed Cloud' actually include?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
+        "answer": {
+          "type": "textarea",
+          "label": "Answer"
         }
       }
     },
@@ -735,20 +702,20 @@
         "label": "Operations Center"
       }
     },
-    "faqs": {
-      "howDoYouDetermineTheRightMix": {
+    "faqs": [
+      {
         "question": "How do you determine the right mix of public vs. private cloud?",
         "answer": "We conduct a deep architectural assessment of your workloads, compliance requirements, and budget. We typically recommend Private Cloud for predictable, data-heavy core systems, and Public Cloud for variable web workloads or rapid development cycles."
       },
-      "howDoYouHandleComplianceAndSecurity": {
+      {
         "question": "How do you handle compliance and security in a hybrid environment?",
         "answer": "Security is our baseline. We implement a unified security plane across all environments—private and public—ensuring consistent policies, identity management, and threat detection that meet SOC 2, HIPAA, and other regulatory standards."
       },
-      "whatDoesManagedCloudActuallyInclude": {
+      {
         "question": "What does 'Managed Cloud' actually include?",
         "answer": "It means total accountability. We handle patching, backups, security monitoring, performance tuning, and 24/7 incident response. You focus on your applications and business logic; we ensure the infrastructure never blinks."
       }
-    },
+    ],
     "benefits": {
       "items": {
         "enhancedReliability": {

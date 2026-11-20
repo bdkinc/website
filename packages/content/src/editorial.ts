@@ -5,8 +5,9 @@ import routes from '../editorial/routes.json' with { type: 'json' };
 import type { SEO } from './schemas.ts';
 
 export interface EditorialField {
-  type: 'text' | 'textarea' | 'url' | 'media' | 'number' | 'boolean' | 'date' | 'strings' | 'select' | 'group';
+  type: 'text' | 'textarea' | 'url' | 'media' | 'number' | 'boolean' | 'date' | 'strings' | 'select' | 'group' | 'list';
   label: string;
+  itemLabel?: string;
   locked?: boolean;
   optional?: boolean;
   default?: unknown;
@@ -21,7 +22,7 @@ export interface EditorialDefinition {
   fields: Record<string, EditorialField>;
   defaults: Record<string, unknown>;
 }
-export type Widen<T> = T extends string ? string : T extends number ? number : T extends boolean ? boolean : T extends object ? { [K in keyof T]: Widen<T[K]> } : T;
+export type Widen<T> = T extends string ? string : T extends number ? number : T extends boolean ? boolean : T extends readonly (infer U)[] ? Widen<U>[] : T extends object ? { [K in keyof T]: Widen<T[K]> } : T;
 export type PageKey = keyof typeof originalPageDefinitions;
 type OriginalPageData<K extends PageKey> = Widen<(typeof originalPageDefinitions)[K]['defaults']>;
 type WithSEO<T> = T extends { seo: infer S } ? Omit<T, 'seo'> & { seo: S & SEO }
@@ -32,7 +33,9 @@ export type PageData<K extends PageKey> = K extends keyof typeof routes | 'servi
 export function expandSEOFields(fields: Record<string, EditorialField>): Record<string, EditorialField> {
   return Object.fromEntries(Object.entries(fields).map(([key, field]) => [key, field.type === 'group'
     ? { ...field, fields: expandSEOFields({ ...(field.ref === 'seo' ? seoFields as Record<string, EditorialField> : {}), ...field.fields }) }
-    : field]));
+    : field.type === 'list' && field.fields
+      ? { ...field, fields: expandSEOFields(field.fields) }
+      : field]));
 }
 export const pageDefinitions = Object.fromEntries(Object.entries(originalPageDefinitions).map(([key, definition]) => {
   const fields = definition.fields as Record<string, EditorialField>;
@@ -49,6 +52,13 @@ export function editorialSchema(fields: Record<string, EditorialField>): z.ZodOb
       case 'group':
         if (!field.fields) throw new Error(`Missing fields for ${key}`);
         shape[key] = editorialSchema(field.fields); break;
+      case 'list':
+        if (!field.fields) throw new Error(`Missing fields for ${key}`);
+        shape[key] = z.preprocess(
+          (value) => (value && typeof value === 'object' && !Array.isArray(value) ? Object.values(value) : value),
+          z.array(editorialSchema(field.fields))
+        );
+        break;
       case 'number': shape[key] = z.number(); break;
       case 'boolean': shape[key] = z.boolean(); break;
       case 'strings': shape[key] = z.array(z.string()); break;

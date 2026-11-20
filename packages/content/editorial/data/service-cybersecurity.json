@@ -569,50 +569,17 @@
     },
     "faqHeading": { "type": "text", "label": "FAQ section heading" },
     "faqs": {
-      "type": "group",
+      "type": "list",
       "label": "Frequently asked questions",
+      "itemLabel": "FAQ",
       "fields": {
-        "howDoesBdkincIntegrateWithOurExisting": {
-          "type": "group",
-          "label": "How does BDKinc integrate with our existing IT team?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
+        "question": {
+          "type": "text",
+          "label": "Question"
         },
-        "canYouAssistWithSoc2Hipaa": {
-          "type": "group",
-          "label": "Can you assist with SOC 2, HIPAA, and PCI compliance?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
-        },
-        "whatIsYourResponseTimeForCritical": {
-          "type": "group",
-          "label": "What is your response time for critical security incidents?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
+        "answer": {
+          "type": "textarea",
+          "label": "Answer"
         }
       }
     },
@@ -898,20 +865,20 @@
         "label": "Compliance Readiness"
       }
     },
-    "faqs": {
-      "howDoesBdkincIntegrateWithOurExisting": {
+    "faqs": [
+      {
         "question": "How does BDKinc integrate with our existing IT team?",
         "answer": "We operate as a force multiplier for your internal team. Whether you need a fully managed security operations center (SOC) or co-managed support, we integrate seamlessly into your workflows. We provide the tools, telemetry, and tier-3 expertise, allowing your staff to focus on strategic initiatives while we handle threat detection and response."
       },
-      "canYouAssistWithSoc2Hipaa": {
+      {
         "question": "Can you assist with SOC 2, HIPAA, and PCI compliance?",
         "answer": "Yes. We do not just consult on compliance; we engineer it. Our team implements the specific technical controls required for HIPAA, PCI DSS, SOC 2, and NIST frameworks. We map your infrastructure to regulatory requirements, automate evidence collection, and ensure your organization is prepared to pass rigorous third-party audits."
       },
-      "whatIsYourResponseTimeForCritical": {
+      {
         "question": "What is your response time for critical security incidents?",
         "answer": "Time is the critical factor in containment. Our Security Operations Center (SOC) operates 24/7/365 with aggressive SLAs. For critical severity incidents, we initiate containment protocols immediately upon detection, minimizing dwell time and preventing lateral movement within your network."
       }
-    },
+    ],
     "benefits": {
       "items": {
         "reduceRisk": {

@@ -57,11 +57,7 @@ const metrics = [
   { ...copy.metrics.averageOnboarding, icon: PiLightning },
   { ...copy.metrics.transactionMonitoring, icon: PiEye },
 ];
-const faqs = [
-  copy.faqs.whatProtocolsAndStandardsDoYouSupport,
-  copy.faqs.howDoYouHandleHighVolumeTransaction,
-  copy.faqs.canYouIntegrateWithOurExistingErp,
-];
+const faqs = copy.faqs;
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   serviceName: service.data.title,
   servicePath: `/services/${service.id}`,
@@ -114,11 +110,15 @@ const transactions = [
     is:inline
     set:html={JSON.stringify(breadcrumbSchema)}
   />
-  <script
-    type="application/ld+json"
-    is:inline
-    set:html={JSON.stringify(faqSchema)}
-  />
+  {
+    faqs.length > 0 && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(faqSchema)}
+      />
+    )
+  }
   <EditSection record="settings" section="navigation">
   <Navigation
     client:load
@@ -556,23 +556,27 @@ const transactions = [
     </section>
 
     </EditSection>
-    <EditSection record="service-edi-solutions" section="faqs" also={['faqHeading']}>
-    <!-- FAQ -->
-    <section class="relative px-4 py-24 sm:px-6 lg:px-8">
-      <div
-        class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
-      >
-      </div>
-      <div class="mx-auto max-w-5xl">
-        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          {copy.faqHeading}
-        </h3>
-        <div class="mb-20">
-          <TechnicalFAQ client:visible faqs={faqs} />
-        </div>
-      </div>
-    </section>
-    </EditSection>
+    {
+      faqs.length > 0 && (
+        <EditSection record="service-edi-solutions" section="faqs" also={['faqHeading']}>
+        <!-- FAQ -->
+        <section class="relative px-4 py-24 sm:px-6 lg:px-8">
+          <div
+            class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+          >
+          </div>
+          <div class="mx-auto max-w-5xl">
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              {copy.faqHeading}
+            </h3>
+            <div class="mb-20">
+              <TechnicalFAQ client:visible faqs={faqs} />
+            </div>
+          </div>
+        </section>
+        </EditSection>
+      )
+    }
     <EditSection record="service-edi-solutions" section="metrics">
     <ImpactMetricsSection metrics={metrics} copy={settings.metrics} />
     </EditSection>

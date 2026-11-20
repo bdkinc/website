@@ -753,50 +753,17 @@
     },
     "faqHeading": { "type": "text", "label": "FAQ heading" },
     "faqs": {
-      "type": "group",
+      "type": "list",
       "label": "Frequently asked questions",
+      "itemLabel": "FAQ",
       "fields": {
-        "whatProtocolsAndStandardsDoYouSupport": {
-          "type": "group",
-          "label": "What protocols and standards do you support?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
+        "question": {
+          "type": "text",
+          "label": "Question"
         },
-        "howDoYouHandleHighVolumeTransaction": {
-          "type": "group",
-          "label": "How do you handle high-volume transaction scaling?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
-        },
-        "canYouIntegrateWithOurExistingErp": {
-          "type": "group",
-          "label": "Can you integrate with our existing ERP environment?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
+        "answer": {
+          "type": "textarea",
+          "label": "Answer"
         }
       }
     },
@@ -1088,20 +1055,20 @@
         "label": "Transaction Monitoring"
       }
     },
-    "faqs": {
-      "whatProtocolsAndStandardsDoYouSupport": {
+    "faqs": [
+      {
         "question": "What protocols and standards do you support?",
         "answer": "We support the full spectrum of industry-standard protocols including AS2, SFTP, FTPS, HTTPS, and traditional VAN networks. Our translation engine handles ANSI X12, EDIFACT, TRADACOMS, and XML formats, ensuring compatibility with any global trading partner."
       },
-      "howDoYouHandleHighVolumeTransaction": {
+      {
         "question": "How do you handle high-volume transaction scaling?",
         "answer": "Our infrastructure is built on elastic cloud architecture designed for enterprise scale. It automatically provisions resources to handle peak loads—whether from seasonal spikes or rapid market expansion—ensuring consistent throughput and zero message loss."
       },
-      "canYouIntegrateWithOurExistingErp": {
+      {
         "question": "Can you integrate with our existing ERP environment?",
         "answer": "Yes. Our solution acts as a universal middleware layer, integrating seamlessly with major ERPs (SAP, Oracle, NetSuite, Microsoft Dynamics) as well as custom legacy systems. We map data directly to your internal formats, preserving your existing workflows."
       }
-    },
+    ],
     "benefits": {
       "items": {
         "item9999Uptime": {

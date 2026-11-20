@@ -49,11 +49,7 @@ const metrics = [
   { ...copy.metrics.operationsCoverage, icon: PiArrowsClockwise },
   { ...copy.metrics.powerEngineers, icon: PiUsers },
 ];
-const faqs = [
-  copy.faqs.canYouHostOurIbmIAs,
-  copy.faqs.whatIsYourApproachToModernizingGreen,
-  copy.faqs.howDoYouHandleDisasterRecoveryFor,
-];
+const faqs = copy.faqs;
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   serviceName: service.data.title,
   servicePath: `/services/${service.id}`,
@@ -87,11 +83,15 @@ const keyBenefits = [
     is:inline
     set:html={JSON.stringify(breadcrumbSchema)}
   />
-  <script
-    type="application/ld+json"
-    is:inline
-    set:html={JSON.stringify(faqSchema)}
-  />
+  {
+    faqs.length > 0 && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(faqSchema)}
+      />
+    )
+  }
   <EditSection record="settings" section="navigation">
   <Navigation
     client:load
@@ -288,19 +288,23 @@ const keyBenefits = [
     </section>
 
     </EditSection>
-    <EditSection record="service-ibm-power" section="faqs" also={['faqHeading']}>
-    <!-- FAQ -->
-    <section class="px-4 py-24 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-5xl">
-        <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
-          {copy.faqHeading}
-        </h3>
-        <div class="mb-20">
-          <TechnicalFAQ client:visible faqs={faqs} />
-        </div>
-      </div>
-    </section>
-    </EditSection>
+    {
+      faqs.length > 0 && (
+        <EditSection record="service-ibm-power" section="faqs" also={['faqHeading']}>
+        <!-- FAQ -->
+        <section class="px-4 py-24 sm:px-6 lg:px-8">
+          <div class="mx-auto max-w-5xl">
+            <h3 class="text-foreground mb-6 text-center text-2xl font-bold">
+              {copy.faqHeading}
+            </h3>
+            <div class="mb-20">
+              <TechnicalFAQ client:visible faqs={faqs} />
+            </div>
+          </div>
+        </section>
+        </EditSection>
+      )
+    }
     <EditSection record="service-ibm-power" section="metrics">
     <ImpactMetricsSection metrics={metrics} copy={settings.metrics} />
     </EditSection>

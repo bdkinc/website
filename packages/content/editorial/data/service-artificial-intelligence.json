@@ -631,50 +631,17 @@
     },
     "faqHeading": { "type": "text", "label": "FAQ heading" },
     "faqs": {
-      "type": "group",
+      "type": "list",
       "label": "Frequently asked questions",
+      "itemLabel": "FAQ",
       "fields": {
-        "howDoYouCalculateRoiForAn": {
-          "type": "group",
-          "label": "How do you calculate ROI for an AI initiative?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
+        "question": {
+          "type": "text",
+          "label": "Question"
         },
-        "isMyProprietaryDataSafeWhenUsing": {
-          "type": "group",
-          "label": "Is my proprietary data safe when using Generative AI?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
-        },
-        "canYouIntegrateAiIntoOurLegacy": {
-          "type": "group",
-          "label": "Can you integrate AI into our legacy ERP systems?",
-          "fields": {
-            "question": {
-              "type": "text",
-              "label": "Question"
-            },
-            "answer": {
-              "type": "textarea",
-              "label": "Answer"
-            }
-          }
+        "answer": {
+          "type": "textarea",
+          "label": "Answer"
         }
       }
     },
@@ -931,20 +898,20 @@
         "label": "Inference Uptime"
       }
     },
-    "faqs": {
-      "howDoYouCalculateRoiForAn": {
+    "faqs": [
+      {
         "question": "How do you calculate ROI for an AI initiative?",
         "answer": "We focus on measurable outcomes: reduced operational costs, increased throughput, or revenue uplift. Our Discovery Phase establishes clear KPIs, ensuring every model deployed drives tangible business value within 3-6 months."
       },
-      "isMyProprietaryDataSafeWhenUsing": {
+      {
         "question": "Is my proprietary data safe when using Generative AI?",
         "answer": "Absolutely. We utilize private model instances and RAG (Retrieval-Augmented Generation) architectures where your data is used strictly for context retrieval, never for public model training. Your intellectual property remains isolated and secure."
       },
-      "canYouIntegrateAiIntoOurLegacy": {
+      {
         "question": "Can you integrate AI into our legacy ERP systems?",
         "answer": "Yes. Our 'API-first' approach allows us to wrap legacy systems with modern AI interfaces. We can inject predictive insights or automated actions directly into your existing screens and workflows."
       }
-    },
+    ],
     "cta": {
       "title": "Plan Your AI Roadmap",
       "description": "Define the first 90 days of a governed AI program powered by IBM watsonx.",

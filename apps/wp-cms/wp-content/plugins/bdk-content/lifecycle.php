@@ -69,7 +69,14 @@ add_action('wp_restore_post_revision', function ($id) {
 
 function bdk_working_copy($post) {
     $working = get_post_meta($post->ID, '_bdk_working_copy', true);
-    return is_array($working) ? $working : ['data' => bdk_copy_data($post), 'savedAt' => null, 'savedBy' => null];
+    if (!is_array($working)) {
+        return ['data' => bdk_copy_data($post), 'savedAt' => null, 'savedBy' => null];
+    }
+    $definition = bdk_definition($post);
+    if ($definition && isset($definition['fields']) && is_array($working['data'] ?? null)) {
+        $working['data'] = bdk_normalize_list_fields($working['data'], $definition['fields']);
+    }
+    return $working;
 }
 
 function bdk_save_working_copy($input, $post) {

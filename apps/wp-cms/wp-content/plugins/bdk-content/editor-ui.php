@@ -53,6 +53,7 @@ function bdk_editor_field_types($fields, $prefix = '') {
         $type = $field['type'] ?? 'text';
         $map[$path] = $type;
         if ($type === 'group' && isset($field['fields']) && is_array($field['fields'])) { $map += bdk_editor_field_types($field['fields'], $path); }
+        elseif ($type === 'list' && isset($field['fields']) && is_array($field['fields'])) { $map += bdk_editor_field_types($field['fields'], $path . '.*'); }
     }
     return $map;
 }
@@ -131,18 +132,51 @@ function bdk_media_meta_text($value) {
     return 'Selected: ' . implode(', ', $parts);
 }
 
+function bdk_render_list_item($fields, $item, $item_prefix, $item_label, $number_label) {
+    echo '<fieldset class="bdk-list-item">';
+    echo '<legend class="bdk-list-item-header"><strong class="bdk-list-item-title">' . esc_html($item_label) . ' <span class="bdk-list-item-num">' . esc_html((string) $number_label) . '</span></strong>';
+    echo '<span class="bdk-list-item-actions">';
+    echo '<button type="button" class="button button-small bdk-list-up" aria-label="Move ' . esc_attr($item_label) . ' up">Move up</button> ';
+    echo '<button type="button" class="button button-small bdk-list-down" aria-label="Move ' . esc_attr($item_label) . ' down">Move down</button> ';
+    echo '<button type="button" class="button button-small bdk-list-remove" aria-label="Remove ' . esc_attr($item_label) . '">Remove</button>';
+    echo '</span></legend>';
+    bdk_render_fields($fields, is_array($item) ? $item : [], $item_prefix);
+    echo '</fieldset>';
+}
+
 function bdk_render_fields($fields, $data, $prefix) {
     foreach ($fields as $key => $field) {
         if (!empty($field['locked'])) { continue; }
         $name = $prefix . '[' . $key . ']';
-        $id = 'bdk-' . md5($name);
+        $id_suffix = strpos($prefix, '__INDEX__') !== false ? '-__INDEX__' : '';
+        $id = 'bdk-' . md5($name) . $id_suffix;
         $value = $data[$key] ?? '';
         // Top-level keys are page sections; the website preview links to them by key.
         $section = $prefix === 'bdk_copy' ? ' id="bdk-section-' . esc_attr($key) . '" class="bdk-section" data-bdk-section="' . esc_attr($key) . '"' : '';
+        $section_attrs = $prefix === 'bdk_copy' ? ' id="bdk-section-' . esc_attr($key) . '" data-bdk-section="' . esc_attr($key) . '"' : '';
+        $section_class = $prefix === 'bdk_copy' ? ' bdk-section' : '';
         if ($field['type'] === 'group') {
             echo '<fieldset' . $section . ' style="border:1px solid #ccc;padding:12px;margin:16px 0"><legend><strong>' . esc_html($field['label']) . '</strong></legend>';
             if ($section && in_array($key, BDK_OFF_PAGE_SECTIONS, true)) { echo '<p class="description">Not shown on the page. Used by search engines and link previews.</p>'; }
             bdk_render_fields($field['fields'], is_array($value) ? $value : [], $name);
+            echo '</fieldset>';
+            continue;
+        }
+        if ($field['type'] === 'list') {
+            $item_label = !empty($field['itemLabel']) ? $field['itemLabel'] : 'Item';
+            $items = is_array($value) ? array_values($value) : [];
+            echo '<fieldset' . $section_attrs . ' class="bdk-list-field' . $section_class . '" data-bdk-list-prefix="' . esc_attr($name) . '" data-bdk-item-label="' . esc_attr($item_label) . '" style="border:1px solid #ccc;padding:12px;margin:16px 0">';
+            echo '<legend><strong>' . esc_html($field['label']) . '</strong></legend>';
+            echo '<input type="hidden" name="' . esc_attr($name) . '[__present]" value="1">';
+            echo '<div class="bdk-list-items">';
+            foreach ($items as $index => $item) {
+                bdk_render_list_item($field['fields'], $item, $name . '[' . $index . ']', $item_label, $index + 1);
+            }
+            echo '</div>';
+            echo '<template class="bdk-list-template">';
+            bdk_render_list_item($field['fields'], [], $name . '[__INDEX__]', $item_label, '__NUM__');
+            echo '</template>';
+            echo '<p class="bdk-list-footer"><button type="button" class="button bdk-list-add">Add ' . esc_html($item_label) . '</button></p>';
             echo '</fieldset>';
             continue;
         }
@@ -184,6 +218,16 @@ function bdk_form_values($input, $fields) {
         if (!empty($field['locked']) || !array_key_exists($key, $input)) { continue; }
         $value = $input[$key];
         if ($field['type'] === 'group') { $value = bdk_form_values((array) $value, $field['fields']); }
+        elseif ($field['type'] === 'list') {
+            $items = [];
+            if (is_array($value)) {
+                foreach ($value as $item_key => $item) {
+                    if ($item_key === '__present' || !is_array($item)) { continue; }
+                    $items[] = bdk_form_values($item, $field['fields']);
+                }
+            }
+            $value = $items;
+        }
         elseif ($field['type'] === 'number') { $value = is_numeric($value) ? 0 + $value : null; }
         elseif ($field['type'] === 'boolean') { $value = $value === '1'; }
         elseif ($field['type'] === 'strings') { $value = array_values(array_filter(array_map('trim', explode("\n", $value)), 'strlen')); }
@@ -217,8 +261,8 @@ add_action('admin_menu', function () {
 add_action('admin_enqueue_scripts', function ($hook) {
     if (!in_array($hook, ['post.php', 'post-new.php'], true)) { return; }
     wp_enqueue_media();
-    wp_enqueue_script('bdk-editor', plugins_url('editor.js', __FILE__), ['jquery', 'media-editor'], '1.7', true);
-    wp_enqueue_style('bdk-editor', plugins_url('editor.css', __FILE__), [], '1.7');
+    wp_enqueue_script('bdk-editor', plugins_url('editor.js', __FILE__), ['jquery', 'media-editor'], '1.8', true);
+    wp_enqueue_style('bdk-editor', plugins_url('editor.css', __FILE__), [], '1.8');
     global $post;
     if ($post instanceof WP_Post && bdk_editor_is_fixed_published($post)) {
         $bdk_editor_definition = bdk_definition($post);
