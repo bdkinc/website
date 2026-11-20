@@ -1,0 +1,61 @@
+---
+/**
+ * Legacy IBM Power page body (production WP 4419): CMS heading plus the vendor
+ * (Flywheel) catalogue frame. The frame URL is a developer-owned constant; no
+ * CMS HTML, iframe field or third-party script is rendered into this document.
+ * The consuming route owns Layout, navigation, `<main>` and preview wrappers.
+ */
+import { PiArrowSquareOut } from 'react-icons/pi';
+
+interface Props {
+  heading: string;
+}
+
+const EMBED_URL = 'https://ibm.onemob.com/p/bdk-power';
+
+const heading = Astro.props.heading.trim();
+const titleWords = heading.split(/\s+/);
+const titleAccent = titleWords.pop() ?? '';
+const titleLead = titleWords.join(' ');
+const frameTitle = `${heading} (embedded Flywheel content)`;
+---
+
+<section class="relative overflow-hidden px-4 pt-32 pb-12 sm:px-6 md:pb-16 lg:px-8">
+  <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+  <div class="scanlines pointer-events-none absolute inset-0 opacity-50"></div>
+  <div class="relative z-10 mx-auto max-w-4xl text-center">
+    <h1 class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 text-5xl font-bold tracking-tight text-balance duration-700 md:text-6xl">
+      {titleLead && <span class="text-foreground">{titleLead} </span>}
+      <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
+        {titleAccent}
+      </span>
+    </h1>
+  </div>
+  <div class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"></div>
+</section>
+
+<section class="relative px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+  <div class="mx-auto max-w-6xl">
+    <div class="border-border/60 bg-card overflow-hidden rounded-2xl border shadow-sm">
+      <iframe
+        src={EMBED_URL}
+        title={frameTitle}
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+        class="block h-[75dvh] min-h-[32rem] w-full border-0 md:h-[80dvh] md:max-h-[60rem]"
+      ></iframe>
+    </div>
+    <p class="mt-4 text-right text-sm">
+      <a
+        href={EMBED_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-muted-foreground hover:text-primary focus-visible:ring-ring inline-flex items-center gap-1.5 rounded-sm underline-offset-4 transition-colors hover:underline focus-visible:ring-2 focus-visible:outline-none"
+      >
+        Open {heading} in a new tab
+        <PiArrowSquareOut className="h-4 w-4" aria-hidden="true" />
+      </a>
+    </p>
+  </div>
+</section>
