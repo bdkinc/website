@@ -37,7 +37,7 @@ const {
 } = Astro.props;
 
 const previewPath = contentContext?.publicPath ?? publicPath;
-const routeSeo: SEO = await getRouteSeo(reader, previewPath);
+const routeSeo: SEO = await getRouteSeo(reader, previewPath, 'concept-a');
 const resolvedTitle = routeSeo.title || title;
 const resolvedDescription = routeSeo.description || description;
 const resolvedOgImage =

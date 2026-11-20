@@ -2,8 +2,9 @@
 if (!defined('ABSPATH')) { exit; }
 
 // Snapshots are immutable, short-lived copies, never revisions written onto a published parent.
-function bdk_preview_target($post) {
-    $fixed = json_decode(file_get_contents('/var/www/bdk-editorial/routes.json'), true);
+// The route inventory follows the selected (and signed) preview target; public identities use `current`.
+function bdk_preview_target($post, $selected = 'current') {
+    $fixed = bdk_fixed_routes($selected);
     if ($post->post_type === 'bdk_page') {
         $path = $fixed[$post->post_name] ?? null;
         if ($post->post_name === 'service-location') { $path = bdk_preview_generated_path('service'); }
@@ -84,8 +85,8 @@ function bdk_public_body_link($href) {
     }
     if ($id) { return $href; }
     // Already-canonical links (including native link-picker output) stay on the rendering frontend.
-    $fixed = json_decode(file_get_contents('/var/www/bdk-editorial/routes.json'), true);
-    if (in_array(untrailingslashit($path) ?: '/', $fixed, true)) { return $path . $suffix; }
+    $known = array_merge(array_values(bdk_fixed_routes('current')), bdk_reserved_alias_paths());
+    if (in_array(untrailingslashit($path) ?: '/', $known, true)) { return $path . $suffix; }
     if (preg_match('~^/blog/([^/]+)/?$~', $path, $match)) {
         $post = get_page_by_path($match[1], OBJECT, 'post');
         if (bdk_public_path($post)) { return $path . $suffix; }
@@ -139,11 +140,11 @@ add_action('rest_api_init', function () {
                 $post = clone $post;
                 $post->post_name = sanitize_title($post->post_title) ?: 'draft-' . $post->ID;
             }
-            $target = $post ? bdk_preview_target($post) : null;
             $secret = getenv('BDK_PREVIEW_SECRET');
             $targets = bdk_preview_targets();
             $selected = $request->has_param('target') ? (string) $request['target'] : 'current';
             if (!isset($targets[$selected])) { return new WP_Error('bdk_audience', 'Unknown preview target.', ['status' => 400]); }
+            $target = $post ? bdk_preview_target($post, $selected) : null;
             $audience = $targets[$selected]['origin'];
             if (!$definition || !$target || !$post->post_name) { return new WP_Error('bdk_target', 'Save this record as a draft before previewing.', ['status' => 400]); }
             if (!$secret || !$audience) { return new WP_Error('bdk_config', 'Preview is not configured.', ['status' => 503]); }

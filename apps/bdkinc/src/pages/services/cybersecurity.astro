@@ -27,7 +27,8 @@ import {
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
-import { servicePageSchemas } from '@/lib/schema';
+import { servicePageSchemas, serializeSchema } from '@/lib/schema';
+import { conceptAPagePaths } from '@bdkinc/content/routes';
 interface Props extends ContentProps {}
 const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
 const reader = suppliedReader ?? createAppContentReader(contentContext);
@@ -67,7 +68,8 @@ const metrics = [
 const faqs = copy.faqs;
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   serviceName: service.data.title,
-  servicePath: '/services/cybersecurity',
+  // Canonical Concept A identity; /services/cybersecurity is only a redirect alias.
+  servicePath: conceptAPagePaths['service-cybersecurity'],
   faqs,
   copy: settings.navigation,
 });
@@ -123,7 +125,7 @@ const keyBenefits = [
   <script
     type="application/ld+json"
     is:inline
-    set:html={JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c')}
+    set:html={serializeSchema(breadcrumbSchema)}
   />
   {
     faqs.length > 0 && (

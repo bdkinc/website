@@ -1,0 +1,270 @@
+---
+/**
+ * Shared static template for the Managed IT child pages kept at their production
+ * root paths. Copy comes from each page's own CMS record; structure, icons and
+ * section order are developer-owned. Blank or absent sections are omitted.
+ */
+import { conceptAPagePaths } from '@bdkinc/content/routes';
+import type { IconType } from 'react-icons';
+import { PiCheck } from 'react-icons/pi';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer.astro';
+import CTASection from '@/components/CTASection';
+import EditSection from '@/components/preview/EditSection.astro';
+import { getNavigationData } from '@/lib/navigation-data';
+import { breadcrumbListSchema, serializeSchema } from '@/lib/schema';
+
+export type ServiceChildPageKey =
+  | 'unlimited-help-desk'
+  | 'disaster-recovery-planning'
+  | 'communications';
+
+interface ChildItem {
+  title: string;
+  body: string;
+  points?: string[];
+}
+interface ChildSection {
+  heading: string;
+  body: string;
+}
+interface ChildItems {
+  heading: string;
+  items: Record<string, ChildItem>;
+}
+interface ChildPageCopy {
+  hero: ChildSection;
+  intro: ChildSection;
+  features: ChildItems;
+  detail?: ChildSection;
+  benefits?: ChildItems;
+  cta: { title: string; description: string; buttonText: string; buttonHref: string };
+  seo: { title: string; description: string; ogDescription: string };
+}
+
+interface Props extends ContentProps {
+  pageKey: ServiceChildPageKey;
+  /** Developer-owned hero icon. */
+  icon: IconType;
+}
+
+const {
+  pageKey,
+  icon: Icon,
+  contentContext,
+  publicPath = Astro.url.pathname,
+  reader: suppliedReader,
+} = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const [page, settings] = await Promise.all([
+  reader.getPage(pageKey),
+  reader.getSettings(),
+]);
+const copy: ChildPageCopy = page;
+const { servicesData, recentPosts } = await getNavigationData(reader);
+const parentName = servicesData.find((service) => service.slug === 'managed-it')?.title ?? 'Managed IT';
+const breadcrumb = breadcrumbListSchema(
+  [
+    { name: settings.navigation.home, item: conceptAPagePaths.home },
+    { name: settings.navigation.services, item: conceptAPagePaths.services },
+    { name: parentName, item: conceptAPagePaths['service-managed-it'] },
+    { name: copy.hero.heading.trim(), item: conceptAPagePaths[pageKey] },
+  ],
+  Astro.site?.origin ?? settings.organization.url
+);
+
+const paragraphs = (value = '') =>
+  value.split(/\n+/).map((line) => line.trim()).filter(Boolean);
+// Named groups keep developer-owned order (definition order); empty items are skipped.
+const listItems = (group?: ChildItems): ChildItem[] =>
+  group
+    ? Object.values(group.items).filter(
+        (item) => item.title.trim() || item.body.trim()
+      )
+    : [];
+
+const titleWords = copy.hero.heading.trim().split(/\s+/);
+const titleAccent = titleWords.pop() ?? '';
+const titleLead = titleWords.join(' ');
+const introParagraphs = paragraphs(copy.intro.body);
+const features = listItems(copy.features);
+const detailParagraphs = paragraphs(copy.detail?.body);
+const benefits = listItems(copy.benefits);
+const divider =
+  'via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent';
+---
+
+<Layout
+  reader={reader}
+  title={copy.seo.title}
+  description={copy.seo.description}
+  ogDescription={copy.seo.ogDescription}
+  contentContext={contentContext}
+  publicPath={publicPath}
+>
+  <script is:inline type="application/ld+json" set:html={serializeSchema(breadcrumb)} />
+  <EditSection record="settings" section="navigation">
+    <Navigation
+      client:load
+      services={servicesData}
+      blogPosts={recentPosts}
+      currentPath={publicPath}
+      copy={settings.navigation}
+      brand={settings.brand}
+    />
+  </EditSection>
+  <main id="main-content" class="services-page-shell">
+    <EditSection record={pageKey} section="hero">
+      <section class="relative overflow-hidden px-4 pt-32 pb-16 sm:px-6 md:pb-24 lg:px-8">
+        <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+        <div class="scanlines pointer-events-none absolute inset-0 opacity-50"></div>
+        <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center">
+          <div class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4">
+            <Icon className="text-primary h-12 w-12" aria-hidden="true" />
+          </div>
+          <h1 class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight text-balance duration-700 md:text-6xl">
+            {titleLead && <span class="text-foreground">{titleLead} </span>}
+            <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
+              {titleAccent}
+            </span>
+          </h1>
+          {copy.hero.body.trim() && (
+            <p class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto max-w-3xl text-xl leading-relaxed text-pretty delay-200 duration-700">
+              {copy.hero.body}
+            </p>
+          )}
+        </div>
+        <div class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"></div>
+      </section>
+    </EditSection>
+
+    {
+      (copy.intro.heading.trim() || introParagraphs.length > 0) && (
+        <EditSection record={pageKey} section="intro">
+          <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+            <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[2fr_3fr] lg:gap-16">
+              {copy.intro.heading.trim() && (
+                <h2 class="font-display text-foreground text-3xl font-bold tracking-tight text-balance md:text-4xl">
+                  {copy.intro.heading}
+                </h2>
+              )}
+              <div class="space-y-5">
+                {introParagraphs.map((text) => (
+                  <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
+                ))}
+              </div>
+            </div>
+          </section>
+        </EditSection>
+      )
+    }
+
+    {
+      features.length > 0 && (
+        <EditSection record={pageKey} section="features">
+          <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+            <div class={divider}></div>
+            <div class="mx-auto max-w-6xl">
+              {copy.features.heading.trim() && (
+                <h2 class="font-display text-foreground mb-16 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
+                  {copy.features.heading}
+                </h2>
+              )}
+              <ol class="grid gap-x-16 gap-y-14 md:grid-cols-2">
+                {features.map((item, index) => (
+                  <li class="border-border/60 border-t pt-8">
+                    <p class="text-primary mb-3 font-mono text-sm tabular-nums" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                    </p>
+                    {item.title.trim() && (
+                      <h3 class="font-display text-foreground mb-4 text-2xl font-bold tracking-tight text-balance">
+                        {item.title}
+                      </h3>
+                    )}
+                    {paragraphs(item.body).map((text) => (
+                      <p class="text-muted-foreground mb-4 leading-relaxed text-pretty last:mb-0">{text}</p>
+                    ))}
+                    {item.points && item.points.length > 0 && (
+                      <ul class="mt-5 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
+                        {item.points.map((point) => (
+                          <li class="text-foreground flex items-start gap-2.5 text-sm leading-relaxed">
+                            <PiCheck className="text-primary mt-1 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+        </EditSection>
+      )
+    }
+
+    {
+      copy.detail && (copy.detail.heading.trim() || detailParagraphs.length > 0) && (
+        <EditSection record={pageKey} section="detail">
+          <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+            <div class={divider}></div>
+            <div class="mx-auto max-w-3xl text-center">
+              {copy.detail.heading.trim() && (
+                <h2 class="font-display text-foreground mb-8 text-3xl font-bold tracking-tight text-balance md:text-4xl">
+                  {copy.detail.heading}
+                </h2>
+              )}
+              <div class="space-y-5">
+                {detailParagraphs.map((text) => (
+                  <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
+                ))}
+              </div>
+            </div>
+          </section>
+        </EditSection>
+      )
+    }
+
+    {
+      copy.benefits && benefits.length > 0 && (
+        <EditSection record={pageKey} section="benefits">
+          <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+            <div class={divider}></div>
+            <div class="mx-auto max-w-6xl">
+              {copy.benefits.heading.trim() && (
+                <h2 class="font-display text-foreground mb-16 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
+                  {copy.benefits.heading}
+                </h2>
+              )}
+              <ul class="grid gap-x-12 gap-y-12 md:grid-cols-3">
+                {benefits.map((item) => (
+                  <li>
+                    <div class="from-primary to-secondary mb-6 h-0.5 w-10 rounded-full bg-linear-to-r" aria-hidden="true"></div>
+                    {item.title.trim() && (
+                      <h3 class="font-display text-foreground mb-3 text-xl font-bold tracking-tight text-balance">
+                        {item.title}
+                      </h3>
+                    )}
+                    {paragraphs(item.body).map((text) => (
+                      <p class="text-muted-foreground leading-relaxed text-pretty">{text}</p>
+                    ))}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        </EditSection>
+      )
+    }
+
+    <EditSection record={pageKey} section="cta">
+      <div class="relative">
+        <div class={divider}></div>
+        <CTASection client:visible copy={settings.cta} {...copy.cta} />
+      </div>
+    </EditSection>
+  </main>
+  <Footer reader={reader} contentContext={contentContext} />
+</Layout>

@@ -1,0 +1,282 @@
+{
+  "key": "communications",
+  "kind": "page",
+  "title": "Communications page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "intro": {
+      "type": "group",
+      "label": "Overview",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        }
+      }
+    },
+    "features": {
+      "type": "group",
+      "label": "Cloud communication channels",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "items": {
+          "type": "group",
+          "label": "Items",
+          "fields": {
+            "voip": {
+              "type": "group",
+              "label": "VoIP",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "microsoft365": {
+              "type": "group",
+              "label": "Microsoft 365",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "email": {
+              "type": "group",
+              "label": "Email",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "sharepoint": {
+              "type": "group",
+              "label": "SharePoint",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "detail": {
+      "type": "group",
+      "label": "VoIP benefits",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        }
+      }
+    },
+    "benefits": {
+      "type": "group",
+      "label": "Why choose BDK",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "items": {
+          "type": "group",
+          "label": "Items",
+          "fields": {
+            "cloudExpertise": {
+              "type": "group",
+              "label": "We Know Cloud",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "dataRecovery": {
+              "type": "group",
+              "label": "Efficient Data & Disaster Recovery",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "integration": {
+              "type": "group",
+              "label": "Integration Capabilities",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "hero": {
+      "heading": "Communications",
+      "body": "Streamline Your Phone, Email, and Company Assets by Moving Them to the Cloud"
+    },
+    "intro": {
+      "heading": "Cloud-Based Communication Tools to Better Your Business",
+      "body": "Have you ever worked on a project with a pressing deadline and needed fast, consolidated feedback from numerous stakeholders? Or left your work computer at home, but needed to reference an important email? These are just some of the real-world ways moving your work and communications tools from on-premise to the cloud can help your business.\nMoving your business communication channels to the cloud offers numerous advantages, contributing to enhanced efficiency, flexibility, and collaboration. BDK has migrated communication channels for businesses of all sizes to the Cloud – enabling a more agile, cost-effective, and communal work environment."
+    },
+    "features": {
+      "heading": "Cloud Communication Channels",
+      "items": {
+        "voip": {
+          "title": "Elevate Your Conversations with VoIP",
+          "body": "A Voice Over IP (VoIP) solution provides you with a more flexible, scalable, and dynamic voice communication experience. BDK’s Cloud VOIP solution ensures crystal-clear conversations, advanced features, and the freedom to connect from anywhere. Whether you’re in the office, working remotely, or on the move, enjoy seamless communication that adapts to your business needs."
+        },
+        "microsoft365": {
+          "title": "Empower Your Workforce with Microsoft 365",
+          "body": "Since the workplace is evolving, so are our tools. With Microsoft 365 in the Cloud, collaboration becomes a breeze. You can work in real-time, access documents on the go, and leverage a suite of powerful applications designed to enhance productivity. You can access Microsoft 365 from your computer or your phone, which ensures your office is wherever you need it to be."
+        },
+        "email": {
+          "title": "Optimize Safe Email Communications in the Cloud",
+          "body": "Moving email from on-premise to the Cloud ensures a reliable, secure, and accessible email experience. With products like Microsoft Exchange or G-Suite, you will benefit from increased storage capacity, advanced security features, and the freedom to stay connected across devices. What’s more, with internal staff often posing the biggest risk, spam filtering/anti-phishing products can be added to avoid users from being compromised."
+        },
+        "sharepoint": {
+          "title": "Streamline Document Management via SharePoint",
+          "body": "SharePoint enables real-time collaboration, secure document sharing, and seamless access to your files from any device, while enabling you to sunset your local file share server. Experience a more connected and efficient workflow as you leverage the power of cloud technology for your document management needs."
+        }
+      }
+    },
+    "detail": {
+      "heading": "Benefits of a BDK VoIP Solution",
+      "body": "As a managed service provider, BDK has the expertise to ensure a VoIP system is integrated into your business properly. We also provide automatic maintenance and updates. This ensures that your communications system is always doing its job to provide the best user experience.\nWe host VoIP systems in the Cloud, along with PBX (private branch exchange), which is the internal telephone network used within an organization. Therefore, there are no expensive, hard-wired systems to be installed. This saves money upfront and over time, as maintenance is managed remotely."
+    },
+    "benefits": {
+      "heading": "Why Choose BDK Communications Solutions?",
+      "items": {
+        "cloudExpertise": {
+          "title": "We Know Cloud",
+          "body": "As a reputable cloud hosting provider, the BDK team is well-versed in implementing cloud-based communication technologies. We can help identify the best solutions for your business, and implement them quickly and efficiently."
+        },
+        "dataRecovery": {
+          "title": "Efficient Data & Disaster Recovery",
+          "body": "Should any issues occur, BDK offers efficient and rapid data and disaster recovery options, minimizing downtime in the event of data loss or system failures. Individual and full systems being restored from the Cloud versus on-site servers translates to quicker recovery of your most valuable assets."
+        },
+        "integration": {
+          "title": "Integration Capabilities",
+          "body": "BDK has experience working with a variety of applications and systems, so much so, we consider ourselves “vendor neutral.” We make sure any Cloud communications tools integrate with your existing infrastructure and other collaborative tools."
+        }
+      }
+    },
+    "cta": {
+      "title": "Work From Where You Are",
+      "description": "Business is no longer conducted from one location, so your communication and working channels should be accessible anywhere. Contact us today to learn more about our communications solutions and how your business can capitalize on its benefits.",
+      "buttonText": "Get In Touch",
+      "buttonHref": "/contact"
+    },
+    "seo": {
+      "title": "Communications - BDK Inc | IT Made Simple",
+      "description": "Move your collaborative work to the cloud with BDK’s Cloud-Based communication tools! We offer VoIP, Microsoft 365, SharePoint & more!",
+      "ogDescription": "Move your collaborative work to the cloud with BDK’s Cloud-Based communication tools! We offer VoIP, Microsoft 365, SharePoint & more!"
+    }
+  }
+}

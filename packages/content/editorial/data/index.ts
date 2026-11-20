@@ -19,6 +19,9 @@ import ediSolutions from './service-edi-solutions.json' with { type: 'json' };
 import hostedErp from './service-hosted-erp.json' with { type: 'json' };
 import ibmPower from './service-ibm-power.json' with { type: 'json' };
 import managedIt from './service-managed-it.json' with { type: 'json' };
+import unlimitedHelpDesk from './service-unlimited-help-desk.json' with { type: 'json' };
+import disasterRecoveryPlanning from './service-disaster-recovery-planning.json' with { type: 'json' };
+import communications from './service-communications.json' with { type: 'json' };
 import settings from './settings.json' with { type: 'json' };
 import campaignItConsultation from './campaign-it-consultation.json' with { type: 'json' };
 
@@ -45,5 +48,9 @@ export const pageDefinitions = {
   'service-hosted-erp': hostedErp,
   'service-ibm-power': ibmPower,
   'service-managed-it': managedIt,
+  // Managed IT child pages at preserved root paths; not services-collection records.
+  'unlimited-help-desk': unlimitedHelpDesk,
+  'disaster-recovery-planning': disasterRecoveryPlanning,
+  communications,
 } as const;
 export const settingsDefinition = settings;

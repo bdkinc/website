@@ -1,8 +1,16 @@
 import { z } from 'zod/v4';
 import { pageDefinitions as originalPageDefinitions, settingsDefinition } from '../editorial/data/index.ts';
 import seoFields from '../editorial/seo.json' with { type: 'json' };
-import routes from '../editorial/routes.json' with { type: 'json' };
+import sharedRoutes from '../editorial/routes.json' with { type: 'json' };
+import conceptARoutes from '../editorial/concept-a-routes.json' with { type: 'json' };
 import type { SEO } from './schemas.ts';
+
+// Every routed fixed page in any inventory carries SEO fields (mirrored in PHP bdk_definitions).
+const routes = { ...sharedRoutes, ...conceptARoutes.routes };
+/** Relative links must stay site-relative: backslashes and URL-parser-stripped controls can form an authority. */
+export function isSafeEditorialUrl(value: string): boolean {
+  return value === '' || (!/[\\\u0000-\u001F\u007F]/.test(value) && /^(https?:\/\/|\/(?!\/)|mailto:|tel:|#)/i.test(value));
+}
 
 export interface EditorialField {
   type: 'text' | 'textarea' | 'url' | 'media' | 'number' | 'boolean' | 'date' | 'strings' | 'select' | 'group' | 'list';
@@ -74,7 +82,7 @@ export function editorialSchema(fields: Record<string, EditorialField>): z.ZodOb
         if (!field.choices?.length) throw new Error(`Missing choices for ${key}`);
         shape[key] = z.enum(field.choices); break;
       case 'url': case 'media':
-        shape[key] = z.string().refine(value => value === '' || /^(https?:\/\/|\/(?!\/)|mailto:|tel:|#)/i.test(value), 'Unsafe URL'); break;
+        shape[key] = z.string().refine(isSafeEditorialUrl, 'Unsafe URL'); break;
       default: shape[key] = z.string();
     }
     if (field.optional) shape[key] = shape[key].optional();

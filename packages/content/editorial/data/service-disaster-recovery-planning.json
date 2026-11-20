@@ -1,0 +1,207 @@
+{
+  "key": "disaster-recovery-planning",
+  "kind": "page",
+  "title": "Disaster Recovery Planning page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "intro": {
+      "type": "group",
+      "label": "Overview",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        }
+      }
+    },
+    "features": {
+      "type": "group",
+      "label": "Essential components",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "items": {
+          "type": "group",
+          "label": "Items",
+          "fields": {
+            "offsiteBackups": {
+              "type": "group",
+              "label": "Offsite Backups",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "encryptionImmutability": {
+              "type": "group",
+              "label": "Encryption and Immutability",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "recoveryObjectives": {
+              "type": "group",
+              "label": "Recovery objectives",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "planTesting": {
+              "type": "group",
+              "label": "Disaster Recovery Plan Testing",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "detail": {
+      "type": "group",
+      "label": "High availability",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "hero": {
+      "heading": "Disaster Recovery Planning Services",
+      "body": "Limit downtime and protect your company’s data with BDK’s disaster recovery plan services."
+    },
+    "intro": {
+      "heading": "Safeguard Your Business with a Robust Disaster Recovery Plan",
+      "body": "In today’s digital landscape, Disaster Recovery (DR) is not a matter of if, but when. While hardware failures were once the primary concern, the alarming rise of cyber-attacks has shifted the landscape, making DR plans an absolute necessity.\nEvery business, regardless of size, must implement a comprehensive disaster recovery plan. Without proper safeguards, the risks are too great."
+    },
+    "features": {
+      "heading": "Essential Components to a Disaster Recovery Plan",
+      "items": {
+        "offsiteBackups": {
+          "title": "Offsite Backups",
+          "body": "Storing your data offsite helps ensure recovery, even in the face of physical damage to your primary location. BDK’s data center network helps ensure that we can get you back up and running should your data be compromised."
+        },
+        "encryptionImmutability": {
+          "title": "Encryption and Immutability",
+          "body": "Your backups need to be encrypted and immutable, as hackers have now learned to infect backups, which prevents recovery. At BDK, our IT experts can handle this for you to help ensure no data is lost."
+        },
+        "recoveryObjectives": {
+          "title": "Recovery Point Objective & Recovery Time Objective",
+          "body": "It is important to define your Recovery Point Objective (RPO) and Recovery Time Objective (RTO), to tailor your recovery plan to your business needs. As such, BDK can work with your business to help you identify these key metrics."
+        },
+        "planTesting": {
+          "title": "Disaster Recovery Plan Testing",
+          "body": "Regularly test your DR plan to ensure its effectiveness. For example, quarterly file restores and an annual full recovery are recommended. As a BDK customer, we make sure to test these plans during off hours to ensure failover works properly."
+        }
+      }
+    },
+    "detail": {
+      "heading": "High Availability: The Ultimate Disaster Recovery Plan",
+      "body": "Experience limited downtime through high availability (HA). HA software enables you to replicate your data transactions immediately from your production server to the backup server. Therefore, if your RPO and RTO require you to be up and running 24/7, BDK can enable HA while we rebuild any impacted servers."
+    },
+    "cta": {
+      "title": "Don’t Wait Until Disaster Strikes",
+      "description": "Let BDK be your partner in safeguarding your business against the growing threats of today’s digital landscape. With a robust Disaster Recovery plan in place, you can face the future with confidence, knowing that your business is prepared for any challenge.",
+      "buttonText": "Get In Touch",
+      "buttonHref": "/contact"
+    },
+    "seo": {
+      "title": "IT Disaster Recovery Planning Services | BDK Inc",
+      "description": "Is your business prepared for disaster? Stay secure with Disaster Recovery Planning via BDK’s data center network.",
+      "ogDescription": "Is your business prepared for disaster? Stay secure with Disaster Recovery Planning via BDK’s data center network."
+    }
+  }
+}

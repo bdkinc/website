@@ -1,8 +1,25 @@
 import fixedPaths from '../editorial/routes.json' with { type: 'json' };
+import conceptA from '../editorial/concept-a-routes.json' with { type: 'json' };
 import type { ContentReader } from './reader.ts';
 
+/** Shared default inventory (review concepts). Concept A selects its delta explicitly. */
 export const pagePaths = fixedPaths;
-export type FixedPageKey = keyof typeof pagePaths;
+/** Concept A (current site): shared paths plus its developer-owned route delta. */
+export const conceptAPagePaths = { ...fixedPaths, ...conceptA.routes };
+/** Developer-owned Concept A aliases (Astro config redirects): reachable terminals, never CMS sources or public pages. */
+export const conceptAAliases: Readonly<Record<string, string>> = conceptA.aliases;
+export type RouteInventory = 'default' | 'concept-a';
+export type FixedPageKey = keyof typeof conceptAPagePaths;
+export function getPagePaths(inventory: RouteInventory = 'default'): Readonly<Record<string, string>> {
+  return inventory === 'concept-a' ? conceptAPagePaths : pagePaths;
+}
+export function getReservedAliases(inventory: RouteInventory = 'default'): string[] {
+  return inventory === 'concept-a' ? Object.keys(conceptAAliases) : [];
+}
+/** Select only from the signed grant's preview target; `current` is Concept A. */
+export function inventoryForPreviewTarget(previewTarget = 'current'): RouteInventory {
+  return previewTarget === 'current' ? 'concept-a' : 'default';
+}
 export type SiteRoute =
   | { path: string; template: 'page'; pageKey: FixedPageKey }
   | { path: string; template: 'blog-post'; slug: string }
@@ -11,7 +28,7 @@ export type SiteRoute =
 type Client = Pick<ContentReader, 'getCollection'>;
 
 /** Validate public aliases without adding routes or flattening their direct targets. */
-export function parseRedirects(lines: readonly string[], publicPaths: Iterable<string>): Map<string, string> {
+export function parseRedirects(lines: readonly string[], publicPaths: Iterable<string>, reservedPaths: Iterable<string> = []): Map<string, string> {
   function normalize(value: string): string {
     const path = value.trim().replace(/\/+$/, '') || (value.trim() === '/' ? '/' : '');
     if (value.trim().includes('//') || !/^\/(?:[a-z0-9._~-]+(?:\/[a-z0-9._~-]+)*)?$/i.test(path)
@@ -23,6 +40,7 @@ export function parseRedirects(lines: readonly string[], publicPaths: Iterable<s
     return path;
   }
   const canonical = new Set(Array.from(publicPaths, path => path === '/' ? '/' : path.replace(/\/+$/, '')));
+  const reserved = new Set(Array.from(reservedPaths, path => path.replace(/\/+$/, '') || '/'));
   const redirects = new Map<string, string>();
   for (const line of lines) {
     const parts = line.split('->');
@@ -32,6 +50,7 @@ export function parseRedirects(lines: readonly string[], publicPaths: Iterable<s
     if (source === target) throw new Error(`Self redirect: ${source}`);
     if (redirects.has(source)) throw new Error(`Duplicate redirect source: ${source}`);
     if (canonical.has(source)) throw new Error(`Redirect source is a public path: ${source}`);
+    if (reserved.has(source)) throw new Error(`Redirect source is a reserved alias: ${source}`);
     redirects.set(source, target);
   }
   for (const source of redirects.keys()) {
@@ -42,18 +61,18 @@ export function parseRedirects(lines: readonly string[], publicPaths: Iterable<s
       seen.add(target);
       target = redirects.get(target)!;
     }
-    if (!canonical.has(target)) throw new Error(`Redirect target is not a public path: ${target}`);
+    if (!canonical.has(target) && !reserved.has(target)) throw new Error(`Redirect target is not a public path: ${target}`);
   }
   return redirects;
 }
 
 /** Published routes only. Main services win a duplicate service/PSEO slug, as in source order. */
-export async function getSiteRoutes(client: Client): Promise<SiteRoute[]> {
+export async function getSiteRoutes(client: Client, inventory: RouteInventory = 'default'): Promise<SiteRoute[]> {
   const [services, pseoServices, industries, locations, posts] = await Promise.all([
     client.getCollection('services'), client.getCollection('pseoServices'),
     client.getCollection('pseoIndustries'), client.getCollection('locations'), client.getCollection('blog'),
   ]);
-  const routes: SiteRoute[] = Object.entries(pagePaths).map(([pageKey, path]) => ({ path, template: 'page', pageKey: pageKey as FixedPageKey }));
+  const routes: SiteRoute[] = Object.entries(getPagePaths(inventory)).map(([pageKey, path]) => ({ path, template: 'page', pageKey: pageKey as FixedPageKey }));
   for (const post of posts) routes.push({ path: `/blog/${post.id}`, template: 'blog-post', slug: post.id });
   for (const location of locations) {
     const locationSlug = location.id;
@@ -75,7 +94,8 @@ export function getPreviewRoute(routes: SiteRoute[], target: { kind: 'page' | 'c
     case 'testimonials': case 'partners': return routes.find(r => r.path === '/');
     // A draft blog post may have no published route yet.
     case 'blog': return /^[a-z0-9_-]+$/i.test(snapshot.slug) ? { path: `/blog/${snapshot.slug}`, template: 'blog-post', slug: snapshot.slug } : undefined;
-    case 'services': return routes.find(r => r.path === `/services/${snapshot.slug}`);
+    // A main service previews its fixed page in the selected inventory (e.g. /managed-cybersecurity on Concept A).
+    case 'services': return routes.find(r => r.template === 'page' && r.pageKey === `service-${snapshot.slug}`);
     case 'locations': return routes.find(r => r.template === 'service-location' && r.locationId === snapshot.slug);
     case 'pseoServices': return routes.find(r => r.template === 'service-location' && r.collectionKey === 'pseoServices' && r.serviceSlug === snapshot.slug);
     case 'pseoIndustries': return routes.find(r => r.template === 'industry-location' && r.industrySlug === snapshot.slug);
