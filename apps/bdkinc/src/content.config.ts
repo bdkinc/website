@@ -1,6 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 import { pageSchemas, settingsSchema } from '@bdkinc/content/editorial';
 import { collectionSchemas } from '@bdkinc/content/schemas';
+import { blogYoastSeoSchema } from '@bdkinc/content/seo';
 import { wordpressLoader, wordpressPagesLoader, wordpressSettingsLoader } from './lib/loaders/wordpress';
 
 const variants = Object.entries(pageSchemas).map(([key, schema]) =>
@@ -26,7 +27,7 @@ export const collections = {
   }),
   blog: defineCollection({
     loader: wordpressLoader('blog'),
-    schema: collectionSchemas.blog,
+    schema: collectionSchemas.blog.extend({ yoastSeo: blogYoastSeoSchema.optional() }),
   }),
   locations: defineCollection({
     loader: wordpressLoader('locations'),

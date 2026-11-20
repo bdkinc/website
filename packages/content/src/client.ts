@@ -1,6 +1,7 @@
 // Server-only entry point: do not import from hydrated components.
 import { Buffer } from 'node:buffer';
 import { z } from 'zod/v4';
+import { parseBlogYoastSeo } from './seo.ts';
 import {
   collectionSchemas,
   type CollectionName,
@@ -49,8 +50,9 @@ const wpRecord = z.object({
   slug: z.string().min(1),
   status: z.string(),
   bdk_data: z.record(z.string(), z.unknown()),
-  content: z.object({ rendered: z.string() }).optional(),
+  content: z.object({ rendered: z.string(), protected: z.unknown().optional() }).optional(),
   bdk_original_markdown: z.string().optional(),
+  yoast_head_json: z.unknown().optional(),
   /** Preview snapshots only: the CMS admin origin the preview links back to. */
   bdk_admin: z.url({ protocol: /^https?$/ }).optional(),
 });
@@ -221,7 +223,14 @@ export function createContentClient(options: ContentClientOptions) {
         throw new Error(
           'WordPress returned non-public content to a public request.'
         );
-      return records.map((record) => mapEntry(name, record));
+      return records.map((record) => {
+        const entry = mapEntry(name, record);
+        // Only explicitly unprotected, published native posts can carry Yoast metadata.
+        const yoastSeo = name === 'blog' && record.content?.protected === false
+          ? parseBlogYoastSeo(record.yoast_head_json, origin.hostname)
+          : undefined;
+        return yoastSeo ? { ...entry, data: { ...entry.data, yoastSeo } } : entry;
+      });
     },
     getPage: <K extends PageKey>(key: K) => page(key),
     async getSettings(): Promise<SiteSettings> {

@@ -1,4 +1,5 @@
 import type { ContentReader } from '@/lib/content';
+import { blogYoastSeoSchema, type BlogYoastSeo } from '@bdkinc/content/seo';
 
 export interface BlogPostContent {
   slug: string;
@@ -12,6 +13,7 @@ export interface BlogPostContent {
   imageAlt?: string;
   content: string;
   contentFormat?: 'html' | 'markdown';
+  yoastSeo?: BlogYoastSeo;
 }
 
 function sortByDateDesc(posts: BlogPostContent[]): BlogPostContent[] {
@@ -69,9 +71,11 @@ export async function getBlogPostBySlug(
     return null;
   }
 
-  return toBlogPost(
-    localEntry.id,
-    localEntry.data,
-    localEntry.body?.html || ''
-  );
+  const { data } = localEntry;
+  const post = toBlogPost(localEntry.id, data, localEntry.body?.html || '');
+  if (!data.draft && 'yoastSeo' in data) {
+    const result = blogYoastSeoSchema.safeParse(data.yoastSeo);
+    if (result.success) post.yoastSeo = result.data;
+  }
+  return post;
 }

@@ -1,6 +1,79 @@
+import { z } from 'zod/v4';
 import type { ContentReader } from './reader.ts';
 import type { SEO } from './schemas.ts';
 import { getSiteRoutes, getPagePaths, type FixedPageKey, type RouteInventory } from './routes.ts';
+
+const seoText = z.string().trim().min(1).regex(/^[^<>\p{Cc}]+$/u).optional().catch(undefined);
+const secureImage = z.string().trim().refine((value) => {
+  const url = URL.parse(value);
+  return /^https:\/\/[^\s\\]+$/i.test(value) &&
+    url?.protocol === 'https:' && !url.username && !url.password;
+}).optional().catch(undefined);
+
+/** Transport metadata, separate from the generated editorial schema. */
+export const blogYoastSeoSchema = z.object({
+  title: seoText,
+  description: seoText,
+  ogTitle: seoText,
+  ogDescription: seoText,
+  image: secureImage,
+});
+export type BlogYoastSeo = z.infer<typeof blogYoastSeoSchema>;
+
+const yoastHead = z.object({
+  title: seoText,
+  description: seoText,
+  og_title: seoText,
+  og_description: seoText,
+  // Yoast's image presenter exposes URL, dimensions and MIME type, not alt.
+  og_image: z.array(z.object({ url: secureImage }).nullable().catch(null)).optional().catch(undefined),
+});
+
+export function parseBlogYoastSeo(
+  value: unknown,
+  wordpressHostname: string
+): BlogYoastSeo | undefined {
+  const parsed = yoastHead.safeParse(value);
+  if (!parsed.success) return undefined;
+  const hostnameKey = (host: string) => host.replace(/^www\./, '').replace(/\.$/, '');
+  const cmsHost = hostnameKey(wordpressHostname);
+  const isCmsOrAdminUrl = (url: URL) => {
+    if (hostnameKey(url.hostname) === cmsHost) return true;
+    let path = url.pathname;
+    try { path = decodeURIComponent(path); } catch { /* Check the raw path if malformed. */ }
+    return /\/(?:wp-admin|wp-login\.php|wp-json)(?:\/|$)/i.test(path);
+  };
+  const publicText = (text: string | undefined) => {
+    if (!text) return undefined;
+    for (const [link] of text.matchAll(/(?:https?:)?\/\/[^\s"'“”‘’<>(),;?#]+/gi)) {
+      const url = URL.parse(link.replace(/[.!]+$/, ''), 'https://example.invalid');
+      if (url && isCmsOrAdminUrl(url)) return undefined;
+    }
+    return text;
+  };
+  const title = publicText(parsed.data.title);
+  const description = publicText(parsed.data.description);
+  const ogTitle = publicText(parsed.data.og_title);
+  const ogDescription = publicText(parsed.data.og_description);
+  const image = parsed.data.og_image?.find((item) => item?.url && !isCmsOrAdminUrl(new URL(item.url)));
+  if (!title && !description && !ogTitle && !ogDescription && !image) return undefined;
+  return { title, description, ogTitle, ogDescription, image: image?.url };
+}
+
+/** Only public blog detail pages supply Yoast; explicit editorial overrides still win. */
+export function resolvePageMetadata(
+  editorial: SEO,
+  defaults: Required<BlogYoastSeo>,
+  yoast?: BlogYoastSeo
+): Required<BlogYoastSeo> {
+  return {
+    title: editorial.title || yoast?.title || defaults.title,
+    description: editorial.description || yoast?.description || defaults.description,
+    ogTitle: editorial.title || yoast?.ogTitle || defaults.ogTitle,
+    ogDescription: editorial.description || yoast?.ogDescription || defaults.ogDescription,
+    image: editorial.image || yoast?.image || defaults.image,
+  };
+}
 
 const placeholders = new Set(['serviceTitle', 'industryTitle', 'locationName', 'state', 'region', 'counties']);
 
