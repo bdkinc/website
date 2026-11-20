@@ -7,5 +7,7 @@
   },
   "aliases": {
     "/services/cybersecurity": "/managed-cybersecurity"
-  }
+  },
+  "utilityPaths": ["/search"],
+  "reservedPaths": ["/search-index.json"]
 }

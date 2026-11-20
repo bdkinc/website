@@ -5,7 +5,11 @@ import { fileURLToPath } from 'url';
 import { readFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { getNoindexPaths } from '@bdkinc/content/seo';
-import { conceptAAliases } from '@bdkinc/content/routes';
+import {
+  conceptAAliases,
+  getReservedAssetPaths,
+  getUtilityPaths,
+} from '@bdkinc/content/routes';
 
 import react from '@astrojs/react';
 import stylex from '@stylexjs/unplugin';
@@ -80,10 +84,17 @@ async function readNoindexPaths() {
   }, 'concept-a');
 }
 
+// Code-owned utility pages (noindex /search) and assets (/search-index.json) stay out of the sitemap.
+const searchPaths = new Set([
+  ...getUtilityPaths('concept-a'),
+  ...getReservedAssetPaths('concept-a'),
+]);
+
 /** @param {import('@astrojs/sitemap').SitemapItem} item */
 async function serializeSitemapItem(item) {
-  noindexPaths ??= readNoindexPaths();
   const pathname = new URL(item.url).pathname.replace(/\/+$/, '') || '/';
+  if (searchPaths.has(pathname)) return undefined;
+  noindexPaths ??= readNoindexPaths();
   return (await noindexPaths).has(pathname) ? undefined : item;
 }
 

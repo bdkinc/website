@@ -109,6 +109,14 @@ function bdk_fixed_routes($target = 'current') {
 function bdk_reserved_alias_paths() {
     return array_map(function ($path) { return rtrim($path, '/') ?: '/'; }, array_keys(bdk_concept_a_routes()['aliases']));
 }
+// Code-owned Concept A pages with no CMS record or preview target (/search): redirect terminals, never sources.
+// Mirrors getUtilityPaths; reserved assets (/search-index.json) mirror getReservedAssetPaths.
+function bdk_utility_paths() {
+    return array_map(function ($path) { return rtrim($path, '/') ?: '/'; }, bdk_concept_a_routes()['utilityPaths']);
+}
+function bdk_reserved_asset_paths() {
+    return array_map(function ($path) { return rtrim($path, '/') ?: '/'; }, bdk_concept_a_routes()['reservedPaths']);
+}
 // Relative links must stay site-relative: backslashes and URL-parser-stripped controls can form an authority.
 function bdk_safe_url($value) {
     return $value === '' || (!preg_match('~[\\\\\x00-\x1F\x7F]~', $value) && preg_match('~^(https?://|/(?!/)|mailto:|tel:|#)~i', $value));
@@ -141,7 +149,8 @@ function bdk_redirect_path($value) {
     if (strpos($trimmed, '//') !== false || !preg_match('~^/(?:[a-z0-9._\x7e-]+(?:/[a-z0-9._\x7e-]+)*)?$~iD', $path)
         || array_intersect(explode('/', $path), ['.', '..'])
         || preg_match('~^/(?:preview|api|_astro|404|wp-admin|wp-json|wp-content|wp-includes)(?:/|$)~i', $path)
-        || preg_match('~^/wp-[^/]*\.php(?:/|$)~i', $path)) {
+        || preg_match('~^/wp-[^/]*\.php(?:/|$)~i', $path)
+        || in_array($path, bdk_reserved_asset_paths(), true)) {
         return new WP_Error('bdk_redirects', 'Invalid redirects path: ' . $value, ['status' => 400]);
     }
     return $path;
@@ -149,7 +158,7 @@ function bdk_redirect_path($value) {
 
 function bdk_validate_site_redirects($data) {
     if (!isset($data['redirects']) || $data['redirects'] === []) { return $data; }
-    $canonical = array_fill_keys(bdk_redirect_public_paths(), true);
+    $canonical = array_fill_keys(array_merge(bdk_redirect_public_paths(), bdk_utility_paths()), true);
     $reserved = array_fill_keys(bdk_reserved_alias_paths(), true);
     $redirects = [];
     foreach ($data['redirects'] as $line) {

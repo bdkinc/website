@@ -16,6 +16,14 @@ export function getPagePaths(inventory: RouteInventory = 'default'): Readonly<Re
 export function getReservedAliases(inventory: RouteInventory = 'default'): string[] {
   return inventory === 'concept-a' ? Object.keys(conceptAAliases) : [];
 }
+/** Code-owned public pages with no CMS record or preview target (Concept A /search): redirect terminals, never sources. */
+export function getUtilityPaths(inventory: RouteInventory = 'default'): string[] {
+  return inventory === 'concept-a' ? [...conceptA.utilityPaths] : [];
+}
+/** Code-owned non-page assets (Concept A /search-index.json): never redirect sources or targets. */
+export function getReservedAssetPaths(inventory: RouteInventory = 'default'): string[] {
+  return inventory === 'concept-a' ? [...conceptA.reservedPaths] : [];
+}
 /** Select only from the signed grant's preview target; `current` is Concept A. */
 export function inventoryForPreviewTarget(previewTarget = 'current'): RouteInventory {
   return previewTarget === 'current' ? 'concept-a' : 'default';
@@ -28,10 +36,11 @@ export type SiteRoute =
 type Client = Pick<ContentReader, 'getCollection'>;
 
 /** Validate public aliases without adding routes or flattening their direct targets. */
-export function parseRedirects(lines: readonly string[], publicPaths: Iterable<string>, reservedPaths: Iterable<string> = []): Map<string, string> {
+export function parseRedirects(lines: readonly string[], publicPaths: Iterable<string>, reservedPaths: Iterable<string> = [], assetPaths: Iterable<string> = []): Map<string, string> {
+  const assets = new Set(Array.from(assetPaths, path => path.replace(/\/+$/, '') || '/'));
   function normalize(value: string): string {
     const path = value.trim().replace(/\/+$/, '') || (value.trim() === '/' ? '/' : '');
-    if (value.trim().includes('//') || !/^\/(?:[a-z0-9._~-]+(?:\/[a-z0-9._~-]+)*)?$/i.test(path)
+    if (value.trim().includes('//') || !/^\/(?:[a-z0-9._~-]+(?:\/[a-z0-9._~-]+)*)?$/i.test(path) || assets.has(path)
       || path.split('/').some(segment => segment === '.' || segment === '..')
       || /^\/(?:preview|api|_astro|404|wp-admin|wp-json|wp-content|wp-includes)(?:\/|$)/i.test(path)
       || /^\/wp-[^/]*\.php(?:\/|$)/i.test(path)) {
