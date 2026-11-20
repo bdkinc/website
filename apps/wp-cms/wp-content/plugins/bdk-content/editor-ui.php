@@ -164,7 +164,7 @@ function bdk_render_fields($fields, $data, $prefix) {
         }
         if ($field['type'] === 'list') {
             $item_label = !empty($field['itemLabel']) ? $field['itemLabel'] : 'Item';
-            $items = is_array($value) ? array_values($value) : [];
+            $items = is_array($value) ? bdk_list_items($value, $field) : [];
             echo '<fieldset' . $section_attrs . ' class="bdk-list-field' . $section_class . '" data-bdk-list-prefix="' . esc_attr($name) . '" data-bdk-item-label="' . esc_attr($item_label) . '" style="border:1px solid #ccc;padding:12px;margin:16px 0">';
             echo '<legend><strong>' . esc_html($field['label']) . '</strong></legend>';
             echo '<input type="hidden" name="' . esc_attr($name) . '[__present]" value="1">';
@@ -212,19 +212,26 @@ function bdk_render_fields($fields, $data, $prefix) {
     }
 }
 
+// Malformed list input is an error, not an empty list; a marker-only list is an intentional empty list.
 function bdk_form_values($input, $fields) {
+    if (!is_array($input)) { return new WP_Error('bdk_shape', 'Copy must be an object.', ['status' => 400]); }
     $result = [];
     foreach ($fields as $key => $field) {
         if (!empty($field['locked']) || !array_key_exists($key, $input)) { continue; }
         $value = $input[$key];
-        if ($field['type'] === 'group') { $value = bdk_form_values((array) $value, $field['fields']); }
+        if ($field['type'] === 'group') {
+            $value = bdk_form_values((array) $value, $field['fields']);
+            if (is_wp_error($value)) { return $value; }
+        }
         elseif ($field['type'] === 'list') {
+            if (!is_array($value)) { return new WP_Error('bdk_list', 'Expected a list: ' . $key, ['status' => 400]); }
             $items = [];
-            if (is_array($value)) {
-                foreach ($value as $item_key => $item) {
-                    if ($item_key === '__present' || !is_array($item)) { continue; }
-                    $items[] = bdk_form_values($item, $field['fields']);
-                }
+            foreach ($value as $item_key => $item) {
+                if ($item_key === '__present') { continue; }
+                if (!is_array($item)) { return new WP_Error('bdk_list', 'Expected an object in ' . $key . '[' . count($items) . ']', ['status' => 400]); }
+                $item = bdk_form_values($item, $field['fields']);
+                if (is_wp_error($item)) { return $item; }
+                $items[] = $item;
             }
             $value = $items;
         }
@@ -239,7 +246,9 @@ add_action('save_post', function ($id, $post) {
     if (!isset($_POST['bdk_copy_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bdk_copy_nonce'])), 'bdk_copy') || wp_is_post_autosave($id) || wp_is_post_revision($id) || !current_user_can('edit_post', $id)) { return; }
     $definition = bdk_definition($post);
     if (!$definition) { return; }
-    $result = bdk_update_copy(bdk_form_values(wp_unslash($_POST['bdk_copy'] ?? []), $definition['fields']), $post);
+    $input = bdk_form_values(wp_unslash($_POST['bdk_copy'] ?? []), $definition['fields']);
+    if (is_wp_error($input)) { wp_die(esc_html($input->get_error_message()), '', ['response' => 400]); }
+    $result = bdk_update_copy($input, $post);
     if (is_wp_error($result)) { wp_die(esc_html($result->get_error_message())); }
 }, 10, 2);
 

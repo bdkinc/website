@@ -474,6 +474,7 @@
       "type": "list",
       "label": "Frequently asked questions",
       "itemLabel": "FAQ",
+      "legacyKeys": ["canYouHostOurIbmIAs", "whatIsYourApproachToModernizingGreen", "howDoYouHandleDisasterRecoveryFor"],
       "fields": {
         "question": {
           "type": "text",

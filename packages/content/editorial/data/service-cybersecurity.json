@@ -572,6 +572,7 @@
       "type": "list",
       "label": "Frequently asked questions",
       "itemLabel": "FAQ",
+      "legacyKeys": ["howDoesBdkincIntegrateWithOurExisting", "canYouAssistWithSoc2Hipaa", "whatIsYourResponseTimeForCritical"],
       "fields": {
         "question": {
           "type": "text",

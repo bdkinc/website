@@ -8,6 +8,8 @@ export interface EditorialField {
   type: 'text' | 'textarea' | 'url' | 'media' | 'number' | 'boolean' | 'date' | 'strings' | 'select' | 'group' | 'list';
   label: string;
   itemLabel?: string;
+  /** Keys of the former keyed-group shape, in original display order. */
+  legacyKeys?: readonly string[];
   locked?: boolean;
   optional?: boolean;
   default?: unknown;
@@ -45,6 +47,12 @@ export const pageDefinitions = Object.fromEntries(Object.entries(originalPageDef
 })) as { [K in PageKey]: Omit<(typeof originalPageDefinitions)[K], 'fields'> & { fields: Record<string, EditorialField> } };
 export type SiteSettings = Widen<typeof settingsDefinition.defaults> & { redirects?: string[] };
 
+/** Legacy keyed lists use recorded key order; unrecognized keys follow in stored order. */
+export function legacyListItems(value: Record<string, unknown>, legacyKeys: readonly string[] = []): unknown[] {
+  const known = legacyKeys.filter(key => Object.hasOwn(value, key));
+  return [...known, ...Object.keys(value).filter(key => !known.includes(key))].map(key => value[key]);
+}
+
 export function editorialSchema(fields: Record<string, EditorialField>): z.ZodObject {
   const shape: Record<string, z.ZodType> = {};
   for (const [key, field] of Object.entries(expandSEOFields(fields))) {
@@ -55,7 +63,7 @@ export function editorialSchema(fields: Record<string, EditorialField>): z.ZodOb
       case 'list':
         if (!field.fields) throw new Error(`Missing fields for ${key}`);
         shape[key] = z.preprocess(
-          (value) => (value && typeof value === 'object' && !Array.isArray(value) ? Object.values(value) : value),
+          (value) => (value && typeof value === 'object' && !Array.isArray(value) ? legacyListItems(value as Record<string, unknown>, field.legacyKeys) : value),
           z.array(editorialSchema(field.fields))
         );
         break;

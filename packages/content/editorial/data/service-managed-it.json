@@ -390,6 +390,7 @@
       "type": "list",
       "label": "Frequently asked questions",
       "itemLabel": "FAQ",
+      "legacyKeys": ["howDoesBdkincIntegrateWithOurExisting", "whatIndustriesDoYouSpecializeInSupporting", "howDoYouHandleRapidOrganizationalScaling"],
       "fields": {
         "question": {
           "type": "text",

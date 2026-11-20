@@ -456,6 +456,7 @@
       "type": "list",
       "label": "Frequently asked questions",
       "itemLabel": "FAQ",
+      "legacyKeys": ["howDoYouDetermineTheRightMix", "howDoYouHandleComplianceAndSecurity", "whatDoesManagedCloudActuallyInclude"],
       "fields": {
         "question": {
           "type": "text",

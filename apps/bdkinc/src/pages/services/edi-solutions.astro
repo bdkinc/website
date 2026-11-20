@@ -33,7 +33,7 @@ import {
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
-import { servicePageSchemas } from '@/lib/schema';
+import { serializeSchema, servicePageSchemas } from '@/lib/schema';
 interface Props extends ContentProps {}
 const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
 const reader = suppliedReader ?? createAppContentReader(contentContext);
@@ -115,7 +115,7 @@ const transactions = [
       <script
         type="application/ld+json"
         is:inline
-        set:html={JSON.stringify(faqSchema)}
+        set:html={serializeSchema(faqSchema)}
       />
     )
   }
