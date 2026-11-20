@@ -2,8 +2,7 @@
 import '@/styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import type { ContentProps, ContentReader } from '@/lib/content';
-import { getRouteSeo } from '@bdkinc/content/seo';
-import type { SEO } from '@bdkinc/content/schemas';
+import { getRouteSeo, resolvePageMetadata, type BlogYoastSeo } from '@bdkinc/content/seo';
 import PreviewEditor from '@/components/preview/PreviewEditor.astro';
 import { themeBootstrap } from '@/lib/theme';
 import MarketingAnalytics from '@/components/MarketingAnalytics.astro';
@@ -17,6 +16,7 @@ interface Props extends ContentProps {
   ogDescription?: string;
   ogImage?: string;
   ogImageAlt?: string;
+  blogYoastSeo?: BlogYoastSeo;
   twitterCard?: string;
   ogType?: string;
   robots?: string | null;
@@ -37,16 +37,21 @@ const {
 } = Astro.props;
 
 const previewPath = contentContext?.publicPath ?? publicPath;
-const routeSeo: SEO = await getRouteSeo(reader, previewPath, 'concept-a');
-const resolvedTitle = routeSeo.title || title;
-const resolvedDescription = routeSeo.description || description;
-const resolvedOgImage =
-  routeSeo.image ||
-  (ogImage === '/favicon.svg' ? '/images/social/bdkinc.png' : ogImage);
+const routeSeo = await getRouteSeo(reader, previewPath, 'concept-a');
+const {
+  title: resolvedTitle,
+  description: resolvedDescription,
+  ogTitle: resolvedOgTitle,
+  ogDescription: resolvedOgDescription,
+  image: resolvedOgImage,
+} = resolvePageMetadata(routeSeo, {
+  title,
+  description,
+  ogTitle: Astro.props.ogTitle || title,
+  ogDescription: Astro.props.ogDescription || description,
+  image: ogImage === '/favicon.svg' ? '/images/social/bdkinc.png' : ogImage,
+}, contentContext ? undefined : Astro.props.blogYoastSeo);
 const resolvedOgImageAlt = routeSeo.imageAlt || ogImageAlt;
-const resolvedOgTitle = routeSeo.title || Astro.props.ogTitle || title;
-const resolvedOgDescription =
-  routeSeo.description || Astro.props.ogDescription || description;
 const buildNoindex =
   (process.env.BDK_NOINDEX || import.meta.env.BDK_NOINDEX) === 'true';
 const propNoindex = robots?.includes('noindex') ?? false;
