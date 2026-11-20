@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { readFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { getNoindexPaths } from '@bdkinc/content/seo';
+import { conceptAAliases } from '@bdkinc/content/routes';
 
 import react from '@astrojs/react';
 import stylex from '@stylexjs/unplugin';
@@ -76,7 +77,7 @@ async function readNoindexPaths() {
     async getSettings() {
       return entry('siteSettings', 'site').data;
     },
-  });
+  }, 'concept-a');
 }
 
 /** @param {import('@astrojs/sitemap').SitemapItem} item */
@@ -119,6 +120,10 @@ export default defineConfig({
     ],
   },
   output: 'static',
+  // Developer-owned Concept A aliases (editorial concept-a-routes.json), e.g. the old
+  // /services/cybersecurity URL. A config redirect replaces the colliding file route,
+  // so the old URL is not a second indexed page.
+  redirects: { ...conceptAAliases },
   adapter: node({
     mode: 'standalone',
   }),

@@ -20,7 +20,8 @@ function bdk_definitions() {
     $root = '/var/www/bdk-editorial';
     $definitions = json_decode(file_get_contents($root . '/collections.json'), true, 512, JSON_THROW_ON_ERROR);
     $seo = json_decode(file_get_contents($root . '/seo.json'), true, 512, JSON_THROW_ON_ERROR);
-    $routes = json_decode(file_get_contents($root . '/routes.json'), true, 512, JSON_THROW_ON_ERROR);
+    // Every routed fixed page in any inventory carries SEO fields (mirrors editorial.ts).
+    $routes = array_merge(bdk_fixed_routes('default'), bdk_fixed_routes('current'));
     foreach (glob($root . '/data/*.json') as $file) {
         $definition = json_decode(file_get_contents($file), true, 512, JSON_THROW_ON_ERROR);
         if ($definition['kind'] === 'page' && (isset($routes[$definition['key']]) || in_array($definition['key'], ['service-location', 'industry-location'], true))) {
@@ -92,9 +93,30 @@ function bdk_copy_data($post) {
     return $data;
 }
 
-// Canonical identities mirror getSiteRoutes; duplicate service identities share one path.
+// Shared routes.json is the default/review inventory; the `current` preview target (Concept A)
+// adds its developer-owned delta. Mirrors packages/content/src/routes.ts getPagePaths.
+function bdk_concept_a_routes() {
+    static $delta;
+    if ($delta === null) { $delta = json_decode(file_get_contents('/var/www/bdk-editorial/concept-a-routes.json'), true, 512, JSON_THROW_ON_ERROR); }
+    return $delta;
+}
+function bdk_fixed_routes($target = 'current') {
+    static $shared;
+    if ($shared === null) { $shared = json_decode(file_get_contents('/var/www/bdk-editorial/routes.json'), true, 512, JSON_THROW_ON_ERROR); }
+    return $target === 'current' ? array_merge($shared, bdk_concept_a_routes()['routes']) : $shared;
+}
+// Developer-owned Concept A aliases: reachable redirect terminals, never CMS redirect sources.
+function bdk_reserved_alias_paths() {
+    return array_map(function ($path) { return rtrim($path, '/') ?: '/'; }, array_keys(bdk_concept_a_routes()['aliases']));
+}
+// Relative links must stay site-relative: backslashes and URL-parser-stripped controls can form an authority.
+function bdk_safe_url($value) {
+    return $value === '' || (!preg_match('~[\\\\\x00-\x1F\x7F]~', $value) && preg_match('~^(https?://|/(?!/)|mailto:|tel:|#)~i', $value));
+}
+
+// Canonical identities mirror getSiteRoutes (Concept A inventory); duplicate service identities share one path.
 function bdk_redirect_public_paths() {
-    $paths = array_values(json_decode(file_get_contents('/var/www/bdk-editorial/routes.json'), true, 512, JSON_THROW_ON_ERROR));
+    $paths = array_values(bdk_fixed_routes('current'));
     $posts = get_posts(['post_type' => ['post', 'service', 'pseo_service', 'pseo_industry', 'location'], 'post_status' => 'publish', 'numberposts' => -1, 'orderby' => 'ID', 'order' => 'ASC']);
     $locations = array_filter($posts, function ($post) { return $post->post_type === 'location'; });
     foreach ($posts as $post) {
@@ -128,6 +150,7 @@ function bdk_redirect_path($value) {
 function bdk_validate_site_redirects($data) {
     if (!isset($data['redirects']) || $data['redirects'] === []) { return $data; }
     $canonical = array_fill_keys(bdk_redirect_public_paths(), true);
+    $reserved = array_fill_keys(bdk_reserved_alias_paths(), true);
     $redirects = [];
     foreach ($data['redirects'] as $line) {
         $parts = explode('->', $line);
@@ -139,6 +162,7 @@ function bdk_validate_site_redirects($data) {
         if ($source === $target) { return new WP_Error('bdk_redirects', 'Self redirect: ' . $source, ['status' => 400]); }
         if (isset($redirects[$source])) { return new WP_Error('bdk_redirects', 'Duplicate redirects source: ' . $source, ['status' => 400]); }
         if (isset($canonical[$source])) { return new WP_Error('bdk_redirects', 'Redirects source is a public path: ' . $source, ['status' => 400]); }
+        if (isset($reserved[$source])) { return new WP_Error('bdk_redirects', 'Redirects source is a reserved alias: ' . $source, ['status' => 400]); }
         $redirects[$source] = $target;
     }
     foreach ($redirects as $source => $unused) {
@@ -149,7 +173,7 @@ function bdk_validate_site_redirects($data) {
             $seen[$target] = true;
             $target = $redirects[$target];
         }
-        if (!isset($canonical[$target])) { return new WP_Error('bdk_redirects', 'Redirects target is not a public path: ' . $target, ['status' => 400]); }
+        if (!isset($canonical[$target]) && !isset($reserved[$target])) { return new WP_Error('bdk_redirects', 'Redirects target is not a public path: ' . $target, ['status' => 400]); }
     }
     return $data;
 }
@@ -231,9 +255,11 @@ function bdk_validate_fields($input, $fields, $previous = []) {
         } else {
             if (!is_string($value)) { return new WP_Error('bdk_string', 'Expected text: ' . $key, ['status' => 400]); }
             if ($type === 'select' && !in_array($value, $field['choices'], true)) { return new WP_Error('bdk_choice', 'Invalid choice: ' . $key, ['status' => 400]); }
-            if (in_array($type, ['url', 'media'], true) && $value !== '' && !preg_match('~^(https?://|/(?!/)|mailto:|tel:|#)~i', $value)) { return new WP_Error('bdk_url', 'Use an HTTP(S) URL or a site-relative path: ' . $key, ['status' => 400]); }
+            if (in_array($type, ['url', 'media'], true) && !bdk_safe_url($value)) { return new WP_Error('bdk_url', 'Use an HTTP(S) URL or a site-relative path: ' . $key, ['status' => 400]); }
             if ($type === 'date' && strtotime($value) === false) { return new WP_Error('bdk_date', 'Invalid date: ' . $key, ['status' => 400]); }
             $value = $type === 'textarea' ? sanitize_textarea_field($value) : sanitize_text_field($value);
+            // Sanitizing strips octets and whitespace; recheck so it cannot assemble a network path.
+            if (in_array($type, ['url', 'media'], true) && !bdk_safe_url($value)) { return new WP_Error('bdk_url', 'Use an HTTP(S) URL or a site-relative path: ' . $key, ['status' => 400]); }
         }
         $previous[$key] = $value;
     }

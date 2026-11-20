@@ -1,5 +1,5 @@
 ---
-import { getSiteRoutes } from '@bdkinc/content/routes';
+import { conceptAPagePaths, getSiteRoutes } from '@bdkinc/content/routes';
 import { createAppContentReader, type ContentProps } from '@/lib/content';
 import { interpolateCopy } from '@/lib/copy';
 import { locationPageSchemas, serializeSchema } from '@/lib/schema';
@@ -129,7 +129,15 @@ const schemas = locationPageSchemas({
     { name: settings.navigation.home, item: '/' },
     { name: settings.navigation.services, item: '/services' },
     ...(collectionKey === 'services'
-      ? [{ name: service.data.title, item: `/services/${serviceSlug}` }]
+      ? [
+          {
+            name: service.data.title,
+            // Parent is the service's canonical fixed page (e.g. /managed-cybersecurity).
+            item:
+              (conceptAPagePaths as Record<string, string>)[`service-${serviceSlug}`] ??
+              `/services/${serviceSlug}`,
+          },
+        ]
       : []),
     {
       name: `${service.data.title} in ${locationData.name}, ${locationData.state}`,

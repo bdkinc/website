@@ -1,0 +1,8 @@
+---
+import { PiChatsCircle } from 'react-icons/pi';
+import type { ContentProps } from '@/lib/content';
+import ServiceChildPage from '@/components/ServiceChildPage.astro';
+interface Props extends ContentProps {}
+---
+
+<ServiceChildPage {...Astro.props} pageKey="communications" icon={PiChatsCircle} />

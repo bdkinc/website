@@ -1,0 +1,10 @@
+---
+// Canonical public path for the existing Cybersecurity record/template
+// (routes.json `service-cybersecurity`). The former /services/cybersecurity URL
+// is a config redirect here (astro.config.mjs), so only this path is indexed.
+import type { ContentProps } from '@/lib/content';
+import Cybersecurity from '@/pages/services/cybersecurity.astro';
+interface Props extends ContentProps {}
+---
+
+<Cybersecurity {...Astro.props} />

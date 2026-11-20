@@ -1,0 +1,11 @@
+{
+  "routes": {
+    "service-cybersecurity": "/managed-cybersecurity",
+    "unlimited-help-desk": "/unlimited-help-desk",
+    "disaster-recovery-planning": "/disaster-recovery-planning",
+    "communications": "/communications"
+  },
+  "aliases": {
+    "/services/cybersecurity": "/managed-cybersecurity"
+  }
+}

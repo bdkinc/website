@@ -1,6 +1,6 @@
 import type { ContentReader } from './reader.ts';
 import type { SEO } from './schemas.ts';
-import { getSiteRoutes, pagePaths } from './routes.ts';
+import { getSiteRoutes, getPagePaths, type FixedPageKey, type RouteInventory } from './routes.ts';
 
 const placeholders = new Set(['serviceTitle', 'industryTitle', 'locationName', 'state', 'region', 'counties']);
 
@@ -31,9 +31,11 @@ function mergeSeo(groups: (SEO | undefined)[], values?: Parameters<typeof interp
   return result;
 }
 
-export async function getRouteSeo(reader: ContentReader, publicPath: string): Promise<SEO> {
-  for (const [key, path] of Object.entries(pagePaths)) {
-    if (path === publicPath) return mergeSeo([pageSeo(await reader.getPage(key as keyof typeof pagePaths))]);
+export async function getRouteSeo(reader: ContentReader, requestPath: string, inventory: RouteInventory = 'default'): Promise<SEO> {
+  // Lookup key only: directory-style URLs end in a slash, registry and sitemap paths do not.
+  const publicPath = requestPath.replace(/\/+$/, '') || '/';
+  for (const [key, path] of Object.entries(getPagePaths(inventory))) {
+    if (path === publicPath) return mergeSeo([pageSeo(await reader.getPage(key as FixedPageKey))]);
   }
   const blog = /^\/blog\/([^/]+)$/.exec(publicPath);
   if (blog) return mergeSeo([(await reader.getCollection('blog')).find(post => post.id === blog[1])?.data.seo]);
@@ -56,7 +58,7 @@ export async function getRouteSeo(reader: ContentReader, publicPath: string): Pr
   return mergeSeo([copy.metadata, record.data.seo, location.data.seo], values);
 }
 
-export async function getNoindexPaths(reader: ContentReader): Promise<Set<string>> {
+export async function getNoindexPaths(reader: ContentReader, inventory: RouteInventory = 'default'): Promise<Set<string>> {
   const flags = new Map<string, Set<string>>();
   const [routes, fixed, serviceRecipe, industryRecipe] = await Promise.all([
     getSiteRoutes({
@@ -65,9 +67,9 @@ export async function getNoindexPaths(reader: ContentReader): Promise<Set<string
         flags.set(key, new Set(entries.filter(entry => 'seo' in entry.data && entry.data.seo?.noindex === true).map(entry => entry.id)));
         return entries;
       },
-    }),
-    Promise.all(Object.keys(pagePaths).map(async key => {
-      const pageKey = key as keyof typeof pagePaths;
+    }, inventory),
+    Promise.all(Object.keys(getPagePaths(inventory)).map(async key => {
+      const pageKey = key as FixedPageKey;
       return [pageKey, pageSeo(await reader.getPage(pageKey)).noindex === true] as const;
     })),
     reader.getPage('service-location'), reader.getPage('industry-location'),

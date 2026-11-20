@@ -11,6 +11,7 @@ import TechnicalFAQ from '@/components/TechnicalFAQ';
 import FeatureCarousel from '@/components/FeatureCarousel';
 import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
 import ServiceBlockquote from '@/components/ServiceBlockquote.astro';
+import CTAButton from '@/components/CTAButton';
 
 import {
   PiHeadphones,
@@ -23,6 +24,11 @@ import {
   PiLightning,
   PiMonitor,
   PiArrowRight,
+  PiWrench,
+  PiSiren,
+  PiArrowCounterClockwise,
+  PiChatsCircle,
+  PiCompass,
 } from 'react-icons/pi';
 import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
@@ -67,6 +73,30 @@ const metrics = [
   { ...copy.metrics.supportCoverage, icon: PiClock },
 ];
 const faqs = copy.faqs;
+// Audit sections are optional until the additive CMS migration runs: an absent or
+// blank section is omitted, never filled from source defaults.
+// One editor-owned ordered list feeds both the below-hero links and the related section.
+const relatedServices = (copy.relatedServices ?? []).filter(
+  (item) => item.label.trim() && item.href.trim()
+);
+const relatedHeading = copy.relatedServicesHeading?.trim() ?? '';
+const included = copy.includes?.items;
+const includedItems = included
+  ? [
+      { ...included.monitoring, icon: PiMonitor },
+      { ...included.preventiveMaintenance, icon: PiWrench },
+      { ...included.helpDesk, icon: PiHeadphones },
+      { ...included.remoteAndOnsite, icon: PiMapPin },
+      { ...included.escalation, icon: PiSiren },
+      { ...included.disasterRecovery, icon: PiArrowCounterClockwise },
+      { ...included.cloudCommunications, icon: PiChatsCircle },
+      { ...included.planningGuidance, icon: PiCompass },
+    ].filter((item) => item.text.trim())
+  : [];
+const supportBlocks = [copy.proactiveMaintenance, copy.localSupport].filter(
+  (block): block is NonNullable<typeof block> =>
+    !!block && !!(block.heading.trim() || block.body.trim())
+);
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   serviceName: service.data.title,
   servicePath: '/services/managed-it',
@@ -189,6 +219,27 @@ const strategicFeatures = [
       </div>
     </section>
     </EditSection>
+    {
+      relatedServices.length > 0 && (
+        <EditSection record="service-managed-it" section="relatedServices">
+        <!-- Related service links (same list as the related services section) -->
+        <nav
+          aria-label={relatedHeading || undefined}
+          class="px-4 pt-10 sm:px-6 lg:px-8"
+        >
+          <ul class="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-3">
+            {relatedServices.map((item) => (
+              <li>
+                <CTAButton href={item.href} variant="outline" size="default" icon="arrow">
+                  {item.label}
+                </CTAButton>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        </EditSection>
+      )
+    }
     <EditSection record="service-managed-it" section="capabilities">
     <!-- Core Services -->
     <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
@@ -286,6 +337,68 @@ const strategicFeatures = [
       </div>
     </section>
     </EditSection>
+    {
+      includedItems.length > 0 && (
+        <EditSection record="service-managed-it" section="includes">
+        <!-- What Managed IT Support Includes -->
+        <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+          <div
+            class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+          >
+          </div>
+          <div class="mx-auto max-w-6xl">
+            {(copy.includes?.heading.trim() || copy.includes?.headingAccent.trim()) && (
+              <h2 class="font-display mb-16 text-center text-3xl font-bold tracking-tight md:text-4xl">
+                <span class="text-foreground">{copy.includes?.heading}{' '}</span>
+                <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
+                  {copy.includes?.headingAccent}
+                </span>
+              </h2>
+            )}
+            <ul class="grid gap-x-12 gap-y-8 md:grid-cols-2">
+              {includedItems.map(({ icon: Icon, text }) => (
+                <li class="flex items-start gap-4">
+                  <div class="from-primary/10 to-primary/5 border-primary/20 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-linear-to-br">
+                    <Icon className="text-primary h-5 w-5" aria-hidden="true" />
+                  </div>
+                  <span class="text-foreground pt-2 leading-relaxed">{text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+        </EditSection>
+      )
+    }
+    {
+      supportBlocks.length > 0 && (
+        <EditSection record="service-managed-it" section="proactiveMaintenance" also={['localSupport']}>
+        <!-- Proactive maintenance and local support -->
+        <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+          <div
+            class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+          >
+          </div>
+          <div class="mx-auto grid max-w-6xl gap-16 md:grid-cols-2 md:gap-12 lg:gap-20">
+            {supportBlocks.map(({ heading, body }) => (
+              <div>
+                {heading.trim() && (
+                  <h2 class="font-display text-foreground mb-6 text-2xl font-bold tracking-tight text-balance md:text-3xl">
+                    {heading}
+                  </h2>
+                )}
+                {body.trim() && (
+                  <p class="text-muted-foreground text-lg leading-relaxed text-pretty">
+                    {body}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+        </EditSection>
+      )
+    }
     <EditSection record="service-managed-it" section="leadership">
     <!-- Strategic Leadership Section -->
     <section class="relative overflow-hidden py-24 md:py-32">
@@ -530,6 +643,40 @@ const strategicFeatures = [
       </div>
     </section>
     </EditSection>
+
+    {
+      relatedServices.length > 0 && (
+        <EditSection record="service-managed-it" section="relatedServices" also={['relatedServicesHeading']}>
+        <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+          <div
+            class="via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"
+          >
+          </div>
+          <div class="mx-auto max-w-7xl">
+            {relatedHeading && (
+              <h2 class="text-foreground mb-12 text-center text-3xl font-bold tracking-tight">
+                {relatedHeading}
+              </h2>
+            )}
+            <ul class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {relatedServices.map((item) => (
+                <li class="border-border/60 flex flex-col items-start gap-4 border-t pt-6">
+                  <CTAButton href={item.href} variant="outline" size="default" icon="arrow">
+                    {item.label}
+                  </CTAButton>
+                  {item.description && (
+                    <p class="text-muted-foreground leading-relaxed">
+                      {item.description}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+        </EditSection>
+      )
+    }
 
     {
       faqs.length > 0 && (

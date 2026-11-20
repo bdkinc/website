@@ -5,7 +5,7 @@ import type { ContentClient } from './client.ts';
 import { collectionSchemas, type CollectionName } from './schemas.ts';
 import { pageSchemas, settingsDefinition, type PageKey } from './editorial.ts';
 import { createContentReader, type ContentSource } from './reader.ts';
-import { getSiteRoutes, getPreviewRoute } from './routes.ts';
+import { getSiteRoutes, getPreviewRoute, inventoryForPreviewTarget } from './routes.ts';
 
 /** Server-only context created after the outer route authorizes a snapshot. */
 export interface PreviewContext {
@@ -24,6 +24,8 @@ const grantSchema = z.object({
   snapshot: z.uuid(), exp: z.number().int(), aud: z.url(),
   kind: z.enum(['page', 'collection', 'settings']), key: z.string().min(1),
   path: z.string().regex(/^\/(?!\/)[^?#\\]*$/),
+  // Signed by WordPress; absent means `current`, matching bdk_verify_preview.
+  previewTarget: z.enum(['current', 'editorial', 'systems']).optional(),
 });
 export const previewHeaders = {
   'Cache-Control': 'private, no-store', 'X-Robots-Tag': 'noindex, nofollow', 'Referrer-Policy': 'no-referrer',
@@ -65,7 +67,8 @@ export async function authorizePreview(options: {
   if (!allowed) throw new Error('Unknown preview target.');
 
   const published = createContentReader({ published: options.publishedReader ?? client });
-  const route = getPreviewRoute(await getSiteRoutes(published), grant, snapshot);
+  // The route inventory comes from the signed grant only, never from the request URL.
+  const route = getPreviewRoute(await getSiteRoutes(published, inventoryForPreviewTarget(grant.previewTarget)), grant, snapshot);
   if (!route || route.path !== path) throw new Error('Unregistered preview target.');
   // Validate the full targeted record before invoking any renderer.
   if (grant.kind === 'collection') client.preview.mapEntry(grant.key as CollectionName, snapshot);

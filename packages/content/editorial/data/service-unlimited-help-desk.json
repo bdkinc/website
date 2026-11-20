@@ -1,0 +1,324 @@
+{
+  "key": "unlimited-help-desk",
+  "kind": "page",
+  "title": "Unlimited Help Desk page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        }
+      }
+    },
+    "intro": {
+      "type": "group",
+      "label": "Overview",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        }
+      }
+    },
+    "features": {
+      "type": "group",
+      "label": "What you get",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "items": {
+          "type": "group",
+          "label": "Items",
+          "fields": {
+            "proactiveMonitoring": {
+              "type": "group",
+              "label": "Proactive Monitoring",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "points": {
+                  "type": "strings",
+                  "label": "Bullet points (one per line)"
+                }
+              }
+            },
+            "antivirusEdr": {
+              "type": "group",
+              "label": "Antivirus or EDR",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "reporting": {
+              "type": "group",
+              "label": "Reporting",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                },
+                "points": {
+                  "type": "strings",
+                  "label": "Bullet points (one per line)"
+                }
+              }
+            },
+            "patching": {
+              "type": "group",
+              "label": "Patching",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "backupRecovery": {
+              "type": "group",
+              "label": "Backup/Disaster Recovery",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "onsiteRemote": {
+              "type": "group",
+              "label": "On-Site/Remote Support",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "benefits": {
+      "type": "group",
+      "label": "Benefits",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "items": {
+          "type": "group",
+          "label": "Items",
+          "fields": {
+            "quickResponse": {
+              "type": "group",
+              "label": "Quick Response Break Fix Requests",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "resourceOptimization": {
+              "type": "group",
+              "label": "Resource Optimization",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            },
+            "adaptability": {
+              "type": "group",
+              "label": "Adaptability to Change",
+              "fields": {
+                "title": {
+                  "type": "text",
+                  "label": "Title"
+                },
+                "body": {
+                  "type": "textarea",
+                  "label": "Description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "hero": {
+      "heading": "Unlimited IT Help Desk",
+      "body": "Reach the technical support you need, when you need it."
+    },
+    "intro": {
+      "heading": "Premier IT Support at Your Fingertips",
+      "body": "Computer won’t turn on? Can’t access your email? BDK’s MSP technicians are here to help get you back up and running!\nWhen you sign up for BDK’s unlimited MSP package, you gain access to all MSP services and features, including proactive monitoring, IT advice/consultation, reporting, patching, antivirus/EDR, backup/disaster recovery testing, and on-site/remote support."
+    },
+    "features": {
+      "heading": "What You Get With Unlimited Help Desk",
+      "items": {
+        "proactiveMonitoring": {
+          "title": "Proactive Monitoring",
+          "body": "Our team actively observes and manages your IT infrastructure to identify and address potential issues before they impact users or business operations. This includes tracking and reporting on issues that impact security, performance, and reliability. This approach allows us to prevent problems, rather than just reacting to them.",
+          "points": [
+            "Automated PEN Testing",
+            "Microsoft 365/Google Workspace Security Monitoring",
+            "Vulnerability Scanning",
+            "Endpoint Compliance"
+          ]
+        },
+        "antivirusEdr": {
+          "title": "Antivirus or Endpoint Detection and Response (EDR)",
+          "body": "Antivirus and EDR systems play crucial roles in safeguarding your network against potential threats. While antivirus programs take a reactive approach to defense, EDR presents a proactive solution by detecting malicious behavior before it escalates into a problem. Our unlimited help desk solution utilizes the best option to help fully safeguard your data from an attack."
+        },
+        "reporting": {
+          "title": "Reporting",
+          "body": "BDK provides executive management reports detailing performance vs. industry benchmarks and progress toward key business goals. Reports include:",
+          "points": [
+            "Windows server health",
+            "Patch status detail and summary",
+            "Site health and performance",
+            "Server health",
+            "MBSA",
+            "Asset inventory",
+            "Device performance",
+            "Website monitoring & performance"
+          ]
+        },
+        "patching": {
+          "title": "Patching",
+          "body": "Patching is a critical aspect of maintaining a secure and well-functioning IT environment. BDK’s technicians proactively apply updates, fixes, and improvements to software, operating systems, and applications to address vulnerabilities, enhance performance, and ensure compatibility."
+        },
+        "backupRecovery": {
+          "title": "Backup/Disaster Recovery",
+          "body": "BDK’s help desk proactively works to enable back up for our customer’s data, and tests to make sure if anything breaks, your business assets can be recovered. In the event of a breach, accidentally deleted file, phishing attack, etc., BDK can implement a disaster recovery plan curated with you to help get you back up and running as quickly as possible."
+        },
+        "onsiteRemote": {
+          "title": "On-Site/Remote Support",
+          "body": "Regardless of where you are, BDK’s technicians can easily offer support. We can remote into individual computers to troubleshoot issues, or if there is something on site that needs addressing, BDK will deploy a technician at the needed skill level."
+        }
+      }
+    },
+    "benefits": {
+      "heading": "The Benefits of BDK’s Unlimited IT Help Desk",
+      "items": {
+        "quickResponse": {
+          "title": "Quick Response Break Fix Requests",
+          "body": "With BDK’s unlimited IT help desk, users can quickly get assistance with their technical issues. This can lead to faster problem resolution, minimizing downtime and improving overall productivity."
+        },
+        "resourceOptimization": {
+          "title": "Resource Optimization",
+          "body": "An unlimited IT help desk can efficiently allocate resources based on demand. During peak times or when critical issues arise, the help desk can scale up its operations to meet the increased demand for support."
+        },
+        "adaptability": {
+          "title": "Adaptability to Change",
+          "body": "In a rapidly evolving technology environment, having unlimited IT support can help organizations adapt to changes more effectively. Users can receive assistance with new tools, software updates, and changes in IT infrastructure."
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Experience Unlimited IT Support?",
+      "description": "Transform the way you handle IT challenges. With BDK’s Unlimited Help Desk, your organization gains a responsive, reliable, and cost-effective IT support partner. Let’s elevate your IT experience together.",
+      "buttonText": "Get In Touch",
+      "buttonHref": "/contact"
+    },
+    "seo": {
+      "title": "IT Help Desk Services | BDK Inc",
+      "description": "Need IT Help Desk support? BDK offers unlimited MSP package with proactive monitoring, EDR, reporting, patching & more!",
+      "ogDescription": "Need IT Help Desk support? BDK offers unlimited MSP package with proactive monitoring, EDR, reporting, patching & more!"
+    }
+  }
+}

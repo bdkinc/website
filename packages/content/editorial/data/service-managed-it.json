@@ -89,6 +89,65 @@
         }
       }
     },
+    "includes": {
+      "type": "group",
+      "label": "What Managed IT support includes",
+      "optional": true,
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading — opening text"
+        },
+        "headingAccent": {
+          "type": "text",
+          "label": "Heading — emphasized text"
+        },
+        "items": {
+          "type": "group",
+          "label": "Included services",
+          "fields": {
+            "monitoring": { "type": "group", "label": "Monitoring", "fields": { "text": { "type": "textarea", "label": "Text" } } },
+            "preventiveMaintenance": { "type": "group", "label": "Preventive maintenance", "fields": { "text": { "type": "textarea", "label": "Text" } } },
+            "helpDesk": { "type": "group", "label": "Help desk", "fields": { "text": { "type": "textarea", "label": "Text" } } },
+            "remoteAndOnsite": { "type": "group", "label": "Remote and onsite assistance", "fields": { "text": { "type": "textarea", "label": "Text" } } },
+            "escalation": { "type": "group", "label": "Escalation and response", "fields": { "text": { "type": "textarea", "label": "Text" } } },
+            "disasterRecovery": { "type": "group", "label": "Disaster recovery planning", "fields": { "text": { "type": "textarea", "label": "Text" } } },
+            "cloudCommunications": { "type": "group", "label": "Cloud communication tools", "fields": { "text": { "type": "textarea", "label": "Text" } } },
+            "planningGuidance": { "type": "group", "label": "Upgrade and IT planning guidance", "fields": { "text": { "type": "textarea", "label": "Text" } } }
+          }
+        }
+      }
+    },
+    "proactiveMaintenance": {
+      "type": "group",
+      "label": "Proactive maintenance",
+      "optional": true,
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body"
+        }
+      }
+    },
+    "localSupport": {
+      "type": "group",
+      "label": "Remote and local support",
+      "optional": true,
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body"
+        }
+      }
+    },
     "leadership": {
       "type": "group",
       "label": "Leadership narrative",
@@ -385,6 +444,27 @@
         }
       }
     },
+    "relatedServicesHeading": { "type": "text", "label": "Related services section heading", "optional": true },
+    "relatedServices": {
+      "type": "list",
+      "label": "Related services (links below the introduction and in the related services section)",
+      "itemLabel": "Related service",
+      "optional": true,
+      "fields": {
+        "label": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "href": {
+          "type": "url",
+          "label": "Button destination"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description (related services section)"
+        }
+      }
+    },
     "faqHeading": { "type": "text", "label": "FAQ section heading" },
     "faqs": {
       "type": "list",
@@ -545,6 +625,67 @@
         "description": "Whether acting as your entire IT department or augmenting your internal team, we integrate seamlessly with your workflows and provide specialized expertise."
       }
     },
+    "includes": {
+      "heading": "What Managed IT Support",
+      "headingAccent": "Includes",
+      "items": {
+        "monitoring": {
+          "text": "Monitoring of networks, servers, devices, and cloud systems—either full management through unlimited help desk or supporting your existing IT team"
+        },
+        "preventiveMaintenance": {
+          "text": "Preventive maintenance and system optimization"
+        },
+        "helpDesk": {
+          "text": "Help desk support for day-to-day technology issues"
+        },
+        "remoteAndOnsite": {
+          "text": "Remote troubleshooting and local onsite assistance"
+        },
+        "escalation": {
+          "text": "Escalation and response for higher-severity incidents"
+        },
+        "disasterRecovery": {
+          "text": "Disaster recovery planning (including high availability) to limit or prevent downtime when issues occur"
+        },
+        "cloudCommunications": {
+          "text": "Cloud communication tools, including Microsoft 365 products and VoIP"
+        },
+        "planningGuidance": {
+          "text": "Practical guidance for upgrades and IT planning"
+        }
+      }
+    },
+    "proactiveMaintenance": {
+      "heading": "Proactive Maintenance That Reduces Risk",
+      "body": "BDK monitors your environment and reviews operating system, third-party software, and firmware updates before scheduled deployment. Consistent patching helps close known security gaps, correct bugs, improve performance, and support compliance requirements, while planned maintenance helps limit disruption to your team."
+    },
+    "localSupport": {
+      "heading": "Remote Convenience, Local Support",
+      "body": "Many issues can be resolved remotely to minimize disruption. When hands-on assistance is needed, BDK can provide onsite support for businesses across Maryland and Delaware, as well as parts of Pennsylvania and Virginia. That combination gives your team efficient day-to-day service backed by technicians who understand the region and your business environment."
+    },
+    "relatedServicesHeading": "Explore Related Managed IT Services",
+    "relatedServices": [
+      {
+        "label": "Unlimited Help Desk",
+        "href": "/unlimited-help-desk/",
+        "description": "Day-to-day technical support for employees."
+      },
+      {
+        "label": "Disaster Recovery Planning",
+        "href": "/disaster-recovery-planning/",
+        "description": "Backups, recovery objectives, testing, and resilience planning."
+      },
+      {
+        "label": "Business Communications",
+        "href": "/communications/",
+        "description": "Tools that help employees and customers stay connected."
+      },
+      {
+        "label": "Managed Cybersecurity",
+        "href": "/managed-cybersecurity/",
+        "description": "Layered protection, monitoring, and risk reduction."
+      }
+    ],
     "leadership": {
       "heading": "Technology",
       "headingAccent": "Leadership",
@@ -611,7 +752,7 @@
       },
       "after": {
         "item247NocCoverageWithSub15": {
-          "text": "24/7 NOC coverage with sub-15 minute response SLAs"
+          "text": "Continuous network operations center (NOC) monitoring"
         },
         "automatedPatchManagementWith99Compliance": {
           "text": "Automated patch management with 99%+ compliance"
@@ -644,8 +785,8 @@
         "label": "Hour Onsite SLA"
       },
       "supportCoverage": {
-        "value": "24/7",
-        "label": "Support Coverage"
+        "value": "NOC",
+        "label": "Continuous Monitoring"
       }
     },
     "faqs": [
