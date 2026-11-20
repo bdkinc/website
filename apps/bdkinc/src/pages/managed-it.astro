@@ -33,6 +33,7 @@ import {
 import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
 import { servicePageSchemas } from '@/lib/schema';
+import { conceptAPagePaths } from '@bdkinc/content/routes';
 interface Props extends ContentProps {}
 const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
 const reader = suppliedReader ?? createAppContentReader(contentContext);
@@ -99,7 +100,7 @@ const supportBlocks = [copy.proactiveMaintenance, copy.localSupport].filter(
 );
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   serviceName: service.data.title,
-  servicePath: '/services/managed-it',
+  servicePath: conceptAPagePaths['service-managed-it'],
   faqs,
   copy: settings.navigation,
 });

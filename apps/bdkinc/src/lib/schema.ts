@@ -1,5 +1,6 @@
 import type { SiteSettings } from '@bdkinc/content';
 import type { Location } from '@bdkinc/content/schemas';
+import { publicPageUrl, SITE_ORIGIN } from './public-url.ts';
 
 export interface FAQItem {
   question: string;
@@ -10,8 +11,6 @@ export interface BreadcrumbItem {
   name: string;
   item: string;
 }
-
-const SITE_ORIGIN = 'https://www.bdkinc.com';
 
 export function absoluteUrl(pathOrUrl: string, origin = SITE_ORIGIN): string {
   if (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://')) {
@@ -32,7 +31,7 @@ export function breadcrumbListSchema(
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      item: absoluteUrl(item.item, origin),
+      item: publicPageUrl(item.item, origin),
     })),
   };
 }
@@ -65,7 +64,7 @@ export function locationPageSchemas(options: LocationPageSchemaOptions) {
     breadcrumbs,
   } = options;
   const { organization, contact } = settings;
-  const url = absoluteUrl(pagePath, organization.url);
+  const url = publicPageUrl(pagePath);
   const provider = {
     '@type': 'Organization',
     '@id': `${absoluteUrl('/', organization.url)}#organization`,
@@ -125,7 +124,7 @@ export function locationPageSchemas(options: LocationPageSchemaOptions) {
             spatialCoverage: area,
           }),
     },
-    breadcrumb: breadcrumbListSchema(breadcrumbs, organization.url),
+    breadcrumb: breadcrumbListSchema(breadcrumbs),
   };
 }
 

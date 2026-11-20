@@ -4,7 +4,7 @@ import ItConsultation from '@/pages/campaigns/it-consultation.astro';
 import About from '@/pages/about.astro';
 import Services from '@/pages/services.astro';
 import Blog from '@/pages/blog.astro';
-import Contact from '@/pages/contact.astro';
+import Contact from '@/pages/contact-us.astro';
 import Privacy from '@/pages/privacy.astro';
 import Terms from '@/pages/terms.astro';
 import NotFound from '@/pages/404.astro';
@@ -12,13 +12,13 @@ import Maryland from '@/pages/locations/maryland-eastern-shore.astro';
 import Delaware from '@/pages/locations/delaware-eastern-shore.astro';
 import ApplicationDevelopment from '@/pages/services/application-development.astro';
 import ArtificialIntelligence from '@/pages/services/artificial-intelligence.astro';
-import BusinessAnalytics from '@/pages/services/business-analytics.astro';
+import BusinessAnalytics from '@/pages/business-analytics.astro';
 import CloudHosting from '@/pages/services/cloud-hosting.astro';
 import Cybersecurity from '@/pages/services/cybersecurity.astro';
-import EdiSolutions from '@/pages/services/edi-solutions.astro';
-import HostedErp from '@/pages/services/hosted-erp.astro';
+import EdiSolutions from '@/pages/electronic-data-interchange-edi.astro';
+import HostedErp from '@/pages/hosted-erp.astro';
 import IbmPower from '@/pages/services/ibm-power.astro';
-import ManagedIt from '@/pages/services/managed-it.astro';
+import ManagedIt from '@/pages/managed-it.astro';
 import UnlimitedHelpDesk from '@/pages/unlimited-help-desk.astro';
 import DisasterRecoveryPlanning from '@/pages/disaster-recovery-planning.astro';
 import Communications from '@/pages/communications.astro';
@@ -32,7 +32,12 @@ import type { ContentReader } from '@/lib/content';
 export const prerender = false;
 for (const [name, value] of Object.entries(previewHeaders))
   Astro.response.headers.set(name, value);
-const publicPath = '/' + (Astro.params.path || '');
+// Astro's spread param drops the trailing slash; bind the grant to the URL instead.
+const { pathname } = Astro.url;
+const previewPrefix = '/preview';
+const publicPath = pathname === previewPrefix
+  ? '/'
+  : pathname.startsWith(`${previewPrefix}/`) ? pathname.slice(previewPrefix.length) : '';
 const pages = {
   'campaign-it-consultation': ItConsultation,
   home: Home,
@@ -63,6 +68,7 @@ let route;
 let post;
 let reader: ContentReader;
 try {
+  if (!publicPath) throw new Error('Invalid preview path.');
   const resolved = await resolvePreview(
     Astro.url.searchParams.get('token') || '',
     publicPath

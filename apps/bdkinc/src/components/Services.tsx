@@ -3,6 +3,7 @@ import * as stylex from '@stylexjs/stylex';
 import type { StyleXStyles } from '@stylexjs/stylex';
 import { CardTitle, CardDescription } from '@bdkinc/design-system';
 import { iconMap } from '@/lib/icons';
+import { serviceHref } from '@/lib/public-url';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import { TechCard } from '@/components/TechCard';
 import type { PageData } from '@bdkinc/content';
@@ -225,7 +226,7 @@ export default function Services({ services, copy, xstyle }: ServicesProps) {
                 animated={gridInView}
                 xstyle={styles.link}
               >
-                <a href={`/services/${service.slug}`}>
+                <a href={serviceHref(service.slug)}>
                   <div
                     ref={(el) => {
                       iconRefs.current[index] = el;

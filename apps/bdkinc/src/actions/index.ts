@@ -2,6 +2,7 @@ import { defineAction } from 'astro:actions';
 import { z } from 'astro/zod';
 import { createAppContentReader } from '@/lib/content';
 import type { PageData } from '@bdkinc/content';
+import { matchPath, rootServiceSlug, SITE_ORIGIN } from '@/lib/public-url';
 
 /** Resolve the existing referrer routing using server-resolved editorial copy. */
 export function referrerSuggestions(
@@ -23,13 +24,14 @@ export function referrerSuggestions(
     return withFirst(serviceQuestion(from));
   }
   try {
-    const path = new URL(from).pathname;
-    if (path.startsWith('/services/')) {
-      const slug = path.replace('/services/', '').replace(/\/$/, '');
-      if (slug) return withFirst(serviceQuestion(slug));
-    }
-    if (path === '/blog') return withFirst(copy.blog);
-    if (path.startsWith('/blog/')) return withFirst(copy.article);
+    const { pathname } = from.startsWith('/') && !from.startsWith('//')
+      ? new URL(from, SITE_ORIGIN)
+      : new URL(from);
+    const path = matchPath(pathname.toLowerCase());
+    const slug = rootServiceSlug(path) ?? (path.startsWith('/services/') ? path.slice('/services/'.length) : undefined);
+    if (slug) return withFirst(serviceQuestion(slug));
+    if (pathname === '/blog') return withFirst(copy.blog);
+    if (pathname.startsWith('/blog/')) return withFirst(copy.article);
   } catch {
     // Ignore parsing errors, retaining the existing default suggestions.
   }

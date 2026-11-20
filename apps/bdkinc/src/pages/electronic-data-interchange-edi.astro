@@ -34,6 +34,7 @@ import {
 import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
 import { serializeSchema, servicePageSchemas } from '@/lib/schema';
+import { conceptAPagePaths } from '@bdkinc/content/routes';
 interface Props extends ContentProps {}
 const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
 const reader = suppliedReader ?? createAppContentReader(contentContext);
@@ -60,7 +61,7 @@ const metrics = [
 const faqs = copy.faqs;
 const { breadcrumb: breadcrumbSchema, faq: faqSchema } = servicePageSchemas({
   serviceName: service.data.title,
-  servicePath: `/services/${service.id}`,
+  servicePath: conceptAPagePaths['service-edi-solutions'],
   faqs,
   copy: settings.navigation,
 });

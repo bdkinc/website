@@ -4,6 +4,7 @@ import { createAppContentReader, type ContentProps } from '@/lib/content';
 import { interpolateCopy } from '@/lib/copy';
 import { locationPageSchemas, serializeSchema } from '@/lib/schema';
 import Layout from '@/layouts/Layout.astro';
+import { contactHref as contactPageHref } from '@/lib/public-url';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { iconMap } from '@/lib/icons';
@@ -106,7 +107,7 @@ const locationFeatures = [
 
 const nearbyLocations = await getNearbyLocations(locationSlug, reader);
 const pageDescription = text(copy.metadata.description);
-const contactHref = `/contact?${new URLSearchParams({
+const contactHref = `${contactPageHref}?${new URLSearchParams({
   from: industrySlug,
   source: publicPath,
   industry: industrySlug,

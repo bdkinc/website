@@ -9,7 +9,9 @@ import {
   conceptAAliases,
   getReservedAssetPaths,
   getUtilityPaths,
+  pagePaths,
 } from '@bdkinc/content/routes';
+import { matchPath, publicPageUrl, SITE_ORIGIN, slashPagePath } from './src/lib/public-url.ts';
 
 import react from '@astrojs/react';
 import stylex from '@stylexjs/unplugin';
@@ -84,18 +86,26 @@ async function readNoindexPaths() {
   }, 'concept-a');
 }
 
-// Code-owned utility pages (noindex /search) and assets (/search-index.json) stay out of the sitemap.
-const searchPaths = new Set([
+// Code-owned utility pages, assets and aliases (including the SSR Contact alias) aren't sitemap pages.
+const sitemapExclusions = new Set([
   ...getUtilityPaths('concept-a'),
   ...getReservedAssetPaths('concept-a'),
+  ...Object.keys(conceptAAliases),
 ]);
+
+const redirects = Object.fromEntries(
+  Object.entries(conceptAAliases)
+    // The Contact alias is an SSR route so campaign/query parameters survive the redirect.
+    .filter(([source]) => source !== pagePaths.contact)
+    .map(([source, target]) => [source, source === pagePaths['service-cybersecurity'] ? target : slashPagePath(target)])
+);
 
 /** @param {import('@astrojs/sitemap').SitemapItem} item */
 async function serializeSitemapItem(item) {
-  const pathname = new URL(item.url).pathname.replace(/\/+$/, '') || '/';
-  if (searchPaths.has(pathname)) return undefined;
+  const pathname = matchPath(new URL(item.url).pathname);
+  if (sitemapExclusions.has(pathname)) return undefined;
   noindexPaths ??= readNoindexPaths();
-  return (await noindexPaths).has(pathname) ? undefined : item;
+  return (await noindexPaths).has(pathname) ? undefined : { ...item, url: publicPageUrl(item.url) };
 }
 
 const stylexPlugin = stylex.vite({
@@ -121,7 +131,7 @@ function inClientBuildOnly(hook) {
 // https://astro.build/config
 // Static by default; Node adapter kept for contact SSR/actions and API routes.
 export default defineConfig({
-  site: 'https://www.bdkinc.com',
+  site: SITE_ORIGIN,
   security: {
     // Trust forwarded HTTPS only for the public hosts behind the private Traefik backend.
     allowedDomains: [
@@ -131,10 +141,8 @@ export default defineConfig({
     ],
   },
   output: 'static',
-  // Developer-owned Concept A aliases (editorial concept-a-routes.json), e.g. the old
-  // /services/cybersecurity URL. A config redirect replaces the colliding file route,
-  // so the old URL is not a second indexed page.
-  redirects: { ...conceptAAliases },
+  // Developer-owned aliases from editorial/concept-a-routes.json.
+  redirects,
   adapter: node({
     mode: 'standalone',
   }),

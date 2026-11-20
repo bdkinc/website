@@ -12,6 +12,7 @@ import {
 } from '@bdkinc/design-system';
 import { formatDate } from '@/lib/utils';
 import { iconMap } from '@/lib/icons';
+import { contactHref, matchPath, serviceHref } from '@/lib/public-url';
 import { ServicesDropdown } from '@/components/ServicesDropdown';
 import { BlogDropdown } from '@/components/BlogDropdown';
 
@@ -333,9 +334,13 @@ export default function Navigation({
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const isCurrent = (href: string) =>
-    currentPath === href ||
-    (href !== '/' && currentPath?.startsWith(`${href}/`));
+  // Retarget the legacy internal default without replacing custom CMS destinations.
+  const contactLink = copy.contactHref.replace(/^\/contact\/?(?=[?#]|$)/i, contactHref);
+  const current = currentPath && matchPath(currentPath);
+  const isCurrent = (href: string) => {
+    const path = matchPath(href);
+    return current === path || (path !== '/' && current?.startsWith(`${path}/`));
+  };
 
   const navProps = stylex.props(
     styles.nav,
@@ -426,7 +431,7 @@ export default function Navigation({
           {/* CTA + Theme Toggle - Desktop */}
           <div {...stylex.props(styles.desktopActions)}>
             <Button asChild>
-              <a href={copy.contactHref}>{copy.contact}</a>
+              <a href={contactLink}>{copy.contact}</a>
             </Button>
             <ThemeToggle />
           </div>
@@ -508,12 +513,13 @@ export default function Navigation({
               <ul>
                 {services.map((service) => {
                   const Icon = iconMap[service.icon];
-                  const href = `/services/${service.slug}`;
+                  const href = serviceHref(service.slug);
+                  const isServiceCurrent = isCurrent(href) || isCurrent(`/services/${service.slug}`);
                   return (
                     <li key={service.slug} {...stylex.props(styles.stacked)}>
                       <a
                         href={href}
-                        aria-current={isCurrent(href) ? 'page' : undefined}
+                        aria-current={isServiceCurrent ? 'page' : undefined}
                         onClick={() => setIsOpen(false)}
                         {...stylex.props(styles.mobileLink, styles.serviceLink)}
                       >
@@ -619,7 +625,7 @@ export default function Navigation({
             {/* Contact CTA */}
             <div {...stylex.props(styles.contact)}>
               <Button asChild variant="outline" xstyle={styles.contactButton}>
-                <a href={copy.contactHref} onClick={() => setIsOpen(false)}>
+                <a href={contactLink} onClick={() => setIsOpen(false)}>
                   {copy.contact}
                   <PiArrowRight
                     {...stylex.props(styles.contactArrow)}

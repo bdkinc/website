@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import type { StyleXStyles } from '@stylexjs/stylex';
 import { iconMap } from '@/lib/icons';
+import { serviceHref } from '@/lib/public-url';
 import { PiPackage } from 'react-icons/pi';
 import { TechCard } from '@/components/TechCard';
 
@@ -86,7 +87,7 @@ export default function InteractiveServiceCard({
       delay={index * 100}
       xstyle={[styles.link, xstyle]}
     >
-      <a href={`/services/${id}`}>
+      <a href={serviceHref(id)}>
         {/* Icon */}
         <div {...stylex.props(styles.iconWrapper)}>
           <div

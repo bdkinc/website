@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import ts from 'typescript';
 import { serializeSchema } from '../src/lib/schema.ts';
+import { isContactPath } from '../src/lib/public-url.ts';
 
 test('JSON-LD cannot close its containing script', () => {
   const input = { description: '</script><script>alert(1)</script>' };
@@ -19,7 +20,7 @@ test('analytics respects consent, scrubs queries, and counts Astro navigation on
   );
   const script = ts.transpileModule(
     file.match(/<script>([\s\S]*?)<\/script>/)[1],
-    { compilerOptions: { target: ts.ScriptTarget.ES2022 } }
+    { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS } }
   ).outputText;
   const listeners = new Map(),
     buttons = new Map(),
@@ -39,8 +40,11 @@ test('analytics respects consent, scrubs queries, and counts Astro navigation on
   };
   let present = true;
   class Element {
+    constructor(href = 'mailto:private@example.test') {
+      this.href = href;
+    }
     closest() {
-      return { href: 'mailto:private@example.test' };
+      return this;
     }
   }
   const document = {
@@ -66,12 +70,17 @@ test('analytics respects consent, scrubs queries, and counts Astro navigation on
     },
   };
   const location = {
-    origin: 'https://www.bdkinc.com',
-    pathname: '/contact',
+    origin: 'https://bdkinc.com',
+    pathname: '/contact-us/',
     search:
       '?email=private@example.test&token=private-token&utm_campaign=it-consultation&utm_source=private@example.test',
   };
   vm.runInNewContext(script, {
+    exports: {},
+    require(specifier) {
+      assert.equal(specifier, '@/lib/public-url');
+      return { isContactPath };
+    },
     document,
     window,
     location,
@@ -101,7 +110,7 @@ test('analytics respects consent, scrubs queries, and counts Astro navigation on
   const page = events()[0][2];
   assert.equal(
     page.page_location,
-    'https://www.bdkinc.com/contact?utm_campaign=it-consultation'
+    'https://bdkinc.com/contact-us/?utm_campaign=it-consultation'
   );
   assert.equal(page.page_referrer, '');
   listeners.get('click')({ target: new Element() });
@@ -126,6 +135,17 @@ test('analytics respects consent, scrubs queries, and counts Astro navigation on
   listeners.get('click')({ target: new Element() });
   assert.equal(events().length, 4);
   assert.equal(window['ga-disable-G-TEST'], true);
+  buttons.get('[data-analytics-allow]')();
+  const beforeContactClicks = events().length;
+  for (const path of ['/contact-us/', '/contact-us', '/contact/', '/contact', '/CONTACT-US/']) {
+    listeners.get('click')({ target: new Element(`${location.origin}${path}?token=private-token#chat`) });
+  }
+  listeners.get('click')({ target: new Element(`${location.origin}/contact-us/other`) });
+  const newEvents = events().slice(beforeContactClicks);
+  assert.equal(newEvents.length, 5);
+  assert.ok(newEvents.every((event) => event[1] === 'contact_click' && event[2].contact_method === 'contact_page'));
+  assert.equal(JSON.stringify(newEvents).includes('private-token'), false);
+  buttons.get('[data-analytics-deny]')();
   present = false;
   listeners.get('astro:page-load')();
   assert.equal(window['ga-disable-G-TEST'], true);
