@@ -6,6 +6,7 @@ import { getRouteSeo, resolvePageMetadata, type BlogYoastSeo } from '@bdkinc/con
 import PreviewEditor from '@/components/preview/PreviewEditor.astro';
 import { themeBootstrap } from '@/lib/theme';
 import MarketingAnalytics from '@/components/MarketingAnalytics.astro';
+import { publicPageUrl, SITE_ORIGIN } from '@/lib/public-url';
 
 interface Props extends ContentProps {
   reader: ContentReader;
@@ -60,10 +61,8 @@ const effectiveRobots =
     ? 'noindex,nofollow'
     : robots;
 
-const siteOrigin = Astro.site?.origin ?? settings.organization.url;
-const canonicalUrl = canonical.startsWith('http')
-  ? canonical
-  : new URL(canonical, siteOrigin).toString();
+const siteOrigin = Astro.site?.origin ?? SITE_ORIGIN;
+const canonicalUrl = publicPageUrl(canonical, siteOrigin);
 const ogImageUrl = resolvedOgImage.startsWith('http')
   ? resolvedOgImage
   : new URL(resolvedOgImage, siteOrigin).toString();

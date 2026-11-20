@@ -1,11 +1,22 @@
 {
   "routes": {
+    "contact": "/contact-us",
+    "service-managed-it": "/managed-it",
+    "service-business-analytics": "/business-analytics",
+    "service-edi-solutions": "/electronic-data-interchange-edi",
+    "service-hosted-erp": "/hosted-erp",
     "service-cybersecurity": "/managed-cybersecurity",
     "unlimited-help-desk": "/unlimited-help-desk",
     "disaster-recovery-planning": "/disaster-recovery-planning",
     "communications": "/communications"
   },
   "aliases": {
+    "/contact": "/contact-us",
+    "/services/managed-it": "/managed-it",
+    "/services/business-analytics": "/business-analytics",
+    "/services/electronic-data-interchange-edi": "/electronic-data-interchange-edi",
+    "/services/edi-solutions": "/electronic-data-interchange-edi",
+    "/services/hosted-erp": "/hosted-erp",
     "/services/cybersecurity": "/managed-cybersecurity"
   },
   "utilityPaths": ["/search"],

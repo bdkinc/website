@@ -9,6 +9,7 @@ import {
   NavigationMenuLink,
 } from '@bdkinc/design-system';
 import { iconMap } from '@/lib/icons';
+import { serviceHref } from '@/lib/public-url';
 
 const enter = stylex.keyframes({
   from: { opacity: 0, transform: 'translate3d(0, 1rem, 0)' },
@@ -332,6 +333,7 @@ function ServiceDropdownItem({
   const iconRef = useRef<HTMLDivElement | null>(null);
   const titleRef = useRef<HTMLDivElement | null>(null);
   const descriptionRef = useRef<HTMLParagraphElement | null>(null);
+  const href = serviceHref(service.slug);
 
   return (
     <li
@@ -340,8 +342,8 @@ function ServiceDropdownItem({
     >
       <NavigationMenuLink asChild xstyle={styles.card}>
         <a
-          href={`/services/${service.slug}`}
-          onClick={navOnClick(`/services/${service.slug}`, () =>
+          href={href}
+          onClick={navOnClick(href, () =>
             prepareServiceViewTransition(
               {
                 icon: iconRef.current,

@@ -42,6 +42,8 @@ const enabled =
   )
 }
 <script>
+  import { isContactPath } from '@/lib/public-url';
+
   let initialized = false;
   let configuredId = '';
   let lastPage = '';
@@ -180,7 +182,7 @@ const enabled =
       send('contact_click', { contact_method: 'phone' });
     else if (link.href.startsWith('mailto:'))
       send('contact_click', { contact_method: 'email' });
-    else if (new URL(link.href).pathname === '/contact')
+    else if (isContactPath(new URL(link.href).pathname))
       send('contact_click', { contact_method: 'contact_page' });
   });
   document.addEventListener('astro:page-load', setup);
