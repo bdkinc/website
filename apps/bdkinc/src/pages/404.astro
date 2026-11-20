@@ -9,7 +9,13 @@ import { getNavigationData } from '@/lib/navigation-data';
 import { PiWarningCircle, PiHouse, PiArrowLeft } from 'react-icons/pi';
 
 import { createAppContentReader, type ContentProps } from '@/lib/content';
-import { getSiteRoutes, getReservedAliases, parseRedirects } from '@bdkinc/content/routes';
+import {
+  getSiteRoutes,
+  getReservedAliases,
+  getReservedAssetPaths,
+  getUtilityPaths,
+  parseRedirects,
+} from '@bdkinc/content/routes';
 
 // Only unmatched URLs reach this page, so aliases resolve here while public pages stay static.
 export const prerender = false;
@@ -22,8 +28,9 @@ if (settings.redirects?.length) {
   const routes = await getSiteRoutes(reader, 'concept-a');
   const aliases = parseRedirects(
     settings.redirects,
-    routes.map((route) => route.path),
-    getReservedAliases('concept-a')
+    [...routes.map((route) => route.path), ...getUtilityPaths('concept-a')],
+    getReservedAliases('concept-a'),
+    getReservedAssetPaths('concept-a')
   );
   const target = aliases.get(Astro.url.pathname.replace(/\/+$/, '') || '/');
   if (target) return Astro.redirect(target, ['GET', 'HEAD'].includes(Astro.request.method) ? 301 : 308);

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import ThemeToggle from '@/components/ThemeToggle';
 import Logo from '@/components/Logo';
-import { PiList, PiX, PiArrowRight } from 'react-icons/pi';
+import { PiList, PiX, PiArrowRight, PiMagnifyingGlass } from 'react-icons/pi';
 import {
   Button,
   NavigationMenu,
@@ -140,6 +140,47 @@ const styles = stylex.create({
     transitionDuration: '150ms',
   },
   menuIcon: { width: 24, height: 24, color: 'var(--foreground)' },
+  // Desktop: icon-only item in the centered menu, so the right action group
+  // keeps its width at the 768px breakpoint.
+  searchMenuLink: { paddingInline: 12 },
+  // Mobile: round 44px control matching the ThemeToggle beside it.
+  searchLink: {
+    display: 'flex',
+    width: 44,
+    minWidth: 44,
+    height: 44,
+    minHeight: 44,
+    flexShrink: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '50%',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: {
+      default: 'var(--border)',
+      '[aria-current="page"]': 'var(--primary)',
+    },
+    color: {
+      default: 'var(--foreground)',
+      ':hover': { default: null, '@media (hover: hover)': 'var(--primary)' },
+      '[aria-current="page"]': 'var(--primary)',
+    },
+    backgroundColor: {
+      default: 'transparent',
+      ':hover': {
+        default: null,
+        '@media (hover: hover)':
+          'color-mix(in oklab, var(--accent) 10%, transparent)',
+      },
+    },
+    boxShadow: '0 3px 12px -6px rgba(0,0,0,.35)',
+    outline: { default: 'none', ':focus-visible': '2px solid var(--ring)' },
+    outlineOffset: { default: 0, ':focus-visible': '2px' },
+    transitionProperty: colorTransition,
+    transitionTimingFunction: ease,
+    transitionDuration: '150ms',
+  },
+  searchIcon: { width: 20, height: 20 },
   mobilePanel: {
     display: { default: 'block', '@media (min-width: 768px)': 'none' },
     borderTopWidth: 1,
@@ -362,6 +403,22 @@ export default function Navigation({
 
                 {/* Blog Dropdown */}
                 <BlogDropdown blogPosts={blogPosts} copy={copy} />
+
+                {/* Site search */}
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    href="/search"
+                    aria-label="Search"
+                    title="Search"
+                    aria-current={isCurrent('/search') ? 'page' : undefined}
+                    xstyle={[styles.aboutLink, styles.searchMenuLink]}
+                  >
+                    <PiMagnifyingGlass
+                      {...stylex.props(styles.searchIcon)}
+                      aria-hidden="true"
+                    />
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
@@ -376,6 +433,17 @@ export default function Navigation({
 
           {/* Mobile menu button and theme toggle */}
           <div {...stylex.props(styles.mobileActions)}>
+            <a
+              href="/search"
+              aria-label="Search"
+              aria-current={isCurrent('/search') ? 'page' : undefined}
+              {...stylex.props(styles.searchLink)}
+            >
+              <PiMagnifyingGlass
+                {...stylex.props(styles.searchIcon)}
+                aria-hidden="true"
+              />
+            </a>
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
