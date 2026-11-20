@@ -150,6 +150,7 @@ add_action('rest_api_init', function () {
             parse_str((string) $request['form'], $form);
             $previous = bdk_fixed_copy($post) ? bdk_working_copy($post)['data'] : (array) bdk_copy_data($post);
             $input = $request->has_param('form') ? bdk_form_values($form['bdk_copy'] ?? [], $definition['fields']) : [];
+            if (is_wp_error($input)) { return $input; }
             $data = bdk_validate_fields($input, $definition['fields'], $previous);
             if (is_wp_error($data)) { return $data; }
             $body = $post->post_content;

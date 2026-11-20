@@ -492,6 +492,7 @@
       "type": "list",
       "label": "Frequently asked questions",
       "itemLabel": "FAQ",
+      "legacyKeys": ["howDoYouEnsureDataSecurityAnd", "canYourSolutionsIntegrateWithLegacyOn", "whatIsTheTypicalLatencyForReal"],
       "fields": {
         "question": {
           "type": "text",

@@ -1014,6 +1014,7 @@
       "type": "list",
       "label": "Frequently asked questions",
       "itemLabel": "FAQ",
+      "legacyKeys": ["howDoYouEnsureTheScalabilityOf", "whatIsYourApproachToLegacySystem", "doYouProvideOngoingSupportAfterDeployment"],
       "fields": {
         "question": {
           "type": "text",

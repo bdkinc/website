@@ -756,6 +756,7 @@
       "type": "list",
       "label": "Frequently asked questions",
       "itemLabel": "FAQ",
+      "legacyKeys": ["whatProtocolsAndStandardsDoYouSupport", "howDoYouHandleHighVolumeTransaction", "canYouIntegrateWithOurExistingErp"],
       "fields": {
         "question": {
           "type": "text",

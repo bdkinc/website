@@ -45,6 +45,17 @@ function bdk_definition($post) {
     return null;
 }
 
+// Legacy keyed lists use the field's recorded key order; unrecognized keys follow in stored order.
+// Mirrors legacyListItems in packages/content/src/editorial.ts.
+function bdk_list_items($value, $field) {
+    if (array_values($value) === $value) { return $value; }
+    $items = [];
+    foreach ($field['legacyKeys'] ?? [] as $legacy) {
+        if (array_key_exists($legacy, $value)) { $items[] = $value[$legacy]; unset($value[$legacy]); }
+    }
+    return array_merge($items, array_values($value));
+}
+
 // Normalize legacy keyed-group records (e.g. pre-list static FAQs) to indexed arrays.
 function bdk_normalize_list_fields($data, $fields) {
     if (!is_array($data)) { return $data; }
@@ -53,7 +64,7 @@ function bdk_normalize_list_fields($data, $fields) {
         if ($field['type'] === 'group' && isset($field['fields'])) {
             $data[$key] = bdk_normalize_list_fields($data[$key], $field['fields']);
         } elseif ($field['type'] === 'list' && isset($field['fields'])) {
-            $items = array_values($data[$key]);
+            $items = bdk_list_items($data[$key], $field);
             foreach ($items as $index => $item) {
                 if (is_array($item)) {
                     $items[$index] = bdk_normalize_list_fields($item, $field['fields']);
@@ -166,7 +177,7 @@ function bdk_complete_fields($data, $fields) {
             case 'list':
                 if (!is_array($value)) { return new WP_Error('bdk_shape', 'Expected a list: ' . $key, ['status' => 400]); }
                 $items = [];
-                foreach (array_values($value) as $index => $item) {
+                foreach (bdk_list_items($value, $field) as $index => $item) {
                     if (!is_array($item)) { return new WP_Error('bdk_shape', 'Expected an object in ' . $key . '[' . $index . ']', ['status' => 400]); }
                     $completed = bdk_complete_fields($item, $field['fields']);
                     if (is_wp_error($completed)) { return $completed; }
@@ -434,6 +445,7 @@ add_filter('wp_insert_post_data', function ($data, $postarr) {
     $form = isset($_POST['bdk_copy_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['bdk_copy_nonce'])), 'bdk_copy');
     if (!$form && !in_array($post->post_status, ['publish', 'future', 'private'], true)) { return $data; }
     $input = $form ? bdk_form_values(wp_unslash($_POST['bdk_copy'] ?? []), $definition['fields']) : [];
+    if (is_wp_error($input)) { wp_die(esc_html($input->get_error_message()), '', ['response' => 400]); }
     $result = bdk_effective_copy($input, $post);
     if (is_wp_error($result)) { wp_die($result); }
     return $data;
