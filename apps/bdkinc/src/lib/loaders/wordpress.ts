@@ -4,7 +4,7 @@ import { createContentClient, pageSchemas, type PageKey, type CollectionName } f
 function publishedClient() {
   const url = import.meta.env.WORDPRESS_URL || process.env.WORDPRESS_URL;
   if (!url) throw new Error('WORDPRESS_URL is required for published content.');
-  return createContentClient({ url });
+  return createContentClient({ url, inventory: 'concept-a' });
 }
 
 export function wordpressPagesLoader(): Loader {

@@ -1,0 +1,11 @@
+{
+  "key": "ibm-power-solutions",
+  "kind": "page",
+  "title": "IBM Power",
+  "fields": {
+    "heading": { "type": "text", "label": "Heading" }
+  },
+  "defaults": {
+    "heading": "IBM Power"
+  }
+}

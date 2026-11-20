@@ -7,9 +7,13 @@ import { createRequire } from 'node:module';
 import { getNoindexPaths } from '@bdkinc/content/seo';
 import {
   conceptAAliases,
+  conceptABlogPaths,
+  conceptAContentAliases,
+  getPagePaths,
   getReservedAssetPaths,
   getUtilityPaths,
   pagePaths,
+  parseRedirects,
 } from '@bdkinc/content/routes';
 import { matchPath, publicPageUrl, SITE_ORIGIN, slashPagePath } from './src/lib/public-url.ts';
 
@@ -93,11 +97,21 @@ const sitemapExclusions = new Set([
   ...Object.keys(conceptAAliases),
 ]);
 
+const validatedAliases = parseRedirects(
+  Object.entries(conceptAAliases).map(([source, target]) => `${source} -> ${target}`),
+  [
+    ...Object.values(getPagePaths('concept-a')),
+    ...Object.values(conceptABlogPaths).filter((path) => path !== undefined),
+    ...getUtilityPaths('concept-a'),
+  ],
+  [],
+  getReservedAssetPaths('concept-a')
+);
 const redirects = Object.fromEntries(
-  Object.entries(conceptAAliases)
-    // The Contact alias is an SSR route so campaign/query parameters survive the redirect.
-    .filter(([source]) => source !== pagePaths.contact)
-    .map(([source, target]) => [source, source === pagePaths['service-cybersecurity'] ? target : slashPagePath(target)])
+  [...validatedAliases]
+    // The exact content aliases verify publication at request time. Contact preserves query parameters.
+    .filter(([source]) => source !== pagePaths.contact && !conceptAContentAliases.has(source))
+    .map(([source, target]) => [source, slashPagePath(target)])
 );
 
 /** @param {import('@astrojs/sitemap').SitemapItem} item */

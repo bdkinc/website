@@ -49,6 +49,12 @@
         "label": "Publication date",
         "locked": true
       },
+      "sourceModifiedAt": {
+        "type": "date",
+        "label": "Original article modification date",
+        "optional": true,
+        "locked": true
+      },
       "image": {
         "type": "media",
         "label": "Featured image",

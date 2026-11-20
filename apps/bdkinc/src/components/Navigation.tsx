@@ -12,7 +12,7 @@ import {
 } from '@bdkinc/design-system';
 import { formatDate } from '@/lib/utils';
 import { iconMap } from '@/lib/icons';
-import { contactHref, matchPath, serviceHref } from '@/lib/public-url';
+import { blogPostHref, contactHref, matchPath, serviceHref } from '@/lib/public-url';
 import { ServicesDropdown } from '@/components/ServicesDropdown';
 import { BlogDropdown } from '@/components/BlogDropdown';
 
@@ -514,7 +514,7 @@ export default function Navigation({
                 {services.map((service) => {
                   const Icon = iconMap[service.icon];
                   const href = serviceHref(service.slug);
-                  const isServiceCurrent = isCurrent(href) || isCurrent(`/services/${service.slug}`);
+                  const isServiceCurrent = isCurrent(href);
                   return (
                     <li key={service.slug} {...stylex.props(styles.stacked)}>
                       <a
@@ -577,7 +577,7 @@ export default function Navigation({
                     {blogPosts.slice(0, 3).map((post) => (
                       <li key={post.slug} {...stylex.props(styles.stacked)}>
                         <a
-                          href={`/blog/${post.slug}`}
+                          href={blogPostHref(post.slug)}
                           onClick={() => setIsOpen(false)}
                           {...stylex.props(styles.mobileLink, styles.postLink)}
                         >

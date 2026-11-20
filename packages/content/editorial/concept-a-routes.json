@@ -6,6 +6,9 @@
     "service-edi-solutions": "/electronic-data-interchange-edi",
     "service-hosted-erp": "/hosted-erp",
     "service-cybersecurity": "/managed-cybersecurity",
+    "service-cloud-hosting": "/cloud-services",
+    "service-ibm-power": "/ibm-power-servers",
+    "ibm-power-solutions": "/ibm-power-servers/ibm-solutions/ibm-power",
     "unlimited-help-desk": "/unlimited-help-desk",
     "disaster-recovery-planning": "/disaster-recovery-planning",
     "communications": "/communications"
@@ -17,7 +20,13 @@
     "/services/electronic-data-interchange-edi": "/electronic-data-interchange-edi",
     "/services/edi-solutions": "/electronic-data-interchange-edi",
     "/services/hosted-erp": "/hosted-erp",
-    "/services/cybersecurity": "/managed-cybersecurity"
+    "/services/cloud-hosting": "/cloud-hosting-explained",
+    "/services/cybersecurity": "/cybersecurity-best-practices",
+    "/services/ibm-power": "/ibm-power-servers/ibm-solutions/ibm-power"
+  },
+  "blogPaths": {
+    "cloud-hosting-explained": "/cloud-hosting-explained",
+    "cybersecurity-best-practices": "/cybersecurity-best-practices"
   },
   "utilityPaths": ["/search"],
   "reservedPaths": ["/search-index.json"]

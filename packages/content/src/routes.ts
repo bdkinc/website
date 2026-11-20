@@ -6,9 +6,31 @@ import type { ContentReader } from './reader.ts';
 export const pagePaths = fixedPaths;
 /** Concept A (current site): shared paths plus its developer-owned route delta. */
 export const conceptAPagePaths = { ...fixedPaths, ...conceptA.routes };
-/** Developer-owned Concept A aliases (Astro config redirects): reachable terminals, never CMS sources or public pages. */
+/** Developer-owned Concept A aliases: reserved as CMS sources; never canonical pages. */
 export const conceptAAliases: Readonly<Record<string, string>> = conceptA.aliases;
+export const conceptABlogPaths: Readonly<Partial<Record<string, string>>> = conceptA.blogPaths;
+const ibmPowerSolutionsPath = conceptAPagePaths['ibm-power-solutions'];
+const cmsAliasTargets = new Set([ibmPowerSolutionsPath, ...Object.values(conceptA.blogPaths)]);
+/** These Concept A aliases need a publication check and an exact HTTP status. */
+export const conceptAContentAliases = new Set(
+  Object.entries(conceptAAliases).filter(([, target]) => cmsAliasTargets.has(target)).map(([source]) => source)
+);
 export type RouteInventory = 'default' | 'concept-a';
+export function isBlogSlugInInventory(slug: string, inventory: RouteInventory = 'default'): boolean {
+  return inventory === 'concept-a' || !Object.hasOwn(conceptABlogPaths, slug);
+}
+export function blogPublicPath(slug: string, inventory: RouteInventory = 'default'): string {
+  return inventory === 'concept-a' && Object.hasOwn(conceptABlogPaths, slug)
+    ? conceptABlogPaths[slug]!
+    : `/blog/${slug}`;
+}
+export function blogSlugForPath(path: string, inventory: RouteInventory = 'default'): string | undefined {
+  const override = inventory === 'concept-a'
+    ? Object.entries(conceptABlogPaths).find(([, candidate]) => candidate === path)?.[0]
+    : undefined;
+  const slug = override ?? /^\/blog\/([^/]+)$/.exec(path)?.[1];
+  return slug && isBlogSlugInInventory(slug, inventory) && blogPublicPath(slug, inventory) === path ? slug : undefined;
+}
 export type FixedPageKey = keyof typeof conceptAPagePaths;
 export function getPagePaths(inventory: RouteInventory = 'default'): Readonly<Record<string, string>> {
   return inventory === 'concept-a' ? conceptAPagePaths : pagePaths;
@@ -33,7 +55,28 @@ export type SiteRoute =
   | { path: string; template: 'blog-post'; slug: string }
   | { path: string; template: 'service-location'; serviceSlug: string; locationSlug: string; locationId: string; collectionKey: 'services' | 'pseoServices' }
   | { path: string; template: 'industry-location'; industrySlug: string; locationSlug: string; locationId: string };
-type Client = Pick<ContentReader, 'getCollection'>;
+type Client = Pick<ContentReader, 'getCollection'> & Partial<Pick<ContentReader, 'getPage'>>;
+
+async function hasPublishedIbmPowerSolutions(reader: Pick<ContentReader, 'getPage'>): Promise<boolean> {
+  try {
+    await reader.getPage('ibm-power-solutions');
+    return true;
+  } catch {
+    // An unavailable catalog must never become a redirect destination.
+    return false;
+  }
+}
+
+/** Exact legacy routes must never redirect to an unpublished record. */
+export async function getConceptAContentAliasTarget(reader: Pick<ContentReader, 'getCollection' | 'getPage'>, source: string): Promise<string | undefined> {
+  if (!conceptAContentAliases.has(source)) return undefined;
+  const target = conceptAAliases[source];
+  const slug = blogSlugForPath(target, 'concept-a');
+  const published = slug
+    ? (await reader.getCollection('blog')).some(post => post.id === slug && !post.data.draft)
+    : target === ibmPowerSolutionsPath && await hasPublishedIbmPowerSolutions(reader);
+  return published ? target : undefined;
+}
 
 /** Validate public aliases without adding routes or flattening their direct targets. */
 export function parseRedirects(lines: readonly string[], publicPaths: Iterable<string>, reservedPaths: Iterable<string> = [], assetPaths: Iterable<string> = []): Map<string, string> {
@@ -70,7 +113,8 @@ export function parseRedirects(lines: readonly string[], publicPaths: Iterable<s
       seen.add(target);
       target = redirects.get(target)!;
     }
-    if (!canonical.has(target) && !reserved.has(target)) throw new Error(`Redirect target is not a public path: ${target}`);
+    const reservedTarget = reserved.has(target) && (!conceptAContentAliases.has(target) || canonical.has(conceptAAliases[target]));
+    if (!canonical.has(target) && !reservedTarget) throw new Error(`Redirect target is not a public path: ${target}`);
   }
   return redirects;
 }
@@ -81,8 +125,15 @@ export async function getSiteRoutes(client: Client, inventory: RouteInventory = 
     client.getCollection('services'), client.getCollection('pseoServices'),
     client.getCollection('pseoIndustries'), client.getCollection('locations'), client.getCollection('blog'),
   ]);
-  const routes: SiteRoute[] = Object.entries(getPagePaths(inventory)).map(([pageKey, path]) => ({ path, template: 'page', pageKey: pageKey as FixedPageKey }));
-  for (const post of posts) routes.push({ path: `/blog/${post.id}`, template: 'blog-post', slug: post.id });
+  const hasIbmPage = inventory !== 'concept-a' || !client.getPage
+    || await hasPublishedIbmPowerSolutions({ getPage: client.getPage.bind(client) });
+  const routes: SiteRoute[] = Object.entries(getPagePaths(inventory))
+    .filter(([, path]) => hasIbmPage || path !== ibmPowerSolutionsPath)
+    .map(([pageKey, path]) => ({ path, template: 'page', pageKey: pageKey as FixedPageKey }));
+  for (const post of posts) {
+    if (isBlogSlugInInventory(post.id, inventory))
+      routes.push({ path: blogPublicPath(post.id, inventory), template: 'blog-post', slug: post.id });
+  }
   for (const location of locations) {
     const locationSlug = location.id;
     for (const [collectionKey, entries] of [['services', services], ['pseoServices', pseoServices]] as const)
@@ -93,16 +144,25 @@ export async function getSiteRoutes(client: Client, inventory: RouteInventory = 
 }
 
 /** Select only a route that actually exists, using immutable record identity, never editable aliases. */
-export function getPreviewRoute(routes: SiteRoute[], target: { kind: 'page' | 'collection' | 'settings'; key: string }, snapshot: { slug: string; bdk_data: Record<string, unknown> }): SiteRoute | undefined {
+export function getPreviewRoute(routes: SiteRoute[], target: { kind: 'page' | 'collection' | 'settings'; key: string; previewTarget?: string }, snapshot: { slug: string; bdk_data: Record<string, unknown> }): SiteRoute | undefined {
   if (target.kind === 'settings') return target.key === 'site' ? routes.find(r => r.path === '/') : undefined;
   if (target.kind === 'page') {
     if (target.key === 'service-location' || target.key === 'industry-location') return routes.find(r => r.template === target.key);
+    // Like blog drafts, the fixed IBM child can preview before its first publication.
+    if (target.key === 'ibm-power-solutions' && inventoryForPreviewTarget(target.previewTarget) === 'concept-a') {
+      return { path: ibmPowerSolutionsPath, template: 'page', pageKey: target.key };
+    }
     return routes.find(r => r.template === 'page' && r.pageKey === target.key);
   }
   switch (target.key) {
     case 'testimonials': case 'partners': return routes.find(r => r.path === '/');
     // A draft blog post may have no published route yet.
-    case 'blog': return /^[a-z0-9_-]+$/i.test(snapshot.slug) ? { path: `/blog/${snapshot.slug}`, template: 'blog-post', slug: snapshot.slug } : undefined;
+    case 'blog': {
+      const inventory = inventoryForPreviewTarget(target.previewTarget);
+      return /^[a-z0-9_-]+$/i.test(snapshot.slug) && isBlogSlugInInventory(snapshot.slug, inventory)
+        ? { path: blogPublicPath(snapshot.slug, inventory), template: 'blog-post', slug: snapshot.slug }
+        : undefined;
+    }
     // A main service previews its fixed page in the selected inventory (e.g. /managed-cybersecurity on Concept A).
     case 'services': return routes.find(r => r.template === 'page' && r.pageKey === `service-${snapshot.slug}`);
     case 'locations': return routes.find(r => r.template === 'service-location' && r.locationId === snapshot.slug);

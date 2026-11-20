@@ -20,6 +20,7 @@ export function wordpressClient() {
     );
   return createContentClient({
     url,
+    inventory: 'concept-a',
     username:
       process.env.WORDPRESS_USERNAME || import.meta.env.WORDPRESS_USERNAME,
     applicationPassword:

@@ -7,6 +7,7 @@ export interface BlogPostContent {
   description: string;
   author: string;
   pubDate: Date;
+  sourceModifiedAt?: Date;
   category: 'Infrastructure' | 'Security' | 'Development' | 'AI';
   tags: string[];
   image?: string;
@@ -27,6 +28,7 @@ function toBlogPost(
     description: string;
     author: string;
     pubDate: Date;
+    sourceModifiedAt?: Date;
     category: 'Infrastructure' | 'Security' | 'Development' | 'AI';
     tags?: string[];
     image?: string;
@@ -40,6 +42,7 @@ function toBlogPost(
     description: data.description,
     author: data.author,
     pubDate: data.pubDate,
+    sourceModifiedAt: data.sourceModifiedAt,
     category: data.category,
     tags: data.tags || [],
     image: data.image,

@@ -2,6 +2,7 @@
 import { Buffer } from 'node:buffer';
 import { z } from 'zod/v4';
 import { parseBlogYoastSeo } from './seo.ts';
+import { isBlogSlugInInventory, type RouteInventory } from './routes.ts';
 import {
   collectionSchemas,
   type CollectionName,
@@ -41,6 +42,8 @@ export interface ContentClientOptions {
   username?: string;
   applicationPassword?: string;
   timeoutMs?: number;
+  /** Concept A opts into the imported native posts reserved by its route manifest. */
+  inventory?: RouteInventory;
   /** Public origin must actually serve WP uploads. Defaults to the phase-2 proxy contract. */
   media?:
     { mode: 'public'; origin: string } | { mode: 'proxy'; prefix?: string };
@@ -57,6 +60,7 @@ const wpRecord = z.object({
   bdk_admin: z.url({ protocol: /^https?$/ }).optional(),
 });
 type WPRecord = z.infer<typeof wpRecord>;
+const sourceModifiedAtSchema = z.iso.datetime();
 
 export function createContentClient(options: ContentClientOptions) {
   if (typeof window !== 'undefined')
@@ -176,8 +180,18 @@ export function createContentClient(options: ContentClientOptions) {
     if (name === 'blog') {
       if (typeof raw.pubDate !== 'string')
         throw new Error(`Missing publication date for ${record.slug}.`);
-      raw.pubDate = new Date(raw.pubDate);
+      const published = new Date(raw.pubDate);
+      raw.pubDate = published;
       raw.draft = record.status !== 'publish';
+      const sourceModifiedAt = raw.sourceModifiedAt;
+      delete raw.sourceModifiedAt;
+      if (!isBlogSlugInInventory(record.slug)) {
+        const sourceDate = sourceModifiedAtSchema.safeParse(sourceModifiedAt);
+        if (sourceDate.success) {
+          const modified = new Date(sourceDate.data);
+          if (modified.getTime() >= published.getTime()) raw.sourceModifiedAt = modified;
+        }
+      }
     }
     const data = collectionSchemas[name].parse(
       normalizeMedia(raw)
@@ -223,7 +237,10 @@ export function createContentClient(options: ContentClientOptions) {
         throw new Error(
           'WordPress returned non-public content to a public request.'
         );
-      return records.map((record) => {
+      const visibleRecords = name === 'blog'
+        ? records.filter(({ slug }) => isBlogSlugInInventory(slug, options.inventory))
+        : records;
+      return visibleRecords.map((record) => {
         const entry = mapEntry(name, record);
         // Only explicitly unprotected, published native posts can carry Yoast metadata.
         const yoastSeo = name === 'blog' && record.content?.protected === false

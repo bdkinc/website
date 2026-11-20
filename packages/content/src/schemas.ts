@@ -25,6 +25,7 @@ export const blogSchema = z.object({
   "description": z.string(),
   "author": z.string(),
   "pubDate": z.date(),
+  "sourceModifiedAt": z.date().optional(),
   "image": z.string().optional(),
   "tags": z.array(z.string()).optional(),
   "category": z.enum(["Infrastructure","Security","Development","AI"]).default("Infrastructure"),

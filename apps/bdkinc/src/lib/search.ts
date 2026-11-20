@@ -7,6 +7,7 @@ import {
   type SiteRoute,
 } from '@bdkinc/content/routes';
 import { getNoindexPaths, getRouteSeo } from '@bdkinc/content/seo';
+import { blogPostHref } from './public-url';
 import type { ContentReader } from '@/lib/content';
 
 /** File routes of the search page and index; registered in editorial concept-a-routes.json. */
@@ -125,7 +126,7 @@ export async function buildSearchIndex(reader: ContentReader): Promise<SearchEnt
       const post = posts.find((entry) => entry.id === route.slug);
       if (!post || post.data.draft) continue;
       entries.set(route.path, {
-        path: route.path,
+        path: blogPostHref(route.slug),
         // Layout precedence: explicit SEO fields win over the post's own copy.
         title: withoutBrand(first(seoTitle, plainText(post.data.title)), settings.siteName),
         description: clip(first(seoDescription, plainText(post.data.description))),
@@ -147,6 +148,7 @@ export async function buildSearchIndex(reader: ContentReader): Promise<SearchEnt
         title,
         read(page, 'metadata', 'title'),
         plainText(service?.data.title),
+        read(page, 'heading'),
         read(page, 'hero', 'heading'),
         [read(page, 'hero', 'headingLead'), read(page, 'hero', 'headingAccent')].join(' ').trim()
       );
