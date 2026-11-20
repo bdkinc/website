@@ -1,4 +1,4 @@
-import { conceptAPagePaths, pagePaths } from '@bdkinc/content/routes';
+import { blogPublicPath, conceptAPagePaths, pagePaths } from '@bdkinc/content/routes';
 
 export const SITE_ORIGIN = 'https://bdkinc.com';
 
@@ -36,16 +36,20 @@ const fixedPaths: Readonly<Record<string, string>> = conceptAPagePaths;
 export function serviceHref(slug: string): string {
   const legacyPath = `/services/${slug}`;
   const path = fixedPaths[`service-${slug}`];
-  // Leave existing cybersecurity links and their alias alone in this cutover.
-  return path && path !== legacyPath && slug !== 'cybersecurity'
+  return path && path !== legacyPath
     ? slashPagePath(path)
     : legacyPath;
+}
+
+export function blogPostHref(slug: string): string {
+  const path = blogPublicPath(slug, 'concept-a');
+  return path.startsWith('/blog/') ? path : slashPagePath(path);
 }
 
 export function rootServiceSlug(path: string): string | undefined {
   return Object.entries(fixedPaths)
     .find(([key, value]) =>
-      key.startsWith('service-') && key !== 'service-cybersecurity' && value === path && !value.startsWith('/services/')
+      key.startsWith('service-') && value === path && !value.startsWith('/services/')
     )
     ?.[0].slice('service-'.length);
 }

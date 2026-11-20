@@ -7,6 +7,8 @@ import Footer from '@/components/Footer.astro';
 import { BlogList } from '@/components/BlogList';
 import { PiArrowRight } from 'react-icons/pi';
 import { getBlogPosts } from '@/lib/blog';
+import { blogPostHref } from '@/lib/public-url';
+import { conceptABlogPaths } from '@bdkinc/content/routes';
 import PageHeroEffects from '@/components/PageHeroEffects';
 import EditSection from '@/components/preview/EditSection.astro';
 import { createAppContentReader, type ContentProps } from '@/lib/content';
@@ -32,6 +34,9 @@ const postsWithReadTime = sortedPosts.map((post) => {
 
 // Separate featured post (latest) from list
 const featuredPost = postsWithReadTime[0];
+const featuredImageAlt = !featuredPost?.image ? copy.detail.imageAlt
+  : Object.hasOwn(conceptABlogPaths, featuredPost.slug) ? featuredPost.imageAlt ?? ''
+  : `Editorial illustration for ${featuredPost.title}`;
 const remainingPosts = postsWithReadTime.slice(1);
 ---
 
@@ -98,7 +103,7 @@ const remainingPosts = postsWithReadTime.slice(1);
     <section class="border-border/10 bg-card/20 relative z-20 border-b">
       <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <a
-          href={`/blog/${featuredPost.slug}`}
+          href={blogPostHref(featuredPost.slug)}
           class="group border-primary/20 bg-card/40 hover:border-primary/40 hover:bg-card/50 relative block overflow-hidden rounded-3xl border backdrop-blur-md transition-[color,background-color,border-color,box-shadow,opacity,transform,width,gap,letter-spacing] duration-500"
         >
           <!-- Background Effects -->
@@ -164,7 +169,7 @@ const remainingPosts = postsWithReadTime.slice(1);
             >
               <img
                 src={featuredPost.image || copy.detail.image}
-                alt={featuredPost.image ? `Editorial illustration for ${featuredPost.title}` : copy.detail.imageAlt}
+                alt={featuredImageAlt}
                 width="1200"
                 height="675"
                 class="absolute inset-0 h-full w-full object-cover"

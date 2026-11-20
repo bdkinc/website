@@ -105,7 +105,12 @@ function bdk_fixed_routes($target = 'current') {
     if ($shared === null) { $shared = json_decode(file_get_contents('/var/www/bdk-editorial/routes.json'), true, 512, JSON_THROW_ON_ERROR); }
     return $target === 'current' ? array_merge($shared, bdk_concept_a_routes()['routes']) : $shared;
 }
-// Developer-owned Concept A aliases: reachable redirect terminals, never CMS redirect sources.
+function bdk_blog_path($slug, $target = 'current') {
+    $root = bdk_concept_a_routes()['blogPaths'][$slug] ?? null;
+    if ($root !== null) { return $target === 'current' ? $root : null; }
+    return '/blog/' . $slug;
+}
+// Developer-owned Concept A aliases: never CMS redirect sources. Content-backed terminals need published targets.
 function bdk_reserved_alias_paths() {
     return array_map(function ($path) { return rtrim($path, '/') ?: '/'; }, array_keys(bdk_concept_a_routes()['aliases']));
 }
@@ -124,7 +129,12 @@ function bdk_safe_url($value) {
 
 // Canonical identities mirror getSiteRoutes (Concept A inventory); duplicate service identities share one path.
 function bdk_redirect_public_paths() {
-    $paths = array_values(bdk_fixed_routes('current'));
+    $fixed = bdk_fixed_routes('current');
+    $ibm_power = get_page_by_path('ibm-power-solutions', OBJECT, 'bdk_page');
+    if (bdk_public_path($ibm_power) !== $fixed['ibm-power-solutions'] || !is_string(bdk_copy_data($ibm_power)['heading'] ?? null)) {
+        unset($fixed['ibm-power-solutions']);
+    }
+    $paths = array_values($fixed);
     $posts = get_posts(['post_type' => ['post', 'service', 'pseo_service', 'pseo_industry', 'location'], 'post_status' => 'publish', 'numberposts' => -1, 'orderby' => 'ID', 'order' => 'ASC']);
     $locations = array_filter($posts, function ($post) { return $post->post_type === 'location'; });
     foreach ($posts as $post) {
@@ -160,6 +170,8 @@ function bdk_validate_site_redirects($data) {
     if (!isset($data['redirects']) || $data['redirects'] === []) { return $data; }
     $canonical = array_fill_keys(array_merge(bdk_redirect_public_paths(), bdk_utility_paths()), true);
     $reserved = array_fill_keys(bdk_reserved_alias_paths(), true);
+    $aliases = bdk_concept_a_routes()['aliases'];
+    $content_targets = array_fill_keys(array_merge(array_values(bdk_concept_a_routes()['blogPaths']), [bdk_fixed_routes('current')['ibm-power-solutions']]), true);
     $redirects = [];
     foreach ($data['redirects'] as $line) {
         $parts = explode('->', $line);
@@ -182,7 +194,9 @@ function bdk_validate_site_redirects($data) {
             $seen[$target] = true;
             $target = $redirects[$target];
         }
-        if (!isset($canonical[$target]) && !isset($reserved[$target])) { return new WP_Error('bdk_redirects', 'Redirects target is not a public path: ' . $target, ['status' => 400]); }
+        $alias_target = $aliases[$target] ?? null;
+        $reserved_target = isset($reserved[$target]) && (!isset($content_targets[$alias_target]) || isset($canonical[$alias_target]));
+        if (!isset($canonical[$target]) && !$reserved_target) { return new WP_Error('bdk_redirects', 'Redirects target is not a public path: ' . $target, ['status' => 400]); }
     }
     return $data;
 }

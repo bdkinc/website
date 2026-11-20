@@ -1,0 +1,31 @@
+---
+import IbmPowerEmbed from '@/components/IbmPowerEmbed.astro';
+import Footer from '@/components/Footer.astro';
+import Navigation from '@/components/Navigation';
+import EditSection from '@/components/preview/EditSection.astro';
+import Layout from '@/layouts/Layout.astro';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
+import { getNavigationData } from '@/lib/navigation-data';
+import { conceptAPagePaths } from '@bdkinc/content/routes';
+
+interface Props extends ContentProps {}
+const { contentContext, publicPath = conceptAPagePaths['ibm-power-solutions'], reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const [copy, settings, { servicesData, recentPosts }] = await Promise.all([
+  reader.getPage('ibm-power-solutions'),
+  reader.getSettings(),
+  getNavigationData(reader),
+]);
+---
+
+<Layout {reader} {contentContext} {publicPath} title={copy.heading}>
+  <EditSection record="settings" section="navigation">
+    <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={publicPath} copy={settings.navigation} brand={settings.brand} />
+  </EditSection>
+  <main id="main-content">
+    <EditSection record="ibm-power-solutions" section="heading">
+      <IbmPowerEmbed heading={copy.heading} />
+    </EditSection>
+  </main>
+  <Footer {reader} {contentContext} />
+</Layout>

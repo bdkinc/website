@@ -7,6 +7,7 @@ import {
   NavigationMenuLink,
 } from '@bdkinc/design-system';
 import { formatDate } from '@/lib/utils';
+import { blogPostHref } from '@/lib/public-url';
 
 const enter = stylex.keyframes({
   from: { opacity: 0, transform: 'translate3d(0, 1rem, 0)' },
@@ -245,7 +246,7 @@ function BlogPostDropdownItem({ post, index }: BlogPostDropdownItemProps) {
       style={{ animationDelay: `${(index + 1) * 50}ms` }}
     >
       <NavigationMenuLink asChild xstyle={styles.card}>
-        <a href={`/blog/${post.slug}`}>
+        <a href={blogPostHref(post.slug)}>
           <div {...stylex.props(styles.body)}>
             <h4 {...stylex.props(styles.title)}>{post.title}</h4>
             <p {...stylex.props(styles.description)}>{post.description}</p>

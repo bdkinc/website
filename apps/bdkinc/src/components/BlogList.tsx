@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { BlogCard } from '@/components/BlogCard';
 import type { BlogPostContent } from '@/lib/blog';
+import { blogPostHref } from '@/lib/public-url';
 
 // Extended type to include pre-calculated readTime
 export type BlogPostWithReadTime = BlogPostContent & {
@@ -32,7 +33,7 @@ export function BlogList({ posts }: BlogListProps) {
         {posts.map((post, index) => (
           <a
             key={post.slug}
-            href={`/blog/${post.slug}`}
+            href={blogPostHref(post.slug)}
             {...stylex.props(styles.link)}
           >
             <BlogCard post={post} readTime={post.readTime} index={index} />

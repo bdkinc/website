@@ -15,7 +15,7 @@ function bdk_preview_target($post, $selected = 'current') {
     if (isset($collections[$post->post_type])) {
         $name = $collections[$post->post_type];
         $path = '/';
-        if ($name === 'blog') { $path = '/blog/' . $post->post_name; }
+        if ($name === 'blog') { $path = bdk_blog_path($post->post_name, $selected); }
         if ($name === 'services') { $path = $fixed['service-' . $post->post_name] ?? null; }
         if ($name === 'locations') { $path = bdk_preview_generated_path('service', null, $post); }
         if ($name === 'pseoServices' || $name === 'pseoIndustries') { $path = bdk_preview_generated_path($post->post_type, $post); }
@@ -48,7 +48,9 @@ function bdk_public_permalink($link, $post) {
     $post = get_post($post);
     $path = bdk_public_path($post);
     $targets = bdk_preview_targets();
-    return $path && isset($targets['current']) ? $targets['current']['origin'] . $path : $link;
+    if (!$path || !isset($targets['current'])) { return $link; }
+    if ($post->post_type === 'post' && isset(bdk_concept_a_routes()['blogPaths'][$post->post_name])) { $path = trailingslashit($path); }
+    return $targets['current']['origin'] . $path;
 }
 add_filter('post_link', 'bdk_public_permalink', 10, 2);
 add_filter('post_type_link', 'bdk_public_permalink', 10, 2);
@@ -87,9 +89,16 @@ function bdk_public_body_link($href) {
     // Already-canonical links (including native link-picker output) stay on the rendering frontend.
     $known = array_merge(array_values(bdk_fixed_routes('current')), bdk_reserved_alias_paths());
     if (in_array(untrailingslashit($path) ?: '/', $known, true)) { return $path . $suffix; }
-    if (preg_match('~^/blog/([^/]+)/?$~', $path, $match)) {
-        $post = get_page_by_path($match[1], OBJECT, 'post');
-        if (bdk_public_path($post)) { return $path . $suffix; }
+    $blog_path = untrailingslashit($path);
+    $slug = array_search($blog_path, bdk_concept_a_routes()['blogPaths'], true);
+    if ($slug === false && preg_match('~^/blog/([^/]+)$~', $blog_path, $match)) { $slug = $match[1]; }
+    if ($slug !== false) {
+        $post = get_page_by_path($slug, OBJECT, 'post');
+        $canonical = bdk_public_path($post);
+        if ($canonical) {
+            $root = bdk_concept_a_routes()['blogPaths'][$post->post_name] ?? null;
+            return ($root === $canonical ? trailingslashit($canonical) : $path) . $suffix;
+        }
     }
     if (preg_match('~^/(services|industries)/([^/]+)/([^/]+)/?$~', $path, $match)) {
         $location = get_page_by_path($match[3], OBJECT, 'location');

@@ -2,6 +2,7 @@ import { defineAction } from 'astro:actions';
 import { z } from 'astro/zod';
 import { createAppContentReader } from '@/lib/content';
 import type { PageData } from '@bdkinc/content';
+import { blogSlugForPath } from '@bdkinc/content/routes';
 import { matchPath, rootServiceSlug, SITE_ORIGIN } from '@/lib/public-url';
 
 /** Resolve the existing referrer routing using server-resolved editorial copy. */
@@ -31,7 +32,7 @@ export function referrerSuggestions(
     const slug = rootServiceSlug(path) ?? (path.startsWith('/services/') ? path.slice('/services/'.length) : undefined);
     if (slug) return withFirst(serviceQuestion(slug));
     if (pathname === '/blog') return withFirst(copy.blog);
-    if (pathname.startsWith('/blog/')) return withFirst(copy.article);
+    if (pathname.startsWith('/blog/') || blogSlugForPath(matchPath(pathname), 'concept-a')) return withFirst(copy.article);
   } catch {
     // Ignore parsing errors, retaining the existing default suggestions.
   }

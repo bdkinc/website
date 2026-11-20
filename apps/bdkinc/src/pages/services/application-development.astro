@@ -4,6 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import { getNavigationData } from '@/lib/navigation-data';
 import { getBlogPosts } from '@/lib/blog';
+import { blogPostHref } from '@/lib/public-url';
 import { iconMap } from '@/lib/icons';
 import ImpactMetricsSection from '@/components/ImpactMetricsSection.astro';
 import CTASection from '@/components/CTASection';
@@ -420,7 +421,7 @@ const strategicFeatures: Feature[] = [
           <div class="grid gap-6 md:grid-cols-3">
             {relatedPosts.map((post) => (
               <a
-                href={`/blog/${post.slug}`}
+                href={blogPostHref(post.slug)}
                 class="border-border hover:border-primary group focus-visible:ring-primary flex flex-col rounded-xl border p-6 transition-colors focus-visible:ring-2 focus-visible:outline-none"
               >
                 <h3 class="text-foreground group-hover:text-primary mb-2 text-lg font-semibold transition-colors">

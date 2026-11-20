@@ -7,14 +7,15 @@ import { getNavigationData } from '@/lib/navigation-data';
 import Footer from '@/components/Footer.astro';
 import EditSection from '@/components/preview/EditSection.astro';
 import { getBlogPostBySlug, type BlogPostContent } from '@/lib/blog';
-import { getSiteRoutes } from '@bdkinc/content/routes';
+import { conceptABlogPaths, getSiteRoutes } from '@bdkinc/content/routes';
+import { publicPageUrl } from '@/lib/public-url';
 import { createAppContentReader, type ContentProps } from '@/lib/content';
 
 export async function getStaticPaths() {
   const reader = createAppContentReader();
-  const routes = await getSiteRoutes(reader);
+  const routes = await getSiteRoutes(reader, 'concept-a');
   return Promise.all(
-    routes.filter((route) => route.template === 'blog-post').map(async (route) => {
+    routes.filter((route) => route.template === 'blog-post').filter((route) => route.path.startsWith('/blog/')).map(async (route) => {
       const post = await getBlogPostBySlug(route.slug, reader);
       if (!post) throw new Error('Published blog route is missing its post.');
       return { params: { slug: route.slug }, props: { post } };
@@ -43,9 +44,12 @@ function formatDate(date: Date): string {
 }
 
 const siteOrigin = Astro.site?.origin ?? 'https://www.bdkinc.com';
-const postUrl = new URL(publicPath, siteOrigin).toString();
+const postUrl = publicPageUrl(publicPath, siteOrigin);
 const articleImage = post.image || copy.detail.image;
-const articleAlt = post.imageAlt || (post.image ? `Editorial illustration for ${post.title}` : copy.detail.imageAlt);
+const isImportedPost = Object.hasOwn(conceptABlogPaths, post.slug);
+const articleAlt = post.image && isImportedPost
+  ? post.imageAlt ?? ''
+  : post.imageAlt || (post.image ? `Editorial illustration for ${post.title}` : copy.detail.imageAlt);
 const defaultImage = new URL(articleImage || settings.brand.favicon, siteOrigin).toString();
 const publishedIso = post.pubDate.toISOString();
 
@@ -55,7 +59,7 @@ const blogPostingSchema = {
   headline: post.title,
   description: post.description,
   datePublished: publishedIso,
-  dateModified: publishedIso,
+  dateModified: isImportedPost ? post.sourceModifiedAt?.toISOString().replace(/\.000Z$/, 'Z') : publishedIso,
   author: {
     '@type': 'Person',
     name: post.author,

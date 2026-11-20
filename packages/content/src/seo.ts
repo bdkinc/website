@@ -1,7 +1,7 @@
 import { z } from 'zod/v4';
 import type { ContentReader } from './reader.ts';
 import type { SEO } from './schemas.ts';
-import { getSiteRoutes, getPagePaths, type FixedPageKey, type RouteInventory } from './routes.ts';
+import { blogSlugForPath, getSiteRoutes, getPagePaths, type FixedPageKey, type RouteInventory } from './routes.ts';
 
 const seoText = z.string().trim().min(1).regex(/^[^<>\p{Cc}]+$/u).optional().catch(undefined);
 const secureImage = z.string().trim().refine((value) => {
@@ -110,8 +110,8 @@ export async function getRouteSeo(reader: ContentReader, requestPath: string, in
   for (const [key, path] of Object.entries(getPagePaths(inventory))) {
     if (path === publicPath) return mergeSeo([pageSeo(await reader.getPage(key as FixedPageKey))]);
   }
-  const blog = /^\/blog\/([^/]+)$/.exec(publicPath);
-  if (blog) return mergeSeo([(await reader.getCollection('blog')).find(post => post.id === blog[1])?.data.seo]);
+  const blogSlug = blogSlugForPath(publicPath, inventory);
+  if (blogSlug) return mergeSeo([(await reader.getCollection('blog')).find(post => post.id === blogSlug)?.data.seo]);
   const match = /^\/(services|industries)\/([^/]+)\/([^/]+)$/.exec(publicPath);
   if (!match) return {};
   const [, kind, slug, locationId] = match;
