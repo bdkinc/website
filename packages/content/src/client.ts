@@ -53,13 +53,19 @@ const wpRecord = z.object({
   slug: z.string().min(1),
   status: z.string(),
   bdk_data: z.record(z.string(), z.unknown()),
-  content: z.object({ rendered: z.string(), protected: z.unknown().optional() }).optional(),
+  content: z.object({ rendered: z.string() }).optional(),
   bdk_original_markdown: z.string().optional(),
-  yoast_head_json: z.unknown().optional(),
   /** Preview snapshots only: the CMS admin origin the preview links back to. */
   bdk_admin: z.url({ protocol: /^https?$/ }).optional(),
 });
 type WPRecord = z.infer<typeof wpRecord>;
+const wpPublicPostSeo = z.object({
+  id: z.number(),
+  slug: z.string().min(1),
+  status: z.literal('publish'),
+  content: z.object({ protected: z.literal(false) }),
+  yoast_head_json: z.unknown().optional(),
+});
 const sourceModifiedAtSchema = z.iso.datetime();
 
 export function createContentClient(options: ContentClientOptions) {
@@ -231,7 +237,9 @@ export function createContentClient(options: ContentClientOptions) {
     ): Promise<ContentEntry<K>[]> {
       const records = await list(
         collectionEndpoints[name],
-        name === 'blog' ? { bdk_managed: 'true' } : {}
+        name === 'blog'
+          ? { bdk_managed: 'true', _fields: 'id,slug,status,bdk_data,content,bdk_original_markdown' }
+          : {}
       );
       if (records.some((record) => record.status !== 'publish'))
         throw new Error(
@@ -240,14 +248,24 @@ export function createContentClient(options: ContentClientOptions) {
       const visibleRecords = name === 'blog'
         ? records.filter(({ slug }) => isBlogSlugInInventory(slug, options.inventory))
         : records;
-      return visibleRecords.map((record) => {
-        const entry = mapEntry(name, record);
-        // Only explicitly unprotected, published native posts can carry Yoast metadata.
-        const yoastSeo = name === 'blog' && record.content?.protected === false
-          ? parseBlogYoastSeo(record.yoast_head_json, origin.hostname)
-          : undefined;
-        return yoastSeo ? { ...entry, data: { ...entry.data, yoastSeo } } : entry;
-      });
+      return visibleRecords.map((record) => mapEntry(name, record));
+    },
+    async getPublishedBlogYoastSeo(wpId: number, slug: string) {
+      if (options.inventory !== 'concept-a' || !Number.isSafeInteger(wpId) || wpId < 1)
+        return undefined;
+      try {
+        // Collection responses can carry another post's Yoast metadata.
+        const { data } = await request(`posts/${wpId}`, {
+          context: 'view',
+          _fields: 'id,slug,status,content.protected,yoast_head_json',
+        });
+        const post = wpPublicPostSeo.safeParse(data);
+        if (post.success && post.data.id === wpId && post.data.slug === slug)
+          return parseBlogYoastSeo(post.data.yoast_head_json, origin.hostname);
+      } catch {
+        // Optional metadata must not prevent rendering the published article.
+      }
+      return undefined;
     },
     getPage: <K extends PageKey>(key: K) => page(key),
     async getSettings(): Promise<SiteSettings> {

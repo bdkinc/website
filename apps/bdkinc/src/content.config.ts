@@ -26,7 +26,7 @@ export const collections = {
     schema: collectionSchemas.services,
   }),
   blog: defineCollection({
-    loader: wordpressLoader('blog'),
+    loader: wordpressLoader('blog', { includeBlogYoast: !import.meta.env.DEV }),
     schema: collectionSchemas.blog.extend({ yoastSeo: blogYoastSeoSchema.optional() }),
   }),
   locations: defineCollection({
