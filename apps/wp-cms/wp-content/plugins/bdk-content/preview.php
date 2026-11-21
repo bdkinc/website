@@ -141,7 +141,9 @@ add_action('rest_api_init', function () {
             return wp_verify_nonce($request->get_header('X-WP-Nonce'), 'wp_rest') && current_user_can('edit_post', (int) $request['postId']);
         },
         'callback' => function ($request) {
-            $post = get_post((int) $request['postId']);
+            $post_id = (int) $request['postId'];
+            $stored_post = $post_id > 0 ? get_post($post_id) : null;
+            $post = $stored_post;
             $definition = $post ? bdk_definition($post) : null;
             // Core legitimately leaves a new draft slug empty until first publication.
             // A snapshot needs an identity, not a prematurely reserved public permalink.
@@ -170,7 +172,8 @@ add_action('rest_api_init', function () {
             }
             $snapshot = wp_generate_uuid4();
             $grant = array_merge($target, ['v' => 1, 'postId' => $post->ID, 'editor' => get_current_user_id(), 'snapshot' => $snapshot, 'previewTarget' => $selected, 'aud' => $audience, 'exp' => time() + 900]);
-            $rendered = bdk_prose_html(apply_filters('the_content', $body), bdk_allows_article_table($post, $selected));
+            // A title-derived routing slug never qualifies a record for archive markup.
+            $rendered = bdk_prose_html(apply_filters('the_content', $body), bdk_article_markup_slug($stored_post, $selected));
             $record = ['id' => $post->ID, 'slug' => $post->post_name, 'status' => $post->post_status, 'bdk_data' => $data, 'content' => ['rendered' => $rendered], 'bdk_admin' => admin_url()];
             set_transient('bdk_preview_' . $snapshot, ['grant' => $grant, 'record' => $record], 900);
             $payload = bdk_base64url(wp_json_encode($grant));

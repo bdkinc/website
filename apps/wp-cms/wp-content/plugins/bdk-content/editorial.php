@@ -564,37 +564,90 @@ add_filter('map_meta_cap', function ($caps, $cap, $user_id, $args) {
 
 add_filter('allowed_block_types_all', function ($allowed, $context) {
     if (isset($context->post) && $context->post->post_type === 'post') {
-        return ['core/paragraph', 'core/heading', 'core/list', 'core/list-item', 'core/quote', 'core/image', 'core/code', 'core/separator'];
+        $blocks = ['core/paragraph', 'core/heading', 'core/list', 'core/list-item', 'core/quote', 'core/image', 'core/code', 'core/separator'];
+        if ($context instanceof WP_Block_Editor_Context && $context->name === 'core/edit-post'
+            && $context->post instanceof WP_Post && $context->post->ID > 0
+            && bdk_article_markup_slug(get_post($context->post->ID)) !== null) {
+            $blocks[] = 'core/table';
+        }
+        return $blocks;
     }
     return $allowed;
 }, 10, 2);
 
-function bdk_allows_article_table($post, $target = 'current') {
-    return $target === 'current' && $post->post_type === 'post'
-        && isset(bdk_concept_a_routes()['blogPaths'][$post->post_name])
-        && is_array(get_post_meta($post->ID, '_bdk_data', true));
+function bdk_article_markup_slug($post, $target = 'current') {
+    if ($target !== 'current' || !($post instanceof WP_Post) || $post->ID <= 0 || $post->post_type !== 'post'
+        || !isset(bdk_concept_a_routes()['blogPaths'][$post->post_name])
+        || !is_array(get_post_meta($post->ID, '_bdk_data', true))) { return null; }
+    return $post->post_name;
 }
 
-function bdk_prose_html($html, $allow_table = false) {
+function bdk_article_heading_ids($slug) {
+    // Reviewed public source fragments only; _bdk_data is not import provenance.
+    $ids = [
+        'how-to-successfully-manage-an-erp-upgrade-or-implementation' => [ // Source 2322.
+            'implementing-or-upgrading-your-erp-system-is-a-big-decision-for-any-business-and-offers-several-important-advantages-',
+            'not-all-data-is-good-data',
+            'consider-data-entry-and-it-s-impact-on-your-organization',
+            'as-you-re-evaluating-how-data-will-be-entered-into-your-erp-system-there-are-some-key-things-to-consider-',
+            'simplify-before-you-scale',
+            'when-reviewing-your-processes-there-are-a-few-critical-areas-to-consider-',
+            'implement-your-new-erp-system',
+        ],
+        'case-study-improving-inventory-visibility-through-a-mobile-erp-interface' => [ // Source 2335.
+            'the-challenge-provide-real-time-inventory-visibility-in-the-client-s-erp-system',
+            'the-solution-development-of-a-user-friendly-mobile-erp-interface',
+        ],
+        'ransomware-101-what-you-need-to-protect-your-business' => [ // Source 2341.
+            'prime-targets-for-ransomware-attacks',
+            'how-ransomware-gets-in-your-network',
+            'what-to-do-if-your-business-is-a-victim-of-ransomware',
+            'we-can-help',
+        ],
+    ];
+    return $ids[$slug] ?? [];
+}
+
+function bdk_prose_html($html, $article_slug = null) {
     $processor = new WP_HTML_Tag_Processor($html);
     while ($processor->next_tag('a')) {
         $href = $processor->get_attribute('href');
         if (is_string($href)) { $processor->set_attribute('href', bdk_public_body_link($href)); }
     }
+    $heading_ids = $article_slug === null ? [] : array_fill_keys(bdk_article_heading_ids($article_slug), true);
+    $heading = $heading_ids ? ['id' => true] : [];
     $allowed = [
-        'p' => [], 'br' => [], 'h2' => [], 'h3' => [], 'h4' => [], 'h5' => [], 'h6' => [],
+        'p' => [], 'br' => [], 'h2' => $heading, 'h3' => $heading, 'h4' => $heading, 'h5' => $heading, 'h6' => $heading,
         'strong' => [], 'em' => [], 'ul' => [], 'ol' => ['start' => true], 'li' => [],
         'blockquote' => [], 'code' => [], 'pre' => [], 'hr' => [],
         'a' => ['href' => true, 'title' => true],
         'figure' => [], 'figcaption' => [], 'img' => ['src' => true, 'alt' => true, 'width' => true, 'height' => true, 'loading' => true],
     ];
-    if ($allow_table) { $allowed += ['table' => [], 'thead' => [], 'tbody' => [], 'tr' => [], 'td' => []]; }
-    return wp_kses($processor->get_updated_html(), $allowed, ['http', 'https', 'mailto', 'tel']);
+    if ($article_slug !== null) {
+        $allowed += ['table' => [], 'thead' => [], 'tbody' => [], 'tr' => [], 'td' => [],
+            'th' => ['scope' => ['values' => ['col']]], 'sup' => [], 'u' => []];
+    }
+    $html = wp_kses($processor->get_updated_html(), $allowed, ['http', 'https', 'mailto', 'tel']);
+    if (!$heading_ids) { return $html; }
+
+    // Keep the first occurrence of each exact source fragment for this article only.
+    $processor = new WP_HTML_Tag_Processor($html);
+    while ($processor->next_tag()) {
+        if (!in_array($processor->get_tag(), ['H2', 'H3', 'H4', 'H5', 'H6'], true)) { continue; }
+        $id = $processor->get_attribute('id');
+        if ($id === null) { continue; }
+        $processor->remove_attribute('id');
+        if (is_string($id) && isset($heading_ids[$id])) {
+            $processor->set_attribute('id', $id);
+            unset($heading_ids[$id]);
+        }
+    }
+    return $processor->get_updated_html();
 }
 add_filter('rest_prepare_post', function ($response, $post) {
     $data = $response->get_data();
     if (isset($data['content']['rendered'])) {
-        $data['content']['rendered'] = bdk_prose_html($data['content']['rendered'], bdk_allows_article_table($post));
+        $data['content']['rendered'] = bdk_prose_html($data['content']['rendered'], bdk_article_markup_slug($post));
     }
     $response->set_data($data);
     return $response;
