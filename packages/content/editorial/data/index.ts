@@ -25,6 +25,14 @@ import disasterRecoveryPlanning from './service-disaster-recovery-planning.json'
 import communications from './service-communications.json' with { type: 'json' };
 import settings from './settings.json' with { type: 'json' };
 import campaignItConsultation from './campaign-it-consultation.json' with { type: 'json' };
+import theBdkTeam from './concept-a-team.json' with { type: 'json' };
+import bdkInTheCommunity from './concept-a-community.json' with { type: 'json' };
+import publicPrivateHosting from './concept-a-hosting.json' with { type: 'json' };
+import ibmSolutions from './concept-a-ibm-solutions.json' with { type: 'json' };
+import ibmStorage from './concept-a-ibm-storage.json' with { type: 'json' };
+import ibmWatsonx from './concept-a-watsonx.json' with { type: 'json' };
+import wpautotermsPrivacy from './concept-a-legal-privacy.json' with { type: 'json' };
+import wpautotermsTerms from './concept-a-legal-terms.json' with { type: 'json' };
 
 export const pageDefinitions = {
   'campaign-it-consultation': campaignItConsultation,
@@ -54,5 +62,16 @@ export const pageDefinitions = {
   'unlimited-help-desk': unlimitedHelpDesk,
   'disaster-recovery-planning': disasterRecoveryPlanning,
   communications,
+  // Legacy production pages at preserved paths (/about/the-bdk-team, /about/bdk-in-the-community, /public-private-hosting).
+  'the-bdk-team': theBdkTeam,
+  'bdk-in-the-community': bdkInTheCommunity,
+  'public-private-hosting': publicPrivateHosting,
+  // Vendor catalogue pages under /ibm-power-servers/ibm-solutions; embed URLs stay developer-owned.
+  'ibm-solutions': ibmSolutions,
+  'ibm-storage': ibmStorage,
+  'ibm-watsonx': ibmWatsonx,
+  // Footer-linked legacy legal documents at /wpautoterms/*; separate from the shared privacy/terms keys.
+  'wpautoterms-privacy': wpautotermsPrivacy,
+  'wpautoterms-terms': wpautotermsTerms,
 } as const;
 export const settingsDefinition = settings;

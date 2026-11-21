@@ -1,0 +1,479 @@
+{
+  "key": "the-bdk-team",
+  "kind": "page",
+  "title": "The BDK Team page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "logo": {
+          "type": "group",
+          "label": "Title graphic",
+          "fields": {
+            "src": {
+              "type": "media",
+              "label": "Image"
+            },
+            "alt": {
+              "type": "text",
+              "label": "Image description (leave blank when decorative)"
+            },
+            "width": {
+              "type": "number",
+              "label": "Intrinsic width"
+            },
+            "height": {
+              "type": "number",
+              "label": "Intrinsic height"
+            }
+          }
+        },
+        "headingLines": {
+          "type": "strings",
+          "label": "Heading (one line per entry)"
+        },
+        "subheading": {
+          "type": "textarea",
+          "label": "Subheading"
+        },
+        "image": {
+          "type": "group",
+          "label": "Hero image",
+          "fields": {
+            "src": {
+              "type": "media",
+              "label": "Image"
+            },
+            "alt": {
+              "type": "text",
+              "label": "Image description (leave blank when decorative)"
+            },
+            "width": {
+              "type": "number",
+              "label": "Intrinsic width"
+            },
+            "height": {
+              "type": "number",
+              "label": "Intrinsic height"
+            }
+          }
+        }
+      }
+    },
+    "intro": {
+      "type": "group",
+      "label": "Team introduction",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        }
+      }
+    },
+    "leadership": {
+      "type": "group",
+      "label": "Leadership",
+      "fields": {
+        "kicker": {
+          "type": "text",
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "people": {
+          "type": "list",
+          "label": "People",
+          "itemLabel": "Person",
+          "fields": {
+            "name": {
+              "type": "text",
+              "label": "Name"
+            },
+            "role": {
+              "type": "text",
+              "label": "Role"
+            }
+          }
+        }
+      }
+    },
+    "managers": {
+      "type": "group",
+      "label": "Managers",
+      "fields": {
+        "kicker": {
+          "type": "text",
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "people": {
+          "type": "list",
+          "label": "People",
+          "itemLabel": "Person",
+          "fields": {
+            "name": {
+              "type": "text",
+              "label": "Name"
+            },
+            "role": {
+              "type": "text",
+              "label": "Role"
+            }
+          }
+        }
+      }
+    },
+    "clientSuccess": {
+      "type": "group",
+      "label": "Client success",
+      "fields": {
+        "kicker": {
+          "type": "text",
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "people": {
+          "type": "list",
+          "label": "People",
+          "itemLabel": "Person",
+          "fields": {
+            "name": {
+              "type": "text",
+              "label": "Name"
+            },
+            "role": {
+              "type": "text",
+              "label": "Role"
+            }
+          }
+        }
+      }
+    },
+    "team": {
+      "type": "group",
+      "label": "Team members",
+      "fields": {
+        "kicker": {
+          "type": "text",
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "members": {
+          "type": "list",
+          "label": "Members",
+          "itemLabel": "Team member",
+          "fields": {
+            "name": {
+              "type": "text",
+              "label": "Name"
+            },
+            "role": {
+              "type": "text",
+              "label": "Role"
+            },
+            "photo": {
+              "type": "media",
+              "label": "Headshot"
+            }
+          }
+        }
+      }
+    },
+    "careers": {
+      "type": "group",
+      "label": "Careers",
+      "fields": {
+        "anchor": {
+          "type": "text",
+          "label": "Section anchor",
+          "locked": true
+        },
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "lead": {
+          "type": "text",
+          "label": "Lead"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        },
+        "openingsHeading": {
+          "type": "text",
+          "label": "Openings heading"
+        },
+        "openingsBody": {
+          "type": "textarea",
+          "label": "Openings status"
+        },
+        "rolesHeading": {
+          "type": "text",
+          "label": "Role types heading"
+        },
+        "roles": {
+          "type": "strings",
+          "label": "Role types"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        },
+        "image": {
+          "type": "group",
+          "label": "Careers image",
+          "fields": {
+            "src": {
+              "type": "media",
+              "label": "Image"
+            },
+            "alt": {
+              "type": "text",
+              "label": "Image description (leave blank when decorative)"
+            },
+            "width": {
+              "type": "number",
+              "label": "Intrinsic width"
+            },
+            "height": {
+              "type": "number",
+              "label": "Intrinsic height"
+            }
+          }
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        },
+        "image": {
+          "type": "media",
+          "label": "Social sharing image"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "hero": {
+      "logo": {
+        "src": "https://bdkinc.com/wp-content/uploads/2023/10/theBDKteamgraphic400px.png",
+        "alt": "",
+        "width": 400,
+        "height": 130
+      },
+      "headingLines": [
+        "Expertise & Experience"
+      ],
+      "subheading": "Technology is what we do. But ultimately, people are at the heart of our business - and that includes our employees.",
+      "image": {
+        "src": "https://bdkinc.com/wp-content/uploads/2023/10/GroupShotGraphic.png",
+        "alt": "",
+        "width": 600,
+        "height": 442
+      }
+    },
+    "intro": {
+      "heading": "A Team of Dedicated IT Experts at Your Service",
+      "body": "With over 20 decades of combined IT experience, our people have a wealth of knowledge – spanning numerous industries and specialties.\nWhat’s more, the BDK Team works to foster the next generation of IT professionals through on-the-job and online training, internship opportunities, and supporting adaptive roles for employees who look to challenge themselves or further their professional interests."
+    },
+    "leadership": {
+      "kicker": "Driving Innovation",
+      "heading": "Our Leadership",
+      "people": [
+        {
+          "name": "Bruce Kimball",
+          "role": "President, CEO"
+        },
+        {
+          "name": "Edwina Kimball",
+          "role": "Executive VP, COO"
+        },
+        {
+          "name": "Brian Kimball",
+          "role": "VP, CTO"
+        },
+        {
+          "name": "Allison Shellhamer",
+          "role": "VP, Sales & Marketing"
+        }
+      ]
+    },
+    "managers": {
+      "kicker": "Exceeding expectations",
+      "heading": "Our Managers",
+      "people": [
+        {
+          "name": "Joe O'Connor",
+          "role": "MSP Manager"
+        },
+        {
+          "name": "James Chillog",
+          "role": "APP Team Lead"
+        },
+        {
+          "name": "Dennis Tuttle",
+          "role": "APP Team Lead"
+        },
+        {
+          "name": "Brandon Harrison",
+          "role": "Technical Account Manager"
+        }
+      ]
+    },
+    "clientSuccess": {
+      "kicker": "Bettering businesses",
+      "heading": "Client Success",
+      "people": [
+        {
+          "name": "Tony Holt",
+          "role": "Account Manager"
+        },
+        {
+          "name": "Erin Tobin",
+          "role": "Account Manager"
+        }
+      ]
+    },
+    "team": {
+      "kicker": "Passionate Professionals",
+      "heading": "Our Team",
+      "members": [
+        {
+          "name": "Matt Montgomery",
+          "role": "Systems Engineer",
+          "photo": "https://bdkinc.com/wp-content/uploads/2026/08/Matt-Montgomery-Cleaned-Up.png"
+        },
+        {
+          "name": "Michael Ayala-Aquino",
+          "role": "MSP Technician",
+          "photo": "https://bdkinc.com/wp-content/uploads/2026/05/Michael-Ayala-Aquino.jpg"
+        },
+        {
+          "name": "Finn Kimball",
+          "role": "Office Dog",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Finn_WEB.jpg"
+        },
+        {
+          "name": "Michael Kroeger",
+          "role": "MSP Technician",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Michael-Kroeger_WEB.jpg"
+        },
+        {
+          "name": "John Smith",
+          "role": "Network Administrator",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_John-Smith_WEB.jpg"
+        },
+        {
+          "name": "Peter Kuyatt",
+          "role": "Systems Engineer",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Peter-Kuyatt_WEB-1.jpg"
+        },
+        {
+          "name": "Justin Dobratz",
+          "role": "Software Engineer",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Justin-Dobratz_WEB.jpg"
+        },
+        {
+          "name": "Adam Shellhamer",
+          "role": "Senior Operations Administrator",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Adam-Shellhamer_WEB.jpg"
+        },
+        {
+          "name": "Adam Shelly",
+          "role": "Software Engineer",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Adam-Shelly_WEB.jpg"
+        },
+        {
+          "name": "Erin Sauter",
+          "role": "Software Engineer",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Erin-Sauter_WEB.jpg"
+        },
+        {
+          "name": "Tiffany Broemm",
+          "role": "Marketing Manager",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Tiffany-Broemm_WEB.jpg"
+        },
+        {
+          "name": "Peggy Briggs",
+          "role": "Accountant",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Peggy-Briggs_WEB.jpg"
+        },
+        {
+          "name": "Melanie Diggs",
+          "role": "Administrative Assistant",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Melanie-Diggs_WEB.jpg"
+        },
+        {
+          "name": "Robert Connors",
+          "role": "MSP Technician",
+          "photo": "https://bdkinc.com/wp-content/uploads/2023/10/BDK-Headshots-2023_Robert-Connors_WEB.jpg"
+        }
+      ]
+    },
+    "careers": {
+      "anchor": "work-for-bdk",
+      "heading": "Careers at BDK",
+      "lead": "We are always looking for motivated, talented individuals to join our team!",
+      "body": "We offer a full range of benefits (medical, dental, vision, 401k, HSA eligibility, short-term disability (STD), long-term disability (LTD), PTO, sick time, etc.), opportunities to engage and be active in our local communities, and fun events spent together as a team.\nIf you’re interested in joining the BDK Team, please don’t hesitate to submit your resume, a brief introduction of yourself, as well as your areas of interest.",
+      "openingsHeading": "Current Openings",
+      "openingsBody": "Check back later for current openings at BDK!",
+      "rolesHeading": "BDK Role Types",
+      "roles": [
+        "IT Technicians",
+        "Software Engineers",
+        "Systems Engineers",
+        "Programmers",
+        "Interns",
+        "Those interested in the IT field!"
+      ],
+      "buttonText": "Get In Touch",
+      "buttonHref": "/contact-us",
+      "image": {
+        "src": "https://bdkinc.com/wp-content/uploads/2023/10/GoofyShotwShadow.png",
+        "alt": "",
+        "width": 729,
+        "height": 521
+      }
+    },
+    "seo": {
+      "title": "The BDK Team - BDK Inc | IT Made Simple",
+      "description": "A Team of Dedicated IT Experts at Your Service. With over 20 decades of combined IT experience, BDK possesses a wealth of knowledge, spanning numerous industries and specialties.",
+      "ogDescription": "A Team of Dedicated IT Experts at Your Service. With over 20 decades of combined IT experience, BDK possesses a wealth of knowledge, spanning numerous industries and specialties.",
+      "image": "https://bdkinc.com/wp-content/uploads/2023/10/theBDKteamgraphic400px.png"
+    }
+  }
+}

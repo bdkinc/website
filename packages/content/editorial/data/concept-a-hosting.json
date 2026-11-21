@@ -1,0 +1,224 @@
+{
+  "key": "public-private-hosting",
+  "kind": "page",
+  "title": "Public & Private Hosting page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "headingLines": {
+          "type": "strings",
+          "label": "Heading (one line per entry)"
+        },
+        "subheading": {
+          "type": "textarea",
+          "label": "Subheading"
+        },
+        "image": {
+          "type": "group",
+          "label": "Hero image",
+          "fields": {
+            "src": {
+              "type": "media",
+              "label": "Image"
+            },
+            "alt": {
+              "type": "text",
+              "label": "Image description (leave blank when decorative)"
+            },
+            "width": {
+              "type": "number",
+              "label": "Intrinsic width"
+            },
+            "height": {
+              "type": "number",
+              "label": "Intrinsic height"
+            }
+          }
+        }
+      }
+    },
+    "intro": {
+      "type": "group",
+      "label": "Hosting introduction",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        }
+      }
+    },
+    "options": {
+      "type": "group",
+      "label": "Cloud hosting options",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "items": {
+          "type": "list",
+          "label": "Options",
+          "itemLabel": "Option",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "body": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        }
+      }
+    },
+    "investment": {
+      "type": "group",
+      "label": "Private cloud investment",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "items": {
+          "type": "list",
+          "label": "Highlights",
+          "itemLabel": "Highlight",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "body": {
+              "type": "textarea",
+              "label": "Description"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "kicker": {
+          "type": "text",
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        },
+        "image": {
+          "type": "media",
+          "label": "Social sharing image"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "hero": {
+      "headingLines": [
+        "Public & Private Hosting"
+      ],
+      "subheading": "Fully utilize all the Cloud has to offer and discover your best hosting solution.",
+      "image": {
+        "src": "https://bdkinc.com/wp-content/uploads/2023/11/BlogBannerTemplate4-28-1024x576.png",
+        "alt": "",
+        "width": 800,
+        "height": 450
+      }
+    },
+    "intro": {
+      "heading": "Find Your Perfect Cloud Hosting Fit",
+      "body": "Private hosting and public hosting are two distinct models of web hosting services, each offering unique advantages and catering to different requirements.\nAt BDK, we offer a full range of Cloud Hosting options to support your business needs, with a specialization in private hosting solutions. Whether it’s utilizing web hosting, hosting your data on one of our dedicated servers, or something in between, BDK can help you identify the Cloud Hosting solution that’s right for you."
+    },
+    "options": {
+      "heading": "Variations of Cloud Hosting Options for Your Business",
+      "items": [
+        {
+          "title": "Private Cloud",
+          "body": "Enhance your entire technical environment with dedicated cloud hosting that connects your team to your corporate services privately and securely. BDK hosts IBM i, and can host most operating systems, including Linux and Windows. Offering dedicated servers and rack space in our Tier 3/4 data center that are proprietary to your business only, BDK provides maximum security and efficiency. We work closely with your IT team to set up the private cloud solution that is best for your specific needs."
+        },
+        {
+          "title": "Public Cloud",
+          "body": "Whether it’s Office 365, websites, or web applications, your organization can only benefit from our simplified planning, deploying, and maintenance of your cloud solution. BDK works with with Azure and AWS, and can carve out a partition for you in one of our data centers. This option is scalable and cost effective, but customization options are often limited."
+        },
+        {
+          "title": "Hybrid Cloud",
+          "body": "Create the optimal cloud experience for your organization by leveraging a combination of public and private hosting solutions to meet the needs of all your applications. Hybrid hosting allows you to optimize costs by choosing the most suitable hosting model for each application or workload. Critical applications can be hosted privately, while less critical or variable workloads can be hosted in the public cloud. As such, integration is often required between public and private components"
+        }
+      ]
+    },
+    "investment": {
+      "heading": "BDK's Investment in Private Cloud Hosting",
+      "items": [
+        {
+          "title": "Private Hosting, Unrivaled Control",
+          "body": "At BDK, we believe in providing our clients with unparalleled control and security. When you choose our private hosting services, you are not just allocated a partition; you gain access to a dedicated environment where we've invested in cutting-edge private cloud infrastructure."
+        },
+        {
+          "title": "State-of-the-Art Equipment",
+          "body": "Our commitment to excellence is evident in the state-of-the-art equipment that powers our private hosting services. BDK boasts IBM's latest and greatest power servers, ensuring that your digital assets are supported by technology at the forefront of innovation."
+        },
+        {
+          "title": "Exceptional Storage Solutions",
+          "body": "In the realm of private hosting, storage is a critical factor. BDK takes pride in offering Storage Area Network (SAN) solutions using drives that surpass the speed of traditional solid-state drives. This means your data enjoys swift access and optimal performance, contributing to a seamless user experience."
+        },
+        {
+          "title": "Your Information, Your Rules",
+          "body": "Choosing BDK for private hosting means you have the autonomy to run your information according to your unique requirements. Our dedicated infrastructure ensures that your digital assets are shielded from the risks associated with shared environments, providing a level of privacy and control that goes beyond industry standards."
+        }
+      ]
+    },
+    "cta": {
+      "kicker": "Partner with BDK",
+      "heading": "The Right Hosting Solution Requires the Right Hosting Provider",
+      "body": "BDK has decades of experience offering Cloud services. Whether you’re looking for more insights into what the Cloud can offer you, or are looking to learn more about the different hosting options, BDK is the right provider for you.",
+      "buttonText": "Get In Touch",
+      "buttonHref": "/contact-us"
+    },
+    "seo": {
+      "title": "Public & Private Hosting - BDK Inc | IT Made Simple",
+      "description": "Tailor your cloud hosting service with private, dedicated servers from BDK. Enhance your entire technical environment with secure, private hosting options and IBM i support",
+      "ogDescription": "Tailor your cloud hosting service with private, dedicated servers from BDK. Enhance your entire technical environment with secure, private hosting options and IBM i support",
+      "image": "https://bdkinc.com/wp-content/uploads/2023/11/BlogBannerTemplate4-28-1024x576.png"
+    }
+  }
+}

@@ -1,0 +1,343 @@
+{
+  "key": "bdk-in-the-community",
+  "kind": "page",
+  "title": "BDK In The Community page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "headingLines": {
+          "type": "strings",
+          "label": "Heading (one line per entry)"
+        },
+        "subheading": {
+          "type": "textarea",
+          "label": "Subheading"
+        },
+        "image": {
+          "type": "group",
+          "label": "Hero image",
+          "fields": {
+            "src": {
+              "type": "media",
+              "label": "Image"
+            },
+            "alt": {
+              "type": "text",
+              "label": "Image description (leave blank when decorative)"
+            },
+            "width": {
+              "type": "number",
+              "label": "Intrinsic width"
+            },
+            "height": {
+              "type": "number",
+              "label": "Intrinsic height"
+            }
+          }
+        }
+      }
+    },
+    "story": {
+      "type": "group",
+      "label": "Community story",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "subheading": {
+          "type": "text",
+          "label": "Subheading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        }
+      }
+    },
+    "quotes": {
+      "type": "list",
+      "label": "Founder quotes",
+      "itemLabel": "Quote",
+      "fields": {
+        "quote": {
+          "type": "textarea",
+          "label": "Quote"
+        },
+        "author": {
+          "type": "text",
+          "label": "Attribution"
+        }
+      }
+    },
+    "gallery": {
+      "type": "list",
+      "label": "Community gallery",
+      "itemLabel": "Photo",
+      "fields": {
+        "caption": {
+          "type": "text",
+          "label": "Caption"
+        },
+        "lightboxTitle": {
+          "type": "text",
+          "label": "Full-size image title"
+        },
+        "thumbnail": {
+          "type": "media",
+          "label": "Thumbnail"
+        },
+        "image": {
+          "type": "media",
+          "label": "Full-size image"
+        }
+      }
+    },
+    "organizations": {
+      "type": "group",
+      "label": "Organizations supported",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "items": {
+          "type": "list",
+          "label": "Organizations",
+          "itemLabel": "Organization",
+          "fields": {
+            "label": {
+              "type": "text",
+              "label": "Link name for assistive technology"
+            },
+            "href": {
+              "type": "url",
+              "label": "Website"
+            },
+            "logo": {
+              "type": "media",
+              "label": "Logo"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "kicker": {
+          "type": "text",
+          "label": "Eyebrow"
+        },
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        },
+        "image": {
+          "type": "media",
+          "label": "Social sharing image"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "hero": {
+      "headingLines": [
+        "BDKinc",
+        "in the community"
+      ],
+      "subheading": "Getting involved and giving back to our communities in meaningful ways.",
+      "image": {
+        "src": "https://bdkinc.com/wp-content/uploads/2023/11/BlogBannerTemplate4-32-1024x576.png",
+        "alt": "",
+        "width": 800,
+        "height": 450
+      }
+    },
+    "story": {
+      "heading": "Bettering Our Communities",
+      "subheading": "Supporting The People and Businesses on Delmarva",
+      "body": "While BDK provides IT services to organizations all over the country, as a company that was created and is based on the Eastern Shore of Maryland, we take great pride in where we come from and strive to give back to our communities.\nEvery year, BDK donates to numerous organizations around Delmarva. Whether that’s sponsoring the local t-ball team, attending local-based Chamber events, or donating a Christmas tree to the annual Festival of the Trees fundraiser at the Tidewater Inn, being an involved member of the communities that enrich our lives and our children’s lives is critical."
+    },
+    "quotes": [
+      {
+        "quote": "When Edwina and I decided where we wanted to raise our family and build our business, our communities had a giant impact. There are a lot of people and businesses out here that try to do good, and we want to make sure we do our part and support where we can.",
+        "author": "Bruce Kimball, BDK Founder"
+      },
+      {
+        "quote": "To me, service is giving back and participating in community initiatives that help ensure the betterment of society. I inherently believe that we are here to help each other, and it is our responsibility to better the lives of others around us. I make sure to instill this mindset in BDK’s business practices.",
+        "author": "Edwina Kimball, BDK Founder"
+      }
+    ],
+    "gallery": [
+      {
+        "caption": "Easton Soccer Sponsorship",
+        "lightboxTitle": "Easton Soccer Sponsorship",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/DSC_0881-scaled-e1699888648305-768x524.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/DSC_0881.jpg"
+      },
+      {
+        "caption": "CSDHS Job Fair",
+        "lightboxTitle": "CSDHS Job Fair 2023",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/MicrosoftTeams-image-17-768x432.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/MicrosoftTeams-image-17.jpg"
+      },
+      {
+        "caption": "All4Love Computer Donation",
+        "lightboxTitle": "All4Love Computer Donation",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/IMG_3380-768x576.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/IMG_3380-scaled.jpg"
+      },
+      {
+        "caption": "Birdies for Benedictine Golf Tournament",
+        "lightboxTitle": "Birdies for Benedictine Golf Tournament",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/DSC_0247-768x512.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/DSC_0247-scaled.jpg"
+      },
+      {
+        "caption": "Pat Hopkins Scholarship Tournament",
+        "lightboxTitle": "Pat Hopkins Golf Tournament",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/Pat-Hopkins-Golf-Tournament.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/Pat-Hopkins-Golf-Tournament.jpg"
+      },
+      {
+        "caption": "Birdies of Benedictine 2023",
+        "lightboxTitle": "Birdies for Benedictine",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/Birdies-for-Benedictine-768x402.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/Birdies-for-Benedictine.jpg"
+      },
+      {
+        "caption": "Women to Watch 2023",
+        "lightboxTitle": "Women to Watch 2023",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/Women-to-Watch-2023-768x1024.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/Women-to-Watch-2023.jpg"
+      },
+      {
+        "caption": "Tri-City 2021",
+        "lightboxTitle": "Tri City Sponsorship 2021",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/Tri-City-Sponsorship-2021-768x551.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/Tri-City-Sponsorship-2021.jpg"
+      },
+      {
+        "caption": "SU Job Fair",
+        "lightboxTitle": "SU Job Fair 2023",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/MicrosoftTeams-image-24-768x576.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/MicrosoftTeams-image-24-scaled.jpg"
+      },
+      {
+        "caption": "Dorchester Educators Donation",
+        "lightboxTitle": "Dorchester Educators",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/Dorchester-Educators.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/Dorchester-Educators.jpg"
+      },
+      {
+        "caption": "Tri-City T-Ball Sponsorship",
+        "lightboxTitle": "Tri-City T-Ball Sponsorship",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/MicrosoftTeams-image-20-768x475.png",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/MicrosoftTeams-image-20.png"
+      },
+      {
+        "caption": "Festival of the Trees 2023",
+        "lightboxTitle": "Festival of the Trees 2023",
+        "thumbnail": "https://bdkinc.com/wp-content/uploads/2023/11/404286865_7225238717528836_4940468529816204575_n.jpg",
+        "image": "https://bdkinc.com/wp-content/uploads/2023/11/404286865_7225238717528836_4940468529816204575_n.jpg"
+      }
+    ],
+    "organizations": {
+      "heading": "Organizations BDK Has Supported Over The Years",
+      "items": [
+        {
+          "label": "lionsclubs.org",
+          "href": "https://www.lionsclubs.org/en",
+          "logo": "https://bdkinc.com/wp-content/uploads/2023/11/Untitled-600-x-400-px.png"
+        },
+        {
+          "label": "academyartmuseum.org",
+          "href": "https://academyartmuseum.org/",
+          "logo": "https://bdkinc.com/wp-content/uploads/2023/11/Untitled-600-x-400-px-1.png"
+        },
+        {
+          "label": "heroeshaven.org",
+          "href": "https://heroeshaven.org/",
+          "logo": "https://bdkinc.com/wp-content/uploads/2023/11/Untitled-600-x-400-px-2.png"
+        },
+        {
+          "label": "womensbusinesscenteratmarylandcapitalenterprises.org",
+          "href": "https://womensbusinesscenteratmarylandcapitalenterprises.org/",
+          "logo": "https://bdkinc.com/wp-content/uploads/2023/11/Untitled-600-x-400-px-8.png"
+        },
+        {
+          "label": "thearcccr.org",
+          "href": "https://www.thearcccr.org/",
+          "logo": "https://bdkinc.com/wp-content/uploads/2023/11/Untitled-600-x-400-px-7.png"
+        },
+        {
+          "label": "talbotchamber.org",
+          "href": "https://www.talbotchamber.org/",
+          "logo": "https://bdkinc.com/wp-content/uploads/2023/11/Untitled-600-x-400-px-6.png"
+        },
+        {
+          "label": "all4love.us",
+          "href": "https://all4love.us/",
+          "logo": "https://bdkinc.com/wp-content/uploads/2023/11/Untitled-600-x-400-px-5.png"
+        },
+        {
+          "label": "benschool.org",
+          "href": "https://benschool.org/about-us/news-and-events/birdies/#:~:text=Over%20the%20past%2030%20years,adults%20ages%205%2D70%2B.",
+          "logo": "https://bdkinc.com/wp-content/uploads/2023/11/Untitled-600-x-400-px-4.png"
+        },
+        {
+          "label": "facebook.com",
+          "href": "https://www.facebook.com/CarrierHopkinsHurleyMemorialGolfTournament",
+          "logo": "https://bdkinc.com/wp-content/uploads/2023/11/Untitled-600-x-400-px-3.png"
+        }
+      ]
+    },
+    "cta": {
+      "kicker": "Partner with BDK",
+      "heading": "Working Together to Give Back",
+      "body": "BDK is always looking for local, worthy causes to give back to! If you are looking for sponsors for your next local event, please consider BDK.",
+      "buttonText": "Get In Touch",
+      "buttonHref": "/contact-us"
+    },
+    "seo": {
+      "title": "BDK In The Community - BDK Inc | IT Made Simple",
+      "description": "Created & based on the Eastern Shore of Maryland, BDK is proud to give back & get involved in our local communities. Learn more...",
+      "ogDescription": "Created & based on the Eastern Shore of Maryland, BDK is proud to give back & get involved in our local communities. Learn more...",
+      "image": "https://bdkinc.com/wp-content/uploads/2023/11/BlogBannerTemplate4-32-1024x576.png"
+    }
+  }
+}

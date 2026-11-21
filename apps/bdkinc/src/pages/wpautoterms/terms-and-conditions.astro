@@ -1,0 +1,7 @@
+---
+import LegacyLegalPage from '@/components/LegacyLegalPage.astro';
+import type { ContentProps } from '@/lib/content';
+interface Props extends ContentProps {}
+---
+
+<LegacyLegalPage {...Astro.props} pageKey="wpautoterms-terms" />
