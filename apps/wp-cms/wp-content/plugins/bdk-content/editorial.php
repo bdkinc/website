@@ -299,11 +299,23 @@ function bdk_validate_fields($input, $fields, $previous = []) {
         } else {
             if (!is_string($value)) { return new WP_Error('bdk_string', 'Expected text: ' . $key, ['status' => 400]); }
             if ($type === 'select' && !in_array($value, $field['choices'], true)) { return new WP_Error('bdk_choice', 'Invalid choice: ' . $key, ['status' => 400]); }
-            if (in_array($type, ['url', 'media'], true) && !bdk_safe_url($value)) { return new WP_Error('bdk_url', 'Use an HTTP(S) URL or a site-relative path: ' . $key, ['status' => 400]); }
-            if ($type === 'date' && strtotime($value) === false) { return new WP_Error('bdk_date', 'Invalid date: ' . $key, ['status' => 400]); }
-            $value = $type === 'textarea' ? sanitize_textarea_field($value) : sanitize_text_field($value);
-            // Sanitizing strips octets and whitespace; recheck so it cannot assemble a network path.
-            if (in_array($type, ['url', 'media'], true) && !bdk_safe_url($value)) { return new WP_Error('bdk_url', 'Use an HTTP(S) URL or a site-relative path: ' . $key, ['status' => 400]); }
+            if (in_array($type, ['url', 'media'], true)) {
+                if (!bdk_safe_url($value)) { return new WP_Error('bdk_url', 'Use an HTTP(S) URL or a site-relative path: ' . $key, ['status' => 400]); }
+                // Give bare anchors a relative prefix so WordPress won't interpret fragment colons as schemes.
+                $anchor = str_starts_with($value, '#');
+                $clean = sanitize_url(($anchor ? '/' : '') . wp_check_invalid_utf8($value), ['http', 'https', 'mailto', 'tel']);
+                $clean = $anchor ? substr($clean, 1) : $clean;
+                // WordPress skips encoded CRLF removal for mailto; keep the existing editorial protection.
+                if (stripos($clean, 'mailto:') === 0) {
+                    do { $clean = str_ireplace(['%0d', '%0a'], '', $clean, $removed); } while ($removed);
+                }
+                // Sanitizing can assemble a network path; never substitute a blank for a nonblank URL.
+                if (($value !== '' && $clean === '') || !bdk_safe_url($clean)) { return new WP_Error('bdk_url', 'Use an HTTP(S) URL or a site-relative path: ' . $key, ['status' => 400]); }
+                $value = $clean;
+            } else {
+                if ($type === 'date' && strtotime($value) === false) { return new WP_Error('bdk_date', 'Invalid date: ' . $key, ['status' => 400]); }
+                $value = $type === 'textarea' ? sanitize_textarea_field($value) : sanitize_text_field($value);
+            }
         }
         $previous[$key] = $value;
     }
