@@ -1,0 +1,32 @@
+---
+import { conceptAPagePaths } from '@bdkinc/content/routes';
+import { createAppContentReader } from '@/lib/content';
+import { slashPagePath } from '@/lib/public-url';
+
+export const prerender = false;
+const headers = { 'Cache-Control': 'no-store' };
+try {
+  const reader = createAppContentReader();
+  const [services, { proactiveMaintenance }] = await Promise.all([
+    reader.getCollection('services'),
+    reader.getPage('service-managed-it'),
+  ]);
+  // The heading carries the anchor; the body contains the replacement copy.
+  if (
+    !services.some(({ id }) => id === 'managed-it') ||
+    !proactiveMaintenance?.heading.trim() ||
+    !proactiveMaintenance.body.trim()
+  ) {
+    return new Response(null, { status: 404, headers });
+  }
+} catch {
+  return new Response(null, { status: 404, headers });
+}
+return new Response(null, {
+  status: 301,
+  headers: {
+    ...headers,
+    Location: `${slashPagePath(conceptAPagePaths['service-managed-it'])}#proactive-maintenance`,
+  },
+});
+---

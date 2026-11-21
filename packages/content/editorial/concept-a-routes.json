@@ -109,6 +109,6 @@
     "windows-10-support-ended-blog": "/windows-10-support-ended-blog"
   },
   "blogReservedRootSegments": ["_actions", "_astro", "_image", "_server-islands", "api", "images", "industries", "logos", "preview", "wp-admin", "wp-content", "wp-includes", "wp-json"],
-  "utilityPaths": ["/search"],
+  "utilityPaths": ["/search", "/patches-updates"],
   "reservedPaths": ["/search-index.json"]
 }
