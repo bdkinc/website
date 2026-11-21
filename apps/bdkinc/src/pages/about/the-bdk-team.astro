@@ -1,0 +1,169 @@
+---
+import { PiCheck } from 'react-icons/pi';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
+import LegacyFixedPage from '@/components/LegacyFixedPage.astro';
+import CTAButton from '@/components/CTAButton';
+import EditSection from '@/components/preview/EditSection.astro';
+interface Props extends ContentProps {}
+
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const copy = await reader.getPage('the-bdk-team');
+
+const paragraphs = (value = '') => value.split(/\n+/).map((line) => line.trim()).filter(Boolean);
+const hasPeople = (group: { people: { name: string }[] }) => group.people.some((person) => person.name.trim());
+const rosters = [
+  { section: 'leadership', group: copy.leadership },
+  { section: 'managers', group: copy.managers },
+  { section: 'clientSuccess', group: copy.clientSuccess },
+] as const;
+const members = copy.team.members.filter((member) => member.name.trim());
+const careers = copy.careers;
+const divider =
+  'via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent';
+---
+
+<LegacyFixedPage
+  reader={reader}
+  contentContext={contentContext}
+  publicPath={publicPath}
+  pageKey="the-bdk-team"
+  path="/about/the-bdk-team"
+  underAbout
+  hero={copy.hero}
+  seo={copy.seo}
+>
+  <EditSection record="the-bdk-team" section="intro">
+    <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[2fr_3fr] lg:gap-16">
+        <h2 class="font-display text-foreground text-3xl font-bold tracking-tight text-balance md:text-4xl">
+          {copy.intro.heading}
+        </h2>
+        <div class="space-y-5">
+          {paragraphs(copy.intro.body).map((text) => (
+            <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+  </EditSection>
+
+  {
+    rosters.filter(({ group }) => hasPeople(group)).map(({ section, group }) => (
+      <EditSection record="the-bdk-team" section={section}>
+        <section class="relative px-4 py-24 sm:px-6 md:py-28 lg:px-8">
+          <div class={divider}></div>
+          <div class="mx-auto max-w-6xl">
+            {group.kicker.trim() && <p class="text-primary mb-3 font-mono text-sm">{group.kicker}</p>}
+            <h2 class="font-display text-foreground mb-12 text-3xl font-bold tracking-tight text-balance md:text-4xl">
+              {group.heading}
+            </h2>
+            <ul class="grid gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {group.people.filter((person) => person.name.trim()).map((person) => (
+                <li class="border-border/60 border-t pt-6">
+                  <h3 class="font-display text-foreground text-xl font-bold tracking-tight">{person.name}</h3>
+                  {person.role.trim() && <p class="text-muted-foreground mt-1.5 leading-relaxed">{person.role}</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </EditSection>
+    ))
+  }
+
+  {
+    members.length > 0 && (
+      <EditSection record="the-bdk-team" section="team">
+        <section class="relative px-4 py-24 sm:px-6 md:py-28 lg:px-8">
+          <div class={divider}></div>
+          <div class="mx-auto max-w-6xl">
+            {copy.team.kicker.trim() && <p class="text-primary mb-3 font-mono text-sm">{copy.team.kicker}</p>}
+            <h2 class="font-display text-foreground mb-12 text-3xl font-bold tracking-tight text-balance md:text-4xl">
+              {copy.team.heading}
+            </h2>
+            <ul class="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {members.map((member) => (
+                <li>
+                  {member.photo && (
+                    <img
+                      src={member.photo}
+                      alt=""
+                      width="400"
+                      height="500"
+                      loading="lazy"
+                      decoding="async"
+                      class="border-border/50 bg-muted mb-4 aspect-[4/5] w-full rounded-2xl border object-cover object-top"
+                    />
+                  )}
+                  <h3 class="font-display text-foreground text-lg font-bold tracking-tight">{member.name}</h3>
+                  {member.role.trim() && <p class="text-muted-foreground text-sm leading-relaxed">{member.role}</p>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </EditSection>
+    )
+  }
+
+  <EditSection record="the-bdk-team" section="careers">
+    <section id={careers.anchor} class="relative scroll-mt-24 px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <div class={divider}></div>
+      <div class="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[3fr_2fr] lg:gap-16">
+        <div>
+          <h2 class="font-display text-foreground mb-6 text-3xl font-bold tracking-tight text-balance md:text-4xl">
+            {careers.heading}
+          </h2>
+          {careers.lead.trim() && (
+            <p class="text-foreground mb-6 text-xl leading-relaxed font-semibold text-pretty">{careers.lead}</p>
+          )}
+          <div class="space-y-5">
+            {paragraphs(careers.body).map((text) => (
+              <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
+            ))}
+          </div>
+          <div class="mt-12 grid gap-10 sm:grid-cols-2">
+            <div class="border-border/60 border-t pt-6">
+              <h3 class="font-display text-foreground mb-3 text-xl font-bold tracking-tight">{careers.openingsHeading}</h3>
+              {paragraphs(careers.openingsBody).map((text) => (
+                <p class="text-muted-foreground leading-relaxed text-pretty">{text}</p>
+              ))}
+            </div>
+            {careers.roles.length > 0 && (
+              <div class="border-border/60 border-t pt-6">
+                <h3 class="font-display text-foreground mb-3 text-xl font-bold tracking-tight">{careers.rolesHeading}</h3>
+                <ul class="space-y-2.5">
+                  {careers.roles.map((role) => (
+                    <li class="text-foreground flex items-start gap-2.5 leading-relaxed">
+                      <PiCheck className="text-primary mt-1.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      <span>{role}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+          {careers.buttonText.trim() && careers.buttonHref && (
+            <div class="mt-12">
+              <CTAButton href={careers.buttonHref} size="lg" icon="arrow">
+                {careers.buttonText}
+              </CTAButton>
+            </div>
+          )}
+        </div>
+        {careers.image.src && (
+          <img
+            src={careers.image.src}
+            alt={careers.image.alt}
+            width={careers.image.width}
+            height={careers.image.height}
+            loading="lazy"
+            decoding="async"
+            class="h-auto w-full"
+          />
+        )}
+      </div>
+    </section>
+  </EditSection>
+</LegacyFixedPage>

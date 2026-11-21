@@ -37,8 +37,12 @@ const socialLinks = [
   },
 ];
 
+// Legacy production pages keep their production footer labels until settings carry them.
 const companyLinks = [
   { href: '/about', label: copy.about },
+  { href: '/about/the-bdk-team/', label: 'The BDK Team' },
+  { href: '/about/bdk-in-the-community/', label: 'BDK in the Community' },
+  { href: '/about/the-bdk-team/#work-for-bdk', label: 'Careers at BDK' },
   { href: '/services', label: copy.services },
   { href: '/blog', label: copy.blog },
   { href: '/contact', label: copy.contact },
@@ -49,6 +53,7 @@ const expertiseLinks = [
   { href: '/services/managed-it', label: copy.managedIT },
   { href: '/cloud-services/', label: copy.cloudHosting },
   { href: '/ibm-power-servers/', label: copy.ibmPower },
+  { href: '/public-private-hosting/', label: 'Public & Private Hosting' },
 ];
 ---
 
@@ -204,8 +209,8 @@ const expertiseLinks = [
       </p>
       <div class="flex flex-wrap items-center justify-center gap-4">
         <nav aria-label="Legal" class="flex items-center gap-4">
-          <a href="/privacy" class={linkClass}>{copy.privacy}</a>
-          <a href="/terms" class={linkClass}>{copy.terms}</a>
+          <a href="/wpautoterms/privacy-policy/" class={linkClass}>{copy.privacy}</a>
+          <a href="/wpautoterms/terms-and-conditions/" class={linkClass}>{copy.terms}</a>
         </nav>
         <span
           class="bg-border/60 hidden h-3 w-px sm:inline-block"

@@ -1,0 +1,99 @@
+---
+/**
+ * Footer-linked legacy legal documents (production wpautoterms pages). The
+ * document is structured block data from the CMS (paragraph / heading / list),
+ * rendered as plain text: no CMS HTML, links or plugin shell reach the page.
+ * Separate from the shared `privacy` / `terms` records and their pages.
+ */
+import { createAppContentReader, type ContentProps } from '@/lib/content';
+import Layout from '@/layouts/Layout.astro';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer.astro';
+import EditSection from '@/components/preview/EditSection.astro';
+import { getNavigationData } from '@/lib/navigation-data';
+
+export type LegacyLegalPageKey = 'wpautoterms-privacy' | 'wpautoterms-terms';
+
+interface Props extends ContentProps {
+  pageKey: LegacyLegalPageKey;
+}
+
+const { pageKey, contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const [doc, settings, { servicesData, recentPosts }] = await Promise.all([
+  reader.getPage(pageKey),
+  reader.getSettings(),
+  getNavigationData(reader),
+]);
+
+// Stable fragment ids for section headings; duplicates get a numeric suffix.
+const used = new Map<string, number>();
+const anchor = (text: string) => {
+  const base = text.normalize('NFKD').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'section';
+  const count = used.get(base) ?? 0;
+  used.set(base, count + 1);
+  return count ? `${base}-${count + 1}` : base;
+};
+const blocks = doc.blocks
+  .map((block) => ({ ...block, text: block.text.trim(), items: block.items.map((item) => item.trim()).filter(Boolean) }))
+  .filter((block) => (block.kind === 'list' ? block.items.length > 0 : block.text))
+  .map((block) => ({ ...block, id: block.kind === 'heading' ? anchor(block.text) : undefined }));
+const isoDate = /^\d{4}-\d{2}-\d{2}$/.test(doc.updated.date) ? doc.updated.date : undefined;
+---
+
+<Layout
+  reader={reader}
+  title={doc.seo.title}
+  description={doc.seo.description.trim() || undefined}
+  contentContext={contentContext}
+  publicPath={publicPath}
+>
+  <EditSection record="settings" section="navigation">
+    <Navigation client:load services={servicesData} blogPosts={recentPosts} currentPath={publicPath} copy={settings.navigation} brand={settings.brand} />
+  </EditSection>
+  <main id="main-content">
+    <EditSection record={pageKey} section="heading" also={['updated']}>
+      <section class="relative overflow-hidden px-4 pt-32 pb-12 sm:px-6 lg:px-8">
+        <div class="gradient-mesh absolute inset-0 opacity-30"></div>
+        <div class="circuit-overlay absolute inset-0 opacity-40"></div>
+        <div class="relative z-10 mx-auto max-w-3xl">
+          <h1 class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 text-foreground mb-6 text-5xl font-bold tracking-tight text-balance duration-700 md:text-6xl">
+            {doc.heading}
+          </h1>
+          {doc.updated.display.trim() && (
+            <p class="text-muted-foreground text-sm">
+              {doc.updated.label}{' '}
+              {isoDate ? <time datetime={isoDate}>{doc.updated.display}</time> : doc.updated.display}
+            </p>
+          )}
+        </div>
+        <div class="from-primary/50 via-secondary/50 absolute right-0 bottom-0 left-0 h-1 bg-linear-to-r to-[--accent]/50"></div>
+      </section>
+    </EditSection>
+    <EditSection record={pageKey} section="blocks">
+      <section class="px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+        <article class="mx-auto max-w-3xl">
+          {blocks.map((block) =>
+            block.kind === 'heading' ? (
+              <h2 id={block.id} class="text-foreground mt-12 mb-4 scroll-mt-24 text-2xl font-bold tracking-tight text-balance first:mt-0 md:text-3xl">
+                {block.text}
+              </h2>
+            ) : block.kind === 'list' ? (
+              <ul class="text-muted-foreground mb-5 ml-1 space-y-2">
+                {block.items.map((item) => (
+                  <li class="flex gap-3 leading-relaxed">
+                    <span class="text-primary shrink-0" aria-hidden="true">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p class="text-muted-foreground mb-5 leading-relaxed text-pretty">{block.text}</p>
+            )
+          )}
+        </article>
+      </section>
+    </EditSection>
+  </main>
+  <Footer reader={reader} contentContext={contentContext} />
+</Layout>

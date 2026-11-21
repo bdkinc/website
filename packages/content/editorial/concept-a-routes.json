@@ -1,4 +1,5 @@
 {
+  "excludedSharedKeys": ["privacy", "terms"],
   "routes": {
     "contact": "/contact-us",
     "service-managed-it": "/managed-it",
@@ -11,9 +12,19 @@
     "ibm-power-solutions": "/ibm-power-servers/ibm-solutions/ibm-power",
     "unlimited-help-desk": "/unlimited-help-desk",
     "disaster-recovery-planning": "/disaster-recovery-planning",
-    "communications": "/communications"
+    "communications": "/communications",
+    "the-bdk-team": "/about/the-bdk-team",
+    "bdk-in-the-community": "/about/bdk-in-the-community",
+    "public-private-hosting": "/public-private-hosting",
+    "ibm-solutions": "/ibm-power-servers/ibm-solutions",
+    "ibm-storage": "/ibm-power-servers/ibm-solutions/ibm-storage",
+    "ibm-watsonx": "/ibm-watsonx",
+    "wpautoterms-privacy": "/wpautoterms/privacy-policy",
+    "wpautoterms-terms": "/wpautoterms/terms-and-conditions"
   },
   "aliases": {
+    "/privacy": "/wpautoterms/privacy-policy",
+    "/terms": "/wpautoterms/terms-and-conditions",
     "/contact": "/contact-us",
     "/services/managed-it": "/managed-it",
     "/services/business-analytics": "/business-analytics",

@@ -121,7 +121,9 @@ function bdk_concept_a_routes() {
 function bdk_fixed_routes($target = 'current') {
     static $shared;
     if ($shared === null) { $shared = json_decode(file_get_contents('/var/www/bdk-editorial/routes.json'), true, 512, JSON_THROW_ON_ERROR); }
-    return $target === 'current' ? array_merge($shared, bdk_concept_a_routes()['routes']) : $shared;
+    if ($target !== 'current') { return $shared; }
+    // Concept A retires listed shared keys to verified aliases (mirrors routes.ts getPagePaths); default keeps them.
+    return array_diff_key(array_merge($shared, bdk_concept_a_routes()['routes']), array_flip(bdk_concept_a_routes()['excludedSharedKeys']));
 }
 function bdk_blog_path($slug, $target = 'current') {
     $root = bdk_concept_a_routes()['blogPaths'][$slug] ?? null;

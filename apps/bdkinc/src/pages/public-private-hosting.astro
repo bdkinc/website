@@ -1,0 +1,106 @@
+---
+import { PiCpu, PiHardDrives, PiLockKey, PiShieldCheck } from 'react-icons/pi';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
+import LegacyFixedPage from '@/components/LegacyFixedPage.astro';
+import EditSection from '@/components/preview/EditSection.astro';
+interface Props extends ContentProps {}
+
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const copy = await reader.getPage('public-private-hosting');
+
+const paragraphs = (value = '') => value.split(/\n+/).map((line) => line.trim()).filter(Boolean);
+const options = copy.options.items.filter((item) => item.title.trim() || item.body.trim());
+const highlights = copy.investment.items.filter((item) => item.title.trim() || item.body.trim());
+// Developer-owned icons in source order: control, equipment, storage, data ownership.
+const highlightIcons = [PiShieldCheck, PiCpu, PiHardDrives, PiLockKey];
+const divider =
+  'via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent';
+---
+
+<LegacyFixedPage
+  reader={reader}
+  contentContext={contentContext}
+  publicPath={publicPath}
+  pageKey="public-private-hosting"
+  path="/public-private-hosting"
+  hero={copy.hero}
+  cta={copy.cta}
+  seo={copy.seo}
+>
+  <EditSection record="public-private-hosting" section="intro">
+    <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[2fr_3fr] lg:gap-16">
+        <h2 class="font-display text-foreground text-3xl font-bold tracking-tight text-balance md:text-4xl">
+          {copy.intro.heading}
+        </h2>
+        <div class="space-y-5">
+          {paragraphs(copy.intro.body).map((text) => (
+            <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+  </EditSection>
+
+  {
+    options.length > 0 && (
+      <EditSection record="public-private-hosting" section="options">
+        <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+          <div class={divider}></div>
+          <div class="mx-auto max-w-6xl">
+            <h2 class="font-display text-foreground mb-16 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
+              {copy.options.heading}
+            </h2>
+            <ol class="grid gap-x-12 gap-y-14 md:grid-cols-3">
+              {options.map((item, index) => (
+                <li class="border-border/60 border-t pt-8">
+                  <p class="text-primary mb-3 font-mono text-sm tabular-nums" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </p>
+                  <h3 class="font-display text-foreground mb-4 text-2xl font-bold tracking-tight text-balance">{item.title}</h3>
+                  {paragraphs(item.body).map((text) => (
+                    <p class="text-muted-foreground leading-relaxed text-pretty">{text}</p>
+                  ))}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      </EditSection>
+    )
+  }
+
+  {
+    highlights.length > 0 && (
+      <EditSection record="public-private-hosting" section="investment">
+        <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+          <div class={divider}></div>
+          <div class="mx-auto max-w-6xl">
+            <h2 class="font-display text-foreground mb-16 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
+              {copy.investment.heading}
+            </h2>
+            <ul class="grid gap-x-16 gap-y-14 md:grid-cols-2">
+              {highlights.map((item, index) => {
+                const Icon = highlightIcons[index % highlightIcons.length];
+                return (
+                  <li class="flex gap-5">
+                    <div class="from-primary/10 to-primary/5 border-primary/20 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-linear-to-br">
+                      <Icon className="text-primary h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h3 class="font-display text-foreground mb-3 text-xl font-bold tracking-tight text-balance">{item.title}</h3>
+                      {paragraphs(item.body).map((text) => (
+                        <p class="text-muted-foreground leading-relaxed text-pretty">{text}</p>
+                      ))}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+      </EditSection>
+    )
+  }
+</LegacyFixedPage>

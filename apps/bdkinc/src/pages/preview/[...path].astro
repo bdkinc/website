@@ -5,8 +5,6 @@ import About from '@/pages/about.astro';
 import Services from '@/pages/services.astro';
 import Blog from '@/pages/blog.astro';
 import Contact from '@/pages/contact-us.astro';
-import Privacy from '@/pages/privacy.astro';
-import Terms from '@/pages/terms.astro';
 import NotFound from '@/pages/404.astro';
 import Maryland from '@/pages/locations/maryland-eastern-shore.astro';
 import Delaware from '@/pages/locations/delaware-eastern-shore.astro';
@@ -23,6 +21,14 @@ import ManagedIt from '@/pages/managed-it.astro';
 import UnlimitedHelpDesk from '@/pages/unlimited-help-desk.astro';
 import DisasterRecoveryPlanning from '@/pages/disaster-recovery-planning.astro';
 import Communications from '@/pages/communications.astro';
+import TheBdkTeam from '@/pages/about/the-bdk-team.astro';
+import BdkInTheCommunity from '@/pages/about/bdk-in-the-community.astro';
+import PublicPrivateHosting from '@/pages/public-private-hosting.astro';
+import IbmSolutions from '@/pages/ibm-power-servers/ibm-solutions/index.astro';
+import IbmStorage from '@/pages/ibm-power-servers/ibm-solutions/ibm-storage.astro';
+import IbmWatsonx from '@/pages/ibm-watsonx.astro';
+import WpautotermsPrivacy from '@/pages/wpautoterms/privacy-policy.astro';
+import WpautotermsTerms from '@/pages/wpautoterms/terms-and-conditions.astro';
 import BlogPost from '@/pages/blog/[slug].astro';
 import ServiceLocation from '@/pages/services/[service]/[location].astro';
 import IndustryLocation from '@/pages/industries/[industry]/[location].astro';
@@ -46,8 +52,6 @@ const pages = {
   services: Services,
   blog: Blog,
   contact: Contact,
-  privacy: Privacy,
-  terms: Terms,
   'not-found': NotFound,
   'location-maryland-eastern-shore': Maryland,
   'location-delaware-eastern-shore': Delaware,
@@ -64,6 +68,14 @@ const pages = {
   'unlimited-help-desk': UnlimitedHelpDesk,
   'disaster-recovery-planning': DisasterRecoveryPlanning,
   communications: Communications,
+  'the-bdk-team': TheBdkTeam,
+  'bdk-in-the-community': BdkInTheCommunity,
+  'public-private-hosting': PublicPrivateHosting,
+  'ibm-solutions': IbmSolutions,
+  'ibm-storage': IbmStorage,
+  'ibm-watsonx': IbmWatsonx,
+  'wpautoterms-privacy': WpautotermsPrivacy,
+  'wpautoterms-terms': WpautotermsTerms,
 };
 let contentContext;
 let route;
@@ -88,8 +100,9 @@ try {
     headers: previewHeaders,
   });
 }
+// Concept A retires the shared privacy/terms keys (getPagePaths), so no signed A route resolves to them.
 const PageTemplate =
-  route.template === 'page' ? pages[route.pageKey] : undefined;
+  route.template === 'page' ? pages[route.pageKey as Exclude<typeof route.pageKey, 'privacy' | 'terms'>] : undefined;
 ---
 
 {

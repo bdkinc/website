@@ -6,6 +6,14 @@ import type { ContentReader } from './reader.ts';
 export const pagePaths = fixedPaths;
 /** Concept A (current site): shared paths plus its developer-owned route delta. */
 export const conceptAPagePaths = { ...fixedPaths, ...conceptA.routes };
+/** Shared keys Concept A retires (A-only): records stay for the default inventory; their paths become content aliases. */
+const conceptAExcludedKeys: ReadonlySet<string> = new Set(conceptA.excludedSharedKeys);
+const conceptAPublicPagePaths: Readonly<Record<string, string>> = Object.fromEntries(
+  Object.entries(conceptAPagePaths).filter(([key]) => !conceptAExcludedKeys.has(key))
+);
+const conceptARetiredSources: ReadonlySet<string> = new Set(
+  [...conceptAExcludedKeys].map(key => (fixedPaths as Record<string, string>)[key])
+);
 /** Developer-owned Concept A aliases: reserved as CMS sources; never canonical pages. */
 export const conceptAAliases: Readonly<Record<string, string>> = conceptA.aliases;
 export const conceptABlogPaths: Readonly<Partial<Record<string, string>>> = conceptA.blogPaths;
@@ -36,7 +44,7 @@ const conceptARootBlogPaths = new Set<string>(Object.values(conceptA.blogPaths))
 const cmsAliasTargets = new Set([ibmPowerSolutionsPath, ...conceptARootBlogPaths]);
 /** These Concept A aliases need a publication check and an exact HTTP status. */
 export const conceptAContentAliases = new Set(
-  Object.entries(conceptAAliases).filter(([, target]) => cmsAliasTargets.has(target)).map(([source]) => source)
+  Object.entries(conceptAAliases).filter(([source, target]) => cmsAliasTargets.has(target) || conceptARetiredSources.has(source)).map(([source]) => source)
 );
 export type RouteInventory = 'default' | 'concept-a';
 export function isBlogSlugInInventory(slug: string, inventory: RouteInventory = 'default'): boolean {
@@ -56,7 +64,14 @@ export function blogSlugForPath(path: string, inventory: RouteInventory = 'defau
 }
 export type FixedPageKey = keyof typeof conceptAPagePaths;
 export function getPagePaths(inventory: RouteInventory = 'default'): Readonly<Record<string, string>> {
-  return inventory === 'concept-a' ? conceptAPagePaths : pagePaths;
+  return inventory === 'concept-a' ? conceptAPublicPagePaths : pagePaths;
+}
+// A retired shared key must be a shared-only page whose path is an alias to a live Concept A page.
+for (const key of conceptAExcludedKeys) {
+  const source = (fixedPaths as Record<string, string>)[key];
+  const target = source === undefined ? undefined : conceptAAliases[source];
+  if (!source || Object.hasOwn(conceptA.routes, key) || !target || !Object.values(conceptAPublicPagePaths).includes(target))
+    throw new Error(`Invalid Concept A retired shared page: ${key}`);
 }
 export function getReservedAliases(inventory: RouteInventory = 'default'): string[] {
   return inventory === 'concept-a' ? Object.keys(conceptAAliases) : [];
@@ -103,6 +118,17 @@ async function hasPublishedIbmPowerSolutions(reader: Pick<ContentReader, 'getPag
     return false;
   }
 }
+/** A retired shared path redirects only once its approved Concept A record is published. */
+async function hasPublishedConceptAPage(reader: Pick<ContentReader, 'getPage'>, path: string): Promise<boolean> {
+  const key = Object.entries(conceptAPublicPagePaths).find(([, candidate]) => candidate === path)?.[0];
+  if (!key) return false;
+  try {
+    await reader.getPage(key as FixedPageKey);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 /** Exact legacy routes must never redirect to an unpublished record. */
 export async function getConceptAContentAliasTarget(reader: Pick<ContentReader, 'getCollection' | 'getPage'>, source: string): Promise<string | undefined> {
@@ -111,7 +137,9 @@ export async function getConceptAContentAliasTarget(reader: Pick<ContentReader, 
   const slug = blogSlugForPath(target, 'concept-a');
   const published = slug
     ? (await reader.getCollection('blog')).some(post => post.id === slug && !post.data.draft)
-    : target === ibmPowerSolutionsPath && await hasPublishedIbmPowerSolutions(reader);
+    : conceptARetiredSources.has(source)
+      ? await hasPublishedConceptAPage(reader, target)
+      : target === ibmPowerSolutionsPath && await hasPublishedIbmPowerSolutions(reader);
   return published ? target : undefined;
 }
 

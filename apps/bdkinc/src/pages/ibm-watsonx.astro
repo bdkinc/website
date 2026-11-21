@@ -1,0 +1,188 @@
+---
+import { PiArrowSquareOut } from 'react-icons/pi';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
+import LegacyFixedPage from '@/components/LegacyFixedPage.astro';
+import CTAButton from '@/components/CTAButton';
+import EditSection from '@/components/preview/EditSection.astro';
+interface Props extends ContentProps {}
+
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const copy = await reader.getPage('ibm-watsonx');
+
+const paragraphs = (value = '') => value.split(/\n+/).map((line) => line.trim()).filter(Boolean);
+// Only a plain YouTube watch/short link becomes an embed; anything else renders no frame.
+const youtubeId = /^https:\/\/(?:www\.youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})(?:[&?#].*)?$/.exec(copy.hero.videoUrl.trim())?.[1];
+const solutions = copy.solutions.items.filter((item) => item.title.trim() || item.body.trim());
+const resources = copy.resources.items.filter((item) => item.title.trim() && item.href);
+const divider =
+  'via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent';
+---
+
+<LegacyFixedPage
+  reader={reader}
+  contentContext={contentContext}
+  publicPath={publicPath}
+  pageKey="ibm-watsonx"
+  path="/ibm-watsonx"
+  hero={copy.hero}
+  cta={copy.cta}
+  seo={copy.seo}
+>
+  {
+    youtubeId && (
+      <div slot="hero-media">
+        <div class="border-border/50 bg-background/40 aspect-video overflow-hidden rounded-3xl border shadow-2xl">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${youtubeId}`}
+            title="Embedded YouTube video"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowfullscreen
+            class="block h-full w-full border-0"
+          ></iframe>
+        </div>
+        <p class="mt-3 text-right text-sm">
+          <a
+            href={copy.hero.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-muted-foreground hover:text-primary focus-visible:ring-ring inline-flex items-center gap-1.5 rounded-sm underline-offset-4 transition-colors hover:underline focus-visible:ring-2 focus-visible:outline-none"
+          >
+            Watch on YouTube
+            <PiArrowSquareOut className="h-4 w-4" aria-hidden="true" />
+          </a>
+        </p>
+      </div>
+    )
+  }
+
+  <EditSection record="ibm-watsonx" section="intro">
+    <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[2fr_3fr] lg:gap-16">
+        <h2 class="font-display text-foreground text-3xl font-bold tracking-tight text-balance md:text-4xl">
+          {copy.intro.heading}
+        </h2>
+        <div>
+          <div class="space-y-5">
+            {paragraphs(copy.intro.body).map((text) => (
+              <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
+            ))}
+          </div>
+          {copy.intro.buttonText.trim() && copy.intro.buttonHref && (
+            <div class="mt-8">
+              <CTAButton href={copy.intro.buttonHref} variant="outline" icon="arrow">
+                {copy.intro.buttonText}
+              </CTAButton>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  </EditSection>
+
+  {
+    solutions.length > 0 && (
+      <EditSection record="ibm-watsonx" section="solutions">
+        <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+          <div class={divider}></div>
+          <div class="mx-auto max-w-6xl">
+            <div class="mx-auto mb-16 max-w-3xl text-center">
+              <h2 class="font-display text-foreground mb-6 text-3xl font-bold tracking-tight text-balance md:text-4xl">
+                {copy.solutions.heading}
+              </h2>
+              {paragraphs(copy.solutions.body).map((text) => (
+                <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
+              ))}
+            </div>
+            <ul class="grid gap-x-12 gap-y-14 md:grid-cols-2">
+              {solutions.map((item) => (
+                <li>
+                  {item.image.src && (
+                    <img
+                      src={item.image.src}
+                      alt={item.image.alt}
+                      width={item.image.width}
+                      height={item.image.height}
+                      loading="lazy"
+                      decoding="async"
+                      class="border-border/50 mb-6 h-auto w-full rounded-2xl border"
+                    />
+                  )}
+                  <h3 class="font-display text-foreground mb-3 text-2xl font-bold tracking-tight">{item.title}</h3>
+                  {paragraphs(item.body).map((text) => (
+                    <p class="text-muted-foreground leading-relaxed text-pretty">{text}</p>
+                  ))}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </EditSection>
+    )
+  }
+
+  <EditSection record="ibm-watsonx" section="why">
+    <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <div class={divider}></div>
+      <div class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[3fr_2fr] lg:gap-16">
+        <div>
+          <h2 class="font-display text-foreground mb-6 text-3xl font-bold tracking-tight text-balance md:text-4xl">
+            {copy.why.heading}
+          </h2>
+          <div class="space-y-5">
+            {paragraphs(copy.why.body).map((text) => (
+              <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
+            ))}
+          </div>
+        </div>
+        {copy.why.image.src && (
+          <img
+            src={copy.why.image.src}
+            alt={copy.why.image.alt}
+            width={copy.why.image.width}
+            height={copy.why.image.height}
+            loading="lazy"
+            decoding="async"
+            class="border-border/50 h-auto w-full rounded-3xl border"
+          />
+        )}
+      </div>
+    </section>
+  </EditSection>
+
+  {
+    resources.length > 0 && (
+      <EditSection record="ibm-watsonx" section="resources">
+        <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+          <div class={divider}></div>
+          <div class="mx-auto max-w-6xl">
+            <h2 class="font-display text-foreground mb-16 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
+              {copy.resources.heading}
+            </h2>
+            <ul class="grid gap-x-12 gap-y-14 md:grid-cols-3">
+              {resources.map((item) => (
+                <li class="border-border/60 flex flex-col border-t pt-8">
+                  <h3 class="font-display text-foreground mb-4 text-xl font-bold tracking-tight text-balance">{item.title}</h3>
+                  {paragraphs(item.body).map((text) => (
+                    <p class="text-muted-foreground mb-6 leading-relaxed text-pretty">{text}</p>
+                  ))}
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-primary hover:text-primary/80 focus-visible:ring-ring mt-auto inline-flex w-fit items-center gap-1.5 rounded-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                  >
+                    {item.linkText}
+                    <span class="sr-only">: {item.title} (opens in a new tab)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </EditSection>
+    )
+  }
+</LegacyFixedPage>

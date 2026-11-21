@@ -1,0 +1,138 @@
+---
+import { PiQuotesFill } from 'react-icons/pi';
+import { createAppContentReader, type ContentProps } from '@/lib/content';
+import LegacyFixedPage from '@/components/LegacyFixedPage.astro';
+import EditSection from '@/components/preview/EditSection.astro';
+interface Props extends ContentProps {}
+
+const { contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const reader = suppliedReader ?? createAppContentReader(contentContext);
+const copy = await reader.getPage('bdk-in-the-community');
+
+const paragraphs = (value = '') => value.split(/\n+/).map((line) => line.trim()).filter(Boolean);
+const quotes = copy.quotes.filter((item) => item.quote.trim());
+const gallery = copy.gallery.filter((item) => item.thumbnail || item.image);
+const organizations = copy.organizations.items.filter((item) => item.logo && item.href);
+const divider =
+  'via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent';
+---
+
+<LegacyFixedPage
+  reader={reader}
+  contentContext={contentContext}
+  publicPath={publicPath}
+  pageKey="bdk-in-the-community"
+  path="/about/bdk-in-the-community"
+  underAbout
+  hero={copy.hero}
+  cta={copy.cta}
+  seo={copy.seo}
+>
+  <EditSection record="bdk-in-the-community" section="story">
+    <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+      <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[2fr_3fr] lg:gap-16">
+        <div>
+          <h2 class="font-display text-foreground text-3xl font-bold tracking-tight text-balance md:text-4xl">
+            {copy.story.heading}
+          </h2>
+          {copy.story.subheading.trim() && (
+            <h3 class="text-primary mt-4 text-xl font-semibold tracking-tight text-balance">{copy.story.subheading}</h3>
+          )}
+        </div>
+        <div class="space-y-5">
+          {paragraphs(copy.story.body).map((text) => (
+            <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+  </EditSection>
+
+  {
+    quotes.length > 0 && (
+      <EditSection record="bdk-in-the-community" section="quotes">
+        <section class="relative px-4 py-24 sm:px-6 md:py-28 lg:px-8">
+          <div class={divider}></div>
+          <div class="mx-auto grid max-w-6xl gap-16 md:grid-cols-2 md:gap-12">
+            {quotes.map((item) => (
+              <figure class="relative">
+                <PiQuotesFill
+                  className="text-secondary/10 pointer-events-none absolute -top-8 right-0 h-14 w-14"
+                  aria-hidden="true"
+                />
+                <blockquote class="border-secondary/40 text-muted-foreground border-l-2 pl-6 text-lg leading-relaxed font-light text-pretty md:text-xl">
+                  {item.quote}
+                </blockquote>
+                {item.author.trim() && (
+                  <figcaption class="text-foreground mt-5 pl-6 text-sm font-semibold">{item.author}</figcaption>
+                )}
+              </figure>
+            ))}
+          </div>
+        </section>
+      </EditSection>
+    )
+  }
+
+  {
+    gallery.length > 0 && (
+      <EditSection record="bdk-in-the-community" section="gallery">
+        <section class="relative px-4 py-24 sm:px-6 md:py-28 lg:px-8">
+          <div class={divider}></div>
+          <ul class="mx-auto max-w-6xl columns-1 gap-6 sm:columns-2 lg:columns-3">
+            {gallery.map((item) => (
+              <li class="mb-6 break-inside-avoid">
+                <a
+                  href={item.image || item.thumbnail}
+                  title={item.lightboxTitle || undefined}
+                  class="group focus-visible:ring-ring block rounded-2xl focus-visible:ring-2 focus-visible:outline-none"
+                >
+                  <img
+                    src={item.thumbnail || item.image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    class="border-border/50 bg-muted h-auto w-full rounded-2xl border transition-opacity duration-200 group-hover:opacity-90"
+                  />
+                  <span class="text-foreground group-hover:text-primary mt-3 block text-sm font-semibold transition-colors duration-200">
+                    {item.caption}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </EditSection>
+    )
+  }
+
+  {
+    organizations.length > 0 && (
+      <EditSection record="bdk-in-the-community" section="organizations">
+        <section class="relative px-4 py-24 sm:px-6 md:py-28 lg:px-8">
+          <div class={divider}></div>
+          <div class="mx-auto max-w-6xl">
+            <h2 class="font-display text-foreground mb-12 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
+              {copy.organizations.heading}
+            </h2>
+            <ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6">
+              {organizations.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${item.label} (opens in a new tab)`}
+                    class="border-border/50 focus-visible:ring-ring hover:border-primary/40 block overflow-hidden rounded-2xl border bg-white transition-colors duration-200 focus-visible:ring-2 focus-visible:outline-none"
+                  >
+                    <img src={item.logo} alt="" width="600" height="400" loading="lazy" decoding="async" class="h-auto w-full" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </EditSection>
+    )
+  }
+</LegacyFixedPage>

@@ -1,0 +1,32 @@
+{
+  "key": "ibm-solutions",
+  "kind": "page",
+  "title": "IBM Solutions page",
+  "fields": {
+    "heading": {
+      "type": "text",
+      "label": "Heading"
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description (blank uses the site default)"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "heading": "IBM Solutions",
+    "seo": {
+      "title": "IBM Solutions - BDK Inc | IT Made Simple",
+      "description": ""
+    }
+  }
+}

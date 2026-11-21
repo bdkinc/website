@@ -1,0 +1,327 @@
+{
+  "key": "ibm-watsonx",
+  "kind": "page",
+  "title": "IBM watsonx page",
+  "fields": {
+    "hero": {
+      "type": "group",
+      "label": "Hero introduction",
+      "fields": {
+        "headingLines": {
+          "type": "strings",
+          "label": "Heading (one line per entry)"
+        },
+        "subheading": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        },
+        "videoUrl": {
+          "type": "url",
+          "label": "YouTube video URL"
+        }
+      }
+    },
+    "intro": {
+      "type": "group",
+      "label": "Getting started",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "solutions": {
+      "type": "group",
+      "label": "Solution areas",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Introduction"
+        },
+        "items": {
+          "type": "list",
+          "label": "Solution areas",
+          "itemLabel": "Solution area",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "body": {
+              "type": "textarea",
+              "label": "Description"
+            },
+            "image": {
+              "type": "group",
+              "label": "Image",
+              "fields": {
+                "src": {
+                  "type": "media",
+                  "label": "Image"
+                },
+                "alt": {
+                  "type": "text",
+                  "label": "Image description (leave blank when decorative)"
+                },
+                "width": {
+                  "type": "number",
+                  "label": "Intrinsic width"
+                },
+                "height": {
+                  "type": "number",
+                  "label": "Intrinsic height"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "why": {
+      "type": "group",
+      "label": "Why work with BDK",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        },
+        "image": {
+          "type": "group",
+          "label": "Image",
+          "fields": {
+            "src": {
+              "type": "media",
+              "label": "Image"
+            },
+            "alt": {
+              "type": "text",
+              "label": "Image description (leave blank when decorative)"
+            },
+            "width": {
+              "type": "number",
+              "label": "Intrinsic width"
+            },
+            "height": {
+              "type": "number",
+              "label": "Intrinsic height"
+            }
+          }
+        }
+      }
+    },
+    "resources": {
+      "type": "group",
+      "label": "Resources",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "items": {
+          "type": "list",
+          "label": "Resources",
+          "itemLabel": "Resource",
+          "fields": {
+            "title": {
+              "type": "text",
+              "label": "Title"
+            },
+            "body": {
+              "type": "textarea",
+              "label": "Description"
+            },
+            "linkText": {
+              "type": "text",
+              "label": "Link label"
+            },
+            "href": {
+              "type": "url",
+              "label": "Link destination"
+            }
+          }
+        }
+      }
+    },
+    "cta": {
+      "type": "group",
+      "label": "Closing call to action",
+      "fields": {
+        "heading": {
+          "type": "text",
+          "label": "Heading"
+        },
+        "body": {
+          "type": "textarea",
+          "label": "Body (start each paragraph on a new line)"
+        },
+        "buttonText": {
+          "type": "text",
+          "label": "Button label"
+        },
+        "buttonHref": {
+          "type": "url",
+          "label": "Button destination"
+        }
+      }
+    },
+    "seo": {
+      "type": "group",
+      "label": "Search and sharing",
+      "fields": {
+        "title": {
+          "type": "text",
+          "label": "Title"
+        },
+        "description": {
+          "type": "textarea",
+          "label": "Description"
+        },
+        "ogDescription": {
+          "type": "textarea",
+          "label": "Social sharing description"
+        },
+        "image": {
+          "type": "media",
+          "label": "Social sharing image"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "hero": {
+      "headingLines": [
+        "AI Analytics and Automation Solutions Powered by IBM watsonx"
+      ],
+      "subheading": "BDK, Inc. is a family-owned and operated business that has been delivering managed and cloud hosting services to companies in the Mid-Atlantic and across the U.S. for 25 years. As an IBM Silver Business Partner, we deliver enterprise-level IBM watsonx solutions to companies of all sizes via our IBM and business analytics expertise. We customize watsonx solutions, working closely with customers to develop AI analytics and automation tools that work for them and meet their specific needs.",
+      "buttonText": "Reach Out Today",
+      "buttonHref": "/contact-us",
+      "videoUrl": "https://www.youtube.com/watch?v=WZMJHh4yz6g"
+    },
+    "intro": {
+      "heading": "Getting Started with IBM watsonx + BDK",
+      "body": "At BDK, we offer enterprise-level IBM watsonx solutions that are designed to solve companies’ unique business problems, including skills gaps, data management issues, compliance and governance, and hybrid cloud and IT infrastructure challenges, by bringing automation and intelligence together.",
+      "buttonText": "Contact Us",
+      "buttonHref": "/contact-us"
+    },
+    "solutions": {
+      "heading": "watsonx Solution Areas",
+      "body": "Through our partnership with IBM, we offer a range of AI-powered watsonx solutions that meet your company’s data analytics, operations, document processing, and customer experience challenges.",
+      "items": [
+        {
+          "title": "Data",
+          "body": "Watsonx.data allows organizations to leverage data wherever it is located to scale AI and analytics using a hybrid, open data lake. We’ll evaluate your current data landscape and develop a customized data fabric strategy that draws on data from various sources, so information can be used intelligently to make business decisions.",
+          "image": {
+            "src": "https://bdkinc.com/wp-content/uploads/2025/01/AdobeStock_620977482.png",
+            "alt": "",
+            "width": 449,
+            "height": 200
+          }
+        },
+        {
+          "title": "Assistant",
+          "body": "Our watsonx Assistant solutions empower your company to deliver exceptional customer experience using conversational AI. BDK can develop workflows that help your business use Watson Discovery, in conjunction with Assistant, to discover deep insights in unstructured documents.",
+          "image": {
+            "src": "https://bdkinc.com/wp-content/uploads/2025/01/AdobeStock_620977482-1.png",
+            "alt": "",
+            "width": 449,
+            "height": 200
+          }
+        },
+        {
+          "title": "AI",
+          "body": "Watsonx.ai empowers companies to develop powerful AI solutions using enterprise-level models. With BDK’s watsonx AI solution, your company can create automation workflows and Gen AI applications quickly and easily.",
+          "image": {
+            "src": "https://bdkinc.com/wp-content/uploads/2025/01/AdobeStock_620977482-2.png",
+            "alt": "",
+            "width": 449,
+            "height": 200
+          }
+        },
+        {
+          "title": "Orchestrate",
+          "body": "Watsonx Orchestrate empowers employees through interactive AI to automate, manage, and optimize work using pre-built skills. BDK can streamline and automate your manual workflows- expanding your adoption of responsible AI and intelligent automation to reduce repetitive tasks.",
+          "image": {
+            "src": "https://bdkinc.com/wp-content/uploads/2025/01/AdobeStock_620977482-3.png",
+            "alt": "",
+            "width": 449,
+            "height": 200
+          }
+        }
+      ]
+    },
+    "why": {
+      "heading": "Why Work with BDK for watsonx",
+      "body": "When your company partners with BDK for IBM watsonx, you gain access to a team of seasoned professionals with deep expertise in automation and AI analytics. Our account managers and technical specialists collaborate seamlessly, leveraging their collective knowledge to deliver innovative, tailored solutions.\nAt BDK, we prioritize customer satisfaction by maintaining open lines of communication and a clear understanding of your business challenges. We excel at developing and implementing watsonx solutions that drive efficiency and insight, ensuring our customers feel supported and heard every step of the way. By focusing on IT, we empower our clients to dedicate their energy to what they do best, while we provide the technology to make it happen.",
+      "image": {
+        "src": "https://bdkinc.com/wp-content/uploads/2025/01/AdobeStock_163119186.png",
+        "alt": "",
+        "width": 525,
+        "height": 400
+      }
+    },
+    "resources": {
+      "heading": "watsonx Resources",
+      "items": [
+        {
+          "title": "watsonx. Data Solution Brief",
+          "body": "With watsonx.data, you can access all your data across cloud and on-premises environments. Get greater value from your data investments with an open, hybrid, governed data lakehouse that’s optimized for all data and AI workloads and puts AI to work.",
+          "linkText": "Learn More >",
+          "href": "https://www.ibm.com/downloads/documents/us-en/107a02e949c8f543"
+        },
+        {
+          "title": "Invoice Analysis Demo",
+          "body": "This demo highlights the use of Watsonx.ai to analyze an invoice dataset for companies who are challenged in manually analyzing and mapping invoices.",
+          "linkText": "Learn More >",
+          "href": "https://www.youtube.com/watch?v=lsSuQ3-X23c"
+        },
+        {
+          "title": "Virtual Assistant Case Study",
+          "body": "Watsonx Assistant leverages conversational AI to serve as supplemental customer service reps, with minimal training. Learn how one company’s investment increased customer engagement and improved processes and workflow automation.",
+          "linkText": "Learn More >",
+          "href": "https://www.ibm.com/case-studies/camping-world"
+        }
+      ]
+    },
+    "cta": {
+      "heading": "Uncover Opportunities for AI-Powered Automation and Analytics",
+      "body": "Reach out to BDK to find out how IBM watsonx solutions can help your agency identify processes that can be automated for a more efficient approach to serving your country and its citizens.",
+      "buttonText": "Get Started",
+      "buttonHref": "/contact-us"
+    },
+    "seo": {
+      "title": "watsonx Experts: AI Solutions & Automation | BDK",
+      "description": "Grow your business with BDK's custom watsonx solutions. AI-powered automation, insights, and streamlined workflows. Contact us!",
+      "ogDescription": "Grow your business with BDK's custom watsonx solutions. AI-powered automation, insights, and streamlined workflows. Contact us!",
+      "image": "https://bdkinc.com/wp-content/uploads/2025/01/AdobeStock_620977482.png"
+    }
+  }
+}
