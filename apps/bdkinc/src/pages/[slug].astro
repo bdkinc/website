@@ -1,0 +1,26 @@
+---
+import BlogPost from '@/pages/blog/[slug].astro';
+import { getConceptARootBlogRoutes } from '@bdkinc/content/routes';
+import { getBlogPostBySlug, type BlogPostContent } from '@/lib/blog';
+import { createAppContentReader } from '@/lib/content';
+import { blogPostHref } from '@/lib/public-url';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const reader = createAppContentReader();
+  const routes = await getConceptARootBlogRoutes(reader);
+  return Promise.all(routes.map(async ({ path, slug }) => {
+    const post = await getBlogPostBySlug(slug, reader);
+    if (!post) throw new Error(`Missing published blog post: ${slug}`);
+    return { params: { slug: path.slice(1) }, props: { post } };
+  }));
+}
+
+interface Props {
+  post: BlogPostContent;
+}
+const { post } = Astro.props;
+---
+
+<BlogPost {post} publicPath={blogPostHref(post.slug)} />

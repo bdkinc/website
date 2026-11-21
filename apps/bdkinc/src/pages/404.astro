@@ -31,7 +31,8 @@ if (settings.redirects?.length) {
     settings.redirects,
     [...routes.map((route) => route.path), ...getUtilityPaths('concept-a')],
     getReservedAliases('concept-a'),
-    getReservedAssetPaths('concept-a')
+    getReservedAssetPaths('concept-a'),
+    'concept-a'
   );
   const target = aliases.get(Astro.url.pathname.replace(/\/+$/, '') || '/');
   if (target) return Astro.redirect(target, ['GET', 'HEAD'].includes(Astro.request.method) ? 301 : 308);

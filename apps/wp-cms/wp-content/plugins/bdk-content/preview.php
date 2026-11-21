@@ -170,7 +170,8 @@ add_action('rest_api_init', function () {
             }
             $snapshot = wp_generate_uuid4();
             $grant = array_merge($target, ['v' => 1, 'postId' => $post->ID, 'editor' => get_current_user_id(), 'snapshot' => $snapshot, 'previewTarget' => $selected, 'aud' => $audience, 'exp' => time() + 900]);
-            $record = ['id' => $post->ID, 'slug' => $post->post_name, 'status' => $post->post_status, 'bdk_data' => $data, 'content' => ['rendered' => bdk_prose_html(apply_filters('the_content', $body))], 'bdk_admin' => admin_url()];
+            $rendered = bdk_prose_html(apply_filters('the_content', $body), bdk_allows_article_table($post, $selected));
+            $record = ['id' => $post->ID, 'slug' => $post->post_name, 'status' => $post->post_status, 'bdk_data' => $data, 'content' => ['rendered' => $rendered], 'bdk_admin' => admin_url()];
             set_transient('bdk_preview_' . $snapshot, ['grant' => $grant, 'record' => $record], 900);
             $payload = bdk_base64url(wp_json_encode($grant));
             $token = $payload . '.' . bdk_base64url(hash_hmac('sha256', $payload, $secret, true));

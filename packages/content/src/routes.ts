@@ -9,8 +9,31 @@ export const conceptAPagePaths = { ...fixedPaths, ...conceptA.routes };
 /** Developer-owned Concept A aliases: reserved as CMS sources; never canonical pages. */
 export const conceptAAliases: Readonly<Record<string, string>> = conceptA.aliases;
 export const conceptABlogPaths: Readonly<Partial<Record<string, string>>> = conceptA.blogPaths;
+
+// Root [slug] routes must not take over an existing page, namespace or alias.
+function validateConceptABlogPaths(): void {
+  const reservedSegments = new Set([
+    ...[
+      ...Object.values(conceptAPagePaths),
+      ...Object.keys(conceptAAliases),
+      ...conceptA.utilityPaths,
+      ...conceptA.reservedPaths,
+    ].map(path => path.split('/')[1].toLowerCase()),
+    ...conceptA.blogReservedRootSegments,
+  ]);
+  for (const [slug, path] of Object.entries(conceptA.blogPaths)) {
+    if (!/^[a-z0-9_-]+$/.test(slug) || !/^\/[a-z0-9_-]+$/.test(path))
+      throw new Error(`Invalid Concept A root blog route: ${slug} -> ${path}`);
+    const segment = path.slice(1);
+    if (reservedSegments.has(segment))
+      throw new Error(`Colliding Concept A root blog route: ${slug} -> ${path}`);
+    reservedSegments.add(segment);
+  }
+}
+validateConceptABlogPaths();
 const ibmPowerSolutionsPath = conceptAPagePaths['ibm-power-solutions'];
-const cmsAliasTargets = new Set([ibmPowerSolutionsPath, ...Object.values(conceptA.blogPaths)]);
+const conceptARootBlogPaths = new Set<string>(Object.values(conceptA.blogPaths));
+const cmsAliasTargets = new Set([ibmPowerSolutionsPath, ...conceptARootBlogPaths]);
 /** These Concept A aliases need a publication check and an exact HTTP status. */
 export const conceptAContentAliases = new Set(
   Object.entries(conceptAAliases).filter(([, target]) => cmsAliasTargets.has(target)).map(([source]) => source)
@@ -57,6 +80,20 @@ export type SiteRoute =
   | { path: string; template: 'industry-location'; industrySlug: string; locationSlug: string; locationId: string };
 type Client = Pick<ContentReader, 'getCollection'> & Partial<Pick<ContentReader, 'getPage'>>;
 
+/** Exact static identities; verify publication independently of getSiteRoutes' deduplication. */
+export async function getConceptARootBlogRoutes(
+  reader: Pick<ContentReader, 'getCollection' | 'getSettings'>
+): Promise<Extract<SiteRoute, { template: 'blog-post' }>[]> {
+  const [posts, settings] = await Promise.all([reader.getCollection('blog'), reader.getSettings()]);
+  const redirectSources = new Set(settings.redirects?.map(line => line.split('->')[0].trim().replace(/\/+$/, '')));
+  const publishedSlugs = new Set(posts.filter(post => !post.data.draft).map(post => post.id));
+  return Object.entries(conceptA.blogPaths).map(([slug, path]) => {
+    if (redirectSources.has(path)) throw new Error(`Concept A root blog route is a redirect source: ${path}`);
+    if (!publishedSlugs.has(slug)) throw new Error(`Missing published blog post: ${slug}`);
+    return { path, template: 'blog-post', slug };
+  });
+}
+
 async function hasPublishedIbmPowerSolutions(reader: Pick<ContentReader, 'getPage'>): Promise<boolean> {
   try {
     await reader.getPage('ibm-power-solutions');
@@ -79,7 +116,7 @@ export async function getConceptAContentAliasTarget(reader: Pick<ContentReader, 
 }
 
 /** Validate public aliases without adding routes or flattening their direct targets. */
-export function parseRedirects(lines: readonly string[], publicPaths: Iterable<string>, reservedPaths: Iterable<string> = [], assetPaths: Iterable<string> = []): Map<string, string> {
+export function parseRedirects(lines: readonly string[], publicPaths: Iterable<string>, reservedPaths: Iterable<string> = [], assetPaths: Iterable<string> = [], inventory: RouteInventory = 'default'): Map<string, string> {
   const assets = new Set(Array.from(assetPaths, path => path.replace(/\/+$/, '') || '/'));
   function normalize(value: string): string {
     const path = value.trim().replace(/\/+$/, '') || (value.trim() === '/' ? '/' : '');
@@ -101,7 +138,9 @@ export function parseRedirects(lines: readonly string[], publicPaths: Iterable<s
     const target = normalize(parts[1]);
     if (source === target) throw new Error(`Self redirect: ${source}`);
     if (redirects.has(source)) throw new Error(`Duplicate redirect source: ${source}`);
-    if (canonical.has(source)) throw new Error(`Redirect source is a public path: ${source}`);
+    // Concept A owns these source paths before their posts are published; that does not make them targets.
+    if (canonical.has(source) || (inventory === 'concept-a' && conceptARootBlogPaths.has(source)))
+      throw new Error(`Redirect source is a public path: ${source}`);
     if (reserved.has(source)) throw new Error(`Redirect source is a reserved alias: ${source}`);
     redirects.set(source, target);
   }

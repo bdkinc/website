@@ -97,7 +97,25 @@ function bdk_copy_data($post) {
 // adds its developer-owned delta. Mirrors packages/content/src/routes.ts getPagePaths.
 function bdk_concept_a_routes() {
     static $delta;
-    if ($delta === null) { $delta = json_decode(file_get_contents('/var/www/bdk-editorial/concept-a-routes.json'), true, 512, JSON_THROW_ON_ERROR); }
+    if ($delta === null) {
+        $routes = json_decode(file_get_contents('/var/www/bdk-editorial/concept-a-routes.json'), true, 512, JSON_THROW_ON_ERROR);
+        $reserved_segments = array_fill_keys($routes['blogReservedRootSegments'], true);
+        $fixed = array_merge(bdk_fixed_routes('default'), $routes['routes']);
+        foreach (array_merge(array_values($fixed), array_keys($routes['aliases']), $routes['utilityPaths'], $routes['reservedPaths']) as $path) {
+            $reserved_segments[strtolower(explode('/', $path)[1])] = true;
+        }
+        foreach ($routes['blogPaths'] as $slug => $path) {
+            if (!preg_match('~^[a-z0-9_-]+$~D', $slug) || !preg_match('~^/[a-z0-9_-]+$~D', $path)) {
+                throw new UnexpectedValueException("Invalid Concept A root blog route: $slug -> $path");
+            }
+            $segment = substr($path, 1);
+            if (isset($reserved_segments[$segment])) {
+                throw new UnexpectedValueException("Colliding Concept A root blog route: $slug -> $path");
+            }
+            $reserved_segments[$segment] = true;
+        }
+        $delta = $routes;
+    }
     return $delta;
 }
 function bdk_fixed_routes($target = 'current') {
@@ -171,7 +189,8 @@ function bdk_validate_site_redirects($data) {
     $canonical = array_fill_keys(array_merge(bdk_redirect_public_paths(), bdk_utility_paths()), true);
     $reserved = array_fill_keys(bdk_reserved_alias_paths(), true);
     $aliases = bdk_concept_a_routes()['aliases'];
-    $content_targets = array_fill_keys(array_merge(array_values(bdk_concept_a_routes()['blogPaths']), [bdk_fixed_routes('current')['ibm-power-solutions']]), true);
+    $root_blog_paths = array_fill_keys(array_values(bdk_concept_a_routes()['blogPaths']), true);
+    $content_targets = $root_blog_paths + [bdk_fixed_routes('current')['ibm-power-solutions'] => true];
     $redirects = [];
     foreach ($data['redirects'] as $line) {
         $parts = explode('->', $line);
@@ -182,7 +201,7 @@ function bdk_validate_site_redirects($data) {
         if (is_wp_error($target)) { return $target; }
         if ($source === $target) { return new WP_Error('bdk_redirects', 'Self redirect: ' . $source, ['status' => 400]); }
         if (isset($redirects[$source])) { return new WP_Error('bdk_redirects', 'Duplicate redirects source: ' . $source, ['status' => 400]); }
-        if (isset($canonical[$source])) { return new WP_Error('bdk_redirects', 'Redirects source is a public path: ' . $source, ['status' => 400]); }
+        if (isset($canonical[$source]) || isset($root_blog_paths[$source])) { return new WP_Error('bdk_redirects', 'Redirects source is a public path: ' . $source, ['status' => 400]); }
         if (isset($reserved[$source])) { return new WP_Error('bdk_redirects', 'Redirects source is a reserved alias: ' . $source, ['status' => 400]); }
         $redirects[$source] = $target;
     }
@@ -548,26 +567,36 @@ add_filter('allowed_block_types_all', function ($allowed, $context) {
     return $allowed;
 }, 10, 2);
 
-function bdk_prose_html($html) {
+function bdk_allows_article_table($post, $target = 'current') {
+    return $target === 'current' && $post->post_type === 'post'
+        && isset(bdk_concept_a_routes()['blogPaths'][$post->post_name])
+        && is_array(get_post_meta($post->ID, '_bdk_data', true));
+}
+
+function bdk_prose_html($html, $allow_table = false) {
     $processor = new WP_HTML_Tag_Processor($html);
     while ($processor->next_tag('a')) {
         $href = $processor->get_attribute('href');
         if (is_string($href)) { $processor->set_attribute('href', bdk_public_body_link($href)); }
     }
-    return wp_kses($processor->get_updated_html(), [
+    $allowed = [
         'p' => [], 'br' => [], 'h2' => [], 'h3' => [], 'h4' => [], 'h5' => [], 'h6' => [],
         'strong' => [], 'em' => [], 'ul' => [], 'ol' => ['start' => true], 'li' => [],
         'blockquote' => [], 'code' => [], 'pre' => [], 'hr' => [],
         'a' => ['href' => true, 'title' => true],
         'figure' => [], 'figcaption' => [], 'img' => ['src' => true, 'alt' => true, 'width' => true, 'height' => true, 'loading' => true],
-    ], ['http', 'https', 'mailto', 'tel']);
+    ];
+    if ($allow_table) { $allowed += ['table' => [], 'thead' => [], 'tbody' => [], 'tr' => [], 'td' => []]; }
+    return wp_kses($processor->get_updated_html(), $allowed, ['http', 'https', 'mailto', 'tel']);
 }
-add_filter('rest_prepare_post', function ($response) {
+add_filter('rest_prepare_post', function ($response, $post) {
     $data = $response->get_data();
-    if (isset($data['content']['rendered'])) { $data['content']['rendered'] = bdk_prose_html($data['content']['rendered']); }
+    if (isset($data['content']['rendered'])) {
+        $data['content']['rendered'] = bdk_prose_html($data['content']['rendered'], bdk_allows_article_table($post));
+    }
     $response->set_data($data);
     return $response;
-});
+}, 10, 2);
 
 require_once __DIR__ . '/editor-ui.php';
 
