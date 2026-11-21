@@ -95,18 +95,29 @@ export type SiteRoute =
   | { path: string; template: 'industry-location'; industrySlug: string; locationSlug: string; locationId: string };
 type Client = Pick<ContentReader, 'getCollection'> & Partial<Pick<ContentReader, 'getPage'>>;
 
+interface ConceptARootBlogRouteOptions {
+  /** Omit unpublished mappings instead of requiring the full manifest. All mapped sources stay reserved. */
+  publishedOnly?: boolean;
+}
+
 /** Exact static identities; verify publication independently of getSiteRoutes' deduplication. */
 export async function getConceptARootBlogRoutes(
-  reader: Pick<ContentReader, 'getCollection' | 'getSettings'>
+  reader: Pick<ContentReader, 'getCollection' | 'getSettings'>,
+  { publishedOnly = false }: ConceptARootBlogRouteOptions = {}
 ): Promise<Extract<SiteRoute, { template: 'blog-post' }>[]> {
   const [posts, settings] = await Promise.all([reader.getCollection('blog'), reader.getSettings()]);
   const redirectSources = new Set(settings.redirects?.map(line => line.split('->')[0].trim().replace(/\/+$/, '')));
   const publishedSlugs = new Set(posts.filter(post => !post.data.draft).map(post => post.id));
-  return Object.entries(conceptA.blogPaths).map(([slug, path]) => {
+  const routes: Extract<SiteRoute, { template: 'blog-post' }>[] = [];
+  for (const [slug, path] of Object.entries(conceptA.blogPaths)) {
     if (redirectSources.has(path)) throw new Error(`Concept A root blog route is a redirect source: ${path}`);
-    if (!publishedSlugs.has(slug)) throw new Error(`Missing published blog post: ${slug}`);
-    return { path, template: 'blog-post', slug };
-  });
+    if (!publishedSlugs.has(slug)) {
+      if (publishedOnly) continue;
+      throw new Error(`Missing published blog post: ${slug}`);
+    }
+    routes.push({ path, template: 'blog-post', slug });
+  }
+  return routes;
 }
 
 async function hasPublishedIbmPowerSolutions(reader: Pick<ContentReader, 'getPage'>): Promise<boolean> {
