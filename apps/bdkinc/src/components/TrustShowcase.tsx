@@ -110,6 +110,16 @@ const styles = stylex.create({
     paddingBottom: '3rem',
     textAlign: 'left',
   },
+  openBody: {
+    padding: '1.5rem 0',
+    paddingBottom: '1.5rem',
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    borderTopColor: 'var(--border)',
+  },
+  openLogo: { scale: 1, transitionProperty: 'none' },
+  openTitle: { fontSize: '1rem', lineHeight: 1.5, letterSpacing: 0 },
+  openDetail: { fontSize: '0.875rem', lineHeight: 1.75 },
   cardMain: {
     flexGrow: 1,
     flexShrink: 1,
@@ -198,6 +208,7 @@ export interface TrustShowcaseProps {
   copy: PageData<'home'>['trust'];
   partners: Array<Partner & { id: string }>;
   showAllPartners?: boolean;
+  presentation?: 'cards' | 'open';
   className?: string;
   xstyle?: StyleXStyles;
 }
@@ -205,6 +216,7 @@ export default function TrustShowcase({
   copy,
   partners,
   showAllPartners = false,
+  presentation = 'cards',
   className,
   xstyle,
 }: TrustShowcaseProps) {
@@ -256,15 +268,10 @@ export default function TrustShowcase({
             visiblePartners.length === 4 ? styles.gridCols4 : styles.gridCols3
           )}
         >
-          {visiblePartners.map((partner, index) => (
-            <TechCard
-              key={partner.id}
-              variant="simple"
-              interactive
-              delay={index * 150}
-              animated={gridInView}
-            >
-              <div {...stylex.props(styles.cardBody)}>
+          {visiblePartners.map((partner, index) => {
+            const open = presentation === 'open';
+            const content = (
+              <div {...stylex.props(styles.cardBody, open && styles.openBody)}>
                 <div {...stylex.props(styles.cardMain)}>
                   <div {...stylex.props(styles.logoRow)}>
                     {partner.logo && (
@@ -274,18 +281,28 @@ export default function TrustShowcase({
                         loading="lazy"
                         width={150}
                         height={32}
-                        {...stylex.props(styles.logo)}
+                        {...stylex.props(styles.logo, open && styles.openLogo)}
                       />
                     )}
                   </div>
-                  <h3 {...stylex.props(styles.cardTitle)}>
+                  <h3
+                    {...stylex.props(
+                      styles.cardTitle,
+                      open && styles.openTitle
+                    )}
+                  >
                     {partner.id === 'cloudflare'
                       ? copy.cloudflare.description
                       : partner.id === 'vmware'
                         ? copy.vmware.description
                         : partner.description}
                   </h3>
-                  <p {...stylex.props(styles.cardDetail)}>
+                  <p
+                    {...stylex.props(
+                      styles.cardDetail,
+                      open && styles.openDetail
+                    )}
+                  >
                     {partner.id === 'cloudflare'
                       ? copy.cloudflare.detail
                       : partner.id === 'vmware'
@@ -293,14 +310,28 @@ export default function TrustShowcase({
                         : partner.detail}
                   </p>
                 </div>
-                {/* Custom footer decoration (flipped TechCard footer) */}
-                <div {...stylex.props(styles.footer)}>
-                  <div {...stylex.props(styles.dot)} />
-                  <div {...stylex.props(styles.bar)} />
-                </div>
+                {!open && (
+                  <div {...stylex.props(styles.footer)} aria-hidden="true">
+                    <div {...stylex.props(styles.dot)} />
+                    <div {...stylex.props(styles.bar)} />
+                  </div>
+                )}
               </div>
-            </TechCard>
-          ))}
+            );
+            return open ? (
+              <div key={partner.id}>{content}</div>
+            ) : (
+              <TechCard
+                key={partner.id}
+                variant="simple"
+                interactive
+                delay={index * 150}
+                animated={gridInView}
+              >
+                {content}
+              </TechCard>
+            );
+          })}
         </div>
       </div>
     </section>
