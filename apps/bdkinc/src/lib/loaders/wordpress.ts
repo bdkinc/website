@@ -37,11 +37,24 @@ export function wordpressSettingsLoader(): Loader {
   };
 }
 
-export function wordpressLoader(name: CollectionName): Loader {
+export function wordpressLoader(name: CollectionName, { includeBlogYoast = false } = {}): Loader {
   return {
     name: `wordpress-${name}`,
     async load({ store, parseData, generateDigest, logger }) {
-      const entries = await publishedClient().getCollection(name);
+      const client = publishedClient();
+      const entries = await client.getCollection(name);
+      if (name === 'blog' && includeBlogYoast) {
+        // Keep metadata in the production snapshot, without making dev sync read every post.
+        for (let start = 0; start < entries.length; start += 4) {
+          await Promise.all(entries.slice(start, start + 4).map(async (entry) => {
+            const yoastSeo = await client.getPublishedBlogYoastSeo(entry.wpId, entry.id);
+            if (yoastSeo) {
+              const data = { ...entry.data, yoastSeo };
+              entry.data = data;
+            }
+          }));
+        }
+      }
       // Fetch/validate everything before replacing the published snapshot.
       const parsed = await Promise.all(
         entries.map(async (entry) => ({

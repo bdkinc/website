@@ -14,6 +14,7 @@ export interface BlogPostContent {
   imageAlt?: string;
   content: string;
   contentFormat?: 'html' | 'markdown';
+  wpId?: number;
   yoastSeo?: BlogYoastSeo;
 }
 
@@ -76,9 +77,12 @@ export async function getBlogPostBySlug(
 
   const { data } = localEntry;
   const post = toBlogPost(localEntry.id, data, localEntry.body?.html || '');
-  if (!data.draft && 'yoastSeo' in data) {
-    const result = blogYoastSeoSchema.safeParse(data.yoastSeo);
-    if (result.success) post.yoastSeo = result.data;
+  if (!data.draft) {
+    post.wpId = localEntry.wpId;
+    if ('yoastSeo' in data) {
+      const result = blogYoastSeoSchema.safeParse(data.yoastSeo);
+      if (result.success) post.yoastSeo = result.data;
+    }
   }
   return post;
 }

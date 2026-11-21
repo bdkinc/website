@@ -9,7 +9,7 @@ import EditSection from '@/components/preview/EditSection.astro';
 import { getBlogPostBySlug, type BlogPostContent } from '@/lib/blog';
 import { conceptABlogPaths, getSiteRoutes } from '@bdkinc/content/routes';
 import { publicPageUrl } from '@/lib/public-url';
-import { createAppContentReader, type ContentProps } from '@/lib/content';
+import { createAppContentReader, wordpressClient, type ContentProps } from '@/lib/content';
 
 export async function getStaticPaths() {
   const reader = createAppContentReader();
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
     routes.filter((route) => route.template === 'blog-post').filter((route) => route.path.startsWith('/blog/')).map(async (route) => {
       const post = await getBlogPostBySlug(route.slug, reader);
       if (!post) throw new Error('Published blog route is missing its post.');
-      return { params: { slug: route.slug }, props: { post } };
+      return { params: { slug: route.slug }, props: { post, allowPublicYoast: true } };
     })
   );
 }
@@ -27,11 +27,20 @@ export const prerender = true;
 
 interface Props extends ContentProps {
   post: BlogPostContent;
+  allowPublicYoast?: boolean;
 }
-const { post, contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
+const { post, allowPublicYoast = false, contentContext, publicPath = Astro.url.pathname, reader: suppliedReader } = Astro.props;
 const reader = suppliedReader ?? createAppContentReader(contentContext);
 const contentHtml = post.content;
-const [copy, settings] = await Promise.all([reader.getPage('blog'), reader.getSettings()]);
+const [copy, settings, blogYoastSeo] = await Promise.all([
+  reader.getPage('blog'),
+  reader.getSettings(),
+  allowPublicYoast === true && contentContext === undefined
+    ? import.meta.env.DEV
+      ? (post.wpId === undefined ? undefined : wordpressClient().getPublishedBlogYoastSeo(post.wpId, post.slug))
+      : post.yoastSeo
+    : undefined,
+]);
 const { servicesData, recentPosts } = await getNavigationData(reader);
 
 // Format date helper
@@ -93,7 +102,7 @@ const blogPostingSchema = {
   ogDescription={post.description}
   ogImage={articleImage || undefined}
   ogImageAlt={articleAlt}
-  blogYoastSeo={post.yoastSeo}
+  {blogYoastSeo}
 >
   <script
     type="application/ld+json"
