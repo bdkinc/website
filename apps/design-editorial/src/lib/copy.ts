@@ -1,7 +1,7 @@
 export type Copy = Record<string, unknown>;
 export const object = (value: unknown): Copy => value && typeof value === 'object' && !Array.isArray(value) ? value as Copy : {};
 export const text = (value: unknown): string => typeof value === 'string' ? value : '';
-export const records = (value: unknown): Copy[] => Object.values(object(value)).filter(v => v && typeof v === 'object').map(object);
+export const records = (value: unknown): Copy[] => (Array.isArray(value) ? value : Object.values(object(value))).filter(v => v && typeof v === 'object').map(object);
 export const strings = (value: unknown): string[] => Object.values(object(value)).filter((v): v is string => typeof v === 'string');
 export function listText(value: unknown): string[] {
   return Object.values(object(value)).map(item => typeof item === 'string' ? item : text(object(item).text || object(item).name)).filter(Boolean);

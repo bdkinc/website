@@ -13,7 +13,10 @@ export function text(value: unknown): string {
     : '';
 }
 export function entries(value: unknown): [string, Group][] {
-  return Object.entries(group(value))
+  const source: [string, unknown][] = Array.isArray(value)
+    ? value.map((v, i) => [String(i), v])
+    : Object.entries(group(value));
+  return source
     .filter(([, v]) => v && typeof v === 'object')
     .map(([k, v]) => [k, group(v)]);
 }
