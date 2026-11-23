@@ -65,8 +65,8 @@ const styles = stylex.create({
       default: null,
       '@media (min-width: 768px)': 'repeat(3, minmax(0, 1fr))',
     },
-    gap: 16,
-    padding: 24,
+    gap: 12,
+    padding: 16,
   },
   enter: {
     animationName: enter,
@@ -105,7 +105,7 @@ const styles = stylex.create({
       ':hover': { default: null, '@media (hover: hover)': 'var(--foreground)' },
       ':focus': 'var(--foreground)',
     },
-    padding: 20,
+    padding: 14,
     textDecoration: 'none',
     backdropFilter: 'blur(24px)',
     // The legacy hover:shadow-[--shadow-glow-sm] compiled to an invalid value, so
@@ -146,28 +146,36 @@ const styles = stylex.create({
     position: 'relative',
     zIndex: 20,
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
     gap: 12,
-    textAlign: 'center',
+    textAlign: 'left',
+  },
+  textGroup: {
+    display: 'flex',
+    minWidth: 0,
+    flex: 1,
+    flexDirection: 'column',
+    gap: 4,
   },
   iconFrame: {
     display: 'flex',
+    flexShrink: 0,
     justifyContent: 'center',
-    transform: 'scale(calc(1 + 0.1 * var(--service-hover)))',
+    transform: 'scale(calc(1 + 0.08 * var(--service-hover)))',
     transitionProperty: 'transform',
     transitionTimingFunction: ease,
     transitionDuration: '300ms',
   },
   iconWash: {
     borderRadius: 'var(--radius)',
-    padding: 10,
+    padding: 8,
     backgroundColor: 'color-mix(in oklab, var(--primary) 10%, transparent)',
   },
-  icon: { width: 40, height: 40, color: 'var(--primary)' },
+  icon: { width: 24, height: 24, color: 'var(--primary)' },
   title: {
     color: 'var(--foreground)',
-    fontSize: '1rem',
+    fontSize: '0.9375rem',
     lineHeight: 1.25,
     fontWeight: 700,
     transitionProperty: colorTransition,
@@ -177,19 +185,23 @@ const styles = stylex.create({
   description: {
     color: 'var(--muted-foreground)',
     fontSize: '0.75rem',
-    lineHeight: 1.625,
+    lineHeight: 1.5,
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
   },
   allItem: {
     gridColumn: 'span 3 / span 3',
-    marginTop: 8,
+    marginTop: 4,
     borderTopWidth: 1,
     borderTopStyle: 'solid',
     borderTopColor: 'color-mix(in oklab, var(--border) 30%, transparent)',
-    paddingTop: 16,
+    paddingTop: 10,
   },
   allLink: {
     display: 'flex',
-    minHeight: 44,
+    minHeight: 40,
     flexDirection: 'row',
     alignItems: 'center',
     gap: {
@@ -197,7 +209,7 @@ const styles = stylex.create({
       ':hover': { default: null, '@media (hover: hover)': 12 },
     },
     borderRadius: 'var(--radius)',
-    padding: 12,
+    padding: 8,
     color: {
       default: 'var(--foreground)',
       ':hover': { default: null, '@media (hover: hover)': 'var(--primary)' },
@@ -384,15 +396,17 @@ function ServiceDropdownItem({
               </div>
             )}
 
-            {/* Title */}
-            <div ref={titleRef} {...stylex.props(styles.title)}>
-              {service.title}
-            </div>
+            <div {...stylex.props(styles.textGroup)}>
+              {/* Title */}
+              <div ref={titleRef} {...stylex.props(styles.title)}>
+                {service.title}
+              </div>
 
-            {/* Description */}
-            <p ref={descriptionRef} {...stylex.props(styles.description)}>
-              {service.description}
-            </p>
+              {/* Description */}
+              <p ref={descriptionRef} {...stylex.props(styles.description)}>
+                {service.description}
+              </p>
+            </div>
           </div>
         </a>
       </NavigationMenuLink>

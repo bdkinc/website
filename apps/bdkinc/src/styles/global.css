@@ -572,21 +572,22 @@ li {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
-  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--muted-foreground) 30%, transparent);
+  border-radius: 9999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
+  background: color-mix(in oklab, var(--muted-foreground) 50%, transparent);
   background-clip: padding-box;
 }
 
-/* Firefox */
+/* Firefox & Chromium standard scrollbar styling */
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--muted)) transparent;
+  scrollbar-color: color-mix(in oklab, var(--muted-foreground) 30%, transparent)
+    transparent;
 }
 
 /* Service content wrapper for MDX pages */
