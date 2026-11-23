@@ -46,10 +46,10 @@ const styles = stylex.create({
     borderColor: 'color-mix(in oklab, var(--border) 50%, transparent)',
     backgroundColor: 'color-mix(in oklab, var(--background) 95%, transparent)',
     backdropFilter: 'blur(24px)',
-    // Base UI sets --available-height on the positioner (space below the
+    // Base UI sets --available-height on the fixed positioner (space below the
     // trigger minus collision padding). Subtract the shared popup's 6px top
-    // margin and 2px border so short viewports scroll here, not the page.
-    maxHeight: 'calc(var(--available-height) - 8px)',
+    // margin and 2px border so short viewports always scroll inside the menu.
+    maxHeight: 'min(calc(var(--available-height, 80vh) - 8px), calc(100vh - 96px))',
     overflowX: 'hidden',
     overflowY: 'auto',
     overscrollBehavior: 'contain',

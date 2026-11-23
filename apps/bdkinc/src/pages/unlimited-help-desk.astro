@@ -1,8 +1,30 @@
 ---
-import { PiHeadset } from 'react-icons/pi';
+import {
+  PiGauge,
+  PiHeadset,
+  PiLightning,
+  PiTrendUp,
+} from 'react-icons/pi';
 import type { ContentProps } from '@/lib/content';
 import ServiceChildPage from '@/components/ServiceChildPage.astro';
 interface Props extends ContentProps {}
 ---
 
-<ServiceChildPage {...Astro.props} pageKey="unlimited-help-desk" icon={PiHeadset} />
+<ServiceChildPage
+  {...Astro.props}
+  pageKey="unlimited-help-desk"
+  icon={PiHeadset}
+  featureIcons={{
+    proactiveMonitoring: 'Monitor',
+    antivirusEdr: 'ShieldCheck',
+    reporting: 'BarChart3',
+    patching: 'Wrench',
+    backupRecovery: 'ArrowsClockwise',
+    onsiteRemote: 'MapPin',
+  }}
+  benefitIcons={{
+    quickResponse: PiLightning,
+    resourceOptimization: PiGauge,
+    adaptability: PiTrendUp,
+  }}
+/>

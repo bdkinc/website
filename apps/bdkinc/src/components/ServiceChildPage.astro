@@ -6,12 +6,25 @@
  */
 import { conceptAPagePaths } from '@bdkinc/content/routes';
 import type { IconType } from 'react-icons';
-import { PiCheck } from 'react-icons/pi';
+import {
+  PiArrowCounterClockwise,
+  PiArrowLeft,
+  PiChatsCircle,
+  PiCheckCircle,
+  PiCompass,
+  PiHeadset,
+  PiShieldCheck,
+} from 'react-icons/pi';
 import { createAppContentReader, type ContentProps } from '@/lib/content';
+import { matchPath, slashPagePath } from '@/lib/public-url';
+import type { iconMap } from '@/lib/icons';
 import Layout from '@/layouts/Layout.astro';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer.astro';
 import CTASection from '@/components/CTASection';
+import FeatureCarousel, { type Feature } from '@/components/FeatureCarousel';
+import { TechCard, TechCardGrid } from '@/components/TechCard';
+import CohesiveOrbit from '@/components/visualizations/CohesiveOrbit';
 import EditSection from '@/components/preview/EditSection.astro';
 import { getNavigationData } from '@/lib/navigation-data';
 import { breadcrumbListSchema, serializeSchema } from '@/lib/schema';
@@ -48,23 +61,34 @@ interface Props extends ContentProps {
   pageKey: ServiceChildPageKey;
   /** Developer-owned hero icon. */
   icon: IconType;
+  /** Developer-owned `iconMap` keys keyed by `features.items` key; unknown keys fall back. */
+  featureIcons?: Record<string, keyof typeof iconMap>;
+  /** Developer-owned icons keyed by `benefits.items` key; unknown keys fall back. */
+  benefitIcons?: Record<string, IconType>;
+  /** Developer-owned icon for the detail panel; defaults to the hero icon. */
+  detailIcon?: IconType;
 }
 
 const {
   pageKey,
   icon: Icon,
+  featureIcons = {},
+  benefitIcons = {},
+  detailIcon,
   contentContext,
   publicPath = Astro.url.pathname,
   reader: suppliedReader,
 } = Astro.props;
 const reader = suppliedReader ?? createAppContentReader(contentContext);
-const [page, settings] = await Promise.all([
+const [page, parentPage, settings] = await Promise.all([
   reader.getPage(pageKey),
+  reader.getPage('service-managed-it'),
   reader.getSettings(),
 ]);
 const copy: ChildPageCopy = page;
 const { servicesData, recentPosts } = await getNavigationData(reader);
 const parentName = servicesData.find((service) => service.slug === 'managed-it')?.title ?? 'Managed IT';
+const parentHref = slashPagePath(conceptAPagePaths['service-managed-it']);
 const breadcrumb = breadcrumbListSchema(
   [
     { name: settings.navigation.home, item: conceptAPagePaths.home },
@@ -78,22 +102,83 @@ const breadcrumb = breadcrumbListSchema(
 const paragraphs = (value = '') =>
   value.split(/\n+/).map((line) => line.trim()).filter(Boolean);
 // Named groups keep developer-owned order (definition order); empty items are skipped.
-const listItems = (group?: ChildItems): ChildItem[] =>
+const listItems = (group?: ChildItems): (ChildItem & { key: string })[] =>
   group
-    ? Object.values(group.items).filter(
-        (item) => item.title.trim() || item.body.trim()
-      )
+    ? Object.entries(group.items)
+        .map(([key, item]) => ({ ...item, key }))
+        .filter((item) => item.title.trim() || item.body.trim())
     : [];
+// Display headings highlight a trailing phrase: the last two words of longer
+// headings, otherwise the last word.
+const splitHeading = (value = '') => {
+  const words = value.trim().split(/\s+/).filter(Boolean);
+  const accent = words.splice(words.length >= 5 ? -2 : -1).join(' ');
+  return { lead: words.join(' '), accent };
+};
+
+// Static class sets per tracking colour so Tailwind can see every token.
+const tones = [
+  {
+    tracking: 'primary',
+    frame: 'from-primary/15 to-primary/5 border-primary/25 group-hover:border-primary/50',
+    icon: 'text-primary',
+    title: 'group-hover:text-primary',
+    check: 'bg-primary/10 border-primary/25 text-primary',
+  },
+  {
+    tracking: 'secondary',
+    frame: 'from-secondary/15 to-secondary/5 border-secondary/25 group-hover:border-secondary/50',
+    icon: 'text-secondary',
+    title: 'group-hover:text-secondary',
+    check: 'bg-secondary/10 border-secondary/25 text-secondary',
+  },
+  {
+    tracking: 'accent',
+    frame: 'from-accent/20 to-accent/5 border-accent/30 group-hover:border-accent/60',
+    icon: 'text-accent',
+    title: 'group-hover:text-accent',
+    check: 'bg-accent/10 border-accent/30 text-accent',
+  },
+] as const;
+const tone = (index: number) => tones[index % tones.length];
 
 const titleWords = copy.hero.heading.trim().split(/\s+/);
 const titleAccent = titleWords.pop() ?? '';
 const titleLead = titleWords.join(' ');
+const introHeading = splitHeading(copy.intro.heading);
 const introParagraphs = paragraphs(copy.intro.body);
+const featuresHeading = splitHeading(copy.features.heading);
 const features = listItems(copy.features);
+const carouselFeatures: Feature[] = features.map((item) => ({
+  icon: featureIcons[item.key] ?? 'CheckCircle',
+  title: item.title,
+  detail: item.body,
+  points: item.points,
+}));
+const detailHeading = splitHeading(copy.detail?.heading);
 const detailParagraphs = paragraphs(copy.detail?.body);
+const DetailIcon = detailIcon ?? Icon;
+const benefitsHeading = splitHeading(copy.benefits?.heading);
 const benefits = listItems(copy.benefits);
+
+const relatedServiceIcons: Record<string, IconType> = {
+  [matchPath(conceptAPagePaths['unlimited-help-desk'])]: PiHeadset,
+  [matchPath(conceptAPagePaths['disaster-recovery-planning'])]: PiArrowCounterClockwise,
+  [matchPath(conceptAPagePaths.communications)]: PiChatsCircle,
+  [matchPath(conceptAPagePaths['service-cybersecurity'])]: PiShieldCheck,
+};
+
+// Sibling services come from the parent Managed IT record; the current page is excluded.
+const currentPath = matchPath(conceptAPagePaths[pageKey]);
+const relatedServices = (parentPage.relatedServices ?? []).filter(
+  (item) =>
+    item.label.trim() && item.href.trim() && matchPath(item.href.trim()) !== currentPath
+);
+const relatedHeading = splitHeading(parentPage.relatedServicesHeading ?? '');
+
 const divider =
   'via-border/60 absolute top-0 left-1/2 h-px w-full -translate-x-1/2 bg-linear-to-r from-transparent to-transparent';
+const gradientText = 'from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent';
 ---
 
 <Layout
@@ -120,15 +205,26 @@ const divider =
       <section class="relative overflow-hidden px-4 pt-32 pb-16 sm:px-6 md:pb-24 lg:px-8">
         <div class="gradient-mesh absolute inset-0 opacity-30"></div>
         <div class="scanlines pointer-events-none absolute inset-0 opacity-50"></div>
+        <div class="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-60 md:opacity-80">
+          <CohesiveOrbit client:idle />
+        </div>
         <div class="relative z-10 mx-auto flex max-w-4xl flex-col items-center text-center">
-          <div class="from-primary/10 to-secondary/10 mb-6 inline-flex items-center justify-center rounded-2xl bg-linear-to-br p-4">
+          <a
+            href={parentHref}
+            class="glass border-border group hover:border-primary/40 focus-visible:ring-primary focus-visible:ring-offset-background animate-in fade-in slide-in-from-top-4 fill-mode-both mb-8 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium backdrop-blur-xl transition-colors duration-200 ease-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+          >
+            <PiArrowLeft
+              className="text-primary h-4 w-4 transition-transform duration-200 ease-out group-hover:-translate-x-0.5 motion-reduce:transition-none"
+              aria-hidden="true"
+            />
+            <span class="text-foreground">{parentName}</span>
+          </a>
+          <div class="from-primary/10 to-secondary/10 border-primary/20 animate-in fade-in fill-mode-both mb-6 inline-flex items-center justify-center rounded-2xl border bg-linear-to-br p-4 shadow-sm delay-100 duration-500">
             <Icon className="text-primary h-12 w-12" aria-hidden="true" />
           </div>
-          <h1 class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight text-balance duration-700 md:text-6xl">
+          <h1 class="fill-mode-both animate-in fade-in slide-in-from-bottom-8 mb-6 text-5xl font-bold tracking-tight text-balance delay-100 duration-700 md:text-6xl">
             {titleLead && <span class="text-foreground">{titleLead} </span>}
-            <span class="from-primary to-secondary bg-linear-to-br bg-clip-text text-transparent">
-              {titleAccent}
-            </span>
+            <span class={gradientText}>{titleAccent}</span>
           </h1>
           {copy.hero.body.trim() && (
             <p class="text-muted-foreground fill-mode-both animate-in fade-in slide-in-from-bottom-6 mx-auto max-w-3xl text-xl leading-relaxed text-pretty delay-200 duration-700">
@@ -144,17 +240,30 @@ const divider =
       (copy.intro.heading.trim() || introParagraphs.length > 0) && (
         <EditSection record={pageKey} section="intro">
           <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
-            <div class="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[2fr_3fr] lg:gap-16">
+            <div class="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-[2fr_3fr] lg:gap-20">
               {copy.intro.heading.trim() && (
-                <h2 class="font-display text-foreground text-3xl font-bold tracking-tight text-balance md:text-4xl">
-                  {copy.intro.heading}
-                </h2>
+                <div>
+                  <div class="from-primary to-secondary mb-6 h-1 w-12 rounded-full bg-linear-to-r" aria-hidden="true"></div>
+                  <h2 class="font-display text-3xl font-bold tracking-tight text-balance md:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
+                    {introHeading.lead && <span class="text-foreground">{introHeading.lead} </span>}
+                    <span class={gradientText}>{introHeading.accent}</span>
+                  </h2>
+                </div>
               )}
-              <div class="space-y-5">
-                {introParagraphs.map((text) => (
-                  <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
-                ))}
-              </div>
+              {introParagraphs.length > 0 && (
+                <div class="border-primary/40 space-y-5 border-l-2 pl-6 md:pl-8">
+                  {introParagraphs.map((text, index) => (
+                    <p
+                      class:list={[
+                        'leading-relaxed text-pretty',
+                        index === 0 ? 'text-foreground/90 text-xl' : 'text-muted-foreground text-lg',
+                      ]}
+                    >
+                      {text}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </section>
         </EditSection>
@@ -168,37 +277,12 @@ const divider =
             <div class={divider}></div>
             <div class="mx-auto max-w-6xl">
               {copy.features.heading.trim() && (
-                <h2 class="font-display text-foreground mb-16 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
-                  {copy.features.heading}
+                <h2 class="font-display mb-16 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
+                  {featuresHeading.lead && <span class="text-foreground">{featuresHeading.lead} </span>}
+                  <span class={gradientText}>{featuresHeading.accent}</span>
                 </h2>
               )}
-              <ol class="grid gap-x-16 gap-y-14 md:grid-cols-2">
-                {features.map((item, index) => (
-                  <li class="border-border/60 border-t pt-8">
-                    <p class="text-primary mb-3 font-mono text-sm tabular-nums" aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')}
-                    </p>
-                    {item.title.trim() && (
-                      <h3 class="font-display text-foreground mb-4 text-2xl font-bold tracking-tight text-balance">
-                        {item.title}
-                      </h3>
-                    )}
-                    {paragraphs(item.body).map((text) => (
-                      <p class="text-muted-foreground mb-4 leading-relaxed text-pretty last:mb-0">{text}</p>
-                    ))}
-                    {item.points && item.points.length > 0 && (
-                      <ul class="mt-5 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
-                        {item.points.map((point) => (
-                          <li class="text-foreground flex items-start gap-2.5 text-sm leading-relaxed">
-                            <PiCheck className="text-primary mt-1 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                ))}
-              </ol>
+              <FeatureCarousel client:visible features={carouselFeatures} />
             </div>
           </section>
         </EditSection>
@@ -210,16 +294,32 @@ const divider =
         <EditSection record={pageKey} section="detail">
           <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
             <div class={divider}></div>
-            <div class="mx-auto max-w-3xl text-center">
-              {copy.detail.heading.trim() && (
-                <h2 class="font-display text-foreground mb-8 text-3xl font-bold tracking-tight text-balance md:text-4xl">
-                  {copy.detail.heading}
-                </h2>
-              )}
-              <div class="space-y-5">
-                {detailParagraphs.map((text) => (
-                  <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
-                ))}
+            <div class="border-border/50 bg-background/40 relative mx-auto max-w-5xl overflow-hidden rounded-3xl border p-8 shadow-2xl backdrop-blur-xl md:p-14">
+              <div class="bg-primary/20 pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full opacity-50 blur-3xl" aria-hidden="true"></div>
+              <div class="bg-secondary/20 pointer-events-none absolute -bottom-24 -left-24 h-64 w-64 rounded-full opacity-50 blur-3xl" aria-hidden="true"></div>
+              <div class="from-primary/5 pointer-events-none absolute inset-0 bg-linear-to-br via-transparent to-transparent" aria-hidden="true"></div>
+              <div class="relative z-10">
+                <div class="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center">
+                  <div class="from-primary/15 to-secondary/10 border-primary/25 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border bg-linear-to-br shadow-sm">
+                    <DetailIcon className="text-primary h-7 w-7" aria-hidden="true" />
+                  </div>
+                  {copy.detail.heading.trim() && (
+                    <h2 class="font-display text-3xl font-bold tracking-tight text-balance md:text-4xl">
+                      {detailHeading.lead && <span class="text-foreground">{detailHeading.lead} </span>}
+                      <span class={gradientText}>{detailHeading.accent}</span>
+                    </h2>
+                  )}
+                </div>
+                <div
+                  class:list={[
+                    'border-border/50 border-t pt-8',
+                    detailParagraphs.length > 1 ? 'grid gap-8 md:grid-cols-2 md:gap-12' : 'max-w-3xl',
+                  ]}
+                >
+                  {detailParagraphs.map((text) => (
+                    <p class="text-muted-foreground text-lg leading-relaxed text-pretty">{text}</p>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -234,25 +334,103 @@ const divider =
             <div class={divider}></div>
             <div class="mx-auto max-w-6xl">
               {copy.benefits.heading.trim() && (
-                <h2 class="font-display text-foreground mb-16 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
-                  {copy.benefits.heading}
+                <h2 class="font-display mb-16 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
+                  {benefitsHeading.lead && <span class="text-foreground">{benefitsHeading.lead} </span>}
+                  <span class={gradientText}>{benefitsHeading.accent}</span>
                 </h2>
               )}
-              <ul class="grid gap-x-12 gap-y-12 md:grid-cols-3">
-                {benefits.map((item) => (
-                  <li>
-                    <div class="from-primary to-secondary mb-6 h-0.5 w-10 rounded-full bg-linear-to-r" aria-hidden="true"></div>
-                    {item.title.trim() && (
-                      <h3 class="font-display text-foreground mb-3 text-xl font-bold tracking-tight text-balance">
-                        {item.title}
-                      </h3>
-                    )}
-                    {paragraphs(item.body).map((text) => (
-                      <p class="text-muted-foreground leading-relaxed text-pretty">{text}</p>
-                    ))}
-                  </li>
-                ))}
+              <ul
+                class:list={[
+                  'from-primary/30 via-border to-secondary/30 border-border/60 grid gap-px overflow-hidden rounded-2xl border bg-linear-to-br shadow-sm',
+                  benefits.length >= 3 ? 'md:grid-cols-3' : benefits.length === 2 ? 'md:grid-cols-2' : '',
+                ]}
+              >
+                {benefits.map((item, index) => {
+                  const t = tone(index);
+                  const BenefitIcon = benefitIcons[item.key] ?? PiCheckCircle;
+                  return (
+                    <li class="group bg-background relative p-8 md:p-10">
+                      <div class="from-primary/5 to-secondary/5 pointer-events-none absolute inset-0 bg-linear-to-br opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100" aria-hidden="true"></div>
+                      <div class="relative">
+                        <div class:list={['mb-6 flex h-12 w-12 items-center justify-center rounded-xl border bg-linear-to-br', t.frame]}>
+                          <BenefitIcon className={`${t.icon} h-6 w-6`} aria-hidden="true" />
+                        </div>
+                        {item.title.trim() && (
+                          <h3
+                            class:list={[
+                              'font-display text-foreground mb-3 text-xl font-bold tracking-tight text-balance transition-colors duration-300',
+                              t.title,
+                            ]}
+                          >
+                            {item.title}
+                          </h3>
+                        )}
+                        <div class="space-y-3">
+                          {paragraphs(item.body).map((text) => (
+                            <p class="text-muted-foreground leading-relaxed text-pretty">{text}</p>
+                          ))}
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
+            </div>
+          </section>
+        </EditSection>
+      )
+    }
+
+    {
+      relatedServices.length > 0 && (
+        <EditSection record="service-managed-it" section="relatedServices" also={['relatedServicesHeading']}>
+          <section class="relative px-4 py-24 sm:px-6 md:py-32 lg:px-8">
+            <div class={divider}></div>
+            <div class="mx-auto max-w-6xl">
+              {relatedHeading.accent && (
+                <h2 class="font-display mb-12 text-center text-3xl font-bold tracking-tight text-balance md:text-4xl">
+                  {relatedHeading.lead && <span class="text-foreground">{relatedHeading.lead} </span>}
+                  <span class={gradientText}>{relatedHeading.accent}</span>
+                </h2>
+              )}
+              <TechCardGrid client:visible className="mb-0 sm:grid-cols-2 lg:grid-cols-3">
+                {relatedServices.map((item, index) => {
+                  const t = tone(index);
+                  const RelatedIcon = relatedServiceIcons[matchPath(item.href.trim())] ?? PiCompass;
+                  return (
+                    <a
+                      href={item.href}
+                      class="group focus-visible:ring-primary focus-visible:ring-offset-background block h-full rounded-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                    >
+                      <TechCard variant="technical" interactive={true} trackingColor={t.tracking}>
+                        <div class="flex h-full flex-col items-center p-8 text-center">
+                          <div
+                            class:list={[
+                              'mx-auto mb-6 flex w-fit items-center justify-center rounded-xl border bg-linear-to-br p-5 transition-[border-color,transform] duration-300 ease-out motion-safe:group-hover:scale-105',
+                              t.frame,
+                            ]}
+                          >
+                            <RelatedIcon className={`${t.icon} h-10 w-10`} aria-hidden="true" />
+                          </div>
+                          <h3
+                            class:list={[
+                              'font-display text-foreground mb-3 text-xl font-bold tracking-tight text-balance transition-colors duration-300',
+                              t.title,
+                            ]}
+                          >
+                            {item.label}
+                          </h3>
+                          {item.description && (
+                            <p class="text-muted-foreground text-sm leading-relaxed text-pretty">
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
+                      </TechCard>
+                    </a>
+                  );
+                })}
+              </TechCardGrid>
             </div>
           </section>
         </EditSection>

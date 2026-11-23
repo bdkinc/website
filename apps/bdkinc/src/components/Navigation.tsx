@@ -114,7 +114,11 @@ const styles = stylex.create({
     zIndex: 10,
     display: { default: 'none', '@media (min-width: 768px)': 'flex' },
     alignItems: 'center',
-    gap: 24,
+    gap: {
+      default: 8,
+      '@media (min-width: 900px)': 12,
+      '@media (min-width: 1024px)': 16,
+    },
   },
   mobileActions: {
     display: { default: 'flex', '@media (min-width: 768px)': 'none' },
@@ -141,10 +145,7 @@ const styles = stylex.create({
     transitionDuration: '150ms',
   },
   menuIcon: { width: 24, height: 24, color: 'var(--foreground)' },
-  // Desktop: icon-only item in the centered menu, so the right action group
-  // keeps its width at the 768px breakpoint.
-  searchMenuLink: { paddingInline: 12 },
-  // Mobile: round 44px control matching the ThemeToggle beside it.
+  // Round 44px control matching the ThemeToggle beside it (desktop & mobile).
   searchLink: {
     display: 'flex',
     width: 44,
@@ -174,10 +175,28 @@ const styles = stylex.create({
           'color-mix(in oklab, var(--accent) 10%, transparent)',
       },
     },
-    boxShadow: '0 3px 12px -6px rgba(0,0,0,.35)',
+    boxShadow: {
+      default: '0 3px 12px -6px rgba(0,0,0,.35)',
+      ':hover': {
+        default: '0 3px 12px -6px rgba(0,0,0,.35)',
+        '@media (hover: hover)': 'var(--toggle-hover-shadow)',
+      },
+    },
+    transform: {
+      default: 'scale(1)',
+      ':hover': {
+        default: null,
+        '@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)':
+          'scale(1.05)',
+      },
+      ':active': {
+        default: null,
+        '@media (prefers-reduced-motion: no-preference)': 'scale(.95)',
+      },
+    },
     outline: { default: 'none', ':focus-visible': '2px solid var(--ring)' },
     outlineOffset: { default: 0, ':focus-visible': '2px' },
-    transitionProperty: colorTransition,
+    transitionProperty: `${colorTransition}, box-shadow, transform`,
     transitionTimingFunction: ease,
     transitionDuration: '150ms',
   },
@@ -390,7 +409,7 @@ export default function Navigation({
 
           {/* Desktop Navigation - Centered on window */}
           <div {...stylex.props(styles.desktopMenu)}>
-            <NavigationMenu>
+            <NavigationMenu positionMethod="fixed">
               <NavigationMenuList>
                 {/* About */}
                 <NavigationMenuItem>
@@ -408,31 +427,27 @@ export default function Navigation({
 
                 {/* Blog Dropdown */}
                 <BlogDropdown blogPosts={blogPosts} copy={copy} />
-
-                {/* Site search */}
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    href="/search"
-                    aria-label="Search"
-                    title="Search"
-                    aria-current={isCurrent('/search') ? 'page' : undefined}
-                    xstyle={[styles.aboutLink, styles.searchMenuLink]}
-                  >
-                    <PiMagnifyingGlass
-                      {...stylex.props(styles.searchIcon)}
-                      aria-hidden="true"
-                    />
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
 
-          {/* CTA + Theme Toggle - Desktop */}
+          {/* CTA + Search + Theme Toggle - Desktop */}
           <div {...stylex.props(styles.desktopActions)}>
             <Button asChild>
               <a href={contactLink}>{copy.contact}</a>
             </Button>
+            <a
+              href="/search"
+              aria-label="Search"
+              title="Search"
+              aria-current={isCurrent('/search') ? 'page' : undefined}
+              {...stylex.props(styles.searchLink)}
+            >
+              <PiMagnifyingGlass
+                {...stylex.props(styles.searchIcon)}
+                aria-hidden="true"
+              />
+            </a>
             <ThemeToggle />
           </div>
 

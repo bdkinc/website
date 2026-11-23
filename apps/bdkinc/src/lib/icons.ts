@@ -46,6 +46,13 @@ import {
   PiCurrencyDollar,
   PiCloudArrowUp,
   PiUsers,
+  PiWrench,
+  PiMapPin,
+  PiTimer,
+  PiListChecks,
+  PiFolders,
+  PiChatsCircle,
+  PiHeadset,
 } from 'react-icons/pi';
 import type { ComponentType } from 'react';
 
@@ -104,4 +111,11 @@ export const iconMap: Record<string, ComponentType<{ className?: string }>> = {
   ArrowsClockwise: PiArrowsClockwise,
   NetworkX: PiNetworkX,
   Users: PiUsers,
+  Wrench: PiWrench,
+  MapPin: PiMapPin,
+  Timer: PiTimer,
+  ListChecks: PiListChecks,
+  Folders: PiFolders,
+  ChatsCircle: PiChatsCircle,
+  Headset: PiHeadset,
 };

@@ -45,6 +45,10 @@ const styles = stylex.create({
     borderColor: 'color-mix(in oklab, var(--border) 50%, transparent)',
     backgroundColor: 'color-mix(in oklab, var(--background) 95%, transparent)',
     backdropFilter: 'blur(24px)',
+    maxHeight: 'min(calc(var(--available-height, 80vh) - 8px), calc(100vh - 96px))',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    overscrollBehavior: 'contain',
   },
   list: { width: 400, padding: 16 },
   enter: {

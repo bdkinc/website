@@ -16,9 +16,6 @@ const styles = stylex.create({
     justifyContent: 'center',
   },
   positioner: {
-    position: 'absolute',
-    top: '100%',
-    left: 0,
     isolation: 'isolate',
     zIndex: 50,
     display: 'flex',
@@ -112,11 +109,15 @@ function NavigationMenu({
   className,
   children,
   viewport = true,
+  positionMethod,
   xstyle,
   style,
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Root> & {
   viewport?: boolean;
+  positionMethod?: React.ComponentProps<
+    typeof NavigationMenuPrimitive.Positioner
+  >['positionMethod'];
 } & XStyle) {
   const applied = stylex.props(styles.root, xstyle);
   return (
@@ -131,6 +132,8 @@ function NavigationMenu({
       {children}
       <NavigationMenuPrimitive.Portal>
         <NavigationMenuPrimitive.Positioner
+          positionMethod={positionMethod}
+          collisionPadding={12}
           {...stylex.props(styles.positioner)}
         >
           <NavigationMenuPrimitive.Popup {...stylex.props(styles.popup)}>

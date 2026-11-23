@@ -4,6 +4,7 @@ import { cn } from '@bdkinc/design-system';
 import { useIntersectionObserver } from '@/components/hooks/useIntersectionObserver';
 import CircuitBoard from '@/components/CircuitBoard';
 import React, { useEffect, useState, useCallback } from 'react';
+import { PiCheck } from 'react-icons/pi';
 import { iconMap } from '@/lib/icons';
 
 const AUTOPLAY_DURATION = 8000; // ms per slide
@@ -54,6 +55,9 @@ const styles = stylex.create({
     width: '100%',
     maxWidth: { default: null, [lg]: '560px' },
   },
+  listColumnCompact: {
+    maxWidth: { default: null, [lg]: '380px' },
+  },
   list: { display: 'flex', flexDirection: 'column', gap: '0.5rem' },
   // `outline-hidden`: outline none, restored only in forced-colors mode.
   item: {
@@ -67,6 +71,7 @@ const styles = stylex.create({
     paddingInline: '1.25rem',
     paddingBlock: '1.25rem',
     textAlign: 'left',
+    cursor: 'pointer',
     transitionProperty: colorTransition,
     transitionDuration: '300ms',
     transitionTimingFunction: easing,
@@ -93,6 +98,11 @@ const styles = stylex.create({
       default: null,
       ':focus-visible': { default: null, '@media (forced-colors: active)': 2 },
     },
+  },
+  itemCompact: {
+    minHeight: 'auto',
+    paddingBlock: '0.875rem',
+    paddingInline: '1.125rem',
   },
   itemSelected: {
     borderColor: 'color-mix(in oklab, var(--primary) 40%, transparent)',
@@ -126,6 +136,7 @@ const styles = stylex.create({
       'linear-gradient(to right in oklab, var(--primary), var(--secondary))',
   },
   row: { display: 'flex', alignItems: 'flex-start', gap: '1rem' },
+  rowCompact: { alignItems: 'center' },
   iconBox: {
     marginTop: '0.125rem',
     display: 'flex',
@@ -141,6 +152,7 @@ const styles = stylex.create({
     transitionDuration: '300ms',
     transitionTimingFunction: easing,
   },
+  iconBoxCompact: { marginTop: 0 },
   iconBoxSelected: {
     borderColor: 'color-mix(in oklab, var(--secondary) 40%, transparent)',
     backgroundImage:
@@ -195,6 +207,10 @@ const styles = stylex.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     gap: '0.5rem',
+  },
+  indicatorsCompact: {
+    marginTop: '0.625rem',
+    marginLeft: '3.5rem',
   },
   pip: {
     height: '0.5rem',
@@ -258,6 +274,9 @@ const styles = stylex.create({
     backgroundColor: 'color-mix(in oklab, var(--card) 20%, transparent)',
     alignSelf: { default: null, [lg]: 'stretch' },
   },
+  panelWide: {
+    maxWidth: 'none',
+  },
   panelWash: {
     pointerEvents: 'none',
     position: 'absolute',
@@ -310,6 +329,47 @@ const styles = stylex.create({
     fontSize: '1.125rem',
     lineHeight: 1.625,
   },
+  pointsList: {
+    marginTop: '1.75rem',
+    paddingTop: '1.5rem',
+    borderTopWidth: 1,
+    borderTopStyle: 'solid',
+    borderTopColor: 'color-mix(in oklab, var(--border) 60%, transparent)',
+    display: 'grid',
+    gridTemplateColumns: {
+      default: 'repeat(1, minmax(0, 1fr))',
+      [sm]: 'repeat(2, minmax(0, 1fr))',
+    },
+    columnGap: '1.5rem',
+    rowGap: '0.75rem',
+    listStyleType: 'none',
+    paddingInlineStart: 0,
+  },
+  pointItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '0.625rem',
+    color: 'var(--foreground)',
+    fontFamily: 'var(--font-sans)',
+    fontSize: '0.9375rem',
+    lineHeight: 1.5,
+  },
+  pointBadge: {
+    marginTop: '0.125rem',
+    display: 'flex',
+    height: '1.25rem',
+    width: '1.25rem',
+    flexShrink: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '9999px',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'color-mix(in oklab, var(--primary) 30%, transparent)',
+    backgroundColor: 'color-mix(in oklab, var(--primary) 12%, transparent)',
+    color: 'var(--primary)',
+  },
+  pointCheck: { height: '0.75rem', width: '0.75rem' },
   dots: {
     marginTop: '2.5rem',
     display: 'flex',
@@ -368,9 +428,10 @@ const styles = stylex.create({
 export interface Feature {
   icon: keyof typeof iconMap;
   title: string;
-  description: string;
-  highlight: string;
+  description?: string;
+  highlight?: string;
   detail: string;
+  points?: string[];
 }
 
 interface FeatureCarouselProps {
@@ -425,7 +486,14 @@ export default function FeatureCarousel({
     }
   };
 
-  const active = features[activeIndex];
+  const active = features[activeIndex] ?? features[0];
+  const compactNav = features.every((feature) => !feature.description?.trim());
+  const detailParagraphs = active
+    ? active.detail
+        .split(/\n+/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+    : [];
   const root = stylex.props(styles.root, xstyle);
 
   return (
@@ -434,14 +502,20 @@ export default function FeatureCarousel({
       {...root}
       className={cn(root.className, className)}
     >
-      <div {...stylex.props(styles.listColumn)}>
+      <div
+        {...stylex.props(
+          styles.listColumn,
+          compactNav && styles.listColumnCompact
+        )}
+      >
         <div {...stylex.props(styles.list)}>
           {features.map((feature, index) => {
             const selected = index === activeIndex;
-            const Icon = iconMap[feature.icon];
-            const highlightIndex = feature.highlight
-              ? feature.description.indexOf(feature.highlight)
-              : -1;
+            const Icon = iconMap[feature.icon] ?? iconMap.CheckCircle;
+            const description = feature.description?.trim() ?? '';
+            const highlight = feature.highlight?.trim() ?? '';
+            const highlightIndex =
+              description && highlight ? description.indexOf(highlight) : -1;
 
             return (
               <button
@@ -450,6 +524,7 @@ export default function FeatureCarousel({
                 {...stylex.props(
                   stylex.defaultMarker(),
                   styles.item,
+                  compactNav && styles.itemCompact,
                   selected ? styles.itemSelected : styles.itemIdle
                 )}
                 aria-pressed={selected}
@@ -478,10 +553,13 @@ export default function FeatureCarousel({
                     aria-hidden
                   />
                 )}
-                <div {...stylex.props(styles.row)}>
+                <div
+                  {...stylex.props(styles.row, compactNav && styles.rowCompact)}
+                >
                   <div
                     {...stylex.props(
                       styles.iconBox,
+                      compactNav && styles.iconBoxCompact,
                       selected ? styles.iconBoxSelected : styles.iconBoxIdle
                     )}
                     aria-hidden
@@ -506,25 +584,32 @@ export default function FeatureCarousel({
                         {feature.title}
                       </p>
                     </div>
-                    <p {...stylex.props(styles.description)}>
-                      {highlightIndex < 0 ? (
-                        feature.description
-                      ) : (
-                        <>
-                          {feature.description.slice(0, highlightIndex)}
-                          <span {...stylex.props(styles.highlight)}>
-                            {feature.highlight}
-                          </span>
-                          {feature.description.slice(
-                            highlightIndex + feature.highlight.length
-                          )}
-                        </>
-                      )}
-                    </p>
+                    {description && (
+                      <p {...stylex.props(styles.description)}>
+                        {highlightIndex < 0 ? (
+                          description
+                        ) : (
+                          <>
+                            {description.slice(0, highlightIndex)}
+                            <span {...stylex.props(styles.highlight)}>
+                              {highlight}
+                            </span>
+                            {description.slice(
+                              highlightIndex + highlight.length
+                            )}
+                          </>
+                        )}
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                <div {...stylex.props(styles.indicators)}>
+                <div
+                  {...stylex.props(
+                    styles.indicators,
+                    compactNav && styles.indicatorsCompact
+                  )}
+                >
                   <div
                     {...stylex.props(
                       styles.pip,
@@ -546,7 +631,7 @@ export default function FeatureCarousel({
         </div>
       </div>
 
-      <div {...stylex.props(styles.panel)}>
+      <div {...stylex.props(styles.panel, compactNav && styles.panelWide)}>
         <div {...stylex.props(styles.panelWash)} />
         <div {...stylex.props(styles.circuit)}>
           <CircuitBoard xstyle={styles.circuitBoard} />
@@ -556,14 +641,32 @@ export default function FeatureCarousel({
           <div>
             <div {...stylex.props(styles.bigIcon)} aria-hidden>
               {(() => {
-                const ActiveIcon = iconMap[active.icon];
+                const ActiveIcon =
+                  (active && iconMap[active.icon]) || iconMap.CheckCircle;
                 return <ActiveIcon {...stylex.props(styles.bigGlyph)} />;
               })()}
             </div>
 
-            <h3 {...stylex.props(styles.heading)}>{active.title}</h3>
+            <h3 {...stylex.props(styles.heading)}>{active?.title}</h3>
 
-            <p {...stylex.props(styles.detail)}>{active.detail}</p>
+            {detailParagraphs.map((paragraph, idx) => (
+              <p key={idx} {...stylex.props(styles.detail)}>
+                {paragraph}
+              </p>
+            ))}
+
+            {active?.points && active.points.length > 0 && (
+              <ul {...stylex.props(styles.pointsList)}>
+                {active.points.map((point) => (
+                  <li key={point} {...stylex.props(styles.pointItem)}>
+                    <span {...stylex.props(styles.pointBadge)} aria-hidden>
+                      <PiCheck {...stylex.props(styles.pointCheck)} />
+                    </span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <div {...stylex.props(styles.dots)}>

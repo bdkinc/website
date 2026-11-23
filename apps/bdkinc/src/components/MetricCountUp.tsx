@@ -27,14 +27,14 @@ const styles = stylex.create({
   inline: { display: 'inline' },
 });
 
-/** Animate a numeric metric while retaining its original suffix. */
+/** Animate a single number with an optional suffix. Render compound values such as 24x7 as text. */
 export default function MetricCountUp({
   value,
   label,
   className,
   xstyle,
 }: MetricCountUpProps) {
-  const match = value.match(/^(\d+(?:\.\d+)?)(.*?)$/);
+  const match = value.match(/^(\d+(?:\.\d+)?)(\D*)$/);
   const applied = stylex.props(xstyle);
 
   if (!match) {

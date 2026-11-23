@@ -1,8 +1,30 @@
 ---
-import { PiChatsCircle } from 'react-icons/pi';
+import {
+  PiArrowCounterClockwise,
+  PiChatsCircle,
+  PiCloud,
+  PiPhoneCall,
+  PiPuzzlePiece,
+} from 'react-icons/pi';
 import type { ContentProps } from '@/lib/content';
 import ServiceChildPage from '@/components/ServiceChildPage.astro';
 interface Props extends ContentProps {}
 ---
 
-<ServiceChildPage {...Astro.props} pageKey="communications" icon={PiChatsCircle} />
+<ServiceChildPage
+  {...Astro.props}
+  pageKey="communications"
+  icon={PiChatsCircle}
+  featureIcons={{
+    voip: 'Phone',
+    microsoft365: 'Users',
+    email: 'Mail',
+    sharepoint: 'Folders',
+  }}
+  detailIcon={PiPhoneCall}
+  benefitIcons={{
+    cloudExpertise: PiCloud,
+    dataRecovery: PiArrowCounterClockwise,
+    integration: PiPuzzlePiece,
+  }}
+/>
