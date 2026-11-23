@@ -9,7 +9,7 @@ export const prerender = true;
 
 export async function getStaticPaths() {
   const reader = createAppContentReader();
-  const routes = await getConceptARootBlogRoutes(reader, { publishedOnly: import.meta.env.DEV });
+  const routes = await getConceptARootBlogRoutes(reader, { publishedOnly: true });
   return Promise.all(routes.map(async ({ path, slug }) => {
     const post = await getBlogPostBySlug(slug, reader);
     if (!post) throw new Error(`Missing published blog post: ${slug}`);
